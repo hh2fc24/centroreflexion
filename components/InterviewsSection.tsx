@@ -1,10 +1,22 @@
 "use client";
 
 import { MotionDiv } from "@/components/ui/Motion";
-import { Play, Mic2 } from "lucide-react";
-import Image from "next/image";
+import { Play, Mic2, Radio } from "lucide-react";
+import { useRef, useState } from "react";
 
 export function InterviewsSection() {
+    const divRef = useRef<HTMLDivElement>(null);
+    const [position, setPosition] = useState({ x: 0, y: 0 });
+
+    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (!divRef.current) return;
+
+        const div = divRef.current;
+        const rect = div.getBoundingClientRect();
+
+        setPosition({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+    };
+
     return (
         <section className="py-24 bg-gray-900 relative overflow-hidden">
             {/* Background Effects */}
@@ -21,16 +33,16 @@ export function InterviewsSection() {
                     transition={{ duration: 0.8 }}
                     className="mb-12 md:flex md:items-end md:justify-between"
                 >
-                    <div className="max-w-2xl">
+                    <div className="max-w-3xl">
                         <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-900/30 text-blue-400 text-xs font-bold border border-blue-800 mb-6">
                             <Mic2 className="w-3 h-3 mr-2" />
                             MULTIMEDIA
                         </div>
                         <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl font-serif">
-                            Conversaciones Críticas
+                            Juan Carlos Rauld y "Tecnócratas de la Infancia"
                         </h2>
-                        <p className="mt-4 text-lg text-gray-400">
-                            Diálogos profundos con nuestros fundadores y expertos invitados.
+                        <p className="mt-4 text-lg text-gray-400 italic">
+                            "La niñez pobre siempre ha sido, tanto por izquierdas como por derechas, administrada bajo la lógica del encierro"
                         </p>
                     </div>
                 </MotionDiv>
@@ -38,14 +50,22 @@ export function InterviewsSection() {
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     {/* Main Featured Video - Takes up 2 columns */}
                     <MotionDiv
+                        ref={divRef}
+                        onMouseMove={handleMouseMove}
                         initial={{ opacity: 0, scale: 0.95 }}
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8 }}
                         className="lg:col-span-2 group relative aspect-video rounded-2xl overflow-hidden bg-black shadow-2xl border border-gray-800 ring-1 ring-white/10"
                     >
+                        <div
+                            className="pointer-events-none absolute -inset-px opacity-0 transition duration-300 group-hover:opacity-100 z-20"
+                            style={{
+                                background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, rgba(59, 130, 246, 0.1), transparent 40%)`,
+                            }}
+                        />
                         <iframe
-                            className="w-full h-full absolute inset-0"
+                            className="w-full h-full absolute inset-0 z-10"
                             src="https://www.youtube.com/embed/QvJ5Y3pJyrY?si=L4v5xX1_D8z0Z0q9&controls=1&rel=0&modestbranding=1"
                             title="Entrevista Juan Carlos Rauld"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -53,35 +73,33 @@ export function InterviewsSection() {
                         ></iframe>
                     </MotionDiv>
 
-                    {/* Secondary Content / Placeholder for more */}
+                    {/* Secondary Content / Context */}
                     <MotionDiv
                         initial={{ opacity: 0, x: 20 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8, delay: 0.2 }}
-                        className="flex flex-col justify-center space-y-6"
+                        className="flex flex-col justify-between space-y-6"
                     >
-                        <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50 hover:bg-gray-800 transition-colors cursor-pointer group">
+                        <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50 hover:bg-gray-800 transition-colors">
                             <div className="flex items-start gap-4">
-                                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-blue-600/20 flex items-center justify-center text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-colors">
-                                    <Play className="w-5 h-5 ml-1" />
-                                </div>
                                 <div>
-                                    <h3 className="text-lg font-bold text-white mb-2 group-hover:text-blue-400 transition-colors">
-                                        Entrevista a Juan Carlos Rauld
+                                    <h3 className="text-lg font-bold text-white mb-2">
+                                        Entrevista en Radio Usach
                                     </h3>
-                                    <p className="text-sm text-gray-400 line-clamp-2">
-                                        Reflexiones sobre el impacto de la tecnología en la salud mental infantil y los desafíos de la educación moderna.
+                                    <p className="text-sm text-gray-400 leading-relaxed">
+                                        En <span className="text-blue-400 font-semibold">Extensión Línea Uno</span>, conversamos sobre el libro "Tecnócratas de la Infancia: Desprotección y Neoliberalismo en Chile". Una investigación crítica sobre el sistema de protección estatal.
                                     </p>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="bg-gray-800/30 backdrop-blur-sm rounded-xl p-6 border border-gray-800/50 flex items-center justify-center text-center h-full min-h-[150px]">
-                            <div>
-                                <p className="text-gray-500 text-sm mb-2">Próximamente</p>
-                                <p className="text-white font-medium">Más conversaciones en camino</p>
+                        <div className="bg-gradient-to-br from-blue-900/20 to-purple-900/20 rounded-xl p-6 border border-white/5">
+                            <div className="flex items-center text-white font-medium mb-2">
+                                <Radio className="w-5 h-5 mr-2 text-blue-400" />
+                                94.5 FM
                             </div>
+                            <p className="text-gray-400 text-sm">Escucha en www.diariousach.cl o TVD Señal 50.2 📺</p>
                         </div>
                     </MotionDiv>
                 </div>
