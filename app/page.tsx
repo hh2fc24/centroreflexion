@@ -6,6 +6,7 @@ import { MotionDiv, MotionItem, MotionList } from "@/components/ui/Motion";
 import Image from "next/image";
 import { columns, reviews } from "@/lib/data";
 import { InterviewsSection } from "@/components/InterviewsSection";
+import { PublicationsSection } from "@/components/PublicationsSection";
 
 export default function Home() {
   // Select latest articles from both collections
@@ -159,6 +160,8 @@ export default function Home() {
           </MotionList>
         </div>
       </section>
+
+      <PublicationsSection />
 
       {/* Interviews Section */}
       <InterviewsSection />
