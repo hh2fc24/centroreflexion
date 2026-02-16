@@ -4,37 +4,35 @@ import { Button } from "@/components/ui/Button";
 
 export default function About() {
     return (
-        <div className="bg-white py-24 sm:py-32">
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div className="max-w-3xl mx-auto text-center mb-12">
-                    <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+        <div>
+            {/* Hero Section with Video Background */}
+            <div className="relative isolate overflow-hidden bg-gray-900 py-32 sm:py-48">
+                <video
+                    className="absolute inset-0 -z-10 h-full w-full object-cover opacity-40 filter mix-blend-overlay"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                >
+                    <source src="/333.mp4" type="video/mp4" />
+                </video>
+                <div className="absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-transparent to-white" />
+
+                <div className="mx-auto max-w-7xl px-6 lg:px-8 text-center relative z-10">
+                    <h2 className="text-4xl font-bold tracking-tight text-white sm:text-6xl drop-shadow-md">
                         Quiénes Somos
                     </h2>
-                    <p className="mt-4 text-lg leading-8 text-gray-600">
+                    <p className="mt-6 text-xl leading-8 text-gray-100 max-w-2xl mx-auto font-medium drop-shadow-sm">
                         Detrás de Centro de Reflexiones Críticas hay un equipo apasionado por el pensamiento, la cultura y la tecnología.
                     </p>
                 </div>
+            </div>
 
-                {/* Animated Logo Video */}
-                <div className="relative w-full max-w-2xl mx-auto mb-20 rounded-2xl overflow-hidden shadow-2xl ring-1 ring-gray-900/10 aspect-video">
-                    <video
-                        className="absolute inset-0 w-full h-full object-cover"
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                    >
-                        <source src="/333.mp4" type="video/mp4" />
-                        Your browser does not support the video tag.
-                    </video>
-                    {/* Overlay for cinematic feel */}
-                    <div className="absolute inset-0 bg-black/10 mix-blend-multiply" />
-                </div>
-
-                <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-8">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-24 -mt-20 relative z-20">
+                <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
                     {/* Juan Carlos */}
-                    <div className="flex flex-col gap-6 sm:flex-row items-center sm:items-start p-6 rounded-2xl bg-gray-50 hover:bg-gray-100 transition-colors border border-gray-100/50 hover:border-gray-200">
-                        <div className="h-32 w-32 flex-shrink-0 rounded-full bg-gray-200 overflow-hidden border-4 border-white shadow-md relative">
+                    <div className="flex flex-col items-center p-8 rounded-3xl bg-white shadow-xl shadow-gray-200/50 border border-gray-100 hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 group">
+                        <div className="h-48 w-48 shrink-0 rounded-full bg-gray-200 border-[6px] border-white shadow-lg mb-8 relative overflow-hidden group-hover:border-blue-50 transition-colors">
                             <Image
                                 src="/images/juan_carlos.png"
                                 alt="Juan Carlos Rauld"
@@ -42,30 +40,30 @@ export default function About() {
                                 className="object-cover"
                             />
                         </div>
-                        <div className="text-center sm:text-left">
-                            <h3 className="text-xl font-semibold leading-7 tracking-tight text-gray-900">Juan Carlos Rauld</h3>
-                            <p className="text-sm font-semibold leading-6 text-blue-600">Co-Fundador & Director Editorial</p>
-                            <p className="mt-4 text-base leading-7 text-gray-600">
-                                Juan Carlos aporta una visión profunda desde el análisis biopolítico y legal. Su trabajo se centra en el análisis crítico de la infancia, el neoliberalismo y la salud mental.
+                        <div className="text-center">
+                            <h3 className="text-3xl font-bold tracking-tight text-gray-900 mb-2">Juan Carlos Rauld</h3>
+                            <p className="text-lg font-bold text-blue-600 mb-6 uppercase tracking-wide text-xs">Co-Fundador & Director Editorial</p>
+                            <p className="text-base leading-relaxed text-gray-600 px-4">
+                                Juan Carlos aporta una visión profunda desde el análisis biopolítico y legal. Su trabajo se centra en el análisis crítico de la infancia, el neoliberalismo y la salud mental, desafiando las narrativas convencionales.
                             </p>
                         </div>
                     </div>
 
                     {/* Rocío */}
-                    <div className="flex flex-col gap-6 sm:flex-row items-center sm:items-start p-6 rounded-2xl bg-gray-50 hover:bg-gray-100 transition-colors border border-gray-100/50 hover:border-gray-200">
-                        <div className="h-32 w-32 flex-shrink-0 rounded-full bg-gray-200 overflow-hidden border-4 border-white shadow-md relative">
+                    <div className="flex flex-col items-center p-8 rounded-3xl bg-white shadow-xl shadow-gray-200/50 border border-gray-100 hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 group">
+                        <div className="h-48 w-48 shrink-0 rounded-full bg-gray-200 border-[6px] border-white shadow-lg mb-8 relative overflow-hidden group-hover:border-blue-50 transition-colors">
                             <Image
                                 src="/images/rocio_solar.png"
-                                alt="Rocío Solar" // Assuming Solar based on filename, user said Rosario so I will check if I should change text, but file is rocio_solar. I'll stick to Rocío for now to match file.
+                                alt="Rocío Solar"
                                 fill
                                 className="object-cover"
                             />
                         </div>
-                        <div className="text-center sm:text-left">
-                            <h3 className="text-xl font-semibold leading-7 tracking-tight text-gray-900">Rocío Solar</h3>
-                            <p className="text-sm font-semibold leading-6 text-blue-600">Co-Fundadora & Estratega Digital</p>
-                            <p className="mt-4 text-base leading-7 text-gray-600">
-                                Rocío lidera las iniciativas de comunicación y estrategia digital. Con experiencia en gestión cultural, impulsa la conexión entre el contenido académico y las nuevas audiencias.
+                        <div className="text-center">
+                            <h3 className="text-3xl font-bold tracking-tight text-gray-900 mb-2">Rocío Solar</h3>
+                            <p className="text-lg font-bold text-blue-600 mb-6 uppercase tracking-wide text-xs">Co-Fundadora & Estratega Digital</p>
+                            <p className="text-base leading-relaxed text-gray-600 px-4">
+                                Rocío lidera las iniciativas de comunicación y estrategia digital. Con vasta experiencia en gestión cultural, es el puente vital entre el contenido académico riguroso y las nuevas audiencias globales.
                             </p>
                         </div>
                     </div>
