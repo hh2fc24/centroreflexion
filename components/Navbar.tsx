@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -21,8 +22,18 @@ export function Navbar() {
     return (
         <nav className="sticky top-0 z-50 w-full border-b border-gray-100 bg-white/80 backdrop-blur-md">
             <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-                <Link href="/" className="text-lg font-bold tracking-tight text-gray-900 group">
-                    Centro de Reflexiones <span className="text-gray-500 group-hover:text-blue-600 transition-colors">Críticas</span>
+                <Link href="/" className="flex items-center gap-3 text-lg font-bold tracking-tight text-gray-900 group">
+                    <div className="relative h-10 w-10 overflow-hidden rounded-full border border-gray-200">
+                        <Image
+                            src="/log.png"
+                            alt="Logo Centro de Reflexiones Críticas"
+                            fill
+                            className="object-cover"
+                        />
+                    </div>
+                    <span>
+                        Centro de Reflexiones <span className="text-gray-500 group-hover:text-blue-600 transition-colors">Críticas</span>
+                    </span>
                 </Link>
 
                 {/* Desktop Menu */}
