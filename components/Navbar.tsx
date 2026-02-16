@@ -23,8 +23,8 @@ export function Navbar() {
         <nav className="sticky top-0 z-50 w-full border-b border-gray-100 bg-white/80 backdrop-blur-md">
             <div className="mx-auto flex h-24 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 relative">
                 <Link href="/" className="relative flex items-center gap-3 text-lg font-bold tracking-tight text-gray-900 group">
-                    {/* White blending background */}
-                    <div className="absolute -left-4 top-1/2 -translate-y-1/2 w-[140%] h-[160%] bg-[radial-gradient(closest-side,white_50%,transparent_100%)] -z-10 pointer-events-none opacity-100" />
+                    {/* Strong blending background */}
+                    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-[radial-gradient(circle,rgba(255,255,255,1)_30%,rgba(255,255,255,0.8)_50%,transparent_70%)] -z-10 pointer-events-none" />
 
                     <div className="relative h-20 w-20">
                         <Image
