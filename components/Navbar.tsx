@@ -20,15 +20,15 @@ export function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <nav className="sticky top-0 z-50 w-full border-b border-gray-100 bg-white/80 backdrop-blur-md">
-            <div className="mx-auto flex h-24 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 relative">
+        <nav className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white shadow-sm transition-all duration-300">
+            <div className="mx-auto flex h-24 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
                 <Link href="/" className="flex items-center gap-3 text-lg font-bold tracking-tight text-gray-900 group">
                     <div className="relative h-24 w-24 -ml-2">
                         <Image
                             src="/log.png"
                             alt="Logo Centro de Reflexiones Críticas"
                             fill
-                            className="object-contain mix-blend-multiply"
+                            className="object-contain"
                         />
                     </div>
                     <span>
@@ -37,12 +37,12 @@ export function Navbar() {
                 </Link>
 
                 {/* Desktop Menu */}
-                <div className="hidden md:flex md:items-center md:space-x-6">
+                <div className="hidden md:flex md:items-center md:space-x-8">
                     {navItems.map((item) => (
                         <Link
                             key={item.href}
                             href={item.href}
-                            className="text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors"
+                            className="relative text-sm font-semibold text-gray-600 transition-all duration-300 hover:scale-105 hover:text-blue-600 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-gradient-to-r after:from-blue-600 after:to-purple-600 after:transition-all after:duration-300 hover:after:w-full"
                         >
                             {item.name}
                         </Link>
