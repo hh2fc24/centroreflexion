@@ -56,10 +56,10 @@ export default function Services() {
                                     { name: "Informes Sociales Periciales", price: "Desde 4 UF" },
                                     { name: "Visitas Domiciliarias", price: "Desde 3 UF" }
                                 ].map((item, idx) => (
-                                    <li key={idx} className="flex items-start justify-between border-b border-gray-100 pb-2">
+                                    <li key={idx} className="flex items-start justify-between border-b border-gray-100 pb-2 group hover:bg-gray-50/50 transition-colors rounded-lg px-2 -mx-2">
                                         <div className="flex items-center text-gray-700">
-                                            <Check className="h-5 w-5 text-blue-600 mr-3 flex-shrink-0" />
-                                            <span>{item.name}</span>
+                                            <Check className="h-5 w-5 text-blue-600 mr-3 flex-shrink-0 group-hover:scale-110 transition-transform" />
+                                            <span className="group-hover:text-blue-900 transition-colors">{item.name}</span>
                                         </div>
                                         <span className="font-semibold text-gray-900 text-sm ml-4">{item.price}</span>
                                     </li>
@@ -70,11 +70,25 @@ export default function Services() {
                                 Solicitar Evaluación
                             </Button>
                         </div>
-                        <div className="relative h-[500px] rounded-2xl overflow-hidden bg-gray-100 shadow-xl">
-                            {/* Placeholder for clinical image */}
-                            <div className="absolute inset-0 bg-blue-900/10 mix-blend-multiply" />
-                            <div className="absolute inset-0 flex items-center justify-center text-gray-400">
-                                [Imagen Contexto Clínico]
+                        <div className="relative h-[500px] rounded-2xl overflow-hidden shadow-2xl group">
+                            {/* Abstract Clinical Background */}
+                            <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-indigo-100 opacity-80" />
+                            <div className="absolute inset-0 opacity-10 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-600 via-transparent to-transparent" />
+
+                            {/* Decorative Elements */}
+                            <div className="absolute top-10 right-10 w-32 h-32 bg-blue-400/20 rounded-full blur-2xl group-hover:bg-blue-400/30 transition-colors duration-700" />
+                            <div className="absolute bottom-10 left-10 w-40 h-40 bg-indigo-400/20 rounded-full blur-3xl group-hover:bg-indigo-400/30 transition-colors duration-700" />
+
+                            {/* Content */}
+                            <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center">
+                                <motion.div
+                                    whileHover={{ scale: 1.05 }}
+                                    className="w-20 h-20 bg-white rounded-2xl shadow-lg flex items-center justify-center mb-6"
+                                >
+                                    <BookOpen className="w-10 h-10 text-blue-600" />
+                                </motion.div>
+                                <h3 className="text-2xl font-serif text-slate-800 mb-2">Espacio Clínico</h3>
+                                <p className="text-slate-500 max-w-xs">Un entorno seguro y confidencial para el análisis y la intervención.</p>
                             </div>
                         </div>
                     </div>
@@ -85,11 +99,25 @@ export default function Services() {
             <section id="terapia-ocupacional" className="py-24 bg-gray-50 border-b border-gray-100">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                        <div className="order-last lg:order-first relative h-[500px] rounded-2xl overflow-hidden bg-white shadow-xl">
-                            {/* Placeholder for clinical image */}
-                            <div className="absolute inset-0 bg-purple-900/10 mix-blend-multiply" />
-                            <div className="absolute inset-0 flex items-center justify-center text-gray-400">
-                                [Imagen Terapia Ocupacional]
+                        <div className="order-last lg:order-first relative h-[500px] rounded-2xl overflow-hidden shadow-2xl group">
+                            {/* Abstract OT Background */}
+                            <div className="absolute inset-0 bg-gradient-to-bl from-purple-50 to-pink-100 opacity-80" />
+                            <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_bottom_left,_var(--tw-gradient-stops))] from-purple-600 via-transparent to-transparent" />
+
+                            {/* Decorative Elements */}
+                            <div className="absolute top-1/4 left-1/4 w-48 h-48 bg-purple-300/20 rounded-full blur-3xl group-hover:scale-110 transition-transform duration-1000" />
+                            <div className="absolute bottom-20 right-20 w-24 h-24 bg-pink-400/20 rounded-full blur-xl" />
+
+                            {/* Content */}
+                            <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center">
+                                <motion.div
+                                    whileHover={{ scale: 1.05, rotate: 5 }}
+                                    className="w-20 h-20 bg-white rounded-full shadow-lg flex items-center justify-center mb-6"
+                                >
+                                    <Users className="w-10 h-10 text-purple-600" />
+                                </motion.div>
+                                <h3 className="text-2xl font-serif text-slate-800 mb-2">Comunidad y Vínculo</h3>
+                                <p className="text-slate-500 max-w-xs">Intervenciones situadas que fortalecen el tejido social y la autonomía.</p>
                             </div>
                         </div>
 
@@ -141,8 +169,11 @@ export default function Services() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {/* Service Item */}
-                        <div className="bg-gray-50 rounded-2xl p-8 transition-all hover:-translate-y-1 hover:shadow-lg">
-                            <h3 className="text-xl font-bold text-gray-900 mb-4">Charlas Individuales</h3>
+                        <div className="bg-gray-50 rounded-2xl p-8 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl group border border-transparent hover:border-green-200">
+                            <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                                <Users className="w-6 h-6 text-green-700" />
+                            </div>
+                            <h3 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-green-800 transition-colors">Charlas Individuales</h3>
                             <p className="text-gray-600 text-sm mb-6 min-h-[80px]">
                                 Exposiciones temáticas de Rocío Solar sobre salud mental, género y cuidados.
                             </p>
@@ -150,11 +181,15 @@ export default function Services() {
                                 <li>• Modalidad: Presencial / Online</li>
                                 <li>• Duración: 60 - 90 min</li>
                             </ul>
-                            <span className="text-green-600 font-bold">Consultar Valor</span>
+                            <span className="text-green-600 font-bold group-hover:underline">Consultar Valor</span>
                         </div>
 
                         {/* Service Item */}
-                        <div className="bg-gray-50 rounded-2xl p-8 transition-all hover:-translate-y-1 hover:shadow-lg border-2 border-green-100">
+                        <div className="bg-white rounded-2xl p-8 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl border-2 border-green-100 hover:border-green-300 group relative overflow-hidden">
+                            <div className="absolute top-0 right-0 w-24 h-24 bg-green-50 rounded-bl-full -mr-4 -mt-4 opacity-50 transition-transform group-hover:scale-110" />
+                            <div className="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center mb-6 shadow-md group-hover:shadow-lg transition-shadow">
+                                <BookOpen className="w-6 h-6 text-white" />
+                            </div>
                             <h3 className="text-xl font-bold text-gray-900 mb-4">Formación de Equipos</h3>
                             <p className="text-gray-600 text-sm mb-6 min-h-[80px]">
                                 Capacitaciones conjuntas sobre intervención en crisis, VIF y gestión de casos complejos.
@@ -163,12 +198,15 @@ export default function Services() {
                                 <li>• Certificado de participación</li>
                                 <li>• Material complementario</li>
                             </ul>
-                            <span className="text-green-600 font-bold">A medida</span>
+                            <span className="text-green-700 font-bold bg-green-50 px-3 py-1 rounded-full text-xs uppercase tracking-wide">A medida</span>
                         </div>
 
                         {/* Service Item */}
-                        <div className="bg-gray-50 rounded-2xl p-8 transition-all hover:-translate-y-1 hover:shadow-lg">
-                            <h3 className="text-xl font-bold text-gray-900 mb-4">Asesorías PIE</h3>
+                        <div className="bg-gray-50 rounded-2xl p-8 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl group border border-transparent hover:border-green-200">
+                            <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                                <PenTool className="w-6 h-6 text-green-700" />
+                            </div>
+                            <h3 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-green-800 transition-colors">Asesorías PIE</h3>
                             <p className="text-gray-600 text-sm mb-6 min-h-[80px]">
                                 Supervisión reflexiva y apoyo técnico para Programas de Integración Escolar.
                             </p>
@@ -176,7 +214,7 @@ export default function Services() {
                                 <li>• Enfoque de derechos</li>
                                 <li>• Prevención de crisis</li>
                             </ul>
-                            <span className="text-green-600 font-bold">Plan mensual</span>
+                            <span className="text-green-600 font-bold group-hover:underline">Plan mensual</span>
                         </div>
                     </div>
                 </div>
