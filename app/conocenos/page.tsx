@@ -1,85 +1,179 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
+import { motion } from "framer-motion";
+import { Instagram, Linkedin } from "lucide-react";
 
 export default function About() {
     return (
-        <div>
-            {/* Hero Section with Video Background */}
+        <div className="bg-white">
+            {/* Hero Section */}
             <div className="relative isolate overflow-hidden bg-gray-900 py-32 sm:py-48">
-                <video
-                    className="absolute inset-0 -z-10 h-full w-full object-cover opacity-40 filter mix-blend-overlay"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                >
-                    <source src="/333.mp4" type="video/mp4" />
-                </video>
-                <div className="absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-transparent to-white" />
+                <div className="absolute inset-0 -z-10 bg-black/60" />
+                <div className="absolute inset-0 -z-20">
+                    <Image
+                        src="/images/library_bg.jpg"
+                        alt="Library background"
+                        fill
+                        className="object-cover opacity-20"
+                    />
+                </div>
 
                 <div className="mx-auto max-w-7xl px-6 lg:px-8 text-center relative z-10">
-                    <h2 className="text-4xl font-bold tracking-tight text-white sm:text-6xl drop-shadow-md">
+                    <motion.h2
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="text-4xl font-bold tracking-tight text-white sm:text-6xl drop-shadow-md font-serif"
+                    >
                         Quiénes Somos
-                    </h2>
-                    <p className="mt-6 text-xl leading-8 text-gray-100 max-w-2xl mx-auto font-medium drop-shadow-sm">
-                        Detrás de Centro de Reflexiones Críticas hay un equipo apasionado por el pensamiento, la cultura y la tecnología.
-                    </p>
+                    </motion.h2>
+                    <motion.p
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2 }}
+                        className="mt-6 text-xl leading-8 text-gray-200 max-w-2xl mx-auto font-light"
+                    >
+                        Articulando academia, clínica y política pública.
+                    </motion.p>
                 </div>
             </div>
 
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-24 -mt-20 relative z-20">
-                <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
-                    {/* Juan Carlos */}
-                    <div className="flex flex-col items-center p-8 rounded-3xl bg-white shadow-xl shadow-gray-200/50 border border-gray-100 hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 group">
-                        <div className="h-48 w-48 shrink-0 rounded-full bg-gray-200 border-[6px] border-white shadow-lg mb-8 relative overflow-hidden group-hover:border-blue-50 transition-colors">
-                            <Image
-                                src="/images/juan_carlos.png"
-                                alt="Juan Carlos Rauld"
-                                fill
-                                className="object-cover"
-                            />
-                        </div>
-                        <div className="text-center">
-                            <h3 className="text-3xl font-bold tracking-tight text-gray-900 mb-2">Juan Carlos Rauld</h3>
-                            <p className="text-lg font-bold text-blue-600 mb-6 uppercase tracking-wide text-xs">Co-Fundador & Director Editorial</p>
-                            <p className="text-base leading-relaxed text-gray-600 px-4">
-                                Juan Carlos aporta una visión profunda desde el análisis biopolítico y legal. Su trabajo se centra en el análisis crítico de la infancia, el neoliberalismo y la salud mental, desafiando las narrativas convencionales.
+            {/* Mission & Vision */}
+            <section className="py-24 bg-gray-50">
+                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
+                        <motion.div
+                            initial={{ opacity: 0, x: -20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            className="bg-white p-10 rounded-2xl shadow-sm border border-gray-100"
+                        >
+                            <h3 className="text-2xl font-bold text-gray-900 mb-6 font-serif">Misión</h3>
+                            <p className="text-lg text-gray-600 leading-relaxed">
+                                Unir el pensamiento crítico, la intervención clínica real y la transformación institucional.
+                                Buscamos generar espacios donde la reflexión académica se traduzca en cambios concretos
+                                para la salud mental, la infancia y la cultura.
                             </p>
+                        </motion.div>
+                        <motion.div
+                            initial={{ opacity: 0, x: 20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            className="bg-white p-10 rounded-2xl shadow-sm border border-gray-100"
+                        >
+                            <h3 className="text-2xl font-bold text-gray-900 mb-6 font-serif">Visión</h3>
+                            <p className="text-lg text-gray-600 leading-relaxed">
+                                Ser una plataforma de referencia iberoamericana en pensamiento crítico aplicado,
+                                consolidándonos como un centro de articulación clave entre la producción académica,
+                                la práctica clínica y el diseño de políticas públicas.
+                            </p>
+                        </motion.div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Team Section */}
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-24">
+                <div className="space-y-24">
+
+                    {/* Juan Carlos Rauld */}
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+                        <div className="lg:col-span-4 flex flex-col items-center text-center lg:text-left lg:items-start">
+                            <div className="h-64 w-64 rounded-xl bg-gray-200 mb-6 relative overflow-hidden shadow-lg">
+                                <Image
+                                    src="/images/juan_carlos.png"
+                                    alt="Juan Carlos Rauld"
+                                    fill
+                                    className="object-cover"
+                                />
+                            </div>
+                            <h3 className="text-3xl font-bold text-gray-900 font-serif">Juan Carlos Rauld</h3>
+                            <p className="text-blue-600 font-bold text-sm tracking-wide mt-2 uppercase">Director CRC & Consultor Estratégico</p>
+
+                            <div className="mt-6 flex gap-4">
+                                <Link href="https://linkedin.com" className="text-gray-400 hover:text-blue-600 transition-colors"><Linkedin className="h-6 w-6" /></Link>
+                            </div>
+                        </div>
+                        <div className="lg:col-span-8 space-y-8">
+                            <div>
+                                <h4 className="text-xl font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2">Rol Editorial y Académico</h4>
+                                <p className="text-gray-600 leading-relaxed">
+                                    Como <strong>Director Editorial del Centro de Reflexiones Críticas</strong>, Juan Carlos lidera la línea de pensamiento que interroga las estructuras de poder contemporáneas, con especial énfasis en la biopolítica, el derecho y la subjetividad. Su producción intelectual busca desafiar los lugares comunes de la academia tradicional.
+                                </p>
+                            </div>
+                            <div>
+                                <h4 className="text-xl font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2">Consultoría Estratégica e Institucional</h4>
+                                <p className="text-gray-600 leading-relaxed">
+                                    Experto en <strong>Gestión Estratégica de Programas de Infancia y Salud Mental</strong>. Su trayectoria incluye el diseño de arquitectura programática y la incidencia directa en políticas públicas.
+                                    Asesora a organismos gubernamentales y ONGs en la implementación de modelos de intervención que sean técnicamente sólidos y éticamente responsables.
+                                </p>
+                            </div>
+                            <div className="pt-4">
+                                <Link href="/servicios#consultoria">
+                                    <Button variant="outline">Consultar Servicios Estratégicos</Button>
+                                </Link>
+                            </div>
                         </div>
                     </div>
 
-                    {/* Rocío */}
-                    <div className="flex flex-col items-center p-8 rounded-3xl bg-white shadow-xl shadow-gray-200/50 border border-gray-100 hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 group">
-                        <div className="h-48 w-48 shrink-0 rounded-full bg-gray-200 border-[6px] border-white shadow-lg mb-8 relative overflow-hidden group-hover:border-blue-50 transition-colors">
-                            <Image
-                                src="/images/rocio_solar.png"
-                                alt="Rocío Solar"
-                                fill
-                                className="object-cover"
-                            />
+                    <div className="w-full h-px bg-gray-100" />
+
+                    {/* Rocío Solar */}
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+                        <div className="lg:col-span-4 flex flex-col items-center text-center lg:text-left lg:items-start lg:order-last">
+                            <div className="h-64 w-64 rounded-xl bg-gray-200 mb-6 relative overflow-hidden shadow-lg">
+                                <Image
+                                    src="/images/rocio_solar.png"
+                                    alt="Rocío Solar"
+                                    fill
+                                    className="object-cover"
+                                />
+                            </div>
+                            <h3 className="text-3xl font-bold text-gray-900 font-serif">Rocío Solar</h3>
+                            <p className="text-blue-600 font-bold text-sm tracking-wide mt-2 uppercase">Directora Clínica & Formación</p>
+                            <div className="mt-6 flex gap-4">
+                                <Link href="https://instagram.com/to_rociosolar" className="text-gray-400 hover:text-pink-600 transition-colors"><Instagram className="h-6 w-6" /></Link>
+                                <Link href="https://linkedin.com" className="text-gray-400 hover:text-blue-600 transition-colors"><Linkedin className="h-6 w-6" /></Link>
+                            </div>
                         </div>
-                        <div className="text-center">
-                            <h3 className="text-3xl font-bold tracking-tight text-gray-900 mb-2">Rocío Solar</h3>
-                            <p className="text-lg font-bold text-blue-600 mb-6 uppercase tracking-wide text-xs">Co-Fundadora & Estratega Digital</p>
-                            <p className="text-base leading-relaxed text-gray-600 px-4">
-                                Rocío lidera las iniciativas de comunicación y estrategia digital. Con vasta experiencia en gestión cultural, es el puente vital entre el contenido académico riguroso y las nuevas audiencias globales.
-                            </p>
+                        <div className="lg:col-span-8 space-y-8 lg:text-right">
+                            <div>
+                                <h4 className="text-xl font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2 lg:ml-auto lg:w-fit">Trayectoria y Enfoque</h4>
+                                <p className="text-gray-600 leading-relaxed">
+                                    Con <strong>9 años de experiencia</strong> clínica y comunitaria, Rocío es especialista en Terapia Ocupacional con un marcado enfoque de <strong>Derechos Humanos y Género</strong>. Su práctica se distingue por una mirada interseccional que integra la salud mental con las condiciones materiales de vida de las comunidades.
+                                </p>
+                            </div>
+                            <div>
+                                <h4 className="text-xl font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2 lg:ml-auto lg:w-fit">Áreas de Especialización</h4>
+                                <p className="text-gray-600 leading-relaxed">
+                                    Lidera los equipos de Salud Mental Comunitaria y los programas de formación. Es fundadora de <strong>Centro Recreo</strong> y utiliza plataformas digitales para democratizar el acceso a herramientas de bienestar, combinando la atención en terreno con la telemedicina de alta calidad.
+                                </p>
+                            </div>
+                            <div className="pt-4 flex lg:justify-end gap-4">
+                                <Link href="/servicios#clinica">
+                                    <Button variant="outline">Ver Atención Clínica</Button>
+                                </Link>
+                                <Link href="https://encuadrado.com">
+                                    <Button>Agendar en Encuadrado</Button>
+                                </Link>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div className="mt-16 text-center">
-                    <h3 className="text-2xl font-bold tracking-tight text-gray-900 mb-6">Nuestra Misión</h3>
-                    <p className="max-w-2xl mx-auto text-lg leading-8 text-gray-600 mb-10">
-                        Fomentar un espacio de diálogo y reflexión que trascienda lo académico, haciendo accesibles las ideas complejas para transformar nuestra comprensión de la realidad social y cultural.
-                    </p>
-                    <Link href="/contacto">
-                        <Button variant="default" className="px-8">Contactar al equipo</Button>
-                    </Link>
                 </div>
-
             </div>
+
+            {/* Video Section Title - Placeholder for the actual video component if requested later */}
+            <section className="py-24 bg-gray-900 text-white text-center">
+                <div className="mx-auto max-w-4xl px-4">
+                    <h2 className="text-3xl font-bold mb-8 font-serif">Nuestra Historia en Imágenes</h2>
+                    <div className="aspect-video bg-gray-800 rounded-2xl flex items-center justify-center border border-gray-700">
+                        <p className="text-gray-500">Video Institucional "Quiénes Somos" (Próximamente)</p>
+                    </div>
+                </div>
+            </section>
         </div>
     );
 }

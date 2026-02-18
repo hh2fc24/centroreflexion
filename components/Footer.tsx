@@ -12,8 +12,8 @@ export function Footer() {
                             Centro de Reflexiones <span className="text-blue-500">Críticas</span>
                         </h3>
                         <p className="text-gray-400 text-sm leading-relaxed mb-6">
-                            Un espacio multidisciplinario para el pensamiento crítico, la cultura y las ciencias sociales.
-                            Conectando la academia con la realidad.
+                            Plataforma de pensamiento crítico, servicios clínicos y consultoría estratégica.
+                            Articulando academia, intervención y políticas públicas.
                         </p>
                         <div className="flex space-x-4">
                             <a
@@ -40,16 +40,19 @@ export function Footer() {
                         <h4 className="text-white font-semibold mb-4">Explorar</h4>
                         <ul className="space-y-3 text-sm text-gray-400">
                             <li>
+                                <Link href="/servicios#consultoria" className="hover:text-white transition-colors">Consultoría Estratégica</Link>
+                            </li>
+                            <li>
+                                <Link href="/servicios#clinica" className="hover:text-white transition-colors">Atención Clínica</Link>
+                            </li>
+                            <li>
+                                <Link href="/servicios#formacion" className="hover:text-white transition-colors">Formación y Charlas</Link>
+                            </li>
+                            <li>
                                 <Link href="/columnas" className="hover:text-blue-400 transition-colors">Columnas de Opinión</Link>
                             </li>
                             <li>
-                                <Link href="/critica" className="hover:text-purple-400 transition-colors">Crítica Literaria</Link>
-                            </li>
-                            <li>
-                                <Link href="/servicios" className="hover:text-white transition-colors">Servicios Premium</Link>
-                            </li>
-                            <li>
-                                <Link href="/conocenos" className="hover:text-white transition-colors">Quiénes Somos</Link>
+                                <Link href="/critica" className="hover:text-purple-400 transition-colors">Crítica Cultural</Link>
                             </li>
                         </ul>
                     </div>
@@ -59,13 +62,13 @@ export function Footer() {
                         <h4 className="text-white font-semibold mb-4">Comunidad</h4>
                         <ul className="space-y-3 text-sm text-gray-400">
                             <li>
+                                <Link href="/conocenos" className="hover:text-white transition-colors">Quiénes Somos</Link>
+                            </li>
+                            <li>
                                 <Link href="/envia-tu-texto" className="hover:text-white transition-colors">Envía tu Texto</Link>
                             </li>
                             <li>
                                 <Link href="/contacto" className="hover:text-white transition-colors">Contacto</Link>
-                            </li>
-                            <li>
-                                <Link href="#" className="hover:text-white transition-colors">Política de Privacidad</Link>
                             </li>
                         </ul>
                     </div>

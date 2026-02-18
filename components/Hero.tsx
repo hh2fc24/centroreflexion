@@ -2,86 +2,54 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
-import { useEffect, useRef, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 
 export function Hero() {
-    const [currentVideo, setCurrentVideo] = useState(0);
-    const videos = ["/111.mp4", "/222.mp4"];
-    const videoRef = useRef<HTMLVideoElement>(null);
-
-    // Auto-play ensuring
-    useEffect(() => {
-        if (videoRef.current) {
-            videoRef.current.play().catch(e => console.error("Autoplay prevented:", e));
-        }
-    }, [currentVideo]);
-
     return (
-        <section className="relative overflow-hidden bg-gray-900 py-32 sm:py-48 lg:pb-48 xl:pb-52 min-h-[90vh] flex items-center">
-            {/* Video Background */}
-            <div className="absolute inset-0 z-0">
-                <AnimatePresence mode="wait">
+        <section className="relative overflow-hidden bg-white py-20 sm:py-32 lg:pb-32 xl:pb-36">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
+                <div className="max-w-4xl">
                     <motion.div
-                        key={currentVideo}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 1.5 }}
-                        className="absolute inset-0"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
                     >
-                        <video
-                            ref={videoRef}
-                            src={videos[currentVideo]}
-                            autoPlay
-                            muted
-                            loop={false}
-                            playsInline
-                            className="h-full w-full object-cover opacity-60"
-                            onEnded={() => setCurrentVideo((prev) => (prev + 1) % videos.length)}
-                        />
+                        <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl font-serif leading-tight">
+                            Pensamiento crítico para intervenir en la <span className="text-blue-600">complejidad social contemporánea.</span>
+                        </h1>
+                        <p className="mt-6 text-xl leading-8 text-gray-600 max-w-2xl">
+                            Producción editorial, atención clínica y consultoría estratégica en salud mental, infancia y educación.
+                        </p>
                     </motion.div>
-                </AnimatePresence>
-                <div className="absolute inset-0 bg-black/50" />
-            </div>
 
-            <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center sm:text-left">
-                <div className="max-w-3xl">
-                    <motion.h1
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
-                        className="text-4xl font-bold tracking-tight text-white sm:text-6xl"
-                    >
-                        Centro de Reflexiones <span className="text-blue-400">Críticas</span>
-                    </motion.h1>
-                    <motion.p
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.2 }}
-                        className="mt-6 text-lg leading-8 text-gray-300"
-                    >
-                        Un espacio dedicado al pensamiento crítico, la literatura, la cultura y las ciencias sociales.
-                        Explora nuestras columnas de opinión y análisis profundos donde la academia se encuentra con la realidad.
-                    </motion.p>
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.4 }}
-                        className="mt-10 flex flex-col sm:flex-row items-center gap-y-4 gap-x-6 sm:justify-start justify-center"
+                        transition={{ duration: 0.5, delay: 0.2 }}
+                        className="mt-10 flex flex-col sm:flex-row items-center gap-4"
                     >
-                        <Link href="/columnas">
-                            <Button size="lg" className="bg-blue-600 hover:bg-blue-500 text-white border-transparent">
-                                Leer Columnas
+                        <Link href="/servicios">
+                            <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-6 text-lg rounded-full shadow-lg hover:shadow-xl transition-all">
+                                Conocer Servicios
+                                <ArrowRight className="ml-2 h-5 w-5" />
                             </Button>
                         </Link>
-                        <Link href="/conocenos">
-                            <Button variant="outline" size="lg" className="text-white border-white hover:bg-white/10 hover:text-white">
-                                Quiénes Somos
+                        <Link href="/columnas">
+                            <Button variant="outline" size="lg" className="border-gray-300 text-gray-700 hover:bg-gray-50 px-8 py-6 text-lg rounded-full">
+                                Leer Columnas
                             </Button>
                         </Link>
                     </motion.div>
                 </div>
+            </div>
+
+            {/* Background decorative elements */}
+            <div className="absolute top-0 right-0 -z-10 opacity-30 blur-3xl overflow-hidden pointer-events-none">
+                <div className="relative w-[50rem] h-[50rem] bg-gradient-to-tr from-blue-100 to-purple-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"></div>
+            </div>
+            <div className="absolute bottom-0 left-0 -z-10 opacity-30 blur-3xl overflow-hidden pointer-events-none">
+                <div className="relative w-[50rem] h-[50rem] bg-gradient-to-tr from-gray-100 to-blue-50 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
             </div>
         </section>
     );

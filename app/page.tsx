@@ -30,7 +30,7 @@ export default function Home() {
     <div className="flex flex-col min-h-screen">
       <Hero />
 
-      {/* Featured Sections - Premium overlapping cards */}
+      {/* Services Preview Section */}
       <section className="relative z-20 -mt-24 pb-24 px-4 sm:px-6 lg:px-8">
         <MotionDiv
           initial={{ opacity: 0, y: 50 }}
@@ -40,74 +40,52 @@ export default function Home() {
         >
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
 
-            {/* Columnas Card */}
-            <Link href="/columnas" className="group relative">
-              <div className="absolute inset-0 bg-blue-600/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <div className="h-full relative overflow-hidden rounded-2xl bg-white/90 backdrop-blur-sm p-8 shadow-xl transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl border border-gray-100">
-                <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                  <PenTool className="h-24 w-24 text-blue-900" />
+            {/* Consultoría */}
+            <Link href="/servicios#consultoria" className="group relative">
+              <div className="h-full relative overflow-hidden rounded-2xl bg-white p-8 shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl border border-gray-100">
+                <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-blue-50 text-blue-600 mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                  <PenTool className="h-6 w-6" />
+                  {/* Using PenTool as placeholder, ideally use Briefcase or similar */}
                 </div>
-                <div className="relative z-10">
-                  <div className="inline-flex items-center justify-center p-3 rounded-xl bg-blue-50 text-blue-600 mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
-                    <PenTool className="h-6 w-6" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-3 font-serif">Columnas de Opinión</h3>
-                  <p className="text-gray-600 mb-8 leading-relaxed">
-                    Análisis profundos sobre la actualidad social y política desde una perspectiva crítica y fundamentada.
-                  </p>
-                  <div className="flex items-center text-blue-600 font-semibold group-hover:translate-x-2 transition-transform duration-300">
-                    Leer Columnas <ArrowRight className="ml-2 h-4 w-4" />
-                  </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-3 font-serif">Consultoría Estratégica</h3>
+                <p className="text-gray-600 mb-4 leading-relaxed text-sm">
+                  Diseño y evaluación de programas sociales, gestión institucional y arquitectura programática.
+                </p>
+                <div className="flex items-center text-blue-600 text-sm font-semibold group-hover:translate-x-2 transition-transform">
+                  Ver Servicios <ArrowRight className="ml-2 h-4 w-4" />
                 </div>
               </div>
             </Link>
 
-            {/* Crítica Card */}
-            <Link href="/critica" className="group relative">
-              <div className="absolute inset-0 bg-purple-600/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <div className="h-full relative overflow-hidden rounded-2xl bg-white/90 backdrop-blur-sm p-8 shadow-xl transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl border border-gray-100">
-                <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                  <BookOpen className="h-24 w-24 text-purple-900" />
+            {/* Clínica */}
+            <Link href="/servicios#clinica" className="group relative">
+              <div className="h-full relative overflow-hidden rounded-2xl bg-white p-8 shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl border border-gray-100">
+                <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-purple-50 text-purple-600 mb-6 group-hover:bg-purple-600 group-hover:text-white transition-colors">
+                  <BookOpen className="h-6 w-6" />
+                  {/* Placeholder icon */}
                 </div>
-                <div className="relative z-10">
-                  <div className="inline-flex items-center justify-center p-3 rounded-xl bg-purple-50 text-purple-600 mb-6 group-hover:bg-purple-600 group-hover:text-white transition-colors duration-300">
-                    <BookOpen className="h-6 w-6" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-3 font-serif">Crítica Literaria</h3>
-                  <p className="text-gray-600 mb-8 leading-relaxed">
-                    Reseñas y ensayos exahustivos sobre obras literarias, cine y fenómenos culturales contemporáneos.
-                  </p>
-                  <div className="flex items-center text-purple-600 font-semibold group-hover:translate-x-2 transition-transform duration-300">
-                    Explorar Crítica <ArrowRight className="ml-2 h-4 w-4" />
-                  </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-3 font-serif">Atención Clínica</h3>
+                <p className="text-gray-600 mb-4 leading-relaxed text-sm">
+                  Psicoterapia, evaluación de competencias parentales y terapia ocupacional online y domiciliaria.
+                </p>
+                <div className="flex items-center text-purple-600 text-sm font-semibold group-hover:translate-x-2 transition-transform">
+                  Agendar Atención <ArrowRight className="ml-2 h-4 w-4" />
                 </div>
               </div>
             </Link>
 
-            {/* Servicios Premium Card */}
-            <Link href="/servicios" className="group relative md:col-span-2 lg:col-span-1">
-              <div className="absolute inset-0 bg-gradient-to-r from-gray-900 to-gray-800 rounded-2xl transform transition-transform duration-300 group-hover:scale-[1.02]" />
-              <div className="absolute inset-0 bg-[url('/images/pattern.svg')] opacity-20 mix-blend-overlay rounded-2xl" />
-
-              <div className="h-full relative overflow-hidden rounded-2xl p-8 shadow-xl flex flex-col justify-between border border-gray-700">
-                <div>
-                  <div className="flex items-center justify-between mb-6">
-                    <span className="inline-flex items-center px-3 py-1 rounded-full bg-yellow-500/10 text-yellow-500 text-xs font-bold border border-yellow-500/20 tracking-wide">
-                      SERVICIO PREMIUM
-                    </span>
-                  </div>
-
-                  <h3 className="text-2xl font-bold text-white mb-3 font-serif">Potencia tu Impacto</h3>
-                  <p className="text-gray-400 mb-6 leading-relaxed text-sm">
-                    Estrategia digital y tecnología para líderes. No dejes que tus ideas se pierdan en el ruido.
-                  </p>
+            {/* Formación */}
+            <Link href="/servicios#formacion" className="group relative">
+              <div className="h-full relative overflow-hidden rounded-2xl bg-white p-8 shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl border border-gray-100">
+                <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-green-50 text-green-600 mb-6 group-hover:bg-green-600 group-hover:text-white transition-colors">
+                  <PenTool className="h-6 w-6" />
                 </div>
-
-                <div className="mt-auto">
-                  <div className="w-full bg-white text-gray-900 font-bold py-3 px-4 rounded-lg flex items-center justify-center hover:bg-gray-100 transition-colors">
-                    Agendar Consultoría
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-3 font-serif">Charlas y Formación</h3>
+                <p className="text-gray-600 mb-4 leading-relaxed text-sm">
+                  Capacitaciones, asesorías educativas y espacios de formación para equipos y comunidades.
+                </p>
+                <div className="flex items-center text-green-600 text-sm font-semibold group-hover:translate-x-2 transition-transform">
+                  Ver Programa <ArrowRight className="ml-2 h-4 w-4" />
                 </div>
               </div>
             </Link>
