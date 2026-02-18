@@ -182,43 +182,112 @@ export default function Services() {
                 </div>
             </section>
 
-            {/* D) Consultoría Estratégica (Premium) */}
-            <section id="consultoria" className="py-24 bg-gray-900 text-white relative overflow-hidden">
-                <div className="absolute inset-0 opacity-10 bg-[url('/images/pattern.svg')]"></div>
+            {/* D) Consultoría Estratégica (Premium High-End Redesign) */}
+            <section id="consultoria" className="relative py-32 bg-slate-900 border-t border-slate-800 overflow-hidden">
+                {/* Abstract Background Assets */}
+                <div className="absolute inset-0 z-0">
+                    <div className="absolute top-0 right-0 w-3/4 h-full opacity-20 mix-blend-overlay">
+                        {/* We use the abstract network image here as a subtle background texture */}
+                        <div className="relative w-full h-full">
+                            <img src="/images/consulting_hero.png" alt="Abstract Network" className="object-cover w-full h-full" />
+                            <div className="absolute inset-0 bg-slate-900/40"></div>
+                        </div>
+                    </div>
+                </div>
+
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
-                        <div className="lg:col-span-5 text-left">
-                            <div className="inline-flex items-center px-4 py-2 rounded-full bg-yellow-500/10 text-yellow-400 text-sm font-bold border border-yellow-500/20 tracking-wide mb-8">
-                                SERVICIO PREMIUM
-                            </div>
-                            <h2 className="text-4xl font-bold tracking-tight text-white sm:text-5xl mb-6 font-serif">
-                                Consultoría en Gestión Estratégica
-                            </h2>
-                            <p className="text-lg text-gray-300 leading-relaxed mb-8">
-                                Diseñamos y fortalecemos la arquitectura de programas sociales de alto impacto.
-                                Un servicio exclusivo para fundaciones, organismos gubernamentales y corporaciones.
-                            </p>
-                            <Button size="lg" className="bg-white text-gray-900 hover:bg-gray-100 font-bold px-8">
-                                Agendar Reunión Ejecutiva
-                            </Button>
+                    <div className="lg:grid lg:grid-cols-12 lg:gap-16 items-start">
+
+                        {/* Left Column: Strategic Vision */}
+                        <div className="lg:col-span-5 mb-16 lg:mb-0">
+                            <motion.div
+                                initial={{ opacity: 0, x: -20 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.6 }}
+                                viewport={{ once: true }}
+                            >
+                                <span className="inline-flex items-center px-3 py-1 rounded-full bg-gradient-to-r from-amber-200/10 to-amber-500/10 text-amber-300 text-xs font-bold border border-amber-500/30 tracking-widest uppercase mb-8 shadow-lg shadow-amber-900/20 backdrop-blur-md">
+                                    CRC Institutional
+                                </span>
+                                <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-white mb-6 font-serif leading-tight">
+                                    Arquitectura de <br />
+                                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-600">
+                                        Impacto Social
+                                    </span>
+                                </h2>
+                                <p className="text-lg text-slate-300 leading-relaxed mb-10 font-light border-l-2 border-amber-500/30 pl-6">
+                                    Transformamos la complejidad social en estrategias operativas.
+                                    Diseñamos, evaluamos y fortalecemos programas de alto nivel para gobiernos, fundaciones y corporaciones.
+                                </p>
+
+                                <div className="flex flex-col sm:flex-row gap-4">
+                                    <Button size="lg" className="bg-white text-slate-900 hover:bg-slate-100 font-bold px-8 py-6 rounded-none border-l-4 border-amber-500 shadow-xl transition-all hover:translate-x-1">
+                                        Agendar Reunión Ejecutiva
+                                        <ArrowRight className="ml-2 h-5 w-5 text-amber-600" />
+                                    </Button>
+                                    <Button variant="outline" size="lg" className="border-slate-600 text-slate-300 hover:text-white hover:border-slate-400 hover:bg-slate-800/50 px-8 py-6 rounded-none backdrop-blur-sm">
+                                        Descargar Portafolio
+                                    </Button>
+                                </div>
+                            </motion.div>
                         </div>
 
-                        <div className="lg:col-span-1"></div>
-
-                        <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
-                            {[
-                                "Diseño de Modelos",
-                                "Arquitectura Programática",
-                                "Evaluación Metodológica",
-                                "Gobernanza Técnica",
-                                "Fortalecimiento Institucional",
-                                "Sustentabilidad de Proyectos"
-                            ].map((item, idx) => (
-                                <div key={idx} className="bg-gray-800 p-6 rounded-xl border border-gray-700 flex flex-col justify-center hover:bg-gray-750 transition-colors">
-                                    <Building2 className="h-8 w-8 text-blue-400 mb-4" />
-                                    <span className="font-semibold text-white">{item}</span>
+                        {/* Right Column: Service Matrix */}
+                        <div className="lg:col-span-7">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                {/* Card 1 */}
+                                <div className="group relative bg-slate-800/40 backdrop-blur-md border border-slate-700/50 p-8 hover:bg-slate-800/60 transition-all duration-300 overflow-hidden">
+                                    <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                                        <Building2 className="w-24 h-24 text-white" />
+                                    </div>
+                                    <div className="relative z-10">
+                                        <h3 className="text-xl font-bold text-white mb-3 font-serif">Diseño de Modelos</h3>
+                                        <p className="text-sm text-slate-400 leading-relaxed mb-4">
+                                            Creación de arquitecturas programáticas escalables y metodologías de intervención basadas en evidencia.
+                                        </p>
+                                        <div className="w-8 h-1 bg-amber-500/50 group-hover:w-full transition-all duration-500"></div>
+                                    </div>
                                 </div>
-                            ))}
+
+                                {/* Card 2 */}
+                                <div className="group relative bg-slate-800/40 backdrop-blur-md border border-slate-700/50 p-8 hover:bg-slate-800/60 transition-all duration-300 overflow-hidden">
+                                    <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                                        <Users className="w-24 h-24 text-white" />
+                                    </div>
+                                    <div className="relative z-10">
+                                        <h3 className="text-xl font-bold text-white mb-3 font-serif">Gobernanza Técnica</h3>
+                                        <p className="text-sm text-slate-400 leading-relaxed mb-4">
+                                            Establecimiento de estándares, supervisión clínica y sistemas de mejora continua para equipos de alto desempeño.
+                                        </p>
+                                        <div className="w-8 h-1 bg-amber-500/50 group-hover:w-full transition-all duration-500"></div>
+                                    </div>
+                                </div>
+
+                                {/* Card 3 */}
+                                <div className="group relative bg-slate-800/40 backdrop-blur-md border border-slate-700/50 p-8 hover:bg-slate-800/60 transition-all duration-300 overflow-hidden">
+                                    <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                                        <PenTool className="w-24 h-24 text-white" />
+                                    </div>
+                                    <div className="relative z-10">
+                                        <h3 className="text-xl font-bold text-white mb-3 font-serif">Evaluación de Impacto</h3>
+                                        <p className="text-sm text-slate-400 leading-relaxed mb-4">
+                                            Análisis riguroso de resultados cualitativos y cuantitativos para asegurar la sustentabilidad de la inversión social.
+                                        </p>
+                                        <div className="w-8 h-1 bg-amber-500/50 group-hover:w-full transition-all duration-500"></div>
+                                    </div>
+                                </div>
+
+                                {/* Visual Feature Card */}
+                                <div className="relative h-full min-h-[200px] rounded-sm overflow-hidden border border-slate-700/50 group">
+                                    <img src="/images/strategic_architecture.png" alt="Strategic Architecture" className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500 scale-105 group-hover:scale-100" />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent"></div>
+                                    <div className="absolute bottom-0 left-0 p-8">
+                                        <span className="text-xs font-bold text-amber-400 tracking-widest uppercase mb-2 block">Casos de Éxito</span>
+                                        <h3 className="text-white font-serif text-lg">Revisa nuestros proyectos de incidencia pública &rarr;</h3>
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
                 </div>
