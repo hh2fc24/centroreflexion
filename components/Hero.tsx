@@ -68,14 +68,14 @@ export function Hero() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
                     >
-                        <span className="inline-flex items-center rounded-full bg-blue-500/10 px-3 py-1 text-sm font-medium text-blue-300 ring-1 ring-inset ring-blue-500/20 mb-6 backdrop-blur-sm">
-                            Centro de Reflexiones Críticas
+                        <span className="inline-flex items-center rounded-full bg-red-500/10 px-3 py-1 text-sm font-medium text-white ring-1 ring-inset ring-red-500/30 mb-6 backdrop-blur-sm">
+                            Centro de Reflexiones <span className="text-red-400">Críticas</span>
                         </span>
                         <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl font-serif leading-tight drop-shadow-lg">
-                            Pensamiento crítico para intervenir en la <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-indigo-100">complejidad social contemporánea.</span>
+                            Pensamiento autónomo para <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-indigo-100">soluciones estratégicas</span> con foco en la evidencia científica.
                         </h1>
                         <p className="mt-6 text-xl leading-8 text-slate-200 max-w-2xl drop-shadow-md">
-                            Producción editorial, atención clínica y consultoría estratégica en salud mental, infancia y educación.
+                            Producción editorial, atención clínica, consultoría estratégica en salud mental, educación y políticas públicas de la infancia.
                         </p>
                     </motion.div>
 
@@ -91,9 +91,9 @@ export function Hero() {
                                 <ArrowRight className="ml-2 h-5 w-5" />
                             </Button>
                         </Link>
-                        <Link href="/columnas">
+                        <Link href="/pensamiento-critico">
                             <Button variant="outline" size="lg" className="border-slate-500 text-slate-200 hover:bg-white/10 hover:text-white px-8 py-6 text-lg rounded-full backdrop-blur-sm">
-                                Leer Columnas
+                                Pensamiento Crítico
                             </Button>
                         </Link>
                     </motion.div>

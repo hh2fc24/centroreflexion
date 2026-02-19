@@ -99,7 +99,7 @@ export default function Home() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <MotionDiv className="flex items-center justify-between mb-12">
             <h2 className="text-3xl font-bold tracking-tight text-gray-900">Lo más reciente</h2>
-            <Link href="/columnas" className="text-sm font-semibold text-blue-600 hover:text-blue-500 group flex items-center">
+            <Link href="/pensamiento-critico" className="text-sm font-semibold text-red-600 hover:text-red-500 group flex items-center">
               Ver todo <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
           </MotionDiv>

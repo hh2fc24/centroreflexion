@@ -9,7 +9,7 @@ export function Footer() {
                     {/* Brand Section */}
                     <div>
                         <h3 className="text-xl font-bold text-white mb-4">
-                            Centro de Reflexiones <span className="text-blue-500">Críticas</span>
+                            Centro de Reflexiones <span className="text-red-500">Críticas</span>
                         </h3>
                         <p className="text-gray-400 text-sm leading-relaxed mb-6">
                             Plataforma de pensamiento crítico, servicios clínicos y consultoría estratégica.
@@ -40,19 +40,16 @@ export function Footer() {
                         <h4 className="text-white font-semibold mb-4">Explorar</h4>
                         <ul className="space-y-3 text-sm text-gray-400">
                             <li>
+                                <Link href="/pensamiento-critico" className="hover:text-red-400 transition-colors">Pensamiento Crítico</Link>
+                            </li>
+                            <li>
                                 <Link href="/servicios#consultoria" className="hover:text-white transition-colors">Consultoría Estratégica</Link>
                             </li>
                             <li>
                                 <Link href="/servicios#clinica" className="hover:text-white transition-colors">Atención Clínica</Link>
                             </li>
                             <li>
-                                <Link href="/servicios#formacion" className="hover:text-white transition-colors">Formación y Charlas</Link>
-                            </li>
-                            <li>
-                                <Link href="/columnas" className="hover:text-blue-400 transition-colors">Columnas de Opinión</Link>
-                            </li>
-                            <li>
-                                <Link href="/critica" className="hover:text-purple-400 transition-colors">Crítica Cultural</Link>
+                                <Link href="/servicios#formacion" className="hover:text-white transition-colors">Formación</Link>
                             </li>
                         </ul>
                     </div>
@@ -78,8 +75,8 @@ export function Footer() {
                         <h4 className="text-white font-semibold mb-4">Contacto</h4>
                         <ul className="space-y-4 text-sm text-gray-400">
                             <li className="flex items-start">
-                                <Mail className="h-5 w-5 mr-3 text-blue-500 flex-shrink-0" />
-                                <span>contacto@centrodereflexionescriticas.com</span>
+                                <Mail className="h-5 w-5 mr-3 text-red-500 flex-shrink-0" />
+                                <span>centrodereflexionescriticas@gmail.com</span>
                             </li>
                             <li className="flex items-start">
                                 <MapPin className="h-5 w-5 mr-3 text-blue-500 flex-shrink-0" />

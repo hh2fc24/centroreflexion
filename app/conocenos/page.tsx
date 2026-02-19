@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { motion } from "framer-motion";
-import { Instagram, Linkedin } from "lucide-react";
+import { Instagram, Linkedin, Mail } from "lucide-react";
 
 export default function About() {
     return (
@@ -132,31 +132,32 @@ export default function About() {
                                 />
                             </div>
                             <h3 className="text-3xl font-bold text-gray-900 font-serif">Rocío Solar</h3>
-                            <p className="text-blue-600 font-bold text-sm tracking-wide mt-2 uppercase">Directora Clínica & Formación</p>
+                            <p className="text-red-600 font-bold text-sm tracking-wide mt-2 uppercase">Rol Editorial</p>
                             <div className="mt-6 flex gap-4">
-                                <Link href="https://instagram.com/to_rociosolar" className="text-gray-400 hover:text-pink-600 transition-colors"><Instagram className="h-6 w-6" /></Link>
-                                <Link href="https://linkedin.com" className="text-gray-400 hover:text-blue-600 transition-colors"><Linkedin className="h-6 w-6" /></Link>
+                                <a href="https://www.instagram.com/centrodereflexionescriticas/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-pink-600 transition-colors"><Instagram className="h-6 w-6" /></a>
+                                <a href="mailto:centrodereflexionescriticas@gmail.com" className="text-gray-400 hover:text-red-600 transition-colors"><Mail className="h-6 w-6" /></a>
+                                <Link href="/servicios" className="text-gray-400 hover:text-blue-600 transition-colors"><Linkedin className="h-6 w-6" /></Link>
                             </div>
                         </div>
                         <div className="lg:col-span-8 space-y-8 lg:text-right">
                             <div>
-                                <h4 className="text-xl font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2 lg:ml-auto lg:w-fit">Trayectoria y Enfoque</h4>
+                                <h4 className="text-xl font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2 lg:ml-auto lg:w-fit">Rol Editorial</h4>
                                 <p className="text-gray-600 leading-relaxed">
-                                    Con <strong>9 años de experiencia</strong> clínica y comunitaria, Rocío es especialista en Terapia Ocupacional con un marcado enfoque de <strong>Derechos Humanos y Género</strong>. Su práctica se distingue por una mirada interseccional que integra la salud mental con las condiciones materiales de vida de las comunidades.
+                                    <em className="text-gray-400">Descripción del rol editorial — próximamente. Rocío enviará su descripción directamente.</em>
                                 </p>
                             </div>
                             <div>
-                                <h4 className="text-xl font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2 lg:ml-auto lg:w-fit">Áreas de Especialización</h4>
+                                <h4 className="text-xl font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2 lg:ml-auto lg:w-fit">Rol Clínico</h4>
                                 <p className="text-gray-600 leading-relaxed">
-                                    Lidera los equipos de Salud Mental Comunitaria y los programas de formación. Es fundadora de <strong>Centro Recreo</strong> y utiliza plataformas digitales para democratizar el acceso a herramientas de bienestar, combinando la atención en terreno con la telemedicina de alta calidad.
+                                    <em className="text-gray-400">Descripción del rol clínico — próximamente. Rocío enviará su descripción directamente.</em>
                                 </p>
                             </div>
                             <div className="pt-4 flex lg:justify-end gap-4">
                                 <Link href="/servicios#clinica">
                                     <Button variant="outline">Ver Atención Clínica</Button>
                                 </Link>
-                                <Link href="https://encuadrado.com">
-                                    <Button>Agendar en Encuadrado</Button>
+                                <Link href="/servicios#formacion">
+                                    <Button>Ver Formación</Button>
                                 </Link>
                             </div>
                         </div>

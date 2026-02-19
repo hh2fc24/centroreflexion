@@ -22,8 +22,8 @@ export default function Contact() {
                                     <Mail className="h-7 w-6 text-gray-400" aria-hidden="true" />
                                 </dt>
                                 <dd>
-                                    <a className="hover:text-gray-900" href="mailto:hola@crcritica.com">
-                                        hola@crcritica.com
+                                    <a className="hover:text-gray-900" href="mailto:centrodereflexionescriticas@gmail.com">
+                                        centrodereflexionescriticas@gmail.com
                                     </a>
                                 </dd>
                             </div>

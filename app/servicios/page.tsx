@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { motion } from "framer-motion";
-import { Check, ArrowRight, BookOpen, PenTool, Users, Building2 } from "lucide-react";
+import { Check, ArrowRight, BookOpen, PenTool, Users, Building2, Mail } from "lucide-react";
 
 export default function Services() {
     return (
@@ -42,7 +42,7 @@ export default function Services() {
                                 Dirección Clínica
                             </span>
                             <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl mb-6 font-serif">
-                                Evaluación y Consultoría Psicosocial
+                                Evaluación Psicosocial
                             </h2>
                             <p className="text-lg text-gray-600 mb-8 leading-relaxed">
                                 Servicios especializados dirigidos por Juan Carlos Rauld, enfocados en la evaluación pericial y consultoría de casos complejos en infancia y familia.
@@ -156,65 +156,77 @@ export default function Services() {
                 </div>
             </section>
 
-            {/* C) Charlas y Formación */}
+            {/* C) Servicios de Formación */}
             <section id="formacion" className="py-24 bg-white">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-16">
-                        <span className="text-green-600 font-bold tracking-wide uppercase text-sm">Educación Continua</span>
-                        <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl mt-2 font-serif">Charlas y Formación</h2>
+                        <span className="inline-flex items-center rounded-full bg-green-50 px-3 py-1 text-sm font-medium text-green-700 ring-1 ring-inset ring-green-700/10 mb-4">Servicios</span>
+                        <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl mt-2 font-serif">Formación y Capacitación</h2>
                         <p className="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
                             Instancias de aprendizaje para equipos profesionales, comunidades educativas y organizaciones.
                         </p>
+                        <p className="mt-2 text-sm text-gray-400 italic">
+                            * Los precios indicados son referenciales y están sujetos a confirmación.
+                        </p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {/* Service Item */}
-                        <div className="bg-gray-50 rounded-2xl p-8 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl group border border-transparent hover:border-green-200">
-                            <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                                <Users className="w-6 h-6 text-green-700" />
-                            </div>
-                            <h3 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-green-800 transition-colors">Charlas Individuales</h3>
-                            <p className="text-gray-600 text-sm mb-6 min-h-[80px]">
-                                Exposiciones temáticas de Rocío Solar sobre salud mental, género y cuidados.
-                            </p>
-                            <ul className="text-sm text-gray-500 space-y-2 mb-6 border-t border-gray-200 pt-4">
-                                <li>• Modalidad: Presencial / Online</li>
-                                <li>• Duración: 60 - 90 min</li>
-                            </ul>
-                            <span className="text-green-600 font-bold group-hover:underline">Consultar Valor</span>
+                    {/* Juan Carlos Rauld - Formación */}
+                    <div className="mb-16">
+                        <h3 className="text-2xl font-bold text-gray-900 mb-8 font-serif border-b border-gray-200 pb-4">
+                            Formación — <span className="text-blue-600">Juan Carlos Rauld</span>
+                        </h3>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {[
+                                { name: "Capacitación en Intervención de Crisis", price: "Desde 5 UF", detail: "Modalidad presencial / online · 4-8 hrs" },
+                                { name: "Supervisión Clínica de Casos", price: "2.5 UF / Sesión", detail: "Para equipos de protección infantil" },
+                                { name: "Formación en Gestión de Programas Sociales", price: "Desde 8 UF", detail: "Incluye material y certificación" },
+                                { name: "Taller de Evaluación Pericial", price: "Desde 6 UF", detail: "Competencias parentales y riesgo" },
+                                { name: "Asesoría Estratégica Institucional", price: "A cotizar", detail: "Diseño de modelos de intervención" },
+                            ].map((item, idx) => (
+                                <div key={idx} className="bg-gray-50 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg border border-transparent hover:border-blue-200 group">
+                                    <h4 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">{item.name}</h4>
+                                    <p className="text-sm text-gray-500 mb-4">{item.detail}</p>
+                                    <span className="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-sm font-semibold text-blue-700">{item.price} *</span>
+                                </div>
+                            ))}
                         </div>
+                    </div>
 
-                        {/* Service Item */}
-                        <div className="bg-white rounded-2xl p-8 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl border-2 border-green-100 hover:border-green-300 group relative overflow-hidden">
-                            <div className="absolute top-0 right-0 w-24 h-24 bg-green-50 rounded-bl-full -mr-4 -mt-4 opacity-50 transition-transform group-hover:scale-110" />
-                            <div className="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center mb-6 shadow-md group-hover:shadow-lg transition-shadow">
-                                <BookOpen className="w-6 h-6 text-white" />
-                            </div>
-                            <h3 className="text-xl font-bold text-gray-900 mb-4">Formación de Equipos</h3>
-                            <p className="text-gray-600 text-sm mb-6 min-h-[80px]">
-                                Capacitaciones conjuntas sobre intervención en crisis, VIF y gestión de casos complejos.
-                            </p>
-                            <ul className="text-sm text-gray-500 space-y-2 mb-6 border-t border-gray-200 pt-4">
-                                <li>• Certificado de participación</li>
-                                <li>• Material complementario</li>
-                            </ul>
-                            <span className="text-green-700 font-bold bg-green-50 px-3 py-1 rounded-full text-xs uppercase tracking-wide">A medida</span>
+                    {/* Rocío Solar - Formación */}
+                    <div className="mb-16">
+                        <h3 className="text-2xl font-bold text-gray-900 mb-8 font-serif border-b border-gray-200 pb-4">
+                            Formación — <span className="text-purple-600">Rocío Solar</span>
+                        </h3>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {[
+                                { name: "Charlas en Salud Mental y Género", price: "Consultar", detail: "Presencial / Online · 60-90 min" },
+                                { name: "Formación de Equipos en VIF", price: "Consultar", detail: "Certificado de participación incluido" },
+                                { name: "Asesorías PIE", price: "Plan mensual", detail: "Supervisión reflexiva para Programas de Integración Escolar" },
+                                { name: "Taller de Terapia Ocupacional Comunitaria", price: "Consultar", detail: "Enfoque de Derechos Humanos" },
+                                { name: "Capacitación en Acompañamiento en Terreno", price: "Consultar", detail: "Para equipos de salud mental comunitaria" },
+                            ].map((item, idx) => (
+                                <div key={idx} className="bg-gray-50 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg border border-transparent hover:border-purple-200 group">
+                                    <h4 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-purple-700 transition-colors">{item.name}</h4>
+                                    <p className="text-sm text-gray-500 mb-4">{item.detail}</p>
+                                    <span className="inline-flex items-center rounded-full bg-purple-50 px-3 py-1 text-sm font-semibold text-purple-700">{item.price} *</span>
+                                </div>
+                            ))}
                         </div>
+                    </div>
 
-                        {/* Service Item */}
-                        <div className="bg-gray-50 rounded-2xl p-8 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl group border border-transparent hover:border-green-200">
-                            <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                                <PenTool className="w-6 h-6 text-green-700" />
-                            </div>
-                            <h3 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-green-800 transition-colors">Asesorías PIE</h3>
-                            <p className="text-gray-600 text-sm mb-6 min-h-[80px]">
-                                Supervisión reflexiva y apoyo técnico para Programas de Integración Escolar.
-                            </p>
-                            <ul className="text-sm text-gray-500 space-y-2 mb-6 border-t border-gray-200 pt-4">
-                                <li>• Enfoque de derechos</li>
-                                <li>• Prevención de crisis</li>
-                            </ul>
-                            <span className="text-green-600 font-bold group-hover:underline">Plan mensual</span>
+                    {/* Contact CTA */}
+                    <div className="bg-gradient-to-r from-gray-900 to-gray-800 rounded-2xl p-8 sm:p-12 text-center">
+                        <h3 className="text-2xl font-bold text-white mb-4 font-serif">¿Necesitas algo más específico?</h3>
+                        <p className="text-gray-300 mb-6 max-w-xl mx-auto">
+                            Si requieres una formación personalizada o tienes consultas sobre nuestras prestaciones,
+                            escríbenos directamente.
+                        </p>
+                        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                            <a href="mailto:centrodereflexionescriticas@gmail.com" className="inline-flex items-center px-6 py-3 bg-red-600 hover:bg-red-500 text-white font-semibold rounded-full transition-all shadow-lg hover:shadow-red-500/25">
+                                <Mail className="w-5 h-5 mr-2" />
+                                Escribir por Email
+                            </a>
+                            <span className="text-gray-400 text-sm">o utiliza nuestro asistente virtual</span>
                         </div>
                     </div>
                 </div>

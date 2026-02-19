@@ -8,12 +8,11 @@ import { cn } from "@/lib/utils";
 
 const navItems = [
     { name: "Inicio", href: "/" },
-    { name: "Consultoría", href: "/servicios#consultoria" },
-    { name: "Clínica", href: "/servicios#clinica" },
-    { name: "Formación", href: "/servicios#formacion" },
-    { name: "Columnas", href: "/columnas" },
-    { name: "Crítica", href: "/critica" },
     { name: "Conócenos", href: "/conocenos" },
+    { name: "Pensamiento Crítico", href: "/pensamiento-critico" },
+    { name: "Clínica", href: "/servicios#clinica" },
+    { name: "Consultoría", href: "/servicios#consultoria" },
+    { name: "Formación", href: "/servicios#formacion" },
     { name: "Contacto", href: "/contacto" },
 ];
 
@@ -33,7 +32,7 @@ export function Navbar() {
                         />
                     </div>
                     <span>
-                        Centro de Reflexiones <span className="text-gray-500 group-hover:text-blue-600 transition-colors">Críticas</span>
+                        Centro de Reflexiones <span className="text-red-600 group-hover:text-red-500 transition-colors">Críticas</span>
                     </span>
                 </Link>
 
