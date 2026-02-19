@@ -1,7 +1,7 @@
 "use client";
 
 import { MotionDiv } from "@/components/ui/Motion";
-import { Calendar, Star } from "lucide-react";
+import { Calendar } from "lucide-react";
 import { useRef } from "react";
 
 export function VideoBookPremiere() {
@@ -24,9 +24,8 @@ export function VideoBookPremiere() {
                         transition={{ duration: 0.8 }}
                         className="order-2 lg:order-1 text-left"
                     >
-                        <span className="inline-flex items-center px-4 py-1.5 rounded-full bg-yellow-500/10 text-yellow-500 text-sm font-bold border border-yellow-500/20 mb-8 tracking-[0.2em] uppercase">
-                            <Star className="w-4 h-4 mr-2" />
-                            Estreno Exclusivo
+                        <span className="inline-block px-3 py-1 mb-8 text-xs font-medium tracking-[0.2em] text-gray-400 uppercase border border-gray-700 rounded-sm">
+                            Próximamente
                         </span>
 
                         <h2 className="text-4xl md:text-5xl font-bold font-serif tracking-tight text-white mb-6 leading-tight">

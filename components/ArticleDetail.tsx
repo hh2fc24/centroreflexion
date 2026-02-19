@@ -4,6 +4,7 @@ import { ArrowLeft, User, Calendar, Share2, Bookmark } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { MotionDiv, MotionItem } from "@/components/ui/Motion";
 import { Article } from "@/lib/data";
+import { JsonLd } from "@/components/JsonLd";
 
 interface ArticleDetailProps {
     article: Article;
@@ -106,6 +107,8 @@ export default function ArticleDetail({ article }: ArticleDetailProps) {
                         </Button>
                     </Link>
                 </MotionItem>
+
+                <JsonLd article={article} />
 
             </div>
         </article>
