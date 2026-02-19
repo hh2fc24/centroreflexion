@@ -4,6 +4,7 @@ import { MotionDiv } from "@/components/ui/Motion";
 import { ArrowRight, BookOpen } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { VideoBookPremiere } from "./VideoBookPremiere";
 
 export function PublicationsSection() {
     return (
@@ -11,7 +12,9 @@ export function PublicationsSection() {
             {/* Decorative pattern */}
             <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('/images/pattern.svg')]" />
 
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
+            <VideoBookPremiere />
+
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10 pt-24">
                 <MotionDiv
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
