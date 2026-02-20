@@ -1,10 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { EditableText } from "@/components/editor/EditableText";
+import { EditorLink } from "@/components/editor/EditorLink";
 
 const HERO_IMAGES = [
     {
@@ -69,13 +70,20 @@ export function Hero() {
                         transition={{ duration: 0.8 }}
                     >
                         <span className="inline-flex items-center rounded-full bg-red-500/10 px-3 py-1 text-sm font-medium text-white ring-1 ring-inset ring-red-500/30 mb-6 backdrop-blur-sm">
-                            Centro de Reflexiones <span className="text-red-400">Críticas</span>
+                            <EditableText path="hero.badgePrefix" ariaLabel="Hero badge" />{" "}
+                            <span className="text-red-400">
+                                <EditableText path="hero.badgeHighlight" ariaLabel="Hero badge highlight" />
+                            </span>
                         </span>
                         <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl font-serif leading-tight drop-shadow-lg">
-                            Pensamiento autónomo para <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-indigo-100">soluciones estratégicas</span> con foco en la evidencia científica.
+                            <EditableText path="hero.titleBefore" ariaLabel="Hero título (inicio)" />{" "}
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-indigo-100">
+                                <EditableText path="hero.titleHighlight" ariaLabel="Hero título (destacado)" />
+                            </span>{" "}
+                            <EditableText path="hero.titleAfter" ariaLabel="Hero título (final)" />
                         </h1>
                         <p className="mt-6 text-xl leading-8 text-slate-200 max-w-2xl drop-shadow-md">
-                            Producción editorial, atención clínica, consultoría estratégica en salud mental, educación y políticas públicas de la infancia.
+                            <EditableText path="hero.subtitle" ariaLabel="Hero subtítulo" multiline />
                         </p>
                     </motion.div>
 
@@ -85,17 +93,17 @@ export function Hero() {
                         transition={{ duration: 0.5, delay: 0.2 }}
                         className="mt-10 flex flex-col sm:flex-row items-center gap-4"
                     >
-                        <Link href="/servicios">
-                            <Button size="lg" className="bg-blue-600 hover:bg-blue-500 text-white px-8 py-6 text-lg rounded-full shadow-lg hover:shadow-blue-500/25 transition-all border border-blue-400/20">
-                                Conocer Servicios
+                        <EditorLink href={"/servicios"}>
+                            <Button size="lg" className="bg-primary hover:bg-primary/90 text-white px-8 py-6 text-lg rounded-full shadow-lg transition-all border border-white/10">
+                                <EditableText path="hero.primaryCtaLabel" ariaLabel="Hero CTA principal" />
                                 <ArrowRight className="ml-2 h-5 w-5" />
                             </Button>
-                        </Link>
-                        <Link href="/pensamiento-critico">
+                        </EditorLink>
+                        <EditorLink href={"/pensamiento-critico"}>
                             <Button variant="outline" size="lg" className="border-slate-500 text-slate-200 hover:bg-white/10 hover:text-white px-8 py-6 text-lg rounded-full backdrop-blur-sm">
-                                Pensamiento Crítico
+                                <EditableText path="hero.secondaryCtaLabel" ariaLabel="Hero CTA secundario" />
                             </Button>
-                        </Link>
+                        </EditorLink>
                     </motion.div>
                 </div>
             </div>

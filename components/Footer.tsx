@@ -1,7 +1,17 @@
+"use client";
+
 import Link from "next/link";
-import { Instagram, Linkedin, Twitter, Mail, MapPin, Phone } from "lucide-react";
+import { Instagram, Linkedin, Mail, MapPin } from "lucide-react";
+import { EditableText } from "@/components/editor/EditableText";
+import { useContent, useEditor } from "@/lib/editor/hooks";
 
 export function Footer() {
+    const { adminEnabled } = useEditor();
+    const { get } = useContent();
+
+    const instagramHref = get<string>("footer.instagramHref") ?? "#";
+    const linkedinHref = get<string>("footer.linkedinHref") ?? "#";
+
     return (
         <footer className="bg-gray-900 border-t border-gray-800 pt-16 pb-8">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -9,25 +19,39 @@ export function Footer() {
                     {/* Brand Section */}
                     <div>
                         <h3 className="text-xl font-bold text-white mb-4">
-                            Centro de Reflexiones <span className="text-red-500">Críticas</span>
+                            <EditableText path="footer.brandTitle" ariaLabel="Footer marca" />{" "}
+                            <span className="text-red-500">
+                                <EditableText path="footer.brandHighlight" ariaLabel="Footer marca destacado" />
+                            </span>
                         </h3>
                         <p className="text-gray-400 text-sm leading-relaxed mb-6">
-                            Plataforma de pensamiento crítico, servicios clínicos y consultoría estratégica.
-                            Articulando academia, intervención y políticas públicas.
+                            <EditableText path="footer.description" ariaLabel="Footer descripción" multiline />
                         </p>
                         <div className="flex space-x-4">
                             <a
-                                href="https://www.instagram.com/centrodereflexionescriticas/"
+                                href={instagramHref}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-gray-400 hover:text-pink-500 transition-colors"
+                                onClick={(e) => {
+                                    if (adminEnabled) {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                    }
+                                }}
                             >
                                 <Instagram className="h-5 w-5" />
                                 <span className="sr-only">Instagram</span>
                             </a>
                             <a
-                                href="#"
+                                href={linkedinHref}
                                 className="text-gray-400 hover:text-blue-500 transition-colors"
+                                onClick={(e) => {
+                                    if (adminEnabled) {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                    }
+                                }}
                             >
                                 <Linkedin className="h-5 w-5" />
                                 <span className="sr-only">LinkedIn</span>
@@ -76,11 +100,15 @@ export function Footer() {
                         <ul className="space-y-4 text-sm text-gray-400">
                             <li className="flex items-start">
                                 <Mail className="h-5 w-5 mr-3 text-red-500 flex-shrink-0" />
-                                <span>centrodereflexionescriticas@gmail.com</span>
+                                <span>
+                                    <EditableText path="footer.contactEmail" ariaLabel="Footer email" />
+                                </span>
                             </li>
                             <li className="flex items-start">
                                 <MapPin className="h-5 w-5 mr-3 text-blue-500 flex-shrink-0" />
-                                <span>Santiago, Chile</span>
+                                <span>
+                                    <EditableText path="footer.contactLocation" ariaLabel="Footer ubicación" />
+                                </span>
                             </li>
                         </ul>
                     </div>
@@ -89,7 +117,9 @@ export function Footer() {
                 {/* Bottom Bar */}
                 <div className="border-t border-gray-800 pt-8 flex flex-col items-center justify-center">
                     <p className="text-xs text-gray-500 text-center">
-                        &copy; {new Date().getFullYear()} Centro de Reflexiones Críticas. Todos los derechos reservados.
+                        &copy; {new Date().getFullYear()}{" "}
+                        <EditableText path="footer.copyrightName" ariaLabel="Footer copyright" />. Todos los derechos
+                        reservados.
                     </p>
                 </div>
             </div>

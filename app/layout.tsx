@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { Inter, Merriweather } from "next/font/google";
+import { Geist, Inter, Merriweather } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { VirtualAssistant } from "@/components/VirtualAssistant";
 import Script from "next/script";
+import { EditorProviders } from "@/components/editor/EditorProviders";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -16,6 +17,12 @@ const merriweather = Merriweather({
   weight: ["300", "400", "700", "900"],
   subsets: ["latin"],
   variable: "--font-merriweather",
+  display: "swap",
+});
+
+const geist = Geist({
+  subsets: ["latin"],
+  variable: "--font-geist",
   display: "swap",
 });
 
@@ -58,12 +65,14 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body
-        className={`${inter.variable} ${merriweather.variable} antialiased flex flex-col min-h-screen font-sans`}
+        className={`${inter.variable} ${merriweather.variable} ${geist.variable} antialiased flex flex-col min-h-screen font-sans`}
       >
-        <Navbar />
-        <main className="flex-grow">{children}</main>
-        <Footer />
-        <VirtualAssistant />
+        <EditorProviders>
+          <Navbar />
+          <main className="flex-grow">{children}</main>
+          <Footer />
+          <VirtualAssistant />
+        </EditorProviders>
 
         {/* Google Analytics */}
         {gaId && (
@@ -105,4 +114,3 @@ export default function RootLayout({
     </html>
   );
 }
-

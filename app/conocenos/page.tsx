@@ -170,7 +170,7 @@ export default function About() {
                 <div className="mx-auto max-w-4xl px-4">
                     <h2 className="text-3xl font-bold mb-8 font-serif">Nuestra Historia en Imágenes</h2>
                     <div className="aspect-video bg-gray-800 rounded-2xl flex items-center justify-center border border-gray-700">
-                        <p className="text-gray-500">Video Institucional "Quiénes Somos" (Próximamente)</p>
+                        <p className="text-gray-500">Video Institucional &quot;Quiénes Somos&quot; (Próximamente)</p>
                     </div>
                 </div>
             </section>

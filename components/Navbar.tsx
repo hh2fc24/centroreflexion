@@ -4,7 +4,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 const navItems = [
     { name: "Inicio", href: "/" },
@@ -20,9 +19,9 @@ export function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <nav className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white shadow-sm transition-all duration-300">
+        <nav className="sticky top-0 z-50 w-full border-b border-border bg-background shadow-sm transition-all duration-300">
             <div className="mx-auto flex h-24 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-                <Link href="/" className="flex items-center gap-3 text-lg font-bold tracking-tight text-gray-900 group">
+                <Link href="/" className="flex items-center gap-3 text-lg font-bold tracking-tight text-foreground group">
                     <div className="relative h-24 w-24 -ml-2">
                         <Image
                             src="/log.png"
@@ -42,7 +41,7 @@ export function Navbar() {
                         <Link
                             key={item.href}
                             href={item.href}
-                            className="relative text-sm font-semibold text-gray-600 transition-all duration-300 hover:scale-105 hover:text-blue-600 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-gradient-to-r after:from-blue-600 after:to-purple-600 after:transition-all after:duration-300 hover:after:w-full"
+                            className="relative text-sm font-semibold text-muted-foreground transition-all duration-300 hover:scale-105 hover:text-primary after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-gradient-to-r after:from-primary after:to-secondary after:transition-all after:duration-300 hover:after:w-full"
                         >
                             {item.name}
                         </Link>
@@ -51,7 +50,7 @@ export function Navbar() {
 
                 {/* Mobile Menu Button */}
                 <button
-                    className="md:hidden text-gray-600 hover:text-gray-900"
+                    className="md:hidden text-muted-foreground hover:text-foreground"
                     onClick={() => setIsOpen(!isOpen)}
                 >
                     {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -60,14 +59,14 @@ export function Navbar() {
 
             {/* Mobile Menu */}
             {isOpen && (
-                <div className="md:hidden border-t border-gray-100 bg-white">
+                <div className="md:hidden border-t border-border bg-background">
                     <div className="space-y-1 px-4 py-4">
                         {navItems.map((item) => (
                             <Link
                                 key={item.href}
                                 href={item.href}
                                 onClick={() => setIsOpen(false)}
-                                className="block py-2 text-base font-medium text-gray-600 hover:bg-gray-50 hover:text-blue-600"
+                                className="block py-2 text-base font-medium text-muted-foreground hover:bg-black/5 hover:text-primary"
                             >
                                 {item.name}
                             </Link>

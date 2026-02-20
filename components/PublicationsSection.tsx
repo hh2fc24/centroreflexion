@@ -3,8 +3,8 @@
 import { MotionDiv } from "@/components/ui/Motion";
 import { ArrowRight, BookOpen } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 import { VideoBookPremiere } from "./VideoBookPremiere";
+import { EditableText } from "@/components/editor/EditableText";
 
 export function PublicationsSection() {
     return (
@@ -24,13 +24,13 @@ export function PublicationsSection() {
                 >
                     <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-bold border border-blue-200 mb-4">
                         <BookOpen className="w-3 h-3 mr-2" />
-                        PUBLICACIONES
+                        <EditableText path="homePublications.eyebrow" ariaLabel="Publicaciones etiqueta" />
                     </div>
                     <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl font-serif">
-                        Libros Publicados
+                        <EditableText path="homePublications.title" ariaLabel="Publicaciones título" />
                     </h2>
                     <p className="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
-                        Investigaciones que profundizan en la infancia, la biopolítica y la salud mental desde una perspectiva crítica.
+                        <EditableText path="homePublications.subtitle" ariaLabel="Publicaciones subtítulo" multiline />
                     </p>
                 </MotionDiv>
 
@@ -64,10 +64,10 @@ export function PublicationsSection() {
                             <div className="prose text-gray-600 mb-8 leading-relaxed">
                                 <p>
                                     Un examen genealógico de la desprotección infantil en Chile desde el siglo XIX.
-                                    A partir del concepto de <strong>biopolítica de Michel Foucault</strong>, el autor analiza cómo la institucionalización infantil ha operado como estrategia de gobierno y control sobre el "bajo pueblo".
+                                    A partir del concepto de <strong>biopolítica de Michel Foucault</strong>, el autor analiza cómo la institucionalización infantil ha operado como estrategia de gobierno y control sobre el &quot;bajo pueblo&quot;.
                                 </p>
                                 <p className="mt-2 text-sm italic border-l-4 border-gray-200 pl-4">
-                                    "No habría biopolítica sin estricta relación con el poder disciplinario, pues en el poder que se ejerce sobre la vida del niño, su vida está inexorablemente ligada a la muerte."
+                                    &quot;No habría biopolítica sin estricta relación con el poder disciplinario, pues en el poder que se ejerce sobre la vida del niño, su vida está inexorablemente ligada a la muerte.&quot;
                                 </p>
                             </div>
                             <a

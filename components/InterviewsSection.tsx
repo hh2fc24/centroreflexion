@@ -1,8 +1,9 @@
 "use client";
 
 import { MotionDiv } from "@/components/ui/Motion";
-import { Play, Mic2, Radio } from "lucide-react";
+import { Mic2, Radio } from "lucide-react";
 import { useRef, useState } from "react";
+import { EditableText } from "@/components/editor/EditableText";
 
 export function InterviewsSection() {
     const divRef = useRef<HTMLDivElement>(null);
@@ -36,13 +37,13 @@ export function InterviewsSection() {
                     <div className="max-w-3xl">
                         <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-900/30 text-blue-400 text-xs font-bold border border-blue-800 mb-6">
                             <Mic2 className="w-3 h-3 mr-2" />
-                            MULTIMEDIA
+                            <EditableText path="homeInterviews.eyebrow" ariaLabel="Multimedia etiqueta" />
                         </div>
                         <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl font-serif">
-                            Juan Carlos Rauld y "Tecnócratas de la Infancia"
+                            <EditableText path="homeInterviews.title" ariaLabel="Multimedia título" />
                         </h2>
                         <p className="mt-4 text-lg text-gray-400 italic">
-                            "La niñez pobre siempre ha sido, tanto por izquierdas como por derechas, administrada bajo la lógica del encierro"
+                            <EditableText path="homeInterviews.subtitle" ariaLabel="Multimedia subtítulo" multiline />
                         </p>
                     </div>
                 </MotionDiv>
@@ -88,7 +89,7 @@ export function InterviewsSection() {
                                         Entrevista en Radio Usach
                                     </h3>
                                     <p className="text-sm text-gray-400 leading-relaxed">
-                                        En <span className="text-blue-400 font-semibold">Extensión Línea Uno</span>, conversamos sobre el libro "Tecnócratas de la Infancia: Desprotección y Neoliberalismo en Chile". Una investigación crítica sobre el sistema de protección estatal.
+                                        En <span className="text-blue-400 font-semibold">Extensión Línea Uno</span>, conversamos sobre el libro &quot;Tecnócratas de la Infancia: Desprotección y Neoliberalismo en Chile&quot;. Una investigación crítica sobre el sistema de protección estatal.
                                     </p>
                                 </div>
                             </div>

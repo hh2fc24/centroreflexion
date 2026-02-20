@@ -130,22 +130,6 @@ export function VirtualAssistant() {
         }
     ];
 
-    // Initialize/Reset chat
-    useEffect(() => {
-        if (isOpen && messages.length === 1) {
-            setMessages(prev => {
-                // Prevent duplicating options if they already exist
-                if (prev[0].options) return prev;
-                return [
-                    {
-                        ...prev[0],
-                        options: mainMenuOptions
-                    }
-                ];
-            });
-        }
-    }, [isOpen]);
-
     return (
         <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end">
             <AnimatePresence>
@@ -241,12 +225,25 @@ export function VirtualAssistant() {
                 )}
             </AnimatePresence>
 
-            <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setIsOpen(!isOpen)}
-                className="group relative flex items-center justify-center w-14 h-14 rounded-full bg-gray-900 border border-gray-700 text-white shadow-lg shadow-blue-900/20 hover:shadow-blue-900/40 transition-all overflow-hidden"
-            >
+	            <motion.button
+	                whileHover={{ scale: 1.05 }}
+	                whileTap={{ scale: 0.95 }}
+	                onClick={() => {
+                        setIsOpen((open) => {
+                            const next = !open;
+                            if (next) {
+                                setMessages((prev) => {
+                                    if (prev.length === 1 && !prev[0]?.options) {
+                                        return [{ ...prev[0]!, options: mainMenuOptions }];
+                                    }
+                                    return prev;
+                                });
+                            }
+                            return next;
+                        });
+                    }}
+	                className="group relative flex items-center justify-center w-14 h-14 rounded-full bg-gray-900 border border-gray-700 text-white shadow-lg shadow-blue-900/20 hover:shadow-blue-900/40 transition-all overflow-hidden"
+	            >
                 <div className="absolute inset-0 bg-gradient-to-tr from-blue-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="relative z-10">
                     {isOpen ? <X className="w-6 h-6" /> : <MessageCircle className="w-6 h-6" />}
