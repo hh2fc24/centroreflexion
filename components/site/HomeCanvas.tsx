@@ -13,11 +13,14 @@ import { EditableAtom } from "@/components/editor/EditableAtom";
 import { useContent, useEditor } from "@/lib/editor/hooks";
 import type { Section } from "@/lib/editor/types";
 import { columns, reviews } from "@/lib/data";
+import { FoundersSection } from "@/components/site/FoundersSection";
 
 function sectionLabel(type: Section["type"]) {
   switch (type) {
     case "hero":
       return "Hero";
+    case "founders":
+      return "Directores";
     case "servicesPreview":
       return "Servicios";
     case "latestArticles":
@@ -57,6 +60,14 @@ export function HomeCanvas() {
           return (
             <SectionChrome key={section.id} section={section} label={label}>
               <Hero />
+            </SectionChrome>
+          );
+        }
+
+        if (section.type === "founders") {
+          return (
+            <SectionChrome key={section.id} section={section} label={label}>
+              <FoundersSection />
             </SectionChrome>
           );
         }
@@ -174,13 +185,12 @@ export function HomeCanvas() {
                             {post.date}
                           </time>
                           <span
-                            className={`relative z-10 rounded-full px-3 py-1.5 font-medium ${
-                              post.category === "Política"
+                            className={`relative z-10 rounded-full px-3 py-1.5 font-medium ${post.category === "Política"
                                 ? "bg-blue-50 text-blue-600"
                                 : post.category === "Literatura"
                                   ? "bg-purple-50 text-purple-600"
                                   : "bg-green-50 text-green-600"
-                            }`}
+                              }`}
                           >
                             {post.category}
                           </span>

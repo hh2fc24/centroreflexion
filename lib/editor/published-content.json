@@ -2,17 +2,48 @@
   "pages": {
     "home": {
       "sections": [
-        { "id": "sec-hero", "type": "hero", "visible": true, "data": {} },
+        {
+          "id": "sec-hero",
+          "type": "hero",
+          "visible": true,
+          "data": {}
+        },
+        {
+          "id": "sec-founders",
+          "type": "founders",
+          "visible": true,
+          "data": {}
+        },
         {
           "id": "sec-services-preview",
           "type": "servicesPreview",
           "visible": true,
           "data": {}
         },
-        { "id": "sec-latest", "type": "latestArticles", "visible": true, "data": {} },
-        { "id": "sec-publications", "type": "publications", "visible": true, "data": {} },
-        { "id": "sec-interviews", "type": "interviews", "visible": true, "data": {} },
-        { "id": "sec-testimonials", "type": "testimonials", "visible": true, "data": {} }
+        {
+          "id": "sec-latest",
+          "type": "latestArticles",
+          "visible": true,
+          "data": {}
+        },
+        {
+          "id": "sec-publications",
+          "type": "publications",
+          "visible": false,
+          "data": {}
+        },
+        {
+          "id": "sec-interviews",
+          "type": "interviews",
+          "visible": true,
+          "data": {}
+        },
+        {
+          "id": "sec-testimonials",
+          "type": "testimonials",
+          "visible": true,
+          "data": {}
+        }
       ]
     }
   },
@@ -22,7 +53,7 @@
     "titleBefore": "Pensamiento autónomo para",
     "titleHighlight": "soluciones estratégicas",
     "titleAfter": "con foco en la evidencia científica.",
-    "subtitle": "Producción editorial, atención clínica, consultoría estratégica en salud mental, educación y políticas públicas de la infancia.",
+    "subtitle": "Articulando el análisis crítico y la política pública con la intervención clínica territorial en salud mental e infancia.",
     "primaryCtaLabel": "Conocer Servicios",
     "primaryCtaHref": "/servicios",
     "secondaryCtaLabel": "Pensamiento Crítico",
@@ -56,7 +87,11 @@
       }
     ]
   },
-  "homeLatest": { "title": "Lo más reciente", "linkLabel": "Ver todo", "linkHref": "/pensamiento-critico" },
+  "homeLatest": {
+    "title": "Lo más reciente",
+    "linkLabel": "Ver todo",
+    "linkHref": "/pensamiento-critico"
+  },
   "homePublications": {
     "eyebrow": "PUBLICACIONES",
     "title": "Libros Publicados",
@@ -70,6 +105,27 @@
   "homeTestimonials": {
     "title": "Opiniones",
     "subtitle": "Lo que cambia cuando el acompañamiento es claro y humano."
+  },
+  "homeFounders": {
+    "title": "Directores y Fundadores",
+    "profiles": [
+      {
+        "id": "jc",
+        "name": "Juan Carlos Rauld",
+        "role": "Director Editorial & Consultor Estratégico",
+        "description": "Articulando el análisis crítico y el derecho con la arquitectura programática en programas de infancia y salud mental.",
+        "imageSrc": "/images/juan_carlos.png",
+        "href": "/conocenos"
+      },
+      {
+        "id": "rocio",
+        "name": "Rocío Solar",
+        "role": "Co-fundadora & Terapeuta Ocupacional",
+        "description": "Líder clínica enfocada en la intervención psicoterapéutica y ocupacional en salud mental infanto-juvenil.",
+        "imageSrc": "/images/rocio_solar.png",
+        "href": "/conocenos"
+      }
+    ]
   },
   "testimonials": [
     {

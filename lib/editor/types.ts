@@ -6,7 +6,8 @@ export type SectionType =
   | "latestArticles"
   | "publications"
   | "interviews"
-  | "testimonials";
+  | "testimonials"
+  | "founders";
 
 export type FontChoice = "inter" | "geist" | "merriweather";
 
@@ -113,6 +114,20 @@ export interface HomePageContent {
   sections: Section[];
 }
 
+export interface FounderProfile {
+  id: string;
+  name: string;
+  role: string;
+  description: string;
+  imageSrc: string;
+  href: string;
+}
+
+export interface FoundersContent {
+  title: string;
+  profiles: FounderProfile[];
+}
+
 export interface SiteContent {
   pages: {
     home: HomePageContent;
@@ -123,6 +138,7 @@ export interface SiteContent {
   homePublications: PublicationsContent;
   homeInterviews: InterviewsContent;
   homeTestimonials: TestimonialsSectionContent;
+  homeFounders: FoundersContent;
   testimonials: Testimonial[];
   footer: FooterContent;
 }

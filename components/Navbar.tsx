@@ -9,6 +9,7 @@ const navItems = [
     { name: "Inicio", href: "/" },
     { name: "Conócenos", href: "/conocenos" },
     { name: "Pensamiento Crítico", href: "/pensamiento-critico" },
+    { name: "Publicaciones", href: "/publicaciones" },
     { name: "Clínica", href: "/servicios#clinica" },
     { name: "Consultoría", href: "/servicios#consultoria" },
     { name: "Formación", href: "/servicios#formacion" },
