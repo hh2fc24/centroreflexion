@@ -1,0 +1,15 @@
+{
+  "mode": "light",
+  "primary": "#2563eb",
+  "secondary": "#a855f7",
+  "background": "#ffffff",
+  "surface": "#ffffff",
+  "foreground": "#0f172a",
+  "mutedForeground": "#475569",
+  "border": "rgba(148,163,184,0.25)",
+  "font": "inter",
+  "textScale": 1,
+  "radius": 16,
+  "shadow": 0.6,
+  "textStyles": {}
+}

@@ -1,7 +1,15 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { DEFAULT_CONTENT, DEFAULT_THEME } from "@/lib/editor/defaults";
-import type { PageId, Section, SectionType, SiteContent, ThemeSettings, Testimonial } from "@/lib/editor/types";
+import type {
+  PageId,
+  Section,
+  SectionType,
+  SiteContent,
+  TextStyleOverride,
+  ThemeSettings,
+  Testimonial,
+} from "@/lib/editor/types";
 import { memoryStorage } from "@/lib/editor/storage";
 import { getByPath, setByPath } from "@/lib/editor/path";
 
@@ -11,6 +19,8 @@ type ThemeStore = {
   theme: ThemeSettings;
   lastChangedAt: number;
   setTheme: (partial: Partial<ThemeSettings>) => void;
+  setTextStyle: (path: string, partial: Partial<TextStyleOverride>) => void;
+  resetTextStyle: (path: string) => void;
   resetTheme: () => void;
 };
 
@@ -24,14 +34,42 @@ export const useThemeStore = create<ThemeStore>()(
           theme: { ...state.theme, ...partial },
           lastChangedAt: Date.now(),
         })),
+      setTextStyle: (path, partial) =>
+        set((state) => ({
+          theme: {
+            ...state.theme,
+            textStyles: {
+              ...state.theme.textStyles,
+              [path]: { ...(state.theme.textStyles[path] ?? {}), ...partial },
+            },
+          },
+          lastChangedAt: Date.now(),
+        })),
+      resetTextStyle: (path) =>
+        set((state) => {
+          const next = { ...state.theme.textStyles };
+          delete next[path];
+          return { theme: { ...state.theme, textStyles: next }, lastChangedAt: Date.now() };
+        }),
       resetTheme: () => set({ theme: DEFAULT_THEME, lastChangedAt: Date.now() }),
     }),
     {
       name: "crc.theme.v1",
-      version: 1,
+      version: 2,
       storage,
       partialize: (state) => ({ theme: state.theme }),
       skipHydration: true,
+      migrate: (persisted) => {
+        const p = persisted as unknown as { theme?: Partial<ThemeSettings> };
+        const incoming = (p.theme ?? {}) as Partial<ThemeSettings>;
+        const next: ThemeSettings = {
+          ...DEFAULT_THEME,
+          ...incoming,
+          textStyles: { ...(incoming.textStyles ?? {}) },
+        };
+        if (!next.textStyles || typeof next.textStyles !== "object") next.textStyles = {};
+        return { theme: next };
+      },
     }
   )
 );
@@ -40,18 +78,22 @@ type EditorStore = {
   adminEnabled: boolean;
   selectedPage: PageId;
   selectedSectionId: string | null;
+  selectedTextPath: string | null;
   setAdminEnabled: (enabled: boolean) => void;
   selectPage: (page: PageId) => void;
   selectSection: (sectionId: string | null) => void;
+  selectText: (path: string | null) => void;
 };
 
 export const useEditorStore = create<EditorStore>()((set) => ({
   adminEnabled: false,
   selectedPage: "home",
   selectedSectionId: null,
+  selectedTextPath: null,
   setAdminEnabled: (enabled) => set({ adminEnabled: enabled }),
-  selectPage: (page) => set({ selectedPage: page, selectedSectionId: null }),
+  selectPage: (page) => set({ selectedPage: page, selectedSectionId: null, selectedTextPath: null }),
   selectSection: (sectionId) => set({ selectedSectionId: sectionId }),
+  selectText: (path) => set({ selectedTextPath: path }),
 }));
 
 type ContentStore = {
@@ -193,10 +235,51 @@ export const useContentStore = create<ContentStore>()(
     }),
     {
       name: "crc.content.v1",
-      version: 1,
+      version: 2,
       storage,
       partialize: (state) => ({ content: state.content }),
       skipHydration: true,
+      migrate: (persisted) => {
+        const p = persisted as unknown as { content?: Partial<SiteContent> };
+        const incoming = (p.content ?? {}) as Partial<SiteContent>;
+
+        const merged: SiteContent = {
+          ...DEFAULT_CONTENT,
+          ...incoming,
+          pages: {
+            ...DEFAULT_CONTENT.pages,
+            ...(incoming.pages ?? {}),
+            home: {
+              ...DEFAULT_CONTENT.pages.home,
+              ...(incoming.pages?.home ?? {}),
+              sections: [],
+            },
+          },
+          hero: { ...DEFAULT_CONTENT.hero, ...(incoming.hero ?? {}) },
+          homeServices: { ...DEFAULT_CONTENT.homeServices, ...(incoming.homeServices ?? {}) },
+          homeLatest: { ...DEFAULT_CONTENT.homeLatest, ...(incoming.homeLatest ?? {}) },
+          homePublications: { ...DEFAULT_CONTENT.homePublications, ...(incoming.homePublications ?? {}) },
+          homeInterviews: { ...DEFAULT_CONTENT.homeInterviews, ...(incoming.homeInterviews ?? {}) },
+          homeTestimonials: { ...DEFAULT_CONTENT.homeTestimonials, ...(incoming.homeTestimonials ?? {}) },
+          footer: { ...DEFAULT_CONTENT.footer, ...(incoming.footer ?? {}) },
+          testimonials: Array.isArray(incoming.testimonials) ? incoming.testimonials : DEFAULT_CONTENT.testimonials,
+        };
+
+        const incomingSections = Array.isArray(incoming.pages?.home?.sections)
+          ? (incoming.pages?.home?.sections as Section[])
+          : DEFAULT_CONTENT.pages.home.sections;
+
+        const types = new Set(incomingSections.map((s) => s.type));
+        const ensured = [...incomingSections];
+        for (const s of DEFAULT_CONTENT.pages.home.sections) {
+          if (!types.has(s.type)) ensured.push(s);
+        }
+        const hero = ensured.find((s) => s.type === "hero");
+        const rest = ensured.filter((s) => s.type !== "hero");
+        merged.pages.home.sections = hero ? [hero, ...rest] : ensured;
+
+        return { content: merged };
+      },
     }
   )
 );

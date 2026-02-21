@@ -12,6 +12,13 @@ export type FontChoice = "inter" | "geist" | "merriweather";
 
 export type ThemeMode = "light" | "dark";
 
+export interface TextStyleOverride {
+  color?: string;
+  font?: FontChoice;
+  fontSizePx?: number;
+  fontWeight?: number;
+}
+
 export interface ThemeSettings {
   mode: ThemeMode;
   primary: string;
@@ -25,6 +32,7 @@ export interface ThemeSettings {
   textScale: number; // 0.9..1.15
   radius: number; // px
   shadow: number; // 0..1
+  textStyles: Record<string, TextStyleOverride>;
 }
 
 export interface HeroContent {

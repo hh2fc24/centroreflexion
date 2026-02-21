@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { EditableText } from "@/components/editor/EditableText";
 import { EditorLink } from "@/components/editor/EditorLink";
+import { useContent } from "@/lib/editor/hooks";
 
 const HERO_IMAGES = [
     {
@@ -27,6 +28,9 @@ const HERO_IMAGES = [
 
 export function Hero() {
     const [currentImage, setCurrentImage] = useState(0);
+    const { get } = useContent();
+    const primaryHref = get<string>("hero.primaryCtaHref") ?? "/servicios";
+    const secondaryHref = get<string>("hero.secondaryCtaHref") ?? "/pensamiento-critico";
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -93,13 +97,13 @@ export function Hero() {
                         transition={{ duration: 0.5, delay: 0.2 }}
                         className="mt-10 flex flex-col sm:flex-row items-center gap-4"
                     >
-                        <EditorLink href={"/servicios"}>
+                        <EditorLink href={primaryHref}>
                             <Button size="lg" className="bg-primary hover:bg-primary/90 text-white px-8 py-6 text-lg rounded-full shadow-lg transition-all border border-white/10">
                                 <EditableText path="hero.primaryCtaLabel" ariaLabel="Hero CTA principal" />
                                 <ArrowRight className="ml-2 h-5 w-5" />
                             </Button>
                         </EditorLink>
-                        <EditorLink href={"/pensamiento-critico"}>
+                        <EditorLink href={secondaryHref}>
                             <Button variant="outline" size="lg" className="border-slate-500 text-slate-200 hover:bg-white/10 hover:text-white px-8 py-6 text-lg rounded-full backdrop-blur-sm">
                                 <EditableText path="hero.secondaryCtaLabel" ariaLabel="Hero CTA secundario" />
                             </Button>

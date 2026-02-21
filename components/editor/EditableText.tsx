@@ -2,7 +2,7 @@
 
 import { useCallback, useMemo, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
-import { useContent, useEditor } from "@/lib/editor/hooks";
+import { useContent, useEditor, useTheme } from "@/lib/editor/hooks";
 
 type EditableTextProps = {
   path: string;
@@ -19,8 +19,9 @@ export function EditableText({
   placeholder,
   ariaLabel,
 }: EditableTextProps) {
-  const { adminEnabled } = useEditor();
+  const { adminEnabled, selectText } = useEditor();
   const { get, set } = useContent();
+  const { theme } = useTheme();
   const value = (get<string>(path) ?? "") as string;
 
   const elRef = useRef<HTMLElement | null>(null);
@@ -34,6 +35,7 @@ export function EditableText({
 
   const onActivate = useCallback(() => {
     if (!adminEnabled) return;
+    selectText(path);
     setDraft(value);
     setIsActive(true);
     queueMicrotask(() => {
@@ -47,7 +49,9 @@ export function EditableText({
       selection?.removeAllRanges();
       selection?.addRange(range);
     });
-  }, [adminEnabled, value]);
+  }, [adminEnabled, path, selectText, value]);
+
+  const override = theme.textStyles?.[path] ?? {};
 
   const displayText = useMemo(() => {
     if (!adminEnabled) return value;
@@ -102,6 +106,19 @@ export function EditableText({
         multiline && "whitespace-pre-wrap",
         className
       )}
+      style={{
+        color: override.color,
+        fontFamily:
+          override.font === "geist"
+            ? "var(--font-geist)"
+            : override.font === "merriweather"
+              ? "var(--font-merriweather)"
+              : override.font === "inter"
+                ? "var(--font-inter)"
+                : undefined,
+        fontSize: override.fontSizePx ? `${override.fontSizePx}px` : undefined,
+        fontWeight: override.fontWeight,
+      }}
       data-crc-editable={adminEnabled ? "true" : undefined}
       data-crc-path={adminEnabled ? path : undefined}
     >

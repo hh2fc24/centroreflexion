@@ -2,6 +2,7 @@ import { MotionList, MotionItem } from "@/components/ui/Motion";
 import Image from "next/image";
 import Link from "next/link";
 import { columns, reviews } from "@/lib/data";
+import { parseDisplayDate } from "@/lib/articles/date";
 
 export const metadata = {
     title: "Pensamiento Crítico",
@@ -14,8 +15,10 @@ export default function PensamientoCritico() {
         ...columns.map(c => ({ ...c, basePath: "/columnas" })),
         ...reviews.map(r => ({ ...r, basePath: "/critica" })),
     ].sort((a, b) => {
-        // Simple date comparison (articles use DD Mon YYYY format)
-        return new Date(b.date).getTime() - new Date(a.date).getTime();
+        const tb = parseDisplayDate(b.date);
+        const ta = parseDisplayDate(a.date);
+        if (Number.isFinite(tb) && Number.isFinite(ta)) return tb - ta;
+        return b.date.localeCompare(a.date);
     });
 
     // Get unique categories
