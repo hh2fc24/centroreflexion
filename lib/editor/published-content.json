@@ -27,12 +27,6 @@
           "data": {}
         },
         {
-          "id": "sec-publications",
-          "type": "publications",
-          "visible": false,
-          "data": {}
-        },
-        {
           "id": "sec-interviews",
           "type": "interviews",
           "visible": true,

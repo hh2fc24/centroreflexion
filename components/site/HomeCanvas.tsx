@@ -186,10 +186,10 @@ export function HomeCanvas() {
                           </time>
                           <span
                             className={`relative z-10 rounded-full px-3 py-1.5 font-medium ${post.category === "Política"
-                                ? "bg-blue-50 text-blue-600"
-                                : post.category === "Literatura"
-                                  ? "bg-purple-50 text-purple-600"
-                                  : "bg-green-50 text-green-600"
+                              ? "bg-blue-50 text-blue-600"
+                              : post.category === "Literatura"
+                                ? "bg-purple-50 text-purple-600"
+                                : "bg-green-50 text-green-600"
                               }`}
                           >
                             {post.category}
@@ -213,13 +213,6 @@ export function HomeCanvas() {
           );
         }
 
-        if (section.type === "publications") {
-          return (
-            <SectionChrome key={section.id} section={section} label={label}>
-              <PublicationsSection />
-            </SectionChrome>
-          );
-        }
 
         if (section.type === "interviews") {
           return (
