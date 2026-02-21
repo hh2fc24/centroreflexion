@@ -139,6 +139,108 @@
       "name": "Coordinación PIE",
       "category": "Formación",
       "text": "Una formación práctica y profunda, con ejemplos reales. Se nota la experiencia en terreno."
+    },
+    {
+      "id": "t-4",
+      "name": "Felipe S.",
+      "category": "Psicoterapia",
+      "text": "El espacio terapéutico me brindó la seguridad necesaria para enfrentar mis crisis. Un enfoque muy profesional."
+    },
+    {
+      "id": "t-5",
+      "name": "ONG Infancia",
+      "category": "Asesoría Estratégica",
+      "text": "El análisis crítico de los modelos de intervención nos permitió formular un proyecto mucho más coherente."
+    },
+    {
+      "id": "t-6",
+      "name": "Docente Universitario",
+      "category": "Pensamiento Crítico",
+      "text": "Los textos y el seminario nos abrieron una perspectiva totalmente nueva sobre la biopolítica en nuestra región."
+    },
+    {
+      "id": "t-7",
+      "name": "Camila V.",
+      "category": "Terapia Ocupacional",
+      "text": "Rocío tiene un tacto único con los jóvenes. Los avances en mi hija han sido notables."
+    },
+    {
+      "id": "t-8",
+      "name": "Centro de Padres",
+      "category": "Charla Formativa",
+      "text": "La charla sobre convivencia digital fue reveladora y nos dio herramientas concretas para el día a día."
+    },
+    {
+      "id": "t-9",
+      "name": "Fundación Redes",
+      "category": "Consultoría",
+      "text": "Logramos sistematizar nuestra intervención comunitaria gracias a la estructura propuesta por el equipo de CRC."
+    },
+    {
+      "id": "t-10",
+      "name": "Andrea M.",
+      "category": "Atención clínica",
+      "text": "Un acompañamiento genuino que me ayudó a replantearme varias trabas institucionales en mi vida."
+    },
+    {
+      "id": "t-11",
+      "name": "Director Hospital",
+      "category": "Capacitación",
+      "text": "Excelente taller de herramientas reflexivas para equipos de salud mental. Nos cambió la forma de abordar las reuniones clínicas."
+    },
+    {
+      "id": "t-12",
+      "name": "Javier L.",
+      "category": "Orientación Clínica",
+      "text": "La profundidad de las sesiones me ayudó a comprender mis patrones de otra manera."
+    },
+    {
+      "id": "t-13",
+      "name": "Programa OPD",
+      "category": "Supervisión",
+      "text": "El acompañamiento analítico para los casos de alta complejidad ha sido fundamental para nuestro equipo técnico."
+    },
+    {
+      "id": "t-14",
+      "name": "Revista Jurídica",
+      "category": "Lector",
+      "text": "Las columnas de Juan Carlos son un faro de lucidez frente al punitivismo actual. Un espacio necesario."
+    },
+    {
+      "id": "t-15",
+      "name": "Estudiante Psicología",
+      "category": "Seminario",
+      "text": "De gran nivel intelectual y ético. Me entregaron bases sólidas para entender las políticas de la infancia."
+    },
+    {
+      "id": "t-16",
+      "name": "Sofía T.",
+      "category": "Terapia Clínica",
+      "text": "Agradezco la seriedad y el respeto en el trato. Por primera vez siento que mi proceso avanza."
+    },
+    {
+      "id": "t-17",
+      "name": "Corp. Municipal",
+      "category": "Consultoría",
+      "text": "Con la consultoría logramos detectar los cuellos de botella en nuestra red de protección."
+    },
+    {
+      "id": "t-18",
+      "name": "Pablo E.",
+      "category": "Asesoría Profesional",
+      "text": "Una mirada crítica y práctica que sirve para desentrampar lógicas muy viciadas del sistema."
+    },
+    {
+      "id": "t-19",
+      "name": "Servicio Mejor Niñez",
+      "category": "Formación",
+      "text": "Los espacios de reflexión y formación han sido un bálsamo para continuar nuestro trabajo interventivo."
+    },
+    {
+      "id": "t-20",
+      "name": "Valentina R.",
+      "category": "Terapia Ocupacional",
+      "text": "Destaco el abordaje situado y humano. El cuidado por los detalles marca la diferencia en las sesiones."
     }
   ],
   "footer": {

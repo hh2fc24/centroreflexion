@@ -223,81 +223,110 @@ export function HomeCanvas() {
         }
 
         if (section.type === "testimonials") {
+          const half = Math.ceil(content.testimonials.length / 2);
+          const row1 = content.testimonials.slice(0, half);
+          const row2 = content.testimonials.slice(half);
+
+          const renderCard = (t: typeof content.testimonials[0], idx: number) => (
+            <div
+              key={`${t.id}-${idx}`}
+              className="group relative h-full overflow-hidden rounded-2xl border border-white/10 bg-black/40 backdrop-blur-md p-6 shadow-2xl hover:bg-black/60 hover:-translate-y-1 transition-all duration-300 w-[350px] shrink-0 flex flex-col justify-between"
+            >
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none bg-gradient-to-br from-white/5 via-transparent to-white/5" />
+
+              <div className="relative flex flex-col h-full">
+                <div className="flex items-start justify-between gap-4 mb-4">
+                  <div>
+                    <div className="text-sm font-bold text-white mb-1">
+                      <EditableAtom
+                        value={t.name}
+                        ariaLabel="Testimonio nombre"
+                        onCommit={(next) => updateTestimonial(t.id, { name: next })}
+                      />
+                    </div>
+                    <div className="inline-flex items-center rounded-full bg-white/10 px-2.5 py-1 text-xs font-medium text-gray-300 border border-white/5">
+                      <EditableAtom
+                        value={t.category}
+                        ariaLabel="Testimonio categoría"
+                        onCommit={(next) => updateTestimonial(t.id, { category: next })}
+                      />
+                    </div>
+                  </div>
+                  {adminEnabled ? (
+                    <button
+                      type="button"
+                      className="opacity-0 group-hover:opacity-100 transition-opacity text-gray-400 hover:text-red-400"
+                      aria-label="Eliminar testimonio"
+                      onClick={() => {
+                        const ok = window.confirm("¿Eliminar este testimonio?");
+                        if (!ok) return;
+                        deleteTestimonial(t.id);
+                      }}
+                    >
+                      ×
+                    </button>
+                  ) : null}
+                </div>
+
+                <div className="text-gray-200 leading-relaxed text-sm flex-grow">
+                  <EditableAtom
+                    value={t.text}
+                    ariaLabel="Testimonio texto"
+                    multiline
+                    onCommit={(next) => updateTestimonial(t.id, { text: next })}
+                  />
+                </div>
+              </div>
+            </div>
+          );
+
           return (
             <SectionChrome key={section.id} section={section} label={label}>
-              <section className="py-24 bg-gray-50 border-t border-gray-100">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                  <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between mb-12">
-                    <div className="max-w-2xl">
-                      <h2 className="text-3xl font-bold tracking-tight text-gray-900 font-serif">
+              <section className="relative py-24 overflow-hidden isolate bg-gray-900 border-t border-gray-800">
+                <div className="absolute inset-0 -z-10">
+                  <Image
+                    src="/images/library_bg.jpg"
+                    alt="Background"
+                    fill
+                    className="object-cover opacity-30 mix-blend-overlay"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-b from-gray-900 via-gray-900/80 to-gray-900" />
+                </div>
+
+                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10 mb-16">
+                  <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between text-center md:text-left">
+                    <div className="max-w-2xl mx-auto md:mx-0">
+                      <h2 className="text-3xl font-bold tracking-tight text-white font-serif">
                         <EditableText path="homeTestimonials.title" ariaLabel="Opiniones título" />
                       </h2>
-                      <p className="mt-3 text-lg text-gray-600">
+                      <p className="mt-4 text-lg text-gray-300">
                         <EditableText path="homeTestimonials.subtitle" ariaLabel="Opiniones subtítulo" multiline />
                       </p>
                     </div>
                     {adminEnabled ? (
-                      <div className="hidden md:flex items-center gap-2 text-sm text-gray-500">
+                      <div className="hidden md:flex items-center gap-2 text-sm text-gray-400">
                         <Star className="h-4 w-4 text-amber-500" />
                         <span>Editable en vivo</span>
                       </div>
                     ) : null}
                   </div>
+                </div>
 
-                  <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-                    {content.testimonials.map((t) => (
-                      <div
-                        key={t.id}
-                        className="group relative overflow-hidden rounded-2xl border border-gray-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow"
-                      >
-                        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none bg-gradient-to-br from-primary/5 via-transparent to-secondary/5" />
-
-                        <div className="relative">
-                          <div className="flex items-start justify-between gap-4">
-                            <div>
-                              <div className="text-sm font-semibold text-gray-900">
-                                <EditableAtom
-                                  value={t.name}
-                                  ariaLabel="Testimonio nombre"
-                                  onCommit={(next) => updateTestimonial(t.id, { name: next })}
-                                />
-                              </div>
-                              <div className="mt-1 inline-flex items-center rounded-full bg-gray-50 px-2.5 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-200">
-                                <EditableAtom
-                                  value={t.category}
-                                  ariaLabel="Testimonio categoría"
-                                  onCommit={(next) => updateTestimonial(t.id, { category: next })}
-                                />
-                              </div>
-                            </div>
-                            {adminEnabled ? (
-                              <button
-                                type="button"
-                                className="opacity-0 group-hover:opacity-100 transition-opacity text-gray-400 hover:text-red-600"
-                                aria-label="Eliminar testimonio"
-                                onClick={() => {
-                                  const ok = window.confirm("¿Eliminar este testimonio?");
-                                  if (!ok) return;
-                                  deleteTestimonial(t.id);
-                                }}
-                              >
-                                ×
-                              </button>
-                            ) : null}
-                          </div>
-
-                          <div className="mt-4 text-gray-700 leading-relaxed text-sm">
-                            <EditableAtom
-                              value={t.text}
-                              ariaLabel="Testimonio texto"
-                              multiline
-                              onCommit={(next) => updateTestimonial(t.id, { text: next })}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    ))}
+                {/* Marquee Container */}
+                <div className="relative flex flex-col gap-6 overflow-hidden z-10 py-4">
+                  {/* Row 1 */}
+                  <div className="flex w-max animate-marquee pause-on-hover gap-6 px-4">
+                    {[...row1, ...row1].map((t, i) => renderCard(t, i))}
                   </div>
+
+                  {/* Row 2 */}
+                  <div className="flex w-max animate-marquee-reverse pause-on-hover gap-6 px-4">
+                    {[...row2, ...row2].map((t, i) => renderCard(t, i))}
+                  </div>
+
+                  {/* Gradient masks for smooth fade out at edges */}
+                  <div className="pointer-events-none absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-gray-900 to-transparent" />
+                  <div className="pointer-events-none absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-gray-900 to-transparent" />
                 </div>
               </section>
             </SectionChrome>
