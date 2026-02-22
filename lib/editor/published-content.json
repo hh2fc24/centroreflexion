@@ -249,8 +249,53 @@
     "description": "Plataforma de pensamiento crítico, servicios clínicos y consultoría estratégica. Articulando academia, intervención y políticas públicas.",
     "instagramHref": "https://www.instagram.com/centrodereflexionescriticas/",
     "linkedinHref": "#",
+    "whatsappHref": "https://wa.me/56949186447?text=Hola,%20quisiera%20m%C3%A1s%20informaci%C3%B3n%20sobre%20la%20consultor%C3%ADa%20estrat%C3%A9gica.",
     "contactEmail": "centrodereflexionescriticas@gmail.com",
     "contactLocation": "Santiago, Chile",
-    "copyrightName": "Centro de Reflexiones Críticas"
-  }
+    "copyrightName": "Centro de Reflexiones Críticas",
+    "columns": [
+      {
+        "id": "col-explorar",
+        "title": "Explorar",
+        "visible": true,
+        "links": [
+          { "id": "lnk-pc", "label": "Pensamiento Crítico", "href": "/pensamiento-critico", "visible": true },
+          { "id": "lnk-consultoria", "label": "Consultoría Estratégica", "href": "/servicios#consultoria", "visible": true },
+          { "id": "lnk-clinica", "label": "Atención Clínica", "href": "/servicios#clinica", "visible": true },
+          { "id": "lnk-formacion", "label": "Formación", "href": "/servicios#formacion", "visible": true }
+        ]
+      },
+      {
+        "id": "col-comunidad",
+        "title": "Comunidad",
+        "visible": true,
+        "links": [
+          { "id": "lnk-conocenos", "label": "Quiénes Somos", "href": "/conocenos", "visible": true },
+          { "id": "lnk-envia", "label": "Envía tu Texto", "href": "/envia-tu-texto", "visible": true },
+          { "id": "lnk-contacto", "label": "Contacto", "href": "/contacto", "visible": true }
+        ]
+      }
+    ]
+  },
+  "navigation": {
+    "items": [
+      { "id": "nav-home", "label": "Inicio", "href": "/", "visible": true, "children": [] },
+      { "id": "nav-conocenos", "label": "Conócenos", "href": "/conocenos", "visible": true, "children": [] },
+      { "id": "nav-pc", "label": "Pensamiento Crítico", "href": "/pensamiento-critico", "visible": true, "children": [] },
+      { "id": "nav-publicaciones", "label": "Publicaciones", "href": "/publicaciones", "visible": true, "children": [] },
+      { "id": "nav-servicios", "label": "Servicios", "href": "/servicios", "visible": true, "children": [
+        { "id": "nav-clinica", "label": "Clínica", "href": "/servicios#clinica", "visible": true, "children": [] },
+        { "id": "nav-consultoria", "label": "Consultoría", "href": "/servicios#consultoria", "visible": true, "children": [] },
+        { "id": "nav-formacion", "label": "Formación", "href": "/servicios#formacion", "visible": true, "children": [] }
+      ] },
+      { "id": "nav-contacto", "label": "Contacto", "href": "/contacto", "visible": true, "children": [] }
+    ]
+  },
+  "integrations": {
+    "googleAnalyticsId": "",
+    "googleTagId": "",
+    "metaPixelId": "",
+    "calLink": ""
+  },
+  "redirects": []
 }

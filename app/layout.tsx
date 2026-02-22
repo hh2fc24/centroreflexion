@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
+import type { CSSProperties } from "react";
 import { Geist, Inter, Merriweather } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { VirtualAssistant } from "@/components/VirtualAssistant";
-import Script from "next/script";
 import { EditorProviders } from "@/components/editor/EditorProviders";
+import { IntegrationsScripts } from "@/components/editor/IntegrationsScripts";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -60,8 +61,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const gaId = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID;
-
   return (
     <html lang="es">
       <body
@@ -69,28 +68,13 @@ export default function RootLayout({
       >
         <EditorProviders>
           <Navbar />
-          <main className="flex-grow">{children}</main>
+          <main className="flex-grow" style={{ containerType: "inline-size" } as unknown as CSSProperties}>
+            {children}
+          </main>
           <Footer />
           <VirtualAssistant />
+          <IntegrationsScripts />
         </EditorProviders>
-
-        {/* Google Analytics */}
-        {gaId && (
-          <>
-            <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
-              strategy="afterInteractive"
-            />
-            <Script id="google-analytics" strategy="afterInteractive">
-              {`
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', '${gaId}');
-              `}
-            </Script>
-          </>
-        )}
 
         {/* Global JSON-LD */}
         <script

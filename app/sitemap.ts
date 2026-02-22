@@ -1,73 +1,35 @@
-import { MetadataRoute } from "next";
-import { columns, reviews } from "@/lib/data";
+import type { MetadataRoute } from "next";
+import pagesJson from "@/lib/editor/published-pages.json";
+import articlesJson from "@/lib/articles.json";
+import type { SitePage } from "@/lib/editor/types";
+import type { Article } from "@/lib/data";
+
+type PublishedPages = { pages: SitePage[] };
+type ArticlesJson = { columns: Article[]; reviews: Article[] };
 
 export default function sitemap(): MetadataRoute.Sitemap {
-    const baseUrl = "https://centroreflexionescriticas.cl";
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://centroreflexionescriticas.cl";
+  const pages = (pagesJson as unknown as PublishedPages).pages ?? [];
+  const articles = articlesJson as unknown as ArticlesJson;
 
-    const columnUrls = columns.map((post) => ({
-        url: `${baseUrl}/columnas/${post.id}`,
-        lastModified: new Date(),
-        changeFrequency: "monthly" as const,
-        priority: 0.8,
-    }));
+  const out: MetadataRoute.Sitemap = [];
 
-    const reviewUrls = reviews.map((post) => ({
-        url: `${baseUrl}/critica/${post.id}`,
-        lastModified: new Date(),
-        changeFrequency: "monthly" as const,
-        priority: 0.8,
-    }));
+  out.push({ url: `${baseUrl}/`, lastModified: new Date() });
 
-    return [
-        {
-            url: baseUrl,
-            lastModified: new Date(),
-            changeFrequency: "yearly",
-            priority: 1,
-        },
-        {
-            url: `${baseUrl}/conocenos`,
-            lastModified: new Date(),
-            changeFrequency: "yearly",
-            priority: 0.8,
-        },
-        {
-            url: `${baseUrl}/servicios`,
-            lastModified: new Date(),
-            changeFrequency: "yearly",
-            priority: 0.8,
-        },
-        {
-            url: `${baseUrl}/columnas`,
-            lastModified: new Date(),
-            changeFrequency: "weekly",
-            priority: 0.9,
-        },
-        {
-            url: `${baseUrl}/critica`,
-            lastModified: new Date(),
-            changeFrequency: "weekly",
-            priority: 0.9,
-        },
-        {
-            url: `${baseUrl}/pensamiento-critico`,
-            lastModified: new Date(),
-            changeFrequency: "weekly",
-            priority: 0.9,
-        },
-        {
-            url: `${baseUrl}/envia-tu-texto`,
-            lastModified: new Date(),
-            changeFrequency: "yearly",
-            priority: 0.7,
-        },
-        {
-            url: `${baseUrl}/contacto`,
-            lastModified: new Date(),
-            changeFrequency: "yearly",
-            priority: 0.7,
-        },
-        ...columnUrls,
-        ...reviewUrls,
-    ];
+  for (const p of pages) {
+    if (!p.slug) continue;
+    if ((p.kind ?? "page") !== "page") continue;
+    if (p.visible === false) continue;
+    if (p.seo?.noIndex) continue;
+    out.push({ url: `${baseUrl}/${p.slug}`, lastModified: new Date(p.updatedAt || Date.now()) });
+  }
+
+  for (const a of articles.columns ?? []) {
+    out.push({ url: `${baseUrl}/columnas/${a.id}`, lastModified: new Date() });
+  }
+  for (const a of articles.reviews ?? []) {
+    out.push({ url: `${baseUrl}/critica/${a.id}`, lastModified: new Date() });
+  }
+
+  return out;
 }

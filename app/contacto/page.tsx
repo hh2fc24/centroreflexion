@@ -1,6 +1,6 @@
-import { Button } from "@/components/ui/Button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/Card";
 import { Mail, MapPin, Phone } from "lucide-react";
+import { ContactForm } from "@/components/ContactForm";
 
 export default function Contact() {
     return (
@@ -57,27 +57,7 @@ export default function Contact() {
                             <CardDescription>Te responderemos lo antes posible.</CardDescription>
                         </CardHeader>
                         <CardContent>
-                            <form className="space-y-4">
-                                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                                    <div>
-                                        <label htmlFor="first-name" className="block text-sm font-semibold leading-6 text-gray-900">Nombre</label>
-                                        <input type="text" id="first-name" className="mt-2.5 block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6" />
-                                    </div>
-                                    <div>
-                                        <label htmlFor="last-name" className="block text-sm font-semibold leading-6 text-gray-900">Apellido</label>
-                                        <input type="text" id="last-name" className="mt-2.5 block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6" />
-                                    </div>
-                                </div>
-                                <div>
-                                    <label htmlFor="email" className="block text-sm font-semibold leading-6 text-gray-900">Email</label>
-                                    <input type="email" id="email" className="mt-2.5 block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6" />
-                                </div>
-                                <div>
-                                    <label htmlFor="message" className="block text-sm font-semibold leading-6 text-gray-900">Mensaje</label>
-                                    <textarea id="message" rows={4} className="mt-2.5 block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6" defaultValue={""} />
-                                </div>
-                                <Button type="submit" className="w-full">Enviar Mensaje</Button>
-                            </form>
+                            <ContactForm />
                         </CardContent>
                     </Card>
 

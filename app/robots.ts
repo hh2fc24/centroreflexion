@@ -1,12 +1,10 @@
-import { MetadataRoute } from "next";
+import type { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
-    return {
-        rules: {
-            userAgent: "*",
-            allow: "/",
-            disallow: "/private/",
-        },
-        sitemap: "https://centroreflexionescriticas.cl/sitemap.xml",
-    };
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://centroreflexionescriticas.cl";
+  return {
+    rules: [{ userAgent: "*", allow: "/" }],
+    sitemap: `${baseUrl}/sitemap.xml`,
+  };
 }
+

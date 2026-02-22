@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { MessageCircle, X, ChevronRight, BookOpen, PenTool, User, ExternalLink, Send } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { useContent } from "@/lib/editor/hooks";
 
 type Option = {
     id: string;
@@ -16,6 +17,7 @@ type Option = {
 };
 
 export function VirtualAssistant() {
+    const { get } = useContent();
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState<{ type: 'bot' | 'user'; text: string; options?: Option[] }[]>([
         {
@@ -74,7 +76,8 @@ export function VirtualAssistant() {
         }, 800);
     };
 
-    const whatsappLink = "https://wa.me/56949186447?text=Hola,%20quisiera%20m%C3%A1s%20informaci%C3%B3n%20sobre%20la%20consultor%C3%ADa%20estrat%C3%A9gica.";
+    const whatsappLink = get<string>("footer.whatsappHref") ?? "https://wa.me/";
+    const calLink = get<string>("integrations.calLink") ?? "";
 
     const bookOptions: Option[] = [
         {
@@ -110,6 +113,16 @@ export function VirtualAssistant() {
             icon: <User className="w-4 h-4 text-yellow-500" />,
             link: whatsappLink
         },
+        ...(calLink
+            ? [
+                {
+                    id: 'calendar',
+                    label: 'Agendar reunión',
+                    icon: <ExternalLink className="w-4 h-4 text-cyan-500" />,
+                    link: calLink
+                } as Option,
+            ]
+            : []),
         {
             id: 'books',
             label: 'Adquirir Libros',

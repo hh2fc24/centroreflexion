@@ -1,0 +1,134 @@
+{
+  "pages": [
+    {
+      "id": "home",
+      "slug": "",
+      "title": "Inicio",
+      "visible": true,
+      "seo": {
+        "title": "Centro de Reflexiones Críticas",
+        "description": "Columnas de opinión, crítica literaria y cultural, y artículos sobre ciencias sociales.",
+        "ogImage": "/images/og.png",
+        "noIndex": false,
+        "canonical": ""
+      },
+      "blocks": [
+        {
+          "id": "blk-hero",
+          "type": "legacy.hero",
+          "visible": true,
+          "locked": true,
+          "preset": "premium",
+          "data": { "sectionId": "sec-hero" },
+          "style": {
+            "base": {
+              "paddingY": 0,
+              "paddingX": 0,
+              "maxWidth": 1200,
+              "background": "transparent",
+              "textAlign": "left",
+              "radius": 0,
+              "shadow": 0
+            }
+          }
+        },
+        {
+          "id": "blk-founders",
+          "type": "legacy.founders",
+          "visible": true,
+          "locked": false,
+          "preset": "corporate",
+          "data": { "sectionId": "sec-founders" },
+          "style": {
+            "base": {
+              "paddingY": 0,
+              "paddingX": 0,
+              "maxWidth": 1200,
+              "background": "transparent",
+              "textAlign": "left",
+              "radius": 0,
+              "shadow": 0
+            }
+          }
+        },
+        {
+          "id": "blk-services",
+          "type": "legacy.servicesPreview",
+          "visible": true,
+          "locked": false,
+          "preset": "premium",
+          "data": { "sectionId": "sec-services-preview" },
+          "style": {
+            "base": {
+              "paddingY": 0,
+              "paddingX": 0,
+              "maxWidth": 1200,
+              "background": "transparent",
+              "textAlign": "left",
+              "radius": 0,
+              "shadow": 0
+            }
+          }
+        },
+        {
+          "id": "blk-latest",
+          "type": "legacy.latestArticles",
+          "visible": true,
+          "locked": false,
+          "preset": "minimal",
+          "data": { "sectionId": "sec-latest" },
+          "style": {
+            "base": {
+              "paddingY": 0,
+              "paddingX": 0,
+              "maxWidth": 1200,
+              "background": "transparent",
+              "textAlign": "left",
+              "radius": 0,
+              "shadow": 0
+            }
+          }
+        },
+        {
+          "id": "blk-interviews",
+          "type": "legacy.interviews",
+          "visible": true,
+          "locked": false,
+          "preset": "bold",
+          "data": { "sectionId": "sec-interviews" },
+          "style": {
+            "base": {
+              "paddingY": 0,
+              "paddingX": 0,
+              "maxWidth": 1200,
+              "background": "transparent",
+              "textAlign": "left",
+              "radius": 0,
+              "shadow": 0
+            }
+          }
+        },
+        {
+          "id": "blk-testimonials",
+          "type": "legacy.testimonials",
+          "visible": true,
+          "locked": false,
+          "preset": "bold",
+          "data": { "sectionId": "sec-testimonials" },
+          "style": {
+            "base": {
+              "paddingY": 0,
+              "paddingX": 0,
+              "maxWidth": 1200,
+              "background": "transparent",
+              "textAlign": "left",
+              "radius": 0,
+              "shadow": 0
+            }
+          }
+        }
+      ],
+      "updatedAt": 0
+    }
+  ]
+}

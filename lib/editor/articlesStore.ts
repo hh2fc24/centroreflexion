@@ -1,10 +1,11 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import { memoryStorage } from "@/lib/editor/storage";
+import { getPersistStorage } from "@/lib/editor/persistStorage";
 import type { Article } from "@/lib/data";
 import seed from "@/lib/articles.json";
+import { useUndoStore } from "@/lib/editor/undoStore";
 
-const storage = createJSONStorage(() => (typeof window !== "undefined" ? localStorage : memoryStorage));
+const storage = createJSONStorage(() => getPersistStorage());
 
 export type ArticleKind = "columns" | "reviews";
 
@@ -58,13 +59,43 @@ export const useArticlesStore = create<ArticlesState>()(
           image: "/images/hero_critical.png",
           content: ["Escribe aquí…"],
         };
-        set((state) => ({
-          ...state,
-          ...(kind === "columns"
-            ? { columns: [...state.columns, blank] }
-            : { reviews: [...state.reviews, blank] }),
-          lastChangedAt: Date.now(),
-        }));
+        set((state) => {
+          const insertAt = kind === "columns" ? state.columns.length : state.reviews.length;
+          const history = useUndoStore.getState();
+          if (!history.isApplying) {
+            const snapshot = structuredClone(blank);
+            history.record({
+              label: "Agregar artículo",
+              undo: () => {
+                useArticlesStore.setState((s) => ({
+                  ...s,
+                  ...(kind === "columns"
+                    ? { columns: s.columns.filter((a) => a.id !== id) }
+                    : { reviews: s.reviews.filter((a) => a.id !== id) }),
+                  lastChangedAt: Date.now(),
+                }));
+              },
+              redo: () => {
+                useArticlesStore.setState((s) => {
+                  const list = kind === "columns" ? s.columns : s.reviews;
+                  if (list.some((a) => a.id === id)) return { ...s, lastChangedAt: Date.now() };
+                  const next = [...list];
+                  next.splice(Math.min(insertAt, next.length), 0, structuredClone(snapshot));
+                  return {
+                    ...s,
+                    ...(kind === "columns" ? { columns: next } : { reviews: next }),
+                    lastChangedAt: Date.now(),
+                  };
+                });
+              },
+            });
+          }
+          return {
+            ...state,
+            ...(kind === "columns" ? { columns: [...state.columns, blank] } : { reviews: [...state.reviews, blank] }),
+            lastChangedAt: Date.now(),
+          };
+        });
         return id;
       },
 
@@ -78,6 +109,33 @@ export const useArticlesStore = create<ArticlesState>()(
               : state.reviews.some((a) => a.id === cleaned);
           if (taken) return { ...state, lastChangedAt: Date.now() };
 
+          const history = useUndoStore.getState();
+          if (!history.isApplying) {
+            history.record({
+              label: "Renombrar artículo",
+              undo: () => {
+                useArticlesStore.setState((s) => {
+                  const renameIn = (list: Article[]) => list.map((a) => (a.id === cleaned ? { ...a, id } : a));
+                  return {
+                    ...s,
+                    ...(kind === "columns" ? { columns: renameIn(s.columns) } : { reviews: renameIn(s.reviews) }),
+                    lastChangedAt: Date.now(),
+                  };
+                });
+              },
+              redo: () => {
+                useArticlesStore.setState((s) => {
+                  const renameIn = (list: Article[]) => list.map((a) => (a.id === id ? { ...a, id: cleaned } : a));
+                  return {
+                    ...s,
+                    ...(kind === "columns" ? { columns: renameIn(s.columns) } : { reviews: renameIn(s.reviews) }),
+                    lastChangedAt: Date.now(),
+                  };
+                });
+              },
+            });
+          }
+
           const renameIn = (list: Article[]) => list.map((a) => (a.id === id ? { ...a, id: cleaned } : a));
           return {
             ...state,
@@ -87,35 +145,156 @@ export const useArticlesStore = create<ArticlesState>()(
         }),
 
       update: (kind, id, partial) =>
-        set((state) => ({
-          ...state,
-          ...(kind === "columns"
-            ? { columns: state.columns.map((a) => (a.id === id ? { ...a, ...partial } : a)) }
-            : { reviews: state.reviews.map((a) => (a.id === id ? { ...a, ...partial } : a)) }),
-          lastChangedAt: Date.now(),
-        })),
+        set((state) => {
+          const list = kind === "columns" ? state.columns : state.reviews;
+          const prev = list.find((a) => a.id === id) ?? null;
+          if (!prev) return { ...state, lastChangedAt: Date.now() };
+          const next = { ...prev, ...partial } as Article;
+          const history = useUndoStore.getState();
+          if (!history.isApplying) {
+            type UpdatableKey = Exclude<keyof Article, "id">;
+            const keys = Object.keys(partial ?? {}) as UpdatableKey[];
+            const beforePatch: Partial<Record<UpdatableKey, Article[UpdatableKey]>> = {};
+            const afterPatch: Partial<Record<UpdatableKey, Article[UpdatableKey]>> = {};
+            for (const k of keys) {
+              beforePatch[k] = structuredClone(prev[k]);
+              afterPatch[k] = structuredClone(next[k]);
+            }
+            history.record(
+              {
+                label: "Editar artículo",
+                undo: () => {
+                  useArticlesStore.setState((s) => {
+                    const apply = (items: Article[]) =>
+                      items.map((a) => (a.id === id ? { ...a, ...(beforePatch as Partial<Article>) } : a));
+                    return {
+                      ...s,
+                      ...(kind === "columns" ? { columns: apply(s.columns) } : { reviews: apply(s.reviews) }),
+                      lastChangedAt: Date.now(),
+                    };
+                  });
+                },
+                redo: () => {
+                  useArticlesStore.setState((s) => {
+                    const apply = (items: Article[]) =>
+                      items.map((a) => (a.id === id ? { ...a, ...(afterPatch as Partial<Article>) } : a));
+                    return {
+                      ...s,
+                      ...(kind === "columns" ? { columns: apply(s.columns) } : { reviews: apply(s.reviews) }),
+                      lastChangedAt: Date.now(),
+                    };
+                  });
+                },
+              },
+              { mergeKey: `article:${kind}:${id}`, mergeMs: 1000 }
+            );
+          }
+          const apply = (items: Article[]) => items.map((a) => (a.id === id ? next : a));
+          return {
+            ...state,
+            ...(kind === "columns" ? { columns: apply(state.columns) } : { reviews: apply(state.reviews) }),
+            lastChangedAt: Date.now(),
+          };
+        }),
 
       replace: (kind, next) =>
-        set((state) => ({
-          ...state,
-          ...(kind === "columns" ? { columns: next } : { reviews: next }),
-          lastChangedAt: Date.now(),
-        })),
+        set((state) => {
+          const before = kind === "columns" ? structuredClone(state.columns) : structuredClone(state.reviews);
+          const after = structuredClone(next);
+          const history = useUndoStore.getState();
+          if (!history.isApplying) {
+            history.record({
+              label: "Reordenar artículos",
+              undo: () => {
+                useArticlesStore.setState((s) => ({
+                  ...s,
+                  ...(kind === "columns" ? { columns: structuredClone(before) } : { reviews: structuredClone(before) }),
+                  lastChangedAt: Date.now(),
+                }));
+              },
+              redo: () => {
+                useArticlesStore.setState((s) => ({
+                  ...s,
+                  ...(kind === "columns" ? { columns: structuredClone(after) } : { reviews: structuredClone(after) }),
+                  lastChangedAt: Date.now(),
+                }));
+              },
+            });
+          }
+          return {
+            ...state,
+            ...(kind === "columns" ? { columns: next } : { reviews: next }),
+            lastChangedAt: Date.now(),
+          };
+        }),
 
       remove: (kind, id) =>
-        set((state) => ({
-          ...state,
-          ...(kind === "columns"
-            ? { columns: state.columns.filter((a) => a.id !== id) }
-            : { reviews: state.reviews.filter((a) => a.id !== id) }),
-          lastChangedAt: Date.now(),
-        })),
+        set((state) => {
+          const list = kind === "columns" ? state.columns : state.reviews;
+          const idx = list.findIndex((a) => a.id === id);
+          if (idx < 0) return { ...state, lastChangedAt: Date.now() };
+          const removed = list[idx]!;
+          const history = useUndoStore.getState();
+          if (!history.isApplying) {
+            const snapshot = structuredClone(removed);
+            history.record({
+              label: "Eliminar artículo",
+              undo: () => {
+                useArticlesStore.setState((s) => {
+                  const cur = kind === "columns" ? s.columns : s.reviews;
+                  if (cur.some((a) => a.id === id)) return { ...s, lastChangedAt: Date.now() };
+                  const next = [...cur];
+                  next.splice(Math.min(idx, next.length), 0, structuredClone(snapshot));
+                  return {
+                    ...s,
+                    ...(kind === "columns" ? { columns: next } : { reviews: next }),
+                    lastChangedAt: Date.now(),
+                  };
+                });
+              },
+              redo: () => {
+                useArticlesStore.setState((s) => ({
+                  ...s,
+                  ...(kind === "columns" ? { columns: s.columns.filter((a) => a.id !== id) } : { reviews: s.reviews.filter((a) => a.id !== id) }),
+                  lastChangedAt: Date.now(),
+                }));
+              },
+            });
+          }
+          return {
+            ...state,
+            ...(kind === "columns" ? { columns: state.columns.filter((a) => a.id !== id) } : { reviews: state.reviews.filter((a) => a.id !== id) }),
+            lastChangedAt: Date.now(),
+          };
+        }),
 
       reset: () =>
-        set({
-          columns: seedArticles.columns,
-          reviews: seedArticles.reviews,
-          lastChangedAt: Date.now(),
+        set((state) => {
+          const history = useUndoStore.getState();
+          if (!history.isApplying) {
+            const before = structuredClone({ columns: state.columns, reviews: state.reviews });
+            const after = structuredClone({ columns: seedArticles.columns, reviews: seedArticles.reviews });
+            history.record({
+              label: "Reset artículos",
+              undo: () =>
+                useArticlesStore.setState({
+                  columns: structuredClone(before.columns),
+                  reviews: structuredClone(before.reviews),
+                  lastChangedAt: Date.now(),
+                }),
+              redo: () =>
+                useArticlesStore.setState({
+                  columns: structuredClone(after.columns),
+                  reviews: structuredClone(after.reviews),
+                  lastChangedAt: Date.now(),
+                }),
+            });
+          }
+          return {
+            columns: seedArticles.columns,
+            reviews: seedArticles.reviews,
+            lastChangedAt: Date.now(),
+          };
         }),
     }),
     {

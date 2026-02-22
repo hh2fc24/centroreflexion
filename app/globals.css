@@ -6,6 +6,7 @@
 
   --primary: #2563eb;
   --secondary: #a855f7;
+  --accent: #06b6d4;
   --surface: #ffffff;
   --muted-foreground: #475569;
   --border: rgba(148, 163, 184, 0.25);
@@ -13,6 +14,24 @@
   --text-scale: 1;
   --radius-base: 16px;
   --shadow-strength: 0.6;
+
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 18px;
+  --space-lg: 28px;
+  --space-xl: 44px;
+  --space-2xl: 72px;
+
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-pill: 999px;
+
+  /* 0..1 strengths */
+  --shadow-sm: 0.25;
+  --shadow-md: 0.6;
+  --shadow-lg: 1;
 }
 
 @theme inline {
@@ -20,6 +39,7 @@
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
   --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
   --color-surface: var(--surface);
   --color-muted-foreground: var(--muted-foreground);
   --color-border: var(--border);
@@ -77,4 +97,35 @@ body {
 
 .pause-on-hover:hover {
   animation-play-state: paused;
+}
+
+/* Block animations (public site) */
+.crc-anim {
+  opacity: 0;
+  transform: translate(var(--crc-anim-from-x, 0), var(--crc-anim-from-y, 0)) scale(var(--crc-anim-from-scale, 1));
+  will-change: transform, opacity;
+}
+
+.crc-anim.crc-anim-in {
+  animation: crc-anim-enter var(--crc-anim-duration, 500ms) cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: var(--crc-anim-delay, 0ms);
+}
+
+@keyframes crc-anim-enter {
+  from {
+    opacity: 0;
+    transform: translate(var(--crc-anim-from-x, 0), var(--crc-anim-from-y, 0)) scale(var(--crc-anim-from-scale, 1));
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .crc-anim {
+    opacity: 1;
+    transform: none;
+    animation: none !important;
+  }
 }

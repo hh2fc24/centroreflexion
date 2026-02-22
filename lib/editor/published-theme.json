@@ -2,6 +2,7 @@
   "mode": "light",
   "primary": "#2563eb",
   "secondary": "#a855f7",
+  "accent": "#06b6d4",
   "background": "#ffffff",
   "surface": "#ffffff",
   "foreground": "#0f172a",
@@ -11,5 +12,26 @@
   "textScale": 1,
   "radius": 16,
   "shadow": 0.6,
+  "designPreset": "corporate",
+  "spacingScale": {
+    "xs": 8,
+    "sm": 12,
+    "md": 18,
+    "lg": 28,
+    "xl": 44,
+    "2xl": 72
+  },
+  "radiusScale": {
+    "sm": 12,
+    "md": 16,
+    "lg": 20,
+    "xl": 28,
+    "pill": 999
+  },
+  "shadowScale": {
+    "sm": 0.25,
+    "md": 0.6,
+    "lg": 1
+  },
   "textStyles": {}
 }

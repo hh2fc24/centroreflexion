@@ -120,7 +120,7 @@ export function EditableText({
         fontWeight: override.fontWeight,
       }}
       data-crc-editable={adminEnabled ? "true" : undefined}
-      data-crc-path={adminEnabled ? path : undefined}
+      data-crc-path={path}
     >
       {displayText || placeholder || ""}
     </span>

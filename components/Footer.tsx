@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { Instagram, Linkedin, Mail, MapPin } from "lucide-react";
+import { Instagram, Linkedin, Mail, MapPin, MessageCircle } from "lucide-react";
 import { EditableText } from "@/components/editor/EditableText";
 import { useContent, useEditor } from "@/lib/editor/hooks";
+import type { FooterColumn, FooterLink } from "@/lib/editor/types";
 
 export function Footer() {
     const { adminEnabled } = useEditor();
@@ -11,6 +12,8 @@ export function Footer() {
 
     const instagramHref = get<string>("footer.instagramHref") ?? "#";
     const linkedinHref = get<string>("footer.linkedinHref") ?? "#";
+    const whatsappHref = get<string>("footer.whatsappHref") ?? "#";
+    const columns = (get<FooterColumn[]>("footer.columns") ?? []) as FooterColumn[];
 
     return (
         <footer className="bg-gray-900 border-t border-gray-800 pt-16 pb-8">
@@ -56,43 +59,57 @@ export function Footer() {
                                 <Linkedin className="h-5 w-5" />
                                 <span className="sr-only">LinkedIn</span>
                             </a>
+                            <a
+                                href={whatsappHref}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-gray-400 hover:text-emerald-400 transition-colors"
+                                onClick={(e) => {
+                                    if (adminEnabled) {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                    }
+                                }}
+                            >
+                                <MessageCircle className="h-5 w-5" />
+                                <span className="sr-only">WhatsApp</span>
+                            </a>
                         </div>
                     </div>
 
-                    {/* Quick Links */}
-                    <div>
-                        <h4 className="text-white font-semibold mb-4">Explorar</h4>
-                        <ul className="space-y-3 text-sm text-gray-400">
-                            <li>
-                                <Link href="/pensamiento-critico" className="hover:text-red-400 transition-colors">Pensamiento Crítico</Link>
-                            </li>
-                            <li>
-                                <Link href="/servicios#consultoria" className="hover:text-white transition-colors">Consultoría Estratégica</Link>
-                            </li>
-                            <li>
-                                <Link href="/servicios#clinica" className="hover:text-white transition-colors">Atención Clínica</Link>
-                            </li>
-                            <li>
-                                <Link href="/servicios#formacion" className="hover:text-white transition-colors">Formación</Link>
-                            </li>
-                        </ul>
-                    </div>
-
-                    {/* Legal / Pages */}
-                    <div>
-                        <h4 className="text-white font-semibold mb-4">Comunidad</h4>
-                        <ul className="space-y-3 text-sm text-gray-400">
-                            <li>
-                                <Link href="/conocenos" className="hover:text-white transition-colors">Quiénes Somos</Link>
-                            </li>
-                            <li>
-                                <Link href="/envia-tu-texto" className="hover:text-white transition-colors">Envía tu Texto</Link>
-                            </li>
-                            <li>
-                                <Link href="/contacto" className="hover:text-white transition-colors">Contacto</Link>
-                            </li>
-                        </ul>
-                    </div>
+                    {/* Dynamic Columns */}
+                    {columns
+                        .filter((c) => c?.visible !== false)
+                        .map((col, colIdx) => (
+                            <div key={col.id || colIdx}>
+                                <h4 className="text-white font-semibold mb-4">
+                                    <EditableText path={`footer.columns.${colIdx}.title`} ariaLabel="Footer columna" />
+                                </h4>
+                                <ul className="space-y-3 text-sm text-gray-400">
+                                    {(col.links ?? [])
+                                        .filter((l: FooterLink) => l?.visible !== false)
+                                        .map((l: FooterLink, linkIdx: number) => (
+                                            <li key={l.id || linkIdx}>
+                                                <Link
+                                                    href={l.href || "#"}
+                                                    onClick={(e) => {
+                                                        if (adminEnabled) {
+                                                            e.preventDefault();
+                                                            e.stopPropagation();
+                                                        }
+                                                    }}
+                                                    className="hover:text-white transition-colors"
+                                                >
+                                                    <EditableText
+                                                        path={`footer.columns.${colIdx}.links.${linkIdx}.label`}
+                                                        ariaLabel="Footer link"
+                                                    />
+                                                </Link>
+                                            </li>
+                                        ))}
+                                </ul>
+                            </div>
+                        ))}
 
                     {/* Contact Info */}
                     <div>

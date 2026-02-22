@@ -4,20 +4,26 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import { useContent, useEditor } from "@/lib/editor/hooks";
+import { cn } from "@/lib/utils";
 
-const navItems = [
-    { name: "Inicio", href: "/" },
-    { name: "Conócenos", href: "/conocenos" },
-    { name: "Pensamiento Crítico", href: "/pensamiento-critico" },
-    { name: "Publicaciones", href: "/publicaciones" },
-    { name: "Clínica", href: "/servicios#clinica" },
-    { name: "Consultoría", href: "/servicios#consultoria" },
-    { name: "Formación", href: "/servicios#formacion" },
-    { name: "Contacto", href: "/contacto" },
-];
+type NavNode = { id: string; label: string; href: string; visible: boolean; children: NavNode[] };
 
 export function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
+    const { content } = useContent();
+    const { adminEnabled } = useEditor();
+
+    const items: NavNode[] =
+        (content.navigation?.items?.length ? content.navigation.items : []) as unknown as NavNode[];
+
+    const visibleItems = items.filter((i) => i.visible !== false);
+
+    const maybePrevent = (e: React.MouseEvent) => {
+        if (!adminEnabled) return;
+        e.preventDefault();
+        e.stopPropagation();
+    };
 
     return (
         <nav className="sticky top-0 z-50 w-full border-b border-border bg-background shadow-sm transition-all duration-300">
@@ -38,15 +44,43 @@ export function Navbar() {
 
                 {/* Desktop Menu */}
                 <div className="hidden md:flex md:items-center md:space-x-8">
-                    {navItems.map((item) => (
-                        <Link
-                            key={item.href}
-                            href={item.href}
-                            className="relative text-sm font-semibold text-muted-foreground transition-all duration-300 hover:scale-105 hover:text-primary after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-gradient-to-r after:from-primary after:to-secondary after:transition-all after:duration-300 hover:after:w-full"
-                        >
-                            {item.name}
-                        </Link>
-                    ))}
+                    {visibleItems.map((item) => {
+                        const hasChildren = (item.children ?? []).some((c) => c.visible !== false);
+                        return (
+                            <div key={item.id} className="relative group">
+                                <Link
+                                    href={item.href}
+                                    onClick={maybePrevent}
+                                    className="relative text-sm font-semibold text-muted-foreground transition-all duration-300 hover:scale-105 hover:text-primary after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-gradient-to-r after:from-primary after:to-secondary after:transition-all after:duration-300 hover:after:w-full"
+                                >
+                                    {item.label}
+                                </Link>
+                                {hasChildren ? (
+                                    <div className="absolute left-0 top-full pt-3 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition">
+                                        <div className="min-w-56 rounded-2xl border border-border bg-background shadow-lg overflow-hidden">
+                                            {(item.children ?? [])
+                                                .filter((c) => c.visible !== false)
+                                                .map((c) => (
+                                                    <Link
+                                                        key={c.id}
+                                                        href={c.href}
+                                                        onClick={(e) => {
+                                                            maybePrevent(e);
+                                                        }}
+                                                        className={cn(
+                                                            "block px-4 py-3 text-sm font-semibold text-muted-foreground",
+                                                            "hover:bg-black/5 hover:text-primary transition-colors"
+                                                        )}
+                                                    >
+                                                        {c.label}
+                                                    </Link>
+                                                ))}
+                                        </div>
+                                    </div>
+                                ) : null}
+                            </div>
+                        );
+                    })}
                 </div>
 
                 {/* Mobile Menu Button */}
@@ -62,16 +96,46 @@ export function Navbar() {
             {isOpen && (
                 <div className="md:hidden border-t border-border bg-background">
                     <div className="space-y-1 px-4 py-4">
-                        {navItems.map((item) => (
-                            <Link
-                                key={item.href}
-                                href={item.href}
-                                onClick={() => setIsOpen(false)}
-                                className="block py-2 text-base font-medium text-muted-foreground hover:bg-black/5 hover:text-primary"
-                            >
-                                {item.name}
-                            </Link>
-                        ))}
+                        {visibleItems.map((item) => {
+                            const kids = (item.children ?? []).filter((c) => c.visible !== false);
+                            return (
+                                <div key={item.id} className="rounded-xl border border-transparent hover:border-border/60 transition">
+                                    <Link
+                                        href={item.href}
+                                        onClick={(e) => {
+                                            if (adminEnabled) {
+                                                maybePrevent(e);
+                                                return;
+                                            }
+                                            setIsOpen(false);
+                                        }}
+                                        className="block py-2 text-base font-semibold text-muted-foreground hover:bg-black/5 hover:text-primary rounded-xl px-2"
+                                    >
+                                        {item.label}
+                                    </Link>
+                                    {kids.length ? (
+                                        <div className="pl-3 pb-2">
+                                            {kids.map((c) => (
+                                                <Link
+                                                    key={c.id}
+                                                    href={c.href}
+                                                    onClick={(e) => {
+                                                        if (adminEnabled) {
+                                                            maybePrevent(e);
+                                                            return;
+                                                        }
+                                                        setIsOpen(false);
+                                                    }}
+                                                    className="block py-2 text-sm font-semibold text-muted-foreground hover:bg-black/5 hover:text-primary rounded-xl px-2"
+                                                >
+                                                    {c.label}
+                                                </Link>
+                                            ))}
+                                        </div>
+                                    ) : null}
+                                </div>
+                            );
+                        })}
                     </div>
                 </div>
             )}

@@ -1,0 +1,95 @@
+import { NextResponse } from "next/server";
+import { mkdir, readFile } from "fs/promises";
+import path from "path";
+import { getAdminSessionFromRequest } from "@/lib/server/adminAuth";
+import { roleAtLeast } from "@/lib/server/roles";
+import { writeJsonAtomic } from "@/lib/server/atomicWrite";
+import { withLock } from "@/lib/server/locks";
+import { checkRateLimit, getClientIp } from "@/lib/server/rateLimit";
+import { sanitizePlainText } from "@/lib/server/sanitize";
+
+export const runtime = "nodejs";
+
+type Lead = {
+  id: string;
+  createdAt: number;
+  source: string;
+  name: string;
+  email: string;
+  phone: string;
+  message: string;
+  page: string;
+  formId?: string;
+  fields?: Record<string, unknown>;
+};
+
+function newId(prefix: string) {
+  return `${prefix}-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+}
+
+async function readLeads(filePath: string): Promise<Lead[]> {
+  try {
+    const raw = await readFile(filePath, "utf8");
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? (parsed as Lead[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+export async function POST(req: Request) {
+  const ip = getClientIp(req);
+  const rl = checkRateLimit(`leads:post:${ip}`, { limit: 30, windowMs: 60_000 });
+  if (!rl.ok) return NextResponse.json({ ok: false, error: "rate_limited" }, { status: 429 });
+
+  let body: Partial<Lead>;
+  try {
+    body = (await req.json()) as Partial<Lead>;
+  } catch {
+    return NextResponse.json({ ok: false, error: "invalid_json" }, { status: 400 });
+  }
+
+  const lead: Lead = {
+    id: newId("lead"),
+    createdAt: Date.now(),
+    source: sanitizePlainText(body.source ?? "web", { maxLen: 40 }),
+    name: sanitizePlainText(body.name ?? "", { maxLen: 140 }),
+    email: sanitizePlainText(body.email ?? "", { maxLen: 140 }),
+    phone: sanitizePlainText(body.phone ?? "", { maxLen: 80 }),
+    message: sanitizePlainText(body.message ?? "", { maxLen: 4000 }),
+    page: sanitizePlainText(body.page ?? "", { maxLen: 180 }),
+    formId: body.formId ? sanitizePlainText(body.formId, { maxLen: 80 }) : undefined,
+    fields: body.fields && typeof body.fields === "object" ? (body.fields as Record<string, unknown>) : undefined,
+  };
+
+  if (!lead.email && !lead.phone) {
+    return NextResponse.json({ ok: false, error: "missing_contact" }, { status: 400 });
+  }
+
+  const dir = path.join(process.cwd(), "data");
+  const filePath = path.join(dir, "leads.json");
+
+  try {
+    await mkdir(dir, { recursive: true });
+    await withLock("leads:write", async () => {
+      const leads = await readLeads(filePath);
+      leads.unshift(lead);
+      await writeJsonAtomic(filePath, leads.slice(0, 2000));
+    });
+  } catch (e: unknown) {
+    const detail = e instanceof Error ? e.message : typeof e === "string" ? e : JSON.stringify(e);
+    return NextResponse.json({ ok: false, error: "write_failed", detail }, { status: 500 });
+  }
+
+  return NextResponse.json({ ok: true, id: lead.id });
+}
+
+export async function GET(req: Request) {
+  const session = getAdminSessionFromRequest(req);
+  if (!session) return NextResponse.json({ ok: false, error: "unauthorized" }, { status: 401 });
+  if (!roleAtLeast(session.role, "editor")) return NextResponse.json({ ok: false, error: "forbidden" }, { status: 403 });
+
+  const filePath = path.join(process.cwd(), "data", "leads.json");
+  const leads = await readLeads(filePath);
+  return NextResponse.json({ ok: true, leads });
+}
