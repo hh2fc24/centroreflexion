@@ -20,19 +20,19 @@ export function LegacyBlock({ block }: { pageId: string; block: SiteBlock; edita
   // Home still uses the legacy HomeCanvas end-to-end; pages can optionally embed these sections.
   switch (block.type) {
     case "legacy.hero":
-      return <Hero />;
+      return <div data-crc-legacy="hero"><Hero /></div>;
     case "legacy.founders":
-      return <FoundersSection />;
+      return <div data-crc-legacy="founders"><FoundersSection /></div>;
     case "legacy.servicesPreview":
-      return <LegacyServicesPreview />;
+      return <div data-crc-legacy="servicesPreview"><LegacyServicesPreview /></div>;
     case "legacy.latestArticles":
-      return <LegacyLatestArticles />;
+      return <div data-crc-legacy="latestArticles"><LegacyLatestArticles /></div>;
     case "legacy.publications":
-      return <PublicationsSection />;
+      return <div data-crc-legacy="publications"><PublicationsSection /></div>;
     case "legacy.interviews":
-      return <InterviewsSection />;
+      return <div data-crc-legacy="interviews"><InterviewsSection /></div>;
     case "legacy.testimonials":
-      return <LegacyTestimonials />;
+      return <div data-crc-legacy="testimonials"><LegacyTestimonials /></div>;
     default:
       return (
         <div className="mx-auto max-w-4xl px-4 py-10 text-sm text-slate-500">
@@ -58,7 +58,7 @@ function LegacyServicesPreview() {
   const cards = content.homeServices.cards;
 
   return (
-    <section className="relative z-20 -mt-24 pb-24 px-4 sm:px-6 lg:px-8">
+    <section className="relative z-20 mt-16 md:mt-24 pb-24 px-4 sm:px-6 lg:px-8">
       <MotionDiv
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}

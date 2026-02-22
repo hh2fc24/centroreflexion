@@ -140,3 +140,14 @@ body {
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
+/* Legacy section spacing tweaks (pre-block-system sections) */
+[data-crc-legacy="hero"] + [data-crc-legacy="servicesPreview"] section {
+  margin-top: 0;
+}
+
+@media (min-width: 768px) {
+  [data-crc-legacy="hero"] + [data-crc-legacy="servicesPreview"] section {
+    margin-top: -6rem;
+  }
+}
