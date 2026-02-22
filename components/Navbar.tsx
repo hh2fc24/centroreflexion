@@ -27,9 +27,9 @@ export function Navbar() {
 
     return (
         <nav className="sticky top-0 z-50 w-full border-b border-border bg-background shadow-sm transition-all duration-300">
-            <div className="mx-auto flex h-24 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-                <Link href="/" className="flex items-center gap-3 text-lg font-bold tracking-tight text-foreground group">
-                    <div className="relative h-24 w-24 -ml-2">
+            <div className="mx-auto flex h-16 sm:h-20 lg:h-24 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+                <Link href="/" className="flex min-w-0 items-center gap-3 text-base sm:text-lg font-bold tracking-tight text-foreground group">
+                    <div className="relative h-10 w-10 sm:h-14 sm:w-14 lg:h-24 lg:w-24 -ml-1 sm:-ml-2 shrink-0">
                         <Image
                             src="/log.png"
                             alt="Logo Centro de Reflexiones Críticas"
@@ -37,8 +37,12 @@ export function Navbar() {
                             className="object-contain"
                         />
                     </div>
-                    <span>
-                        Centro de Reflexiones <span className="text-red-600 group-hover:text-red-500 transition-colors">Críticas</span>
+                    <span className="min-w-0">
+                        <span className="inline sm:hidden">CRC</span>
+                        <span className="hidden sm:inline">
+                            Centro de Reflexiones{" "}
+                            <span className="text-red-600 group-hover:text-red-500 transition-colors">Críticas</span>
+                        </span>
                     </span>
                 </Link>
 
@@ -87,6 +91,8 @@ export function Navbar() {
                 <button
                     className="md:hidden text-muted-foreground hover:text-foreground"
                     onClick={() => setIsOpen(!isOpen)}
+                    aria-label={isOpen ? "Cerrar menú" : "Abrir menú"}
+                    aria-expanded={isOpen}
                 >
                     {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
                 </button>

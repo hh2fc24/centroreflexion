@@ -3,8 +3,6 @@
 import { useState, useRef, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { MessageCircle, X, ChevronRight, BookOpen, PenTool, User, ExternalLink, Send } from "lucide-react";
-import Link from "next/link";
-import Image from "next/image";
 import { useContent } from "@/lib/editor/hooks";
 
 type Option = {
@@ -144,7 +142,7 @@ export function VirtualAssistant() {
     ];
 
     return (
-        <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+        <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex flex-col items-end">
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
@@ -152,7 +150,7 @@ export function VirtualAssistant() {
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.9, y: 20 }}
                         transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                        className="mb-4 w-80 sm:w-96 bg-white/80 backdrop-blur-xl border border-white/40 shadow-2xl rounded-2xl overflow-hidden flex flex-col max-h-[600px]"
+                        className="mb-4 w-[calc(100vw-2rem)] max-w-sm sm:w-96 bg-white/80 backdrop-blur-xl border border-white/40 shadow-2xl rounded-2xl overflow-hidden flex flex-col max-h-[70vh] sm:max-h-[600px]"
                     >
                         {/* Header */}
                         <div className="bg-gradient-to-r from-gray-900 to-gray-800 p-4 flex items-center justify-between">
