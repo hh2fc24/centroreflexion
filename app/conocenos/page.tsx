@@ -91,7 +91,7 @@ export default function About() {
                                 />
                             </div>
                             <h3 className="text-3xl font-bold text-gray-900 font-serif">Juan Carlos Rauld</h3>
-                            <p className="text-blue-600 font-bold text-sm tracking-wide mt-2 uppercase">Director CRC & Consultor Estratégico</p>
+                            <p className="text-blue-600 font-bold text-sm tracking-wide mt-2 uppercase">Director CRC & Consultor en Ciencias Sociales</p>
 
                             <div className="mt-6 flex gap-4">
                                 <Link href="https://linkedin.com" className="text-gray-400 hover:text-blue-600 transition-colors"><Linkedin className="h-6 w-6" /></Link>
@@ -101,14 +101,13 @@ export default function About() {
                             <div>
                                 <h4 className="text-xl font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2">Rol Editorial y Académico</h4>
                                 <p className="text-gray-600 leading-relaxed">
-                                    Como <strong>Director Editorial del Centro de Reflexiones Críticas</strong>, Juan Carlos lidera la línea de pensamiento que interroga las estructuras de poder contemporáneas, con especial énfasis en la biopolítica, el derecho y la subjetividad. Su producción intelectual busca desafiar los lugares comunes de la academia tradicional.
+                                    Como <strong>Director Editorial del Centro de Reflexiones Críticas</strong>, Juan Carlos impulsa una línea de trabajo en ciencias sociales aplicadas, articulando pensamiento contemporáneo, análisis institucional y experiencia en terreno en infancia y salud mental. Su aporte busca traducir reflexión compleja en marcos de acción claros para equipos, programas y decisiones públicas.
                                 </p>
                             </div>
                             <div>
                                 <h4 className="text-xl font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2">Consultoría Estratégica e Institucional</h4>
                                 <p className="text-gray-600 leading-relaxed">
-                                    Experto en <strong>Gestión Estratégica de Programas de Infancia y Salud Mental</strong>. Su trayectoria incluye el diseño de arquitectura programática y la incidencia directa en políticas públicas.
-                                    Asesora a organismos gubernamentales y ONGs en la implementación de modelos de intervención que sean técnicamente sólidos y éticamente responsables.
+                                    Como consultor en <strong>Gestión Estratégica de Programas de Infancia y Salud Mental</strong>, acompaña a organizaciones públicas y privadas en el diseño y rediseño de modelos de intervención, arquitectura programática e implementación de indicadores de desempeño. Lidera procesos de fortalecimiento técnico, gobernanza institucional y evaluación de impacto para asegurar coherencia, sostenibilidad e impacto verificable.
                                 </p>
                             </div>
                             <div className="pt-4">
