@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { motion } from "framer-motion";
-import { Instagram, Linkedin, Mail } from "lucide-react";
+import { GraduationCap, Instagram, Linkedin, Mail } from "lucide-react";
 import { RocioPortfolio } from "@/components/RocioPortfolio";
 
 export default function About() {
@@ -94,6 +94,16 @@ export default function About() {
                             <p className="text-blue-600 font-bold text-sm tracking-wide mt-2 uppercase">Director CRC & Consultor en Ciencias Sociales</p>
 
                             <div className="mt-6 flex gap-4">
+                                <a
+                                    href="https://uc-cl.academia.edu/JUANCARLOSRAULDFAR%C3%8DAS"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    aria-label="Perfil de Academia.edu de Juan Carlos Rauld"
+                                    title="Academia.edu"
+                                    className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-white shadow-md transition-all hover:scale-105 hover:bg-blue-700"
+                                >
+                                    <GraduationCap className="h-5 w-5" />
+                                </a>
                                 <a href="https://www.linkedin.com/in/juan-carlos-rauld-farias-a64710a4/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-600 transition-colors"><Linkedin className="h-6 w-6" /></a>
                             </div>
                         </div>
