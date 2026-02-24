@@ -107,7 +107,7 @@ export default function About() {
                             <div>
                                 <h4 className="text-xl font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2">Consultoría Estratégica e Institucional</h4>
                                 <p className="text-gray-600 leading-relaxed">
-                                    Como consultor en <strong>Gestión Estratégica de Programas de Infancia y Salud Mental</strong>, acompaña a organizaciones públicas y privadas en el diseño y rediseño de modelos de intervención, arquitectura programática e implementación de indicadores de desempeño. Lidera procesos de fortalecimiento técnico, gobernanza institucional y evaluación de impacto para asegurar coherencia, sostenibilidad e impacto verificable.
+                                    Como consultor en <strong>Gestión Estratégica de Programas de Infancia y Salud Mental</strong>, acompaña a organizaciones públicas y privadas en el diseño y rediseño de modelos de intervención, arquitectura programática e implementación de indicadores de desempeño. Lidera procesos de fortalecimiento técnico, gobernanza institucional, seguimiento de desempeño y mejora continua para asegurar coherencia y sostenibilidad.
                                 </p>
                             </div>
                             <div className="pt-4">
