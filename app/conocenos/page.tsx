@@ -94,7 +94,7 @@ export default function About() {
                             <p className="text-blue-600 font-bold text-sm tracking-wide mt-2 uppercase">Director CRC & Consultor en Ciencias Sociales</p>
 
                             <div className="mt-6 flex gap-4">
-                                <Link href="https://linkedin.com" className="text-gray-400 hover:text-blue-600 transition-colors"><Linkedin className="h-6 w-6" /></Link>
+                                <a href="https://www.linkedin.com/in/juan-carlos-rauld-farias-a64710a4/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-600 transition-colors"><Linkedin className="h-6 w-6" /></a>
                             </div>
                         </div>
                         <div className="lg:col-span-8 space-y-8">
@@ -139,7 +139,7 @@ export default function About() {
                             <div className="mt-6 flex gap-4">
                                 <a href="https://www.instagram.com/centrodereflexionescriticas/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-pink-600 transition-colors"><Instagram className="h-6 w-6" /></a>
                                 <a href="mailto:centrodereflexionescriticas@gmail.com" className="text-gray-400 hover:text-red-600 transition-colors"><Mail className="h-6 w-6" /></a>
-                                <Link href="/servicios" className="text-gray-400 hover:text-blue-600 transition-colors"><Linkedin className="h-6 w-6" /></Link>
+                                <a href="https://www.linkedin.com/in/roc%C3%ADo-solar-guerra-168693138/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-600 transition-colors"><Linkedin className="h-6 w-6" /></a>
                             </div>
                         </div>
                         <div className="lg:col-span-8 space-y-8 lg:text-right">
