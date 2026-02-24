@@ -84,7 +84,7 @@ export default function About() {
                         <div className="lg:col-span-4 flex flex-col items-center text-center lg:text-left lg:items-start">
                             <div className="h-64 w-64 rounded-xl bg-gray-200 mb-6 relative overflow-hidden shadow-lg">
                                 <Image
-                                    src="/images/juan_carlos.png"
+                                    src="/images/juan_carlos_20260224.png"
                                     alt="Juan Carlos Rauld"
                                     fill
                                     className="object-cover"
