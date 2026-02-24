@@ -336,13 +336,6 @@
         "children": []
       },
       {
-        "id": "nav-lectores",
-        "label": "Opinión de Lectores",
-        "href": "/columnas/lectores",
-        "visible": true,
-        "children": []
-      },
-      {
         "id": "nav-publicaciones",
         "label": "Publicaciones",
         "href": "/publicaciones",

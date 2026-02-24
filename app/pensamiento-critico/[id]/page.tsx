@@ -22,7 +22,7 @@ export async function generateMetadata(props: { params: Promise<{ id: string }> 
     }
 
     return {
-        title: `${post.title} | Columnas de Lectores`,
+        title: `${post.title} | Pensamiento Crítico | CRC`,
         description: post.excerpt,
         openGraph: {
             title: post.title,
@@ -48,13 +48,17 @@ export async function generateMetadata(props: { params: Promise<{ id: string }> 
     };
 }
 
-export default async function ReaderColumnPage(props: { params: Promise<{ id: string }> }) {
+export default async function PensamientoCriticoDetail(props: { params: Promise<{ id: string }> }) {
     const params = await props.params;
     const post = readers.find((p) => p.id === params.id);
 
     if (!post) {
         notFound();
     }
+
+    // Ensure the category links back to the main section.
+    // Assuming ArticleDetail doesn't forcefully link to /columnas always.
+    // It receives the whole article object.
 
     return <ArticleDetail article={post} />;
 }

@@ -27,10 +27,10 @@ export default function ArticleDetail({ article }: ArticleDetailProps) {
                 <div className="absolute bottom-0 left-0 w-full p-6 sm:p-12 lg:p-20">
                     <MotionDiv className="max-w-4xl mx-auto text-white">
                         <Link
-                            href="/columnas"
+                            href="/pensamiento-critico"
                             className="inline-flex items-center text-sm font-medium text-gray-300 hover:text-white mb-6 transition-colors"
                         >
-                            <ArrowLeft className="mr-2 h-4 w-4" /> Volver a Columnas
+                            <ArrowLeft className="mr-2 h-4 w-4" /> Volver a Pensamiento Crítico
                         </Link>
                         <div className="flex items-center gap-4 mb-4">
                             <span className="px-3 py-1 rounded-full bg-blue-600/90 text-xs font-bold uppercase tracking-wider">
