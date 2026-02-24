@@ -1,9 +1,9 @@
 import { MotionList, MotionItem } from "@/components/ui/Motion";
 import Image from "next/image";
 import Link from "next/link";
-import { columns } from "@/lib/data";
+import { readers } from "@/lib/data";
 
-export default function Columns() {
+export default function ReadersColumns() {
     return (
         <div className="bg-white py-24 sm:py-32">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -12,32 +12,25 @@ export default function Columns() {
                         Columnas de Opinión
                     </h2>
                     <p className="mt-2 text-lg leading-8 text-gray-600">
-                        Voces críticas para tiempos complejos. Análisis profundos sobre sociedad, política y cultura.
+                        Voces y visiones diversas de nuestros lectores.
                     </p>
-                    <div className="mt-6 flex items-center justify-center gap-x-6">
-                        <Link
-                            href="/columnas/lectores"
-                            className="rounded-md bg-gray-900 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600 transition-colors"
-                        >
-                            Leer Opinión de Lectores
-                        </Link>
-                        <Link href="/envia-tu-texto" className="text-sm font-semibold leading-6 text-gray-900 hover:text-gray-600 transition-colors">
-                            Envía tu columna <span aria-hidden="true">→</span>
-                        </Link>
-                    </div>
                 </div>
 
                 <MotionList className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-                    {columns.map((post) => (
+                    {readers.map((post) => (
                         <MotionItem key={post.id} className="flex flex-col items-start justify-between group cursor-pointer">
-                            <Link href={`/columnas/${post.id}`} className="relative w-full overflow-hidden rounded-2xl block">
-                                <div className="aspect-[16/9] w-full sm:aspect-[2/1] lg:aspect-[3/2] relative">
-                                    <Image
-                                        src={post.image}
-                                        alt={post.title}
-                                        fill
-                                        className="object-cover transition-transform duration-500 group-hover:scale-105"
-                                    />
+                            <Link href={`/columnas/lectores/${post.id}`} className="relative w-full overflow-hidden rounded-2xl block">
+                                <div className="aspect-[16/9] w-full sm:aspect-[2/1] lg:aspect-[3/2] relative bg-gray-100 flex items-center justify-center">
+                                    {post.image ? (
+                                        <Image
+                                            src={post.image}
+                                            alt={post.title}
+                                            fill
+                                            className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                        />
+                                    ) : (
+                                        <div className="text-gray-400 font-medium tracking-widest uppercase text-sm">CRC Opinión</div>
+                                    )}
                                 </div>
                                 <div className="absolute inset-0 ring-1 ring-inset ring-gray-900/10 rounded-2xl" />
                             </Link>
@@ -52,7 +45,7 @@ export default function Columns() {
                                 </div>
                                 <div className="group relative">
                                     <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-blue-600 transition-colors">
-                                        <Link href={`/columnas/${post.id}`}>
+                                        <Link href={`/columnas/lectores/${post.id}`}>
                                             <span className="absolute inset-0" />
                                             {post.title}
                                         </Link>

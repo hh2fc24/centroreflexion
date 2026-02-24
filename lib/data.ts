@@ -1,4 +1,5 @@
 import articles from "@/lib/articles.json";
+import readersData from "@/lib/readers.json";
 
 export interface Article {
   id: string;
@@ -15,4 +16,5 @@ type ArticlesJson = { columns: Article[]; reviews: Article[] };
 
 export const columns: Article[] = (articles as unknown as ArticlesJson).columns;
 export const reviews: Article[] = (articles as unknown as ArticlesJson).reviews;
+export const readers: Article[] = readersData as unknown as Article[];
 
