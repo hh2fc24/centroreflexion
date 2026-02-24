@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { motion } from "framer-motion";
-import { Check, ArrowRight, BookOpen, PenTool, Users, Building2, Mail } from "lucide-react";
+import { Check, ArrowRight, PenTool, Users, Building2, Mail } from "lucide-react";
 
 export default function Services() {
     return (
@@ -70,26 +70,17 @@ export default function Services() {
                                 Solicitar Evaluación
                             </Button>
                         </div>
-                        <div className="relative h-[500px] rounded-2xl overflow-hidden shadow-2xl group">
-                            {/* Abstract Clinical Background */}
-                            <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-indigo-100 opacity-80" />
-                            <div className="absolute inset-0 opacity-10 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-600 via-transparent to-transparent" />
-
-                            {/* Decorative Elements */}
-                            <div className="absolute top-10 right-10 w-32 h-32 bg-blue-400/20 rounded-full blur-2xl group-hover:bg-blue-400/30 transition-colors duration-700" />
-                            <div className="absolute bottom-10 left-10 w-40 h-40 bg-indigo-400/20 rounded-full blur-3xl group-hover:bg-indigo-400/30 transition-colors duration-700" />
-
-                            {/* Content */}
-                            <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center">
-                                <motion.div
-                                    whileHover={{ scale: 1.05 }}
-                                    className="w-20 h-20 bg-white rounded-2xl shadow-lg flex items-center justify-center mb-6"
-                                >
-                                    <BookOpen className="w-10 h-10 text-blue-600" />
-                                </motion.div>
-                                <h3 className="text-2xl font-serif text-slate-800 mb-2">Espacio Clínico</h3>
-                                <p className="text-slate-500 max-w-xs">Un entorno seguro y confidencial para el análisis y la intervención.</p>
-                            </div>
+                        <div className="relative h-[500px] rounded-2xl overflow-hidden shadow-2xl">
+                            <video
+                                className="absolute inset-0 h-full w-full object-cover"
+                                src="/22.mp4"
+                                autoPlay
+                                loop
+                                muted
+                                playsInline
+                                preload="metadata"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/25 via-transparent to-transparent" />
                         </div>
                     </div>
                 </div>
@@ -99,26 +90,17 @@ export default function Services() {
             <section id="terapia-ocupacional" className="py-24 bg-gray-50 border-b border-gray-100">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                        <div className="order-last lg:order-first relative h-[500px] rounded-2xl overflow-hidden shadow-2xl group">
-                            {/* Abstract OT Background */}
-                            <div className="absolute inset-0 bg-gradient-to-bl from-purple-50 to-pink-100 opacity-80" />
-                            <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_bottom_left,_var(--tw-gradient-stops))] from-purple-600 via-transparent to-transparent" />
-
-                            {/* Decorative Elements */}
-                            <div className="absolute top-1/4 left-1/4 w-48 h-48 bg-purple-300/20 rounded-full blur-3xl group-hover:scale-110 transition-transform duration-1000" />
-                            <div className="absolute bottom-20 right-20 w-24 h-24 bg-pink-400/20 rounded-full blur-xl" />
-
-                            {/* Content */}
-                            <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center">
-                                <motion.div
-                                    whileHover={{ scale: 1.05, rotate: 5 }}
-                                    className="w-20 h-20 bg-white rounded-full shadow-lg flex items-center justify-center mb-6"
-                                >
-                                    <Users className="w-10 h-10 text-purple-600" />
-                                </motion.div>
-                                <h3 className="text-2xl font-serif text-slate-800 mb-2">Comunidad y Vínculo</h3>
-                                <p className="text-slate-500 max-w-xs">Intervenciones situadas que fortalecen el tejido social y la autonomía.</p>
-                            </div>
+                        <div className="order-last lg:order-first relative h-[500px] rounded-2xl overflow-hidden shadow-2xl">
+                            <video
+                                className="absolute inset-0 h-full w-full object-cover"
+                                src="/44.mp4"
+                                autoPlay
+                                loop
+                                muted
+                                playsInline
+                                preload="metadata"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/25 via-transparent to-transparent" />
                         </div>
 
                         <div>
