@@ -5,8 +5,10 @@ import { Hero } from "@/components/Hero";
 import { FoundersSection } from "@/components/site/FoundersSection";
 import { PublicationsSection } from "@/components/PublicationsSection";
 import { InterviewsSection } from "@/components/InterviewsSection";
+import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { ArrowRight, BookOpen, PenTool, Star } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
 import { MotionDiv, MotionItem, MotionList } from "@/components/ui/Motion";
 import { EditorLink } from "@/components/editor/EditorLink";
 import { EditableText } from "@/components/editor/EditableText";
@@ -51,6 +53,20 @@ function pickFeatured(columns: Article[], reviews: Article[]) {
     { ...article2, link: `/critica/${article2.id}` },
     { ...article3, link: `/columnas/${article3.id}` },
   ];
+}
+
+function isDefined<T>(value: T | undefined): value is T {
+  return value !== undefined;
+}
+
+function normalizeVisibleIds(ids: string[], current: string[], maxVisible: number): string[] {
+  if (ids.length <= maxVisible) return ids;
+  const next = current.filter((id) => ids.includes(id));
+  for (const id of ids) {
+    if (next.length >= maxVisible) break;
+    if (!next.includes(id)) next.push(id);
+  }
+  return next;
 }
 
 function LegacyServicesPreview() {
@@ -188,51 +204,81 @@ function LegacyLatestArticles() {
 }
 
 function LegacyTestimonials() {
+  const MAX_VISIBLE = 3;
+  const ROTATE_EVERY_MS = 9000;
   const { content, updateTestimonial, deleteTestimonial } = useContent();
   const { adminEnabled } = useEditor();
-  const half = Math.ceil(content.testimonials.length / 2);
-  const row1 = content.testimonials.slice(0, half);
-  const row2 = content.testimonials.slice(half);
+  const [visibleIds, setVisibleIds] = useState<string[]>(() => content.testimonials.slice(0, MAX_VISIBLE).map((t) => t.id));
+  const testimonialIds = useMemo(() => content.testimonials.map((t) => t.id), [content.testimonials]);
+  const normalizedVisibleIds = useMemo(
+    () => normalizeVisibleIds(testimonialIds, visibleIds, MAX_VISIBLE),
+    [testimonialIds, visibleIds]
+  );
 
-  const renderCard = (t: typeof content.testimonials[0], idx: number) => (
-    <div
-      key={`${t.id}-${idx}`}
-      className="group relative h-full overflow-hidden rounded-2xl border border-white/10 bg-black/40 backdrop-blur-md p-6 shadow-2xl hover:bg-black/60 hover:-translate-y-1 transition-all duration-300 w-[350px] shrink-0 flex flex-col justify-between"
-    >
-      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none bg-gradient-to-br from-white/5 via-transparent to-white/5" />
+  useEffect(() => {
+    if (testimonialIds.length <= MAX_VISIBLE) return undefined;
+    const timer = window.setInterval(() => {
+      setVisibleIds((current) => {
+        const base = normalizeVisibleIds(testimonialIds, current, MAX_VISIBLE);
+        const hidden = testimonialIds.filter((id) => !base.includes(id));
+        if (base.length === 0 || hidden.length === 0) return base;
 
-      <div className="relative flex flex-col h-full">
-        <div className="flex items-start justify-between gap-4 mb-4">
-          <div>
-            <div className="text-sm font-bold text-white mb-1">
-              <EditableAtom value={t.name} ariaLabel="Testimonio nombre" onCommit={(next) => updateTestimonial(t.id, { name: next })} />
+        const next = [...base];
+        const replaceIndex = Math.floor(Math.random() * next.length);
+        const replacement = hidden[Math.floor(Math.random() * hidden.length)];
+        next[replaceIndex] = replacement;
+        return next;
+      });
+    }, ROTATE_EVERY_MS);
+    return () => window.clearInterval(timer);
+  }, [testimonialIds]);
+
+  const visibleTestimonials = useMemo(() => {
+    if (content.testimonials.length <= MAX_VISIBLE) return content.testimonials;
+    const byId = new Map(content.testimonials.map((t) => [t.id, t]));
+    return normalizedVisibleIds.map((id) => byId.get(id)).filter(isDefined);
+  }, [content.testimonials, normalizedVisibleIds]);
+
+  const renderCard = (t: typeof content.testimonials[number]) => {
+    return (
+      <div
+        className="group relative h-full overflow-hidden rounded-2xl border border-white/10 bg-black/40 backdrop-blur-md p-6 shadow-2xl hover:bg-black/60 hover:-translate-y-1 transition-all duration-300 w-full flex flex-col justify-between"
+      >
+        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none bg-gradient-to-br from-white/5 via-transparent to-white/5" />
+
+        <div className="relative flex flex-col h-full">
+          <div className="flex items-start justify-between gap-4 mb-4">
+            <div>
+              <div className="text-sm font-bold text-white mb-1">
+                <EditableAtom value={t.name} ariaLabel="Testimonio nombre" onCommit={(next) => updateTestimonial(t.id, { name: next })} />
+              </div>
+              <div className="inline-flex items-center rounded-full bg-white/10 px-2.5 py-1 text-xs font-medium text-gray-300 border border-white/5">
+                <EditableAtom value={t.category} ariaLabel="Testimonio categoría" onCommit={(next) => updateTestimonial(t.id, { category: next })} />
+              </div>
             </div>
-            <div className="inline-flex items-center rounded-full bg-white/10 px-2.5 py-1 text-xs font-medium text-gray-300 border border-white/5">
-              <EditableAtom value={t.category} ariaLabel="Testimonio categoría" onCommit={(next) => updateTestimonial(t.id, { category: next })} />
-            </div>
+            {adminEnabled ? (
+              <button
+                type="button"
+                className="opacity-0 group-hover:opacity-100 transition-opacity text-gray-400 hover:text-red-400"
+                aria-label="Eliminar testimonio"
+                onClick={() => {
+                  const ok = window.confirm("¿Eliminar este testimonio?");
+                  if (!ok) return;
+                  deleteTestimonial(t.id);
+                }}
+              >
+                ×
+              </button>
+            ) : null}
           </div>
-          {adminEnabled ? (
-            <button
-              type="button"
-              className="opacity-0 group-hover:opacity-100 transition-opacity text-gray-400 hover:text-red-400"
-              aria-label="Eliminar testimonio"
-              onClick={() => {
-                const ok = window.confirm("¿Eliminar este testimonio?");
-                if (!ok) return;
-                deleteTestimonial(t.id);
-              }}
-            >
-              ×
-            </button>
-          ) : null}
-        </div>
 
-        <div className="text-gray-200 leading-relaxed text-sm flex-grow">
-          <EditableAtom value={t.text} ariaLabel="Testimonio texto" multiline onCommit={(next) => updateTestimonial(t.id, { text: next })} />
+          <div className="text-gray-200 leading-relaxed text-sm flex-grow">
+            <EditableAtom value={t.text} ariaLabel="Testimonio texto" multiline onCommit={(next) => updateTestimonial(t.id, { text: next })} />
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   return (
     <section className="relative py-24 overflow-hidden isolate bg-gray-900 border-t border-gray-800">
@@ -260,15 +306,24 @@ function LegacyTestimonials() {
         </div>
       </div>
 
-      <div className="relative flex flex-col gap-6 overflow-hidden z-10 py-4">
-        <div className="flex w-max animate-marquee pause-on-hover gap-6 px-4">
-          {[...row1, ...row1].map((t, i) => renderCard(t, i))}
+      <div className="relative z-10 py-4">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 px-4 sm:px-6 lg:grid-cols-3 lg:px-8">
+          <AnimatePresence mode="popLayout" initial={false}>
+            {visibleTestimonials.map((t) => (
+              <motion.div
+                key={t.id}
+                layout
+                className="h-full"
+                initial={{ opacity: 0, y: 16, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -16, scale: 0.98 }}
+                transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+              >
+                {renderCard(t)}
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </div>
-        <div className="flex w-max animate-marquee-reverse pause-on-hover gap-6 px-4">
-          {[...row2, ...row2].map((t, i) => renderCard(t, i))}
-        </div>
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-gray-900 to-transparent" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-gray-900 to-transparent" />
       </div>
     </section>
   );
