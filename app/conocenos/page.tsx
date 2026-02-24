@@ -101,7 +101,7 @@ export default function About() {
                             <div>
                                 <h4 className="text-xl font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2">Rol Editorial y Académico</h4>
                                 <p className="text-gray-600 leading-relaxed">
-                                    Como <strong>Director Editorial del Centro de Reflexiones Críticas</strong>, Juan Carlos impulsa una línea de trabajo en ciencias sociales aplicadas, articulando pensamiento contemporáneo, análisis institucional y experiencia en terreno en infancia y salud mental. Su aporte busca traducir reflexión compleja en marcos de acción claros para equipos, programas y decisiones públicas.
+                                    <strong>Juan Carlos Rauld es trabajador social.</strong> Magíster en Pensamiento Contemporáneo en Filosofía y Pensamiento Político del Instituto de Filosofía de la Universidad Diego Portales, e investigador del Centro de Reflexiones Críticas. Sus áreas de interés son el trauma psíquico infantil, la filosofía social y política contemporánea, especialmente la biopolítica de la infancia pobre en Chile y la filosofía de la infancia. Posee una doble especialización en salud mental infantil y en filosofía práctica de la niñez, desde el siglo XIX hasta la actualidad.
                                 </p>
                             </div>
                             <div>
