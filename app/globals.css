@@ -11,7 +11,7 @@
   --muted-foreground: #475569;
   --border: rgba(148, 163, 184, 0.25);
 
-  --text-scale: 0.8;
+  --text-scale: 1;
   --radius-base: 16px;
   --shadow-strength: 0.6;
 
@@ -48,7 +48,7 @@
 }
 
 html {
-  font-size: calc(16px * var(--text-scale));
+  zoom: 0.8;
 }
 
 body {
