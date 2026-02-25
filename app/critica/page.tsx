@@ -3,6 +3,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { reviews } from "@/lib/data";
 
+const getAuthorDetails = (author: string) => {
+    if (author.includes("Rocío Solar")) {
+        return { image: "/images/rocio_solar.png", role: "Co-fundadora & Terapeuta Ocupacional" };
+    }
+    if (author.includes("Juan Carlos Rauld")) {
+        return { image: "/images/juan_carlos_20260224.png", role: "Director Editorial & Consultor" };
+    }
+    return null;
+};
+
 export default function Criticism() {
     return (
         <div className="bg-white py-24 sm:py-32">
@@ -50,15 +60,29 @@ export default function Criticism() {
                                     </p>
                                 </div>
                                 <div className="relative mt-8 flex items-center gap-x-4">
-                                    <div className="h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 text-xs font-bold">
-                                        {post.author.charAt(0)}
-                                    </div>
-                                    <div className="text-sm leading-6">
-                                        <p className="font-semibold text-gray-900">
-                                            <span className="absolute inset-0" />
-                                            {post.author}
-                                        </p>
-                                    </div>
+                                    {(() => {
+                                        const details = getAuthorDetails(post.author);
+                                        return (
+                                            <>
+                                                {details?.image ? (
+                                                    <Image src={details.image} alt={post.author} width={40} height={40} className="h-10 w-10 rounded-full bg-gray-50 object-cover" />
+                                                ) : (
+                                                    <div className="h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 text-xs font-bold">
+                                                        {post.author.charAt(0)}
+                                                    </div>
+                                                )}
+                                                <div className="text-sm leading-6">
+                                                    <p className="font-semibold text-gray-900">
+                                                        <span className="absolute inset-0" />
+                                                        {post.author}
+                                                    </p>
+                                                    {details?.role && (
+                                                        <p className="text-xs text-gray-500">{details.role}</p>
+                                                    )}
+                                                </div>
+                                            </>
+                                        );
+                                    })()}
                                 </div>
                             </div>
                         </MotionItem>

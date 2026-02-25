@@ -4,6 +4,16 @@ import Link from "next/link";
 import { readers } from "@/lib/data";
 import { parseDisplayDate } from "@/lib/articles/date";
 
+const getAuthorDetails = (author: string) => {
+    if (author.includes("Rocío Solar")) {
+        return { image: "/images/rocio_solar.png", role: "Co-fundadora & Terapeuta Ocupacional" };
+    }
+    if (author.includes("Juan Carlos Rauld")) {
+        return { image: "/images/juan_carlos_20260224.png", role: "Director Editorial & Consultor" };
+    }
+    return null;
+};
+
 export const metadata = {
     title: "Pensamiento Crítico",
     description: "Columnas de opinión, crítica literaria y cultural, ensayos y reflexiones sobre la complejidad social contemporánea.",
@@ -86,14 +96,28 @@ export default function PensamientoCritico() {
                             {featuredArticle.excerpt}
                         </p>
                         <div className="flex items-center gap-x-4 border-t border-gray-100 pt-6">
-                            <div className="h-12 w-12 rounded-full bg-gray-900 flex items-center justify-center text-white text-sm font-bold shadow-md shadow-gray-300">
-                                {featuredArticle.author.charAt(0)}
-                            </div>
-                            <div className="text-base leading-6">
-                                <p className="font-semibold text-gray-900">
-                                    {featuredArticle.author}
-                                </p>
-                            </div>
+                            {(() => {
+                                const details = getAuthorDetails(featuredArticle.author);
+                                return (
+                                    <>
+                                        {details?.image ? (
+                                            <Image src={details.image} alt={featuredArticle.author} width={48} height={48} className="h-12 w-12 rounded-full object-cover shadow-md shadow-gray-300" />
+                                        ) : (
+                                            <div className="h-12 w-12 rounded-full bg-gray-900 flex items-center justify-center text-white text-sm font-bold shadow-md shadow-gray-300">
+                                                {featuredArticle.author.charAt(0)}
+                                            </div>
+                                        )}
+                                        <div className="text-base leading-6">
+                                            <p className="font-semibold text-gray-900">
+                                                {featuredArticle.author}
+                                            </p>
+                                            {details?.role && (
+                                                <p className="text-sm text-gray-500">{details.role}</p>
+                                            )}
+                                        </div>
+                                    </>
+                                );
+                            })()}
                         </div>
                     </div>
                 </div>
@@ -144,14 +168,28 @@ export default function PensamientoCritico() {
                                     </div>
                                 </div>
                                 <div className="mt-8 flex items-center gap-x-4 pt-6 border-t border-gray-100">
-                                    <div className="h-10 w-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-600 text-xs font-bold ring-1 ring-gray-200">
-                                        {post.author.charAt(0)}
-                                    </div>
-                                    <div className="text-sm leading-6 flex-1">
-                                        <p className="font-semibold text-gray-900">
-                                            {post.author}
-                                        </p>
-                                    </div>
+                                    {(() => {
+                                        const details = getAuthorDetails(post.author);
+                                        return (
+                                            <>
+                                                {details?.image ? (
+                                                    <Image src={details.image} alt={post.author} width={40} height={40} className="h-10 w-10 rounded-full object-cover ring-1 ring-gray-200" />
+                                                ) : (
+                                                    <div className="h-10 w-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-600 text-xs font-bold ring-1 ring-gray-200">
+                                                        {post.author.charAt(0)}
+                                                    </div>
+                                                )}
+                                                <div className="text-sm leading-6 flex-1">
+                                                    <p className="font-semibold text-gray-900">
+                                                        {post.author}
+                                                    </p>
+                                                    {details?.role && (
+                                                        <p className="text-xs text-gray-500 line-clamp-1">{details.role}</p>
+                                                    )}
+                                                </div>
+                                            </>
+                                        );
+                                    })()}
                                 </div>
                             </div>
                         </MotionItem>

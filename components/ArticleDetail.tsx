@@ -6,6 +6,16 @@ import { MotionDiv, MotionItem } from "@/components/ui/Motion";
 import { Article } from "@/lib/data";
 import { JsonLd } from "@/components/JsonLd";
 
+const getAuthorDetails = (author: string) => {
+    if (author.includes("Rocío Solar")) {
+        return { image: "/images/rocio_solar.png", role: "Co-fundadora & Terapeuta Ocupacional" };
+    }
+    if (author.includes("Juan Carlos Rauld")) {
+        return { image: "/images/juan_carlos_20260224.png", role: "Director Editorial & Consultor en Ciencias Sociales" };
+    }
+    return null;
+};
+
 interface ArticleDetailProps {
     article: Article;
 }
@@ -42,8 +52,19 @@ export default function ArticleDetail({ article }: ArticleDetailProps) {
                         </h1>
                         <div className="flex flex-wrap items-center gap-6 text-sm sm:text-base text-gray-200">
                             <div className="flex items-center gap-2">
-                                <User className="h-4 w-4" />
-                                <span className="font-semibold">{article.author}</span>
+                                {(() => {
+                                    const details = getAuthorDetails(article.author);
+                                    return (
+                                        <>
+                                            {details?.image ? (
+                                                <Image src={details.image} alt={article.author} width={24} height={24} className="h-6 w-6 rounded-full object-cover ring-1 ring-white/50" />
+                                            ) : (
+                                                <User className="h-4 w-4" />
+                                            )}
+                                            <span className="font-semibold">{article.author}</span>
+                                        </>
+                                    );
+                                })()}
                             </div>
                             <div className="flex items-center gap-2">
                                 <Calendar className="h-4 w-4" />
@@ -85,13 +106,26 @@ export default function ArticleDetail({ article }: ArticleDetailProps) {
                 {/* Author Bio / Footer */}
                 <div className="mt-16 pt-10 border-t border-gray-100">
                     <div className="flex items-center gap-4 bg-gray-50 p-6 rounded-xl">
-                        <div className="h-16 w-16 rounded-full bg-gray-200 flex items-center justify-center text-xl font-bold text-gray-500">
-                            {article.author.charAt(0)}
-                        </div>
-                        <div>
-                            <h3 className="font-bold text-gray-900">Escrito por {article.author}</h3>
-                            <p className="text-sm text-gray-500">Analista y colaborador en Centro de Reflexiones Críticas.</p>
-                        </div>
+                        {(() => {
+                            const details = getAuthorDetails(article.author);
+                            return (
+                                <>
+                                    {details?.image ? (
+                                        <Image src={details.image} alt={article.author} width={64} height={64} className="h-16 w-16 rounded-full object-cover ring-2 ring-gray-200" />
+                                    ) : (
+                                        <div className="h-16 w-16 rounded-full bg-gray-200 flex items-center justify-center text-xl font-bold text-gray-500">
+                                            {article.author.charAt(0)}
+                                        </div>
+                                    )}
+                                    <div>
+                                        <h3 className="font-bold text-gray-900">Escrito por {article.author}</h3>
+                                        <p className="text-sm text-gray-500">
+                                            {details?.role || "Analista y colaborador en Centro de Reflexiones Críticas."}
+                                        </p>
+                                    </div>
+                                </>
+                            );
+                        })()}
                     </div>
                 </div>
 
