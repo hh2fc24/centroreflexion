@@ -93,7 +93,7 @@ export default function RootLayout({
               "logo": "https://centroreflexionescriticas.cl/logo.png", // Ensure this exists or use text
               "contactPoint": {
                 "@type": "ContactPoint",
-                "telephone": "+56912345678", // Placeholder
+                "email": "centrodereflexionescriticas@gmail.com",
                 "contactType": "customer service"
               }
             })

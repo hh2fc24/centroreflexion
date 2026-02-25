@@ -16,7 +16,6 @@ type Lead = {
   source: string;
   name: string;
   email: string;
-  phone: string;
   message: string;
   page: string;
   formId?: string;
@@ -55,14 +54,13 @@ export async function POST(req: Request) {
     source: sanitizePlainText(body.source ?? "web", { maxLen: 40 }),
     name: sanitizePlainText(body.name ?? "", { maxLen: 140 }),
     email: sanitizePlainText(body.email ?? "", { maxLen: 140 }),
-    phone: sanitizePlainText(body.phone ?? "", { maxLen: 80 }),
     message: sanitizePlainText(body.message ?? "", { maxLen: 4000 }),
     page: sanitizePlainText(body.page ?? "", { maxLen: 180 }),
     formId: body.formId ? sanitizePlainText(body.formId, { maxLen: 80 }) : undefined,
     fields: body.fields && typeof body.fields === "object" ? (body.fields as Record<string, unknown>) : undefined,
   };
 
-  if (!lead.email && !lead.phone) {
+  if (!lead.email) {
     return NextResponse.json({ ok: false, error: "missing_contact" }, { status: 400 });
   }
 

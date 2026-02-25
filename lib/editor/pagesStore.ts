@@ -168,22 +168,22 @@ function normalizePageForStore(x: SitePage): SitePage {
   };
   const blocks = Array.isArray(x.blocks)
     ? (x.blocks as SiteBlock[]).map((b) => {
-        const raw = b as unknown as Partial<SiteBlock> & Record<string, unknown>;
-        const preset = normalizePreset(raw.preset);
-        const style = normalizeBlockStyle(b.type, raw.style);
-        const vo = raw.visibleOn && typeof raw.visibleOn === "object" ? (raw.visibleOn as Record<string, unknown>) : null;
-        const visibleOn = vo
-          ? { desktop: vo.desktop !== false, tablet: vo.tablet !== false, mobile: vo.mobile !== false }
-          : { desktop: true, tablet: true, mobile: true };
-        return migrateBlock({
-          ...b,
-          preset,
-          style,
-          visible: raw.visible !== false,
-          locked: !!raw.locked,
-          visibleOn,
-        });
-      })
+      const raw = b as unknown as Partial<SiteBlock> & Record<string, unknown>;
+      const preset = normalizePreset(raw.preset);
+      const style = normalizeBlockStyle(b.type, raw.style);
+      const vo = raw.visibleOn && typeof raw.visibleOn === "object" ? (raw.visibleOn as Record<string, unknown>) : null;
+      const visibleOn = vo
+        ? { desktop: vo.desktop !== false, tablet: vo.tablet !== false, mobile: vo.mobile !== false }
+        : { desktop: true, tablet: true, mobile: true };
+      return migrateBlock({
+        ...b,
+        preset,
+        style,
+        visible: raw.visible !== false,
+        locked: !!raw.locked,
+        visibleOn,
+      });
+    })
     : [];
   return { ...x, kind, chrome, seo, blocks };
 }
@@ -227,7 +227,6 @@ function blankBlock(type: BlockType, preset: BlockPreset): SiteBlock {
           fields: [
             { id: newId("fld"), type: "text", label: "Nombre", key: "name", required: true, placeholder: "Tu nombre" },
             { id: newId("fld"), type: "email", label: "Email", key: "email", required: true, placeholder: "tu@email.com" },
-            { id: newId("fld"), type: "tel", label: "Teléfono", key: "phone", required: false, placeholder: "+56…" },
             { id: newId("fld"), type: "textarea", label: "Mensaje", key: "message", required: true, placeholder: "Escribe tu mensaje…" },
           ],
         },

@@ -29,22 +29,11 @@ export default function Contact() {
                             </div>
                             <div className="flex gap-x-4">
                                 <dt className="flex-none">
-                                    <span className="sr-only">Teléfono</span>
-                                    <Phone className="h-7 w-6 text-gray-400" aria-hidden="true" />
-                                </dt>
-                                <dd>
-                                    <a className="hover:text-gray-900" href="tel:+1234567890">
-                                        +52 (55) 1234-5678
-                                    </a>
-                                </dd>
-                            </div>
-                            <div className="flex gap-x-4">
-                                <dt className="flex-none">
                                     <span className="sr-only">Dirección</span>
                                     <MapPin className="h-7 w-6 text-gray-400" aria-hidden="true" />
                                 </dt>
                                 <dd>
-                                    Ciudad de México, México
+                                    Santiago de Chile
                                 </dd>
                             </div>
                         </dl>
