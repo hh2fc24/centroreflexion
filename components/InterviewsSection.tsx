@@ -22,7 +22,7 @@ export function InterviewsSection() {
                 <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-600 rounded-full blur-[120px] mix-blend-screen opacity-30 transform -translate-x-1/2 translate-y-1/2"></div>
             </div>
 
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-50 w-full">
                 {/* Header Section */}
                 <MotionDiv
                     initial={{ opacity: 0, y: 20 }}
@@ -52,10 +52,10 @@ export function InterviewsSection() {
                     {/* Video 1 */}
                     <div
                         className={`group flex flex-col gap-6 transition-all duration-700 ease-out ${hoveredVideo === 1
-                                ? "scale-[1.03] z-[60]"
-                                : hoveredVideo !== null
-                                    ? "scale-[0.97] opacity-40 z-30 grayscale-[60%] blur-[2px]"
-                                    : "scale-100 z-40 hover:shadow-2xl"
+                            ? "scale-[1.03] z-[60]"
+                            : hoveredVideo !== null
+                                ? "scale-[0.97] opacity-40 z-30 grayscale-[60%] blur-[2px]"
+                                : "scale-100 z-40 hover:shadow-2xl"
                             }`}
                         onMouseEnter={() => setHoveredVideo(1)}
                         onMouseLeave={() => setHoveredVideo(null)}
@@ -74,8 +74,8 @@ export function InterviewsSection() {
 
                         {/* Title 1 Content box */}
                         <div className={`flex-1 rounded-2xl p-6 sm:p-8 border transition-all duration-700 ${hoveredVideo === 1
-                                ? "bg-gray-800 border-blue-500/30 shadow-lg"
-                                : "bg-gray-800/40 backdrop-blur-md border-gray-700/50"
+                            ? "bg-gray-800 border-blue-500/30 shadow-lg"
+                            : "bg-gray-800/40 backdrop-blur-md border-gray-700/50"
                             }`}>
                             <div className="flex items-center text-blue-400 text-xs sm:text-sm uppercase tracking-widest font-bold mb-4">
                                 <Radio className="w-4 h-4 mr-2" />
@@ -93,10 +93,10 @@ export function InterviewsSection() {
                     {/* Video 2 */}
                     <div
                         className={`group flex flex-col gap-6 transition-all duration-700 ease-out ${hoveredVideo === 2
-                                ? "scale-[1.03] z-[60]"
-                                : hoveredVideo !== null
-                                    ? "scale-[0.97] opacity-40 z-30 grayscale-[60%] blur-[2px]"
-                                    : "scale-100 z-40 hover:shadow-2xl"
+                            ? "scale-[1.03] z-[60]"
+                            : hoveredVideo !== null
+                                ? "scale-[0.97] opacity-40 z-30 grayscale-[60%] blur-[2px]"
+                                : "scale-100 z-40 hover:shadow-2xl"
                             }`}
                         onMouseEnter={() => setHoveredVideo(2)}
                         onMouseLeave={() => setHoveredVideo(null)}
@@ -115,8 +115,8 @@ export function InterviewsSection() {
 
                         {/* Title 2 Content box */}
                         <div className={`flex-1 rounded-2xl p-6 sm:p-8 border transition-all duration-700 ${hoveredVideo === 2
-                                ? "bg-gray-800 border-blue-500/30 shadow-lg"
-                                : "bg-gray-800/40 backdrop-blur-md border-gray-700/50"
+                            ? "bg-gray-800 border-blue-500/30 shadow-lg"
+                            : "bg-gray-800/40 backdrop-blur-md border-gray-700/50"
                             }`}>
                             <div className="flex items-center text-blue-400 text-xs sm:text-sm uppercase tracking-widest font-bold mb-4">
                                 <PlayCircle className="w-4 h-4 mr-2" />
