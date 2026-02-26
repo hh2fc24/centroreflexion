@@ -300,8 +300,26 @@ export default function Services() {
             </section >
 
             {/* C) Servicios de Formación */}
-            < section id="formacion" className="py-24 bg-white" >
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            < section id="formacion" className="py-24 bg-white relative overflow-hidden" >
+                {/* Widescreen Backgrounds */}
+                <div className="absolute top-0 right-0 w-[400px] h-[400px] md:w-[600px] md:h-[600px] lg:w-[800px] lg:h-[800px] -z-0 opacity-[0.06] pointer-events-none mix-blend-multiply">
+                    <img
+                        src="/images/juan_carlos_20260224.png"
+                        alt=""
+                        className="w-full h-full object-cover object-top filter grayscale"
+                        style={{ WebkitMaskImage: "radial-gradient(circle at top right, black 10%, transparent 70%)", maskImage: "radial-gradient(circle at top right, black 10%, transparent 70%)" }}
+                    />
+                </div>
+                <div className="absolute bottom-0 left-0 w-[400px] h-[400px] md:w-[600px] md:h-[600px] lg:w-[800px] lg:h-[800px] -z-0 opacity-[0.06] pointer-events-none mix-blend-multiply">
+                    <img
+                        src="/images/rocio_solar.png"
+                        alt=""
+                        className="w-full h-full object-cover object-top filter grayscale"
+                        style={{ WebkitMaskImage: "radial-gradient(circle at bottom left, black 10%, transparent 70%)", maskImage: "radial-gradient(circle at bottom left, black 10%, transparent 70%)" }}
+                    />
+                </div>
+
+                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
                     <div className="text-center mb-16">
                         <span className="inline-flex items-center rounded-full bg-green-50 px-3 py-1 text-sm font-medium text-green-700 ring-1 ring-inset ring-green-700/10 mb-4">Servicios</span>
                         <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl mt-2 font-serif">Formación y Capacitación</h2>
@@ -315,16 +333,6 @@ export default function Services() {
 
                     {/* Juan Carlos Rauld - Formación */}
                     <div className="mb-24 relative">
-                        {/* Low Opacity Background Face */}
-                        <div className="absolute top-0 right-0 w-[300px] h-[300px] md:w-[500px] md:h-[500px] lg:w-[600px] lg:h-[600px] -z-0 opacity-[0.08] pointer-events-none mix-blend-multiply">
-                            <img
-                                src="/images/juan_carlos_20260224.png"
-                                alt=""
-                                className="w-full h-full object-cover object-top filter grayscale"
-                                style={{ WebkitMaskImage: "radial-gradient(circle at top right, black 10%, transparent 70%)", maskImage: "radial-gradient(circle at top right, black 10%, transparent 70%)" }}
-                            />
-                        </div>
-
                         <div className="relative z-10">
                             <h3 className="text-2xl font-bold text-gray-900 mb-8 font-serif border-b border-gray-200 pb-4">
                                 Formación — <span className="text-blue-600">Juan Carlos Rauld</span>
@@ -348,16 +356,6 @@ export default function Services() {
 
                         {/* Rocío Solar - Formación */}
                         <div className="mb-16 relative">
-                            {/* Low Opacity Background Face */}
-                            <div className="absolute top-0 left-0 w-[300px] h-[300px] md:w-[500px] md:h-[500px] lg:w-[600px] lg:h-[600px] -z-0 opacity-[0.08] pointer-events-none mix-blend-multiply">
-                                <img
-                                    src="/images/rocio_solar.png"
-                                    alt=""
-                                    className="w-full h-full object-cover object-top filter grayscale"
-                                    style={{ WebkitMaskImage: "radial-gradient(circle at top left, black 10%, transparent 70%)", maskImage: "radial-gradient(circle at top left, black 10%, transparent 70%)" }}
-                                />
-                            </div>
-
                             <div className="relative z-10">
                                 <h3 className="text-2xl font-bold text-gray-900 mb-8 font-serif border-b border-gray-200 pb-4">
                                     Formación — <span className="text-purple-600">Rocío Solar</span>
