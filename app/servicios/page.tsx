@@ -34,6 +34,117 @@ export default function Services() {
                 </div>
             </div>
 
+            {/* A) Consultoría Estratégica (The "Umbrella" Offer) */}
+            <section id="consultoria" className="relative py-32 bg-slate-900 border-b border-slate-800 overflow-hidden">
+                {/* Abstract Background Assets */}
+                <div className="absolute inset-0 z-0">
+                    <div className="absolute top-0 right-0 w-3/4 h-full opacity-20 mix-blend-overlay">
+                        {/* We use the abstract network image here as a subtle background texture */}
+                        <div className="relative w-full h-full">
+                            <img src="/images/consulting_hero.png" alt="Abstract Network" className="object-cover w-full h-full" />
+                            <div className="absolute inset-0 bg-slate-900/40"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
+                    <div className="lg:grid lg:grid-cols-12 lg:gap-16 items-start">
+
+                        {/* Left Column: Strategic Vision */}
+                        <div className="lg:col-span-5 mb-16 lg:mb-0">
+                            <motion.div
+                                initial={{ opacity: 0, x: -20 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.6 }}
+                                viewport={{ once: true }}
+                            >
+                                <span className="inline-flex items-center px-3 py-1 rounded-full bg-gradient-to-r from-amber-200/10 to-amber-500/10 text-amber-300 text-xs font-bold border border-amber-500/30 tracking-widest uppercase mb-8 shadow-lg shadow-amber-900/20 backdrop-blur-md">
+                                    Consultoría Integral CRC
+                                </span>
+                                <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-white mb-6 font-serif leading-tight">
+                                    Orquestando el <br />
+                                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-600">
+                                        Impacto Social
+                                    </span>
+                                </h2>
+                                <p className="text-lg text-slate-300 leading-relaxed mb-10 font-light border-l-2 border-amber-500/30 pl-6">
+                                    La visión psicosocial experta de Juan Carlos y Rocío se complementa con el poder de orquestación de <strong>Altius Ignite</strong>.
+                                    Ya no basta con diseñar buenos programas de intervención; ahora construimos la arquitectura clínica y el motor tecnológico necesarios para sostenerlos a gran escala en gobiernos y corporaciones.
+                                </p>
+
+                                <div className="flex flex-col sm:flex-row gap-4">
+                                    <Button size="lg" className="bg-white text-slate-900 hover:bg-slate-100 font-bold px-8 py-6 rounded-none border-l-4 border-amber-500 shadow-xl transition-all hover:translate-x-1">
+                                        Agendar Reunión Ejecutiva
+                                        <ArrowRight className="ml-2 h-5 w-5 text-amber-600" />
+                                    </Button>
+                                    <Button variant="outline" size="lg" className="border-slate-600 text-slate-300 hover:text-white hover:border-slate-400 hover:bg-slate-800/50 px-8 py-6 rounded-none backdrop-blur-sm">
+                                        Descargar Portafolio
+                                    </Button>
+                                </div>
+                            </motion.div>
+                        </div>
+
+                        {/* Right Column: Service Matrix */}
+                        <div className="lg:col-span-7">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                {/* Card 1 */}
+                                <div className="group relative bg-slate-800/40 backdrop-blur-md border border-slate-700/50 p-8 hover:bg-slate-800/60 transition-all duration-300 overflow-hidden">
+                                    <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                                        <Brain className="w-24 h-24 text-white" />
+                                    </div>
+                                    <div className="relative z-10">
+                                        <h3 className="text-xl font-bold text-white mb-3 font-serif">Diseño Clínico</h3>
+                                        <p className="text-sm text-slate-400 leading-relaxed mb-4">
+                                            Liderado por Juan Carlos Rauld. Construimos desde la raíz los modelos de intervención institucional basados en evidencia, asegurando el más alto estándar humano y clínico.
+                                        </p>
+                                        <div className="w-8 h-1 bg-amber-500/50 group-hover:w-full transition-all duration-500"></div>
+                                    </div>
+                                </div>
+
+                                {/* Card 2 */}
+                                <div className="group relative bg-slate-800/40 backdrop-blur-md border border-slate-700/50 p-8 hover:bg-slate-800/60 transition-all duration-300 overflow-hidden">
+                                    <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                                        <HeartHandshake className="w-24 h-24 text-white" />
+                                    </div>
+                                    <div className="relative z-10">
+                                        <h3 className="text-xl font-bold text-white mb-3 font-serif">Territorio e Inclusión</h3>
+                                        <p className="text-sm text-slate-400 leading-relaxed mb-4">
+                                            Liderado por Rocío Solar. Despliegue de metodologías en terreno y salud mental con enfoque de derechos y género, garantizando que el diseño cobre vida en las comunidades.
+                                        </p>
+                                        <div className="w-8 h-1 bg-amber-500/50 group-hover:w-full transition-all duration-500"></div>
+                                    </div>
+                                </div>
+
+                                {/* Card 3 */}
+                                <div className="group relative bg-slate-800/40 backdrop-blur-md border border-slate-700/50 p-8 hover:bg-slate-800/60 transition-all duration-300 overflow-hidden">
+                                    <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                                        <Rocket className="w-24 h-24 text-white" />
+                                    </div>
+                                    <div className="relative z-10">
+                                        <h3 className="text-xl font-bold text-white mb-3 font-serif">Orquestación Tecnológica</h3>
+                                        <p className="text-sm text-slate-400 leading-relaxed mb-4">
+                                            La estrategia no se sostiene en Excel. Diseñamos e implementamos software (Altius Ignite) para que la operación diaria de tu institución sea impecable y medible a gran escala.
+                                        </p>
+                                        <div className="w-8 h-1 bg-amber-500/50 group-hover:w-full transition-all duration-500"></div>
+                                    </div>
+                                </div>
+
+                                {/* Visual Feature Card */}
+                                <div className="relative h-full min-h-[200px] rounded-sm overflow-hidden border border-slate-700/50 group">
+                                    <img src="/images/strategic_architecture.png" alt="Strategic Architecture" className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500 scale-105 group-hover:scale-100" />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent"></div>
+                                    <div className="absolute bottom-0 left-0 p-8">
+                                        <span className="text-xs font-bold text-amber-400 tracking-widest uppercase mb-2 block">Casos de Éxito</span>
+                                        <h3 className="text-white font-serif text-lg">Revisa nuestros proyectos de incidencia pública &rarr;</h3>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             {/* A) Atención Clínica Juan Carlos */}
             <section id="clinica" className="py-24 bg-white border-b border-gray-100">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -349,116 +460,7 @@ export default function Services() {
                 </div>
             </section>
 
-            {/* E) Consultoría Estratégica (Premium High-End Redesign) */}
-            <section id="consultoria" className="relative py-32 bg-slate-900 border-t border-slate-800 overflow-hidden">
-                {/* Abstract Background Assets */}
-                <div className="absolute inset-0 z-0">
-                    <div className="absolute top-0 right-0 w-3/4 h-full opacity-20 mix-blend-overlay">
-                        {/* We use the abstract network image here as a subtle background texture */}
-                        <div className="relative w-full h-full">
-                            <img src="/images/consulting_hero.png" alt="Abstract Network" className="object-cover w-full h-full" />
-                            <div className="absolute inset-0 bg-slate-900/40"></div>
-                        </div>
-                    </div>
-                </div>
 
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
-                    <div className="lg:grid lg:grid-cols-12 lg:gap-16 items-start">
-
-                        {/* Left Column: Strategic Vision */}
-                        <div className="lg:col-span-5 mb-16 lg:mb-0">
-                            <motion.div
-                                initial={{ opacity: 0, x: -20 }}
-                                whileInView={{ opacity: 1, x: 0 }}
-                                transition={{ duration: 0.6 }}
-                                viewport={{ once: true }}
-                            >
-                                <span className="inline-flex items-center px-3 py-1 rounded-full bg-gradient-to-r from-amber-200/10 to-amber-500/10 text-amber-300 text-xs font-bold border border-amber-500/30 tracking-widest uppercase mb-8 shadow-lg shadow-amber-900/20 backdrop-blur-md">
-                                    Consultoría Integral CRC
-                                </span>
-                                <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-white mb-6 font-serif leading-tight">
-                                    Orquestando el <br />
-                                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-600">
-                                        Impacto Social
-                                    </span>
-                                </h2>
-                                <p className="text-lg text-slate-300 leading-relaxed mb-10 font-light border-l-2 border-amber-500/30 pl-6">
-                                    La visión psicosocial experta de Juan Carlos y Rocío se complementa con el poder de orquestación de <strong>Altius Ignite</strong>.
-                                    Ya no basta con diseñar buenos programas de intervención; ahora construimos la arquitectura clínica y el motor tecnológico necesarios para sostenerlos a gran escala en gobiernos y corporaciones.
-                                </p>
-
-                                <div className="flex flex-col sm:flex-row gap-4">
-                                    <Button size="lg" className="bg-white text-slate-900 hover:bg-slate-100 font-bold px-8 py-6 rounded-none border-l-4 border-amber-500 shadow-xl transition-all hover:translate-x-1">
-                                        Agendar Reunión Ejecutiva
-                                        <ArrowRight className="ml-2 h-5 w-5 text-amber-600" />
-                                    </Button>
-                                    <Button variant="outline" size="lg" className="border-slate-600 text-slate-300 hover:text-white hover:border-slate-400 hover:bg-slate-800/50 px-8 py-6 rounded-none backdrop-blur-sm">
-                                        Descargar Portafolio
-                                    </Button>
-                                </div>
-                            </motion.div>
-                        </div>
-
-                        {/* Right Column: Service Matrix */}
-                        <div className="lg:col-span-7">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                {/* Card 1 */}
-                                <div className="group relative bg-slate-800/40 backdrop-blur-md border border-slate-700/50 p-8 hover:bg-slate-800/60 transition-all duration-300 overflow-hidden">
-                                    <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                                        <Brain className="w-24 h-24 text-white" />
-                                    </div>
-                                    <div className="relative z-10">
-                                        <h3 className="text-xl font-bold text-white mb-3 font-serif">Diseño Clínico</h3>
-                                        <p className="text-sm text-slate-400 leading-relaxed mb-4">
-                                            Liderado por Juan Carlos Rauld. Construimos desde la raíz los modelos de intervención institucional basados en evidencia, asegurando el más alto estándar humano y clínico.
-                                        </p>
-                                        <div className="w-8 h-1 bg-amber-500/50 group-hover:w-full transition-all duration-500"></div>
-                                    </div>
-                                </div>
-
-                                {/* Card 2 */}
-                                <div className="group relative bg-slate-800/40 backdrop-blur-md border border-slate-700/50 p-8 hover:bg-slate-800/60 transition-all duration-300 overflow-hidden">
-                                    <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                                        <HeartHandshake className="w-24 h-24 text-white" />
-                                    </div>
-                                    <div className="relative z-10">
-                                        <h3 className="text-xl font-bold text-white mb-3 font-serif">Territorio e Inclusión</h3>
-                                        <p className="text-sm text-slate-400 leading-relaxed mb-4">
-                                            Liderado por Rocío Solar. Despliegue de metodologías en terreno y salud mental con enfoque de derechos y género, garantizando que el diseño cobre vida en las comunidades.
-                                        </p>
-                                        <div className="w-8 h-1 bg-amber-500/50 group-hover:w-full transition-all duration-500"></div>
-                                    </div>
-                                </div>
-
-                                {/* Card 3 */}
-                                <div className="group relative bg-slate-800/40 backdrop-blur-md border border-slate-700/50 p-8 hover:bg-slate-800/60 transition-all duration-300 overflow-hidden">
-                                    <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                                        <Rocket className="w-24 h-24 text-white" />
-                                    </div>
-                                    <div className="relative z-10">
-                                        <h3 className="text-xl font-bold text-white mb-3 font-serif">Orquestación Tecnológica</h3>
-                                        <p className="text-sm text-slate-400 leading-relaxed mb-4">
-                                            La estrategia no se sostiene en Excel. Diseñamos e implementamos software (Altius Ignite) para que la operación diaria de tu institución sea impecable y medible a gran escala.
-                                        </p>
-                                        <div className="w-8 h-1 bg-amber-500/50 group-hover:w-full transition-all duration-500"></div>
-                                    </div>
-                                </div>
-
-                                {/* Visual Feature Card */}
-                                <div className="relative h-full min-h-[200px] rounded-sm overflow-hidden border border-slate-700/50 group">
-                                    <img src="/images/strategic_architecture.png" alt="Strategic Architecture" className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500 scale-105 group-hover:scale-100" />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent"></div>
-                                    <div className="absolute bottom-0 left-0 p-8">
-                                        <span className="text-xs font-bold text-amber-400 tracking-widest uppercase mb-2 block">Casos de Éxito</span>
-                                        <h3 className="text-white font-serif text-lg">Revisa nuestros proyectos de incidencia pública &rarr;</h3>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
 
         </div>
     );
