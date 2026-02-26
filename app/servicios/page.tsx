@@ -311,24 +311,24 @@ export default function Services() {
             {/* C) Servicios de Formación */}
             < section ref={formacionRef} id="formacion" className="py-24 bg-zinc-950 relative overflow-hidden" >
                 {/* Widescreen Parallax Backgrounds */}
-                <motion.div style={{ y: yJuanCarlos }} className="absolute top-0 right-0 w-[500px] h-[500px] md:w-[700px] md:h-[700px] lg:w-[1000px] lg:h-[1000px] -z-0 opacity-[0.25] md:opacity-[0.35] lg:opacity-[0.45] pointer-events-none">
+                <motion.div style={{ y: yJuanCarlos }} className="absolute top-0 -right-8 md:-right-24 lg:-right-32 w-[500px] h-[500px] md:w-[700px] md:h-[700px] lg:w-[1000px] lg:h-[1000px] z-0 opacity-[0.25] md:opacity-[0.35] lg:opacity-[0.45] pointer-events-none">
                     <img
                         src="/images/juan_carlos_20260224.png"
                         alt=""
-                        className="w-full h-full object-cover object-top filter"
+                        className="w-full h-full object-cover object-right-top filter"
                         style={{ WebkitMaskImage: "radial-gradient(ellipse at top right, black 25%, transparent 75%)", maskImage: "radial-gradient(ellipse at top right, black 25%, transparent 75%)" }}
                     />
                 </motion.div>
-                <motion.div style={{ y: yRocio }} className="absolute bottom-0 left-0 w-[500px] h-[500px] md:w-[700px] md:h-[700px] lg:w-[1000px] lg:h-[1000px] -z-0 opacity-[0.25] md:opacity-[0.35] lg:opacity-[0.45] pointer-events-none">
+                <motion.div style={{ y: yRocio }} className="absolute bottom-0 -left-8 md:-left-24 lg:-left-32 w-[500px] h-[500px] md:w-[700px] md:h-[700px] lg:w-[1000px] lg:h-[1000px] z-0 opacity-[0.25] md:opacity-[0.35] lg:opacity-[0.45] pointer-events-none">
                     <img
                         src="/images/rocio_solar.png"
                         alt=""
-                        className="w-full h-full object-cover object-top filter"
+                        className="w-full h-full object-cover object-left-bottom filter"
                         style={{ WebkitMaskImage: "radial-gradient(ellipse at bottom left, black 25%, transparent 75%)", maskImage: "radial-gradient(ellipse at bottom left, black 25%, transparent 75%)" }}
                     />
                 </motion.div>
 
-                <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 relative z-10">
+                <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 relative z-10">
                     <div className="text-center mb-16">
                         <span className="inline-flex items-center rounded-full bg-zinc-800/50 border border-zinc-700 px-3 py-1 text-sm font-medium text-zinc-300 backdrop-blur-sm mb-4">Servicios</span>
                         <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl mt-2 font-serif">Formación y Capacitación</h2>
@@ -346,7 +346,7 @@ export default function Services() {
                             <h3 className="text-2xl font-bold text-white mb-8 font-serif border-b border-zinc-800 pb-4">
                                 Formación — <span className="text-blue-400">Juan Carlos Rauld</span>
                             </h3>
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 {[
                                     { name: "Capacitación en Intervención de Crisis", price: "Desde 5 UF", detail: "Modalidad presencial / online · 4-8 hrs" },
                                     { name: "Supervisión Clínica de Casos", price: "2.5 UF / Sesión", detail: "Para equipos de protección infantil" },
@@ -369,7 +369,7 @@ export default function Services() {
                                 <h3 className="text-2xl font-bold text-white mb-8 font-serif border-b border-zinc-800 pb-4">
                                     Formación — <span className="text-purple-400">Rocío Solar</span>
                                 </h3>
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     {[
                                         { name: "Charlas en Salud Mental y Género", price: "Consultar", detail: "Presencial / Online · 60-90 min" },
                                         { name: "Formación de Equipos en VIF", price: "Consultar", detail: "Certificado de participación incluido" },
