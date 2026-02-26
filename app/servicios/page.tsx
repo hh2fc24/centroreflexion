@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { motion } from "framer-motion";
 import { Check, ArrowRight, PenTool, Users, Building2, Mail } from "lucide-react";
@@ -214,7 +215,150 @@ export default function Services() {
                 </div>
             </section>
 
-            {/* D) Consultoría Estratégica (Premium High-End Redesign) */}
+            {/* D) Alianza Estratégica Institucional (Altius Ignite + CRC) */}
+            <section id="alianza-tecnologica" className="relative py-32 overflow-hidden bg-zinc-950 border-t border-zinc-900 border-b border-slate-800">
+                {/* Parallax Background */}
+                <div className="absolute inset-0 z-0">
+                    <div
+                        className="absolute inset-0 opacity-15 bg-[url('/images/consulting_hero.png')] bg-cover bg-center bg-fixed mix-blend-luminosity"
+                        style={{ backgroundAttachment: 'fixed' }}
+                    ></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-zinc-950/90 via-zinc-950/70 to-zinc-900/90 mix-blend-multiply"></div>
+                </div>
+
+                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
+                    <div className="lg:grid lg:grid-cols-12 gap-16 items-center">
+
+                        {/* Left Column: Context & Synergy */}
+                        <div className="lg:col-span-5 mb-16 lg:mb-0">
+                            <motion.div
+                                initial={{ opacity: 0, x: -20 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.6 }}
+                                viewport={{ once: true }}
+                            >
+                                <div className="flex items-center gap-6 mb-8">
+                                    <div className="relative h-16 w-16 shrink-0 bg-white/5 backdrop-blur-sm rounded-xl p-2 border border-white/10">
+                                        <Image
+                                            src="/log.png"
+                                            alt="Logo Centro de Reflexiones Críticas"
+                                            fill
+                                            className="object-contain p-1"
+                                        />
+                                    </div>
+                                    <div className="h-8 w-[1px] bg-zinc-700"></div>
+                                    <div className="relative h-12 w-32 shrink-0">
+                                        {/* You can replace this with the actual Altius logo if available, using a placeholder text for now if not */}
+                                        <div className="flex items-center h-full">
+                                            <span className="text-2xl font-bold tracking-tight text-white">
+                                                Altius<span className="text-zinc-500 font-light">Ignite</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <span className="inline-flex items-center px-3 py-1 rounded-full bg-zinc-800/50 text-zinc-300 text-xs font-bold border border-zinc-700 tracking-widest uppercase mb-6 shadow-sm backdrop-blur-md">
+                                    Partnership Tecnológico
+                                </span>
+                                <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-white mb-6 font-serif leading-tight">
+                                    Ciencias Sociales <br />
+                                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-zinc-200 via-white to-zinc-400">
+                                        Potenciadas por Tecnología
+                                    </span>
+                                </h2>
+                                <p className="text-lg text-zinc-400 leading-relaxed mb-8 font-light border-l-2 border-zinc-700 pl-6">
+                                    Llevamos nuestras metodologías al siguiente nivel. Gracias a nuestra alianza estratégica con <strong>Altius Ignite</strong>, combinamos la profundidad analítica de las ciencias sociales con software a medida y plataformas avanzadas para multiplicar tu impacto operativo.
+                                </p>
+
+                                <div className="flex flex-col sm:flex-row gap-4">
+                                    <a href="https://www.altiusignite.com" target="_blank" rel="noopener noreferrer">
+                                        <Button size="lg" className="bg-white text-zinc-950 hover:bg-zinc-200 font-bold px-8 py-6 rounded-none shadow-xl transition-all hover:scale-105">
+                                            Conoce Altius Ignite
+                                            <ArrowRight className="ml-2 h-5 w-5" />
+                                        </Button>
+                                    </a>
+                                    <a href="/contacto">
+                                        <Button variant="outline" size="lg" className="border-zinc-700 text-zinc-300 hover:text-white hover:border-zinc-500 hover:bg-zinc-800/50 px-8 py-6 rounded-none backdrop-blur-sm -z-0">
+                                            Coordinar Evaluación Conjunta
+                                        </Button>
+                                    </a>
+                                </div>
+                            </motion.div>
+                        </div>
+
+                        {/* Right Column: Value Props */}
+                        <div className="lg:col-span-7">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                                {/* Prop 1 */}
+                                <motion.div
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.5, delay: 0.1 }}
+                                    viewport={{ once: true }}
+                                    className="bg-zinc-900/40 backdrop-blur-md border border-zinc-800/80 p-6 hover:bg-zinc-800/50 transition-colors group"
+                                >
+                                    <div className="h-12 w-12 bg-zinc-800 rounded-lg flex items-center justify-center mb-4 border border-zinc-700 group-hover:border-zinc-500 transition-colors">
+                                        <svg className="w-6 h-6 text-zinc-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
+                                        </svg>
+                                    </div>
+                                    <h3 className="text-lg font-bold text-white mb-2">Automatización y Flujos</h3>
+                                    <p className="text-sm text-zinc-400 leading-relaxed">
+                                        Transformamos el ruido organizativo en procesos ordenados. Implementación de CRM y trazabilidad operativa para que ningún caso o intervención se pierda.
+                                    </p>
+                                </motion.div>
+
+                                {/* Prop 2 */}
+                                <motion.div
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.5, delay: 0.2 }}
+                                    viewport={{ once: true }}
+                                    className="bg-zinc-900/40 backdrop-blur-md border border-zinc-800/80 p-6 hover:bg-zinc-800/50 transition-colors group"
+                                >
+                                    <div className="h-12 w-12 bg-zinc-800 rounded-lg flex items-center justify-center mb-4 border border-zinc-700 group-hover:border-zinc-500 transition-colors">
+                                        <svg className="w-6 h-6 text-zinc-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                                        </svg>
+                                    </div>
+                                    <h3 className="text-lg font-bold text-white mb-2">SuitS Específicas</h3>
+                                    <p className="text-sm text-zinc-400 leading-relaxed">
+                                        Desarrollo e integración de plataformas dedicadas como <strong>SuitS</strong> para estudios jurídicos, portales privados e interfaces a medida para profesionales.
+                                    </p>
+                                </motion.div>
+
+                                {/* Prop 3 */}
+                                <motion.div
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.5, delay: 0.3 }}
+                                    viewport={{ once: true }}
+                                    className="md:col-span-2 bg-gradient-to-r from-zinc-900 border border-zinc-800 p-8 flex flex-col sm:flex-row items-center justify-between group overflow-hidden relative"
+                                >
+                                    <div className="absolute right-0 top-0 w-64 h-full bg-gradient-to-l from-zinc-800/20 to-transparent pointer-events-none"></div>
+                                    <div className="mb-6 sm:mb-0 max-w-lg z-10">
+                                        <span className="text-xs font-bold text-zinc-500 tracking-widest uppercase mb-2 block">Diseño con Estándar</span>
+                                        <h3 className="text-xl font-bold text-white mb-2">Dejemos de improvisar</h3>
+                                        <p className="text-sm text-zinc-400">Tu operación necesita claridad, no parches. Nuestro enfoque psicosocial asegura que la tecnología se adapte a las personas, no al revés.</p>
+                                    </div>
+                                    <div className="z-10 shrink-0">
+                                        <div className="h-16 w-16 rounded-full border border-zinc-700 flex items-center justify-center shrink-0">
+                                            <div className="h-12 w-12 rounded-full bg-zinc-800 flex items-center justify-center">
+                                                <div className="h-2 w-2 rounded-full bg-white animate-pulse"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </motion.div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            {/* E) Consultoría Estratégica (Premium High-End Redesign) */}
             <section id="consultoria" className="relative py-32 bg-slate-900 border-t border-slate-800 overflow-hidden">
                 {/* Abstract Background Assets */}
                 <div className="absolute inset-0 z-0">
