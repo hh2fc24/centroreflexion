@@ -314,46 +314,70 @@ export default function Services() {
                     </div>
 
                     {/* Juan Carlos Rauld - Formación */}
-                    <div className="mb-16">
-                        <h3 className="text-2xl font-bold text-gray-900 mb-8 font-serif border-b border-gray-200 pb-4">
-                            Formación — <span className="text-blue-600">Juan Carlos Rauld</span>
-                        </h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {[
-                                { name: "Capacitación en Intervención de Crisis", price: "Desde 5 UF", detail: "Modalidad presencial / online · 4-8 hrs" },
-                                { name: "Supervisión Clínica de Casos", price: "2.5 UF / Sesión", detail: "Para equipos de protección infantil" },
-                                { name: "Formación en Gestión de Programas Sociales", price: "Desde 8 UF", detail: "Incluye material y certificación" },
-                                { name: "Taller de Evaluación Pericial", price: "Desde 6 UF", detail: "Competencias parentales y riesgo" },
-                                { name: "Asesoría Estratégica Institucional", price: "A cotizar", detail: "Diseño de modelos de intervención" },
-                            ].map((item, idx) => (
-                                <div key={idx} className="bg-gray-50 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg border border-transparent hover:border-blue-200 group">
-                                    <h4 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">{item.name}</h4>
-                                    <p className="text-sm text-gray-500 mb-4">{item.detail}</p>
-                                    <span className="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-sm font-semibold text-blue-700">{item.price} *</span>
-                                </div>
-                            ))}
+                    <div className="mb-24 relative">
+                        {/* Low Opacity Background Face */}
+                        <div className="absolute top-0 right-0 w-[300px] h-[300px] md:w-[500px] md:h-[500px] lg:w-[600px] lg:h-[600px] -z-0 opacity-[0.08] pointer-events-none mix-blend-multiply">
+                            <img
+                                src="/images/juan_carlos_20260224.png"
+                                alt=""
+                                className="w-full h-full object-cover object-top filter grayscale"
+                                style={{ WebkitMaskImage: "radial-gradient(circle at top right, black 10%, transparent 70%)", maskImage: "radial-gradient(circle at top right, black 10%, transparent 70%)" }}
+                            />
                         </div>
-                    </div>
 
-                    {/* Rocío Solar - Formación */}
-                    <div className="mb-16">
-                        <h3 className="text-2xl font-bold text-gray-900 mb-8 font-serif border-b border-gray-200 pb-4">
-                            Formación — <span className="text-purple-600">Rocío Solar</span>
-                        </h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {[
-                                { name: "Charlas en Salud Mental y Género", price: "Consultar", detail: "Presencial / Online · 60-90 min" },
-                                { name: "Formación de Equipos en VIF", price: "Consultar", detail: "Certificado de participación incluido" },
-                                { name: "Asesorías PIE", price: "Plan mensual", detail: "Supervisión reflexiva para Programas de Integración Escolar" },
-                                { name: "Taller de Terapia Ocupacional Comunitaria", price: "Consultar", detail: "Enfoque de Derechos Humanos" },
-                                { name: "Capacitación en Acompañamiento en Terreno", price: "Consultar", detail: "Para equipos de salud mental comunitaria" },
-                            ].map((item, idx) => (
-                                <div key={idx} className="bg-gray-50 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg border border-transparent hover:border-purple-200 group">
-                                    <h4 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-purple-700 transition-colors">{item.name}</h4>
-                                    <p className="text-sm text-gray-500 mb-4">{item.detail}</p>
-                                    <span className="inline-flex items-center rounded-full bg-purple-50 px-3 py-1 text-sm font-semibold text-purple-700">{item.price} *</span>
+                        <div className="relative z-10">
+                            <h3 className="text-2xl font-bold text-gray-900 mb-8 font-serif border-b border-gray-200 pb-4">
+                                Formación — <span className="text-blue-600">Juan Carlos Rauld</span>
+                            </h3>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {[
+                                    { name: "Capacitación en Intervención de Crisis", price: "Desde 5 UF", detail: "Modalidad presencial / online · 4-8 hrs" },
+                                    { name: "Supervisión Clínica de Casos", price: "2.5 UF / Sesión", detail: "Para equipos de protección infantil" },
+                                    { name: "Formación en Gestión de Programas Sociales", price: "Desde 8 UF", detail: "Incluye material y certificación" },
+                                    { name: "Taller de Evaluación Pericial", price: "Desde 6 UF", detail: "Competencias parentales y riesgo" },
+                                    { name: "Asesoría Estratégica Institucional", price: "A cotizar", detail: "Diseño de modelos de intervención" },
+                                ].map((item, idx) => (
+                                    <div key={idx} className="bg-gray-50 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg border border-transparent hover:border-blue-200 group">
+                                        <h4 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">{item.name}</h4>
+                                        <p className="text-sm text-gray-500 mb-4">{item.detail}</p>
+                                        <span className="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-sm font-semibold text-blue-700">{item.price} *</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Rocío Solar - Formación */}
+                        <div className="mb-16 relative">
+                            {/* Low Opacity Background Face */}
+                            <div className="absolute top-0 left-0 w-[300px] h-[300px] md:w-[500px] md:h-[500px] lg:w-[600px] lg:h-[600px] -z-0 opacity-[0.08] pointer-events-none mix-blend-multiply">
+                                <img
+                                    src="/images/rocio_solar.png"
+                                    alt=""
+                                    className="w-full h-full object-cover object-top filter grayscale"
+                                    style={{ WebkitMaskImage: "radial-gradient(circle at top left, black 10%, transparent 70%)", maskImage: "radial-gradient(circle at top left, black 10%, transparent 70%)" }}
+                                />
+                            </div>
+
+                            <div className="relative z-10">
+                                <h3 className="text-2xl font-bold text-gray-900 mb-8 font-serif border-b border-gray-200 pb-4">
+                                    Formación — <span className="text-purple-600">Rocío Solar</span>
+                                </h3>
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    {[
+                                        { name: "Charlas en Salud Mental y Género", price: "Consultar", detail: "Presencial / Online · 60-90 min" },
+                                        { name: "Formación de Equipos en VIF", price: "Consultar", detail: "Certificado de participación incluido" },
+                                        { name: "Asesorías PIE", price: "Plan mensual", detail: "Supervisión reflexiva para Programas de Integración Escolar" },
+                                        { name: "Taller de Terapia Ocupacional Comunitaria", price: "Consultar", detail: "Enfoque de Derechos Humanos" },
+                                        { name: "Capacitación en Acompañamiento en Terreno", price: "Consultar", detail: "Para equipos de salud mental comunitaria" },
+                                    ].map((item, idx) => (
+                                        <div key={idx} className="bg-gray-50 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg border border-transparent hover:border-purple-200 group">
+                                            <h4 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-purple-700 transition-colors">{item.name}</h4>
+                                            <p className="text-sm text-gray-500 mb-4">{item.detail}</p>
+                                            <span className="inline-flex items-center rounded-full bg-purple-50 px-3 py-1 text-sm font-semibold text-purple-700">{item.price} *</span>
+                                        </div>
+                                    ))}
                                 </div>
-                            ))}
+                            </div>
                         </div>
                     </div>
 
