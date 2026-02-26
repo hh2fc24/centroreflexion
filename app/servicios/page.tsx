@@ -1,14 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Check, ArrowRight, PenTool, Users, Building2, Mail, Brain, HeartHandshake, Rocket } from "lucide-react";
 
 export default function Services() {
     const [activePillar, setActivePillar] = useState<number>(0);
+    const formacionRef = useRef<HTMLElement>(null);
+    const { scrollYProgress: formacionScrollY } = useScroll({
+        target: formacionRef,
+        offset: ["start end", "end start"]
+    });
+
+    // Parallax values for instructor portraits
+    const yJuanCarlos = useTransform(formacionScrollY, [0, 1], [-150, 150]);
+    const yRocio = useTransform(formacionScrollY, [0, 1], [150, -150]);
 
     const consultingPillars = [
         {
@@ -300,33 +309,33 @@ export default function Services() {
             </section >
 
             {/* C) Servicios de Formación */}
-            < section id="formacion" className="py-24 bg-white relative overflow-hidden" >
-                {/* Widescreen Backgrounds */}
-                <div className="absolute top-0 right-0 w-[500px] h-[500px] md:w-[700px] md:h-[700px] lg:w-[1000px] lg:h-[1000px] -z-0 opacity-[0.25] md:opacity-[0.35] lg:opacity-[0.45] pointer-events-none">
+            < section ref={formacionRef} id="formacion" className="py-24 bg-zinc-950 relative overflow-hidden" >
+                {/* Widescreen Parallax Backgrounds */}
+                <motion.div style={{ y: yJuanCarlos }} className="absolute top-0 right-0 w-[500px] h-[500px] md:w-[700px] md:h-[700px] lg:w-[1000px] lg:h-[1000px] -z-0 opacity-[0.25] md:opacity-[0.35] lg:opacity-[0.45] pointer-events-none">
                     <img
                         src="/images/juan_carlos_20260224.png"
                         alt=""
                         className="w-full h-full object-cover object-top filter"
                         style={{ WebkitMaskImage: "radial-gradient(ellipse at top right, black 25%, transparent 75%)", maskImage: "radial-gradient(ellipse at top right, black 25%, transparent 75%)" }}
                     />
-                </div>
-                <div className="absolute bottom-0 left-0 w-[500px] h-[500px] md:w-[700px] md:h-[700px] lg:w-[1000px] lg:h-[1000px] -z-0 opacity-[0.25] md:opacity-[0.35] lg:opacity-[0.45] pointer-events-none">
+                </motion.div>
+                <motion.div style={{ y: yRocio }} className="absolute bottom-0 left-0 w-[500px] h-[500px] md:w-[700px] md:h-[700px] lg:w-[1000px] lg:h-[1000px] -z-0 opacity-[0.25] md:opacity-[0.35] lg:opacity-[0.45] pointer-events-none">
                     <img
                         src="/images/rocio_solar.png"
                         alt=""
                         className="w-full h-full object-cover object-top filter"
                         style={{ WebkitMaskImage: "radial-gradient(ellipse at bottom left, black 25%, transparent 75%)", maskImage: "radial-gradient(ellipse at bottom left, black 25%, transparent 75%)" }}
                     />
-                </div>
+                </motion.div>
 
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
                     <div className="text-center mb-16">
-                        <span className="inline-flex items-center rounded-full bg-green-50 px-3 py-1 text-sm font-medium text-green-700 ring-1 ring-inset ring-green-700/10 mb-4">Servicios</span>
-                        <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl mt-2 font-serif">Formación y Capacitación</h2>
-                        <p className="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
+                        <span className="inline-flex items-center rounded-full bg-zinc-800/50 border border-zinc-700 px-3 py-1 text-sm font-medium text-zinc-300 backdrop-blur-sm mb-4">Servicios</span>
+                        <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl mt-2 font-serif">Formación y Capacitación</h2>
+                        <p className="mt-4 text-lg text-zinc-400 max-w-2xl mx-auto">
                             Instancias de aprendizaje para equipos profesionales, comunidades educativas y organizaciones.
                         </p>
-                        <p className="mt-2 text-sm text-gray-400 italic">
+                        <p className="mt-2 text-sm text-zinc-500 italic">
                             * Los precios indicados son referenciales y están sujetos a confirmación.
                         </p>
                     </div>
@@ -334,8 +343,8 @@ export default function Services() {
                     {/* Juan Carlos Rauld - Formación */}
                     <div className="mb-24 relative">
                         <div className="relative z-10">
-                            <h3 className="text-2xl font-bold text-gray-900 mb-8 font-serif border-b border-gray-200 pb-4">
-                                Formación — <span className="text-blue-600">Juan Carlos Rauld</span>
+                            <h3 className="text-2xl font-bold text-white mb-8 font-serif border-b border-zinc-800 pb-4">
+                                Formación — <span className="text-blue-400">Juan Carlos Rauld</span>
                             </h3>
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                 {[
@@ -345,20 +354,20 @@ export default function Services() {
                                     { name: "Taller de Evaluación Pericial", price: "Desde 6 UF", detail: "Competencias parentales y riesgo" },
                                     { name: "Asesoría Estratégica Institucional", price: "A cotizar", detail: "Diseño de modelos de intervención" },
                                 ].map((item, idx) => (
-                                    <div key={idx} className="bg-gray-50 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg border border-transparent hover:border-blue-200 group">
-                                        <h4 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">{item.name}</h4>
-                                        <p className="text-sm text-gray-500 mb-4">{item.detail}</p>
-                                        <span className="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-sm font-semibold text-blue-700">{item.price} *</span>
+                                    <div key={idx} className="bg-zinc-900/40 backdrop-blur-md rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(59,130,246,0.15)] border border-zinc-800/50 hover:border-blue-500/50 group">
+                                        <h4 className="text-lg font-bold text-white mb-2 group-hover:text-blue-400 transition-colors">{item.name}</h4>
+                                        <p className="text-sm text-zinc-400 mb-4">{item.detail}</p>
+                                        <span className="inline-flex items-center rounded-full bg-blue-900/30 border border-blue-800/50 px-3 py-1 text-sm font-semibold text-blue-300">{item.price} *</span>
                                     </div>
                                 ))}
                             </div>
                         </div>
 
                         {/* Rocío Solar - Formación */}
-                        <div className="mb-16 relative">
+                        <div className="mb-16 relative mt-24">
                             <div className="relative z-10">
-                                <h3 className="text-2xl font-bold text-gray-900 mb-8 font-serif border-b border-gray-200 pb-4">
-                                    Formación — <span className="text-purple-600">Rocío Solar</span>
+                                <h3 className="text-2xl font-bold text-white mb-8 font-serif border-b border-zinc-800 pb-4">
+                                    Formación — <span className="text-purple-400">Rocío Solar</span>
                                 </h3>
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                     {[
@@ -368,10 +377,10 @@ export default function Services() {
                                         { name: "Taller de Terapia Ocupacional Comunitaria", price: "Consultar", detail: "Enfoque de Derechos Humanos" },
                                         { name: "Capacitación en Acompañamiento en Terreno", price: "Consultar", detail: "Para equipos de salud mental comunitaria" },
                                     ].map((item, idx) => (
-                                        <div key={idx} className="bg-gray-50 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg border border-transparent hover:border-purple-200 group">
-                                            <h4 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-purple-700 transition-colors">{item.name}</h4>
-                                            <p className="text-sm text-gray-500 mb-4">{item.detail}</p>
-                                            <span className="inline-flex items-center rounded-full bg-purple-50 px-3 py-1 text-sm font-semibold text-purple-700">{item.price} *</span>
+                                        <div key={idx} className="bg-zinc-900/40 backdrop-blur-md rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(168,85,247,0.15)] border border-zinc-800/50 hover:border-purple-500/50 group">
+                                            <h4 className="text-lg font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">{item.name}</h4>
+                                            <p className="text-sm text-zinc-400 mb-4">{item.detail}</p>
+                                            <span className="inline-flex items-center rounded-full bg-purple-900/30 border border-purple-800/50 px-3 py-1 text-sm font-semibold text-purple-300">{item.price} *</span>
                                         </div>
                                     ))}
                                 </div>
