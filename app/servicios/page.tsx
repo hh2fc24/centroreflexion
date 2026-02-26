@@ -55,88 +55,165 @@ export default function Services() {
                             <motion.div
                                 initial={{ opacity: 0, x: -20 }}
                                 whileInView={{ opacity: 1, x: 0 }}
-                                transition={{ duration: 0.6 }}
+                                transition={{ duration: 0.8, ease: "easeOut" }}
                                 viewport={{ once: true }}
                             >
-                                <span className="inline-flex items-center px-3 py-1 rounded-full bg-gradient-to-r from-amber-200/10 to-amber-500/10 text-amber-300 text-xs font-bold border border-amber-500/30 tracking-widest uppercase mb-8 shadow-lg shadow-amber-900/20 backdrop-blur-md">
+                                <motion.span
+                                    initial={{ opacity: 0, scale: 0.9 }}
+                                    whileInView={{ opacity: 1, scale: 1 }}
+                                    transition={{ duration: 0.5, delay: 0.2 }}
+                                    viewport={{ once: true }}
+                                    className="inline-flex items-center px-4 py-1.5 rounded-full bg-gradient-to-r from-amber-500/10 to-transparent text-amber-500 text-xs font-bold border border-amber-500/20 tracking-[0.2em] uppercase mb-8 shadow-[0_0_15px_rgba(245,158,11,0.1)] backdrop-blur-md"
+                                >
+                                    <div className="w-1.5 h-1.5 rounded-full bg-amber-500 mr-2 animate-pulse"></div>
                                     Consultoría Integral CRC
-                                </span>
-                                <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-white mb-6 font-serif leading-tight">
-                                    Elevemos el Estándar del <br />
-                                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-600">
+                                </motion.span>
+                                <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white mb-8 font-serif leading-[1.1]">
+                                    Elevemos el <br />
+                                    Estándar del <br />
+                                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-amber-600 drop-shadow-sm">
                                         Impacto Social
                                     </span>
                                 </h2>
-                                <p className="text-lg text-slate-300 leading-relaxed mb-10 font-light border-l-2 border-amber-500/30 pl-6">
-                                    Las grandes transformaciones no se sostienen con buenas intenciones ni hojas de cálculo. Unimos nuestra profunda experiencia clínica y comunitaria con la precisión tecnológica de <strong>Altius Ignite</strong>. El resultado: diseños psicosociales de alto nivel, ejecutados y medidos con impecabilidad de software. Así garantizamos que tu institución deje un legado real.
+                                <p className="text-lg text-slate-300 leading-relaxed mb-12 font-light border-l-2 border-amber-500/40 pl-6 lg:pl-8 max-w-xl">
+                                    Las grandes transformaciones no se sostienen con buenas intenciones ni hojas de cálculo. Unimos nuestra profunda experiencia clínica y comunitaria con la precisión tecnológica de <strong>Altius Ignite</strong>.<br /><br />
+                                    El resultado: diseños psicosociales de alto nivel, ejecutados y medidos con impecabilidad de software. Así garantizamos que tu institución deje un legado real.
                                 </p>
 
-                                <div className="flex flex-col sm:flex-row gap-4">
-                                    <Button size="lg" className="bg-white text-slate-900 hover:bg-slate-100 font-bold px-8 py-6 rounded-none border-l-4 border-amber-500 shadow-xl transition-all hover:translate-x-1">
+                                <motion.div
+                                    whileHover={{ scale: 1.02 }}
+                                    whileTap={{ scale: 0.98 }}
+                                    className="inline-block"
+                                >
+                                    <Button size="lg" className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold px-10 py-7 rounded-lg shadow-[0_0_40px_rgba(245,158,11,0.3)] transition-all duration-300 border-none group">
                                         Agendar Reunión Ejecutiva
-                                        <ArrowRight className="ml-2 h-5 w-5 text-amber-600" />
+                                        <ArrowRight className="ml-3 h-5 w-5 text-slate-900 group-hover:translate-x-1.5 transition-transform duration-300" />
                                     </Button>
-                                </div>
+                                </motion.div>
                             </motion.div>
                         </div>
 
                         {/* Right Column: Service Matrix */}
-                        <div className="lg:col-span-7">
+                        <motion.div
+                            initial="hidden"
+                            whileInView="show"
+                            viewport={{ once: true, margin: "-100px" }}
+                            variants={{
+                                hidden: { opacity: 0 },
+                                show: {
+                                    opacity: 1,
+                                    transition: { staggerChildren: 0.15 }
+                                }
+                            }}
+                            className="lg:col-span-7 relative"
+                        >
+                            {/* Ambient subtle glow behind the cards */}
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-amber-500/5 blur-[120px] rounded-full pointer-events-none -z-10"></div>
+
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 {/* Card 1 */}
-                                <div className="group relative bg-slate-800/40 backdrop-blur-md border border-slate-700/50 p-8 hover:bg-slate-800/60 transition-all duration-300 overflow-hidden">
-                                    <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                                        <Brain className="w-24 h-24 text-white" />
+                                <motion.div
+                                    variants={{
+                                        hidden: { opacity: 0, y: 30 },
+                                        show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+                                    }}
+                                    className="group relative bg-gradient-to-br from-slate-800/80 to-slate-900/90 backdrop-blur-xl border border-slate-700/50 hover:border-amber-500/30 p-8 rounded-2xl shadow-xl hover:shadow-[0_8px_30px_rgba(245,158,11,0.1)] transition-all duration-500 overflow-hidden hover:-translate-y-1"
+                                >
+                                    <div className="absolute top-0 right-0 p-4 opacity-[0.03] group-hover:opacity-10 group-hover:scale-110 transition-all duration-700">
+                                        <Brain className="w-32 h-32 text-amber-100" />
                                     </div>
-                                    <div className="relative z-10">
-                                        <h3 className="text-xl font-bold text-white mb-3 font-serif">Diseño Clínico</h3>
-                                        <p className="text-sm text-slate-400 leading-relaxed mb-4">
+                                    <div className="relative z-10 flex flex-col h-full">
+                                        <div className="flex items-center mb-6">
+                                            <div className="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center mr-4 border border-slate-700 group-hover:border-amber-500/30 group-hover:bg-amber-500/10 transition-colors duration-500 shadow-inner">
+                                                <Brain className="w-6 h-6 text-amber-500" />
+                                            </div>
+                                            <h3 className="text-xl font-bold text-white font-serif">Diseño Clínico</h3>
+                                        </div>
+                                        <p className="text-sm text-slate-400 leading-relaxed mb-6 flex-grow group-hover:text-slate-300 transition-colors duration-500">
                                             Liderado por Juan Carlos Rauld. Diagnosticamos y diseñamos la arquitectura clínica de tu programa. No dejamos espacio al azar: construimos estándares basados en evidencia para asegurar resultados irreprochables.
                                         </p>
-                                        <div className="w-8 h-1 bg-amber-500/50 group-hover:w-full transition-all duration-500"></div>
+                                        <div className="w-12 h-1 bg-gradient-to-r from-amber-500 to-transparent rounded-full opacity-50 group-hover:w-full transition-all duration-700"></div>
                                     </div>
-                                </div>
+                                </motion.div>
 
                                 {/* Card 2 */}
-                                <div className="group relative bg-slate-800/40 backdrop-blur-md border border-slate-700/50 p-8 hover:bg-slate-800/60 transition-all duration-300 overflow-hidden">
-                                    <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                                        <HeartHandshake className="w-24 h-24 text-white" />
+                                <motion.div
+                                    variants={{
+                                        hidden: { opacity: 0, y: 30 },
+                                        show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+                                    }}
+                                    className="group relative bg-gradient-to-br from-slate-800/80 to-slate-900/90 backdrop-blur-xl border border-slate-700/50 hover:border-amber-500/30 p-8 rounded-2xl shadow-xl hover:shadow-[0_8px_30px_rgba(245,158,11,0.1)] transition-all duration-500 overflow-hidden hover:-translate-y-1"
+                                >
+                                    <div className="absolute top-0 right-0 p-4 opacity-[0.03] group-hover:opacity-10 group-hover:scale-110 transition-all duration-700">
+                                        <HeartHandshake className="w-32 h-32 text-amber-100" />
                                     </div>
-                                    <div className="relative z-10">
-                                        <h3 className="text-xl font-bold text-white mb-3 font-serif">Territorio e Inclusión</h3>
-                                        <p className="text-sm text-slate-400 leading-relaxed mb-4">
+                                    <div className="relative z-10 flex flex-col h-full">
+                                        <div className="flex items-center mb-6">
+                                            <div className="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center mr-4 border border-slate-700 group-hover:border-amber-500/30 group-hover:bg-amber-500/10 transition-colors duration-500 shadow-inner">
+                                                <HeartHandshake className="w-6 h-6 text-amber-500" />
+                                            </div>
+                                            <h3 className="text-xl font-bold text-white font-serif">Territorio e Inclusión</h3>
+                                        </div>
+                                        <p className="text-sm text-slate-400 leading-relaxed mb-6 flex-grow group-hover:text-slate-300 transition-colors duration-500">
                                             Liderado por Rocío Solar. La estrategia debe sobrevivir al mundo real. Desplegamos intervenciones orgánicas, asegurando que el diseño de escritorio se convierta en bienestar tangible en las comunidades.
                                         </p>
-                                        <div className="w-8 h-1 bg-amber-500/50 group-hover:w-full transition-all duration-500"></div>
+                                        <div className="w-12 h-1 bg-gradient-to-r from-amber-500 to-transparent rounded-full opacity-50 group-hover:w-full transition-all duration-700"></div>
                                     </div>
-                                </div>
+                                </motion.div>
 
                                 {/* Card 3 */}
-                                <div className="group relative bg-slate-800/40 backdrop-blur-md border border-slate-700/50 p-8 hover:bg-slate-800/60 transition-all duration-300 overflow-hidden">
-                                    <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                                        <Rocket className="w-24 h-24 text-white" />
+                                <motion.div
+                                    variants={{
+                                        hidden: { opacity: 0, y: 30 },
+                                        show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+                                    }}
+                                    className="group relative bg-gradient-to-br from-slate-800/80 to-slate-900/90 backdrop-blur-xl border border-slate-700/50 hover:border-amber-500/30 p-8 rounded-2xl shadow-xl hover:shadow-[0_8px_30px_rgba(245,158,11,0.1)] transition-all duration-500 overflow-hidden hover:-translate-y-1 md:col-span-2 lg:col-span-1"
+                                >
+                                    <div className="absolute top-0 right-0 p-4 opacity-[0.03] group-hover:opacity-10 group-hover:scale-110 transition-all duration-700">
+                                        <Rocket className="w-32 h-32 text-amber-100" />
                                     </div>
-                                    <div className="relative z-10">
-                                        <h3 className="text-xl font-bold text-white mb-3 font-serif">Orquestación Tecnológica</h3>
-                                        <p className="text-sm text-slate-400 leading-relaxed mb-4">
+                                    <div className="relative z-10 flex flex-col h-full">
+                                        <div className="flex items-center mb-6">
+                                            <div className="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center mr-4 border border-slate-700 group-hover:border-amber-500/30 group-hover:bg-amber-500/10 transition-colors duration-500 shadow-inner">
+                                                <Rocket className="w-6 h-6 text-amber-500" />
+                                            </div>
+                                            <h3 className="text-xl font-bold text-white font-serif">Motor Tecnológico</h3>
+                                        </div>
+                                        <p className="text-sm text-slate-400 leading-relaxed mb-6 flex-grow group-hover:text-slate-300 transition-colors duration-500">
                                             Powered by Altius Ignite. Transformamos tu modelo en un flujo medible en tiempo real. Construimos el ecosistema de software (SuitS, CRM) que permite a tus equipos operar impecablemente a gran escala.
                                         </p>
-                                        <div className="w-8 h-1 bg-amber-500/50 group-hover:w-full transition-all duration-500"></div>
+                                        <div className="w-12 h-1 bg-gradient-to-r from-amber-500 to-transparent rounded-full opacity-50 group-hover:w-full transition-all duration-700"></div>
                                     </div>
-                                </div>
+                                </motion.div>
 
                                 {/* Visual Feature Card */}
-                                <div className="relative h-full min-h-[200px] rounded-sm overflow-hidden border border-slate-700/50 group">
-                                    <img src="/images/strategic_architecture.png" alt="Strategic Architecture" className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500 scale-105 group-hover:scale-100" />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent"></div>
-                                    <div className="absolute bottom-0 left-0 p-8">
-                                        <span className="text-xs font-bold text-amber-400 tracking-widest uppercase mb-2 block">Casos de Éxito</span>
-                                        <h3 className="text-white font-serif text-lg">Descubre cómo transformamos instituciones &rarr;</h3>
+                                <motion.div
+                                    variants={{
+                                        hidden: { opacity: 0, scale: 0.95 },
+                                        show: { opacity: 1, scale: 1, transition: { duration: 0.8, ease: "easeOut" } }
+                                    }}
+                                    className="relative h-full min-h-[250px] rounded-2xl overflow-hidden border border-slate-700/50 group shadow-xl hover:shadow-[0_8px_30px_rgba(255,255,255,0.05)] transition-all duration-500"
+                                >
+                                    <img src="/images/strategic_architecture.png" alt="Strategic Architecture" className="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-70 transition-opacity duration-700 scale-105 group-hover:scale-100" />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/60 to-transparent"></div>
+
+                                    {/* Play / Arrow indicator */}
+                                    <div className="absolute top-6 right-6 w-10 h-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 group-hover:bg-amber-500 group-hover:border-amber-500 group-hover:text-slate-950 transition-all duration-500 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100">
+                                        <ArrowRight className="w-5 h-5 text-white group-hover:text-slate-950" />
                                     </div>
-                                </div>
+
+                                    <div className="absolute bottom-0 left-0 p-8 w-full">
+                                        <span className="text-xs font-bold text-amber-500 tracking-[0.2em] uppercase mb-3 block opacity-90">Casos de Éxito</span>
+                                        <h3 className="text-white font-serif text-2xl leading-tight group-hover:-translate-y-1 transition-transform duration-500">
+                                            Descubre cómo <br />transformamos instituciones
+                                        </h3>
+                                        <div className="w-0 h-0.5 bg-amber-500 mt-4 group-hover:w-16 transition-all duration-500"></div>
+                                    </div>
+                                </motion.div>
 
                             </div>
-                        </div>
+                        </motion.div>
+
                     </div>
                 </div>
             </section>
@@ -192,10 +269,10 @@ export default function Services() {
                         </div>
                     </div>
                 </div>
-            </section>
+            </section >
 
             {/* B) Atención Clínica Rocío Solar */}
-            <section id="terapia-ocupacional" className="py-24 bg-gray-50 border-b border-gray-100">
+            < section id="terapia-ocupacional" className="py-24 bg-gray-50 border-b border-gray-100" >
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                         <div className="order-last lg:order-first relative h-[500px] rounded-2xl overflow-hidden shadow-2xl">
@@ -244,10 +321,10 @@ export default function Services() {
                         </div>
                     </div>
                 </div>
-            </section>
+            </section >
 
             {/* C) Servicios de Formación */}
-            <section id="formacion" className="py-24 bg-white">
+            < section id="formacion" className="py-24 bg-white" >
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-16">
                         <span className="inline-flex items-center rounded-full bg-green-50 px-3 py-1 text-sm font-medium text-green-700 ring-1 ring-inset ring-green-700/10 mb-4">Servicios</span>
@@ -320,18 +397,18 @@ export default function Services() {
                         </div>
                     </div>
                 </div>
-            </section>
+            </section >
 
             {/* D) Alianza Estratégica Institucional (Altius Ignite + CRC) */}
-            <section id="alianza-tecnologica" className="relative py-32 overflow-hidden bg-zinc-950 border-t border-zinc-900 border-b border-slate-800">
+            < section id="alianza-tecnologica" className="relative py-32 overflow-hidden bg-zinc-950 border-t border-zinc-900 border-b border-slate-800" >
                 {/* Parallax Background */}
-                <div className="absolute inset-0 z-0">
+                < div className="absolute inset-0 z-0" >
                     <div
                         className="absolute inset-0 opacity-15 bg-[url('/images/consulting_hero.png')] bg-cover bg-center bg-fixed mix-blend-luminosity"
                         style={{ backgroundAttachment: 'fixed' }}
                     ></div>
                     <div className="absolute inset-0 bg-gradient-to-br from-zinc-950/90 via-zinc-950/70 to-zinc-900/90 mix-blend-multiply"></div>
-                </div>
+                </div >
 
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
                     <div className="lg:grid lg:grid-cols-12 gap-16 items-center">
@@ -454,10 +531,10 @@ export default function Services() {
 
                     </div>
                 </div>
-            </section>
+            </section >
 
 
 
-        </div>
+        </div >
     );
 }
