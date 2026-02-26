@@ -16,21 +16,21 @@ export default function Services() {
             title: "Diseño Clínico",
             icon: Brain,
             description: "Liderado por Juan Carlos Rauld. Diagnosticamos y diseñamos la arquitectura clínica de tu programa. No dejamos espacio al azar: construimos estándares basados en evidencia para asegurar resultados irreprochables.",
-            bgImage: "/images/consulting_hero.png",
+            bgImage: "/images/pillar_clinico.png",
         },
         {
             id: "territorio",
             title: "Territorio e Inclusión",
             icon: HeartHandshake,
             description: "Liderado por Rocío Solar. La estrategia debe sobrevivir al mundo real. Desplegamos intervenciones orgánicas, asegurando que el diseño de escritorio se convierta en bienestar tangible en las comunidades.",
-            bgImage: "/images/strategic_architecture.png",
+            bgImage: "/images/pillar_territorio.png",
         },
         {
             id: "tecnologia",
             title: "Motor Tecnológico",
             icon: Rocket,
             description: "Powered by Altius Ignite. Transformamos tu modelo en un flujo medible en tiempo real. Construimos el ecosistema de software (SuitS, CRM) que permite a tus equipos operar impecablemente a gran escala.",
-            bgImage: "/images/consulting_hero.png",
+            bgImage: "/images/pillar_tecnologia.png",
         }
     ];
 
