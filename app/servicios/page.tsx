@@ -302,20 +302,20 @@ export default function Services() {
             {/* C) Servicios de Formación */}
             < section id="formacion" className="py-24 bg-white relative overflow-hidden" >
                 {/* Widescreen Backgrounds */}
-                <div className="absolute top-0 right-0 w-[400px] h-[400px] md:w-[600px] md:h-[600px] lg:w-[800px] lg:h-[800px] -z-0 opacity-[0.06] pointer-events-none mix-blend-multiply">
+                <div className="absolute top-0 right-0 w-[500px] h-[500px] md:w-[700px] md:h-[700px] lg:w-[1000px] lg:h-[1000px] -z-0 opacity-15 md:opacity-20 pointer-events-none mix-blend-multiply">
                     <img
                         src="/images/juan_carlos_20260224.png"
                         alt=""
                         className="w-full h-full object-cover object-top filter grayscale"
-                        style={{ WebkitMaskImage: "radial-gradient(circle at top right, black 10%, transparent 70%)", maskImage: "radial-gradient(circle at top right, black 10%, transparent 70%)" }}
+                        style={{ WebkitMaskImage: "radial-gradient(ellipse at top right, black 20%, transparent 75%)", maskImage: "radial-gradient(ellipse at top right, black 20%, transparent 75%)" }}
                     />
                 </div>
-                <div className="absolute bottom-0 left-0 w-[400px] h-[400px] md:w-[600px] md:h-[600px] lg:w-[800px] lg:h-[800px] -z-0 opacity-[0.06] pointer-events-none mix-blend-multiply">
+                <div className="absolute bottom-0 left-0 w-[500px] h-[500px] md:w-[700px] md:h-[700px] lg:w-[1000px] lg:h-[1000px] -z-0 opacity-15 md:opacity-20 pointer-events-none mix-blend-multiply">
                     <img
                         src="/images/rocio_solar.png"
                         alt=""
                         className="w-full h-full object-cover object-top filter grayscale"
-                        style={{ WebkitMaskImage: "radial-gradient(circle at bottom left, black 10%, transparent 70%)", maskImage: "radial-gradient(circle at bottom left, black 10%, transparent 70%)" }}
+                        style={{ WebkitMaskImage: "radial-gradient(ellipse at bottom left, black 20%, transparent 75%)", maskImage: "radial-gradient(ellipse at bottom left, black 20%, transparent 75%)" }}
                     />
                 </div>
 
