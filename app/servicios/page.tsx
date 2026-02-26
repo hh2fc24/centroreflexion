@@ -306,7 +306,7 @@ export default function Services() {
                     <img
                         src="/images/juan_carlos_20260224.png"
                         alt=""
-                        className="w-full h-full object-cover object-top filter grayscale"
+                        className="w-full h-full object-cover object-top filter"
                         style={{ WebkitMaskImage: "radial-gradient(ellipse at top right, black 20%, transparent 75%)", maskImage: "radial-gradient(ellipse at top right, black 20%, transparent 75%)" }}
                     />
                 </div>
@@ -314,7 +314,7 @@ export default function Services() {
                     <img
                         src="/images/rocio_solar.png"
                         alt=""
-                        className="w-full h-full object-cover object-top filter grayscale"
+                        className="w-full h-full object-cover object-top filter"
                         style={{ WebkitMaskImage: "radial-gradient(ellipse at bottom left, black 20%, transparent 75%)", maskImage: "radial-gradient(ellipse at bottom left, black 20%, transparent 75%)" }}
                     />
                 </div>
