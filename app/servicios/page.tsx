@@ -237,23 +237,14 @@ export default function Services() {
                                 transition={{ duration: 0.6 }}
                                 viewport={{ once: true }}
                             >
-                                <div className="flex items-center gap-6 mb-8">
-                                    <div className="relative h-16 w-16 shrink-0 bg-white/5 backdrop-blur-sm rounded-xl p-2 border border-white/10">
+                                <div className="flex items-center mb-8">
+                                    <div className="relative h-20 w-48 shrink-0">
                                         <Image
-                                            src="/log.png"
-                                            alt="Logo Centro de Reflexiones Críticas"
+                                            src="/altius-logo.png"
+                                            alt="Logo Altius"
                                             fill
-                                            className="object-contain p-1"
+                                            className="object-contain object-left"
                                         />
-                                    </div>
-                                    <div className="h-8 w-[1px] bg-zinc-700"></div>
-                                    <div className="relative h-12 w-32 shrink-0">
-                                        {/* You can replace this with the actual Altius logo if available, using a placeholder text for now if not */}
-                                        <div className="flex items-center h-full">
-                                            <span className="text-2xl font-bold tracking-tight text-white">
-                                                Altius<span className="text-zinc-500 font-light">Ignite</span>
-                                            </span>
-                                        </div>
                                     </div>
                                 </div>
 
