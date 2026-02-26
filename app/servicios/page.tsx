@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { motion } from "framer-motion";
-import { Check, ArrowRight, PenTool, Users, Building2, Mail } from "lucide-react";
+import { Check, ArrowRight, PenTool, Users, Building2, Mail, Brain, HeartHandshake, Rocket } from "lucide-react";
 
 export default function Services() {
     return (
@@ -374,17 +374,17 @@ export default function Services() {
                                 viewport={{ once: true }}
                             >
                                 <span className="inline-flex items-center px-3 py-1 rounded-full bg-gradient-to-r from-amber-200/10 to-amber-500/10 text-amber-300 text-xs font-bold border border-amber-500/30 tracking-widest uppercase mb-8 shadow-lg shadow-amber-900/20 backdrop-blur-md">
-                                    CRC Institutional
+                                    Consultoría Integral CRC
                                 </span>
                                 <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-white mb-6 font-serif leading-tight">
-                                    Arquitectura de <br />
+                                    Orquestando el <br />
                                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-600">
                                         Impacto Social
                                     </span>
                                 </h2>
                                 <p className="text-lg text-slate-300 leading-relaxed mb-10 font-light border-l-2 border-amber-500/30 pl-6">
-                                    Transformamos la complejidad social en estrategias operativas.
-                                    Diseñamos, evaluamos y fortalecemos programas de alto nivel para gobiernos, fundaciones y corporaciones.
+                                    La visión psicosocial experta de Juan Carlos y Rocío se complementa con el poder de orquestación de <strong>Altius Ignite</strong>.
+                                    Ya no basta con diseñar buenos programas de intervención; ahora construimos la arquitectura clínica y el motor tecnológico necesarios para sostenerlos a gran escala en gobiernos y corporaciones.
                                 </p>
 
                                 <div className="flex flex-col sm:flex-row gap-4">
@@ -405,12 +405,12 @@ export default function Services() {
                                 {/* Card 1 */}
                                 <div className="group relative bg-slate-800/40 backdrop-blur-md border border-slate-700/50 p-8 hover:bg-slate-800/60 transition-all duration-300 overflow-hidden">
                                     <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                                        <Building2 className="w-24 h-24 text-white" />
+                                        <Brain className="w-24 h-24 text-white" />
                                     </div>
                                     <div className="relative z-10">
-                                        <h3 className="text-xl font-bold text-white mb-3 font-serif">Diseño de Modelos</h3>
+                                        <h3 className="text-xl font-bold text-white mb-3 font-serif">Diseño Clínico</h3>
                                         <p className="text-sm text-slate-400 leading-relaxed mb-4">
-                                            Creación de arquitecturas programáticas escalables y metodologías de intervención basadas en evidencia.
+                                            Liderado por Juan Carlos Rauld. Construimos desde la raíz los modelos de intervención institucional basados en evidencia, asegurando el más alto estándar humano y clínico.
                                         </p>
                                         <div className="w-8 h-1 bg-amber-500/50 group-hover:w-full transition-all duration-500"></div>
                                     </div>
@@ -419,12 +419,12 @@ export default function Services() {
                                 {/* Card 2 */}
                                 <div className="group relative bg-slate-800/40 backdrop-blur-md border border-slate-700/50 p-8 hover:bg-slate-800/60 transition-all duration-300 overflow-hidden">
                                     <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                                        <Users className="w-24 h-24 text-white" />
+                                        <HeartHandshake className="w-24 h-24 text-white" />
                                     </div>
                                     <div className="relative z-10">
-                                        <h3 className="text-xl font-bold text-white mb-3 font-serif">Gobernanza Técnica</h3>
+                                        <h3 className="text-xl font-bold text-white mb-3 font-serif">Territorio e Inclusión</h3>
                                         <p className="text-sm text-slate-400 leading-relaxed mb-4">
-                                            Establecimiento de estándares, supervisión clínica y sistemas de mejora continua para equipos de alto desempeño.
+                                            Liderado por Rocío Solar. Despliegue de metodologías en terreno y salud mental con enfoque de derechos y género, garantizando que el diseño cobre vida en las comunidades.
                                         </p>
                                         <div className="w-8 h-1 bg-amber-500/50 group-hover:w-full transition-all duration-500"></div>
                                     </div>
@@ -433,12 +433,12 @@ export default function Services() {
                                 {/* Card 3 */}
                                 <div className="group relative bg-slate-800/40 backdrop-blur-md border border-slate-700/50 p-8 hover:bg-slate-800/60 transition-all duration-300 overflow-hidden">
                                     <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                                        <PenTool className="w-24 h-24 text-white" />
+                                        <Rocket className="w-24 h-24 text-white" />
                                     </div>
                                     <div className="relative z-10">
-                                        <h3 className="text-xl font-bold text-white mb-3 font-serif">Evaluación de Impacto</h3>
+                                        <h3 className="text-xl font-bold text-white mb-3 font-serif">Orquestación Tecnológica</h3>
                                         <p className="text-sm text-slate-400 leading-relaxed mb-4">
-                                            Análisis riguroso de resultados cualitativos y cuantitativos para asegurar la sustentabilidad de la inversión social.
+                                            La estrategia no se sostiene en Excel. Diseñamos e implementamos software (Altius Ignite) para que la operación diaria de tu institución sea impecable y medible a gran escala.
                                         </p>
                                         <div className="w-8 h-1 bg-amber-500/50 group-hover:w-full transition-all duration-500"></div>
                                     </div>
