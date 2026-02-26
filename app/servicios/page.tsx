@@ -31,13 +31,6 @@ export default function Services() {
             icon: Rocket,
             description: "Powered by Altius Ignite. Transformamos tu modelo en un flujo medible en tiempo real. Construimos el ecosistema de software (SuitS, CRM) que permite a tus equipos operar impecablemente a gran escala.",
             bgImage: "/images/consulting_hero.png",
-        },
-        {
-            id: "casos",
-            title: "Casos de Éxito",
-            icon: ArrowRight,
-            description: "Descubre cómo transformamos instituciones operando en el sector público y privado con estas tres dimensiones integradas.",
-            bgImage: "/images/strategic_architecture.png",
         }
     ];
 
@@ -153,7 +146,7 @@ export default function Services() {
                                         <motion.div
                                             key={pillar.id}
                                             onClick={() => setActivePillar(idx)}
-                                            className={`relative overflow-hidden rounded-2xl cursor-pointer transition-[flex-grow,width] duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] flex ${isActive ? "flex-grow md:w-[60%] lg:w-[65%] bg-amber-500/10 border-amber-500/40 shadow-[0_0_30px_rgba(245,158,11,0.15)]" : "md:w-[10%] lg:w-[12%] bg-slate-800/40 border-slate-700/50 hover:bg-slate-700/50"} border backdrop-blur-md group`}
+                                            className={`relative overflow-hidden rounded-2xl cursor-pointer transition-[flex-grow,width] duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] flex ${isActive ? "flex-grow md:w-[70%] lg:w-[76%] bg-amber-500/10 border-amber-500/40 shadow-[0_0_30px_rgba(245,158,11,0.15)]" : "md:w-[15%] lg:w-[12%] bg-slate-800/40 border-slate-700/50 hover:bg-slate-700/50"} border backdrop-blur-md group`}
                                             layout
                                         >
                                             {/* Background Image (only visible if active) */}
