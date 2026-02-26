@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
@@ -7,6 +8,39 @@ import { motion } from "framer-motion";
 import { Check, ArrowRight, PenTool, Users, Building2, Mail, Brain, HeartHandshake, Rocket } from "lucide-react";
 
 export default function Services() {
+    const [activePillar, setActivePillar] = useState<number>(0);
+
+    const consultingPillars = [
+        {
+            id: "clinico",
+            title: "Diseño Clínico",
+            icon: Brain,
+            description: "Liderado por Juan Carlos Rauld. Diagnosticamos y diseñamos la arquitectura clínica de tu programa. No dejamos espacio al azar: construimos estándares basados en evidencia para asegurar resultados irreprochables.",
+            bgImage: "/images/consulting_hero.png",
+        },
+        {
+            id: "territorio",
+            title: "Territorio e Inclusión",
+            icon: HeartHandshake,
+            description: "Liderado por Rocío Solar. La estrategia debe sobrevivir al mundo real. Desplegamos intervenciones orgánicas, asegurando que el diseño de escritorio se convierta en bienestar tangible en las comunidades.",
+            bgImage: "/images/strategic_architecture.png",
+        },
+        {
+            id: "tecnologia",
+            title: "Motor Tecnológico",
+            icon: Rocket,
+            description: "Powered by Altius Ignite. Transformamos tu modelo en un flujo medible en tiempo real. Construimos el ecosistema de software (SuitS, CRM) que permite a tus equipos operar impecablemente a gran escala.",
+            bgImage: "/images/consulting_hero.png",
+        },
+        {
+            id: "casos",
+            title: "Casos de Éxito",
+            icon: ArrowRight,
+            description: "Descubre cómo transformamos instituciones operando en el sector público y privado con estas tres dimensiones integradas.",
+            bgImage: "/images/strategic_architecture.png",
+        }
+    ];
+
     return (
         <div className="bg-white">
 
@@ -110,107 +144,56 @@ export default function Services() {
                             {/* Ambient subtle glow behind the cards */}
                             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-amber-500/5 blur-[120px] rounded-full pointer-events-none -z-10"></div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                {/* Card 1 */}
-                                <motion.div
-                                    variants={{
-                                        hidden: { opacity: 0, y: 30 },
-                                        show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
-                                    }}
-                                    className="group relative bg-gradient-to-br from-slate-800/80 to-slate-900/90 backdrop-blur-xl border border-slate-700/50 hover:border-amber-500/30 p-8 rounded-2xl shadow-xl hover:shadow-[0_8px_30px_rgba(245,158,11,0.1)] transition-all duration-500 overflow-hidden hover:-translate-y-1"
-                                >
-                                    <div className="absolute top-0 right-0 p-4 opacity-[0.03] group-hover:opacity-10 group-hover:scale-110 transition-all duration-700">
-                                        <Brain className="w-32 h-32 text-amber-100" />
-                                    </div>
-                                    <div className="relative z-10 flex flex-col h-full">
-                                        <div className="flex items-center mb-6">
-                                            <div className="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center mr-4 border border-slate-700 group-hover:border-amber-500/30 group-hover:bg-amber-500/10 transition-colors duration-500 shadow-inner">
-                                                <Brain className="w-6 h-6 text-amber-500" />
+                            <div className="flex flex-col md:flex-row h-[750px] md:h-[600px] w-full gap-4">
+                                {consultingPillars.map((pillar, idx) => {
+                                    const isActive = activePillar === idx;
+                                    const Icon = pillar.icon;
+
+                                    return (
+                                        <motion.div
+                                            key={pillar.id}
+                                            onClick={() => setActivePillar(idx)}
+                                            className={`relative overflow-hidden rounded-2xl cursor-pointer transition-[flex-grow,width] duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] flex ${isActive ? "flex-grow md:w-[60%] lg:w-[65%] bg-amber-500/10 border-amber-500/40 shadow-[0_0_30px_rgba(245,158,11,0.15)]" : "md:w-[10%] lg:w-[12%] bg-slate-800/40 border-slate-700/50 hover:bg-slate-700/50"} border backdrop-blur-md group`}
+                                            layout
+                                        >
+                                            {/* Background Image (only visible if active) */}
+                                            <div className={`absolute inset-0 transition-opacity duration-700 ${isActive ? "opacity-40" : "opacity-0"}`}>
+                                                <img src={pillar.bgImage} className="w-full h-full object-cover mix-blend-overlay" />
+                                                <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-slate-950 via-slate-900/80 to-transparent"></div>
                                             </div>
-                                            <h3 className="text-xl font-bold text-white font-serif">Diseño Clínico</h3>
-                                        </div>
-                                        <p className="text-sm text-slate-400 leading-relaxed mb-6 flex-grow group-hover:text-slate-300 transition-colors duration-500">
-                                            Liderado por Juan Carlos Rauld. Diagnosticamos y diseñamos la arquitectura clínica de tu programa. No dejamos espacio al azar: construimos estándares basados en evidencia para asegurar resultados irreprochables.
-                                        </p>
-                                        <div className="w-12 h-1 bg-gradient-to-r from-amber-500 to-transparent rounded-full opacity-50 group-hover:w-full transition-all duration-700"></div>
-                                    </div>
-                                </motion.div>
 
-                                {/* Card 2 */}
-                                <motion.div
-                                    variants={{
-                                        hidden: { opacity: 0, y: 30 },
-                                        show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
-                                    }}
-                                    className="group relative bg-gradient-to-br from-slate-800/80 to-slate-900/90 backdrop-blur-xl border border-slate-700/50 hover:border-amber-500/30 p-8 rounded-2xl shadow-xl hover:shadow-[0_8px_30px_rgba(245,158,11,0.1)] transition-all duration-500 overflow-hidden hover:-translate-y-1"
-                                >
-                                    <div className="absolute top-0 right-0 p-4 opacity-[0.03] group-hover:opacity-10 group-hover:scale-110 transition-all duration-700">
-                                        <HeartHandshake className="w-32 h-32 text-amber-100" />
-                                    </div>
-                                    <div className="relative z-10 flex flex-col h-full">
-                                        <div className="flex items-center mb-6">
-                                            <div className="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center mr-4 border border-slate-700 group-hover:border-amber-500/30 group-hover:bg-amber-500/10 transition-colors duration-500 shadow-inner">
-                                                <HeartHandshake className="w-6 h-6 text-amber-500" />
+                                            <div className={`relative z-10 flex ${isActive ? "flex-col p-6 lg:p-8 justify-end h-full" : "flex-row items-center md:flex-col md:justify-center p-4"} w-full`}>
+
+                                                {/* Inactive Icon & Vertical Title / Active Top Logo */}
+                                                <div className={`flex items-center justify-center transition-all ${isActive ? "absolute top-6 left-6 md:top-8 md:left-8" : "md:h-full md:flex-col"}`}>
+                                                    <div className={`flex items-center justify-center rounded-xl bg-slate-900/50 border shadow-inner transition-all duration-500 ${isActive ? "w-16 h-16 border-amber-500/50" : "w-12 h-12 border-slate-700 group-hover:border-amber-500/30"}`}>
+                                                        <Icon className={`transition-all duration-500 ${isActive ? "w-8 h-8 text-amber-500" : "w-6 h-6 text-slate-400 group-hover:text-amber-500"}`} />
+                                                    </div>
+
+                                                    {/* Title text rotated on desktop inactive */}
+                                                    {!isActive && (
+                                                        <span className="ml-4 md:ml-0 md:mt-8 font-serif font-bold text-slate-300 md:-rotate-180 md:[writing-mode:vertical-rl] whitespace-nowrap tracking-wider group-hover:text-amber-400 transition-colors">
+                                                            {pillar.title}
+                                                        </span>
+                                                    )}
+                                                </div>
+
+                                                {/* Active Content */}
+                                                <div className={`flex flex-col transition-all duration-700 delay-150 ${isActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8 hidden"}`}>
+                                                    <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 font-serif leading-tight">{pillar.title}</h3>
+                                                    <p className="text-base md:text-lg text-slate-300 leading-relaxed mb-8 font-light max-w-xl">{pillar.description}</p>
+                                                    {pillar.id === "casos" ? (
+                                                        <div className="flex items-center text-amber-400 font-bold uppercase tracking-widest text-sm hover:text-amber-300 w-max group/btn cursor-pointer">
+                                                            Ver Proyectos <ArrowRight className="ml-2 w-4 h-4 group-hover/btn:translate-x-2 transition-transform" />
+                                                        </div>
+                                                    ) : (
+                                                        <div className="w-16 h-1 bg-gradient-to-r from-amber-500 to-transparent rounded-full opacity-70"></div>
+                                                    )}
+                                                </div>
                                             </div>
-                                            <h3 className="text-xl font-bold text-white font-serif">Territorio e Inclusión</h3>
-                                        </div>
-                                        <p className="text-sm text-slate-400 leading-relaxed mb-6 flex-grow group-hover:text-slate-300 transition-colors duration-500">
-                                            Liderado por Rocío Solar. La estrategia debe sobrevivir al mundo real. Desplegamos intervenciones orgánicas, asegurando que el diseño de escritorio se convierta en bienestar tangible en las comunidades.
-                                        </p>
-                                        <div className="w-12 h-1 bg-gradient-to-r from-amber-500 to-transparent rounded-full opacity-50 group-hover:w-full transition-all duration-700"></div>
-                                    </div>
-                                </motion.div>
-
-                                {/* Card 3 */}
-                                <motion.div
-                                    variants={{
-                                        hidden: { opacity: 0, y: 30 },
-                                        show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
-                                    }}
-                                    className="group relative bg-gradient-to-br from-slate-800/80 to-slate-900/90 backdrop-blur-xl border border-slate-700/50 hover:border-amber-500/30 p-8 rounded-2xl shadow-xl hover:shadow-[0_8px_30px_rgba(245,158,11,0.1)] transition-all duration-500 overflow-hidden hover:-translate-y-1 md:col-span-2 lg:col-span-1"
-                                >
-                                    <div className="absolute top-0 right-0 p-4 opacity-[0.03] group-hover:opacity-10 group-hover:scale-110 transition-all duration-700">
-                                        <Rocket className="w-32 h-32 text-amber-100" />
-                                    </div>
-                                    <div className="relative z-10 flex flex-col h-full">
-                                        <div className="flex items-center mb-6">
-                                            <div className="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center mr-4 border border-slate-700 group-hover:border-amber-500/30 group-hover:bg-amber-500/10 transition-colors duration-500 shadow-inner">
-                                                <Rocket className="w-6 h-6 text-amber-500" />
-                                            </div>
-                                            <h3 className="text-xl font-bold text-white font-serif">Motor Tecnológico</h3>
-                                        </div>
-                                        <p className="text-sm text-slate-400 leading-relaxed mb-6 flex-grow group-hover:text-slate-300 transition-colors duration-500">
-                                            Powered by Altius Ignite. Transformamos tu modelo en un flujo medible en tiempo real. Construimos el ecosistema de software (SuitS, CRM) que permite a tus equipos operar impecablemente a gran escala.
-                                        </p>
-                                        <div className="w-12 h-1 bg-gradient-to-r from-amber-500 to-transparent rounded-full opacity-50 group-hover:w-full transition-all duration-700"></div>
-                                    </div>
-                                </motion.div>
-
-                                {/* Visual Feature Card */}
-                                <motion.div
-                                    variants={{
-                                        hidden: { opacity: 0, scale: 0.95 },
-                                        show: { opacity: 1, scale: 1, transition: { duration: 0.8, ease: "easeOut" } }
-                                    }}
-                                    className="relative h-full min-h-[250px] rounded-2xl overflow-hidden border border-slate-700/50 group shadow-xl hover:shadow-[0_8px_30px_rgba(255,255,255,0.05)] transition-all duration-500"
-                                >
-                                    <img src="/images/strategic_architecture.png" alt="Strategic Architecture" className="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-70 transition-opacity duration-700 scale-105 group-hover:scale-100" />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/60 to-transparent"></div>
-
-                                    {/* Play / Arrow indicator */}
-                                    <div className="absolute top-6 right-6 w-10 h-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 group-hover:bg-amber-500 group-hover:border-amber-500 group-hover:text-slate-950 transition-all duration-500 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100">
-                                        <ArrowRight className="w-5 h-5 text-white group-hover:text-slate-950" />
-                                    </div>
-
-                                    <div className="absolute bottom-0 left-0 p-8 w-full">
-                                        <span className="text-xs font-bold text-amber-500 tracking-[0.2em] uppercase mb-3 block opacity-90">Casos de Éxito</span>
-                                        <h3 className="text-white font-serif text-2xl leading-tight group-hover:-translate-y-1 transition-transform duration-500">
-                                            Descubre cómo <br />transformamos instituciones
-                                        </h3>
-                                        <div className="w-0 h-0.5 bg-amber-500 mt-4 group-hover:w-16 transition-all duration-500"></div>
-                                    </div>
-                                </motion.div>
-
+                                        </motion.div>
+                                    );
+                                })}
                             </div>
                         </motion.div>
 
