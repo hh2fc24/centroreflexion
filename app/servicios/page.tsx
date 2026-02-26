@@ -388,21 +388,7 @@ export default function Services() {
                         </div>
                     </div>
 
-                    {/* Contact CTA */}
-                    <div className="bg-gradient-to-r from-gray-900 to-gray-800 rounded-2xl p-8 sm:p-12 text-center">
-                        <h3 className="text-2xl font-bold text-white mb-4 font-serif">¿Necesitas algo más específico?</h3>
-                        <p className="text-gray-300 mb-6 max-w-xl mx-auto">
-                            Si requieres una formación personalizada o tienes consultas sobre nuestras prestaciones,
-                            escríbenos directamente.
-                        </p>
-                        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                            <a href="mailto:centrodereflexionescriticas@gmail.com" className="inline-flex items-center px-6 py-3 bg-red-600 hover:bg-red-500 text-white font-semibold rounded-full transition-all shadow-lg hover:shadow-red-500/25">
-                                <Mail className="w-5 h-5 mr-2" />
-                                Escribir por Email
-                            </a>
-                            <span className="text-gray-400 text-sm">o utiliza nuestro asistente virtual</span>
-                        </div>
-                    </div>
+
                 </div>
             </section >
 
@@ -540,7 +526,26 @@ export default function Services() {
                 </div>
             </section >
 
-
+            {/* E) Contact CTA - Bottom */}
+            <section className="py-16 md:py-24 bg-white relative z-10">
+                <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+                    <div className="bg-gradient-to-r from-gray-900 to-gray-800 rounded-3xl p-8 sm:p-12 text-center shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-gray-800">
+                        <h3 className="text-2xl md:text-3xl font-bold text-white mb-4 font-serif">¿Necesitas algo más específico?</h3>
+                        <p className="text-gray-300 md:text-lg mb-8 max-w-xl mx-auto font-light">
+                            Si requieres una formación personalizada o tienes consultas sobre nuestras prestaciones,
+                            escríbenos directamente y diseñemos en conjunto.
+                        </p>
+                        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                            <a href="mailto:centrodereflexionescriticas@gmail.com" className="inline-flex items-center px-8 py-4 bg-red-600 hover:bg-red-500 text-white font-semibold rounded-full transition-all shadow-lg hover:shadow-red-500/25 hover:scale-105">
+                                <Mail className="w-5 h-5 mr-2" />
+                                Escribir por Email
+                            </a>
+                            <span className="text-gray-400 text-sm sm:w-48 text-left leading-tight hidden sm:block">o utiliza nuestro asistente virtual</span>
+                            <span className="text-gray-400 text-sm sm:hidden">o utiliza nuestro asistente virtual</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
         </div >
     );
