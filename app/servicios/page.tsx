@@ -62,23 +62,19 @@ export default function Services() {
                                     Consultoría Integral CRC
                                 </span>
                                 <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-white mb-6 font-serif leading-tight">
-                                    Orquestando el <br />
+                                    Elevemos el Estándar del <br />
                                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-600">
                                         Impacto Social
                                     </span>
                                 </h2>
                                 <p className="text-lg text-slate-300 leading-relaxed mb-10 font-light border-l-2 border-amber-500/30 pl-6">
-                                    La visión psicosocial experta de Juan Carlos y Rocío se complementa con el poder de orquestación de <strong>Altius Ignite</strong>.
-                                    Ya no basta con diseñar buenos programas de intervención; ahora construimos la arquitectura clínica y el motor tecnológico necesarios para sostenerlos a gran escala en gobiernos y corporaciones.
+                                    Las grandes transformaciones no se sostienen con buenas intenciones ni hojas de cálculo. Unimos nuestra profunda experiencia clínica y comunitaria con la precisión tecnológica de <strong>Altius Ignite</strong>. El resultado: diseños psicosociales de alto nivel, ejecutados y medidos con impecabilidad de software. Así garantizamos que tu institución deje un legado real.
                                 </p>
 
                                 <div className="flex flex-col sm:flex-row gap-4">
                                     <Button size="lg" className="bg-white text-slate-900 hover:bg-slate-100 font-bold px-8 py-6 rounded-none border-l-4 border-amber-500 shadow-xl transition-all hover:translate-x-1">
                                         Agendar Reunión Ejecutiva
                                         <ArrowRight className="ml-2 h-5 w-5 text-amber-600" />
-                                    </Button>
-                                    <Button variant="outline" size="lg" className="border-slate-600 text-slate-300 hover:text-white hover:border-slate-400 hover:bg-slate-800/50 px-8 py-6 rounded-none backdrop-blur-sm">
-                                        Descargar Portafolio
                                     </Button>
                                 </div>
                             </motion.div>
@@ -95,7 +91,7 @@ export default function Services() {
                                     <div className="relative z-10">
                                         <h3 className="text-xl font-bold text-white mb-3 font-serif">Diseño Clínico</h3>
                                         <p className="text-sm text-slate-400 leading-relaxed mb-4">
-                                            Liderado por Juan Carlos Rauld. Construimos desde la raíz los modelos de intervención institucional basados en evidencia, asegurando el más alto estándar humano y clínico.
+                                            Liderado por Juan Carlos Rauld. Diagnosticamos y diseñamos la arquitectura clínica de tu programa. No dejamos espacio al azar: construimos estándares basados en evidencia para asegurar resultados irreprochables.
                                         </p>
                                         <div className="w-8 h-1 bg-amber-500/50 group-hover:w-full transition-all duration-500"></div>
                                     </div>
@@ -109,7 +105,7 @@ export default function Services() {
                                     <div className="relative z-10">
                                         <h3 className="text-xl font-bold text-white mb-3 font-serif">Territorio e Inclusión</h3>
                                         <p className="text-sm text-slate-400 leading-relaxed mb-4">
-                                            Liderado por Rocío Solar. Despliegue de metodologías en terreno y salud mental con enfoque de derechos y género, garantizando que el diseño cobre vida en las comunidades.
+                                            Liderado por Rocío Solar. La estrategia debe sobrevivir al mundo real. Desplegamos intervenciones orgánicas, asegurando que el diseño de escritorio se convierta en bienestar tangible en las comunidades.
                                         </p>
                                         <div className="w-8 h-1 bg-amber-500/50 group-hover:w-full transition-all duration-500"></div>
                                     </div>
@@ -123,7 +119,7 @@ export default function Services() {
                                     <div className="relative z-10">
                                         <h3 className="text-xl font-bold text-white mb-3 font-serif">Orquestación Tecnológica</h3>
                                         <p className="text-sm text-slate-400 leading-relaxed mb-4">
-                                            La estrategia no se sostiene en Excel. Diseñamos e implementamos software (Altius Ignite) para que la operación diaria de tu institución sea impecable y medible a gran escala.
+                                            Powered by Altius Ignite. Transformamos tu modelo en un flujo medible en tiempo real. Construimos el ecosistema de software (SuitS, CRM) que permite a tus equipos operar impecablemente a gran escala.
                                         </p>
                                         <div className="w-8 h-1 bg-amber-500/50 group-hover:w-full transition-all duration-500"></div>
                                     </div>
@@ -135,7 +131,7 @@ export default function Services() {
                                     <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent"></div>
                                     <div className="absolute bottom-0 left-0 p-8">
                                         <span className="text-xs font-bold text-amber-400 tracking-widest uppercase mb-2 block">Casos de Éxito</span>
-                                        <h3 className="text-white font-serif text-lg">Revisa nuestros proyectos de incidencia pública &rarr;</h3>
+                                        <h3 className="text-white font-serif text-lg">Descubre cómo transformamos instituciones &rarr;</h3>
                                     </div>
                                 </div>
 
