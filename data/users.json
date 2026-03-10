@@ -1,0 +1,11 @@
+[
+  {
+    "id": "u_admin",
+    "username": "admin",
+    "role": "admin",
+    "salt": "2856d5ffb036af99a5ca91cf53f2d6a7",
+    "passHash": "adc4c9631b84464e9262a7b641ee26f8748ca91810801561ddd80be91d56274c",
+    "createdAt": 1773159161677,
+    "updatedAt": 1773159161677
+  }
+]
