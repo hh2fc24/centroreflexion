@@ -22,16 +22,16 @@ export default function Services() {
     const consultingPillars = [
         {
             id: "clinico",
-            title: "Diseño Clínico",
+            title: "Consultoría Estratégica",
             icon: Brain,
-            description: "Liderado por Juan Carlos Rauld. Diagnosticamos y diseñamos la arquitectura clínica de tu programa. No dejamos espacio al azar: construimos estándares basados en evidencia para asegurar resultados irreprochables.",
+            description: "Liderado por Juan Carlos Rauld. Desarrollamos una clínica pro organizacional que ordena decisiones, equipos y estándares para que tu programa opere con coherencia, evidencia y resultados sostenibles.",
             bgImage: "/images/pillar_clinico.png",
         },
         {
             id: "territorio",
-            title: "Territorio e Inclusión",
+            title: "Salud Mental e Inclusión Educativa",
             icon: HeartHandshake,
-            description: "Liderado por Rocío Solar. La estrategia debe sobrevivir al mundo real. Desplegamos intervenciones orgánicas, asegurando que el diseño de escritorio se convierta en bienestar tangible en las comunidades.",
+            description: "Liderado por Rocío Solar. Diseñamos estrategias situadas que articulan salud mental, inclusión educativa y trabajo territorial para convertir el diseño técnico en bienestar tangible para comunidades y espacios formativos.",
             bgImage: "/images/pillar_territorio.png",
         },
         {
