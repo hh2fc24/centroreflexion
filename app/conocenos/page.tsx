@@ -11,22 +11,22 @@ export default function About() {
     return (
         <div className="bg-white">
             {/* Hero Section */}
-            <div className="relative isolate overflow-hidden bg-gray-900 py-32 sm:py-48">
+            <div className="relative isolate overflow-hidden bg-gray-900 py-20 sm:py-32 lg:py-40">
                 <div className="absolute inset-0 -z-10 bg-black/60" />
                 <div className="absolute inset-0 -z-20">
                     <Image
-                        src="/images/library_bg.jpg"
+                        src="/images/consulting_hero.png"
                         alt="Library background"
                         fill
                         className="object-cover opacity-20"
                     />
                 </div>
 
-                <div className="mx-auto max-w-7xl px-6 lg:px-8 text-center relative z-10">
+                <div className="relative z-10 mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
                     <motion.h2
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="text-4xl font-bold tracking-tight text-white sm:text-6xl drop-shadow-md font-serif"
+                        className="text-4xl font-bold tracking-tight text-white drop-shadow-md sm:text-5xl lg:text-6xl font-serif"
                     >
                         Quiénes Somos
                     </motion.h2>
@@ -34,7 +34,7 @@ export default function About() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2 }}
-                        className="mt-6 text-xl leading-8 text-gray-200 max-w-2xl mx-auto font-light"
+                        className="mx-auto mt-6 max-w-2xl text-base leading-7 text-gray-200 font-light sm:text-xl sm:leading-8"
                     >
                         Articulando academia, clínica y política pública.
                     </motion.p>
@@ -42,14 +42,14 @@ export default function About() {
             </div>
 
             {/* Mission & Vision */}
-            <section className="py-24 bg-gray-50">
+            <section className="bg-gray-50 py-16 sm:py-24">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
+                    <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-16">
                         <motion.div
                             initial={{ opacity: 0, x: -20 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true }}
-                            className="bg-white p-10 rounded-2xl shadow-sm border border-gray-100"
+                            className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm sm:p-10"
                         >
                             <h3 className="text-2xl font-bold text-gray-900 mb-6 font-serif">Misión</h3>
                             <p className="text-lg text-gray-600 leading-relaxed">
@@ -62,7 +62,7 @@ export default function About() {
                             initial={{ opacity: 0, x: 20 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true }}
-                            className="bg-white p-10 rounded-2xl shadow-sm border border-gray-100"
+                            className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm sm:p-10"
                         >
                             <h3 className="text-2xl font-bold text-gray-900 mb-6 font-serif">Visión</h3>
                             <p className="text-lg text-gray-600 leading-relaxed">
@@ -76,13 +76,13 @@ export default function About() {
             </section>
 
             {/* Team Section */}
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-24">
-                <div className="space-y-24">
+            <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
+                <div className="space-y-16 sm:space-y-24">
 
                     {/* Juan Carlos Rauld */}
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+                    <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:gap-12">
                         <div className="lg:col-span-4 flex flex-col items-center text-center lg:text-left lg:items-start">
-                            <div className="h-64 w-64 rounded-xl bg-gray-200 mb-6 relative overflow-hidden shadow-lg">
+                            <div className="relative mb-6 h-48 w-48 overflow-hidden rounded-xl bg-gray-200 shadow-lg sm:h-64 sm:w-64">
                                 <Image
                                     src="/images/juan_carlos_20260224.png"
                                     alt="Juan Carlos Rauld"
@@ -107,7 +107,7 @@ export default function About() {
                                 <a href="https://www.linkedin.com/in/juan-carlos-rauld-farias-a64710a4/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-600 transition-colors"><Linkedin className="h-6 w-6" /></a>
                             </div>
                         </div>
-                        <div className="lg:col-span-8 space-y-8">
+                        <div className="space-y-8 lg:col-span-8">
                             <div>
                                 <h4 className="text-xl font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2">Rol Editorial y Académico</h4>
                                 <p className="text-gray-600 leading-relaxed">
@@ -131,9 +131,9 @@ export default function About() {
                     <div className="w-full h-px bg-gray-100" />
 
                     {/* Rocío Solar */}
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+                    <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:gap-12">
                         <div className="lg:col-span-4 flex flex-col items-center text-center lg:text-left lg:items-start lg:order-last">
-                            <div className="h-64 w-64 rounded-xl bg-gray-200 mb-6 relative overflow-hidden shadow-lg">
+                            <div className="relative mb-6 h-48 w-48 overflow-hidden rounded-xl bg-gray-200 shadow-lg sm:h-64 sm:w-64">
                                 <Image
                                     src="/images/rocio_solar.png"
                                     alt="Rocío Solar"
@@ -152,7 +152,7 @@ export default function About() {
                                 <a href="https://www.linkedin.com/in/roc%C3%ADo-solar-guerra-168693138/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-600 transition-colors"><Linkedin className="h-6 w-6" /></a>
                             </div>
                         </div>
-                        <div className="lg:col-span-8 space-y-8 lg:text-right">
+                        <div className="space-y-8 lg:col-span-8 lg:text-right">
                             <div>
                                 <h4 className="text-xl font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2 lg:ml-auto lg:w-fit">Función como Co-fundadora y Editora</h4>
                                 <ul className="text-gray-600 leading-relaxed space-y-3 text-left lg:text-right">

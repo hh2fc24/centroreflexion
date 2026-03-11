@@ -94,7 +94,7 @@ export async function POST(req: Request) {
         primaryCtaHref: "/contacto",
         secondaryCtaLabel: "Servicios",
         secondaryCtaHref: "/servicios",
-        backgroundImage: "/images/library_bg.jpg",
+        backgroundImage: "/images/consulting_hero.png",
       }),
       makeBlock("richText", "minimal", { title: "Resumen", body: prompt }),
       makeBlock("faq", "minimal", {

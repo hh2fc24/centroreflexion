@@ -1,4 +1,5 @@
 import { PublicationsSection } from "@/components/PublicationsSection";
+import { MediaAppearancesSection } from "@/components/MediaAppearancesSection";
 
 export const metadata = {
     title: "Publicaciones",
@@ -9,6 +10,7 @@ export default function Publicaciones() {
     return (
         <div className="bg-white">
             <PublicationsSection />
+            <MediaAppearancesSection />
         </div>
     );
 }

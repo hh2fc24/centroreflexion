@@ -283,7 +283,7 @@ function LegacyTestimonials() {
   return (
     <section className="relative py-24 overflow-hidden isolate bg-gray-900 border-t border-gray-800">
       <div className="absolute inset-0 -z-10">
-        <Image src="/images/library_bg.jpg" alt="Background" fill className="object-cover opacity-30 mix-blend-overlay" />
+        <Image src="/images/consulting_hero.png" alt="Background" fill className="object-cover opacity-30 mix-blend-overlay" />
         <div className="absolute inset-0 bg-gradient-to-b from-gray-900 via-gray-900/80 to-gray-900" />
       </div>
 

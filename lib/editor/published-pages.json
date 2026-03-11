@@ -92,7 +92,7 @@
         {
           "id": "blk-interviews",
           "type": "legacy.interviews",
-          "visible": true,
+          "visible": false,
           "locked": false,
           "preset": "bold",
           "data": { "sectionId": "sec-interviews" },

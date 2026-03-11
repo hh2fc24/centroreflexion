@@ -22,9 +22,9 @@ interface ArticleDetailProps {
 
 export default function ArticleDetail({ article }: ArticleDetailProps) {
     return (
-        <article className="min-h-screen bg-white pb-24">
+        <article className="min-h-screen bg-white pb-16 sm:pb-24">
             {/* Hero Image */}
-            <div className="relative w-full h-[50vh] min-h-[400px]">
+            <div className="relative h-[42vh] min-h-[320px] w-full sm:h-[50vh] sm:min-h-[400px]">
                 <Image
                     src={article.image}
                     alt={article.title}
@@ -34,7 +34,7 @@ export default function ArticleDetail({ article }: ArticleDetailProps) {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
 
-                <div className="absolute bottom-0 left-0 w-full p-6 sm:p-12 lg:p-20">
+                <div className="absolute bottom-0 left-0 w-full p-4 sm:p-10 lg:p-20">
                     <MotionDiv className="max-w-4xl mx-auto text-white">
                         <Link
                             href="/pensamiento-critico"
@@ -47,7 +47,7 @@ export default function ArticleDetail({ article }: ArticleDetailProps) {
                                 {article.category}
                             </span>
                         </div>
-                        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif leading-tight mb-6">
+                        <h1 className="mb-4 text-3xl font-bold leading-tight sm:mb-6 sm:text-4xl lg:text-5xl font-serif">
                             {article.title}
                         </h1>
                         <div className="flex flex-wrap items-center gap-6 text-sm sm:text-base text-gray-200">
@@ -76,11 +76,11 @@ export default function ArticleDetail({ article }: ArticleDetailProps) {
             </div>
 
             {/* Content */}
-            <div className="max-w-3xl mx-auto px-6 py-12 sm:py-20">
+            <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 sm:py-20">
 
                 {/* Social Share & Actions (Sticky on Desktop potentially, or just top) */}
-                <div className="flex items-center justify-between border-b border-gray-100 pb-8 mb-12">
-                    <p className="text-xl font-serif italic text-gray-500 leading-relaxed">
+                <div className="mb-10 flex flex-col gap-6 border-b border-gray-100 pb-8 sm:mb-12 sm:flex-row sm:items-center sm:justify-between">
+                    <p className="text-lg font-serif italic leading-relaxed text-gray-500 sm:text-xl">
                         {article.excerpt}
                     </p>
                     <div className="hidden sm:flex items-center gap-2">
@@ -94,7 +94,7 @@ export default function ArticleDetail({ article }: ArticleDetailProps) {
                 </div>
 
                 <MotionDiv transition={{ delay: 0.2 }}>
-                    <div className="prose prose-lg prose-slate prose-headings:font-serif prose-a:text-blue-600 hover:prose-a:text-blue-500 max-w-none font-serif text-gray-800 leading-8">
+                    <div className="prose prose-slate max-w-none font-serif leading-8 text-gray-800 prose-headings:font-serif prose-a:text-blue-600 hover:prose-a:text-blue-500 sm:prose-lg">
                         {article.content.map((paragraph, index) => (
                             <p key={index} className="mb-6 first-letter:text-5xl first-letter:font-bold first-letter:text-gray-900 first-letter:mr-3 first-letter:float-left">
                                 {paragraph}
@@ -105,7 +105,7 @@ export default function ArticleDetail({ article }: ArticleDetailProps) {
 
                 {/* Author Bio / Footer */}
                 <div className="mt-16 pt-10 border-t border-gray-100">
-                    <div className="flex items-center gap-4 bg-gray-50 p-6 rounded-xl">
+                    <div className="flex flex-col items-start gap-4 rounded-xl bg-gray-50 p-5 sm:flex-row sm:items-center sm:p-6">
                         {(() => {
                             const details = getAuthorDetails(article.author);
                             return (
@@ -130,13 +130,13 @@ export default function ArticleDetail({ article }: ArticleDetailProps) {
                 </div>
 
                 {/* CTA */}
-                <MotionItem className="mt-20 text-center bg-blue-600 rounded-2xl p-10 text-white shadow-xl">
+                <MotionItem className="mt-16 rounded-2xl bg-blue-600 p-6 text-center text-white shadow-xl sm:mt-20 sm:p-10">
                     <h3 className="text-2xl font-bold mb-4">¿Te interesa profundizar en estos temas?</h3>
                     <p className="mb-8 text-blue-100">
                         Ofrecemos consultoría especializada para instituciones y académicos que buscan maximizar su impacto.
                     </p>
                     <Link href="/servicios">
-                        <Button className="bg-white text-blue-600 hover:bg-gray-100 font-bold border-none">
+                        <Button className="w-full border-none bg-white font-bold text-blue-600 hover:bg-gray-100 sm:w-auto">
                             Ver Servicios de Consultoría
                         </Button>
                     </Link>

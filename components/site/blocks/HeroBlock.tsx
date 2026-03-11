@@ -43,7 +43,7 @@ export function HeroBlock({ pageId, block, editable }: { pageId: string; block: 
     primaryCtaHref: data.primaryCtaHref ?? "/contacto",
     secondaryCtaLabel: data.secondaryCtaLabel ?? "Saber más",
     secondaryCtaHref: data.secondaryCtaHref ?? "/servicios",
-    backgroundImage: data.backgroundImage ?? "/images/library_bg.jpg",
+    backgroundImage: data.backgroundImage ?? "/images/consulting_hero.png",
     backgroundVideo: typeof data.backgroundVideo === "string" ? data.backgroundVideo : "",
     backgroundVideoPoster: typeof data.backgroundVideoPoster === "string" ? data.backgroundVideoPoster : "",
   };
@@ -100,7 +100,7 @@ export function HeroBlock({ pageId, block, editable }: { pageId: string; block: 
                 <EditorLink href={d.primaryCtaHref} className={cn(editable && "pointer-events-auto")}>
                   <button
                     type="button"
-                    className="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-950 hover:bg-white/90 transition"
+                    className="inline-flex w-full items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-white/90 sm:w-auto"
                   >
                     <EditableAtom
                       value={d.primaryCtaLabel}
@@ -114,7 +114,7 @@ export function HeroBlock({ pageId, block, editable }: { pageId: string; block: 
                 <EditorLink href={d.secondaryCtaHref}>
                   <button
                     type="button"
-                    className="inline-flex items-center justify-center rounded-full border border-white/20 bg-white/5 px-6 py-3 text-sm font-semibold text-white hover:bg-white/10 transition"
+                    className="inline-flex w-full items-center justify-center rounded-full border border-white/20 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10 sm:w-auto"
                   >
                     <EditableAtom
                       value={d.secondaryCtaLabel}
@@ -166,7 +166,7 @@ export function HeroBlock({ pageId, block, editable }: { pageId: string; block: 
                 <button
                   type="button"
                   className={cn(
-                    "inline-flex items-center justify-center rounded-full bg-white text-slate-950 hover:bg-white/90 transition font-semibold",
+                    "inline-flex w-full items-center justify-center rounded-full bg-white text-slate-950 transition hover:bg-white/90 sm:w-auto font-semibold",
                     variant === "minimal" ? "px-5 py-2.5 text-sm" : "px-6 py-3 text-sm"
                   )}
                 >
@@ -179,7 +179,7 @@ export function HeroBlock({ pageId, block, editable }: { pageId: string; block: 
                 <button
                   type="button"
                   className={cn(
-                    "inline-flex items-center justify-center rounded-full border border-white/20 bg-white/5 text-white hover:bg-white/10 transition font-semibold",
+                    "inline-flex w-full items-center justify-center rounded-full border border-white/20 bg-white/5 text-white transition hover:bg-white/10 sm:w-auto font-semibold",
                     variant === "minimal" ? "px-5 py-2.5 text-sm" : "px-6 py-3 text-sm"
                   )}
                 >

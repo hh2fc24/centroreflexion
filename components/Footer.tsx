@@ -18,7 +18,7 @@ export function Footer() {
     return (
         <footer className="bg-gray-900 border-t border-gray-800 pt-16 pb-8">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4 mb-12">
+                <div className="mb-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
                     {/* Brand Section */}
                     <div>
                         <h3 className="text-xl font-bold text-white mb-4">
@@ -117,7 +117,7 @@ export function Footer() {
                         <ul className="space-y-4 text-sm text-gray-400">
                             <li className="flex items-start">
                                 <Mail className="h-5 w-5 mr-3 text-red-500 flex-shrink-0" />
-                                <span>
+                                <span className="break-all sm:break-normal">
                                     <EditableText path="footer.contactEmail" ariaLabel="Footer email" />
                                 </span>
                             </li>

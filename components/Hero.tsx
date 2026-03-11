@@ -40,7 +40,7 @@ export function Hero() {
     }, []);
 
     return (
-        <section className="relative overflow-hidden bg-slate-900 py-20 sm:py-32 lg:pb-32 xl:pb-36 min-h-[600px] flex items-center">
+        <section className="relative flex min-h-[520px] items-center overflow-hidden bg-slate-900 py-16 sm:min-h-[600px] sm:py-24 lg:pb-32 xl:pb-36">
             {/* Background Carousel */}
             <div className="absolute inset-0 z-0">
                 <AnimatePresence mode="popLayout">
@@ -73,20 +73,20 @@ export function Hero() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
                     >
-                        <span className="inline-flex items-center rounded-full bg-red-500/10 px-3 py-1 text-sm font-medium text-white ring-1 ring-inset ring-red-500/30 mb-6 backdrop-blur-sm">
+                        <span className="mb-5 inline-flex items-center rounded-full bg-red-500/10 px-3 py-1 text-xs font-medium text-white ring-1 ring-inset ring-red-500/30 backdrop-blur-sm sm:mb-6 sm:text-sm">
                             <EditableText path="hero.badgePrefix" ariaLabel="Hero badge" />{" "}
                             <span className="text-red-400">
                                 <EditableText path="hero.badgeHighlight" ariaLabel="Hero badge highlight" />
                             </span>
                         </span>
-                        <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl font-serif leading-tight drop-shadow-lg">
+                        <h1 className="text-[2.5rem] font-bold leading-[1.05] tracking-tight text-white drop-shadow-lg sm:text-5xl lg:text-6xl font-serif">
                             <EditableText path="hero.titleBefore" ariaLabel="Hero título (inicio)" />{" "}
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-indigo-100">
                                 <EditableText path="hero.titleHighlight" ariaLabel="Hero título (destacado)" />
                             </span>{" "}
                             <EditableText path="hero.titleAfter" ariaLabel="Hero título (final)" />
                         </h1>
-                        <p className="mt-6 text-xl leading-8 text-slate-200 max-w-2xl drop-shadow-md">
+                        <p className="mt-5 max-w-2xl text-base leading-7 text-slate-200 drop-shadow-md sm:mt-6 sm:text-lg sm:leading-8 lg:text-xl">
                             <EditableText path="hero.subtitle" ariaLabel="Hero subtítulo" multiline />
                         </p>
                     </motion.div>
@@ -95,16 +95,16 @@ export function Hero() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5, delay: 0.2 }}
-                        className="mt-10 flex flex-col sm:flex-row items-center gap-4"
+                        className="mt-8 flex flex-col items-stretch gap-3 sm:mt-10 sm:flex-row sm:items-center sm:gap-4"
                     >
                         <EditorLink href={primaryHref}>
-                            <Button size="lg" className="bg-primary hover:bg-primary/90 text-white px-8 py-6 text-lg rounded-full shadow-lg transition-all border border-white/10">
+                            <Button size="lg" className="w-full rounded-full border border-white/10 bg-primary px-6 py-5 text-base text-white shadow-lg transition-all hover:bg-primary/90 sm:w-auto sm:px-8 sm:py-6 sm:text-lg">
                                 <EditableText path="hero.primaryCtaLabel" ariaLabel="Hero CTA principal" />
                                 <ArrowRight className="ml-2 h-5 w-5" />
                             </Button>
                         </EditorLink>
                         <EditorLink href={secondaryHref}>
-                            <Button variant="outline" size="lg" className="border-slate-500 text-slate-200 hover:bg-white/10 hover:text-white px-8 py-6 text-lg rounded-full backdrop-blur-sm">
+                            <Button variant="outline" size="lg" className="w-full rounded-full border-slate-500 px-6 py-5 text-base text-slate-200 backdrop-blur-sm hover:bg-white/10 hover:text-white sm:w-auto sm:px-8 sm:py-6 sm:text-lg">
                                 <EditableText path="hero.secondaryCtaLabel" ariaLabel="Hero CTA secundario" />
                             </Button>
                         </EditorLink>

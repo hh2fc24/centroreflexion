@@ -287,7 +287,7 @@ function blankBlock(type: BlockType, preset: BlockPreset): SiteBlock {
           primaryCtaHref: "/contacto",
           secondaryCtaLabel: "Saber más",
           secondaryCtaHref: "/servicios",
-          backgroundImage: "/images/library_bg.jpg",
+          backgroundImage: "/images/consulting_hero.png",
         },
       };
     default:

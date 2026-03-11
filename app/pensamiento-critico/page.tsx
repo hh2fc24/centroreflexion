@@ -37,15 +37,15 @@ export default function PensamientoCritico() {
     const categories = [...new Set(allArticles.map(a => a.category))];
 
     return (
-        <div className="bg-gray-50 py-24 sm:py-32 min-h-screen">
+        <div className="min-h-screen bg-gray-50 py-16 sm:py-24 lg:py-32">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 {/* Header Section */}
-                <div className="mx-auto max-w-3xl text-center mb-20 animate-in fade-in slide-in-from-bottom-8 duration-1000">
-                    <h2 className="text-4xl font-black tracking-tight text-gray-900 sm:text-6xl font-serif">
+                <div className="mx-auto mb-14 max-w-3xl animate-in fade-in slide-in-from-bottom-8 text-center duration-1000 sm:mb-20">
+                    <h2 className="text-4xl font-black tracking-tight text-gray-900 sm:text-5xl lg:text-6xl font-serif">
                         Pensamiento <span className="text-red-700">Crítico</span>
                     </h2>
                     <div className="h-1 w-20 bg-red-700 mx-auto mt-8 mb-6"></div>
-                    <p className="mt-4 text-xl leading-8 text-gray-600 font-light">
+                    <p className="mt-4 text-base font-light leading-7 text-gray-600 sm:text-xl sm:leading-8">
                         Columnas de opinión, observaciones reflexivas y ensayos analíticos
                         sobre la complejidad social contemporánea.
                     </p>
@@ -67,7 +67,7 @@ export default function PensamientoCritico() {
                 </div>
 
                 {/* Featured Article */}
-                <div className="mb-24 relative isolate overflow-hidden bg-white rounded-3xl ring-1 ring-gray-200 shadow-xl shadow-gray-200/50 sm:mx-0 pr-0 lg:pr-10 lg:pl-0 lg:flex lg:items-center">
+                <div className="relative isolate mb-16 overflow-hidden rounded-2xl bg-white pr-0 ring-1 ring-gray-200 shadow-xl shadow-gray-200/50 sm:mb-24 sm:rounded-3xl lg:flex lg:items-center lg:pr-10 lg:pl-0">
                     <Link href={`${featuredArticle.basePath}/${featuredArticle.id}`} className="block lg:w-1/2 group relative aspect-[4/3] lg:aspect-[5/4] overflow-hidden rounded-t-3xl lg:rounded-l-3xl lg:rounded-tr-none">
                         <Image
                             src={featuredArticle.image}
@@ -78,8 +78,8 @@ export default function PensamientoCritico() {
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
                     </Link>
-                    <div className="p-8 sm:p-12 lg:w-1/2 lg:pl-16">
-                        <div className="flex items-center gap-x-4 text-sm mb-6">
+                    <div className="p-6 sm:p-10 lg:w-1/2 lg:pl-16">
+                        <div className="mb-5 flex flex-wrap items-center gap-3 text-sm sm:mb-6">
                             <time dateTime={featuredArticle.date} className="text-gray-500 font-medium tracking-wide uppercase">
                                 {featuredArticle.date}
                             </time>
@@ -87,12 +87,12 @@ export default function PensamientoCritico() {
                                 {featuredArticle.category}
                             </span>
                         </div>
-                        <h3 className="text-3xl sm:text-4xl font-bold leading-[1.2] text-gray-900 mb-6 font-serif hover:text-red-700 transition-colors">
+                        <h3 className="mb-5 text-2xl font-bold leading-[1.2] text-gray-900 transition-colors hover:text-red-700 sm:text-4xl sm:mb-6 font-serif">
                             <Link href={`${featuredArticle.basePath}/${featuredArticle.id}`}>
                                 {featuredArticle.title}
                             </Link>
                         </h3>
-                        <p className="mt-2 text-lg leading-relaxed text-gray-600 mb-8 border-l-2 border-red-200 pl-4 italic">
+                        <p className="mt-2 mb-6 border-l-2 border-red-200 pl-4 text-base italic leading-relaxed text-gray-600 sm:mb-8 sm:text-lg">
                             {featuredArticle.excerpt}
                         </p>
                         <div className="flex items-center gap-x-4 border-t border-gray-100 pt-6">
@@ -123,14 +123,14 @@ export default function PensamientoCritico() {
                 </div>
 
                 {/* Grid Divider */}
-                <div className="flex items-center gap-6 mb-16">
+                <div className="mb-10 flex items-center gap-4 sm:mb-16 sm:gap-6">
                     <h2 className="text-2xl font-bold tracking-tight text-gray-900 font-serif">Más Columnas</h2>
                     <div className="h-px bg-gray-200 flex-1"></div>
                 </div>
 
                 {/* Masonry-Style Grid for Remaining Articles */}
                 <MotionList className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:mx-0 lg:max-w-none lg:grid-cols-2 lg:gap-y-24">
-                    {remainingArticles.map((post, idx) => (
+                    {remainingArticles.map((post) => (
                         <MotionItem key={post.id} className="flex flex-col group cursor-pointer bg-white rounded-2xl shadow-sm ring-1 ring-gray-100 hover:shadow-lg hover:shadow-gray-200/50 transition-all duration-300 overflow-hidden">
                             <Link href={`${post.basePath}/${post.id}`} className="relative w-full aspect-[16/9] overflow-hidden block">
                                 <Image
@@ -141,7 +141,7 @@ export default function PensamientoCritico() {
                                 />
                                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300" />
                             </Link>
-                            <div className="p-8 flex-1 flex flex-col justify-between">
+                            <div className="flex flex-1 flex-col justify-between p-5 sm:p-8">
                                 <div>
                                     <div className="flex items-center gap-x-4 text-xs mb-5">
                                         <time dateTime={post.date} className="text-gray-500 font-medium">
@@ -156,13 +156,13 @@ export default function PensamientoCritico() {
                                         </span>
                                     </div>
                                     <div className="group relative">
-                                        <h3 className="mt-3 text-2xl font-bold leading-tight text-gray-900 mb-4 font-serif group-hover:text-red-700 transition-colors">
+                                        <h3 className="mt-3 mb-4 text-xl font-bold leading-tight text-gray-900 transition-colors group-hover:text-red-700 sm:text-2xl font-serif">
                                             <Link href={`${post.basePath}/${post.id}`}>
                                                 <span className="absolute inset-0" />
                                                 {post.title}
                                             </Link>
                                         </h3>
-                                        <p className="line-clamp-3 text-base leading-relaxed text-gray-600">
+                                        <p className="line-clamp-3 text-sm leading-relaxed text-gray-600 sm:text-base">
                                             {post.excerpt}
                                         </p>
                                     </div>

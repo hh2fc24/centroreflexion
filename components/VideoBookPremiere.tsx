@@ -8,13 +8,13 @@ export function VideoBookPremiere() {
     const videoRef = useRef<HTMLVideoElement>(null);
 
     return (
-        <section className="relative w-full py-24 overflow-hidden bg-black text-white">
+        <section className="relative w-full overflow-hidden bg-black py-16 text-white sm:py-24">
             {/* Background Gradient/Effect */}
             <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-900 z-0" />
 
             <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+                <div className="grid grid-cols-1 items-center gap-8 sm:gap-12 lg:grid-cols-2 lg:gap-24">
 
                     {/* Content / Synopsis - LEFT COLUMN */}
                     <MotionDiv
@@ -22,20 +22,20 @@ export function VideoBookPremiere() {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8 }}
-                        className="order-2 lg:order-1 text-left"
+                        className="order-2 text-center lg:order-1 lg:text-left"
                     >
-                        <span className="inline-block px-3 py-1 mb-8 text-xs font-medium tracking-[0.2em] text-gray-400 uppercase border border-gray-700 rounded-sm">
+                        <span className="mb-6 inline-block rounded-sm border border-gray-700 px-3 py-1 text-xs font-medium uppercase tracking-[0.2em] text-gray-400 sm:mb-8">
                             Próximamente
                         </span>
 
-                        <h2 className="text-4xl md:text-5xl font-bold font-serif tracking-tight text-white mb-6 leading-tight">
+                        <h2 className="mb-4 text-3xl font-bold leading-tight tracking-tight text-white sm:mb-6 sm:text-4xl md:text-5xl font-serif">
                             Tecnócratas de la infancia
                         </h2>
-                        <p className="text-xl text-gray-400 font-light tracking-wide mb-8">
+                        <p className="mb-6 text-lg font-light tracking-wide text-gray-400 sm:mb-8 sm:text-xl">
                             Desprotección y neoliberalismo en Chile
                         </p>
 
-                        <div className="prose prose-lg prose-invert text-gray-300 leading-relaxed mb-8">
+                        <div className="prose prose-invert mx-auto mb-8 max-w-none text-base leading-relaxed text-gray-300 sm:prose-lg lg:mx-0">
                             <p className="mb-6">
                                 <span className="text-white font-semibold">En este libro</span>, el autor desmonta la gestión tecnocrática de la infancia pobre, demostrando que la desprotección es un efecto estructural del neoliberalismo.
                             </p>
@@ -47,7 +47,7 @@ export function VideoBookPremiere() {
                             </p>
                         </div>
 
-                        <div className="flex items-center gap-4 border-t border-gray-800 pt-8">
+                        <div className="flex items-center justify-center gap-4 border-t border-gray-800 pt-6 text-left sm:pt-8 lg:justify-start">
                             <div className="flex items-center justify-center w-12 h-12 rounded-full bg-blue-600/20 text-blue-400">
                                 <Calendar className="w-6 h-6" />
                             </div>
@@ -64,7 +64,7 @@ export function VideoBookPremiere() {
                         whileInView={{ opacity: 1, scale: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
-                        className="order-1 lg:order-2 relative w-full max-w-sm mx-auto lg:mx-0 lg:ml-auto group"
+                        className="group order-1 relative mx-auto w-full max-w-[280px] sm:max-w-sm lg:order-2 lg:ml-auto lg:mr-0"
                     >
                         {/* Floating Shadow Effect */}
                         <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-[90%] h-16 bg-blue-600/20 blur-[40px] rounded-full opacity-60 pointer-events-none transition-opacity duration-500 group-hover:opacity-80" />

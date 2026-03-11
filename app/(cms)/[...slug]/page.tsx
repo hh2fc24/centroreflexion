@@ -6,16 +6,20 @@ import type { Metadata } from "next";
 
 type PublishedPages = { pages: SitePage[] };
 
-export default function CmsPage({ params }: { params: { slug: string[] } }) {
-  const slug = (params.slug ?? []).join("/");
+type CmsPageParams = { slug: string[] };
+
+export default async function CmsPage({ params }: { params: Promise<CmsPageParams> }) {
+  const { slug: slugParam = [] } = await params;
+  const slug = slugParam.join("/");
   const pages = (published as unknown as PublishedPages).pages ?? [];
   const page = pages.find((p) => (p.kind ?? "page") === "page" && p.slug === slug && p.visible !== false) ?? null;
   if (!page) return notFound();
   return <PageCanvas pageId={page.id} />;
 }
 
-export function generateMetadata({ params }: { params: { slug: string[] } }): Metadata {
-  const slug = (params.slug ?? []).join("/");
+export async function generateMetadata({ params }: { params: Promise<CmsPageParams> }): Promise<Metadata> {
+  const { slug: slugParam = [] } = await params;
+  const slug = slugParam.join("/");
   const pages = (published as unknown as PublishedPages).pages ?? [];
   const page = pages.find((p) => (p.kind ?? "page") === "page" && p.slug === slug) ?? null;
   if (!page) return {};

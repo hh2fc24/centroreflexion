@@ -15,17 +15,17 @@ const getAuthorDetails = (author: string) => {
 
 export default function Criticism() {
     return (
-        <div className="bg-white py-24 sm:py-32">
+        <div className="bg-white py-16 sm:py-24 lg:py-32">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="mx-auto max-w-2xl text-center">
                     <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
                         Crítica Literaria y Cultural
                     </h2>
-                    <p className="mt-2 text-lg leading-8 text-gray-600">
+                    <p className="mt-3 text-base leading-7 text-gray-600 sm:text-lg sm:leading-8">
                         Reseñas, ensayos y reflexiones sobre el arte, la literatura y las expresiones culturales contemporáneas.
                     </p>
                 </div>
-                <MotionList className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+                <MotionList className="mx-auto mt-12 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-14 sm:mt-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
                     {reviews.map((post) => (
                         <MotionItem key={post.id} className="flex flex-col items-start justify-between group cursor-pointer">
                             <Link href={`/critica/${post.id}`} className="relative w-full overflow-hidden rounded-2xl block">
