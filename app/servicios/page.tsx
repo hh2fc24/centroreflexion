@@ -311,6 +311,107 @@ export default function Services() {
                 </div>
             </section >
 
+            {/* C·0) Informes Socioocupacionales — DESTACADO */}
+            <section id="informes-socioocupacionales" className="relative overflow-hidden bg-white py-16 sm:py-20 border-b border-gray-100">
+                {/* Subtle warm gradient wash */}
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-amber-50/60 via-white to-white" />
+
+                <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-20">
+
+                        {/* LEFT: Image */}
+                        <motion.div
+                            initial={{ opacity: 0, x: -20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.8 }}
+                            className="relative overflow-hidden rounded-2xl shadow-2xl"
+                        >
+                            <img
+                                src="/images/informes_socioocupacionales.png"
+                                alt="Evaluación socioocupacional profesional"
+                                className="w-full h-full object-cover"
+                                style={{ minHeight: "320px", maxHeight: "480px" }}
+                            />
+                            {/* Overlay badge */}
+                            <div className="absolute bottom-4 left-4 flex items-center gap-2 rounded-full bg-white/90 px-4 py-2 shadow-lg backdrop-blur-sm border border-gray-100">
+                                <div className="h-2 w-2 rounded-full bg-amber-500 animate-pulse" />
+                                <span className="text-xs font-bold text-gray-800 tracking-wide">Disponible · Presencial y Online</span>
+                            </div>
+                        </motion.div>
+
+                        {/* RIGHT: Content */}
+                        <motion.div
+                            initial={{ opacity: 0, x: 20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.8, delay: 0.15 }}
+                        >
+                            {/* Eyebrow — important indicator */}
+                            <div className="mb-5 flex items-center gap-3">
+                                <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-500 px-3 py-1 text-xs font-bold uppercase tracking-widest text-white shadow-sm">
+                                    <svg className="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" /></svg>
+                                    Servicio Destacado
+                                </span>
+                                <span className="text-xs font-semibold text-gray-400 uppercase tracking-widest">Ambos profesionales</span>
+                            </div>
+
+                            <h2 className="mb-4 text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl font-serif leading-snug">
+                                Informes Socioocupacionales:<br />
+                                <span className="text-amber-600">El documento que cambia el rumbo.</span>
+                            </h2>
+
+                            <p className="mb-6 text-sm leading-relaxed text-gray-600 sm:text-base">
+                                Cuando la vida de una persona —o su futuro— depende de una decisión técnica, la calidad del informe lo es todo.
+                                Juan Carlos Rauld y Rocío Solar elaboran <strong className="text-gray-900">informes socioocupacionales de alto estándar</strong> que son reconocidos por instituciones, tribunales y organizaciones: documentos que no solo describen, sino que <em>convencen con evidencia</em>.
+                            </p>
+
+                            {/* Population coverage */}
+                            <div className="mb-7 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                                {[
+                                    { label: "Niños", desc: "Desde primera infancia", icon: "🧒" },
+                                    { label: "Adolescentes", desc: "Contexto escolar y familiar", icon: "👦" },
+                                    { label: "Adultos", desc: "Evaluación funcional y laboral", icon: "🧑" },
+                                    { label: "Organizaciones", desc: "Diagnóstico institucional", icon: "🏛️" },
+                                ].map((item) => (
+                                    <div key={item.label} className="rounded-xl border border-gray-100 bg-gray-50 p-3 text-center shadow-sm hover:border-amber-200 hover:bg-amber-50/40 transition-colors">
+                                        <div className="text-xl mb-1">{item.icon}</div>
+                                        <p className="text-xs font-bold text-gray-900">{item.label}</p>
+                                        <p className="mt-0.5 text-[10px] text-gray-500 leading-tight">{item.desc}</p>
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* Value props list */}
+                            <ul className="mb-7 space-y-2.5">
+                                {[
+                                    "Redacción técnica con respaldo clínico y normativo",
+                                    "Validez ante organismos judiciales, educativos y laborales",
+                                    "Entregado en plazos definidos — claridad cuando más se necesita",
+                                    "Firmado por profesionales habilitados con trayectoria acreditada",
+                                ].map((item, i) => (
+                                    <li key={i} className="flex items-start gap-2.5 text-sm text-gray-700">
+                                        <Check className="mt-0.5 h-4 w-4 shrink-0 text-amber-500" />
+                                        {item}
+                                    </li>
+                                ))}
+                            </ul>
+
+                            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                                <a
+                                    href="mailto:centrodereflexionescriticas@gmail.com?subject=Solicitud%20Informe%20Socioocupacional"
+                                    className="inline-flex items-center justify-center gap-2 rounded-lg bg-amber-500 px-6 py-3 text-sm font-bold text-white shadow-md hover:bg-amber-600 transition-all hover:scale-105 active:scale-95"
+                                >
+                                    <Mail className="h-4 w-4" />
+                                    Solicitar Informe
+                                </a>
+                                <p className="text-xs text-gray-400">Respondemos en menos de 24 horas hábiles.</p>
+                            </div>
+                        </motion.div>
+                    </div>
+                </div>
+            </section>
+
             {/* C) Servicios de Formación */}
             < section ref={formacionRef} id="formacion" className="relative overflow-hidden bg-zinc-950 py-16 sm:py-24" >
                 {/* Widescreen Parallax Backgrounds */}
