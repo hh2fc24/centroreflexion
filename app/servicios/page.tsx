@@ -337,6 +337,163 @@ export default function Services() {
                 </div>
             </section >
 
+            {/* B·6) Psicología y Adicciones */}
+            <section id="psicologia-adicciones" className="relative overflow-hidden bg-gray-950 py-20 sm:py-28 lg:py-32">
+                {/* Fondo fotográfico con overlay */}
+                <div className="absolute inset-0 z-0">
+                    <img
+                        src="/images/hero_community.png"
+                        alt=""
+                        className="h-full w-full object-cover opacity-20 mix-blend-luminosity"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-br from-gray-950 via-gray-950/90 to-indigo-950/80" />
+                </div>
+
+                <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-20">
+
+                        {/* LEFT: Contenido */}
+                        <motion.div
+                            initial={{ opacity: 0, x: -24 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.8 }}
+                        >
+                            <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-indigo-500/30 bg-indigo-500/10 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-indigo-300 backdrop-blur-sm">
+                                <span className="h-1.5 w-1.5 rounded-full bg-indigo-400 animate-pulse" />
+                                Psicología Clínica & Adicciones
+                            </span>
+
+                            <h2 className="mb-6 text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl font-serif">
+                                Recuperar el control.<br />
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 via-purple-300 to-indigo-400">
+                                    Sin juicio. Con método.
+                                </span>
+                            </h2>
+
+                            <p className="mb-10 border-l-2 border-indigo-500/40 pl-5 text-base font-light leading-relaxed text-gray-300 sm:text-lg">
+                                Las adicciones no son debilidades morales: son patrones neurobiológicos y psicosociales que requieren intervención especializada, compasiva y sostenida. Abordamos el consumo problemático de sustancias, adicciones conductuales y comorbilidades asociadas desde un enfoque clínico integral y libre de estigma.
+                            </p>
+
+                            {/* Tipos de adicciones */}
+                            <div className="mb-10">
+                                <p className="mb-4 text-xs font-bold uppercase tracking-widest text-indigo-400">Áreas de intervención</p>
+                                <div className="flex flex-wrap gap-2">
+                                    {[
+                                        "Alcohol y sustancias",
+                                        "Adicción a pantallas y tecnología",
+                                        "Juego patológico",
+                                        "Adicción a la comida",
+                                        "Compras compulsivas",
+                                        "Co-dependencia",
+                                        "Tabaquismo",
+                                        "Adicciones conductuales",
+                                    ].map((tag) => (
+                                        <span key={tag} className="inline-flex items-center rounded-full border border-indigo-700/40 bg-indigo-900/30 px-3 py-1 text-xs font-medium text-indigo-200 backdrop-blur-sm">
+                                            {tag}
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Propuesta de valor */}
+                            <ul className="mb-10 space-y-3">
+                                {[
+                                    "Evaluación diagnóstica integral — psicológica y psicosocial",
+                                    "Psicoterapia individual y grupal con enfoque cognitivo-conductual y motivacional",
+                                    "Acompañamiento a familias y redes de apoyo",
+                                    "Intervención en crisis y prevención de recaídas",
+                                    "Derivación coordinada a centros especializados cuando se requiera",
+                                ].map((item, i) => (
+                                    <li key={i} className="flex items-start gap-3 text-sm text-gray-300 sm:text-base">
+                                        <span className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-indigo-500/20 border border-indigo-500/30">
+                                            <Check className="h-3 w-3 text-indigo-400" />
+                                        </span>
+                                        {item}
+                                    </li>
+                                ))}
+                            </ul>
+
+                            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                                <a
+                                    href="mailto:centrodereflexionescriticas@gmail.com?subject=Consulta%20Psicolog%C3%ADa%20y%20Adicciones"
+                                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-7 py-3.5 text-sm font-bold text-white shadow-lg shadow-indigo-900/50 hover:bg-indigo-500 transition-all hover:scale-105 active:scale-95"
+                                >
+                                    <Mail className="h-4 w-4" />
+                                    Consultar disponibilidad
+                                </a>
+                                <p className="text-xs text-gray-500">Confidencialidad garantizada · Sin listas de espera prolongadas</p>
+                            </div>
+                        </motion.div>
+
+                        {/* RIGHT: Tarjetas de enfoque */}
+                        <motion.div
+                            initial="hidden"
+                            whileInView="show"
+                            viewport={{ once: true, margin: "-60px" }}
+                            variants={{ hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.12 } } }}
+                            className="grid grid-cols-1 gap-4 sm:grid-cols-2"
+                        >
+                            {[
+                                {
+                                    title: "Evaluación Diagnóstica",
+                                    desc: "Entrevista clínica estructurada, aplicación de instrumentos validados (AUDIT, DAST, CAGE) y elaboración de perfil de consumo para orientar el plan terapéutico.",
+                                    icon: "🔍",
+                                    accent: "indigo",
+                                },
+                                {
+                                    title: "Psicoterapia Individual",
+                                    desc: "Sesiones personalizadas con enfoque cognitivo-conductual, entrevista motivacional y terapia de aceptación y compromiso (ACT).",
+                                    icon: "🧠",
+                                    accent: "purple",
+                                },
+                                {
+                                    title: "Intervención Familiar",
+                                    desc: "Trabajo con el sistema familiar y redes de apoyo para fortalecer vínculos saludables, establecer límites y sostener el proceso de recuperación.",
+                                    icon: "👨‍👩‍👧",
+                                    accent: "indigo",
+                                },
+                                {
+                                    title: "Prevención de Recaídas",
+                                    desc: "Identificación de desencadenantes, desarrollo de estrategias de afrontamiento y plan de acción ante situaciones de riesgo.",
+                                    icon: "🛡️",
+                                    accent: "purple",
+                                },
+                                {
+                                    title: "Adicciones Conductuales",
+                                    desc: "Abordaje especializado de adicciones sin sustancias: tecnología, juego, compras compulsivas y otras conductas que afectan la calidad de vida.",
+                                    icon: "📱",
+                                    accent: "indigo",
+                                },
+                                {
+                                    title: "Seguimiento y Alta",
+                                    desc: "Acompañamiento post-tratamiento con sesiones de mantenimiento, evaluación de logros y criterios clínicos de alta progresiva.",
+                                    icon: "🌱",
+                                    accent: "purple",
+                                },
+                            ].map((card, i) => (
+                                <motion.div
+                                    key={i}
+                                    variants={{ hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0 } }}
+                                    className={`group rounded-2xl border p-5 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 ${
+                                        card.accent === "indigo"
+                                            ? "border-indigo-800/40 bg-indigo-950/50 hover:border-indigo-600/60 hover:shadow-lg hover:shadow-indigo-900/40"
+                                            : "border-purple-800/40 bg-purple-950/40 hover:border-purple-600/60 hover:shadow-lg hover:shadow-purple-900/40"
+                                    }`}
+                                >
+                                    <div className="mb-3 text-2xl">{card.icon}</div>
+                                    <h4 className={`mb-2 text-sm font-bold ${card.accent === "indigo" ? "text-indigo-200" : "text-purple-200"}`}>
+                                        {card.title}
+                                    </h4>
+                                    <p className="text-xs leading-relaxed text-gray-400">{card.desc}</p>
+                                </motion.div>
+                            ))}
+                        </motion.div>
+
+                    </div>
+                </div>
+            </section>
+
             {/* C·0) Informes Socioocupacionales — DESTACADO */}
             <section id="informes-socioocupacionales" className="relative overflow-hidden bg-white py-16 sm:py-20 border-b border-gray-100">
                 {/* Subtle warm gradient wash */}

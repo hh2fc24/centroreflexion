@@ -144,9 +144,10 @@ export default function About() {
                             </div>
                             <h3 className="text-3xl font-bold text-gray-900 font-serif">Rocío Solar</h3>
                             <p className="text-red-600 font-bold text-sm tracking-wide mt-2 uppercase">
-                                Co-fundadora y Editora de Medios Digitales<br />
-                                <span className="text-pink-600">Terapeuta Ocupacional</span>
+                                Co-fundadora CRC
                             </p>
+                            <p className="text-pink-600 text-sm font-semibold mt-1">Terapeuta Ocupacional</p>
+                            <p className="text-gray-500 text-xs mt-1 font-medium leading-snug">Magíster (c) en Ocupación y Terapia Ocupacional<br />Facultad de Medicina, Universidad de Chile</p>
                             <div className="mt-6 flex gap-4">
                                 <a href="https://www.instagram.com/centrodereflexionescriticas/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-pink-600 transition-colors"><Instagram className="h-6 w-6" /></a>
                                 <a href="mailto:centrodereflexionescriticas@gmail.com" className="text-gray-400 hover:text-red-600 transition-colors"><Mail className="h-6 w-6" /></a>
