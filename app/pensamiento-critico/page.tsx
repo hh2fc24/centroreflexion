@@ -12,7 +12,7 @@ const getAuthorDetails = (author: string) => {
         return { image: "/images/rocio_solar.png", role: "Co-fundadora & Terapeuta Ocupacional" };
     }
     if (author.includes("Juan Carlos Rauld")) {
-        return { image: "/images/juan_carlos_20260224.png", role: "Director CRC · Doctorando en Trabajo Social (URV, España)" };
+        return { image: "/images/juan_carlos_20260224.png", role: "Director CRC · Estudiante de doctorado de Trabajo Social, Universidad de Rovira I Virgilli, España" };
     }
     return null;
 };

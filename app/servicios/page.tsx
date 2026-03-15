@@ -244,7 +244,7 @@ export default function Services() {
                                 Evaluación Psicosocial
                             </h2>
                             <p className="mb-8 text-base leading-relaxed text-gray-600 sm:text-lg">
-                                Servicios especializados dirigidos por <strong>Juan Carlos Rauld</strong>, Trabajador Social, Magíster en Pensamiento Contemporáneo (UDP) y Estudiante de Doctorado en Trabajo Social, Universidad de Rovira i Virgili, España. Focalizados en evaluación pericial y consultoría de casos complejos en infancia y familia.
+                                Servicios especializados dirigidos por <strong>Juan Carlos Rauld</strong>, Trabajador Social, Magíster en Pensamiento Contemporáneo (UDP) y Estudiante de doctorado de Trabajo Social de la Universidad de Rovira I Virgilli, Facultad de Ciencias Jurídicas y Sociales, España. Focalizados en evaluación pericial y consultoría de casos complejos en infancia y familia.
                             </p>
 
                             <ul className="space-y-4 mb-8">
@@ -622,7 +622,7 @@ export default function Services() {
                                 Formación — <span className="text-blue-400">Juan Carlos Rauld</span>
                             </h3>
                             <p className="text-zinc-500 text-sm mb-8 border-b border-zinc-800 pb-4">
-                                Trabajador Social · Mg. Pensamiento Contemporáneo (UDP) · Doctorando en Trabajo Social, Universidad de Rovira i Virgili, España
+                                Trabajador Social · Mg. Pensamiento Contemporáneo (UDP) · Estudiante de doctorado de Trabajo Social de la Universidad de Rovira I Virgilli, Facultad de Ciencias Jurídicas y Sociales, España
                             </p>
                             <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2">
                                 {[
