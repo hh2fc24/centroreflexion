@@ -61,7 +61,7 @@ export function Navbar() {
                                 </Link>
                                 {hasChildren ? (
                                     <div className="absolute left-0 top-full pt-3 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition">
-                                        <div className="min-w-56 rounded-2xl border border-border bg-background shadow-lg overflow-hidden">
+                                        <div className="w-max min-w-44 rounded-2xl border border-border bg-background shadow-lg overflow-hidden">
                                             {(item.children ?? [])
                                                 .filter((c) => c.visible !== false)
                                                 .map((c) => (
@@ -72,7 +72,7 @@ export function Navbar() {
                                                             maybePrevent(e);
                                                         }}
                                                         className={cn(
-                                                            "block px-4 py-3 text-sm font-semibold text-muted-foreground",
+                                                            "block whitespace-nowrap px-5 py-3 text-sm font-semibold text-muted-foreground",
                                                             "hover:bg-black/5 hover:text-primary transition-colors"
                                                         )}
                                                     >
