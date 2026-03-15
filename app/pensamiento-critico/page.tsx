@@ -31,10 +31,14 @@ export default function PensamientoCritico() {
         []
     );
 
-    if (allArticles.length === 0) return null;
-
-    // Get unique categories
-    const categories = useMemo(() => [...new Set(allArticles.map(a => a.category))], [allArticles]);
+    // Get unique categories — sorted by count desc so most popular goes first
+    const categories = useMemo(() => {
+        const catSet = [...new Set(allArticles.map(a => a.category))];
+        return catSet.sort((a, b) =>
+            allArticles.filter(x => x.category === b).length -
+            allArticles.filter(x => x.category === a).length
+        );
+    }, [allArticles]);
 
     // Filtered articles
     const filteredArticles = useMemo(() =>
@@ -44,8 +48,10 @@ export default function PensamientoCritico() {
         [allArticles, activeCategory]
     );
 
-    const featuredArticle = filteredArticles[0];
+    const featuredArticle = filteredArticles[0] ?? null;
     const remainingArticles = filteredArticles.slice(1);
+
+    if (allArticles.length === 0) return null;
 
     return (
         <div className="min-h-screen bg-gray-50 py-16 sm:py-24 lg:py-32">
@@ -172,7 +178,7 @@ export default function PensamientoCritico() {
                 </div>
 
                 {/* Masonry-Style Grid for Remaining Articles */}
-                <MotionList className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:mx-0 lg:max-w-none lg:grid-cols-2 lg:gap-y-24">
+                <MotionList key={activeCategory} className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:mx-0 lg:max-w-none lg:grid-cols-2 lg:gap-y-24">
                     {remainingArticles.map((post) => (
                         <MotionItem key={post.id} className="flex flex-col group cursor-pointer bg-white rounded-2xl shadow-sm ring-1 ring-gray-100 hover:shadow-lg hover:shadow-gray-200/50 transition-all duration-300 overflow-hidden">
                             <Link href={`${post.basePath}/${post.id}`} className="relative w-full aspect-[16/9] overflow-hidden block">
@@ -238,7 +244,7 @@ export default function PensamientoCritico() {
                         </MotionItem>
                     ))}
                 </MotionList>
-                {remainingArticles.length === 0 && filteredArticles.length === 0 && (
+                {filteredArticles.length === 0 && (
                     <div className="py-16 text-center">
                         <p className="text-gray-400 text-lg">No hay artículos en esta categoría.</p>
                         <button onClick={() => setActiveCategory("Todas")} className="mt-4 text-red-600 font-semibold hover:underline">
