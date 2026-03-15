@@ -1,3 +1,6 @@
+"use client";
+
+import { useState, useMemo } from "react";
 import { MotionList, MotionItem } from "@/components/ui/Motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,32 +12,40 @@ const getAuthorDetails = (author: string) => {
         return { image: "/images/rocio_solar.png", role: "Co-fundadora & Terapeuta Ocupacional" };
     }
     if (author.includes("Juan Carlos Rauld")) {
-        return { image: "/images/juan_carlos_20260224.png", role: "Director Editorial & Consultor" };
+        return { image: "/images/juan_carlos_20260224.png", role: "Director CRC · Doctorando en Trabajo Social (URV, España)" };
     }
     return null;
 };
 
-export const metadata = {
-    title: "Pensamiento Crítico",
-    description: "Columnas de opinión, crítica literaria y cultural, ensayos y reflexiones sobre la complejidad social contemporánea.",
-};
-
 export default function PensamientoCritico() {
+    const [activeCategory, setActiveCategory] = useState<string>("Todas");
+
     // Merge all reader articles and sort by date (newest first)
-    const allArticles = [...readers].map(r => ({ ...r, basePath: "/pensamiento-critico" })).sort((a, b) => {
-        const tb = parseDisplayDate(b.date);
-        const ta = parseDisplayDate(a.date);
-        if (Number.isFinite(tb) && Number.isFinite(ta)) return tb - ta;
-        return b.date.localeCompare(a.date);
-    });
+    const allArticles = useMemo(() =>
+        [...readers].map(r => ({ ...r, basePath: "/pensamiento-critico" })).sort((a, b) => {
+            const tb = parseDisplayDate(b.date);
+            const ta = parseDisplayDate(a.date);
+            if (Number.isFinite(tb) && Number.isFinite(ta)) return tb - ta;
+            return b.date.localeCompare(a.date);
+        }),
+        []
+    );
 
     if (allArticles.length === 0) return null;
 
-    const featuredArticle = allArticles[0];
-    const remainingArticles = allArticles.slice(1);
-
     // Get unique categories
-    const categories = [...new Set(allArticles.map(a => a.category))];
+    const categories = useMemo(() => [...new Set(allArticles.map(a => a.category))], [allArticles]);
+
+    // Filtered articles
+    const filteredArticles = useMemo(() =>
+        activeCategory === "Todas"
+            ? allArticles
+            : allArticles.filter(a => a.category === activeCategory),
+        [allArticles, activeCategory]
+    );
+
+    const featuredArticle = filteredArticles[0];
+    const remainingArticles = filteredArticles.slice(1);
 
     return (
         <div className="min-h-screen bg-gray-50 py-16 sm:py-24 lg:py-32">
@@ -50,23 +61,52 @@ export default function PensamientoCritico() {
                         sobre la complejidad social contemporánea.
                     </p>
 
-                    {/* Category badges */}
+                    {/* Category badges — funcionales, filtran los artículos */}
                     <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-                        <span className="inline-flex items-center rounded-full bg-red-50 px-4 py-2 text-sm font-semibold text-red-700 ring-1 ring-inset ring-red-200 cursor-pointer hover:bg-red-100 transition-colors">
+                        <button
+                            onClick={() => setActiveCategory("Todas")}
+                            className={`inline-flex items-center rounded-full px-4 py-2 text-sm font-semibold ring-1 ring-inset transition-all duration-200 cursor-pointer ${
+                                activeCategory === "Todas"
+                                    ? "bg-red-700 text-white ring-red-700 shadow-md shadow-red-200"
+                                    : "bg-red-50 text-red-700 ring-red-200 hover:bg-red-100"
+                            }`}
+                        >
                             Todas
-                        </span>
-                        {categories.map(cat => (
-                            <span
-                                key={cat}
-                                className="inline-flex items-center rounded-full bg-white px-4 py-2 text-sm font-medium text-gray-600 ring-1 ring-inset ring-gray-200 cursor-pointer hover:bg-gray-50 transition-colors"
-                            >
-                                {cat}
+                            <span className={`ml-2 rounded-full px-1.5 py-0.5 text-[10px] font-bold ${activeCategory === "Todas" ? "bg-white/20 text-white" : "bg-red-100 text-red-600"}`}>
+                                {allArticles.length}
                             </span>
-                        ))}
+                        </button>
+                        {categories.map(cat => {
+                            const count = allArticles.filter(a => a.category === cat).length;
+                            return (
+                                <button
+                                    key={cat}
+                                    onClick={() => setActiveCategory(cat)}
+                                    className={`inline-flex items-center rounded-full px-4 py-2 text-sm font-medium ring-1 ring-inset transition-all duration-200 cursor-pointer ${
+                                        activeCategory === cat
+                                            ? "bg-gray-900 text-white ring-gray-900 shadow-md"
+                                            : "bg-white text-gray-600 ring-gray-200 hover:bg-gray-50 hover:text-gray-900"
+                                    }`}
+                                >
+                                    {cat}
+                                    <span className={`ml-2 rounded-full px-1.5 py-0.5 text-[10px] font-bold ${activeCategory === cat ? "bg-white/20 text-white" : "bg-gray-100 text-gray-500"}`}>
+                                        {count}
+                                    </span>
+                                </button>
+                            );
+                        })}
                     </div>
+                    {activeCategory !== "Todas" && (
+                        <p className="mt-4 text-sm text-gray-400">
+                            Mostrando {filteredArticles.length} artículo{filteredArticles.length !== 1 ? "s" : ""} en <strong className="text-gray-600">{activeCategory}</strong>
+                            {" "}·{" "}
+                            <button onClick={() => setActiveCategory("Todas")} className="text-red-600 hover:underline font-medium">Ver todas</button>
+                        </p>
+                    )}
                 </div>
 
                 {/* Featured Article */}
+                {featuredArticle && (
                 <div className="relative isolate mb-16 overflow-hidden rounded-2xl bg-white pr-0 ring-1 ring-gray-200 shadow-xl shadow-gray-200/50 sm:mb-24 sm:rounded-3xl lg:flex lg:items-center lg:pr-10 lg:pl-0">
                     <Link href={`${featuredArticle.basePath}/${featuredArticle.id}`} className="block lg:w-1/2 group relative aspect-[4/3] lg:aspect-[5/4] overflow-hidden rounded-t-3xl lg:rounded-l-3xl lg:rounded-tr-none">
                         <Image
@@ -121,10 +161,13 @@ export default function PensamientoCritico() {
                         </div>
                     </div>
                 </div>
+                )}
 
                 {/* Grid Divider */}
                 <div className="mb-10 flex items-center gap-4 sm:mb-16 sm:gap-6">
-                    <h2 className="text-2xl font-bold tracking-tight text-gray-900 font-serif">Más Columnas</h2>
+                    <h2 className="text-2xl font-bold tracking-tight text-gray-900 font-serif">
+                        {activeCategory === "Todas" ? "Más Columnas" : activeCategory}
+                    </h2>
                     <div className="h-px bg-gray-200 flex-1"></div>
                 </div>
 
@@ -195,6 +238,14 @@ export default function PensamientoCritico() {
                         </MotionItem>
                     ))}
                 </MotionList>
+                {remainingArticles.length === 0 && filteredArticles.length === 0 && (
+                    <div className="py-16 text-center">
+                        <p className="text-gray-400 text-lg">No hay artículos en esta categoría.</p>
+                        <button onClick={() => setActiveCategory("Todas")} className="mt-4 text-red-600 font-semibold hover:underline">
+                            Ver todas las columnas
+                        </button>
+                    </div>
+                )}
             </div>
         </div>
     );

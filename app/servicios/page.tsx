@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Check, ArrowRight, Users, Mail, Brain, HeartHandshake, Rocket } from "lucide-react";
+import { Check, ArrowRight, Users, Mail, Brain, HeartHandshake, Rocket, Scale, GraduationCap, TrendingUp, Building2, FlaskConical, Gavel } from "lucide-react";
 
 export default function Services() {
     const [activePillar, setActivePillar] = useState<number>(0);
@@ -46,13 +46,26 @@ export default function Services() {
     return (
         <div className="bg-white">
 
-            {/* Header */}
-            <div className="bg-gray-50 py-16 sm:py-24 lg:py-32">
-                <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
+            {/* Header — dark, integrado con sección consultoria */}
+            <div className="relative overflow-hidden bg-slate-900 py-20 sm:py-28 lg:py-36">
+                {/* Fondo abstracto sutil */}
+                <div className="absolute inset-0 z-0 opacity-10">
+                    <img src="/images/consulting_hero.png" alt="" className="h-full w-full object-cover mix-blend-luminosity" />
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-b from-slate-900/80 via-slate-900/60 to-slate-900" />
+                <div className="relative z-10 mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
+                    <motion.span
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.5 }}
+                        className="mb-6 inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-300 backdrop-blur-md"
+                    >
+                        Centro de Reflexiones Críticas
+                    </motion.span>
                     <motion.h1
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl font-serif"
+                        className="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl font-serif"
                     >
                         Nuestros Servicios
                     </motion.h1>
@@ -60,18 +73,31 @@ export default function Services() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2 }}
-                        className="mx-auto mt-6 max-w-3xl text-base leading-7 text-gray-600 sm:text-xl sm:leading-8"
+                        className="mx-auto mt-6 max-w-3xl text-base leading-7 text-slate-300 sm:text-xl sm:leading-8"
                     >
                         <p>
-                            Una oferta integral que combina la <strong>atención clínica especializada</strong>,
-                            la <strong>formación académica</strong> y la <strong>consultoría estratégica</strong> para instituciones.
+                            Una oferta integral que combina la <strong className="text-white">atención clínica especializada</strong>,
+                            la <strong className="text-white">formación académica</strong> y la <strong className="text-white">consultoría estratégica</strong> con un equipo <strong className="text-amber-400">multidisciplinario</strong> de alto nivel.
                         </p>
+                    </motion.div>
+                    {/* Tags multidisciplinarios */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.4 }}
+                        className="mt-8 flex flex-wrap items-center justify-center gap-2"
+                    >
+                        {["Trabajo Social", "Terapia Ocupacional", "Derecho", "Sociología", "Ingeniería Comercial", "Salud Mental"].map((tag) => (
+                            <span key={tag} className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium text-slate-400 backdrop-blur-sm">
+                                {tag}
+                            </span>
+                        ))}
                     </motion.div>
                 </div>
             </div>
 
             {/* A) Consultoría Estratégica (The "Umbrella" Offer) */}
-            <section id="consultoria" className="relative overflow-hidden border-b border-slate-800 bg-slate-900 py-20 sm:py-24 lg:py-32">
+            <section id="consultoria" className="relative overflow-hidden border-t border-slate-700/50 bg-slate-900 py-20 sm:py-24 lg:py-32">
                 {/* Abstract Background Assets */}
                 <div className="absolute inset-0 z-0">
                     <div className="absolute top-0 right-0 h-full w-full opacity-15 mix-blend-overlay sm:w-3/4 sm:opacity-20">
@@ -218,7 +244,7 @@ export default function Services() {
                                 Evaluación Psicosocial
                             </h2>
                             <p className="mb-8 text-base leading-relaxed text-gray-600 sm:text-lg">
-                                Servicios especializados dirigidos por Juan Carlos Rauld, enfocados en la evaluación pericial y consultoría de casos complejos en infancia y familia.
+                                Servicios especializados dirigidos por <strong>Juan Carlos Rauld</strong>, Trabajador Social, Magíster en Pensamiento Contemporáneo (UDP) y Estudiante de Doctorado en Trabajo Social, Universidad de Rovira i Virgili, España. Focalizados en evaluación pericial y consultoría de casos complejos en infancia y familia.
                             </p>
 
                             <ul className="space-y-4 mb-8">
@@ -412,6 +438,151 @@ export default function Services() {
                 </div>
             </section>
 
+            {/* B·5) Equipo Multidisciplinario — Nueva Sección */}
+            <section id="equipo-multidisciplinario" className="relative overflow-hidden bg-white py-16 sm:py-24 border-b border-gray-100">
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-blue-50/40 via-white to-indigo-50/30" />
+                <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    {/* Header */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.7 }}
+                        className="mb-14 text-center"
+                    >
+                        <span className="mb-4 inline-flex items-center rounded-full bg-blue-50 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.15em] text-blue-700 ring-1 ring-inset ring-blue-100">
+                            Equipo Multidisciplinario
+                        </span>
+                        <h2 className="mt-3 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl lg:text-5xl font-serif">
+                            Una consultora de múltiples miradas
+                        </h2>
+                        <p className="mx-auto mt-5 max-w-2xl text-base text-gray-500 sm:text-lg leading-relaxed">
+                            Cada problema social es complejo. Por eso articulamos profesionales de distintas disciplinas para entregar soluciones con profundidad técnica, rigor científico y pertinencia social.
+                        </p>
+                    </motion.div>
+
+                    {/* Grid de especialistas */}
+                    <motion.div
+                        initial="hidden"
+                        whileInView="show"
+                        viewport={{ once: true, margin: "-80px" }}
+                        variants={{ hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.1 } } }}
+                        className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"
+                    >
+                        {[
+                            {
+                                icon: Brain,
+                                color: "blue",
+                                title: "Trabajo Social y Salud Mental",
+                                desc: "Núcleo fundacional del CRC. Intervención clínica especializada en infancia, familia y comunidad. Evaluación de riesgo psicosocial, diseño de modelos de intervención y políticas basadas en evidencia.",
+                                tags: ["Evaluación pericial", "Programas sociales", "Infancia y familia"],
+                            },
+                            {
+                                icon: HeartHandshake,
+                                color: "purple",
+                                title: "Terapia Ocupacional",
+                                desc: "Intervención centrada en la funcionalidad, el bienestar y los derechos humanos. Evaluación e intervención en salud mental infanto-juvenil, inclusión educativa y contextos comunitarios.",
+                                tags: ["PIE / Inclusión", "Salud mental", "Derechos humanos"],
+                            },
+                            {
+                                icon: Scale,
+                                color: "amber",
+                                title: "Derecho y Ciencias Jurídicas",
+                                desc: "Asesoría legal especializada en derecho de familia, infancia y protección de derechos. Apoyo técnico en procedimientos judiciales, tutela de derechos y normativa de protección social.",
+                                tags: ["Derecho de familia", "Protección derechos", "Asesoría normativa"],
+                            },
+                            {
+                                icon: GraduationCap,
+                                color: "emerald",
+                                title: "Sociología y Ciencias Sociales",
+                                desc: "Análisis sociológico de fenómenos sociales complejos, investigación cualitativa y cuantitativa, diagnósticos territoriales y estudios sobre desigualdad, vulnerabilidad y exclusión social.",
+                                tags: ["Diagnóstico social", "Investigación", "Análisis territorial"],
+                            },
+                            {
+                                icon: TrendingUp,
+                                color: "rose",
+                                title: "Ingeniería Comercial y Gestión",
+                                desc: "Planificación estratégica, arquitectura organizacional y diseño de indicadores de desempeño para organizaciones sociales. Modelos de gestión que alinean eficiencia operativa con impacto social medible.",
+                                tags: ["Gestión estratégica", "KPIs de impacto", "Modelos organizacionales"],
+                            },
+                            {
+                                icon: Building2,
+                                color: "slate",
+                                title: "Política Pública e Institucional",
+                                desc: "Acompañamiento a organismos públicos y privados en diseño, implementación y evaluación de políticas y programas sociales. Fortalecimiento institucional, gobernanza y mejora continua.",
+                                tags: ["Políticas públicas", "Evaluación de programas", "Gobernanza"],
+                            },
+                        ].map((spec, idx) => {
+                            const Icon = spec.icon;
+                            const colorMap: Record<string, string> = {
+                                blue: "bg-blue-50 text-blue-600 ring-blue-100 hover:shadow-blue-100/60",
+                                purple: "bg-purple-50 text-purple-600 ring-purple-100 hover:shadow-purple-100/60",
+                                amber: "bg-amber-50 text-amber-600 ring-amber-100 hover:shadow-amber-100/60",
+                                emerald: "bg-emerald-50 text-emerald-600 ring-emerald-100 hover:shadow-emerald-100/60",
+                                rose: "bg-rose-50 text-rose-600 ring-rose-100 hover:shadow-rose-100/60",
+                                slate: "bg-slate-50 text-slate-600 ring-slate-100 hover:shadow-slate-100/60",
+                            };
+                            const iconBg: Record<string, string> = {
+                                blue: "bg-blue-100 text-blue-600",
+                                purple: "bg-purple-100 text-purple-600",
+                                amber: "bg-amber-100 text-amber-600",
+                                emerald: "bg-emerald-100 text-emerald-600",
+                                rose: "bg-rose-100 text-rose-600",
+                                slate: "bg-slate-100 text-slate-600",
+                            };
+                            const tagBg: Record<string, string> = {
+                                blue: "bg-blue-50 text-blue-700 ring-blue-200/50",
+                                purple: "bg-purple-50 text-purple-700 ring-purple-200/50",
+                                amber: "bg-amber-50 text-amber-700 ring-amber-200/50",
+                                emerald: "bg-emerald-50 text-emerald-700 ring-emerald-200/50",
+                                rose: "bg-rose-50 text-rose-700 ring-rose-200/50",
+                                slate: "bg-slate-50 text-slate-700 ring-slate-200/50",
+                            };
+                            return (
+                                <motion.div
+                                    key={idx}
+                                    variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }}
+                                    className={`group relative flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ring-1 ${colorMap[spec.color]}`}
+                                >
+                                    <div className={`mb-4 flex h-12 w-12 items-center justify-center rounded-xl ${iconBg[spec.color]}`}>
+                                        <Icon className="h-6 w-6" />
+                                    </div>
+                                    <h3 className="mb-3 text-lg font-bold text-gray-900 font-serif leading-tight">{spec.title}</h3>
+                                    <p className="mb-5 flex-grow text-sm leading-relaxed text-gray-500">{spec.desc}</p>
+                                    <div className="flex flex-wrap gap-1.5">
+                                        {spec.tags.map((tag) => (
+                                            <span key={tag} className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide ring-1 ${tagBg[spec.color]}`}>
+                                                {tag}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </motion.div>
+                            );
+                        })}
+                    </motion.div>
+
+                    {/* CTA */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.3 }}
+                        className="mt-14 flex flex-col items-center gap-4 text-center"
+                    >
+                        <p className="text-sm text-gray-500 max-w-lg">
+                            ¿Tu desafío requiere una mirada multidisciplinaria? Armamos el equipo a medida para tu organización.
+                        </p>
+                        <a
+                            href="mailto:centrodereflexionescriticas@gmail.com?subject=Consulta%20Equipo%20Multidisciplinario"
+                            className="inline-flex items-center gap-2 rounded-lg bg-gray-900 px-6 py-3 text-sm font-bold text-white shadow-md hover:bg-gray-700 transition-all hover:scale-105 active:scale-95"
+                        >
+                            <Mail className="h-4 w-4" />
+                            Armar equipo a medida
+                        </a>
+                    </motion.div>
+                </div>
+            </section>
+
             {/* C) Servicios de Formación */}
             < section ref={formacionRef} id="formacion" className="relative overflow-hidden bg-zinc-950 py-16 sm:py-24" >
                 {/* Widescreen Parallax Backgrounds */}
@@ -447,9 +618,12 @@ export default function Services() {
                     {/* Juan Carlos Rauld - Formación */}
                     <div className="relative mb-16 sm:mb-24">
                         <div className="relative z-10">
-                            <h3 className="text-2xl font-bold text-white mb-8 font-serif border-b border-zinc-800 pb-4">
+                            <h3 className="text-2xl font-bold text-white mb-2 font-serif">
                                 Formación — <span className="text-blue-400">Juan Carlos Rauld</span>
                             </h3>
+                            <p className="text-zinc-500 text-sm mb-8 border-b border-zinc-800 pb-4">
+                                Trabajador Social · Mg. Pensamiento Contemporáneo (UDP) · Doctorando en Trabajo Social, Universidad de Rovira i Virgili, España
+                            </p>
                             <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2">
                                 {[
                                     { name: "Capacitación en Intervención de Crisis", price: "Desde 5 UF", detail: "Modalidad presencial / online · 4-8 hrs" },
