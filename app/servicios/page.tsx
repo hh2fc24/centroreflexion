@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Check, ArrowRight, Users, Mail, Brain, HeartHandshake, Rocket, Scale, GraduationCap, TrendingUp, Building2, FlaskConical, Gavel } from "lucide-react";
+import { Check, ArrowRight, Users, Mail, Brain, HeartHandshake, Rocket, Scale, GraduationCap, TrendingUp, Building2, FlaskConical, Gavel, Award, BookOpen, ExternalLink, Briefcase } from "lucide-react";
 
 export default function Services() {
     const [activePillar, setActivePillar] = useState<number>(0);
@@ -243,9 +243,13 @@ export default function Services() {
                             <h2 className="mb-6 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl font-serif">
                                 Evaluación Psicosocial
                             </h2>
-                            <p className="mb-8 text-base leading-relaxed text-gray-600 sm:text-lg">
-                                Servicios especializados dirigidos por <strong>Juan Carlos Rauld</strong>, Trabajador Social, Magíster en Pensamiento Contemporáneo (UDP) y Estudiante de doctorado de Trabajo Social de la Universidad de Rovira I Virgilli, Facultad de Ciencias Jurídicas y Sociales, España. Focalizados en evaluación pericial y consultoría de casos complejos en infancia y familia.
+                            <p className="mb-4 text-base leading-relaxed text-gray-600 sm:text-lg">
+                                Servicios especializados dirigidos por <strong>Juan Carlos Rauld</strong>, Trabajador Social investigador especializado en infancia, trauma psicosocial y protección de derechos. Focalizados en evaluación pericial y consultoría de casos complejos en infancia y familia.
                             </p>
+                            <a href="#recomendaciones-linkedin" className="mb-8 inline-flex items-center gap-1.5 text-sm font-semibold text-blue-600 hover:text-blue-800 transition-colors">
+                                <svg className="h-3.5 w-3.5 fill-[#0077B5]" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                                Ver qué dicen colegas y supervisores sobre Juan Carlos →
+                            </a>
 
                             <ul className="space-y-4 mb-8">
                                 {[
@@ -309,9 +313,13 @@ export default function Services() {
                             <h2 className="mb-6 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl font-serif">
                                 Intervención Comunitaria y Clínica
                             </h2>
-                            <p className="mb-8 text-base leading-relaxed text-gray-600 sm:text-lg">
-                                Espacio terapéutico liderado por Rocío Solar, centrado en la funcionalidad, el bienestar y los derechos humanos.
+                            <p className="mb-4 text-base leading-relaxed text-gray-600 sm:text-lg">
+                                Espacio terapéutico liderado por <strong>Rocío Solar</strong>, Terapeuta Ocupacional con Magíster en Salud Mental Comunitaria (U. de Chile) y especialización en TEA, género e intervención psicosocial. Su enfoque integra funcionalidad, derechos y trabajo territorial en intervenciones clínicas de alto impacto.
                             </p>
+                            <a href="#recomendaciones-linkedin" className="mb-8 inline-flex items-center gap-1.5 text-sm font-semibold text-purple-600 hover:text-purple-800 transition-colors">
+                                <svg className="h-3.5 w-3.5 fill-[#0077B5]" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                                Ver qué dicen colegas y colaboradores sobre Rocío →
+                            </a>
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-10">
                                 {[
@@ -778,9 +786,15 @@ export default function Services() {
                             <h3 className="text-2xl font-bold text-white mb-2 font-serif">
                                 Formación — <span className="text-blue-400">Juan Carlos Rauld</span>
                             </h3>
-                            <p className="text-zinc-500 text-sm mb-8 border-b border-zinc-800 pb-4">
-                                Trabajador Social · Mg. Pensamiento Contemporáneo (UDP) · Estudiante de doctorado de Trabajo Social de la Universidad de Rovira I Virgilli, Facultad de Ciencias Jurídicas y Sociales, España
-                            </p>
+                            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-zinc-800 pb-4 mb-8">
+                                <p className="text-zinc-500 text-sm">
+                                    Trabajador Social · Mg. Pensamiento Contemporáneo (UDP) · Doctorando Trabajo Social, Universitat Rovira i Virgili, España
+                                </p>
+                                <a href="#recomendaciones-linkedin" className="inline-flex items-center gap-1 text-xs font-semibold text-blue-500 hover:text-blue-300 transition-colors whitespace-nowrap">
+                                    <svg className="h-3 w-3 fill-current" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                                    11 recomendaciones en LinkedIn →
+                                </a>
+                            </div>
                             <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2">
                                 {[
                                     { name: "Capacitación en Intervención de Crisis", price: "Desde 5 UF", detail: "Modalidad presencial / online · 4-8 hrs" },
@@ -801,9 +815,18 @@ export default function Services() {
                         {/* Rocío Solar - Formación */}
                         <div className="relative mt-16 mb-16 sm:mt-24">
                             <div className="relative z-10">
-                                <h3 className="text-2xl font-bold text-white mb-8 font-serif border-b border-zinc-800 pb-4">
+                                <h3 className="text-2xl font-bold text-white mb-2 font-serif">
                                     Formación — <span className="text-purple-400">Rocío Solar</span>
                                 </h3>
+                                <div className="flex flex-wrap items-center justify-between gap-3 border-b border-zinc-800 pb-4 mb-8">
+                                    <p className="text-zinc-500 text-sm">
+                                        Terapeuta Ocupacional · Mg. en Ocupación y T.O. (U. de Chile) · Especialista en TEA, Salud Mental Comunitaria y Género
+                                    </p>
+                                    <a href="#recomendaciones-linkedin" className="inline-flex items-center gap-1 text-xs font-semibold text-purple-400 hover:text-purple-300 transition-colors whitespace-nowrap">
+                                        <svg className="h-3 w-3 fill-current" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                                        3 recomendaciones en LinkedIn →
+                                    </a>
+                                </div>
                                 <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2">
                                     {[
                                         { name: "Charlas en Salud Mental y Género", price: "Consultar", detail: "Presencial / Online · 60-90 min" },
@@ -960,6 +983,9 @@ export default function Services() {
                 </div>
             </section >
 
+            {/* F) Recomendaciones LinkedIn — Fundadores */}
+            <LinkedInRecommendations />
+
             {/* E) Contact CTA - Bottom */}
             <section className="relative z-10 bg-white py-16 md:py-24">
                 <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
@@ -982,5 +1008,347 @@ export default function Services() {
             </section>
 
         </div >
+    );
+}
+
+// ─────────────────────────────────────────────
+// Componente: Recomendaciones LinkedIn
+// ─────────────────────────────────────────────
+
+const LinkedInIcon = () => (
+    <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+    </svg>
+);
+
+const jcrRecommendations = [
+    {
+        name: "Sofía Aliaga Bustos",
+        title: "Periodista · Políticas Públicas de Niñez e Incidencia",
+        date: "Diciembre 2025",
+        relation: "Colega en distintas empresas",
+        initials: "SA",
+        color: "from-blue-600 to-blue-800",
+        featured: true,
+        text: "Tuve la oportunidad de trabajar con Juan Carlos cuando se desempeñaba como coordinador del programa Red Calle Niños, instancia en la que pude conocer a un profesional de altísimo nivel técnico y conceptual. Es trabajador social, con una sólida trayectoria en infancia, salud mental y políticas públicas, y un marcado perfil académico, que combina pensamiento crítico, rigurosidad metodológica y profundo conocimiento teórico. Juan Carlos destaca por su calidad humana, su cercanía en el trabajo cotidiano y su profundo compromiso con los niños y niñas, demostrando una capacidad poco común para comprender sus trayectorias de vida, leer la complejidad de sus historias y traducirlas en intervenciones respetuosas, pertinentes y éticamente cuidadas. Es un profesional serio, generoso en el trabajo colaborativo y con una fuerte convicción por la protección de derechos. Por su trayectoria, liderazgo técnico y capacidad de gestión, tiene un perfil especialmente sólido para roles de coordinación, dirección de proyectos y conducción de equipos en contextos complejos.",
+    },
+    {
+        name: "Juan Pablo Venegas Gormaz",
+        title: "Gerente de Incidencia en Políticas Públicas · World Vision Chile",
+        date: "Enero 2026",
+        relation: "Cargo superior",
+        initials: "JP",
+        color: "from-green-600 to-green-800",
+        featured: false,
+        text: "He tenido la oportunidad de colaborar con Juan Carlos en múltiples roles y puedo confirmar que es un profesional que cuenta con competencias probadas de liderazgo y coordinación de equipos para la gestión de programas de intervención con NNA. Su perfil mezcla habilidades de intervención y manejo teórico para el trabajo social, para la intervención especializada en salud mental infantil y en especial ante población con daño severo y trauma. Su trayectoria académica y publicaciones confirman su versatilidad profesional. Trabajar con él ha sido garantía de responsabilidad en la gestión de recursos y de una solidez técnica para garantizar las mejores condiciones de atención de niños, niñas y adolescentes.",
+    },
+    {
+        name: "Paulina González Geisse",
+        title: "Psicóloga Clínica · Doctorante en Violencias Conyugales",
+        date: "Enero 2026",
+        relation: "Supervisora directa",
+        initials: "PG",
+        color: "from-purple-600 to-purple-800",
+        featured: false,
+        text: "Tuve el gusto de trabajar con Juan Carlos en el Programa de Reparación de Maltrato Grave (PRM) de La Cisterna, donde se desempeñó como director (s) y asistente social. Destaco especialmente su capacidad de análisis, su liderazgo cercano y su profunda vocación por el trabajo social. Juan Carlos combina una sólida capacidad técnica con una gran calidad humana. Supo orientar al equipo con claridad, fomentar el trabajo colaborativo y tomar decisiones fundamentadas, incluso en contextos complejos y de alta exigencia emocional. Recomiendo plenamente a Juan Carlos Rauld Farías por su seriedad, responsabilidad y auténtico compromiso con el bienestar social.",
+    },
+    {
+        name: "Carlos Luis Barría Román",
+        title: "Rector · Universidad UNIACC",
+        date: "Enero 2026",
+        relation: "Colaboración académica",
+        initials: "CB",
+        color: "from-amber-600 to-amber-800",
+        featured: false,
+        text: "Juan Carlos Rauld es un profesional comprometido con el estudio de la infancia. Nos conocimos cuando estudié de cerca su trabajo como editor y coautor del libro "Perspectivas críticas de la salud mental infantil: Trauma, institucionalización y suplicio". A través de su libro, pude conocer también su trabajo en el Hospital Luis Calvo Mackenna, además de su perspectiva en torno a la salud pública y el sufrimiento psíquico en los procesos de intervención y hospitalización de salud mental. Me parece un gran profesional. Serio, metódico y muy comprometido con la infancia desde las disciplinas que cultiva.",
+    },
+    {
+        name: "Fernanda Gumucio Dobbs",
+        title: "Directora · Subjetivamente | Psicología, Magíster U. de Chile",
+        date: "Diciembre 2025",
+        relation: "Cargo superior",
+        initials: "FG",
+        color: "from-rose-600 to-rose-800",
+        featured: false,
+        text: "Conocí el trabajo de Juan Carlos Rauld Farías en espacios profesionales vinculados a infancia y salud mental, donde destaca por una mirada crítica sólida y un compromiso serio con el análisis ético y político de la intervención psicosocial. Su capacidad para articular práctica, reflexión teórica y lectura institucional lo convierte en un profesional consistente, especialmente valioso en contextos complejos y de alta exigencia. Es un aporte claro para equipos académicos, de investigación o intervención.",
+    },
+    {
+        name: "Carmen Lamilla Almuna",
+        title: "Directora de Carrera · Universidad Andrés Bello",
+        date: "Febrero 2026",
+        relation: "Supervisora directa",
+        initials: "CL",
+        color: "from-teal-600 to-teal-800",
+        featured: false,
+        text: "Trabajé con Juan Carlos en Universidad Andrés Bello, donde destacó su flexibilidad, trabajo en equipo, responsabilidad y capacidad para integrar los elementos teóricos con lo práctico. Su experiencia profesional y actualización constante lo hacen una persona con alta capacidad de gestión capaz de integrarse en diferentes proyectos y desafíos.",
+    },
+    {
+        name: "Leonardo Gálvez",
+        title: "Psicólogo Jurídico · Especialista Psicodiagnóstico UC · Terapeuta Infanto-Juvenil",
+        date: "Enero 2026",
+        relation: "Supervisor directo",
+        initials: "LG",
+        color: "from-indigo-600 to-indigo-800",
+        featured: false,
+        text: "Es un profesional metódico y responsable. Muy preocupado del trabajo técnico y de la actualización de conocimientos tanto propios como de la formación de equipos. Con capacidad para organizar y gestionar actividades que integran el trabajo profesional y académico desde la vinculación con el medio. Destaca principalmente su capacidad para sistematizar experiencias y realizar diagnósticos que propician los ajustes que pueda requerir un proyecto, programa o contexto en el que se desenvuelva.",
+    },
+    {
+        name: "Gabriel Guzmán Riquelme",
+        title: "Defensor de Derechos Humanos de Niñas, Niños y Adolescentes",
+        date: "Enero 2026",
+        relation: "Colega en distintas empresas",
+        initials: "GG",
+        color: "from-cyan-600 to-cyan-800",
+        featured: false,
+        text: "Juan Carlos es tremendo profesional. Se compromete y reflexiona a fondo de las cosas y de su quehacer, combinando reflexión activa y acción. 1000 recomendado.",
+    },
+    {
+        name: "Rocío Solar Guerra",
+        title: "Co-Fundadora CRC · Terapeuta Ocupacional | Salud Mental Comunitaria",
+        date: "Diciembre 2025",
+        relation: "Supervisada directa",
+        initials: "RS",
+        color: "from-violet-600 to-violet-800",
+        featured: false,
+        text: "Tuve la oportunidad de trabajar con Juan Carlos Rauld Farías en su rol como Coordinador Regional del Proyecto Red Calle Niños. Juan Carlos es un líder cercano, respetuoso y comprometido, que sabe guiar a los equipos desde la confianza, la claridad de objetivos y el buen trato. Se caracteriza por su capacidad para tomar decisiones informadas, su mirada estratégica y su genuino interés por el desarrollo profesional de las personas con las que trabaja. Siempre promovió un ambiente laboral colaborativo, facilitando espacios de aprendizaje, retroalimentación y mejora continua. Sin duda, recomiendo a Juan Carlos como un profesional íntegro, confiable y con sólidas habilidades de liderazgo.",
+    },
+    {
+        name: "Rodrigo Fernando Goycolea Martinic",
+        title: "Investigador y Clínico",
+        date: "Enero 2026",
+        relation: "Mismo equipo",
+        initials: "RG",
+        color: "from-slate-600 to-slate-700",
+        featured: false,
+        text: "Excelente profesional muy comprometido con su trabajo, una persona de confianza y muy perseverante para lograr los objetivos propuestos. Excelente colega para trabajar en equipo.",
+    },
+    {
+        name: "Rocío Montecino Mella",
+        title: "Terapeuta Ocupacional · Especialista en Niñeces y Adolescencias",
+        date: "Enero 2026",
+        relation: "Mismo equipo",
+        initials: "RM",
+        color: "from-pink-600 to-pink-800",
+        featured: false,
+        text: "Muy buen profesional en relación al cuidado de niños, niñas y adolescentes.",
+    },
+];
+
+const rocioRecommendations = [
+    {
+        name: "Fabiola Andrea Cofian Cares",
+        title: "Trabajadora Social · Máster en Estudios de Mujeres, Género y Ciudadanía",
+        date: "Diciembre 2025",
+        relation: "Mismo equipo",
+        initials: "FC",
+        color: "from-purple-600 to-purple-800",
+        featured: true,
+        text: "Tuve la oportunidad de trabajar con Rocío en el Programa RAIF de la Fundación San Carlos de Maipo. Rocío se caracteriza por un ejercicio de acompañamiento riguroso, respetuoso y comprometido con las personas con quienes trabaja, logrando procesos de cambio significativos y sostenidos en el tiempo. Su trabajo se distingue por una sólida base técnica, un alto nivel de organización y una metodología meticulosa, siempre orientada a fortalecer la autonomía y las capacidades de las personas acompañadas. Rocío es una profesional que aporta de manera generosa a los equipos, ofreciendo apoyo, reflexiones técnicas y herramientas que enriquecen el quehacer colectivo. Es una profesional confiable y ética, así como una excelente compañera de equipo, cuyo aporte resulta valioso tanto a nivel humano como profesional.",
+    },
+    {
+        name: "Juan Carlos Rauld Farías",
+        title: "Co-Fundador CRC · Doctorando Trabajo Social · Universitat Rovira i Virgili",
+        date: "Diciembre 2025",
+        relation: "Supervisor directo",
+        initials: "JCR",
+        color: "from-amber-600 to-amber-800",
+        featured: false,
+        text: "Otorgo mi total recomendación a Rocío Solar. Trabajamos juntos en el Proyecto Red Calle Niños, donde fui su jefatura directa. En Rocío destacan habilidades clínicas y técnicas de dirección y coordinación de equipos. En su quehacer profesional, advertí fuertes habilidades clínicas de intervención de salud mental infantil en contextos de altísimo riesgo psicosocial. Además de su formación y desempeño riguroso, destacan en ella competencias de trabajo bajo presión y un fuerte compromiso orientado al cumplimiento de tareas y responsabilidades organizacionales. En suma, una excelente profesional.",
+    },
+    {
+        name: "Sofía Aliaga Bustos",
+        title: "Periodista · Coordinación Intersectorial y Políticas Públicas de Niñez",
+        date: "Diciembre 2025",
+        relation: "Asesora",
+        initials: "SA",
+        color: "from-blue-600 to-blue-800",
+        featured: false,
+        text: "Tuve la oportunidad de coincidir con Rocío en su rol como contraparte en el programa Red Calle Niños. Encontré en ella a una profesional con sólida formación en terapia ocupacional, un claro enfoque en salud mental y una experiencia relevante en niñez y adolescencia. Destaca por su criterio técnico, su mirada integral y su capacidad para articular intervenciones pertinentes en contextos complejos. Es una profesional rigurosa, responsable y con una muy buena disposición al trabajo colaborativo e intersectorial.",
+    },
+];
+
+function RecommendationCard({ rec, index }: { rec: typeof jcrRecommendations[0], index: number }) {
+    const [expanded, setExpanded] = useState(false);
+    const isLong = rec.text.length > 280;
+
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.5, delay: index * 0.07 }}
+            className={`group relative flex flex-col rounded-2xl border p-6 transition-all duration-300 hover:-translate-y-0.5 ${
+                rec.featured
+                    ? "border-white/20 bg-white/10 shadow-lg shadow-black/20"
+                    : "border-white/10 bg-white/5 hover:bg-white/8 hover:border-white/15"
+            }`}
+        >
+            {/* LinkedIn watermark */}
+            <div className="absolute top-5 right-5 text-white/20 group-hover:text-white/40 transition-colors">
+                <LinkedInIcon />
+            </div>
+
+            {/* Quote mark */}
+            <div className="mb-3 text-4xl font-serif leading-none text-white/15 select-none">"</div>
+
+            {/* Text */}
+            <p className={`mb-5 flex-1 text-sm leading-relaxed text-slate-300 ${!expanded && isLong ? "line-clamp-4" : ""}`}>
+                {rec.text}
+            </p>
+            {isLong && (
+                <button
+                    onClick={() => setExpanded(!expanded)}
+                    className="mb-5 -mt-2 w-fit text-xs font-semibold text-white/40 hover:text-white/70 transition-colors"
+                >
+                    {expanded ? "— leer menos" : "leer más →"}
+                </button>
+            )}
+
+            {/* Author */}
+            <div className="flex items-center gap-3 border-t border-white/10 pt-4">
+                <div className={`flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br ${rec.color} text-[11px] font-bold text-white shadow-inner`}>
+                    {rec.initials}
+                </div>
+                <div className="min-w-0 flex-1">
+                    <p className="truncate text-sm font-semibold text-white">{rec.name}</p>
+                    <p className="truncate text-xs text-slate-400 mt-0.5">{rec.title}</p>
+                </div>
+            </div>
+
+            {/* Meta */}
+            <div className="mt-3 flex items-center gap-3 text-[11px] text-slate-500">
+                <span>{rec.date}</span>
+                <span>·</span>
+                <span>{rec.relation}</span>
+            </div>
+        </motion.div>
+    );
+}
+
+function LinkedInRecommendations() {
+    const [activeTab, setActiveTab] = useState<"jcr" | "rocio">("jcr");
+
+    const recs = activeTab === "jcr" ? jcrRecommendations : rocioRecommendations;
+    const featured = recs[0];
+    const rest = recs.slice(1);
+
+    const jcrProfile = "https://www.linkedin.com/in/juan-carlos-rauld-farias-a64710a4/";
+    const rocioProfile = "https://www.linkedin.com/in/roc%C3%ADo-solar-guerra-168693138/";
+
+    return (
+        <section id="recomendaciones-linkedin" className="relative overflow-hidden bg-slate-900 py-20 sm:py-28 lg:py-36">
+            {/* Ambient glow */}
+            <div className="pointer-events-none absolute left-1/4 top-0 -z-0 h-[600px] w-[600px] -translate-x-1/2 rounded-full bg-blue-600/5 blur-[140px]" />
+            <div className="pointer-events-none absolute right-1/4 bottom-0 h-[500px] w-[500px] rounded-full bg-purple-600/5 blur-[140px]" />
+
+            <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
+                {/* Header */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.7 }}
+                    className="mb-12 text-center"
+                >
+                    <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-slate-400 backdrop-blur-sm">
+                        <LinkedInIcon />
+                        <span>Recomendaciones Verificadas en LinkedIn</span>
+                    </div>
+                    <h2 className="mb-4 text-4xl font-bold tracking-tight text-white sm:text-5xl font-serif">
+                        Lo que dicen quienes{" "}
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-blue-400 to-indigo-400">
+                            han trabajado con ellos
+                        </span>
+                    </h2>
+                    <p className="mx-auto max-w-2xl text-base font-light text-slate-400 sm:text-lg">
+                        Referencias reales de colegas, supervisores y colaboradores — publicadas en sus perfiles oficiales de LinkedIn.
+                    </p>
+                </motion.div>
+
+                {/* Tabs */}
+                <div className="mb-10 flex justify-center">
+                    <div className="inline-flex gap-1 rounded-2xl border border-white/10 bg-white/5 p-1.5 backdrop-blur-sm">
+                        {[
+                            { key: "jcr", label: "Juan Carlos Rauld", count: jcrRecommendations.length, href: jcrProfile },
+                            { key: "rocio", label: "Rocío Solar", count: rocioRecommendations.length, href: rocioProfile },
+                        ].map((tab) => (
+                            <button
+                                key={tab.key}
+                                onClick={() => setActiveTab(tab.key as "jcr" | "rocio")}
+                                className={`relative flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold transition-all duration-300 ${
+                                    activeTab === tab.key
+                                        ? "bg-white text-slate-900 shadow-lg"
+                                        : "text-slate-400 hover:text-white"
+                                }`}
+                            >
+                                {tab.label}
+                                <span className={`inline-flex h-5 min-w-5 items-center justify-center rounded-full px-1.5 text-[10px] font-bold transition-colors ${
+                                    activeTab === tab.key ? "bg-blue-600 text-white" : "bg-white/10 text-slate-400"
+                                }`}>
+                                    {tab.count}
+                                </span>
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
+                {/* LinkedIn profile link */}
+                <div className="mb-10 text-center">
+                    <a
+                        href={activeTab === "jcr" ? jcrProfile : rocioProfile}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 text-xs font-semibold text-blue-400 hover:text-blue-300 transition-colors"
+                    >
+                        <LinkedInIcon />
+                        Ver perfil completo en LinkedIn
+                        <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                    </a>
+                </div>
+
+                {/* Featured card + grid */}
+                <motion.div
+                    key={activeTab}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.4 }}
+                >
+                    {/* Featured */}
+                    <div className="mb-6 rounded-3xl border border-white/15 bg-gradient-to-br from-white/10 to-white/5 p-7 sm:p-9 backdrop-blur-md shadow-xl shadow-black/20">
+                        <div className="mb-4 flex items-center gap-2">
+                            <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-amber-400">
+                                ★ Destacada
+                            </span>
+                        </div>
+                        <div className="mb-5 text-4xl font-serif text-white/20 select-none leading-none">"</div>
+                        <p className="mb-6 text-base font-light leading-relaxed text-slate-200 sm:text-lg">
+                            {featured.text}
+                        </p>
+                        <div className="flex items-center gap-4 border-t border-white/10 pt-5">
+                            <div className={`flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br ${featured.color} text-sm font-bold text-white shadow-inner`}>
+                                {featured.initials}
+                            </div>
+                            <div>
+                                <p className="font-semibold text-white">{featured.name}</p>
+                                <p className="text-sm text-slate-400">{featured.title}</p>
+                                <p className="mt-1 text-[11px] text-slate-500">{featured.date} · {featured.relation}</p>
+                            </div>
+                            <div className="ml-auto hidden sm:block text-white/20">
+                                <LinkedInIcon />
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Rest of recommendations grid */}
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                        {rest.map((rec, i) => (
+                            <RecommendationCard key={rec.name} rec={rec} index={i} />
+                        ))}
+                    </div>
+                </motion.div>
+
+            </div>
+        </section>
     );
 }
