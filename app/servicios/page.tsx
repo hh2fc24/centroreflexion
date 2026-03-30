@@ -1060,7 +1060,7 @@ const jcrRecommendations = [
         initials: "CB",
         color: "from-amber-600 to-amber-800",
         featured: false,
-        text: "Juan Carlos Rauld es un profesional comprometido con el estudio de la infancia. Nos conocimos cuando estudié de cerca su trabajo como editor y coautor del libro "Perspectivas críticas de la salud mental infantil: Trauma, institucionalización y suplicio". A través de su libro, pude conocer también su trabajo en el Hospital Luis Calvo Mackenna, además de su perspectiva en torno a la salud pública y el sufrimiento psíquico en los procesos de intervención y hospitalización de salud mental. Me parece un gran profesional. Serio, metódico y muy comprometido con la infancia desde las disciplinas que cultiva.",
+        text: "Juan Carlos Rauld es un profesional comprometido con el estudio de la infancia. Nos conocimos cuando estudié de cerca su trabajo como editor y coautor del libro \u2018Perspectivas críticas de la salud mental infantil: Trauma, institucionalización y suplicio\u2019. A través de su libro, pude conocer también su trabajo en el Hospital Luis Calvo Mackenna, además de su perspectiva en torno a la salud pública y el sufrimiento psíquico en los procesos de intervención y hospitalización de salud mental. Me parece un gran profesional. Serio, metódico y muy comprometido con la infancia desde las disciplinas que cultiva.",
     },
     {
         name: "Fernanda Gumucio Dobbs",
