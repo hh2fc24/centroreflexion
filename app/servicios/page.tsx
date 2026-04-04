@@ -423,13 +423,13 @@ export default function Services() {
                             </ul>
 
                             <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-                                <a
-                                    href="mailto:centrodereflexionescriticas@gmail.com?subject=Consulta%20Psicolog%C3%ADa%20y%20Adicciones"
+                                <Link
+                                    href="/contacto"
                                     className="inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-7 py-3.5 text-sm font-bold text-white shadow-lg shadow-indigo-900/50 hover:bg-indigo-500 transition-all hover:scale-105 active:scale-95"
                                 >
                                     <Mail className="h-4 w-4" />
                                     Consultar disponibilidad
-                                </a>
+                                </Link>
                                 <p className="text-xs text-gray-500">Confidencialidad garantizada · Sin listas de espera prolongadas</p>
                             </div>
                         </motion.div>
@@ -589,13 +589,13 @@ export default function Services() {
                             </ul>
 
                             <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-                                <a
-                                    href="mailto:centrodereflexionescriticas@gmail.com?subject=Solicitud%20Informe%20Socioocupacional"
+                                <Link
+                                    href="/contacto"
                                     className="inline-flex items-center justify-center gap-2 rounded-lg bg-amber-500 px-6 py-3 text-sm font-bold text-white shadow-md hover:bg-amber-600 transition-all hover:scale-105 active:scale-95"
                                 >
                                     <Mail className="h-4 w-4" />
                                     Solicitar Informe
-                                </a>
+                                </Link>
                                 <p className="text-xs text-gray-400">Respondemos en menos de 24 horas hábiles.</p>
                             </div>
                         </motion.div>
@@ -737,13 +737,13 @@ export default function Services() {
                         <p className="text-sm text-gray-500 max-w-lg">
                             ¿Tu desafío requiere una mirada multidisciplinaria? Armamos el equipo a medida para tu organización.
                         </p>
-                        <a
-                            href="mailto:centrodereflexionescriticas@gmail.com?subject=Consulta%20Equipo%20Multidisciplinario"
+                        <Link
+                            href="/contacto"
                             className="inline-flex items-center gap-2 rounded-lg bg-gray-900 px-6 py-3 text-sm font-bold text-white shadow-md hover:bg-gray-700 transition-all hover:scale-105 active:scale-95"
                         >
                             <Mail className="h-4 w-4" />
                             Armar equipo a medida
-                        </a>
+                        </Link>
                     </motion.div>
                 </div>
             </section>
@@ -996,12 +996,10 @@ export default function Services() {
                             escríbenos directamente y diseñemos en conjunto.
                         </p>
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                            <a href="mailto:centrodereflexionescriticas@gmail.com" className="inline-flex items-center px-8 py-4 bg-red-600 hover:bg-red-500 text-white font-semibold rounded-full transition-all shadow-lg hover:shadow-red-500/25 hover:scale-105">
+                            <Link href="/contacto" className="inline-flex items-center px-8 py-4 bg-red-600 hover:bg-red-500 text-white font-semibold rounded-full transition-all shadow-lg hover:shadow-red-500/25 hover:scale-105">
                                 <Mail className="w-5 h-5 mr-2" />
                                 Escribir por Email
-                            </a>
-                            <span className="text-gray-400 text-sm sm:w-48 text-left leading-tight hidden sm:block">o utiliza nuestro asistente virtual</span>
-                            <span className="text-gray-400 text-sm sm:hidden">o utiliza nuestro asistente virtual</span>
+                            </Link>
                         </div>
                     </div>
                 </div>

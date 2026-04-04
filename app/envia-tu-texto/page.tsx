@@ -41,9 +41,9 @@ export default function SubmitText() {
                             </CardHeader>
                             <CardContent>
                                 <div className="flex flex-col sm:flex-row gap-4 items-center">
-                                    <a href="mailto:editorial@crcritica.com" className="w-full sm:w-auto">
+                                    <Link href="/contacto" className="w-full sm:w-auto">
                                         <Button className="w-full">Enviar por Email</Button>
-                                    </a>
+                                    </Link>
                                     <span className="text-sm text-gray-500">o escríbenos a: editorial@crcritica.com</span>
                                 </div>
                             </CardContent>

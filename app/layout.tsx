@@ -4,7 +4,7 @@ import { Geist, Inter, Merriweather } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { VirtualAssistant } from "@/components/VirtualAssistant";
+
 import { EditorProviders } from "@/components/editor/EditorProviders";
 import { IntegrationsScripts } from "@/components/editor/IntegrationsScripts";
 
@@ -77,7 +77,7 @@ export default function RootLayout({
             {children}
           </main>
           <Footer />
-          <VirtualAssistant />
+
           <IntegrationsScripts />
         </EditorProviders>
 

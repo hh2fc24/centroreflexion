@@ -118,7 +118,9 @@ export function Footer() {
                             <li className="flex items-start">
                                 <Mail className="h-5 w-5 mr-3 text-red-500 flex-shrink-0" />
                                 <span className="break-all sm:break-normal">
-                                    <EditableText path="footer.contactEmail" ariaLabel="Footer email" />
+                                    <Link href="/contacto" className="hover:text-amber-500 transition-colors">
+                                        <EditableText path="footer.contactEmail" ariaLabel="Footer email" />
+                                    </Link>
                                 </span>
                             </li>
                             <li className="flex items-start">

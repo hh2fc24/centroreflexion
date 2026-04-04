@@ -150,7 +150,7 @@ export default function About() {
                             <p className="text-gray-500 text-xs mt-1 font-medium leading-snug">Magíster (c) en Ocupación y Terapia Ocupacional<br />Facultad de Medicina, Universidad de Chile</p>
                             <div className="mt-6 flex gap-4">
                                 <a href="https://www.instagram.com/centrodereflexionescriticas/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-pink-600 transition-colors"><Instagram className="h-6 w-6" /></a>
-                                <a href="mailto:centrodereflexionescriticas@gmail.com" className="text-gray-400 hover:text-red-600 transition-colors"><Mail className="h-6 w-6" /></a>
+                                <Link href="/contacto" className="text-gray-400 hover:text-red-600 transition-colors"><Mail className="h-6 w-6" /></Link>
                                 <a href="https://www.linkedin.com/in/roc%C3%ADo-solar-guerra-168693138/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-600 transition-colors"><Linkedin className="h-6 w-6" /></a>
                             </div>
                         </div>
