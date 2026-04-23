@@ -82,14 +82,14 @@ export function LaunchEventModal() {
   };
 
   return (
-    <div className="fixed inset-0 z-[90] flex items-center justify-center bg-slate-950/72 p-4 backdrop-blur-md sm:p-6">
+    <div className="fixed inset-0 z-[90] overflow-y-auto bg-slate-950/72 p-4 backdrop-blur-md sm:p-6">
       <div
         className="absolute inset-0"
         onClick={close}
         aria-hidden="true"
       />
 
-      <section className="relative z-10 max-h-[86vh] w-full max-w-[980px] overflow-y-auto rounded-[1.75rem] border border-white/12 bg-[linear-gradient(135deg,#f7f4ee_0%,#f1ede5_48%,#e7e2d8_100%)] text-slate-950 shadow-[0_40px_120px_-35px_rgba(15,23,42,0.55)] lg:overflow-hidden">
+      <section className="relative z-10 mx-auto my-0 w-full max-w-[960px] rounded-[1.75rem] border border-white/12 bg-[linear-gradient(135deg,#f7f4ee_0%,#f1ede5_48%,#e7e2d8_100%)] text-slate-950 shadow-[0_40px_120px_-35px_rgba(15,23,42,0.55)] sm:my-6">
         <button
           type="button"
           onClick={close}
@@ -99,8 +99,8 @@ export function LaunchEventModal() {
           <X className="h-5 w-5" />
         </button>
 
-        <div className="grid min-h-0 grid-cols-1 lg:grid-cols-[minmax(0,1fr)_340px]">
-          <div className="relative overflow-hidden border-b border-black/6 p-5 sm:p-6 lg:border-b-0 lg:border-r lg:p-8">
+        <div className="grid min-h-0 grid-cols-1 lg:grid-cols-[minmax(0,1fr)_332px]">
+          <div className="relative overflow-hidden border-b border-black/6 p-5 sm:p-6 lg:border-b-0 lg:border-r lg:p-7">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(185,28,28,0.1),transparent_25%),radial-gradient(circle_at_bottom_right,rgba(15,23,42,0.08),transparent_28%)]" />
 
             <div className="relative">
@@ -113,50 +113,40 @@ export function LaunchEventModal() {
                 </span>
               </div>
 
-              <div className="mt-5 grid gap-5 lg:grid-cols-[minmax(0,1fr)_244px] lg:items-start">
-                <div>
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-red-700 sm:text-xs">
-                    Encuentro presencial con inscripción previa
-                  </p>
-                  <h2 className="mt-3 max-w-xl text-[2.1rem] font-semibold leading-[1.02] tracking-[-0.045em] text-slate-950 sm:text-[2.7rem] lg:text-[3.05rem]">
-                    Reserva tu lugar en el lanzamiento.
-                  </h2>
-                  <p className="mt-4 max-w-xl text-[15px] leading-7 text-slate-700 sm:text-base">
-                    Presentaremos <span className="font-semibold text-slate-950">Tecnócratas de la infancia</span> junto a
-                    Juan Carlos Rauld en la Universidad Alberto Hurtado. Quienes se inscriban vía web y asistan
-                    presencialmente participarán en el sorteo de un ejemplar.
-                  </p>
-
-                  <div className="mt-5 rounded-[1.4rem] border border-black/8 bg-white/62 p-4 shadow-[0_16px_40px_-30px_rgba(15,23,42,0.35)]">
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
-                      Presentan y comentan
-                    </p>
-                    <p className="mt-2 text-sm leading-6 text-slate-800">
-                      Juan Carlos Rauld y Alejandro Castro. Comentan Francis Valverde y Katia García.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="mx-auto w-full max-w-[244px]">
-                  <div className="overflow-hidden rounded-[1.5rem] border border-black/8 bg-white/72 p-3 shadow-[0_22px_60px_-36px_rgba(15,23,42,0.38)]">
-                    <div className="mb-3 flex items-center justify-between">
-                      <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500">
-                        Afiche oficial
-                      </span>
-                      <span className="text-[10px] font-medium uppercase tracking-[0.16em] text-slate-400">
-                        UAH
-                      </span>
-                    </div>
+              <div className="mt-5 grid gap-5 lg:grid-cols-[292px_minmax(0,1fr)] lg:items-center">
+                <div className="mx-auto w-full max-w-[292px]">
+                  <div className="overflow-hidden rounded-[1.55rem] border border-black/8 bg-white/78 p-3 shadow-[0_24px_60px_-36px_rgba(15,23,42,0.38)]">
                     <div className="relative aspect-[4/5] overflow-hidden rounded-[1rem] bg-[linear-gradient(180deg,#f3efe6_0%,#e7e1d6_100%)]">
                       <Image
                         src={IMAGE_SRC}
                         alt="Afiche del lanzamiento del libro Tecnócratas de la infancia en la Universidad Alberto Hurtado"
                         fill
                         priority
-                        sizes="(min-width: 1024px) 244px, 55vw"
+                        sizes="(min-width: 1024px) 292px, 62vw"
                         className="object-contain object-center"
                       />
                     </div>
+                  </div>
+                </div>
+
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-red-700 sm:text-xs">
+                    Encuentro presencial con inscripción previa
+                  </p>
+                  <h2 className="mt-3 max-w-md text-[1.95rem] font-semibold leading-[1.02] tracking-[-0.04em] text-slate-950 sm:text-[2.35rem] lg:text-[2.7rem]">
+                    Inscríbete al lanzamiento del libro.
+                  </h2>
+                  <p className="mt-3 max-w-md text-[15px] leading-7 text-slate-700">
+                    Reserva tu asistencia para la presentación de <span className="font-semibold text-slate-950">Tecnócratas de la infancia</span> en la Universidad Alberto Hurtado.
+                  </p>
+
+                  <div className="mt-4 rounded-[1.35rem] border border-black/8 bg-white/62 p-4 shadow-[0_16px_40px_-30px_rgba(15,23,42,0.35)]">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+                      Participan
+                    </p>
+                    <p className="mt-2 text-sm leading-6 text-slate-800">
+                      Juan Carlos Rauld, Alejandro Castro, Francis Valverde y Katia García.
+                    </p>
                   </div>
                 </div>
               </div>
@@ -165,39 +155,35 @@ export function LaunchEventModal() {
                 {eventMeta.map((item) => {
                   const Icon = item.icon;
                   return (
-                    <div key={item.label} className="rounded-2xl border border-black/8 bg-white/62 p-4 shadow-[0_12px_30px_-24px_rgba(15,23,42,0.45)]">
+                    <div key={item.label} className="rounded-2xl border border-black/8 bg-white/62 p-3.5 shadow-[0_12px_30px_-24px_rgba(15,23,42,0.45)]">
                       <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">
                         <Icon className="h-3.5 w-3.5 text-red-700" />
                         {item.label}
                       </div>
-                      <p className="mt-2 text-sm font-semibold leading-6 text-slate-900">{item.value}</p>
+                      <p className="mt-1.5 text-sm font-semibold leading-6 text-slate-900">{item.value}</p>
                     </div>
                   );
                 })}
-              </div>
-
-              <div className="mt-5 rounded-[1.45rem] border border-black/8 bg-slate-950 px-4 py-4 text-sm leading-6 text-slate-200 shadow-[0_20px_50px_-34px_rgba(15,23,42,0.45)]">
-                Déjanos tu nombre, correo y teléfono. Te contactaremos con la confirmación y el detalle final de asistencia.
               </div>
             </div>
           </div>
 
           <div className="bg-slate-950 px-5 py-5 text-white sm:px-6 sm:py-6">
-            <div className="rounded-[1.5rem] border border-white/10 bg-white/6 p-5 shadow-[0_24px_70px_-38px_rgba(0,0,0,0.55)] backdrop-blur-sm">
+            <div className="rounded-[1.5rem] border border-white/10 bg-white/6 p-4 shadow-[0_24px_70px_-38px_rgba(0,0,0,0.55)] backdrop-blur-sm sm:p-5">
               <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/8 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-300">
                 <Ticket className="h-3.5 w-3.5 text-cyan-300" />
                 Inscripción web
               </div>
 
-              <h3 className="mt-4 text-[1.9rem] font-semibold tracking-[-0.03em] text-white">
+              <h3 className="mt-4 text-[1.7rem] font-semibold tracking-[-0.03em] text-white sm:text-[1.85rem]">
                 Reserva tu asistencia
               </h3>
-              <p className="mt-2 text-sm leading-7 text-slate-300">
+              <p className="mt-2 text-sm leading-6 text-slate-300">
                 Completa tus datos para incorporarte al listado de inscritos de esta actividad.
               </p>
 
               <form
-                className="mt-5 space-y-4"
+                className="mt-4 space-y-3.5"
                 onSubmit={async (event) => {
                   event.preventDefault();
                   setBusy(true);
@@ -282,13 +268,13 @@ export function LaunchEventModal() {
                   <Button
                     type="submit"
                     disabled={busy}
-                    className="h-12 w-full rounded-full border-0 bg-cyan-400 text-sm font-semibold text-slate-950 hover:bg-cyan-300"
+                    className="h-11 w-full rounded-full border-0 bg-cyan-400 text-sm font-semibold text-slate-950 hover:bg-cyan-300"
                   >
                     {busy ? "Registrando inscripción…" : "Inscribirme para asistir"}
                   </Button>
                 )}
 
-                <div className="rounded-[1.35rem] border border-white/10 bg-white/5 px-4 py-4 backdrop-blur-sm">
+                <div className="rounded-[1.25rem] border border-white/10 bg-white/5 px-4 py-3.5 backdrop-blur-sm">
                   <div className="flex items-start gap-3">
                     <Gift className="mt-0.5 h-5 w-5 text-amber-300" />
                     <div>
@@ -323,7 +309,7 @@ function Field({
 }) {
   return (
     <div>
-      <label htmlFor={id} className="mb-2 block text-sm font-semibold text-white/90">
+      <label htmlFor={id} className="mb-1.5 block text-sm font-semibold text-white/90">
         {label}
       </label>
       <input
@@ -332,7 +318,7 @@ function Field({
         type={type}
         required
         placeholder={placeholder}
-        className="block h-12 w-full rounded-2xl border border-white/10 bg-white/7 px-4 text-sm text-white outline-none placeholder:text-slate-400 transition focus:border-cyan-300/60 focus:bg-white/10"
+        className="block h-11 w-full rounded-2xl border border-white/10 bg-white/7 px-4 text-sm text-white outline-none placeholder:text-slate-400 transition focus:border-cyan-300/60 focus:bg-white/10"
       />
     </div>
   );

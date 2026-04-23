@@ -15,7 +15,7 @@ import { EditorLink } from "@/components/editor/EditorLink";
 import { EditableText } from "@/components/editor/EditableText";
 import { EditableAtom } from "@/components/editor/EditableAtom";
 import { useArticles, useContent, useEditor } from "@/lib/editor/hooks";
-import type { Article } from "@/lib/data";
+import { parseDisplayDate } from "@/lib/articles/date";
 
 function wrapLegacySection(kind: string, node: React.ReactNode, eager = false) {
   return (
@@ -60,17 +60,6 @@ export function LegacyBlock({ block }: { pageId: string; block: SiteBlock; edita
         </div>
       );
   }
-}
-
-function pickFeatured(columns: Article[], reviews: Article[]) {
-  const article1 = columns.find((c) => c.id === "elecciones-polarizacion") || columns[0]!;
-  const article2 = reviews.find((r) => r.id === "soledad-garcia-marquez") || reviews[0]!;
-  const article3 = columns.find((c) => c.id === "mito-progreso") || columns[2]!;
-  return [
-    { ...article1, link: `/pensamiento-critico/${article1.id}` },
-    { ...article2, link: `/critica/${article2.id}` },
-    { ...article3, link: `/pensamiento-critico/${article3.id}` },
-  ];
 }
 
 function isDefined<T>(value: T | undefined): value is T {
@@ -154,12 +143,26 @@ function LegacyLatestArticles() {
   const { content } = useContent();
   const { columns, reviews } = useArticles();
 
-  const featuredArticles = pickFeatured(columns, reviews);
+  const latestArticles = useMemo(
+    () =>
+      [
+        ...columns.map((article) => ({ ...article, link: `/pensamiento-critico/${article.id}`, kind: "column" as const })),
+        ...reviews.map((article) => ({ ...article, link: `/critica/${article.id}`, kind: "review" as const })),
+      ]
+        .sort((a, b) => {
+          const tb = parseDisplayDate(b.date);
+          const ta = parseDisplayDate(a.date);
+          if (Number.isFinite(tb) && Number.isFinite(ta)) return tb - ta;
+          return b.date.localeCompare(a.date);
+        })
+        .slice(0, 4),
+    [columns, reviews]
+  );
 
   return (
-    <section className="py-24 bg-white">
+    <section className="bg-white py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <MotionDiv className="flex items-center justify-between mb-12">
+        <MotionDiv className="mb-10 flex items-center justify-between">
           <h2 className="text-3xl font-bold tracking-tight text-gray-900">
             <EditableText path="homeLatest.title" ariaLabel="Últimos artículos título" />
           </h2>
@@ -172,12 +175,15 @@ function LegacyLatestArticles() {
           </EditorLink>
         </MotionDiv>
 
-        <MotionList className="grid grid-cols-1 gap-y-16 lg:grid-cols-3 lg:gap-x-8">
-          {featuredArticles.map((post) => (
-            <MotionItem key={post.id} className="flex flex-col items-start justify-between group cursor-pointer">
+        <MotionList className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-4">
+          {latestArticles.map((post) => (
+            <MotionItem
+              key={post.id}
+              className="group flex flex-col items-start justify-between rounded-[1.4rem] border border-slate-100 bg-white/95 p-3 shadow-[0_18px_50px_-34px_rgba(15,23,42,0.22)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_22px_60px_-34px_rgba(15,23,42,0.3)]"
+            >
               <EditorLink
                 href={post.link}
-                className="relative w-full aspect-[16/9] mb-4 bg-gray-100 rounded-2xl overflow-hidden shadow-sm group-hover:shadow-md transition-shadow block"
+                className="relative mb-3 block aspect-[16/10] w-full overflow-hidden rounded-[1rem] bg-gray-100 shadow-sm transition-shadow group-hover:shadow-md"
               >
                 <Image
                   src={post.image}
@@ -187,30 +193,32 @@ function LegacyLatestArticles() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </EditorLink>
-              <div className="flex items-center gap-x-4 text-xs">
+              <div className="flex items-center gap-x-3 text-[11px]">
                 <time dateTime={post.date} className="text-gray-500">
                   {post.date}
                 </time>
                 <span
-                  className={`relative z-10 rounded-full px-3 py-1.5 font-medium ${
-                    post.category === "Política"
-                      ? "bg-blue-50 text-blue-600"
-                      : post.category === "Literatura"
-                        ? "bg-purple-50 text-purple-600"
-                        : "bg-green-50 text-green-600"
+                  className={`relative z-10 rounded-full px-2.5 py-1 font-medium ${
+                    post.kind === "review"
+                      ? "bg-emerald-50 text-emerald-700"
+                      : post.category === "Política"
+                        ? "bg-blue-50 text-blue-700"
+                        : post.category === "Literatura"
+                          ? "bg-purple-50 text-purple-700"
+                          : "bg-slate-100 text-slate-700"
                   }`}
                 >
                   {post.category}
                 </span>
               </div>
               <div className="group relative">
-                <h3 className="mt-3 text-lg font-bold leading-6 text-gray-900 group-hover:text-blue-600 transition-colors">
+                <h3 className="mt-3 text-[1.05rem] font-bold leading-6 text-gray-900 transition-colors group-hover:text-blue-600">
                   <EditorLink href={post.link}>
                     <span className="absolute inset-0" />
                     {post.title}
                   </EditorLink>
                 </h3>
-                <p className="mt-3 line-clamp-3 text-sm leading-6 text-gray-600">{post.excerpt}</p>
+                <p className="mt-2 line-clamp-3 text-sm leading-6 text-gray-600">{post.excerpt}</p>
               </div>
             </MotionItem>
           ))}
