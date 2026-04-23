@@ -1,18 +1,4 @@
-import { readFile } from "fs/promises";
-import path from "path";
-
-type Lead = {
-  id: string;
-  createdAt: number;
-  source?: string;
-  name?: string;
-  email?: string;
-  phone?: string;
-  message?: string;
-  page?: string;
-  formId?: string;
-  fields?: Record<string, unknown>;
-};
+import { readStoredLeads } from "@/lib/server/leadsStore";
 
 export type PublicRegistration = {
   id: string;
@@ -32,22 +18,11 @@ function maskName(name: string): string {
   return `${parts.slice(0, -1).join(" ")} ${last.charAt(0)}.`;
 }
 
-async function readLeadsFile(): Promise<Lead[]> {
-  const filePath = path.join(process.cwd(), "data", "leads.json");
-  try {
-    const raw = await readFile(filePath, "utf8");
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? (parsed as Lead[]) : [];
-  } catch {
-    return [];
-  }
-}
-
 export async function readPublicEventRegistrations(): Promise<{
   count: number;
   registrations: PublicRegistration[];
 }> {
-  const leads = await readLeadsFile();
+  const leads = await readStoredLeads();
 
   const registrations = leads
     .filter((lead) => lead.source === EVENT_SOURCE || lead.formId === EVENT_FORM_ID)
