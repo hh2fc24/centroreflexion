@@ -16,6 +16,7 @@ type Lead = {
   source: string;
   name: string;
   email: string;
+  phone?: string;
   message: string;
   page: string;
   formId?: string;
@@ -54,6 +55,7 @@ export async function POST(req: Request) {
     source: sanitizePlainText(body.source ?? "web", { maxLen: 40 }),
     name: sanitizePlainText(body.name ?? "", { maxLen: 140 }),
     email: sanitizePlainText(body.email ?? "", { maxLen: 140 }),
+    phone: body.phone ? sanitizePlainText(body.phone, { maxLen: 40 }) : undefined,
     message: sanitizePlainText(body.message ?? "", { maxLen: 4000 }),
     page: sanitizePlainText(body.page ?? "", { maxLen: 180 }),
     formId: body.formId ? sanitizePlainText(body.formId, { maxLen: 80 }) : undefined,

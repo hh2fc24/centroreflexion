@@ -4,6 +4,7 @@ import { Geist, Inter, Merriweather } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { LaunchEventModal } from "@/components/LaunchEventModal";
 
 import { EditorProviders } from "@/components/editor/EditorProviders";
 import { IntegrationsScripts } from "@/components/editor/IntegrationsScripts";
@@ -133,6 +134,7 @@ export default async function RootLayout({
             {children}
           </main>
           <Footer initialFooter={content.footer} />
+          <LaunchEventModal />
 
           <IntegrationsScripts />
         </EditorProviders>
