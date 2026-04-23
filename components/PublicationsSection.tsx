@@ -8,13 +8,13 @@ import { EditableText } from "@/components/editor/EditableText";
 
 export function PublicationsSection() {
     return (
-        <section className="relative overflow-hidden bg-gray-50 py-16 sm:py-24">
-            {/* Decorative pattern */}
-            <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('/images/pattern.svg')]" />
+        <section className="relative overflow-hidden bg-[linear-gradient(180deg,#f8fafc_0%,#eef4f7_45%,#f8fafc_100%)] py-16 sm:py-24">
+            <div className="pointer-events-none absolute inset-0">
+                <div className="absolute left-0 top-0 h-72 w-72 rounded-full bg-cyan-200/40 blur-3xl" />
+                <div className="absolute bottom-0 right-0 h-80 w-80 rounded-full bg-amber-100/70 blur-3xl" />
+            </div>
 
-            <VideoBookPremiere />
-
-            <div className="relative z-10 mx-auto max-w-7xl px-4 pt-16 sm:px-6 sm:pt-24 lg:px-8">
+            <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <MotionDiv
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -34,7 +34,25 @@ export function PublicationsSection() {
                     </p>
                 </MotionDiv>
 
-                <div className="space-y-16 sm:space-y-24">
+                <VideoBookPremiere />
+
+                <div id="catalogo-editorial" className="mt-16 sm:mt-20">
+                    <div className="flex flex-col gap-3 border-b border-slate-200/80 pb-6 sm:flex-row sm:items-end sm:justify-between">
+                        <div>
+                            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">
+                                Catálogo editorial
+                            </p>
+                            <h3 className="mt-2 text-2xl font-bold tracking-tight text-slate-900 font-serif sm:text-3xl">
+                                Libros destacados
+                            </h3>
+                        </div>
+                        <p className="max-w-2xl text-sm leading-6 text-slate-600 sm:text-right">
+                            Una selección de títulos que profundizan la crítica sobre infancia, institucionalización, trauma y políticas públicas.
+                        </p>
+                    </div>
+                </div>
+
+                <div className="mt-12 space-y-16 sm:mt-16 sm:space-y-24">
                     {/* Book 1: Desprotección de la Infancia */}
                     <MotionDiv
                         initial={{ opacity: 0, y: 40 }}
@@ -74,7 +92,7 @@ export function PublicationsSection() {
                                 href="https://www.editorialhammurabi.com/shop/derecho/privado/derecho-civil/derecho-familiar/desproteccion-de-la-infancia/"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex w-full items-center justify-center rounded-lg border border-transparent bg-blue-600 px-6 py-3 text-base font-medium text-white shadow-sm transition-all hover:translate-x-1 hover:bg-blue-700 sm:w-auto"
+                                className="inline-flex w-full items-center justify-center rounded-full border border-transparent bg-blue-600 px-6 py-3 text-base font-medium text-white shadow-sm transition-all hover:translate-x-1 hover:bg-blue-700 sm:w-auto"
                             >
                                 Adquirir en Editorial Hammurabi
                                 <ArrowRight className="ml-2 -mr-1 h-5 w-5" />
@@ -118,10 +136,10 @@ export function PublicationsSection() {
                                     </p>
                                 </div>
                                 <a
-                                    href="https://www.editorialhammurabi.com/shop/derecho/privado/derecho-civil/derecho-familiar/desproteccion-de-la-infancia/" // Using the main link as they are from the same editorial, user didn't provide specific link for 2nd book but usually they are navigable. Or I'll use the main shop link if I had it, but I'll stick to the one provided or try to find the specific one? The user provided one link for both "ambos de editorial...". I will use that link for both for now or search/guess. Wait, I scraped the 2nd book, I should check if I have the URL. I don't have the product URL in the scrape result, only image. I will use the collection link provided by user for both to be safe.
+                                    href="https://www.editorialhammurabi.com/shop/derecho/privado/derecho-civil/derecho-familiar/desproteccion-de-la-infancia/"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="inline-flex w-full items-center justify-center rounded-lg border border-transparent bg-purple-600 px-6 py-3 text-base font-medium text-white shadow-sm transition-all hover:-translate-x-1 hover:bg-purple-700 sm:w-auto"
+                                    className="inline-flex w-full items-center justify-center rounded-full border border-transparent bg-purple-600 px-6 py-3 text-base font-medium text-white shadow-sm transition-all hover:-translate-x-1 hover:bg-purple-700 sm:w-auto"
                                 >
                                     Adquirir en Editorial Hammurabi
                                     <ArrowRight className="ml-2 -mr-1 h-5 w-5" />

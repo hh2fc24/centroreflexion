@@ -1,16 +1,15 @@
 import type { MetadataRoute } from "next";
-import pagesJson from "@/lib/editor/published-pages.json";
-import articlesJson from "@/lib/articles.json";
 import type { SitePage } from "@/lib/editor/types";
-import type { Article } from "@/lib/data";
+import { readPublishedArticleCollections } from "@/lib/server/publicArticles";
+import { readPublishedDiskState } from "@/lib/server/publishedDisk";
 
-type PublishedPages = { pages: SitePage[] };
-type ArticlesJson = { columns: Article[]; reviews: Article[] };
+export const dynamic = "force-dynamic";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://centroreflexionescriticas.cl";
-  const pages = (pagesJson as unknown as PublishedPages).pages ?? [];
-  const articles = articlesJson as unknown as ArticlesJson;
+  const { state } = await readPublishedDiskState();
+  const pages = (state.pages ?? []) as SitePage[];
+  const articles = await readPublishedArticleCollections();
 
   const out: MetadataRoute.Sitemap = [];
 
@@ -25,7 +24,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }
 
   for (const a of articles.columns ?? []) {
-    out.push({ url: `${baseUrl}/columnas/${a.id}`, lastModified: new Date() });
+    out.push({ url: `${baseUrl}/pensamiento-critico/${a.id}`, lastModified: new Date() });
   }
   for (const a of articles.reviews ?? []) {
     out.push({ url: `${baseUrl}/critica/${a.id}`, lastModified: new Date() });

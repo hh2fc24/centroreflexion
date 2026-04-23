@@ -1,7 +1,9 @@
 import { MotionList, MotionItem } from "@/components/ui/Motion";
 import Image from "next/image";
 import Link from "next/link";
-import { reviews } from "@/lib/data";
+import { readPublishedArticleCollections } from "@/lib/server/publicArticles";
+
+export const dynamic = "force-dynamic";
 
 const getAuthorDetails = (author: string) => {
     if (author.includes("Rocío Solar")) {
@@ -13,7 +15,9 @@ const getAuthorDetails = (author: string) => {
     return null;
 };
 
-export default function Criticism() {
+export default async function Criticism() {
+    const { reviews } = await readPublishedArticleCollections();
+
     return (
         <div className="bg-white py-16 sm:py-24 lg:py-32">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

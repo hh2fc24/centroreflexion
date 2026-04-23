@@ -1,18 +1,14 @@
-import { readers } from "@/lib/data";
 import ArticleDetail from "@/components/ArticleDetail";
+import { findPublishedArticle } from "@/lib/server/publicArticles";
 import { notFound } from "next/navigation";
 
 import { Metadata } from "next";
 
-export function generateStaticParams() {
-    return readers.map((post) => ({
-        id: post.id,
-    }));
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata(props: { params: Promise<{ id: string }> }): Promise<Metadata> {
     const params = await props.params;
-    const post = readers.find((p) => p.id === params.id);
+    const post = await findPublishedArticle("columns", params.id);
 
     if (!post) {
         return {
@@ -50,15 +46,11 @@ export async function generateMetadata(props: { params: Promise<{ id: string }> 
 
 export default async function PensamientoCriticoDetail(props: { params: Promise<{ id: string }> }) {
     const params = await props.params;
-    const post = readers.find((p) => p.id === params.id);
+    const post = await findPublishedArticle("columns", params.id);
 
     if (!post) {
         notFound();
     }
 
-    // Ensure the category links back to the main section.
-    // Assuming ArticleDetail doesn't forcefully link to /columnas always.
-    // It receives the whole article object.
-
-    return <ArticleDetail article={post} />;
+    return <ArticleDetail article={post} backHref="/pensamiento-critico" backLabel="Volver a Pensamiento Crítico" />;
 }

@@ -5,17 +5,24 @@ import Image from "next/image";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { useContent, useEditor } from "@/lib/editor/hooks";
+import type { NavigationContent } from "@/lib/editor/types";
 import { cn } from "@/lib/utils";
 
 type NavNode = { id: string; label: string; href: string; visible: boolean; children: NavNode[] };
 
-export function Navbar() {
+export function Navbar({ initialNavigation }: { initialNavigation?: NavigationContent }) {
     const [isOpen, setIsOpen] = useState(false);
     const { content } = useContent();
     const { adminEnabled } = useEditor();
 
-    const items: NavNode[] =
-        (content.navigation?.items?.length ? content.navigation.items : []) as unknown as NavNode[];
+    const sourceNavigation =
+        adminEnabled
+            ? content.navigation
+            : content.navigation?.items?.length
+                ? content.navigation
+                : initialNavigation;
+
+    const items: NavNode[] = (sourceNavigation?.items ?? []) as unknown as NavNode[];
 
     const visibleItems = items.filter((i) => i.visible !== false);
 

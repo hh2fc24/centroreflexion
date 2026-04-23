@@ -4,16 +4,18 @@ import Link from "next/link";
 import { Instagram, Linkedin, Mail, MapPin, MessageCircle } from "lucide-react";
 import { EditableText } from "@/components/editor/EditableText";
 import { useContent, useEditor } from "@/lib/editor/hooks";
-import type { FooterColumn, FooterLink } from "@/lib/editor/types";
+import type { FooterColumn, FooterContent, FooterLink } from "@/lib/editor/types";
 
-export function Footer() {
+export function Footer({ initialFooter }: { initialFooter?: FooterContent }) {
     const { adminEnabled } = useEditor();
-    const { get } = useContent();
+    const { content, get } = useContent();
 
-    const instagramHref = get<string>("footer.instagramHref") ?? "#";
-    const linkedinHref = get<string>("footer.linkedinHref") ?? "#";
-    const whatsappHref = get<string>("footer.whatsappHref") ?? "#";
-    const columns = (get<FooterColumn[]>("footer.columns") ?? []) as FooterColumn[];
+    const footer = adminEnabled ? content.footer : initialFooter ?? content.footer;
+
+    const instagramHref = footer?.instagramHref || get<string>("footer.instagramHref") || "#";
+    const linkedinHref = footer?.linkedinHref || get<string>("footer.linkedinHref") || "#";
+    const whatsappHref = footer?.whatsappHref || get<string>("footer.whatsappHref") || "#";
+    const columns = (footer?.columns ?? get<FooterColumn[]>("footer.columns") ?? []) as FooterColumn[];
 
     return (
         <footer className="bg-gray-900 border-t border-gray-800 pt-16 pb-8">

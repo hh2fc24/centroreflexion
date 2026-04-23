@@ -43,6 +43,8 @@ export function BlockShell({
           "--crc-shadow": `${Math.min(1, Math.max(0, s.shadow ?? 0))}`,
           background: "var(--crc-bg)",
           textAlign: "var(--crc-align)",
+          contentVisibility: block.type === "hero" ? "visible" : "auto",
+          containIntrinsicSize: block.type === "hero" ? undefined : "1px 900px",
         } as unknown as CSSProperties
       }
     >

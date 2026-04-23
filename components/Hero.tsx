@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/Button";
 import { motion, AnimatePresence } from "framer-motion";
@@ -52,10 +53,13 @@ export function Hero() {
                         transition={{ duration: 1.5, ease: "easeOut" }}
                         className="absolute inset-0 w-full h-full"
                     >
-                        <img
+                        <Image
                             src={HERO_IMAGES[currentImage].src}
                             alt={HERO_IMAGES[currentImage].alt}
-                            className="w-full h-full object-cover"
+                            fill
+                            sizes="100vw"
+                            priority={currentImage === 0}
+                            className="object-cover"
                         />
                         {/* Dynamic overlay per image for better text contrast if needed, currently uniform */}
                         <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/60 to-slate-900/20 mix-blend-multiply" />

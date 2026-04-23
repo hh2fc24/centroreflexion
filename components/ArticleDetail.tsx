@@ -18,9 +18,15 @@ const getAuthorDetails = (author: string) => {
 
 interface ArticleDetailProps {
     article: Article;
+    backHref?: string;
+    backLabel?: string;
 }
 
-export default function ArticleDetail({ article }: ArticleDetailProps) {
+export default function ArticleDetail({
+    article,
+    backHref = "/pensamiento-critico",
+    backLabel = "Volver a Pensamiento Crítico",
+}: ArticleDetailProps) {
     return (
         <article className="min-h-screen bg-white pb-16 sm:pb-24">
             {/* Hero Image */}
@@ -37,10 +43,10 @@ export default function ArticleDetail({ article }: ArticleDetailProps) {
                 <div className="absolute bottom-0 left-0 w-full p-4 sm:p-10 lg:p-20">
                     <MotionDiv className="max-w-4xl mx-auto text-white">
                         <Link
-                            href="/pensamiento-critico"
+                            href={backHref}
                             className="inline-flex items-center text-sm font-medium text-gray-300 hover:text-white mb-6 transition-colors"
                         >
-                            <ArrowLeft className="mr-2 h-4 w-4" /> Volver a Pensamiento Crítico
+                            <ArrowLeft className="mr-2 h-4 w-4" /> {backLabel}
                         </Link>
                         <div className="flex items-center gap-4 mb-4">
                             <span className="px-3 py-1 rounded-full bg-blue-600/90 text-xs font-bold uppercase tracking-wider">

@@ -3862,7 +3862,7 @@ export function AdminApp() {
                             />
                           </div>
                           <div className="mt-1 text-[11px] text-white/40">
-                            Vista pública: /{articlesKind === "columns" ? "columnas" : "critica"}/{selectedArticle.id}
+                            Vista pública: /{articlesKind === "columns" ? "pensamiento-critico" : "critica"}/{selectedArticle.id}
                           </div>
                         </div>
                         <button

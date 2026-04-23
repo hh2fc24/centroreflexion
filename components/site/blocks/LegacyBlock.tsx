@@ -1,6 +1,7 @@
 "use client";
 
 import type { SiteBlock } from "@/lib/editor/types";
+import type { CSSProperties } from "react";
 import { Hero } from "@/components/Hero";
 import { FoundersSection } from "@/components/site/FoundersSection";
 import { PublicationsSection } from "@/components/PublicationsSection";
@@ -15,26 +16,43 @@ import { EditableText } from "@/components/editor/EditableText";
 import { EditableAtom } from "@/components/editor/EditableAtom";
 import { useArticles, useContent, useEditor } from "@/lib/editor/hooks";
 import type { Article } from "@/lib/data";
-import { columns as publishedColumns, reviews as publishedReviews } from "@/lib/data";
+
+function wrapLegacySection(kind: string, node: React.ReactNode, eager = false) {
+  return (
+    <div
+      data-crc-legacy={kind}
+      style={
+        eager
+          ? undefined
+          : ({
+              contentVisibility: "auto",
+              containIntrinsicSize: "900px",
+            } as CSSProperties)
+      }
+    >
+      {node}
+    </div>
+  );
+}
 
 export function LegacyBlock({ block }: { pageId: string; block: SiteBlock; editable: boolean }) {
   // This is a compatibility layer so the new Pages system can render existing sections without breaking.
   // Home still uses the legacy HomeCanvas end-to-end; pages can optionally embed these sections.
   switch (block.type) {
     case "legacy.hero":
-      return <div data-crc-legacy="hero"><Hero /></div>;
+      return wrapLegacySection("hero", <Hero />, true);
     case "legacy.founders":
-      return <div data-crc-legacy="founders"><FoundersSection /></div>;
+      return wrapLegacySection("founders", <FoundersSection />);
     case "legacy.servicesPreview":
-      return <div data-crc-legacy="servicesPreview"><LegacyServicesPreview /></div>;
+      return wrapLegacySection("servicesPreview", <LegacyServicesPreview />);
     case "legacy.latestArticles":
-      return <div data-crc-legacy="latestArticles"><LegacyLatestArticles /></div>;
+      return wrapLegacySection("latestArticles", <LegacyLatestArticles />);
     case "legacy.publications":
-      return <div data-crc-legacy="publications"><PublicationsSection /></div>;
+      return wrapLegacySection("publications", <PublicationsSection />);
     case "legacy.interviews":
-      return <div data-crc-legacy="interviews"><InterviewsSection /></div>;
+      return wrapLegacySection("interviews", <InterviewsSection />);
     case "legacy.testimonials":
-      return <div data-crc-legacy="testimonials"><LegacyTestimonials /></div>;
+      return wrapLegacySection("testimonials", <LegacyTestimonials />);
     default:
       return (
         <div className="mx-auto max-w-4xl px-4 py-10 text-sm text-slate-500">
@@ -49,9 +67,9 @@ function pickFeatured(columns: Article[], reviews: Article[]) {
   const article2 = reviews.find((r) => r.id === "soledad-garcia-marquez") || reviews[0]!;
   const article3 = columns.find((c) => c.id === "mito-progreso") || columns[2]!;
   return [
-    { ...article1, link: `/columnas/${article1.id}` },
+    { ...article1, link: `/pensamiento-critico/${article1.id}` },
     { ...article2, link: `/critica/${article2.id}` },
-    { ...article3, link: `/columnas/${article3.id}` },
+    { ...article3, link: `/pensamiento-critico/${article3.id}` },
   ];
 }
 
@@ -134,10 +152,9 @@ function LegacyServicesPreview() {
 
 function LegacyLatestArticles() {
   const { content } = useContent();
-  const { adminEnabled } = useEditor();
   const { columns, reviews } = useArticles();
 
-  const featuredArticles = pickFeatured(adminEnabled ? columns : publishedColumns, adminEnabled ? reviews : publishedReviews);
+  const featuredArticles = pickFeatured(columns, reviews);
 
   return (
     <section className="py-24 bg-white">

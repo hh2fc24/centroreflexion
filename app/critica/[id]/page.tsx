@@ -1,18 +1,14 @@
-import { reviews } from "@/lib/data";
 import ArticleDetail from "@/components/ArticleDetail";
+import { findPublishedArticle } from "@/lib/server/publicArticles";
 import { notFound } from "next/navigation";
 
 import { Metadata } from "next";
 
-export function generateStaticParams() {
-    return reviews.map((post) => ({
-        id: post.id,
-    }));
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata(props: { params: Promise<{ id: string }> }): Promise<Metadata> {
     const params = await props.params;
-    const post = reviews.find((p) => p.id === params.id);
+    const post = await findPublishedArticle("reviews", params.id);
 
     if (!post) {
         return {
@@ -50,11 +46,11 @@ export async function generateMetadata(props: { params: Promise<{ id: string }> 
 
 export default async function CriticismPage(props: { params: Promise<{ id: string }> }) {
     const params = await props.params;
-    const post = reviews.find((p) => p.id === params.id);
+    const post = await findPublishedArticle("reviews", params.id);
 
     if (!post) {
         notFound();
     }
 
-    return <ArticleDetail article={post} />;
+    return <ArticleDetail article={post} backHref="/critica" backLabel="Volver a Crítica Literaria y Cultural" />;
 }
