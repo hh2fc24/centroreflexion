@@ -188,6 +188,7 @@ export function LaunchEventModal() {
                   event.preventDefault();
                   setBusy(true);
                   setError(null);
+                  setSubmitted(false);
 
                   try {
                     const form = new FormData(event.currentTarget);
@@ -214,6 +215,7 @@ export function LaunchEventModal() {
                     const json = (await response.json()) as { ok?: boolean; error?: string };
 
                     if (!json.ok) {
+                      setSubmitted(false);
                       setError("No pudimos registrar tu inscripción. Intenta nuevamente.");
                       return;
                     }
@@ -223,9 +225,11 @@ export function LaunchEventModal() {
                       window.sessionStorage.setItem(DISMISS_KEY, "1");
                     }
 
+                    setError(null);
                     setSubmitted(true);
                     (event.currentTarget as HTMLFormElement).reset();
                   } catch {
+                    setSubmitted(false);
                     setError("No pudimos registrar tu inscripción. Intenta nuevamente.");
                   } finally {
                     setBusy(false);

@@ -46,7 +46,7 @@ export function EventRegistrantsPage({
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await fetch("/api/evento/inscritos", { cache: "no-store" });
+        const response = await fetch(`/api/evento/inscritos?ts=${Date.now()}`, { cache: "no-store" });
         const json = (await response.json()) as { ok?: boolean; count?: number; registrations?: PublicRegistration[] };
         if (!json.ok || cancelled) return;
         setData({
@@ -60,6 +60,7 @@ export function EventRegistrantsPage({
       }
     };
 
+    void fetchData();
     const interval = window.setInterval(fetchData, 15000);
     return () => {
       cancelled = true;
