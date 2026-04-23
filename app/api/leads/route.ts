@@ -12,6 +12,11 @@ function newId(prefix: string) {
   return `${prefix}-${Date.now()}-${Math.random().toString(16).slice(2)}`;
 }
 
+function normalizeLeadId(value: unknown) {
+  if (typeof value !== "string") return "";
+  return sanitizePlainText(value, { maxLen: 120 });
+}
+
 async function forwardLeadToGoogleSheets(lead: StoredLead) {
   const response = await fetch(getGoogleAppsScriptUrl(), {
     method: "POST",
@@ -51,7 +56,7 @@ export async function POST(req: Request) {
   }
 
   const lead: StoredLead = {
-    id: newId("lead"),
+    id: normalizeLeadId(body.id) || newId("lead"),
     createdAt: Date.now(),
     source: sanitizePlainText(body.source ?? "web", { maxLen: 40 }),
     name: sanitizePlainText(body.name ?? "", { maxLen: 140 }),
@@ -64,7 +69,7 @@ export async function POST(req: Request) {
   };
 
   if (!lead.email) {
-    return NextResponse.json({ ok: false, error: "missing_contact" }, { status: 400 });
+    return NextResponse.json({ ok: false, error: "missing_contact", id: lead.id }, { status: 400 });
   }
 
   try {
@@ -77,7 +82,7 @@ export async function POST(req: Request) {
     }
   } catch (e: unknown) {
     const detail = e instanceof Error ? e.message : typeof e === "string" ? e : JSON.stringify(e);
-    return NextResponse.json({ ok: false, error: "write_failed", detail }, { status: 500 });
+    return NextResponse.json({ ok: false, error: "write_failed", detail, id: lead.id }, { status: 500 });
   }
 
   return NextResponse.json({ ok: true, id: lead.id });
