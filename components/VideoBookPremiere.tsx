@@ -3,6 +3,9 @@
 import { MotionDiv } from "@/components/ui/Motion";
 import { ArrowRight, BookOpen, Clapperboard, Sparkles } from "lucide-react";
 
+const BOOK_URL =
+    "https://www.editorialhammurabi.com/shop/colecciones-hammurabi/tecnocratas-de-la-infancia/";
+
 export function VideoBookPremiere() {
     return (
         <MotionDiv
@@ -63,16 +66,25 @@ export function VideoBookPremiere() {
 
                     <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                         <a
-                            href="#catalogo-editorial"
+                            href={BOOK_URL}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="inline-flex items-center justify-center rounded-full bg-cyan-400 px-5 py-3 text-sm font-semibold text-slate-950 transition-transform duration-300 hover:-translate-y-0.5"
                         >
-                            Explorar publicaciones
+                            Comprar aquí
                             <ArrowRight className="ml-2 h-4 w-4" />
                         </a>
-                        <div className="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-medium text-slate-300">
-                            Nuevo lanzamiento de Juan Carlos Rauld
-                        </div>
+                        <a
+                            href="#catalogo-editorial"
+                            className="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-medium text-slate-300 transition-colors duration-300 hover:border-white/20 hover:bg-white/8 hover:text-white"
+                        >
+                            Explorar publicaciones
+                        </a>
                     </div>
+
+                    <p className="mt-4 text-sm leading-6 text-slate-400">
+                        Disponible en Editorial Hammurabi.
+                    </p>
                 </div>
 
                 <MotionDiv
