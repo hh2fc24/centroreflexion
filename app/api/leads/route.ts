@@ -4,11 +4,46 @@ import { roleAtLeast } from "@/lib/server/roles";
 import { checkRateLimit, getClientIp } from "@/lib/server/rateLimit";
 import { sanitizePlainText } from "@/lib/server/sanitize";
 import { appendStoredLead, readStoredLeads, type StoredLead } from "@/lib/server/leadsStore";
+import { getGoogleAppsScriptUrl } from "@/lib/site";
 
 export const runtime = "nodejs";
 
 function newId(prefix: string) {
   return `${prefix}-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+}
+
+async function forwardLeadToGoogleSheets(lead: StoredLead) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 10_000);
+
+  try {
+    const response = await fetch(getGoogleAppsScriptUrl(), {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(lead),
+      cache: "no-store",
+      signal: controller.signal,
+    });
+
+    const raw = await response.text();
+    let json: { ok?: boolean; error?: string } | null = null;
+
+    try {
+      json = JSON.parse(raw) as { ok?: boolean; error?: string };
+    } catch {
+      json = null;
+    }
+
+    if (!response.ok) {
+      throw new Error(json?.error || `apps_script_http_${response.status}`);
+    }
+
+    if (!json?.ok) {
+      throw new Error(json?.error || "apps_script_rejected");
+    }
+  } finally {
+    clearTimeout(timeout);
+  }
 }
 
 export async function POST(req: Request) {
@@ -41,7 +76,13 @@ export async function POST(req: Request) {
   }
 
   try {
-    await appendStoredLead(lead);
+    await forwardLeadToGoogleSheets(lead);
+
+    try {
+      await appendStoredLead(lead);
+    } catch {
+      // Mirror failures should not break successful signups; Google Sheets is the source of truth.
+    }
   } catch (e: unknown) {
     const detail = e instanceof Error ? e.message : typeof e === "string" ? e : JSON.stringify(e);
     return NextResponse.json({ ok: false, error: "write_failed", detail }, { status: 500 });
