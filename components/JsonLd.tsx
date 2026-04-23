@@ -1,4 +1,5 @@
 import { Article } from "@/lib/data";
+import { getSiteUrl } from "@/lib/site";
 
 interface JsonLdProps {
     article?: Article;
@@ -6,13 +7,14 @@ interface JsonLdProps {
 
 export function JsonLd({ article }: JsonLdProps) {
     if (!article) return null;
+    const siteUrl = getSiteUrl();
 
     const jsonLd = {
         "@context": "https://schema.org",
         "@type": "Article",
         "headline": article.title,
         "image": [
-            `https://centroreflexionescriticas.cl${article.image}`
+            `${siteUrl}${article.image}`
         ],
         "author": [
             {

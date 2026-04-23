@@ -3,20 +3,14 @@ import { readStoredLeads } from "@/lib/server/leadsStore";
 export type PublicRegistration = {
   id: string;
   name: string;
+  email: string;
+  phone: string;
   createdAt: number;
   source: string;
 };
 
 const EVENT_SOURCE = "evento-tecnocratas-uah";
 const EVENT_FORM_ID = "launch-event-modal";
-
-function maskName(name: string): string {
-  const parts = name.trim().split(/\s+/).filter(Boolean);
-  if (!parts.length) return "Inscripción registrada";
-  if (parts.length === 1) return parts[0]!;
-  const last = parts[parts.length - 1]!;
-  return `${parts.slice(0, -1).join(" ")} ${last.charAt(0)}.`;
-}
 
 export async function readPublicEventRegistrations(): Promise<{
   count: number;
@@ -29,7 +23,9 @@ export async function readPublicEventRegistrations(): Promise<{
     .sort((a, b) => (b.createdAt ?? 0) - (a.createdAt ?? 0))
     .map((lead) => ({
       id: lead.id,
-      name: maskName(lead.name || ""),
+      name: lead.name?.trim() || "Inscripción registrada",
+      email: lead.email?.trim() || "Sin correo",
+      phone: lead.phone?.trim() || "Sin teléfono",
       createdAt: lead.createdAt,
       source: lead.source || "web",
     }));

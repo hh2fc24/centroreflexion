@@ -11,6 +11,7 @@ import { IntegrationsScripts } from "@/components/editor/IntegrationsScripts";
 import { DEFAULT_CONTENT, DEFAULT_THEME } from "@/lib/editor/defaults";
 import type { SiteContent, ThemeSettings } from "@/lib/editor/types";
 import { readPublishedDiskState } from "@/lib/server/publishedDisk";
+import { getSiteUrl } from "@/lib/site";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -31,6 +32,8 @@ const geist = Geist({
   display: "swap",
 });
 
+const siteUrl = getSiteUrl();
+
 export const metadata: Metadata = {
   title: {
     default: "Centro de Reflexiones Críticas",
@@ -43,7 +46,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "es_CL",
-    url: "https://centroreflexionescriticas.cl", // Placeholder, ideally from env
+    url: siteUrl,
     title: "Centro de Reflexiones Críticas",
     description: "Columnas de opinión, crítica literaria y cultural, y artículos sobre ciencias sociales.",
     siteName: "CRC",
@@ -147,8 +150,8 @@ export default async function RootLayout({
               "@context": "https://schema.org",
               "@type": "Organization",
               "name": "Centro de Reflexiones Críticas",
-              "url": "https://centroreflexionescriticas.cl",
-              "logo": "https://centroreflexionescriticas.cl/logo.png", // Ensure this exists or use text
+              "url": siteUrl,
+              "logo": `${siteUrl}/logo.png`,
               "contactPoint": {
                 "@type": "ContactPoint",
                 "email": "centrodereflexionescriticas@gmail.com",

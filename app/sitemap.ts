@@ -2,11 +2,12 @@ import type { MetadataRoute } from "next";
 import type { SitePage } from "@/lib/editor/types";
 import { readPublishedArticleCollections } from "@/lib/server/publicArticles";
 import { readPublishedDiskState } from "@/lib/server/publishedDisk";
+import { getSiteUrl } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://centroreflexionescriticas.cl";
+  const baseUrl = getSiteUrl();
   const { state } = await readPublishedDiskState();
   const pages = (state.pages ?? []) as SitePage[];
   const articles = await readPublishedArticleCollections();
