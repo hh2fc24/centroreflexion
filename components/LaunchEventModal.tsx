@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/Button";
-import { CalendarDays, Clock3, Gift, MapPin, Sparkles, Ticket, X } from "lucide-react";
+import { CalendarDays, Clock3, Gift, MapPin, Ticket, X } from "lucide-react";
 
 const IMAGE_SRC = "/images/tecnocratas-evento-uah.jpeg";
 const DISMISS_KEY = "crc.evento.tecnocratas.dismissed.session";
@@ -89,7 +89,7 @@ export function LaunchEventModal() {
         aria-hidden="true"
       />
 
-      <section className="relative z-10 flex max-h-[88vh] w-full max-w-[1080px] flex-col overflow-hidden rounded-[1.75rem] border border-white/12 bg-[linear-gradient(135deg,#f6f3eb_0%,#f1eee6_42%,#e8e5dc_100%)] text-slate-950 shadow-[0_40px_120px_-35px_rgba(15,23,42,0.55)]">
+      <section className="relative z-10 max-h-[86vh] w-full max-w-[980px] overflow-y-auto rounded-[1.75rem] border border-white/12 bg-[linear-gradient(135deg,#f7f4ee_0%,#f1ede5_48%,#e7e2d8_100%)] text-slate-950 shadow-[0_40px_120px_-35px_rgba(15,23,42,0.55)] lg:overflow-hidden">
         <button
           type="button"
           onClick={close}
@@ -99,47 +99,61 @@ export function LaunchEventModal() {
           <X className="h-5 w-5" />
         </button>
 
-        <div className="grid min-h-0 flex-1 grid-cols-1 lg:grid-cols-[minmax(0,1fr)_360px]">
-          <div className="relative min-h-[300px] overflow-hidden border-b border-black/6 p-5 sm:p-6 lg:border-b-0 lg:border-r lg:p-7">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(185,28,28,0.12),transparent_25%),radial-gradient(circle_at_bottom_right,rgba(15,23,42,0.08),transparent_30%)]" />
+        <div className="grid min-h-0 grid-cols-1 lg:grid-cols-[minmax(0,1fr)_340px]">
+          <div className="relative overflow-hidden border-b border-black/6 p-5 sm:p-6 lg:border-b-0 lg:border-r lg:p-8">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(185,28,28,0.1),transparent_25%),radial-gradient(circle_at_bottom_right,rgba(15,23,42,0.08),transparent_28%)]" />
 
-            <div className="relative flex h-full flex-col">
-              <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_280px] lg:items-start">
+            <div className="relative">
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="inline-flex items-center rounded-full bg-red-700 px-3.5 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-white shadow-sm">
+                  Lanzamiento de libro
+                </span>
+                <span className="inline-flex items-center rounded-full border border-black/10 bg-white/72 px-3.5 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-600">
+                  Facultad de Ciencias Sociales UAH
+                </span>
+              </div>
+
+              <div className="mt-5 grid gap-5 lg:grid-cols-[minmax(0,1fr)_244px] lg:items-start">
                 <div>
-                  <div className="flex flex-wrap items-center gap-3">
-                    <span className="inline-flex items-center gap-2 rounded-full bg-red-700 px-3.5 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-white shadow-sm">
-                      <Sparkles className="h-3.5 w-3.5" />
-                      Apertura de sitio
-                    </span>
-                    <span className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/70 px-3.5 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-600">
-                      Facultad de Ciencias Sociales UAH
-                    </span>
-                  </div>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-red-700 sm:text-xs">
+                    Encuentro presencial con inscripción previa
+                  </p>
+                  <h2 className="mt-3 max-w-xl text-[2.1rem] font-semibold leading-[1.02] tracking-[-0.045em] text-slate-950 sm:text-[2.7rem] lg:text-[3.05rem]">
+                    Reserva tu lugar en el lanzamiento.
+                  </h2>
+                  <p className="mt-4 max-w-xl text-[15px] leading-7 text-slate-700 sm:text-base">
+                    Presentaremos <span className="font-semibold text-slate-950">Tecnócratas de la infancia</span> junto a
+                    Juan Carlos Rauld en la Universidad Alberto Hurtado. Quienes se inscriban vía web y asistan
+                    presencialmente participarán en el sorteo de un ejemplar.
+                  </p>
 
-                  <div className="mt-5 max-w-2xl">
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.26em] text-red-700 sm:text-xs">
-                      Lanzamiento de libro
+                  <div className="mt-5 rounded-[1.4rem] border border-black/8 bg-white/62 p-4 shadow-[0_16px_40px_-30px_rgba(15,23,42,0.35)]">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+                      Presentan y comentan
                     </p>
-                    <h2 className="mt-3 max-w-3xl text-[2.45rem] font-bold leading-[0.98] tracking-tight text-slate-950 sm:text-5xl lg:text-[4rem] font-serif">
-                      Tecnócratas de la infancia:
-                      <span className="block pt-2">Desprotección y neoliberalismo en Chile</span>
-                    </h2>
-                    <p className="mt-4 max-w-2xl text-[15px] leading-7 text-slate-700 sm:text-base">
-                      Inscríbete para asistir al lanzamiento y recibir la información del encuentro. Entre quienes se registren
-                      vía web y asistan presencialmente, se sorteará un ejemplar del libro.
+                    <p className="mt-2 text-sm leading-6 text-slate-800">
+                      Juan Carlos Rauld y Alejandro Castro. Comentan Francis Valverde y Katia García.
                     </p>
                   </div>
                 </div>
 
-                <div className="mx-auto w-full max-w-[280px]">
-                  <div className="overflow-hidden rounded-[1.5rem] border border-black/8 bg-white/70 p-3 shadow-[0_20px_60px_-34px_rgba(15,23,42,0.35)]">
-                    <div className="relative aspect-[4/5] overflow-hidden rounded-[1rem] bg-[#ece7dc]">
+                <div className="mx-auto w-full max-w-[244px]">
+                  <div className="overflow-hidden rounded-[1.5rem] border border-black/8 bg-white/72 p-3 shadow-[0_22px_60px_-36px_rgba(15,23,42,0.38)]">
+                    <div className="mb-3 flex items-center justify-between">
+                      <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+                        Afiche oficial
+                      </span>
+                      <span className="text-[10px] font-medium uppercase tracking-[0.16em] text-slate-400">
+                        UAH
+                      </span>
+                    </div>
+                    <div className="relative aspect-[4/5] overflow-hidden rounded-[1rem] bg-[linear-gradient(180deg,#f3efe6_0%,#e7e1d6_100%)]">
                       <Image
                         src={IMAGE_SRC}
                         alt="Afiche del lanzamiento del libro Tecnócratas de la infancia en la Universidad Alberto Hurtado"
                         fill
                         priority
-                        sizes="(min-width: 1024px) 280px, 60vw"
+                        sizes="(min-width: 1024px) 244px, 55vw"
                         className="object-contain object-center"
                       />
                     </div>
@@ -162,24 +176,24 @@ export function LaunchEventModal() {
                 })}
               </div>
 
-              <div className="mt-5 rounded-[1.5rem] border border-black/8 bg-white/58 px-4 py-4 text-sm leading-6 text-slate-700 shadow-[0_18px_40px_-34px_rgba(15,23,42,0.35)]">
-                Presentan Juan Carlos Rauld y Alejandro Castro. Comentan Francis Valverde y Katia García.
+              <div className="mt-5 rounded-[1.45rem] border border-black/8 bg-slate-950 px-4 py-4 text-sm leading-6 text-slate-200 shadow-[0_20px_50px_-34px_rgba(15,23,42,0.45)]">
+                Déjanos tu nombre, correo y teléfono. Te contactaremos con la confirmación y el detalle final de asistencia.
               </div>
             </div>
           </div>
 
-          <div className="min-h-0 overflow-y-auto bg-slate-950 px-5 py-5 text-white sm:px-6 sm:py-6">
+          <div className="bg-slate-950 px-5 py-5 text-white sm:px-6 sm:py-6">
             <div className="rounded-[1.5rem] border border-white/10 bg-white/6 p-5 shadow-[0_24px_70px_-38px_rgba(0,0,0,0.55)] backdrop-blur-sm">
               <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/8 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-300">
                 <Ticket className="h-3.5 w-3.5 text-cyan-300" />
                 Inscripción web
               </div>
 
-              <h3 className="mt-4 text-[2rem] font-bold tracking-tight text-white font-serif">
+              <h3 className="mt-4 text-[1.9rem] font-semibold tracking-[-0.03em] text-white">
                 Reserva tu asistencia
               </h3>
               <p className="mt-2 text-sm leading-7 text-slate-300">
-                Déjanos tus datos y te consideraremos en el listado de inscritos para esta actividad.
+                Completa tus datos para incorporarte al listado de inscritos de esta actividad.
               </p>
 
               <form
@@ -273,20 +287,20 @@ export function LaunchEventModal() {
                     {busy ? "Registrando inscripción…" : "Inscribirme para asistir"}
                   </Button>
                 )}
+
+                <div className="rounded-[1.35rem] border border-white/10 bg-white/5 px-4 py-4 backdrop-blur-sm">
+                  <div className="flex items-start gap-3">
+                    <Gift className="mt-0.5 h-5 w-5 text-amber-300" />
+                    <div>
+                      <p className="text-sm font-semibold text-white">Sorteo para asistentes inscritos</p>
+                      <p className="mt-1 text-sm leading-6 text-slate-300">
+                        Entre las personas inscritas vía web que asistan al evento, se sorteará un ejemplar del libro.
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </form>
             </div>
-
-            <footer className="mt-4 rounded-[1.35rem] border border-white/10 bg-white/5 px-4 py-4 backdrop-blur-sm">
-              <div className="flex items-start gap-3">
-                <Gift className="mt-0.5 h-5 w-5 text-amber-300" />
-                <div>
-                  <p className="text-sm font-semibold text-white">Sorteo para asistentes inscritos</p>
-                  <p className="mt-1 text-sm leading-6 text-slate-300">
-                    Entre las personas inscritas vía web que asistan al evento, se sorteará un ejemplar del libro.
-                  </p>
-                </div>
-              </div>
-            </footer>
           </div>
         </div>
       </section>
