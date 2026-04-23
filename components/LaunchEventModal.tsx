@@ -76,7 +76,11 @@ export function LaunchEventModal() {
 
   const close = () => {
     if (typeof window !== "undefined") {
-      window.sessionStorage.setItem(DISMISS_KEY, "1");
+      try {
+        window.sessionStorage.setItem(DISMISS_KEY, "1");
+      } catch {
+        // Ignore storage failures; they should not block closing the modal.
+      }
     }
     setOpen(false);
   };
@@ -220,14 +224,18 @@ export function LaunchEventModal() {
                       return;
                     }
 
-                    if (typeof window !== "undefined") {
-                      window.localStorage.setItem(REGISTERED_KEY, "1");
-                      window.sessionStorage.setItem(DISMISS_KEY, "1");
-                    }
-
                     setError(null);
                     setSubmitted(true);
                     (event.currentTarget as HTMLFormElement).reset();
+
+                    if (typeof window !== "undefined") {
+                      try {
+                        window.localStorage.setItem(REGISTERED_KEY, "1");
+                        window.sessionStorage.setItem(DISMISS_KEY, "1");
+                      } catch {
+                        // Registration already succeeded; storage errors should not flip UI into failure.
+                      }
+                    }
                   } catch {
                     setSubmitted(false);
                     setError("No pudimos registrar tu inscripción. Intenta nuevamente.");
