@@ -54,7 +54,7 @@ export function VideoBookPremiere() {
                         </div>
                         <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/6 px-3 py-2">
                             <Clapperboard className="h-4 w-4 text-amber-300" />
-                            Video de lanzamiento
+                            Pieza editorial
                         </div>
                         <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/6 px-3 py-2">
                             <Sparkles className="h-4 w-4 text-emerald-300" />2 min 05 s
@@ -85,23 +85,27 @@ export function VideoBookPremiere() {
                     <div className="absolute inset-x-6 bottom-0 h-20 rounded-full bg-cyan-400/15 blur-3xl" />
                     <div className="relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-slate-900 p-3 shadow-[0_25px_90px_-45px_rgba(34,211,238,0.7)]">
                         <div className="mb-3 flex items-center justify-between rounded-2xl border border-white/8 bg-white/5 px-4 py-3 text-xs uppercase tracking-[0.16em] text-slate-400">
-                            <span>Video promocional</span>
-                            <span>Formato vertical</span>
+                            <span>Presentación editorial</span>
+                            <span>Lanzamiento 2026</span>
                         </div>
-                        <div className="overflow-hidden rounded-[1.25rem] border border-white/8 bg-black">
+                        <div className="relative overflow-hidden rounded-[1.25rem] border border-white/8 bg-black">
                             <video
                                 className="aspect-[9/16] w-full bg-black object-cover"
-                                controls
+                                autoPlay
+                                loop
+                                muted
                                 playsInline
-                                preload="metadata"
+                                preload="auto"
                                 poster="/images/tecnocratas_abstract_1771965880554.png"
+                                aria-label="Presentación audiovisual del libro Tecnócratas de la Infancia"
                             >
                                 <source src="/videos/tecnocratas-lanzamiento.mp4" type="video/mp4" />
                                 Tu navegador no soporta el elemento de video.
                             </video>
+                            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/28 via-black/6 to-transparent" />
                         </div>
                         <div className="mt-3 rounded-2xl border border-white/8 bg-white/5 px-4 py-3 text-sm text-slate-300">
-                            Video promocional del lanzamiento más reciente, presentado como apertura de la sección editorial.
+                            Registro audiovisual que acompaña la aparición de la obra y su apertura en la sección editorial.
                         </div>
                     </div>
                 </MotionDiv>
