@@ -216,9 +216,17 @@ export function LaunchEventModal() {
                       headers: { "content-type": "application/json" },
                       body: JSON.stringify(payload),
                     });
-                    const json = (await response.json()) as { ok?: boolean; error?: string };
+                    const raw = await response.text();
+                    let json: { ok?: boolean; error?: string } | null = null;
 
-                    if (!json.ok) {
+                    try {
+                      json = JSON.parse(raw) as { ok?: boolean; error?: string };
+                    } catch {
+                      json = null;
+                    }
+
+                    const accepted = response.ok && (!json || json.ok !== false);
+                    if (!accepted) {
                       setSubmitted(false);
                       setError("No pudimos registrar tu inscripción. Intenta nuevamente.");
                       return;

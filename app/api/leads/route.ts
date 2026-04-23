@@ -13,36 +13,28 @@ function newId(prefix: string) {
 }
 
 async function forwardLeadToGoogleSheets(lead: StoredLead) {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 10_000);
+  const response = await fetch(getGoogleAppsScriptUrl(), {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(lead),
+    cache: "no-store",
+  });
+
+  const raw = await response.text();
+  let json: { ok?: boolean; error?: string } | null = null;
 
   try {
-    const response = await fetch(getGoogleAppsScriptUrl(), {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(lead),
-      cache: "no-store",
-      signal: controller.signal,
-    });
+    json = JSON.parse(raw) as { ok?: boolean; error?: string };
+  } catch {
+    json = null;
+  }
 
-    const raw = await response.text();
-    let json: { ok?: boolean; error?: string } | null = null;
+  if (!response.ok) {
+    throw new Error(json?.error || `apps_script_http_${response.status}`);
+  }
 
-    try {
-      json = JSON.parse(raw) as { ok?: boolean; error?: string };
-    } catch {
-      json = null;
-    }
-
-    if (!response.ok) {
-      throw new Error(json?.error || `apps_script_http_${response.status}`);
-    }
-
-    if (!json?.ok) {
-      throw new Error(json?.error || "apps_script_rejected");
-    }
-  } finally {
-    clearTimeout(timeout);
+  if (!json?.ok) {
+    throw new Error(json?.error || "apps_script_rejected");
   }
 }
 
