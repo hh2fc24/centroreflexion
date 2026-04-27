@@ -6,9 +6,13 @@ import { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
 
+async function findPensamientoCriticoArticle(id: string) {
+    return (await findPublishedArticle("columns", id)) ?? (await findPublishedArticle("reviews", id));
+}
+
 export async function generateMetadata(props: { params: Promise<{ id: string }> }): Promise<Metadata> {
     const params = await props.params;
-    const post = await findPublishedArticle("columns", params.id);
+    const post = await findPensamientoCriticoArticle(params.id);
 
     if (!post) {
         return {
@@ -46,7 +50,7 @@ export async function generateMetadata(props: { params: Promise<{ id: string }> 
 
 export default async function PensamientoCriticoDetail(props: { params: Promise<{ id: string }> }) {
     const params = await props.params;
-    const post = await findPublishedArticle("columns", params.id);
+    const post = await findPensamientoCriticoArticle(params.id);
 
     if (!post) {
         notFound();
