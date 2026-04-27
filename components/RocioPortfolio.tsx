@@ -219,10 +219,10 @@ export function RocioPortfolio() {
 
                 <div className="mt-12 text-center">
                     <a
-                        href="mailto:to.rociosolar@gmail.com"
+                        href="mailto:centrodereflexionescriticas@gmail.com"
                         className="inline-flex items-center justify-center rounded-full bg-pink-600 px-8 py-3.5 text-sm font-semibold text-white shadow-sm hover:bg-pink-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pink-600 transition-all"
                     >
-                        Consultas y Agenda: to.rociosolar@gmail.com
+                        Consultas y Agenda: centrodereflexionescriticas@gmail.com
                     </a>
                 </div>
             </div>

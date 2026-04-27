@@ -2,6 +2,8 @@ import { Button } from "@/components/ui/Button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/Card";
 import Link from "next/link";
 
+const OFFICIAL_EMAIL = "centrodereflexionescriticas@gmail.com";
+
 export default function SubmitText() {
     return (
         <div className="bg-white py-24 sm:py-32">
@@ -41,10 +43,10 @@ export default function SubmitText() {
                             </CardHeader>
                             <CardContent>
                                 <div className="flex flex-col sm:flex-row gap-4 items-center">
-                                    <Link href="/contacto" className="w-full sm:w-auto">
+                                    <Link href={`mailto:${OFFICIAL_EMAIL}`} className="w-full sm:w-auto">
                                         <Button className="w-full">Enviar por Email</Button>
                                     </Link>
-                                    <span className="text-sm text-gray-500">o escríbenos a: editorial@crcritica.com</span>
+                                    <span className="text-sm text-gray-500">o escríbenos a: {OFFICIAL_EMAIL}</span>
                                 </div>
                             </CardContent>
                         </Card>
