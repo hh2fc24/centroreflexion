@@ -101,11 +101,36 @@ export default function ArticleDetail({
 
                 <MotionDiv transition={{ delay: 0.2 }}>
                     <div className="prose prose-slate max-w-none font-serif leading-8 text-gray-800 prose-headings:font-serif prose-a:text-blue-600 hover:prose-a:text-blue-500 sm:prose-lg">
-                        {article.content.map((paragraph, index) => (
-                            <p key={index} className={`mb-6 ${index === 0 ? "first-letter:text-5xl first-letter:font-bold first-letter:text-gray-900 first-letter:mr-3 first-letter:float-left" : ""}`}>
-                                {paragraph}
-                            </p>
-                        ))}
+                        {article.content.map((paragraph, index, arr) => {
+                            const isReferenceHeader = paragraph.toLowerCase().startsWith("referencias integradas") || paragraph.toLowerCase().startsWith("referencias bibliográficas");
+                            const refHeaderIndex = arr.findIndex(p => p.toLowerCase().startsWith("referencias integradas") || p.toLowerCase().startsWith("referencias bibliográficas"));
+                            
+                            const isReference = refHeaderIndex !== -1 && index > refHeaderIndex;
+
+                            if (isReferenceHeader) {
+                                return (
+                                    <h3 key={index} className="text-lg font-bold mt-12 mb-6 text-gray-900 border-b pb-2">
+                                        Referencias
+                                    </h3>
+                                );
+                            }
+
+                            if (isReference) {
+                                // Clean up bullet points if they exist
+                                const cleanRef = paragraph.replace(/^•\s*/, '');
+                                return (
+                                    <p key={index} className="pl-6 -indent-6 mb-3 text-sm text-gray-500 leading-relaxed font-serif italic">
+                                        {cleanRef}
+                                    </p>
+                                );
+                            }
+
+                            return (
+                                <p key={index} className="mb-6 first-letter:text-5xl first-letter:font-bold first-letter:text-gray-900 first-letter:mr-3 first-letter:float-left">
+                                    {paragraph}
+                                </p>
+                            );
+                        })}
                     </div>
                 </MotionDiv>
 
