@@ -5,6 +5,7 @@ import { withLock } from "@/lib/server/locks";
 import { readDraftDiskState, writeDraftDiskState, type DraftDump } from "@/lib/server/draftDisk";
 import { sanitizePublishedState } from "@/lib/server/sanitizeSiteState";
 import { checkRateLimit, getClientIp } from "@/lib/server/rateLimit";
+import { requireTrustedOrigin } from "@/lib/server/requestSecurity";
 import { appendAudit } from "@/lib/server/auditLog";
 
 export const runtime = "nodejs";
@@ -53,6 +54,9 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
+  const invalidOrigin = requireTrustedOrigin(req);
+  if (invalidOrigin) return invalidOrigin;
+
   const session = getAdminSessionFromRequest(req);
   if (!session) return unauthorized();
   if (!roleAtLeast(session.role, "editor")) return NextResponse.json({ ok: false, error: "forbidden" }, { status: 403 });
@@ -97,6 +101,9 @@ export async function POST(req: Request) {
 }
 
 export async function DELETE(req: Request) {
+  const invalidOrigin = requireTrustedOrigin(req);
+  if (invalidOrigin) return invalidOrigin;
+
   const session = getAdminSessionFromRequest(req);
   if (!session) return unauthorized();
   if (!roleAtLeast(session.role, "editor")) return NextResponse.json({ ok: false, error: "forbidden" }, { status: 403 });

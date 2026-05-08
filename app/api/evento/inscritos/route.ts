@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
+import { getAdminSessionFromRequest } from "@/lib/server/adminAuth";
 import { findPublicEventRegistrationById, readPublicEventRegistrations } from "@/lib/server/eventRegistrations";
+import { roleAtLeast } from "@/lib/server/roles";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -10,6 +12,12 @@ const NO_STORE_HEADERS = {
 };
 
 export async function GET(req: Request) {
+  const session = getAdminSessionFromRequest(req);
+  if (!session) return NextResponse.json({ ok: false, error: "unauthorized" }, { status: 401, headers: NO_STORE_HEADERS });
+  if (!roleAtLeast(session.role, "editor")) {
+    return NextResponse.json({ ok: false, error: "forbidden" }, { status: 403, headers: NO_STORE_HEADERS });
+  }
+
   const { searchParams } = new URL(req.url);
   const id = searchParams.get("id")?.trim() || "";
 

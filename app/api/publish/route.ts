@@ -10,6 +10,7 @@ import { hashJson } from "@/lib/server/hash";
 import { writeJsonAtomic } from "@/lib/server/atomicWrite";
 import { sanitizePublishedState } from "@/lib/server/sanitizeSiteState";
 import { checkRateLimit, getClientIp } from "@/lib/server/rateLimit";
+import { requireTrustedOrigin } from "@/lib/server/requestSecurity";
 import { appendAudit } from "@/lib/server/auditLog";
 
 export const runtime = "nodejs";
@@ -45,6 +46,9 @@ function run(cmd: string, args: string[]) {
 }
 
 export async function POST(req: Request) {
+  const invalidOrigin = requireTrustedOrigin(req);
+  if (invalidOrigin) return invalidOrigin;
+
   if (process.env.CRC_ENABLE_PUBLISH !== "1") {
     return NextResponse.json({ ok: false, error: "publish_disabled" }, { status: 404 });
   }

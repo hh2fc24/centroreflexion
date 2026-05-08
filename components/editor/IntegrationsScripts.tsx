@@ -4,15 +4,22 @@ import Script from "next/script";
 import { usePathname } from "next/navigation";
 import { useContent } from "@/lib/editor/hooks";
 
+function sanitizeTrackingId(input: string, kind: "ga" | "gtm" | "pixel") {
+  const raw = input.trim();
+  if (!raw) return "";
+  if (kind === "pixel") return /^\d{5,20}$/.test(raw) ? raw : "";
+  return /^[A-Za-z0-9_-]{4,40}$/.test(raw) ? raw : "";
+}
+
 export function IntegrationsScripts() {
   const pathname = usePathname();
   const { content } = useContent();
 
   if (pathname.startsWith("/admin")) return null;
 
-  const gaId = (content.integrations?.googleAnalyticsId || "").trim();
-  const gtmId = (content.integrations?.googleTagId || "").trim();
-  const pixelId = (content.integrations?.metaPixelId || "").trim();
+  const gaId = sanitizeTrackingId(content.integrations?.googleAnalyticsId || "", "ga");
+  const gtmId = sanitizeTrackingId(content.integrations?.googleTagId || "", "gtm");
+  const pixelId = sanitizeTrackingId(content.integrations?.metaPixelId || "", "pixel");
 
   return (
     <>
@@ -25,7 +32,7 @@ export function IntegrationsScripts() {
               new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
               j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-              })(window,document,'script','dataLayer','${gtmId}');
+              })(window,document,'script','dataLayer',${JSON.stringify(gtmId)});
             `}
           </Script>
         </>
@@ -34,13 +41,13 @@ export function IntegrationsScripts() {
       {/* Google Analytics (gtag) */}
       {gaId ? (
         <>
-          <Script src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`} strategy="afterInteractive" />
+          <Script src={`https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(gaId)}`} strategy="afterInteractive" />
           <Script id="google-analytics" strategy="afterInteractive">
             {`
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
-              gtag('config', '${gaId}');
+              gtag('config', ${JSON.stringify(gaId)});
             `}
           </Script>
         </>
@@ -58,7 +65,7 @@ export function IntegrationsScripts() {
             t.src=v;s=b.getElementsByTagName(e)[0];
             s.parentNode.insertBefore(t,s)}(window, document,'script',
             'https://connect.facebook.net/en_US/fbevents.js');
-            fbq('init', '${pixelId}');
+            fbq('init', ${JSON.stringify(pixelId)});
             fbq('track', 'PageView');
           `}
         </Script>
@@ -66,4 +73,3 @@ export function IntegrationsScripts() {
     </>
   );
 }
-

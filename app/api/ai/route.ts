@@ -3,6 +3,7 @@ import { getAdminSessionFromRequest } from "@/lib/server/adminAuth";
 import type { BlockPreset, BlockType, SiteBlock } from "@/lib/editor/types";
 import { roleAtLeast } from "@/lib/server/roles";
 import { checkRateLimit, getClientIp } from "@/lib/server/rateLimit";
+import { requireTrustedOrigin } from "@/lib/server/requestSecurity";
 import { sanitizePlainText } from "@/lib/server/sanitize";
 
 export const runtime = "nodejs";
@@ -62,6 +63,9 @@ function makeBlock(type: BlockType, preset: BlockPreset, data: unknown): SiteBlo
 }
 
 export async function POST(req: Request) {
+  const invalidOrigin = requireTrustedOrigin(req);
+  if (invalidOrigin) return invalidOrigin;
+
   const session = getAdminSessionFromRequest(req);
   if (!session) return NextResponse.json({ ok: false, error: "unauthorized" }, { status: 401 });
   if (!roleAtLeast(session.role, "editor")) return NextResponse.json({ ok: false, error: "forbidden" }, { status: 403 });

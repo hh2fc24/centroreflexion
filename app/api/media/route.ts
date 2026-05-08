@@ -3,6 +3,7 @@ import { mkdir, readFile, rm } from "fs/promises";
 import path from "path";
 import { getAdminSessionFromRequest } from "@/lib/server/adminAuth";
 import { roleAtLeast } from "@/lib/server/roles";
+import { requireTrustedOrigin } from "@/lib/server/requestSecurity";
 import { writeJsonAtomic } from "@/lib/server/atomicWrite";
 import { withLock } from "@/lib/server/locks";
 import { appendAudit } from "@/lib/server/auditLog";
@@ -49,6 +50,9 @@ export async function GET(req: Request) {
 }
 
 export async function DELETE(req: Request) {
+  const invalidOrigin = requireTrustedOrigin(req);
+  if (invalidOrigin) return invalidOrigin;
+
   const session = getAdminSessionFromRequest(req);
   if (!session) return NextResponse.json({ ok: false, error: "unauthorized" }, { status: 401 });
   if (!roleAtLeast(session.role, "editor")) return NextResponse.json({ ok: false, error: "forbidden" }, { status: 403 });

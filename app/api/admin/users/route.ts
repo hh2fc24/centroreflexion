@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getAdminSessionFromRequest, type AdminRole } from "@/lib/server/adminAuth";
+import { requireTrustedOrigin } from "@/lib/server/requestSecurity";
 import { createUser, deleteUser, readUsers, updateUser } from "@/lib/server/users";
 
 export const runtime = "nodejs";
@@ -36,6 +37,9 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
+  const invalidOrigin = requireTrustedOrigin(req);
+  if (invalidOrigin) return invalidOrigin;
+
   const session = getAdminSessionFromRequest(req);
   if (!session) return unauthorized();
   if (!isAdmin(session.role)) return forbidden();
@@ -63,6 +67,9 @@ export async function POST(req: Request) {
 }
 
 export async function PATCH(req: Request) {
+  const invalidOrigin = requireTrustedOrigin(req);
+  if (invalidOrigin) return invalidOrigin;
+
   const session = getAdminSessionFromRequest(req);
   if (!session) return unauthorized();
   if (!isAdmin(session.role)) return forbidden();
@@ -91,6 +98,9 @@ export async function PATCH(req: Request) {
 }
 
 export async function DELETE(req: Request) {
+  const invalidOrigin = requireTrustedOrigin(req);
+  if (invalidOrigin) return invalidOrigin;
+
   const session = getAdminSessionFromRequest(req);
   if (!session) return unauthorized();
   if (!isAdmin(session.role)) return forbidden();

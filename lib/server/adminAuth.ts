@@ -2,6 +2,9 @@ import crypto from "crypto";
 import type { NextResponse } from "next/server";
 
 const COOKIE_NAME = "crc_admin_session";
+const DEV_SESSION_SECRET = process.env.NODE_ENV === "production" ? null : crypto.randomBytes(32).toString("hex");
+
+export const ADMIN_COOKIE_NAME = COOKIE_NAME;
 
 export type AdminRole = "admin" | "publisher" | "editor" | "viewer";
 
@@ -22,15 +25,27 @@ function sign(data: string, secret: string) {
 }
 
 export function getAdminCreds() {
+  const user = process.env.CRC_ADMIN_USER?.trim() || "";
+  const pass = process.env.CRC_ADMIN_PASS ?? "";
+  const envSecret = process.env.CRC_ADMIN_SECRET?.trim() || "";
+  const secret = envSecret || DEV_SESSION_SECRET || "";
   return {
-    user: process.env.CRC_ADMIN_USER || "Jrauld",
-    pass: process.env.CRC_ADMIN_PASS || "Jrauld.2026",
-    secret: process.env.CRC_ADMIN_SECRET || "dev-insecure-secret",
+    user,
+    pass,
+    secret,
+    hasEnvLogin: Boolean(user && pass),
+    hasPersistentSecret: Boolean(envSecret),
   };
 }
 
-export function createAdminToken(user: string) {
+function getSigningSecret() {
   const { secret } = getAdminCreds();
+  return secret || null;
+}
+
+export function createAdminToken(user: string) {
+  const secret = getSigningSecret();
+  if (!secret) throw new Error("admin_secret_not_configured");
   const payload: SessionPayload = { user, role: "admin", exp: Date.now() + 1000 * 60 * 60 * 24 * 30 };
   const data = base64url(JSON.stringify(payload));
   const sig = sign(data, secret);
@@ -38,7 +53,8 @@ export function createAdminToken(user: string) {
 }
 
 export function createAdminTokenWithRole(user: string, role: AdminRole) {
-  const { secret } = getAdminCreds();
+  const secret = getSigningSecret();
+  if (!secret) throw new Error("admin_secret_not_configured");
   const payload: SessionPayload = { user, role, exp: Date.now() + 1000 * 60 * 60 * 24 * 30 };
   const data = base64url(JSON.stringify(payload));
   const sig = sign(data, secret);
@@ -46,7 +62,8 @@ export function createAdminTokenWithRole(user: string, role: AdminRole) {
 }
 
 export function verifyAdminToken(token: string): { user: string; role: AdminRole } | null {
-  const { secret } = getAdminCreds();
+  const secret = getSigningSecret();
+  if (!secret) return null;
   const [data, sig] = token.split(".");
   if (!data || !sig) return null;
   if (sign(data, secret) !== sig) return null;
@@ -87,7 +104,7 @@ export function setAdminSessionCookie(res: NextResponse, user: string, role: Adm
   const token = createAdminTokenWithRole(user, role);
   res.cookies.set(COOKIE_NAME, token, {
     httpOnly: true,
-    sameSite: "lax",
+    sameSite: "strict",
     secure: process.env.NODE_ENV === "production",
     path: "/",
     maxAge: 60 * 60 * 24 * 30,
@@ -97,7 +114,7 @@ export function setAdminSessionCookie(res: NextResponse, user: string, role: Adm
 export function clearAdminSessionCookie(res: NextResponse) {
   res.cookies.set(COOKIE_NAME, "", {
     httpOnly: true,
-    sameSite: "lax",
+    sameSite: "strict",
     secure: process.env.NODE_ENV === "production",
     path: "/",
     maxAge: 0,

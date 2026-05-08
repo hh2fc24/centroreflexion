@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { useTheme } from "@/lib/editor/hooks";
 
 function escAttr(value: string) {
-  return value.replace(/"/g, '\\"');
+  return value.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
 }
 
 export function TextStylesCss() {
@@ -40,4 +40,3 @@ export function TextStylesCss() {
   if (!css) return null;
   return <style dangerouslySetInnerHTML={{ __html: css }} />;
 }
-

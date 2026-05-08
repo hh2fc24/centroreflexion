@@ -1,9 +1,19 @@
 import { EventRegistrantsPage } from "@/components/EventRegistrantsPage";
-import { getSiteUrl } from "@/lib/site";
+import { readPublicEventRegistrations } from "@/lib/server/eventRegistrations";
+import { ADMIN_COOKIE_NAME, verifyAdminToken } from "@/lib/server/adminAuth";
+import { roleAtLeast } from "@/lib/server/roles";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
 export default async function EventRegistrants() {
+  const cookieStore = await cookies();
+  const session = verifyAdminToken(cookieStore.get(ADMIN_COOKIE_NAME)?.value ?? "");
+  if (!session || !roleAtLeast(session.role, "editor")) {
+    redirect("/admin");
+  }
+
   let data: {
     count: number;
     registrations: Array<{
@@ -20,26 +30,7 @@ export default async function EventRegistrants() {
   };
 
   try {
-    const response = await fetch(`${getSiteUrl()}/api/evento/inscritos?ssr=1`, { cache: "no-store" });
-    const json = (await response.json()) as {
-      ok?: boolean;
-      count?: number;
-      registrations?: Array<{
-        id: string;
-        name: string;
-        email: string;
-        phone: string;
-        createdAt: number;
-        source: string;
-      }>;
-    };
-
-    if (response.ok && json.ok) {
-      data = {
-        count: typeof json.count === "number" ? json.count : 0,
-        registrations: Array.isArray(json.registrations) ? json.registrations : [],
-      };
-    }
+    data = await readPublicEventRegistrations();
   } catch {
     // Let the client fetch attempt recover after hydration.
   }

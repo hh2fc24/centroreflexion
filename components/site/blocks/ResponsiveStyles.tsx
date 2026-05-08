@@ -3,7 +3,7 @@
 import type { SiteBlock } from "@/lib/editor/types";
 
 function escAttr(value: string) {
-  return value.replace(/"/g, '\\"');
+  return value.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
 }
 
 export function ResponsiveStyles({ blocks }: { blocks: SiteBlock[] }) {

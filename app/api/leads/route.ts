@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getAdminSessionFromRequest } from "@/lib/server/adminAuth";
 import { roleAtLeast } from "@/lib/server/roles";
 import { checkRateLimit, getClientIp } from "@/lib/server/rateLimit";
+import { requireTrustedOrigin } from "@/lib/server/requestSecurity";
 import { sanitizePlainText } from "@/lib/server/sanitize";
 import { appendStoredLead, readStoredLeads, type StoredLead } from "@/lib/server/leadsStore";
 import { getGoogleAppsScriptUrl } from "@/lib/site";
@@ -44,6 +45,9 @@ async function forwardLeadToGoogleSheets(lead: StoredLead) {
 }
 
 export async function POST(req: Request) {
+  const invalidOrigin = requireTrustedOrigin(req);
+  if (invalidOrigin) return invalidOrigin;
+
   const ip = getClientIp(req);
   const rl = checkRateLimit(`leads:post:${ip}`, { limit: 30, windowMs: 60_000 });
   if (!rl.ok) return NextResponse.json({ ok: false, error: "rate_limited" }, { status: 429 });

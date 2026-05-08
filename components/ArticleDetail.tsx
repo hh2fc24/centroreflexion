@@ -102,7 +102,7 @@ export default function ArticleDetail({
                 <MotionDiv transition={{ delay: 0.2 }}>
                     <div className="prose prose-slate max-w-none font-serif leading-8 text-gray-800 prose-headings:font-serif prose-a:text-blue-600 hover:prose-a:text-blue-500 sm:prose-lg">
                         {article.content.map((paragraph, index) => (
-                            <p key={index} className="mb-6 first-letter:text-5xl first-letter:font-bold first-letter:text-gray-900 first-letter:mr-3 first-letter:float-left">
+                            <p key={index} className={`mb-6 ${index === 0 ? "first-letter:text-5xl first-letter:font-bold first-letter:text-gray-900 first-letter:mr-3 first-letter:float-left" : ""}`}>
                                 {paragraph}
                             </p>
                         ))}
