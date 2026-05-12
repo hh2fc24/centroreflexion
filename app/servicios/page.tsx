@@ -271,11 +271,15 @@ export default function Services() {
                                 ))}
                             </ul>
 
-                            <Link href="/contacto">
+                            <a
+                                href="https://wa.me/56949186447?text=Hola%20Juan%20Carlos%2C%20me%20interesa%20solicitar%20una%20evaluaci%C3%B3n%20psicosocial.%20%C2%BFPodr%C3%ADa%20indicarme%20disponibilidad%20y%20pr%C3%B3ximos%20pasos%3F"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
                                 <Button className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700">
                                     Solicitar Evaluación
                                 </Button>
-                            </Link>
+                            </a>
                         </div>
                         <div className="relative h-[320px] overflow-hidden rounded-2xl shadow-2xl sm:h-[420px] lg:h-[500px]">
                             <video
@@ -341,11 +345,15 @@ export default function Services() {
                                 ))}
                             </div>
 
-                            <Link href="/contacto">
+                            <a
+                                href="https://wa.me/56945335613?text=Hola%20Roc%C3%ADo%2C%20me%20interesa%20agendar%20una%20sesi%C3%B3n%20de%20terapia%20ocupacional.%20%C2%BFPodr%C3%ADas%20indicarme%20tu%20disponibilidad%3F"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
                                 <Button className="w-full sm:w-auto bg-purple-600 hover:bg-purple-700">
                                     Agendar con Rocío
                                 </Button>
-                            </Link>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -809,16 +817,22 @@ export default function Services() {
                                     { name: "Taller de Evaluación Pericial", price: "Desde 6 UF", detail: "Competencias parentales y riesgo" },
                                     { name: "Asesoría Estratégica Institucional", price: "A cotizar", detail: "Diseño de modelos de intervención" },
                                 ].map((item, idx) => (
-                                    <Link key={idx} href="/contacto" className="block bg-zinc-900/40 backdrop-blur-md rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(59,130,246,0.15)] border border-zinc-800/50 hover:border-blue-500/50 group cursor-pointer">
+                                    <a
+                                        key={idx}
+                                        href={`https://wa.me/56949186447?text=Hola%20Juan%20Carlos%2C%20me%20interesa%20el%20servicio%20%E2%80%9C${encodeURIComponent(item.name)}%E2%80%9D.%20%C2%BFPodr%C3%ADa%20entregarme%20m%C3%A1s%20informaci%C3%B3n%3F`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="block bg-zinc-900/40 backdrop-blur-md rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(59,130,246,0.15)] border border-zinc-800/50 hover:border-blue-500/50 group cursor-pointer"
+                                    >
                                         <h4 className="text-lg font-bold text-white mb-2 group-hover:text-blue-400 transition-colors">{item.name}</h4>
                                         <p className="text-sm text-zinc-400 mb-3">{item.detail}</p>
                                         <div className="flex items-center justify-between">
                                             <span className="inline-flex items-center rounded-full bg-blue-900/30 border border-blue-800/50 px-3 py-1 text-sm font-semibold text-blue-300">{item.price} *</span>
                                             <span className="text-xs font-semibold text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
-                                                Consultar <ArrowRight className="h-3 w-3" />
+                                                Consultar por WhatsApp <ArrowRight className="h-3 w-3" />
                                             </span>
                                         </div>
-                                    </Link>
+                                    </a>
                                 ))}
                             </div>
                         </div>
@@ -846,16 +860,22 @@ export default function Services() {
                                         { name: "Taller de Terapia Ocupacional Comunitaria", price: "Consultar", detail: "Enfoque de Derechos Humanos" },
                                         { name: "Capacitación en Acompañamiento en Terreno", price: "Consultar", detail: "Para equipos de salud mental comunitaria" },
                                     ].map((item, idx) => (
-                                        <Link key={idx} href="/contacto" className="block bg-zinc-900/40 backdrop-blur-md rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(168,85,247,0.15)] border border-zinc-800/50 hover:border-purple-500/50 group cursor-pointer">
+                                        <a
+                                            key={idx}
+                                            href={`https://wa.me/56945335613?text=Hola%20Roc%C3%ADo%2C%20me%20interesa%20el%20servicio%20%E2%80%9C${encodeURIComponent(item.name)}%E2%80%9D.%20%C2%BFPodr%C3%ADas%20entregarme%20m%C3%A1s%20informaci%C3%B3n%3F`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="block bg-zinc-900/40 backdrop-blur-md rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(168,85,247,0.15)] border border-zinc-800/50 hover:border-purple-500/50 group cursor-pointer"
+                                        >
                                             <h4 className="text-lg font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">{item.name}</h4>
                                             <p className="text-sm text-zinc-400 mb-3">{item.detail}</p>
                                             <div className="flex items-center justify-between">
                                                 <span className="inline-flex items-center rounded-full bg-purple-900/30 border border-purple-800/50 px-3 py-1 text-sm font-semibold text-purple-300">{item.price} *</span>
                                                 <span className="text-xs font-semibold text-purple-400 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
-                                                    Consultar <ArrowRight className="h-3 w-3" />
+                                                    Consultar por WhatsApp <ArrowRight className="h-3 w-3" />
                                                 </span>
                                             </div>
-                                        </Link>
+                                        </a>
                                     ))}
                                 </div>
                             </div>
