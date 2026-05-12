@@ -809,11 +809,16 @@ export default function Services() {
                                     { name: "Taller de Evaluación Pericial", price: "Desde 6 UF", detail: "Competencias parentales y riesgo" },
                                     { name: "Asesoría Estratégica Institucional", price: "A cotizar", detail: "Diseño de modelos de intervención" },
                                 ].map((item, idx) => (
-                                    <div key={idx} className="bg-zinc-900/40 backdrop-blur-md rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(59,130,246,0.15)] border border-zinc-800/50 hover:border-blue-500/50 group">
+                                    <Link key={idx} href="/contacto" className="block bg-zinc-900/40 backdrop-blur-md rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(59,130,246,0.15)] border border-zinc-800/50 hover:border-blue-500/50 group cursor-pointer">
                                         <h4 className="text-lg font-bold text-white mb-2 group-hover:text-blue-400 transition-colors">{item.name}</h4>
-                                        <p className="text-sm text-zinc-400 mb-4">{item.detail}</p>
-                                        <span className="inline-flex items-center rounded-full bg-blue-900/30 border border-blue-800/50 px-3 py-1 text-sm font-semibold text-blue-300">{item.price} *</span>
-                                    </div>
+                                        <p className="text-sm text-zinc-400 mb-3">{item.detail}</p>
+                                        <div className="flex items-center justify-between">
+                                            <span className="inline-flex items-center rounded-full bg-blue-900/30 border border-blue-800/50 px-3 py-1 text-sm font-semibold text-blue-300">{item.price} *</span>
+                                            <span className="text-xs font-semibold text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+                                                Consultar <ArrowRight className="h-3 w-3" />
+                                            </span>
+                                        </div>
+                                    </Link>
                                 ))}
                             </div>
                         </div>
@@ -841,11 +846,16 @@ export default function Services() {
                                         { name: "Taller de Terapia Ocupacional Comunitaria", price: "Consultar", detail: "Enfoque de Derechos Humanos" },
                                         { name: "Capacitación en Acompañamiento en Terreno", price: "Consultar", detail: "Para equipos de salud mental comunitaria" },
                                     ].map((item, idx) => (
-                                        <div key={idx} className="bg-zinc-900/40 backdrop-blur-md rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(168,85,247,0.15)] border border-zinc-800/50 hover:border-purple-500/50 group">
+                                        <Link key={idx} href="/contacto" className="block bg-zinc-900/40 backdrop-blur-md rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(168,85,247,0.15)] border border-zinc-800/50 hover:border-purple-500/50 group cursor-pointer">
                                             <h4 className="text-lg font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">{item.name}</h4>
-                                            <p className="text-sm text-zinc-400 mb-4">{item.detail}</p>
-                                            <span className="inline-flex items-center rounded-full bg-purple-900/30 border border-purple-800/50 px-3 py-1 text-sm font-semibold text-purple-300">{item.price} *</span>
-                                        </div>
+                                            <p className="text-sm text-zinc-400 mb-3">{item.detail}</p>
+                                            <div className="flex items-center justify-between">
+                                                <span className="inline-flex items-center rounded-full bg-purple-900/30 border border-purple-800/50 px-3 py-1 text-sm font-semibold text-purple-300">{item.price} *</span>
+                                                <span className="text-xs font-semibold text-purple-400 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+                                                    Consultar <ArrowRight className="h-3 w-3" />
+                                                </span>
+                                            </div>
+                                        </Link>
                                     ))}
                                 </div>
                             </div>
