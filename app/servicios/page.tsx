@@ -147,10 +147,12 @@ export default function Services() {
                                     whileTap={{ scale: 0.98 }}
                                     className="block sm:inline-block"
                                 >
-                                    <Button size="lg" className="w-full rounded-lg border-none bg-gradient-to-r from-amber-500 to-amber-600 px-6 py-5 font-bold text-slate-950 shadow-[0_0_40px_rgba(245,158,11,0.3)] transition-all duration-300 hover:from-amber-400 hover:to-amber-500 sm:w-auto sm:px-10 sm:py-7 group">
-                                        Agendar Reunión Ejecutiva
-                                        <ArrowRight className="ml-3 h-5 w-5 text-slate-900 group-hover:translate-x-1.5 transition-transform duration-300" />
-                                    </Button>
+                                    <Link href="/contacto">
+                                        <Button size="lg" className="w-full rounded-lg border-none bg-gradient-to-r from-amber-500 to-amber-600 px-6 py-5 font-bold text-slate-950 shadow-[0_0_40px_rgba(245,158,11,0.3)] transition-all duration-300 hover:from-amber-400 hover:to-amber-500 sm:w-auto sm:px-10 sm:py-7 group">
+                                            Agendar Reunión Ejecutiva
+                                            <ArrowRight className="ml-3 h-5 w-5 text-slate-900 group-hover:translate-x-1.5 transition-transform duration-300" />
+                                        </Button>
+                                    </Link>
                                 </motion.div>
                             </motion.div>
                         </div>
@@ -269,9 +271,11 @@ export default function Services() {
                                 ))}
                             </ul>
 
-                            <Button className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700">
-                                Solicitar Evaluación
-                            </Button>
+                            <Link href="/contacto">
+                                <Button className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700">
+                                    Solicitar Evaluación
+                                </Button>
+                            </Link>
                         </div>
                         <div className="relative h-[320px] overflow-hidden rounded-2xl shadow-2xl sm:h-[420px] lg:h-[500px]">
                             <video
@@ -337,9 +341,11 @@ export default function Services() {
                                 ))}
                             </div>
 
-                            <Button className="w-full sm:w-auto bg-purple-600 hover:bg-purple-700">
-                                Agendar con Rocío
-                            </Button>
+                            <Link href="/contacto">
+                                <Button className="w-full sm:w-auto bg-purple-600 hover:bg-purple-700">
+                                    Agendar con Rocío
+                                </Button>
+                            </Link>
                         </div>
                     </div>
                 </div>
