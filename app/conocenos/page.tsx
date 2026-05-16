@@ -2,10 +2,8 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Button } from "@/components/ui/Button";
 import { motion } from "framer-motion";
-import { GraduationCap, Instagram, Linkedin, Mail } from "lucide-react";
-import { RocioPortfolio } from "@/components/RocioPortfolio";
+import { BarChart3, GraduationCap, Instagram, Linkedin, Mail, ShieldCheck, Workflow } from "lucide-react";
 
 export default function About() {
     return (
@@ -36,7 +34,7 @@ export default function About() {
                         transition={{ delay: 0.2 }}
                         className="mx-auto mt-6 max-w-2xl text-base leading-7 text-[#eee8dc] font-light sm:text-xl sm:leading-8"
                     >
-                        Articulando academia, clínica y política pública.
+                        Un equipo interdisciplinario dedicado a pensar, cuidar e intervenir con rigor.
                     </motion.p>
                 </div>
             </div>
@@ -44,50 +42,78 @@ export default function About() {
             {/* Mission & Vision */}
             <section className="bg-[#f8f5ee] py-16 sm:py-24">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-16">
+                    <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
                         <motion.div
-                            initial={{ opacity: 0, x: -20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
+                            initial={{ opacity: 0, y: 16 }}
+                            whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            className="rounded-[8px] border border-[#eee8dc] bg-[#fffdf8] p-6 shadow-sm sm:p-10"
+                            className="lg:col-span-4"
                         >
-                            <h3 className="text-2xl font-bold text-[#171713] mb-6 font-serif">Misión</h3>
-                            <p className="text-lg text-[#55574f] leading-relaxed">
-                                Unir el pensamiento crítico, la intervención clínica real y la transformación institucional.
-                                Buscamos generar espacios donde la reflexión académica se traduzca en cambios concretos
-                                para la salud mental, la infancia y la cultura.
+                            <span className="mb-4 inline-flex rounded-[5px] bg-[#fffdf8] px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-[#9f5528] ring-1 ring-[#ead8c7]">
+                                Nuestro enfoque
+                            </span>
+                            <h3 className="text-3xl font-bold leading-tight text-[#171713] font-serif sm:text-4xl">
+                                Pensamiento crítico con práctica situada.
+                            </h3>
+                            <p className="mt-5 text-base leading-7 text-[#70695f]">
+                                CRC reúne trayectorias distintas para leer problemas complejos con rigor, sensibilidad institucional y responsabilidad ética.
                             </p>
                         </motion.div>
+
                         <motion.div
-                            initial={{ opacity: 0, x: 20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
+                            initial={{ opacity: 0, y: 16 }}
+                            whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            className="rounded-[8px] border border-[#eee8dc] bg-[#fffdf8] p-6 shadow-sm sm:p-10"
+                            transition={{ delay: 0.1 }}
+                            className="lg:col-span-8"
                         >
-                            <h3 className="text-2xl font-bold text-[#171713] mb-6 font-serif">Visión</h3>
-                            <p className="text-lg text-[#55574f] leading-relaxed">
-                                Ser una plataforma de referencia iberoamericana en pensamiento crítico aplicado,
-                                consolidándonos como un centro de articulación clave entre la producción académica,
-                                la práctica clínica y el diseño de políticas públicas.
-                            </p>
+                            <div className="divide-y divide-[#ded5c7] border-y border-[#ded5c7]">
+                                <div className="grid gap-3 py-6 sm:grid-cols-[120px_1fr]">
+                                    <h4 className="text-sm font-bold uppercase tracking-[0.16em] text-[#bd6f3c]">Misión</h4>
+                                    <p className="text-lg leading-8 text-[#55574f]">
+                                        Cultivar un espacio de pensamiento crítico aplicado, formación y práctica profesional orientado a la salud mental, la infancia, la educación y las instituciones que sostienen la vida común.
+                                    </p>
+                                </div>
+                                <div className="grid gap-3 py-6 sm:grid-cols-[120px_1fr]">
+                                    <h4 className="text-sm font-bold uppercase tracking-[0.16em] text-[#bd6f3c]">Visión</h4>
+                                    <p className="text-lg leading-8 text-[#55574f]">
+                                        Consolidar una comunidad interdisciplinaria capaz de articular ciencias sociales, clínica, salud mental, educación, gestión y tecnología desde una mirada ética, situada y rigurosa.
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="mt-5 flex flex-wrap gap-2">
+                                {["Rigor", "Cuidado", "Interdisciplina", "Evidencia", "Contexto"].map((item) => (
+                                    <span key={item} className="rounded-full bg-[#fffdf8] px-3 py-1.5 text-xs font-semibold text-[#70695f] ring-1 ring-[#ead8c7]">
+                                        {item}
+                                    </span>
+                                ))}
+                            </div>
                         </motion.div>
                     </div>
                 </div>
             </section>
 
             {/* Team Section */}
-            <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
+            <div id="equipo" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
                 <div className="space-y-16 sm:space-y-24">
+                    <div className="max-w-3xl">
+                        <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#bd6f3c]">Equipo base</span>
+                        <h2 className="mt-3 text-3xl font-bold text-[#171713] font-serif sm:text-4xl">Tres trayectorias, una lectura común.</h2>
+                        <p className="mt-4 text-base leading-7 text-[#70695f]">
+                            Presentamos al equipo desde su rol, formación y aporte disciplinar. La información de prestaciones específicas se organiza en la sección de servicios.
+                        </p>
+                    </div>
 
                     {/* Juan Carlos Rauld */}
                     <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:gap-12">
                         <div className="lg:col-span-4 flex flex-col items-center text-center lg:text-left lg:items-start">
-                            <div className="relative mb-6 h-48 w-48 overflow-hidden rounded-[6px] bg-[#ded5c7] shadow-sm sm:h-64 sm:w-64">
+                            <div className="relative mb-6 h-72 w-56 overflow-hidden rounded-[6px] bg-white shadow-sm ring-1 ring-[#eee8dc] sm:h-80 sm:w-64">
                                 <Image
-                                    src="/images/juan_carlos_20260224.png"
+                                    src="/images/juan_carlos_real_white.png"
                                     alt="Juan Carlos Rauld"
-                                    fill
-                                    className="object-cover"
+                                    width={640}
+                                    height={900}
+                                    className="h-full w-full object-contain object-center"
                                 />
                             </div>
                             <h3 className="text-3xl font-bold text-[#171713] font-serif">Juan Carlos Rauld</h3>
@@ -116,15 +142,10 @@ export default function About() {
                                 </p>
                             </div>
                             <div>
-                                <h4 className="text-xl font-semibold text-[#171713] mb-4 border-b border-[#ded5c7] pb-2">Consultoría Estratégica e Institucional</h4>
+                                <h4 className="text-xl font-semibold text-[#171713] mb-4 border-b border-[#ded5c7] pb-2">Trayectoria Institucional</h4>
                                 <p className="text-[#55574f] leading-relaxed">
-                                    Como consultor en <strong>Gestión Estratégica de Programas de Infancia y Salud Mental</strong>, acompaña a organizaciones públicas y privadas en el diseño y rediseño de modelos de intervención, arquitectura programática e implementación de indicadores de desempeño. Lidera procesos de fortalecimiento técnico, gobernanza institucional, seguimiento de desempeño y mejora continua para asegurar coherencia y sostenibilidad.
+                                    Su experiencia cruza programas de infancia, salud mental, protección de derechos y análisis institucional. Ha trabajado en espacios donde la intervención exige lectura técnica, criterio ético, coordinación de equipos y comprensión de los marcos públicos que organizan la protección social.
                                 </p>
-                            </div>
-                            <div className="pt-4">
-                                <Link href="/servicios#consultoria">
-                                    <Button variant="outline">Consultar Servicios Estratégicos</Button>
-                                </Link>
                             </div>
                         </div>
                     </div>
@@ -134,12 +155,13 @@ export default function About() {
                     {/* Rocío Solar */}
                     <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:gap-12">
                         <div className="lg:col-span-4 flex flex-col items-center text-center lg:text-left lg:items-start lg:order-last">
-                            <div className="relative mb-6 h-48 w-48 overflow-hidden rounded-[6px] bg-[#ded5c7] shadow-sm sm:h-64 sm:w-64">
+                            <div className="relative mb-6 h-72 w-56 overflow-hidden rounded-[6px] bg-white shadow-sm ring-1 ring-[#eee8dc] sm:h-80 sm:w-64">
                                 <Image
-                                    src="/images/rocio_solar.png"
+                                    src="/images/rocio_solar_real_white.png"
                                     alt="Rocío Solar"
-                                    fill
-                                    className="object-cover"
+                                    width={640}
+                                    height={900}
+                                    className="h-full w-full object-contain object-center"
                                 />
                             </div>
                             <h3 className="text-3xl font-bold text-[#171713] font-serif">Rocío Solar</h3>
@@ -156,22 +178,93 @@ export default function About() {
                         </div>
                         <div className="space-y-8 lg:col-span-8 lg:text-right">
                             <div>
-                                <h4 className="text-xl font-semibold text-[#171713] mb-4 border-b border-[#ded5c7] pb-2 lg:ml-auto lg:w-fit">Función como Co-fundadora y Editora</h4>
-                                <ul className="text-[#55574f] leading-relaxed space-y-3 text-left lg:text-right">
-                                    <li>– Liderar y coordinar la producción, edición y publicación de contenidos digitales para la plataforma, asegurando calidad editorial, coherencia conceptual y pertinencia con los objetivos del centro.</li>
-                                    <li>– Diseñar estrategias comunicacionales y de difusión en redes y medios digitales para fortalecer el posicionamiento, alcance y visibilidad de las reflexiones críticas desde una perspectiva analítica y reflexiva.</li>
-                                </ul>
+                                <h4 className="text-xl font-semibold text-[#171713] mb-4 border-b border-[#ded5c7] pb-2 lg:ml-auto lg:w-fit">Trayectoria Profesional</h4>
+                                <p className="text-[#55574f] leading-relaxed">
+                                    Rocío Solar es terapeuta ocupacional y co-fundadora del CRC. Su trayectoria se ha desarrollado en salud mental comunitaria, acompañamiento infanto-juvenil, inclusión educativa y trabajo interdisciplinario con familias, equipos clínicos y comunidades.
+                                </p>
                             </div>
                             <div>
-                                <h4 className="text-xl font-semibold text-[#171713] mb-4 border-b border-[#ded5c7] pb-2 lg:ml-auto lg:w-fit">Función Clínica – Terapeuta Ocupacional</h4>
+                                <h4 className="text-xl font-semibold text-[#171713] mb-4 border-b border-[#ded5c7] pb-2 lg:ml-auto lg:w-fit">Formación y Enfoque</h4>
                                 <p className="text-[#55574f] leading-relaxed">
-                                    Evaluación e intervención terapéutica ocupacional en salud mental infanto-juvenil, orientada al desarrollo del desempeño ocupacional, regulación emocional, autonomía y participación en contextos familiares y educativos, mediante planes de intervención individual y familiar, trabajo interdisciplinario y seguimiento clínico.
+                                    Integra una mirada ocupacional, situada y respetuosa de la singularidad de cada persona. Su formación en ocupación, salud mental comunitaria, género e intervención psicosocial aporta una perspectiva sensible a los contextos familiares, educativos y territoriales.
                                 </p>
                             </div>
                         </div>
                     </div>
 
-                    <RocioPortfolio />
+                    <div className="w-full h-px bg-[#eee8dc]" />
+
+                    {/* Hugo Felipe Hormazábal */}
+                    <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:gap-12">
+                        <div className="lg:col-span-4 flex flex-col items-center text-center lg:text-left lg:items-start">
+                            <div className="relative mb-6 h-72 w-56 overflow-hidden rounded-[6px] bg-white shadow-sm ring-1 ring-[#eee8dc] sm:h-80 sm:w-64">
+                                <Image
+                                    src="/images/hugo_hormazabal.png"
+                                    alt="Hugo Felipe Hormazábal"
+                                    width={640}
+                                    height={900}
+                                    className="h-full w-full object-contain object-center"
+                                />
+                            </div>
+                            <h3 className="text-3xl font-bold text-[#171713] font-serif">Hugo Felipe Hormazábal</h3>
+                            <p className="text-[#bd6f3c] font-bold text-sm tracking-wide mt-2 uppercase">
+                                Estrategia Tecnológica, Ingeniería de Servicios e Inteligencia Aplicada
+                            </p>
+                            <p className="text-[#70695f] text-xs mt-2 font-medium leading-snug">
+                                Ingeniero Comercial · Diplomado en Marketing & Analytics, Universidad Adolfo Ibáñez (UAI)
+                            </p>
+
+                            <div className="mt-6 flex gap-4">
+                                <a href="https://www.linkedin.com/in/hugo-felipe-hormazabal-561005332/" target="_blank" rel="noopener noreferrer" aria-label="Perfil de LinkedIn de Hugo Felipe Hormazábal" className="text-[#8a8276] hover:text-[#bd6f3c] transition-colors"><Linkedin className="h-6 w-6" /></a>
+                                <a href="https://www.altiusignite.com" target="_blank" rel="noopener noreferrer" aria-label="Sitio web de Altius Ignite" className="text-[#8a8276] hover:text-[#bd6f3c] transition-colors"><Workflow className="h-6 w-6" /></a>
+                                <Link href="/contacto" className="text-[#8a8276] hover:text-[#bd6f3c] transition-colors"><Mail className="h-6 w-6" /></Link>
+                            </div>
+                        </div>
+                        <div className="space-y-8 lg:col-span-8">
+                            <div>
+                                <h4 className="text-xl font-semibold text-[#171713] mb-4 border-b border-[#ded5c7] pb-2">Trayectoria Profesional</h4>
+                                <p className="text-[#55574f] leading-relaxed">
+                                    Hugo Felipe Hormazábal es Ingeniero Comercial y Diplomado en Marketing & Analytics por la Universidad Adolfo Ibáñez (UAI). Es fundador de <a href="https://www.altiusignite.com" target="_blank" rel="noopener noreferrer" className="font-semibold text-[#9f5528] underline decoration-[#dec0a8] underline-offset-4 hover:text-[#bd6f3c]">Altius Ignite</a>, empresa de transformación digital desde la cual desarrolla soluciones de automatización, inteligencia artificial, datos y arquitectura tecnológica aplicada. En el CRC lidera la visión tecnológica y la ingeniería de servicios: traduce necesidades clínicas, sociales e institucionales en sistemas, datos, flujos y herramientas digitales que permiten sostener intervenciones con mayor trazabilidad, continuidad y capacidad de aprendizaje.
+                                </p>
+                                <p className="mt-4 text-[#55574f] leading-relaxed">
+                                    Cuenta con más de 15 años de experiencia articulando operaciones, crecimiento, experiencia de cliente, inteligencia de negocio y transformación digital en industrias exigentes como contact center/BPO, banca, fintech, tecnología, retail, servicios, educación y consultoría. Ha implementado y escalado operaciones y líneas de negocio en Chile, Colombia, Argentina, Perú y Bolivia, liderando equipos multiculturales de hasta 700 FTE, procesos de mejora continua, automatización intensiva, implementación de CRM, reportería ejecutiva, arquitecturas digitales y soluciones basadas en inteligencia artificial aplicada a productividad, control operativo y toma de decisiones.
+                                </p>
+                            </div>
+                            <div>
+                                <h4 className="text-xl font-semibold text-[#171713] mb-4 border-b border-[#ded5c7] pb-2">Formación, Tecnología y Experiencia Aplicada</h4>
+                                <div className="grid gap-3 sm:grid-cols-3">
+                                    {[
+                                        { icon: Workflow, title: "Ingeniería de servicios", text: "Procesos, flujos, seguimiento y arquitectura de gestión." },
+                                        { icon: BarChart3, title: "Inteligencia aplicada", text: "Datos, indicadores, reporting ejecutivo y analítica institucional." },
+                                        { icon: ShieldCheck, title: "Automatización e IA", text: "Herramientas digitales para productividad, control y decisión." },
+                                    ].map((item) => {
+                                        const Icon = item.icon;
+                                        return (
+                                            <div key={item.title} className="rounded-[8px] border border-[#eee8dc] bg-[#fffdf8] p-4">
+                                                <Icon className="mb-3 h-5 w-5 text-[#bd6f3c]" />
+                                                <h5 className="text-sm font-bold text-[#171713]">{item.title}</h5>
+                                                <p className="mt-2 text-xs leading-5 text-[#70695f]">{item.text}</p>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                                <div className="mt-4 rounded-[8px] border border-[#eee8dc] bg-[#f8f5ee] p-4">
+                                    <div className="grid gap-4 text-xs leading-5 text-[#55574f] sm:grid-cols-[0.9fr_1.1fr]">
+                                        <div>
+                                            <p className="mb-2 font-bold uppercase tracking-[0.14em] text-[#8a8276]">Credenciales</p>
+                                            <p>AWS Business · Scrum Foundation · Lifelong Learning · Equipos de alto rendimiento</p>
+                                        </div>
+                                        <div className="sm:border-l sm:border-[#ded5c7] sm:pl-4">
+                                            <p className="mb-2 font-bold uppercase tracking-[0.14em] text-[#8a8276]">Stack aplicado</p>
+                                            <p>Salesforce · HubSpot · Power BI · APIs · Supabase · Vercel · IA aplicada</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="w-full h-px bg-[#eee8dc]" />
 
                 </div>
             </div>

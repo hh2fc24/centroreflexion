@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import {
     HeartHandshake, Brain, BookOpen, ShieldAlert, Users,
     BriefcaseMedical, Sparkles, GraduationCap, ArrowRight,
-    Activity, Smile, Sun
+    Activity, Sun
 } from "lucide-react";
 
 export function RocioPortfolio() {

@@ -7,10 +7,10 @@ export const dynamic = "force-dynamic";
 
 const getAuthorDetails = (author: string) => {
     if (author.includes("Rocío Solar")) {
-        return { image: "/images/rocio_solar.png", role: "Co-fundadora CRC · Terapeuta Ocupacional, Magíster (c) en Ocupación y TO, U. de Chile" };
+        return { image: "/images/rocio_solar_real_white.png", role: "Co-fundadora CRC · Terapeuta Ocupacional, Magíster (c) en Ocupación y TO, U. de Chile" };
     }
     if (author.includes("Juan Carlos Rauld")) {
-        return { image: "/images/juan_carlos_20260224.png", role: "Director CRC · Estudiante de doctorado de Trabajo Social, Universidad de Rovira I Virgilli, España" };
+        return { image: "/images/juan_carlos_real_white.png", role: "Director CRC · Estudiante de doctorado de Trabajo Social, Universidad de Rovira I Virgilli, España" };
     }
     return null;
 };

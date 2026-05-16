@@ -31,7 +31,7 @@ export function FoundersSection() {
                     </h2>
                 </MotionDiv>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16">
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-3 lg:gap-8">
                     {founders.map((founder, idx) => (
                         <MotionDiv
                             key={founder.id}
@@ -39,36 +39,54 @@ export function FoundersSection() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.8, delay: idx * 0.2 }}
-                            className="bg-white rounded-3xl p-8 lg:p-10 shadow-xl shadow-gray-200/50 border border-gray-100 flex flex-col h-full hover:-translate-y-1 transition-transform duration-300"
+                            className="flex h-full flex-col rounded-[8px] border border-gray-100 bg-white p-6 shadow-lg shadow-gray-200/40 transition-transform duration-300 hover:-translate-y-1"
                         >
-                            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 mb-8">
-                                <div className="h-40 w-40 shrink-0 rounded-2xl bg-gray-100 relative overflow-hidden shadow-inner">
-                                    <Image
-                                        src={founder.imageSrc}
-                                        alt={founder.name}
-                                        fill
-                                        className="object-cover"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-                                </div>
-                                <div className="text-center sm:text-left flex-1 pt-2">
-                                    <h3 className="text-2xl font-bold text-gray-900 font-serif mb-2">
-                                        <EditableText path={`homeFounders.profiles.${idx}.name`} ariaLabel="Nombre fundador" />
-                                    </h3>
-                                    <p className={`text-sm font-bold uppercase tracking-wide mb-4 ${idx === 0 ? 'text-blue-600' : 'text-red-600'}`}>
-                                        <EditableText path={`homeFounders.profiles.${idx}.role`} ariaLabel="Rol fundador" />
-                                    </p>
+                            <div className="mb-6">
+                                <div className="relative h-64 w-full overflow-hidden rounded-[8px] bg-white shadow-inner ring-1 ring-gray-100">
+                                    {founder.imageSrc === "placeholder:hugo" ? (
+                                        <div className="flex h-full w-full flex-col items-center justify-center bg-[#f4eadf] text-center">
+                                            <div className="mb-3 flex h-20 w-20 items-center justify-center rounded-full bg-[#171713] text-2xl font-bold text-white">
+                                                HFH
+                                            </div>
+                                            <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#8a8276]">Foto próximamente</span>
+                                        </div>
+                                    ) : founder.imageSrc === "/images/hugo_hormazabal.png" ? (
+                                        <Image
+                                            src={founder.imageSrc}
+                                            alt={founder.name}
+                                            width={640}
+                                            height={900}
+                                            className="h-full w-full object-contain object-center bg-white"
+                                        />
+                                    ) : (
+                                        <Image
+                                            src={founder.imageSrc}
+                                            alt={founder.name}
+                                            width={640}
+                                            height={900}
+                                            className="h-full w-full object-contain object-center bg-white"
+                                        />
+                                    )}
                                 </div>
                             </div>
 
-                            <p className="text-gray-600 leading-relaxed flex-grow text-center sm:text-left mb-8">
+                            <div className="mb-5">
+                                <h3 className="text-2xl font-bold leading-tight text-gray-900 font-serif">
+                                    <EditableText path={`homeFounders.profiles.${idx}.name`} ariaLabel="Nombre fundador" />
+                                </h3>
+                                <p className="mt-3 text-sm font-semibold leading-6 text-[#bd6f3c]">
+                                    <EditableText path={`homeFounders.profiles.${idx}.role`} ariaLabel="Rol fundador" />
+                                </p>
+                            </div>
+
+                            <p className="mb-8 flex-grow text-sm leading-7 text-gray-600">
                                 <EditableText path={`homeFounders.profiles.${idx}.description`} ariaLabel="Descripción fundador" multiline />
                             </p>
 
-                            <div className="mt-auto text-center sm:text-left">
+                            <div className="mt-auto">
                                 <EditorLink
-                                    href={founder.href}
-                                    className={`inline-flex items-center font-semibold group transition-colors ${idx === 0 ? 'text-blue-600 hover:text-blue-700' : 'text-red-600 hover:text-red-700'}`}
+                                    href={`${founder.href}#equipo`}
+                                    className="group inline-flex items-center text-sm font-semibold text-gray-900 transition-colors hover:text-[#bd6f3c]"
                                 >
                                     Conocer más
                                     <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />

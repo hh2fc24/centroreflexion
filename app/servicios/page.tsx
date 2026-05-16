@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Check, ArrowRight, Users, Mail, Brain, HeartHandshake, Rocket, Scale, GraduationCap, TrendingUp, Building2, FlaskConical, Gavel, Award, BookOpen, ExternalLink, Briefcase } from "lucide-react";
+import { Check, ArrowRight, Users, Mail, Brain, HeartHandshake, Rocket, Scale, GraduationCap, TrendingUp, Building2 } from "lucide-react";
 
 export default function Services() {
     const [activePillar, setActivePillar] = useState<number>(0);
@@ -77,7 +77,7 @@ export default function Services() {
                     >
                         <p>
                             Una oferta integral que combina la <strong className="text-white">atención clínica especializada</strong>,
-                            la <strong className="text-white">formación académica</strong> y la <strong className="text-white">consultoría estratégica</strong> con un equipo <strong className="text-[#d3976d]">multidisciplinario</strong> de alto nivel.
+                            la <strong className="text-white">formación académica</strong>, la <strong className="text-white">consultoría estratégica</strong> y el diseño de servicios con un equipo <strong className="text-[#d3976d]">interdisciplinario</strong> de alto nivel.
                         </p>
                     </motion.div>
                     {/* Tags multidisciplinarios */}
@@ -87,7 +87,7 @@ export default function Services() {
                         transition={{ delay: 0.4 }}
                         className="mt-8 flex flex-wrap items-center justify-center gap-2"
                     >
-                        {["Trabajo Social", "Terapia Ocupacional", "Derecho", "Sociología", "Ingeniería Comercial", "Salud Mental"].map((tag) => (
+                        {["Trabajo Social", "Terapia Ocupacional", "Derecho", "Sociología", "Gestión y Operaciones", "Compliance", "Salud Mental"].map((tag) => (
                             <span key={tag} className="inline-flex items-center rounded-[5px] border border-white/10 bg-[#fffdf8]/5 px-3 py-1 text-xs font-medium text-[#a99f91] backdrop-blur-sm">
                                 {tag}
                             </span>
@@ -616,6 +616,66 @@ export default function Services() {
                 </div>
             </section>
 
+            {/* B·4) Entrada a producto colegios */}
+            <section id="bienestar-escolar" className="relative overflow-hidden border-b border-[#eee8dc] bg-[#f8f5ee] py-14 sm:py-18">
+                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(189,111,60,0.10),transparent_32%),linear-gradient(135deg,#fffdf8_0%,#f8f5ee_55%,#fffdf8_100%)]" />
+                <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <div className="grid items-center gap-8 rounded-[10px] border border-[#ead8c7] bg-[#fffdf8] p-6 shadow-sm sm:p-8 lg:grid-cols-12 lg:p-10">
+                        <motion.div
+                            initial={{ opacity: 0, x: -20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.8 }}
+                            className="lg:col-span-7"
+                        >
+                            <span className="mb-4 inline-flex items-center rounded-[5px] bg-[#171713] px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.18em] text-[#f4eadf]">
+                                Nuevo servicio para colegios
+                            </span>
+                            <h2 className="text-3xl font-bold leading-tight tracking-tight text-[#171713] sm:text-4xl font-serif">
+                                Bienestar escolar, convivencia y cumplimiento con soporte interdisciplinario.
+                            </h2>
+                            <p className="mt-4 max-w-3xl text-base leading-8 text-[#55574f]">
+                                Un producto en desarrollo para que los colegios ordenen su gestión preventiva, fortalezcan sus capacidades internas y respondan mejor ante situaciones críticas, sin desviar su foco central: educar.
+                            </p>
+
+                            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+                                <Link
+                                    href="/servicios/bienestar-escolar"
+                                    className="inline-flex items-center justify-center gap-2 rounded-[5px] bg-[#171713] px-6 py-3 text-sm font-bold text-white shadow-md transition-all hover:bg-[#34362f]"
+                                >
+                                    Ver página del producto
+                                    <ArrowRight className="h-4 w-4" />
+                                </Link>
+                                <Link
+                                    href="/contacto"
+                                    className="inline-flex items-center justify-center gap-2 rounded-[5px] border border-[#ded5c7] bg-[#fffdf8] px-6 py-3 text-sm font-bold text-[#171713] transition-all hover:border-[#bd6f3c]/40"
+                                >
+                                    <Mail className="h-4 w-4" />
+                                    Solicitar diagnóstico inicial
+                                </Link>
+                            </div>
+                        </motion.div>
+
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.8, delay: 0.1 }}
+                            className="lg:col-span-5"
+                        >
+                            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+                                {["Bienestar socioemocional", "Convivencia escolar", "Riesgo suicida y salud mental", "Cumplimiento y trazabilidad"].map((item) => (
+                                    <div key={item} className="flex items-center gap-3 rounded-[6px] border border-[#eee8dc] bg-[#f8f5ee] px-4 py-3">
+                                        <Check className="h-4 w-4 shrink-0 text-[#bd6f3c]" />
+                                        <span className="text-sm font-semibold text-[#3f423a]">{item}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </motion.div>
+                    </div>
+                </div>
+            </section>
+
             {/* B·5) Equipo Multidisciplinario — Nueva Sección */}
             <section id="equipo-multidisciplinario" className="relative overflow-hidden bg-[#fffdf8] py-16 sm:py-24 border-b border-[#eee8dc]">
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-[#f8f5ee]/40 via-[#fffdf8] to-[#f4eadf]/30" />
@@ -632,10 +692,10 @@ export default function Services() {
                             Equipo Multidisciplinario
                         </span>
                         <h2 className="mt-3 text-3xl font-bold tracking-tight text-[#171713] sm:text-4xl lg:text-4xl font-serif">
-                            Una consultora de múltiples miradas
+                            Un equipo base para problemas que no caben en una sola disciplina
                         </h2>
                         <p className="mx-auto mt-5 max-w-2xl text-base text-[#70695f] sm:text-lg leading-relaxed">
-                            Cada problema social es complejo. Por eso articulamos profesionales de distintas disciplinas para entregar soluciones con profundidad técnica, rigor científico y pertinencia social.
+                            Articulamos clínica, ciencias sociales, salud mental, gestión, tecnología y cumplimiento normativo para que cada intervención tenga profundidad técnica, operación clara y resultados trazables.
                         </p>
                     </motion.div>
 
@@ -679,9 +739,9 @@ export default function Services() {
                             {
                                 icon: TrendingUp,
                                 color: "rose",
-                                title: "Ingeniería Comercial y Gestión",
-                                desc: "Planificación estratégica, arquitectura organizacional y diseño de indicadores de desempeño para organizaciones sociales. Modelos de gestión que alinean eficiencia operativa con impacto social medible.",
-                                tags: ["Gestión estratégica", "KPIs de impacto", "Modelos organizacionales"],
+                                title: "Operaciones, BI y Transformación Digital",
+                                desc: "Diseño operacional, inteligencia de negocio, CRM, automatización, experiencia de cliente e IA aplicada para que los servicios funcionen con estándar, trazabilidad y escalabilidad.",
+                                tags: ["BI y CRM", "CX", "Automatización"],
                             },
                             {
                                 icon: Building2,
@@ -766,7 +826,7 @@ export default function Services() {
                 {/* Widescreen Parallax Backgrounds */}
                 <motion.div style={{ y: yJuanCarlos }} className="pointer-events-none absolute top-0 -right-12 z-0 h-[280px] w-[280px] opacity-[0.18] sm:h-[500px] sm:w-[500px] sm:opacity-[0.25] md:-right-24 md:h-[700px] md:w-[700px] md:opacity-[0.35] lg:-right-32 lg:h-[1000px] lg:w-[1000px] lg:opacity-[0.45]">
                     <img
-                        src="/images/juan_carlos_20260224.png"
+                        src="/images/juan_carlos_real_white.png"
                         alt=""
                         className="w-full h-full object-cover object-right-top filter"
                         style={{ WebkitMaskImage: "radial-gradient(ellipse at top right, black 25%, transparent 75%)", maskImage: "radial-gradient(ellipse at top right, black 25%, transparent 75%)" }}
@@ -774,7 +834,7 @@ export default function Services() {
                 </motion.div>
                 <motion.div style={{ y: yRocio }} className="pointer-events-none absolute bottom-0 -left-12 z-0 h-[280px] w-[280px] opacity-[0.18] sm:h-[500px] sm:w-[500px] sm:opacity-[0.25] md:-left-24 md:h-[700px] md:w-[700px] md:opacity-[0.35] lg:-left-32 lg:h-[1000px] lg:w-[1000px] lg:opacity-[0.45]">
                     <img
-                        src="/images/rocio_solar.png"
+                        src="/images/rocio_solar_real_white.png"
                         alt=""
                         className="w-full h-full object-cover object-left-bottom filter"
                         style={{ WebkitMaskImage: "radial-gradient(ellipse at bottom left, black 25%, transparent 75%)", maskImage: "radial-gradient(ellipse at bottom left, black 25%, transparent 75%)" }}
@@ -1222,7 +1282,7 @@ function RecommendationCard({ rec, index }: { rec: typeof jcrRecommendations[0],
             </div>
 
             {/* Quote mark */}
-            <div className="mb-3 text-4xl font-serif leading-none text-white/15 select-none">"</div>
+            <div className="mb-3 text-4xl font-serif leading-none text-white/15 select-none">&ldquo;</div>
 
             {/* Text */}
             <p className={`mb-5 flex-1 text-sm leading-relaxed text-[#d8d0c4] ${!expanded && isLong ? "line-clamp-4" : ""}`}>
@@ -1352,7 +1412,7 @@ function LinkedInRecommendations() {
                                 ★ Destacada
                             </span>
                         </div>
-                        <div className="mb-5 text-4xl font-serif text-white/20 select-none leading-none">"</div>
+                        <div className="mb-5 text-4xl font-serif text-white/20 select-none leading-none">&ldquo;</div>
                         <p className="mb-6 text-base font-light leading-relaxed text-[#eee8dc] sm:text-lg">
                             {featured.text}
                         </p>

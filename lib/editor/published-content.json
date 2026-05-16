@@ -101,22 +101,30 @@
     "subtitle": "Lo que cambia cuando el acompañamiento es claro y humano."
   },
   "homeFounders": {
-    "title": "Directores y Fundadores",
+    "title": "Equipo Interdisciplinario",
     "profiles": [
       {
         "id": "jc",
         "name": "Juan Carlos Rauld",
-        "role": "Director CRC · Consultor en Ciencias Sociales · Estudiante de doctorado de Trabajo Social de la Universidad de Rovira I Virgilli, Facultad de Ciencias Jurídicas y Sociales, España",
-        "description": "Consultoría en ciencias sociales aplicadas: arquitectura programática, estrategia institucional e impacto en programas de infancia y salud mental.",
-        "imageSrc": "/images/juan_carlos_20260224.png",
+        "role": "Director CRC · Ciencias sociales, infancia y salud mental",
+        "description": "Trabajador social, investigador y doctorando, con trayectoria en infancia, salud mental, protección de derechos y análisis institucional.",
+        "imageSrc": "/images/juan_carlos_real_white.png",
         "href": "/conocenos"
       },
       {
         "id": "rocio",
         "name": "Rocío Solar",
-        "role": "Co-fundadora CRC · Terapeuta Ocupacional · Magíster (c) en Ocupación y Terapia Ocupacional, Facultad de Medicina, Universidad de Chile",
-        "description": "Líder clínica enfocada en la intervención psicoterapéutica y ocupacional en salud mental infanto-juvenil.",
-        "imageSrc": "/images/rocio_solar.png",
+        "role": "Co-fundadora CRC · Terapia ocupacional y salud mental comunitaria",
+        "description": "Terapeuta ocupacional con experiencia en salud mental infanto-juvenil, inclusión, trabajo comunitario y acompañamiento clínico.",
+        "imageSrc": "/images/rocio_solar_real_white.png",
+        "href": "/conocenos"
+      },
+      {
+        "id": "hugo",
+        "name": "Hugo Felipe Hormazábal",
+        "role": "Estrategia tecnológica, ingeniería de servicios e inteligencia aplicada · Ingeniero Comercial · Diplomado UAI",
+        "description": "Fundador de Altius Ignite y responsable de la capa tecnológica del CRC: datos, IA, automatización y sistemas.",
+        "imageSrc": "/images/hugo_hormazabal.png",
         "href": "/conocenos"
       }
     ]
@@ -272,6 +280,12 @@
             "visible": true
           },
           {
+            "id": "lnk-bienestar-escolar",
+            "label": "Bienestar Escolar",
+            "href": "/servicios/bienestar-escolar",
+            "visible": true
+          },
+          {
             "id": "lnk-clinica",
             "label": "Atención Clínica",
             "href": "/servicios#clinica",
@@ -345,6 +359,13 @@
             "id": "nav-consultoria",
             "label": "Consultoría",
             "href": "/servicios#consultoria",
+            "visible": true,
+            "children": []
+          },
+          {
+            "id": "nav-bienestar-escolar",
+            "label": "Bienestar Escolar",
+            "href": "/servicios/bienestar-escolar",
             "visible": true,
             "children": []
           },

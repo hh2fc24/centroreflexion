@@ -8,10 +8,10 @@ import { JsonLd } from "@/components/JsonLd";
 
 const getAuthorDetails = (author: string) => {
     if (author.includes("Rocío Solar")) {
-        return { image: "/images/rocio_solar.png", role: "Co-fundadora & Terapeuta Ocupacional" };
+        return { image: "/images/rocio_solar_real_white.png", role: "Co-fundadora & Terapeuta Ocupacional" };
     }
     if (author.includes("Juan Carlos Rauld")) {
-        return { image: "/images/juan_carlos_20260224.png", role: "Director Editorial & Consultor en Ciencias Sociales" };
+        return { image: "/images/juan_carlos_real_white.png", role: "Director Editorial & Consultor en Ciencias Sociales" };
     }
     return null;
 };
