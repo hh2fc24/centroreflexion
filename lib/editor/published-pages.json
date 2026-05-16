@@ -33,25 +33,6 @@
           }
         },
         {
-          "id": "blk-founders",
-          "type": "legacy.founders",
-          "visible": true,
-          "locked": false,
-          "preset": "corporate",
-          "data": { "sectionId": "sec-founders" },
-          "style": {
-            "base": {
-              "paddingY": 0,
-              "paddingX": 0,
-              "maxWidth": 1200,
-              "background": "transparent",
-              "textAlign": "left",
-              "radius": 0,
-              "shadow": 0
-            }
-          }
-        },
-        {
           "id": "blk-services",
           "type": "legacy.servicesPreview",
           "visible": true,
@@ -77,6 +58,25 @@
           "locked": false,
           "preset": "minimal",
           "data": { "sectionId": "sec-latest" },
+          "style": {
+            "base": {
+              "paddingY": 0,
+              "paddingX": 0,
+              "maxWidth": 1200,
+              "background": "transparent",
+              "textAlign": "left",
+              "radius": 0,
+              "shadow": 0
+            }
+          }
+        },
+        {
+          "id": "blk-founders",
+          "type": "legacy.founders",
+          "visible": true,
+          "locked": false,
+          "preset": "corporate",
+          "data": { "sectionId": "sec-founders" },
           "style": {
             "base": {
               "paddingY": 0,

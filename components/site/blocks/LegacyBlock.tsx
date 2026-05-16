@@ -8,7 +8,7 @@ import { PublicationsSection } from "@/components/PublicationsSection";
 import { InterviewsSection } from "@/components/InterviewsSection";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
-import { ArrowRight, BookOpen, PenTool, Star } from "lucide-react";
+import { ArrowRight, Star } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { MotionDiv, MotionItem, MotionList } from "@/components/ui/Motion";
 import { EditorLink } from "@/components/editor/EditorLink";
@@ -81,53 +81,70 @@ function LegacyServicesPreview() {
   const cards = content.homeServices.cards;
 
   return (
-    <section className="relative z-20 mt-16 md:mt-24 pb-24 px-4 sm:px-6 lg:px-8">
+    <section
+      className="relative z-20 border-b border-[#ded5c7] px-5 py-0 sm:px-8 lg:px-14"
+      style={{ background: "#f8f5ee" }}
+    >
       <MotionDiv
-        initial={{ opacity: 0, y: 50 }}
+        initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.6 }}
-        className="mx-auto max-w-7xl"
+        transition={{ duration: 0.8, delay: 0.15 }}
+        className="mx-auto max-w-[1640px]"
       >
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {cards.map((card) => {
+        <div className="grid grid-cols-1 gap-0 md:grid-cols-3">
+          {cards.map((card, cardPos) => {
             const idx = cards.findIndex((c) => c.id === card.id);
-            const toneClasses =
-              card.tone === "primary"
-                ? "bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white"
-                : card.tone === "secondary"
-                  ? "bg-secondary/10 text-secondary group-hover:bg-secondary group-hover:text-white"
-                  : "bg-emerald-50 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white";
-
-            const ctaTone =
-              card.tone === "primary"
-                ? "text-primary"
-                : card.tone === "secondary"
-                  ? "text-secondary"
-                  : "text-emerald-600";
-
             return (
               <EditorLink key={card.id} href={card.href} className="group relative">
-                <div className="h-full relative overflow-hidden rounded-2xl bg-white p-8 shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl border border-gray-100">
-                  <div
-                    className={`flex items-center justify-center w-12 h-12 rounded-xl mb-6 transition-colors ${toneClasses}`}
-                  >
-                    {card.tone === "secondary" ? <BookOpen className="h-6 w-6" /> : <PenTool className="h-6 w-6" />}
+                <div
+                  className="relative grid h-full grid-cols-[84px_1fr] items-center gap-6 border-b border-[#ded5c7] py-8 transition-all duration-300 hover:bg-[#f1eadf] md:border-b-0 md:border-r md:px-8 lg:grid-cols-[104px_1fr] lg:px-12"
+                  style={cardPos === cards.length - 1 ? { borderRight: "none" } : {}}
+                >
+                  <div className="absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 bg-[#bd6f3c] transition-transform duration-300 group-hover:scale-x-100" />
+
+                  <div className="flex h-20 w-20 items-center justify-center lg:h-24 lg:w-24">
+                    {cardPos === 0 && (
+                      <svg viewBox="0 0 84 84" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-full w-full">
+                        <path d="M21 72V35C21 20.64 30.16 11 42 11C53.84 11 63 20.64 63 35V72H21Z" stroke="#737d69" strokeWidth="1.8"/>
+                        <path d="M42 68V30" stroke="#172017" strokeWidth="1.6" strokeLinecap="round"/>
+                        <path d="M42 55C31 51 29 43 30 36C38 37 42 44 42 55Z" fill="#737d69"/>
+                        <path d="M42 48C53 44 55 35 54 29C46 30 42 38 42 48Z" fill="#9aa58f"/>
+                        <path d="M33 72H51" stroke="#737d69" strokeWidth="1.8" strokeLinecap="round"/>
+                      </svg>
+                    )}
+                    {cardPos === 1 && (
+                      <svg viewBox="0 0 84 84" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-full w-full">
+                        <path d="M14 21C14 15.5 18.5 11 24 11H47C52.5 11 57 15.5 57 21V41C57 46.5 52.5 51 47 51H34L23 61V51C18 50.5 14 46.2 14 41V21Z" fill="#737d69"/>
+                        <path d="M33 31C33 25.5 37.5 21 43 21H61C66.5 21 71 25.5 71 31V48C71 53.5 66.5 58 61 58H54L45 68V58H43C37.5 58 33 53.5 33 48V31Z" fill="#bd6f3c"/>
+                      </svg>
+                    )}
+                    {cardPos >= 2 && (
+                      <svg viewBox="0 0 84 84" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-full w-full">
+                        <circle cx="42" cy="24" r="9" fill="#bd6f3c"/>
+                        <circle cx="23" cy="31" r="7" fill="#172017"/>
+                        <circle cx="61" cy="31" r="7" fill="#5c665b"/>
+                        <path d="M25 70V56C25 46.6 32.6 39 42 39C51.4 39 59 46.6 59 56V70H25Z" fill="#172017"/>
+                        <path d="M8 70V58C8 50.2 14.2 44 22 44C25.9 44 29.4 45.6 32 48.2C27.7 52 25 57.6 25 64V70H8Z" fill="#7d836f"/>
+                        <path d="M59 70V64C59 57.6 56.3 52 52 48.2C54.6 45.6 58.1 44 62 44C69.8 44 76 50.2 76 58V70H59Z" fill="#5c665b"/>
+                      </svg>
+                    )}
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-3 font-serif">
-                    <EditableText path={`homeServices.cards.${idx}.title`} ariaLabel="Servicio título" />
-                  </h3>
-                  <p className="text-gray-600 mb-4 leading-relaxed text-sm">
-                    <EditableText
-                      path={`homeServices.cards.${idx}.description`}
-                      ariaLabel="Servicio descripción"
-                      multiline
-                    />
-                  </p>
-                  <div
-                    className={`flex items-center ${ctaTone} text-sm font-semibold group-hover:translate-x-2 transition-transform`}
-                  >
-                    <EditableText path={`homeServices.cards.${idx}.ctaLabel`} ariaLabel="Servicio CTA" />{" "}
-                    <ArrowRight className="ml-2 h-4 w-4" />
+
+                  <div>
+                    <h3 className="mb-3 text-[0.92rem] font-extrabold uppercase tracking-[0.18em] text-[#2b2d28]">
+                      <EditableText path={`homeServices.cards.${idx}.title`} ariaLabel="Servicio título" />
+                    </h3>
+                    <p className="mb-5 max-w-[34ch] text-[0.92rem] font-semibold leading-relaxed text-[#4f5149]">
+                      <EditableText
+                        path={`homeServices.cards.${idx}.description`}
+                        ariaLabel="Servicio descripción"
+                        multiline
+                      />
+                    </p>
+                    <div className="flex items-center gap-2 text-[0.72rem] font-extrabold uppercase tracking-[0.13em] text-[#bd6f3c] transition-all duration-200 group-hover:gap-3">
+                      <EditableText path={`homeServices.cards.${idx}.ctaLabel`} ariaLabel="Servicio CTA" />
+                      <ArrowRight className="h-3.5 w-3.5" />
+                    </div>
                   </div>
                 </div>
               </EditorLink>
@@ -160,65 +177,61 @@ function LegacyLatestArticles() {
   );
 
   return (
-    <section className="bg-white py-20">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <MotionDiv className="mb-10 flex items-center justify-between">
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900">
-            <EditableText path="homeLatest.title" ariaLabel="Últimos artículos título" />
-          </h2>
+    <section className="py-16 sm:py-20" style={{ background: "#fbfaf6" }}>
+      <div className="mx-auto max-w-[1640px] px-5 sm:px-8 lg:px-14">
+        <MotionDiv className="mb-7 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h2 className="text-[1.05rem] font-extrabold uppercase tracking-[0.14em] text-[#343631]">
+              <EditableText path="homeLatest.title" ariaLabel="Últimos artículos título" />
+            </h2>
+          </div>
           <EditorLink
             href={content.homeLatest.linkHref}
-            className="text-sm font-semibold text-red-600 hover:text-red-500 group flex items-center"
+            className="group flex items-center gap-3 self-start text-[0.72rem] font-extrabold uppercase tracking-[0.14em] text-[#bd6f3c] transition-colors hover:text-[#9f5528] sm:self-end"
           >
-            <EditableText path="homeLatest.linkLabel" ariaLabel="Últimos artículos link" />{" "}
-            <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
+            <EditableText path="homeLatest.linkLabel" ariaLabel="Últimos artículos link" />
+            <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
           </EditorLink>
         </MotionDiv>
 
-        <MotionList className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-4">
+        <MotionList className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
           {latestArticles.map((post) => (
             <MotionItem
               key={post.id}
-              className="group flex flex-col items-start justify-between rounded-[1.4rem] border border-slate-100 bg-white/95 p-3 shadow-[0_18px_50px_-34px_rgba(15,23,42,0.22)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_22px_60px_-34px_rgba(15,23,42,0.3)]"
+              className="group relative flex min-h-[360px] flex-col overflow-hidden border border-[#ded5c7] bg-[#fffdf8] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_16px_44px_rgba(31,27,22,0.10)]"
             >
+              <div className="absolute left-0 right-0 top-0 z-10 h-0.5 origin-left scale-x-0 bg-[#bd6f3c] transition-transform duration-300 group-hover:scale-x-100" />
+
               <EditorLink
                 href={post.link}
-                className="relative mb-3 block aspect-[16/10] w-full overflow-hidden rounded-[1rem] bg-gray-100 shadow-sm transition-shadow group-hover:shadow-md"
+                className="relative block aspect-[16/10] w-full overflow-hidden bg-[#eee8dc]"
               >
                 <Image
                   src={post.image}
                   alt={post.title}
                   fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  className="object-cover saturate-[0.82] transition-transform duration-700 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </EditorLink>
-              <div className="flex items-center gap-x-3 text-[11px]">
-                <time dateTime={post.date} className="text-gray-500">
+
+              <div className="flex flex-grow flex-col p-6">
+                <div className="mb-4 text-[0.68rem] font-extrabold uppercase tracking-[0.16em] text-[#bd6f3c]">
+                  {post.category}
+                </div>
+                <div className="group/inner relative flex-grow">
+                  <h3
+                    className="crc-serif mb-3 text-[1.35rem] font-semibold leading-snug text-[#23241f] transition-colors group-hover:text-[#9f5528]"
+                  >
+                    <EditorLink href={post.link}>
+                      <span className="absolute inset-0" />
+                      {post.title}
+                    </EditorLink>
+                  </h3>
+                  <p className="line-clamp-3 text-[0.9rem] leading-relaxed text-[#55574f]">{post.excerpt}</p>
+                </div>
+                <time dateTime={post.date} className="mt-5 text-[0.68rem] font-bold uppercase tracking-[0.12em] text-[#80786b]">
                   {post.date}
                 </time>
-                <span
-                  className={`relative z-10 rounded-full px-2.5 py-1 font-medium ${
-                    post.kind === "review"
-                      ? "bg-emerald-50 text-emerald-700"
-                      : post.category === "Política"
-                        ? "bg-blue-50 text-blue-700"
-                        : post.category === "Literatura"
-                          ? "bg-purple-50 text-purple-700"
-                          : "bg-slate-100 text-slate-700"
-                  }`}
-                >
-                  {post.category}
-                </span>
-              </div>
-              <div className="group relative">
-                <h3 className="mt-3 text-[1.05rem] font-bold leading-6 text-gray-900 transition-colors group-hover:text-blue-600">
-                  <EditorLink href={post.link}>
-                    <span className="absolute inset-0" />
-                    {post.title}
-                  </EditorLink>
-                </h3>
-                <p className="mt-2 line-clamp-3 text-sm leading-6 text-gray-600">{post.excerpt}</p>
               </div>
             </MotionItem>
           ))}
@@ -306,19 +319,21 @@ function LegacyTestimonials() {
   };
 
   return (
-    <section className="relative py-24 overflow-hidden isolate bg-gray-900 border-t border-gray-800">
+    <section className="relative py-24 overflow-hidden isolate border-t border-[rgba(176,145,100,0.2)]" style={{ background: "#1C1208" }}>
       <div className="absolute inset-0 -z-10">
-        <Image src="/images/consulting_hero.png" alt="Background" fill className="object-cover opacity-30 mix-blend-overlay" />
-        <div className="absolute inset-0 bg-gradient-to-b from-gray-900 via-gray-900/80 to-gray-900" />
+        <Image src="/images/consulting_hero.png" alt="Background" fill className="object-cover opacity-20 mix-blend-overlay" />
+        <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, #1C1208 0%, rgba(28,18,8,0.7) 50%, #1C1208 100%)" }} />
       </div>
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10 mb-16">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between text-center md:text-left">
           <div className="max-w-2xl mx-auto md:mx-0">
-            <h2 className="text-3xl font-bold tracking-tight text-white font-serif">
+            <h2 className="text-3xl font-bold tracking-tight text-white"
+              style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+            >
               <EditableText path="homeTestimonials.title" ariaLabel="Opiniones título" />
             </h2>
-            <p className="mt-4 text-lg text-gray-300">
+            <p className="mt-4 text-lg text-[rgba(250,247,242,0.7)]">
               <EditableText path="homeTestimonials.subtitle" ariaLabel="Opiniones subtítulo" multiline />
             </p>
           </div>

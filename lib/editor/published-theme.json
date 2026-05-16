@@ -1,18 +1,18 @@
 {
   "mode": "light",
-  "primary": "#2563eb",
-  "secondary": "#a855f7",
-  "accent": "#06b6d4",
-  "background": "#ffffff",
-  "surface": "#ffffff",
-  "foreground": "#0f172a",
-  "mutedForeground": "#475569",
-  "border": "rgba(148,163,184,0.25)",
+  "primary": "#172017",
+  "secondary": "#bd6f3c",
+  "accent": "#9f5528",
+  "background": "#f8f5ee",
+  "surface": "#fffdf8",
+  "foreground": "#171713",
+  "mutedForeground": "#55574f",
+  "border": "rgba(101,91,74,0.23)",
   "font": "inter",
   "textScale": 1,
-  "radius": 16,
-  "shadow": 0.6,
-  "designPreset": "corporate",
+  "radius": 4,
+  "shadow": 0.4,
+  "designPreset": "editorial",
   "spacingScale": {
     "xs": 8,
     "sm": 12,
@@ -22,16 +22,16 @@
     "2xl": 72
   },
   "radiusScale": {
-    "sm": 12,
-    "md": 16,
-    "lg": 20,
-    "xl": 28,
+    "sm": 2,
+    "md": 4,
+    "lg": 6,
+    "xl": 8,
     "pill": 999
   },
   "shadowScale": {
-    "sm": 0.25,
-    "md": 0.6,
-    "lg": 1
+    "sm": 0.2,
+    "md": 0.5,
+    "lg": 0.9
   },
   "textStyles": {}
 }

@@ -44,7 +44,7 @@ export function ContactForm() {
       }}
     >
       <div>
-        <label htmlFor="name" className="block text-sm font-semibold leading-6 text-gray-900">
+        <label htmlFor="name" className="block text-sm font-semibold leading-6 text-[#171713]">
           Nombre
         </label>
         <input
@@ -52,11 +52,11 @@ export function ContactForm() {
           id="name"
           name="name"
           required
-          className="mt-2.5 block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
+          className="mt-2.5 block w-full rounded-md border-0 px-3.5 py-2 text-[#171713] shadow-sm ring-1 ring-inset ring-[#cfc4b4] placeholder:text-[#8a8276] focus:ring-2 focus:ring-inset focus:ring-[#bd6f3c] sm:text-sm sm:leading-6"
         />
       </div>
       <div>
-        <label htmlFor="email" className="block text-sm font-semibold leading-6 text-gray-900">
+        <label htmlFor="email" className="block text-sm font-semibold leading-6 text-[#171713]">
           Email
         </label>
         <input
@@ -64,11 +64,11 @@ export function ContactForm() {
           id="email"
           name="email"
           required
-          className="mt-2.5 block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
+          className="mt-2.5 block w-full rounded-md border-0 px-3.5 py-2 text-[#171713] shadow-sm ring-1 ring-inset ring-[#cfc4b4] placeholder:text-[#8a8276] focus:ring-2 focus:ring-inset focus:ring-[#bd6f3c] sm:text-sm sm:leading-6"
         />
       </div>
       <div>
-        <label htmlFor="message" className="block text-sm font-semibold leading-6 text-gray-900">
+        <label htmlFor="message" className="block text-sm font-semibold leading-6 text-[#171713]">
           Mensaje
         </label>
         <textarea
@@ -76,12 +76,12 @@ export function ContactForm() {
           name="message"
           rows={4}
           required
-          className="mt-2.5 block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
+          className="mt-2.5 block w-full rounded-md border-0 px-3.5 py-2 text-[#171713] shadow-sm ring-1 ring-inset ring-[#cfc4b4] placeholder:text-[#8a8276] focus:ring-2 focus:ring-inset focus:ring-[#bd6f3c] sm:text-sm sm:leading-6"
           defaultValue={""}
         />
       </div>
 
-      {result ? <div className="rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700">{result}</div> : null}
+      {result ? <div className="rounded-[6px] border border-[#ded5c7] bg-[#f8f5ee] px-4 py-3 text-sm text-[#3f423a]">{result}</div> : null}
 
       <Button type="submit" className="w-full" disabled={busy}>
         {busy ? "Enviando…" : "Enviar Mensaje"}

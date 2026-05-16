@@ -4,25 +4,25 @@ import { ContactForm } from "@/components/ContactForm";
 
 export default function Contact() {
     return (
-        <div className="bg-white py-16 sm:py-24 lg:py-32">
+        <div className="bg-[#fffdf8] py-16 sm:py-24 lg:py-32">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-12">
 
                     {/* Contact Info */}
                     <div>
-                        <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Ponte en contacto</h2>
-                        <p className="mt-4 text-base leading-7 text-gray-600 sm:text-lg sm:leading-8">
+                        <h2 className="text-3xl font-bold tracking-tight text-[#171713] sm:text-4xl">Ponte en contacto</h2>
+                        <p className="mt-4 text-base leading-7 text-[#55574f] sm:text-lg sm:leading-8">
                             ¿Tienes alguna pregunta sobre nuestros servicios, columnas o quieres colaborar? Escríbenos.
                         </p>
 
-                        <dl className="mt-8 space-y-6 text-base leading-7 text-gray-600">
+                        <dl className="mt-8 space-y-6 text-base leading-7 text-[#55574f]">
                             <div className="flex gap-x-4">
                                 <dt className="flex-none">
                                     <span className="sr-only">Email</span>
-                                    <Mail className="h-7 w-6 text-gray-400" aria-hidden="true" />
+                                    <Mail className="h-7 w-6 text-[#8a8276]" aria-hidden="true" />
                                 </dt>
                                 <dd>
-                                    <a className="break-all hover:text-gray-900 sm:break-normal" href="mailto:centrodereflexionescriticas@gmail.com">
+                                    <a className="break-all hover:text-[#171713] sm:break-normal" href="mailto:centrodereflexionescriticas@gmail.com">
                                         centrodereflexionescriticas@gmail.com
                                     </a>
                                 </dd>
@@ -30,7 +30,7 @@ export default function Contact() {
                             <div className="flex gap-x-4">
                                 <dt className="flex-none">
                                     <span className="sr-only">Dirección</span>
-                                    <MapPin className="h-7 w-6 text-gray-400" aria-hidden="true" />
+                                    <MapPin className="h-7 w-6 text-[#8a8276]" aria-hidden="true" />
                                 </dt>
                                 <dd>
                                     Santiago de Chile

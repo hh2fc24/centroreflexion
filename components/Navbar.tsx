@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { useState, useEffect } from "react";
+import { ArrowRight, Menu, X } from "lucide-react";
 import { useContent, useEditor } from "@/lib/editor/hooks";
 import type { NavigationContent } from "@/lib/editor/types";
 import { cn } from "@/lib/utils";
@@ -12,6 +12,7 @@ type NavNode = { id: string; label: string; href: string; visible: boolean; chil
 
 export function Navbar({ initialNavigation }: { initialNavigation?: NavigationContent }) {
     const [isOpen, setIsOpen] = useState(false);
+    const [scrolled, setScrolled] = useState(false);
     const { content } = useContent();
     const { adminEnabled } = useEditor();
 
@@ -23,7 +24,6 @@ export function Navbar({ initialNavigation }: { initialNavigation?: NavigationCo
                 : initialNavigation;
 
     const items: NavNode[] = (sourceNavigation?.items ?? []) as unknown as NavNode[];
-
     const visibleItems = items.filter((i) => i.visible !== false);
 
     const maybePrevent = (e: React.MouseEvent) => {
@@ -32,29 +32,33 @@ export function Navbar({ initialNavigation }: { initialNavigation?: NavigationCo
         e.stopPropagation();
     };
 
+    useEffect(() => {
+        const handleScroll = () => setScrolled(window.scrollY > 20);
+        window.addEventListener("scroll", handleScroll, { passive: true });
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
     return (
-        <nav className="sticky top-0 z-50 w-full border-b border-border bg-background shadow-sm transition-all duration-300">
-            <div className="mx-auto flex h-16 sm:h-20 lg:h-24 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-                <Link href="/" className="flex min-w-0 items-center gap-3 text-base sm:text-lg font-bold tracking-tight text-foreground group">
-                    <div className="relative h-10 w-10 sm:h-14 sm:w-14 lg:h-24 lg:w-24 -ml-1 sm:-ml-2 shrink-0">
-                        <Image
-                            src="/log.png"
-                            alt="Logo Centro de Reflexiones Críticas"
-                            fill
-                            className="object-contain"
-                        />
-                    </div>
-                    <span className="min-w-0">
-                        <span className="inline sm:hidden">CRC</span>
-                        <span className="hidden sm:inline">
-                            Centro de Reflexiones{" "}
-                            <span className="text-red-600 group-hover:text-red-500 transition-colors">Críticas</span>
-                        </span>
-                    </span>
+        <nav className={cn(
+            "sticky top-0 z-50 w-full transition-all duration-300",
+            scrolled
+                ? "bg-[#f8f5ee]/96 shadow-[0_1px_18px_rgba(31,27,22,0.08)] backdrop-blur"
+                : "bg-[#f8f5ee]"
+        )}>
+            <div className="mx-auto flex h-[70px] max-w-[1640px] items-center justify-between px-5 sm:h-20 sm:px-8 lg:px-12">
+
+                <Link href="/" className="group flex min-w-0 shrink-0 items-center">
+                    <Image
+                        src="/logo-crc.png"
+                        alt="Centro de Reflexiones Críticas"
+                        width={64}
+                        height={64}
+                        priority
+                        className="h-14 w-14 object-contain sm:h-16 sm:w-16"
+                    />
                 </Link>
 
-                {/* Desktop Menu */}
-                <div className="hidden md:flex md:items-center md:space-x-8">
+                <div className="hidden items-center gap-1 min-[1180px]:flex">
                     {visibleItems.map((item) => {
                         const hasChildren = (item.children ?? []).some((c) => c.visible !== false);
                         return (
@@ -62,25 +66,24 @@ export function Navbar({ initialNavigation }: { initialNavigation?: NavigationCo
                                 <Link
                                     href={item.href}
                                     onClick={maybePrevent}
-                                    className="relative text-sm font-semibold text-muted-foreground transition-all duration-300 hover:scale-105 hover:text-primary after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-gradient-to-r after:from-primary after:to-secondary after:transition-all after:duration-300 hover:after:w-full"
+                                    className="relative block whitespace-nowrap px-2.5 py-3 text-[0.66rem] font-extrabold uppercase tracking-[0.13em] text-[#363832] transition-colors duration-150 hover:text-[#bd6f3c] xl:px-3.5 xl:text-[0.72rem] xl:tracking-[0.16em]"
                                 >
                                     {item.label}
+                                    <span className="absolute bottom-1 left-2.5 right-2.5 h-0.5 origin-left scale-x-0 bg-[#bd6f3c] transition-transform duration-200 group-hover:scale-x-100 xl:left-3.5 xl:right-3.5" />
                                 </Link>
                                 {hasChildren ? (
-                                    <div className="absolute left-0 top-full pt-3 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition">
-                                        <div className="w-max min-w-44 rounded-2xl border border-border bg-background shadow-lg overflow-hidden">
+                                    <div className="absolute left-0 top-full pt-1 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity duration-150">
+                                        <div className="w-max min-w-44 border border-[#d8cfc0] bg-[#f8f5ee] shadow-[0_14px_38px_rgba(31,27,22,0.13)]">
                                             {(item.children ?? [])
                                                 .filter((c) => c.visible !== false)
                                                 .map((c) => (
                                                     <Link
                                                         key={c.id}
                                                         href={c.href}
-                                                        onClick={(e) => {
-                                                            maybePrevent(e);
-                                                        }}
+                                                        onClick={(e) => { maybePrevent(e); }}
                                                         className={cn(
-                                                            "block whitespace-nowrap px-5 py-3 text-sm font-semibold text-muted-foreground",
-                                                            "hover:bg-black/5 hover:text-primary transition-colors"
+                                                            "block whitespace-nowrap px-4 py-3 text-[0.7rem] font-extrabold uppercase tracking-[0.12em] text-[#4b4d46]",
+                                                            "border-b border-[#d8cfc0]/70 transition-colors last:border-b-0 hover:bg-[#eee8dc] hover:text-[#171713]"
                                                         )}
                                                     >
                                                         {c.label}
@@ -92,54 +95,54 @@ export function Navbar({ initialNavigation }: { initialNavigation?: NavigationCo
                             </div>
                         );
                     })}
+
+                    <Link
+                        href="/contacto"
+                        className="ml-3 inline-flex h-10 items-center gap-3 rounded-[6px] bg-[#172017] px-5 text-[0.66rem] font-extrabold uppercase tracking-[0.12em] text-white shadow-[0_12px_24px_rgba(23,32,23,0.16)] transition duration-200 hover:bg-[#233122] xl:ml-5 xl:gap-4 xl:px-6"
+                    >
+                        Agendar Atención
+                        <ArrowRight className="h-4 w-4" />
+                    </Link>
                 </div>
 
-                {/* Mobile Menu Button */}
                 <button
-                    className="md:hidden text-muted-foreground hover:text-foreground"
+                    className="inline-flex h-11 w-11 items-center justify-center rounded-[5px] border border-[#d8cfc0] text-[#363832] transition-colors hover:text-[#171713] min-[1180px]:hidden"
                     onClick={() => setIsOpen(!isOpen)}
                     aria-label={isOpen ? "Cerrar menú" : "Abrir menú"}
                     aria-expanded={isOpen}
                 >
-                    {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                    {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
                 </button>
             </div>
 
-            {/* Mobile Menu */}
             {isOpen && (
-                <div className="md:hidden border-t border-border bg-background">
-                    <div className="space-y-1 px-4 py-4">
+                <div className="border-t border-[#d8cfc0] bg-[#f8f5ee] min-[1180px]:hidden">
+                    <div className="px-5 py-3">
                         {visibleItems.map((item) => {
                             const kids = (item.children ?? []).filter((c) => c.visible !== false);
                             return (
-                                <div key={item.id} className="rounded-xl border border-transparent hover:border-border/60 transition">
+                                <div key={item.id}>
                                     <Link
                                         href={item.href}
                                         onClick={(e) => {
-                                            if (adminEnabled) {
-                                                maybePrevent(e);
-                                                return;
-                                            }
+                                            if (adminEnabled) { maybePrevent(e); return; }
                                             setIsOpen(false);
                                         }}
-                                        className="block py-2 text-base font-semibold text-muted-foreground hover:bg-black/5 hover:text-primary rounded-xl px-2"
+                                        className="block border-b border-[#d8cfc0]/70 py-3 text-[0.75rem] font-extrabold uppercase tracking-[0.16em] text-[#363832] transition-colors hover:text-[#bd6f3c]"
                                     >
                                         {item.label}
                                     </Link>
                                     {kids.length ? (
-                                        <div className="pl-3 pb-2">
+                                        <div className="pl-3">
                                             {kids.map((c) => (
                                                 <Link
                                                     key={c.id}
                                                     href={c.href}
                                                     onClick={(e) => {
-                                                        if (adminEnabled) {
-                                                            maybePrevent(e);
-                                                            return;
-                                                        }
+                                                        if (adminEnabled) { maybePrevent(e); return; }
                                                         setIsOpen(false);
                                                     }}
-                                                    className="block py-2 text-sm font-semibold text-muted-foreground hover:bg-black/5 hover:text-primary rounded-xl px-2"
+                                                    className="block border-b border-[#d8cfc0]/50 py-2.5 text-[0.68rem] font-extrabold uppercase tracking-[0.13em] text-[#6d665a] transition-colors hover:text-[#bd6f3c]"
                                                 >
                                                     {c.label}
                                                 </Link>
@@ -149,6 +152,15 @@ export function Navbar({ initialNavigation }: { initialNavigation?: NavigationCo
                                 </div>
                             );
                         })}
+                        <div className="py-3">
+                            <Link
+                                href="/contacto"
+                                onClick={() => setIsOpen(false)}
+                                className="block rounded-[5px] bg-[#172017] px-4 py-3 text-center text-[0.75rem] font-extrabold uppercase tracking-[0.14em] text-white transition-colors hover:bg-[#233122]"
+                            >
+                                Agendar Atención →
+                            </Link>
+                        </div>
                     </div>
                 </div>
             )}

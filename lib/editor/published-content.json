@@ -42,12 +42,12 @@
     }
   },
   "hero": {
-    "badgePrefix": "Centro de Reflexiones",
-    "badgeHighlight": "Críticas",
-    "titleBefore": "Pensamiento autónomo para",
-    "titleHighlight": "soluciones estratégicas",
-    "titleAfter": "con foco en la evidencia científica.",
-    "subtitle": "Articulando el análisis crítico y la política pública con la intervención clínica territorial en salud mental e infancia.",
+    "badgePrefix": "Pensamiento crítico",
+    "badgeHighlight": "Evidencia · Diálogo",
+    "titleBefore": "Pensamiento crítico para transformar la",
+    "titleHighlight": "salud mental, la infancia",
+    "titleAfter": "y las instituciones.",
+    "subtitle": "Clínica, consultoría y formación interdisciplinaria, basada en la evidencia y comprometida con las personas y las comunidades.",
     "primaryCtaLabel": "Conocer Servicios",
     "primaryCtaHref": "/servicios",
     "secondaryCtaLabel": "Pensamiento Crítico",
@@ -58,33 +58,33 @@
       {
         "id": "svc-consultoria",
         "tone": "primary",
-        "title": "Consultoría Estratégica",
-        "description": "Diseño y evaluación de programas sociales, gestión institucional y arquitectura programática.",
-        "ctaLabel": "Ver Servicios",
-        "href": "/servicios#consultoria"
-      },
-      {
-        "id": "svc-clinica",
-        "tone": "secondary",
-        "title": "Atención Clínica",
-        "description": "Psicoterapia, evaluación de competencias parentales y terapia ocupacional online y domiciliaria.",
-        "ctaLabel": "Agendar Atención",
+        "title": "Clínica",
+        "description": "Atención especializada en terapia ocupacional, psicoterapia y evaluación infantojuvenil.",
+        "ctaLabel": "Ver más",
         "href": "/servicios#clinica"
       },
       {
-        "id": "svc-formacion",
+        "id": "svc-clinica",
         "tone": "success",
-        "title": "Charlas y Formación",
-        "description": "Capacitaciones, asesorías educativas y espacios de formación para equipos y comunidades.",
-        "ctaLabel": "Ver Programa",
+        "title": "Consultoría",
+        "description": "Asesoría y diagnóstico para instituciones, programas y políticas públicas.",
+        "ctaLabel": "Ver más",
+        "href": "/servicios#consultoria"
+      },
+      {
+        "id": "svc-formacion",
+        "tone": "secondary",
+        "title": "Formación",
+        "description": "Capacitaciones, talleres y espacios formativos para profesionales e instituciones.",
+        "ctaLabel": "Ver más",
         "href": "/servicios#formacion"
       }
     ]
   },
   "homeLatest": {
-    "title": "Lo más reciente",
-    "linkLabel": "Ver todo",
-    "linkHref": "/pensamiento-critico"
+    "title": "Publicaciones destacadas",
+    "linkLabel": "Ver todas las publicaciones",
+    "linkHref": "/publicaciones"
   },
   "homePublications": {
     "eyebrow": "PUBLICACIONES",
@@ -323,22 +323,8 @@
       },
       {
         "id": "nav-conocenos",
-        "label": "Conócenos",
+        "label": "Quiénes Somos",
         "href": "/conocenos",
-        "visible": true,
-        "children": []
-      },
-      {
-        "id": "nav-pc",
-        "label": "Pensamiento Crítico",
-        "href": "/pensamiento-critico",
-        "visible": true,
-        "children": []
-      },
-      {
-        "id": "nav-publicaciones",
-        "label": "Publicaciones",
-        "href": "/publicaciones",
         "visible": true,
         "children": []
       },
@@ -370,6 +356,20 @@
             "children": []
           }
         ]
+      },
+      {
+        "id": "nav-pc",
+        "label": "Pensamiento Crítico",
+        "href": "/pensamiento-critico",
+        "visible": true,
+        "children": []
+      },
+      {
+        "id": "nav-publicaciones",
+        "label": "Publicaciones",
+        "href": "/publicaciones",
+        "visible": true,
+        "children": []
       },
       {
         "id": "nav-contacto",

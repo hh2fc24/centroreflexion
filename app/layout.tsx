@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import type { CSSProperties } from "react";
-import { Geist, Inter, Merriweather } from "next/font/google";
+import { Cormorant_Garamond, Geist, Inter, Merriweather } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -22,6 +22,14 @@ const merriweather = Merriweather({
   weight: ["300", "400", "700", "900"],
   subsets: ["latin"],
   variable: "--font-merriweather",
+  display: "swap",
+});
+
+const cormorant = Cormorant_Garamond({
+  weight: ["300", "400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  subsets: ["latin"],
+  variable: "--font-cormorant",
   display: "swap",
 });
 
@@ -61,9 +69,12 @@ export const metadata: Metadata = {
     follow: true,
   },
   icons: {
-    icon: [{ url: "/log.png", type: "image/png" }],
-    shortcut: ["/log.png"],
-    apple: [{ url: "/log.png", type: "image/png" }],
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/logo-crc-favicon.png", type: "image/png", sizes: "512x512" },
+    ],
+    shortcut: ["/favicon.ico"],
+    apple: [{ url: "/apple-icon.png", type: "image/png", sizes: "180x180" }],
   },
 };
 
@@ -127,7 +138,7 @@ export default async function RootLayout({
   return (
     <html lang="es" data-mode={theme.mode}>
       <body
-        className={`${inter.variable} ${merriweather.variable} ${geist.variable} antialiased flex flex-col min-h-screen font-sans`}
+        className={`${inter.variable} ${merriweather.variable} ${geist.variable} ${cormorant.variable} antialiased flex flex-col min-h-screen font-sans`}
         style={toThemeVars(theme)}
       >
         <EditorProviders>
@@ -149,7 +160,7 @@ export default async function RootLayout({
               "@type": "Organization",
               "name": "Centro de Reflexiones Críticas",
               "url": siteUrl,
-              "logo": `${siteUrl}/logo.png`,
+              "logo": `${siteUrl}/logo-crc.png`,
               "contactPoint": {
                 "@type": "ContactPoint",
                 "email": "centrodereflexionescriticas@gmail.com",

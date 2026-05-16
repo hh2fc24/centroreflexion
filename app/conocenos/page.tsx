@@ -9,10 +9,10 @@ import { RocioPortfolio } from "@/components/RocioPortfolio";
 
 export default function About() {
     return (
-        <div className="bg-white">
+        <div className="bg-[#fffdf8]">
             {/* Hero Section */}
-            <div className="relative isolate overflow-hidden bg-gray-900 py-20 sm:py-32 lg:py-40">
-                <div className="absolute inset-0 -z-10 bg-black/60" />
+            <div className="relative isolate overflow-hidden bg-[#171713] py-20 sm:py-32 lg:py-40">
+                <div className="absolute inset-0 -z-10 bg-[#0f0d0a]/60" />
                 <div className="absolute inset-0 -z-20">
                     <Image
                         src="/images/consulting_hero.png"
@@ -26,7 +26,7 @@ export default function About() {
                     <motion.h2
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="text-4xl font-bold tracking-tight text-white drop-shadow-md sm:text-5xl lg:text-6xl font-serif"
+                        className="text-4xl font-bold tracking-tight text-white drop-shadow-sm sm:text-4xl lg:text-4xl font-serif"
                     >
                         Quiénes Somos
                     </motion.h2>
@@ -34,7 +34,7 @@ export default function About() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2 }}
-                        className="mx-auto mt-6 max-w-2xl text-base leading-7 text-gray-200 font-light sm:text-xl sm:leading-8"
+                        className="mx-auto mt-6 max-w-2xl text-base leading-7 text-[#eee8dc] font-light sm:text-xl sm:leading-8"
                     >
                         Articulando academia, clínica y política pública.
                     </motion.p>
@@ -42,17 +42,17 @@ export default function About() {
             </div>
 
             {/* Mission & Vision */}
-            <section className="bg-gray-50 py-16 sm:py-24">
+            <section className="bg-[#f8f5ee] py-16 sm:py-24">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-16">
                         <motion.div
                             initial={{ opacity: 0, x: -20 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true }}
-                            className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm sm:p-10"
+                            className="rounded-[8px] border border-[#eee8dc] bg-[#fffdf8] p-6 shadow-sm sm:p-10"
                         >
-                            <h3 className="text-2xl font-bold text-gray-900 mb-6 font-serif">Misión</h3>
-                            <p className="text-lg text-gray-600 leading-relaxed">
+                            <h3 className="text-2xl font-bold text-[#171713] mb-6 font-serif">Misión</h3>
+                            <p className="text-lg text-[#55574f] leading-relaxed">
                                 Unir el pensamiento crítico, la intervención clínica real y la transformación institucional.
                                 Buscamos generar espacios donde la reflexión académica se traduzca en cambios concretos
                                 para la salud mental, la infancia y la cultura.
@@ -62,10 +62,10 @@ export default function About() {
                             initial={{ opacity: 0, x: 20 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true }}
-                            className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm sm:p-10"
+                            className="rounded-[8px] border border-[#eee8dc] bg-[#fffdf8] p-6 shadow-sm sm:p-10"
                         >
-                            <h3 className="text-2xl font-bold text-gray-900 mb-6 font-serif">Visión</h3>
-                            <p className="text-lg text-gray-600 leading-relaxed">
+                            <h3 className="text-2xl font-bold text-[#171713] mb-6 font-serif">Visión</h3>
+                            <p className="text-lg text-[#55574f] leading-relaxed">
                                 Ser una plataforma de referencia iberoamericana en pensamiento crítico aplicado,
                                 consolidándonos como un centro de articulación clave entre la producción académica,
                                 la práctica clínica y el diseño de políticas públicas.
@@ -82,7 +82,7 @@ export default function About() {
                     {/* Juan Carlos Rauld */}
                     <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:gap-12">
                         <div className="lg:col-span-4 flex flex-col items-center text-center lg:text-left lg:items-start">
-                            <div className="relative mb-6 h-48 w-48 overflow-hidden rounded-xl bg-gray-200 shadow-lg sm:h-64 sm:w-64">
+                            <div className="relative mb-6 h-48 w-48 overflow-hidden rounded-[6px] bg-[#ded5c7] shadow-sm sm:h-64 sm:w-64">
                                 <Image
                                     src="/images/juan_carlos_20260224.png"
                                     alt="Juan Carlos Rauld"
@@ -90,9 +90,9 @@ export default function About() {
                                     className="object-cover"
                                 />
                             </div>
-                            <h3 className="text-3xl font-bold text-gray-900 font-serif">Juan Carlos Rauld</h3>
-                            <p className="text-blue-600 font-bold text-sm tracking-wide mt-2 uppercase">Director CRC & Consultor en Ciencias Sociales</p>
-                            <p className="text-blue-500 text-xs mt-1 font-medium">Estudiante de doctorado de Trabajo Social de la Universidad de Rovira I Virgilli, Facultad de Ciencias Jurídicas y Sociales, España</p>
+                            <h3 className="text-3xl font-bold text-[#171713] font-serif">Juan Carlos Rauld</h3>
+                            <p className="text-[#bd6f3c] font-bold text-sm tracking-wide mt-2 uppercase">Director CRC & Consultor en Ciencias Sociales</p>
+                            <p className="text-[#bd6f3c] text-xs mt-1 font-medium">Estudiante de doctorado de Trabajo Social de la Universidad de Rovira I Virgilli, Facultad de Ciencias Jurídicas y Sociales, España</p>
 
                             <div className="mt-6 flex gap-4">
                                 <a
@@ -101,23 +101,23 @@ export default function About() {
                                     rel="noopener noreferrer"
                                     aria-label="Perfil de Academia.edu de Juan Carlos Rauld"
                                     title="Academia.edu"
-                                    className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-white shadow-md transition-all hover:scale-105 hover:bg-blue-700"
+                                    className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#bd6f3c] text-white shadow-md transition-all hover:scale-105 hover:bg-[#9f5528]"
                                 >
                                     <GraduationCap className="h-5 w-5" />
                                 </a>
-                                <a href="https://www.linkedin.com/in/juan-carlos-rauld-farias-a64710a4/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-600 transition-colors"><Linkedin className="h-6 w-6" /></a>
+                                <a href="https://www.linkedin.com/in/juan-carlos-rauld-farias-a64710a4/" target="_blank" rel="noopener noreferrer" className="text-[#8a8276] hover:text-[#bd6f3c] transition-colors"><Linkedin className="h-6 w-6" /></a>
                             </div>
                         </div>
                         <div className="space-y-8 lg:col-span-8">
                             <div>
-                                <h4 className="text-xl font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2">Rol Editorial y Académico</h4>
-                                <p className="text-gray-600 leading-relaxed">
+                                <h4 className="text-xl font-semibold text-[#171713] mb-4 border-b border-[#ded5c7] pb-2">Rol Editorial y Académico</h4>
+                                <p className="text-[#55574f] leading-relaxed">
                                     <strong>Juan Carlos Rauld es trabajador social.</strong> Magíster en Pensamiento Contemporáneo en Filosofía y Pensamiento Político del Instituto de Filosofía de la Universidad Diego Portales. Actualmente es <strong>Estudiante de doctorado de Trabajo Social de la Universidad de Rovira I Virgilli, Facultad de Ciencias Jurídicas y Sociales, España</strong>. Investigador del Centro de Reflexiones Críticas, sus áreas de interés son el trauma psíquico infantil, la filosofía social y política contemporánea, especialmente la biopolítica de la infancia pobre en Chile y la filosofía de la infancia. Posee una doble especialización en salud mental infantil y en filosofía práctica de la niñez, desde el siglo XIX hasta la actualidad. Actualmente, le interesa evaluar metodológicamente la calidad de la intervención clínica especializada con niños, niñas y adolescentes en situaciones de desprotección, así como la fidelidad de implementación de programas y políticas públicas con enfoque basado en evidencia científica.
                                 </p>
                             </div>
                             <div>
-                                <h4 className="text-xl font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2">Consultoría Estratégica e Institucional</h4>
-                                <p className="text-gray-600 leading-relaxed">
+                                <h4 className="text-xl font-semibold text-[#171713] mb-4 border-b border-[#ded5c7] pb-2">Consultoría Estratégica e Institucional</h4>
+                                <p className="text-[#55574f] leading-relaxed">
                                     Como consultor en <strong>Gestión Estratégica de Programas de Infancia y Salud Mental</strong>, acompaña a organizaciones públicas y privadas en el diseño y rediseño de modelos de intervención, arquitectura programática e implementación de indicadores de desempeño. Lidera procesos de fortalecimiento técnico, gobernanza institucional, seguimiento de desempeño y mejora continua para asegurar coherencia y sostenibilidad.
                                 </p>
                             </div>
@@ -129,12 +129,12 @@ export default function About() {
                         </div>
                     </div>
 
-                    <div className="w-full h-px bg-gray-100" />
+                    <div className="w-full h-px bg-[#eee8dc]" />
 
                     {/* Rocío Solar */}
                     <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:gap-12">
                         <div className="lg:col-span-4 flex flex-col items-center text-center lg:text-left lg:items-start lg:order-last">
-                            <div className="relative mb-6 h-48 w-48 overflow-hidden rounded-xl bg-gray-200 shadow-lg sm:h-64 sm:w-64">
+                            <div className="relative mb-6 h-48 w-48 overflow-hidden rounded-[6px] bg-[#ded5c7] shadow-sm sm:h-64 sm:w-64">
                                 <Image
                                     src="/images/rocio_solar.png"
                                     alt="Rocío Solar"
@@ -142,29 +142,29 @@ export default function About() {
                                     className="object-cover"
                                 />
                             </div>
-                            <h3 className="text-3xl font-bold text-gray-900 font-serif">Rocío Solar</h3>
-                            <p className="text-red-600 font-bold text-sm tracking-wide mt-2 uppercase">
+                            <h3 className="text-3xl font-bold text-[#171713] font-serif">Rocío Solar</h3>
+                            <p className="text-[#bd6f3c] font-bold text-sm tracking-wide mt-2 uppercase">
                                 Co-fundadora CRC
                             </p>
-                            <p className="text-pink-600 text-sm font-semibold mt-1">Terapeuta Ocupacional</p>
-                            <p className="text-gray-500 text-xs mt-1 font-medium leading-snug">Magíster (c) en Ocupación y Terapia Ocupacional<br />Facultad de Medicina, Universidad de Chile</p>
+                            <p className="text-[#bd6f3c] text-sm font-semibold mt-1">Terapeuta Ocupacional</p>
+                            <p className="text-[#70695f] text-xs mt-1 font-medium leading-snug">Magíster (c) en Ocupación y Terapia Ocupacional<br />Facultad de Medicina, Universidad de Chile</p>
                             <div className="mt-6 flex gap-4">
-                                <a href="https://www.instagram.com/centrodereflexionescriticas/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-pink-600 transition-colors"><Instagram className="h-6 w-6" /></a>
-                                <Link href="/contacto" className="text-gray-400 hover:text-red-600 transition-colors"><Mail className="h-6 w-6" /></Link>
-                                <a href="https://www.linkedin.com/in/roc%C3%ADo-solar-guerra-168693138/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-600 transition-colors"><Linkedin className="h-6 w-6" /></a>
+                                <a href="https://www.instagram.com/centrodereflexionescriticas/" target="_blank" rel="noopener noreferrer" className="text-[#8a8276] hover:text-[#bd6f3c] transition-colors"><Instagram className="h-6 w-6" /></a>
+                                <Link href="/contacto" className="text-[#8a8276] hover:text-[#bd6f3c] transition-colors"><Mail className="h-6 w-6" /></Link>
+                                <a href="https://www.linkedin.com/in/roc%C3%ADo-solar-guerra-168693138/" target="_blank" rel="noopener noreferrer" className="text-[#8a8276] hover:text-[#bd6f3c] transition-colors"><Linkedin className="h-6 w-6" /></a>
                             </div>
                         </div>
                         <div className="space-y-8 lg:col-span-8 lg:text-right">
                             <div>
-                                <h4 className="text-xl font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2 lg:ml-auto lg:w-fit">Función como Co-fundadora y Editora</h4>
-                                <ul className="text-gray-600 leading-relaxed space-y-3 text-left lg:text-right">
+                                <h4 className="text-xl font-semibold text-[#171713] mb-4 border-b border-[#ded5c7] pb-2 lg:ml-auto lg:w-fit">Función como Co-fundadora y Editora</h4>
+                                <ul className="text-[#55574f] leading-relaxed space-y-3 text-left lg:text-right">
                                     <li>– Liderar y coordinar la producción, edición y publicación de contenidos digitales para la plataforma, asegurando calidad editorial, coherencia conceptual y pertinencia con los objetivos del centro.</li>
                                     <li>– Diseñar estrategias comunicacionales y de difusión en redes y medios digitales para fortalecer el posicionamiento, alcance y visibilidad de las reflexiones críticas desde una perspectiva analítica y reflexiva.</li>
                                 </ul>
                             </div>
                             <div>
-                                <h4 className="text-xl font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2 lg:ml-auto lg:w-fit">Función Clínica – Terapeuta Ocupacional</h4>
-                                <p className="text-gray-600 leading-relaxed">
+                                <h4 className="text-xl font-semibold text-[#171713] mb-4 border-b border-[#ded5c7] pb-2 lg:ml-auto lg:w-fit">Función Clínica – Terapeuta Ocupacional</h4>
+                                <p className="text-[#55574f] leading-relaxed">
                                     Evaluación e intervención terapéutica ocupacional en salud mental infanto-juvenil, orientada al desarrollo del desempeño ocupacional, regulación emocional, autonomía y participación en contextos familiares y educativos, mediante planes de intervención individual y familiar, trabajo interdisciplinario y seguimiento clínico.
                                 </p>
                             </div>

@@ -28,7 +28,7 @@ export default function ArticleDetail({
     backLabel = "Volver a Pensamiento Crítico",
 }: ArticleDetailProps) {
     return (
-        <article className="min-h-screen bg-white pb-16 sm:pb-24">
+        <article className="min-h-screen bg-[#fffdf8] pb-16 sm:pb-24">
             {/* Hero Image */}
             <div className="relative h-[42vh] min-h-[320px] w-full sm:h-[50vh] sm:min-h-[400px]">
                 <Image
@@ -44,19 +44,19 @@ export default function ArticleDetail({
                     <MotionDiv className="max-w-4xl mx-auto text-white">
                         <Link
                             href={backHref}
-                            className="inline-flex items-center text-sm font-medium text-gray-300 hover:text-white mb-6 transition-colors"
+                            className="inline-flex items-center text-sm font-medium text-[#d8d0c4] hover:text-white mb-6 transition-colors"
                         >
                             <ArrowLeft className="mr-2 h-4 w-4" /> {backLabel}
                         </Link>
                         <div className="flex items-center gap-4 mb-4">
-                            <span className="px-3 py-1 rounded-full bg-blue-600/90 text-xs font-bold uppercase tracking-wider">
+                            <span className="px-3 py-1 rounded-full bg-[#bd6f3c]/90 text-xs font-bold uppercase tracking-wider">
                                 {article.category}
                             </span>
                         </div>
-                        <h1 className="mb-4 text-3xl font-bold leading-tight sm:mb-6 sm:text-4xl lg:text-5xl font-serif">
+                        <h1 className="mb-4 text-3xl font-bold leading-tight sm:mb-6 sm:text-4xl lg:text-4xl font-serif">
                             {article.title}
                         </h1>
-                        <div className="flex flex-wrap items-center gap-6 text-sm sm:text-base text-gray-200">
+                        <div className="flex flex-wrap items-center gap-6 text-sm sm:text-base text-[#eee8dc]">
                             <div className="flex items-center gap-2">
                                 {(() => {
                                     const details = getAuthorDetails(article.author);
@@ -85,22 +85,22 @@ export default function ArticleDetail({
             <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 sm:py-20">
 
                 {/* Social Share & Actions (Sticky on Desktop potentially, or just top) */}
-                <div className="mb-10 flex flex-col gap-6 border-b border-gray-100 pb-8 sm:mb-12 sm:flex-row sm:items-center sm:justify-between">
-                    <p className="text-lg font-serif italic leading-relaxed text-gray-500 sm:text-xl">
+                <div className="mb-10 flex flex-col gap-6 border-b border-[#eee8dc] pb-8 sm:mb-12 sm:flex-row sm:items-center sm:justify-between">
+                    <p className="text-lg font-serif italic leading-relaxed text-[#70695f] sm:text-xl">
                         {article.excerpt}
                     </p>
                     <div className="hidden sm:flex items-center gap-2">
                         <Button variant="ghost" size="sm" aria-label="Guardar">
-                            <Bookmark className="h-5 w-5 text-gray-400 hover:text-gray-900" />
+                            <Bookmark className="h-5 w-5 text-[#8a8276] hover:text-[#171713]" />
                         </Button>
                         <Button variant="ghost" size="sm" aria-label="Compartir">
-                            <Share2 className="h-5 w-5 text-gray-400 hover:text-gray-900" />
+                            <Share2 className="h-5 w-5 text-[#8a8276] hover:text-[#171713]" />
                         </Button>
                     </div>
                 </div>
 
                 <MotionDiv transition={{ delay: 0.2 }}>
-                    <div className="prose prose-slate max-w-none font-serif leading-8 text-gray-800 prose-headings:font-serif prose-a:text-blue-600 hover:prose-a:text-blue-500 sm:prose-lg">
+                    <div className="prose prose-stone max-w-none font-serif leading-8 text-[#23241f] prose-headings:font-serif prose-a:text-[#bd6f3c] hover:prose-a:text-[#bd6f3c] sm:prose-lg">
                         {article.content.map((paragraph, index, arr) => {
                             const isReferenceHeader = paragraph.toLowerCase().startsWith("referencias integradas") || paragraph.toLowerCase().startsWith("referencias bibliográficas");
                             const refHeaderIndex = arr.findIndex(p => p.toLowerCase().startsWith("referencias integradas") || p.toLowerCase().startsWith("referencias bibliográficas"));
@@ -109,7 +109,7 @@ export default function ArticleDetail({
 
                             if (isReferenceHeader) {
                                 return (
-                                    <h3 key={index} className="text-lg font-bold mt-12 mb-6 text-gray-900 border-b pb-2">
+                                    <h3 key={index} className="text-lg font-bold mt-12 mb-6 text-[#171713] border-b pb-2">
                                         Referencias
                                     </h3>
                                 );
@@ -119,14 +119,14 @@ export default function ArticleDetail({
                                 // Clean up bullet points if they exist
                                 const cleanRef = paragraph.replace(/^•\s*/, '');
                                 return (
-                                    <p key={index} className="pl-6 -indent-6 mb-3 text-sm text-gray-500 leading-relaxed font-serif italic">
+                                    <p key={index} className="pl-6 -indent-6 mb-3 text-sm text-[#70695f] leading-relaxed font-serif italic">
                                         {cleanRef}
                                     </p>
                                 );
                             }
 
                             return (
-                                <p key={index} className="mb-6 first-letter:text-5xl first-letter:font-bold first-letter:text-gray-900 first-letter:mr-3 first-letter:float-left">
+                                <p key={index} className="mb-6 first-letter:text-4xl first-letter:font-bold first-letter:text-[#171713] first-letter:mr-3 first-letter:float-left">
                                     {paragraph}
                                 </p>
                             );
@@ -135,22 +135,22 @@ export default function ArticleDetail({
                 </MotionDiv>
 
                 {/* Author Bio / Footer */}
-                <div className="mt-16 pt-10 border-t border-gray-100">
-                    <div className="flex flex-col items-start gap-4 rounded-xl bg-gray-50 p-5 sm:flex-row sm:items-center sm:p-6">
+                <div className="mt-16 pt-10 border-t border-[#eee8dc]">
+                    <div className="flex flex-col items-start gap-4 rounded-[6px] bg-[#f8f5ee] p-5 sm:flex-row sm:items-center sm:p-6">
                         {(() => {
                             const details = getAuthorDetails(article.author);
                             return (
                                 <>
                                     {details?.image ? (
-                                        <Image src={details.image} alt={article.author} width={64} height={64} className="h-16 w-16 rounded-full object-cover ring-2 ring-gray-200" />
+                                        <Image src={details.image} alt={article.author} width={64} height={64} className="h-16 w-16 rounded-full object-cover ring-2 ring-[#ded5c7]" />
                                     ) : (
-                                        <div className="h-16 w-16 rounded-full bg-gray-200 flex items-center justify-center text-xl font-bold text-gray-500">
+                                        <div className="h-16 w-16 rounded-full bg-[#ded5c7] flex items-center justify-center text-xl font-bold text-[#70695f]">
                                             {article.author.charAt(0)}
                                         </div>
                                     )}
                                     <div>
-                                        <h3 className="font-bold text-gray-900">Escrito por {article.author}</h3>
-                                        <p className="text-sm text-gray-500">
+                                        <h3 className="font-bold text-[#171713]">Escrito por {article.author}</h3>
+                                        <p className="text-sm text-[#70695f]">
                                             {details?.role || "Analista y colaborador en Centro de Reflexiones Críticas."}
                                         </p>
                                     </div>
@@ -161,13 +161,13 @@ export default function ArticleDetail({
                 </div>
 
                 {/* CTA */}
-                <MotionItem className="mt-16 rounded-2xl bg-blue-600 p-6 text-center text-white shadow-xl sm:mt-20 sm:p-10">
+                <MotionItem className="mt-16 rounded-[8px] bg-[#bd6f3c] p-6 text-center text-white shadow-md sm:mt-20 sm:p-10">
                     <h3 className="text-2xl font-bold mb-4">¿Te interesa profundizar en estos temas?</h3>
-                    <p className="mb-8 text-blue-100">
+                    <p className="mb-8 text-[#f1ded0]">
                         Ofrecemos consultoría especializada para instituciones y académicos que buscan maximizar su impacto.
                     </p>
                     <Link href="/servicios">
-                        <Button className="w-full border-none bg-white font-bold text-blue-600 hover:bg-gray-100 sm:w-auto">
+                        <Button className="w-full border-none bg-[#fffdf8] font-bold text-[#bd6f3c] hover:bg-[#eee8dc] sm:w-auto">
                             Ver Servicios de Consultoría
                         </Button>
                     </Link>

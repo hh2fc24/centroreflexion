@@ -26,27 +26,27 @@ export function RocioPortfolio() {
         {
             title: "Clínica Infanto-Juvenil e Integral",
             desc: "Evaluación, intervención y acompañamiento individual, de parejas, familias y cuidadores en salud mental.",
-            icon: <Users className="h-6 w-6 text-pink-600" />
+            icon: <Users className="h-6 w-6 text-[#bd6f3c]" />
         },
         {
             title: "Ámbito Educativo",
             desc: "Evaluación e intervención incluyendo observación en aula y trabajo colaborativo con la comunidad.",
-            icon: <BookOpen className="h-6 w-6 text-pink-600" />
+            icon: <BookOpen className="h-6 w-6 text-[#bd6f3c]" />
         },
         {
             title: "Integración Sensorial",
             desc: "Evaluación e intervención considerando el perfil sensorial en niñeces, juventudes y personas adultas.",
-            icon: <Brain className="h-6 w-6 text-pink-600" />
+            icon: <Brain className="h-6 w-6 text-[#bd6f3c]" />
         },
         {
             title: "Asesoría Ocupacional",
             desc: "Desarrollo de independencia, autonomía, rutinas y hábitos, vinculados a habilidades sociales y regulación emocional.",
-            icon: <Sparkles className="h-6 w-6 text-pink-600" />
+            icon: <Sparkles className="h-6 w-6 text-[#bd6f3c]" />
         },
         {
             title: "Análisis del Entorno",
             desc: "Evaluación del entorno y análisis ambiental del hogar mediante visitas domiciliarias.",
-            icon: <HeartHandshake className="h-6 w-6 text-pink-600" />
+            icon: <HeartHandshake className="h-6 w-6 text-[#bd6f3c]" />
         }
     ];
 
@@ -92,25 +92,25 @@ export function RocioPortfolio() {
         <div className="mt-16 w-full space-y-16">
 
             {/* Portfolio Header */}
-            <div className="text-center pt-8 border-t border-gray-100">
-                <h3 className="text-3xl font-serif font-bold text-gray-900 mb-4">Portafolio Clínico y Servicios</h3>
-                <p className="text-gray-600 max-w-2xl mx-auto text-lg leading-relaxed">
+            <div className="text-center pt-8 border-t border-[#eee8dc]">
+                <h3 className="text-3xl font-serif font-bold text-[#171713] mb-4">Portafolio Clínico y Servicios</h3>
+                <p className="text-[#55574f] max-w-2xl mx-auto text-lg leading-relaxed">
                     Un enfoque integral, respetuoso y colaborativo, considerando la singularidad de cada persona y su contexto.
                 </p>
             </div>
 
             {/* Formación y Experiencia */}
-            <div className="bg-pink-50/50 rounded-3xl p-8 lg:p-12 border border-pink-100">
+            <div className="bg-[#f4eadf]/50 rounded-[8px] p-8 lg:p-12 border border-[#ead8c7]">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                     <div>
                         <div className="flex items-center gap-3 mb-6">
-                            <GraduationCap className="h-8 w-8 text-pink-600" />
-                            <h4 className="text-2xl font-bold text-gray-900 font-serif">Formación</h4>
+                            <GraduationCap className="h-8 w-8 text-[#bd6f3c]" />
+                            <h4 className="text-2xl font-bold text-[#171713] font-serif">Formación</h4>
                         </div>
                         <ul className="space-y-4">
                             {formation.map((item, idx) => (
-                                <li key={idx} className="flex gap-3 text-gray-700">
-                                    <span className="text-pink-400 font-bold">•</span>
+                                <li key={idx} className="flex gap-3 text-[#3f423a]">
+                                    <span className="text-[#d3976d] font-bold">•</span>
                                     {item}
                                 </li>
                             ))}
@@ -118,13 +118,13 @@ export function RocioPortfolio() {
                     </div>
                     <div>
                         <div className="flex items-center gap-3 mb-6">
-                            <BriefcaseMedical className="h-8 w-8 text-pink-600" />
-                            <h4 className="text-2xl font-bold text-gray-900 font-serif">Experiencia</h4>
+                            <BriefcaseMedical className="h-8 w-8 text-[#bd6f3c]" />
+                            <h4 className="text-2xl font-bold text-[#171713] font-serif">Experiencia</h4>
                         </div>
                         <ul className="space-y-4">
                             {experience.map((item, idx) => (
-                                <li key={idx} className="flex gap-3 text-gray-700">
-                                    <span className="text-pink-400 font-bold">•</span>
+                                <li key={idx} className="flex gap-3 text-[#3f423a]">
+                                    <span className="text-[#d3976d] font-bold">•</span>
                                     {item}
                                 </li>
                             ))}
@@ -136,21 +136,21 @@ export function RocioPortfolio() {
             {/* Prestaciones */}
             <div>
                 <div className="flex items-center gap-3 mb-8 justify-center">
-                    <Activity className="h-8 w-8 text-pink-600" />
-                    <h4 className="text-2xl font-bold text-gray-900 font-serif text-center">Prestaciones en Terapia Ocupacional</h4>
+                    <Activity className="h-8 w-8 text-[#bd6f3c]" />
+                    <h4 className="text-2xl font-bold text-[#171713] font-serif text-center">Prestaciones en Terapia Ocupacional</h4>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {services.map((svc, idx) => (
                         <motion.div
                             key={idx}
                             whileHover={{ y: -5 }}
-                            className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all"
+                            className="bg-[#fffdf8] p-6 rounded-[8px] border border-[#eee8dc] shadow-sm hover:shadow-md transition-all"
                         >
-                            <div className="h-12 w-12 bg-pink-50 rounded-xl flex items-center justify-center mb-4">
+                            <div className="h-12 w-12 bg-[#f4eadf] rounded-[6px] flex items-center justify-center mb-4">
                                 {svc.icon}
                             </div>
-                            <h5 className="text-lg font-bold text-gray-900 mb-2">{svc.title}</h5>
-                            <p className="text-gray-600 text-sm leading-relaxed">{svc.desc}</p>
+                            <h5 className="text-lg font-bold text-[#171713] mb-2">{svc.title}</h5>
+                            <p className="text-[#55574f] text-sm leading-relaxed">{svc.desc}</p>
                         </motion.div>
                     ))}
                 </div>
@@ -158,34 +158,34 @@ export function RocioPortfolio() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
                 {/* Condiciones */}
-                <div className="bg-white rounded-3xl p-8 border border-gray-200">
-                    <div className="flex items-center gap-3 mb-6 border-b border-gray-100 pb-4">
-                        <Sun className="h-7 w-7 text-pink-600" />
-                        <h4 className="text-xl font-bold text-gray-900 font-serif">Condiciones que Acompaño</h4>
+                <div className="bg-[#fffdf8] rounded-[8px] p-8 border border-[#ded5c7]">
+                    <div className="flex items-center gap-3 mb-6 border-b border-[#eee8dc] pb-4">
+                        <Sun className="h-7 w-7 text-[#bd6f3c]" />
+                        <h4 className="text-xl font-bold text-[#171713] font-serif">Condiciones que Acompaño</h4>
                     </div>
                     <div className="space-y-6">
                         {conditions.map((cond, idx) => (
                             <div key={idx}>
-                                <h6 className="font-semibold text-gray-900">{cond.name}</h6>
-                                <p className="text-sm text-gray-600 mt-1">{cond.details}</p>
+                                <h6 className="font-semibold text-[#171713]">{cond.name}</h6>
+                                <p className="text-sm text-[#55574f] mt-1">{cond.details}</p>
                             </div>
                         ))}
                     </div>
-                    <p className="mt-8 text-sm italic text-center text-gray-500">
+                    <p className="mt-8 text-sm italic text-center text-[#70695f]">
                         Con respeto y calidez, acompaño cada proceso con una mirada integral. No estás solo/a.
                     </p>
                 </div>
 
                 {/* Cuándo Derivar */}
-                <div className="bg-white rounded-3xl p-8 border border-gray-200">
-                    <div className="flex items-center gap-3 mb-6 border-b border-gray-100 pb-4">
-                        <ShieldAlert className="h-7 w-7 text-pink-600" />
-                        <h4 className="text-xl font-bold text-gray-900 font-serif">¿Cuándo Derivar a Terapia Ocupacional?</h4>
+                <div className="bg-[#fffdf8] rounded-[8px] p-8 border border-[#ded5c7]">
+                    <div className="flex items-center gap-3 mb-6 border-b border-[#eee8dc] pb-4">
+                        <ShieldAlert className="h-7 w-7 text-[#bd6f3c]" />
+                        <h4 className="text-xl font-bold text-[#171713] font-serif">¿Cuándo Derivar a Terapia Ocupacional?</h4>
                     </div>
                     <ul className="space-y-4">
                         {derivations.map((item, idx) => (
-                            <li key={idx} className="flex gap-3 text-gray-700 text-sm">
-                                <ArrowRight className="h-5 w-5 text-pink-400 shrink-0" />
+                            <li key={idx} className="flex gap-3 text-[#3f423a] text-sm">
+                                <ArrowRight className="h-5 w-5 text-[#d3976d] shrink-0" />
                                 <span>{item}</span>
                             </li>
                         ))}
@@ -194,21 +194,21 @@ export function RocioPortfolio() {
             </div>
 
             {/* Supervisión y Asesorías */}
-            <div className="bg-gray-50 rounded-3xl p-8 lg:p-12">
+            <div className="bg-[#f8f5ee] rounded-[8px] p-8 lg:p-12">
                 <div className="text-center mb-10">
-                    <h4 className="text-2xl font-bold text-gray-900 font-serif">Servicios de Supervisión y Asesorías</h4>
-                    <p className="text-gray-600 mt-2 max-w-2xl mx-auto">
+                    <h4 className="text-2xl font-bold text-[#171713] font-serif">Servicios de Supervisión y Asesorías</h4>
+                    <p className="text-[#55574f] mt-2 max-w-2xl mx-auto">
                         Instancias de supervisión clínica y asesoría técnico-ocupacional para colegas y equipos de salud, integrando el bienestar, la reflexión y la buena praxis.
                     </p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {supervisions.map((sup, idx) => (
-                        <div key={idx} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                            <h5 className="font-bold text-gray-900 mb-4">{sup.title}</h5>
+                        <div key={idx} className="bg-[#fffdf8] p-6 rounded-[8px] shadow-sm border border-[#eee8dc]">
+                            <h5 className="font-bold text-[#171713] mb-4">{sup.title}</h5>
                             <ul className="space-y-2">
                                 {sup.items.map((item, i) => (
-                                    <li key={i} className="flex gap-2 text-sm text-gray-600">
-                                        <div className="h-1.5 w-1.5 bg-pink-400 rounded-full mt-2 shrink-0" />
+                                    <li key={i} className="flex gap-2 text-sm text-[#55574f]">
+                                        <div className="h-1.5 w-1.5 bg-[#d3976d] rounded-full mt-2 shrink-0" />
                                         <span>{item}</span>
                                     </li>
                                 ))}
@@ -220,7 +220,7 @@ export function RocioPortfolio() {
                 <div className="mt-12 text-center">
                     <a
                         href="mailto:centrodereflexionescriticas@gmail.com"
-                        className="inline-flex items-center justify-center rounded-full bg-pink-600 px-8 py-3.5 text-sm font-semibold text-white shadow-sm hover:bg-pink-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pink-600 transition-all"
+                        className="inline-flex items-center justify-center rounded-full bg-[#bd6f3c] px-8 py-3.5 text-sm font-semibold text-white shadow-sm hover:bg-[#bd6f3c] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#bd6f3c] transition-all"
                     >
                         Consultas y Agenda: centrodereflexionescriticas@gmail.com
                     </a>
