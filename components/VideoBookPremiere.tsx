@@ -60,7 +60,7 @@ export function VideoBookPremiere() {
                             Pieza editorial
                         </div>
                         <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/6 px-3 py-2">
-                            <Sparkles className="h-4 w-4 text-emerald-300" />2 min 05 s
+                            <Sparkles className="h-4 w-4 text-emerald-300" />8 s
                         </div>
                     </div>
 
