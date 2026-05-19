@@ -1,6 +1,21 @@
 {
   "columns": [
     {
+      "id": "frankenstein-moderno-prometeo-mary-shelley",
+      "title": "Frankenstein o el moderno Prometeo de Mary Shelley",
+      "excerpt": "Una lectura sobre la criatura, el rechazo social y la pregunta por el origen de la maldad en la obra gótica de Mary Shelley.",
+      "author": "Carolina Molina",
+      "date": "19 May 2026",
+      "category": "Crítica Literaria",
+      "image": "/images/frankenstein-moderno-prometeo-editorial.png",
+      "content": [
+        "Publicado en 1818 de manera anónima —porque en aquellos tiempos no se permitía que una mujer firmara una obra de tal magnitud—, Frankenstein se convirtió con el transcurso del tiempo en uno de los libros más emblemáticos de la literatura universal. Nadie imaginó que aquella historia, nacida casi como un juego entre amigos, marcaría para siempre el género gótico y las reflexiones modernas sobre la ciencia, la moral y la naturaleza humana. Al terminar la lectura del libro, me quedó rondando una frase de Jean-Jacques Rousseau: “El hombre nace bueno y la sociedad lo corrompe” ¿Será realmente así? Esta lectura me dejó profundamente encantada: su tono poético, sus descripciones, su atmósfera sombría… todo envuelto en una belleza trágica y un dolor que cala hondo. Podría pasar días hablando del libro y de su autora, porque ambos son, sin duda, fascinantes.",
+        "Mary Shelley tuvo una vida tan compleja como el contexto en el que vivió. Pensar que una simple apuesta entre amigos, dio origen a esta obra maestra resulta asombroso. Aunque me habría gustado una descripción aún más detallada del proceso creativo de la criatura, no cabe duda de que este relato merece su lugar como la mejor historia gótica de terror jamás escrita.",
+        "Aristóteles dijo alguna vez: “Fuera de la sociedad, el hombre es una bestia o un dios”. Y en tal sentido, la creación de Victor Frankenstein no debe prestarse a confusión: ¿fue el nacimiento de una vida o el inicio de su destrucción? El ser humano parece tener una necesidad constante de llevar su conocimiento al límite, de experimentar sin medir las consecuencias. Esa ambición por dominar los secretos de la vida llevó a Víctor a olvidar algo esencial: toda causa tiene su consecuencia.",
+        "Roger Bartra afirma que “todo ser diferente y ajeno a nuestra cultura es un hombre salvaje.” Si lo pensamos así, la criatura —por su aspecto y su diferencia— nunca tuvo una oportunidad real de ser amada o aceptada. Victor quiso desafiar las leyes naturales, y ese acto de arrogancia terminó por condenarlo a un sufrimiento tan profundo como el de su propia creación. Así pues, el rechazo que el monstruo sufrió fue tan inmenso como su tamaño. El miedo que él provocaba, hacía tambalear la idea misma de su maldad. Lo juzgaron como monstruo sin siquiera intentar comprenderlo. Su creador y la sociedad, lo condenaron al aislamiento y al odio. Si todo ello fue así, entonces me pregunto: ¿es tan determinante la apariencia, la belleza o la imagen que rige nuestra sociedad? Todo lo que la criatura conoció fue el desprecio. Y así, me queda la duda más profunda: ¿Nació malvado o fue el rechazo humano el que lo transformó en un ser lleno de venganza?"
+      ]
+    },
+    {
       "id": "desinstitucionalizacion-infantil",
       "title": "Desinstitucionalización infantil: ¿Beneficio social o derecho de la niñez?",
       "excerpt": "La expresión \"desinstitucionalización infantil\" se ha instalado en la agenda pública en el contexto del Plan Nacional Crecer en Familia, no solo como una declaración de principios, sino que como una meta gubernamental.",

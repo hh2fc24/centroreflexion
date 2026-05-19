@@ -32,27 +32,30 @@ export function FoundersSection() {
                 </MotionDiv>
 
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-3 lg:gap-8">
-                    {founders.map((founder, idx) => (
-                        <MotionDiv
-                            key={founder.id}
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.8, delay: idx * 0.2 }}
-                            className="flex h-full flex-col rounded-[8px] border border-gray-100 bg-white p-6 shadow-lg shadow-gray-200/40 transition-transform duration-300 hover:-translate-y-1"
-                        >
+                    {founders.map((founder, idx) => {
+                        const imageSrc = founder.id === "rocio" ? "/images/rocio-solar-crc-2026.png" : founder.imageSrc;
+
+                        return (
+                            <MotionDiv
+                                key={founder.id}
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.8, delay: idx * 0.2 }}
+                                className="flex h-full flex-col rounded-[8px] border border-gray-100 bg-white p-6 shadow-lg shadow-gray-200/40 transition-transform duration-300 hover:-translate-y-1"
+                            >
                             <div className="mb-6">
                                 <div className="relative h-64 w-full overflow-hidden rounded-[8px] bg-white shadow-inner ring-1 ring-gray-100">
-                                    {founder.imageSrc === "placeholder:hugo" ? (
+                                    {imageSrc === "placeholder:hugo" ? (
                                         <div className="flex h-full w-full flex-col items-center justify-center bg-[#f4eadf] text-center">
                                             <div className="mb-3 flex h-20 w-20 items-center justify-center rounded-full bg-[#171713] text-2xl font-bold text-white">
                                                 HFH
                                             </div>
                                             <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#8a8276]">Foto próximamente</span>
                                         </div>
-                                    ) : founder.imageSrc === "/images/hugo_hormazabal.png" ? (
+                                    ) : imageSrc === "/images/hugo_hormazabal.png" ? (
                                         <Image
-                                            src={founder.imageSrc}
+                                            src={imageSrc}
                                             alt={founder.name}
                                             width={640}
                                             height={900}
@@ -60,7 +63,7 @@ export function FoundersSection() {
                                         />
                                     ) : (
                                         <Image
-                                            src={founder.imageSrc}
+                                            src={imageSrc}
                                             alt={founder.name}
                                             width={640}
                                             height={900}
@@ -93,7 +96,8 @@ export function FoundersSection() {
                                 </EditorLink>
                             </div>
                         </MotionDiv>
-                    ))}
+                        );
+                    })}
                 </div>
             </div>
         </section>
