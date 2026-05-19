@@ -226,7 +226,7 @@ export default function About() {
                                 Estrategia Tecnológica, Ingeniería de Servicios e Inteligencia Aplicada
                             </p>
                             <p className="text-[#70695f] text-xs mt-2 font-medium leading-snug">
-                                Ingeniero Comercial · Diplomado en Marketing & Analytics, Universidad Adolfo Ibáñez (UAI)
+                                Ingeniero Comercial
                             </p>
 
                             <div className="mt-6 flex gap-4">
@@ -239,10 +239,10 @@ export default function About() {
                             <div>
                                 <h4 className="text-xl font-semibold text-[#171713] mb-4 border-b border-[#ded5c7] pb-2">Trayectoria Profesional</h4>
                                 <p className="text-[#55574f] leading-relaxed">
-                                    Hugo Felipe Hormazábal es Ingeniero Comercial y Diplomado en Marketing & Analytics por la Universidad Adolfo Ibáñez (UAI). Es fundador de <a href="https://www.altiusignite.com" target="_blank" rel="noopener noreferrer" className="font-semibold text-[#9f5528] underline decoration-[#dec0a8] underline-offset-4 hover:text-[#bd6f3c]">Altius Ignite</a>, empresa de transformación digital desde la cual desarrolla soluciones de automatización, inteligencia artificial, datos y arquitectura tecnológica aplicada. En el CRC lidera la visión tecnológica y la ingeniería de servicios: traduce necesidades clínicas, sociales e institucionales en sistemas, datos, flujos y herramientas digitales que permiten sostener intervenciones con mayor trazabilidad, continuidad y capacidad de aprendizaje.
+                                    Hugo Felipe Hormazábal es Ingeniero Comercial y fundador de <a href="https://www.altiusignite.com" target="_blank" rel="noopener noreferrer" className="font-semibold text-[#9f5528] underline decoration-[#dec0a8] underline-offset-4 hover:text-[#bd6f3c]">Altius Ignite</a>, empresa de transformación digital desde la cual desarrolla soluciones de automatización, inteligencia artificial, datos y arquitectura tecnológica aplicada. En el CRC lidera la visión tecnológica y la ingeniería de servicios: traduce necesidades clínicas, sociales e institucionales en sistemas, datos, flujos y herramientas digitales que permiten sostener intervenciones con mayor trazabilidad, continuidad y capacidad de aprendizaje.
                                 </p>
                                 <p className="mt-4 text-[#55574f] leading-relaxed">
-                                    Cuenta con más de 15 años de experiencia articulando operaciones, crecimiento, experiencia de cliente, inteligencia de negocio y transformación digital en industrias exigentes como contact center/BPO, banca, fintech, tecnología, retail, servicios, educación y consultoría. Ha implementado y escalado operaciones y líneas de negocio en Chile, Colombia, Argentina, Perú y Bolivia, liderando equipos multiculturales de hasta 700 FTE, procesos de mejora continua, automatización intensiva, implementación de CRM, reportería ejecutiva, arquitecturas digitales y soluciones basadas en inteligencia artificial aplicada a productividad, control operativo y toma de decisiones.
+                                    Cuenta con más de 15 años de experiencia articulando operaciones, crecimiento, experiencia de cliente, inteligencia de negocio y transformación digital en industrias exigentes como contact center/BPO, banca, fintech, tecnología, retail, servicios, educación y consultoría. Complementa su formación con un Diplomado en Marketing & Analytics por la Universidad Adolfo Ibáñez (UAI). Ha implementado y escalado operaciones y líneas de negocio en Chile, Colombia, Argentina, Perú y Bolivia, liderando equipos multiculturales de hasta 700 FTE, procesos de mejora continua, automatización intensiva, implementación de CRM, reportería ejecutiva, arquitecturas digitales y soluciones basadas en inteligencia artificial aplicada a productividad, control operativo y toma de decisiones.
                                 </p>
                             </div>
                             <div>
