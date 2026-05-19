@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { CSSProperties } from "react";
+import { Analytics } from "@vercel/analytics/next";
 import { Cormorant_Garamond, Geist, Inter, Merriweather } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
@@ -169,6 +170,7 @@ export default async function RootLayout({
             })
           }}
         />
+        <Analytics />
       </body>
     </html>
   );
