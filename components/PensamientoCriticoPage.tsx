@@ -12,7 +12,7 @@ const getAuthorDetails = (author: string) => {
     return { image: "/images/rocio_solar_real_white.png", role: "Co-fundadora CRC · Terapeuta Ocupacional, Magíster (c) en Ocupación y TO, U. de Chile" };
   }
   if (author.includes("Juan Carlos Rauld")) {
-    return { image: "/images/juan_carlos_real_white.png", role: "Director CRC · Estudiante de doctorado de Trabajo Social, Universidad de Rovira I Virgilli, España" };
+    return { image: "/images/juan_carlos_real_white.png", role: "Director CRC · Doctorando en Trabajo Social, Universidad de Rovira I Virgilli, España" };
   }
   return null;
 };

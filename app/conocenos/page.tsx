@@ -118,18 +118,18 @@ export default function About() {
                             </div>
                             <h3 className="text-3xl font-bold text-[#171713] font-serif">Juan Carlos Rauld</h3>
                             <p className="text-[#bd6f3c] font-bold text-sm tracking-wide mt-2 uppercase">Director CRC & Consultor en Ciencias Sociales</p>
-                            <p className="text-[#bd6f3c] text-xs mt-1 font-medium">Estudiante de doctorado de Trabajo Social de la Universidad de Rovira I Virgilli, Facultad de Ciencias Jurídicas y Sociales, España</p>
+                            <p className="text-[#bd6f3c] text-xs mt-1 font-medium">Doctorando en Trabajo Social de la Universidad de Rovira I Virgilli, Facultad de Ciencias Jurídicas y Sociales, España</p>
 
-                            <div className="mt-6 flex gap-4">
+                            <div className="mt-6 flex flex-wrap items-center gap-3">
                                 <a
                                     href="https://uc-cl.academia.edu/JUANCARLOSRAULDFAR%C3%8DAS"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    aria-label="Perfil de Academia.edu de Juan Carlos Rauld"
-                                    title="Academia.edu"
-                                    className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#bd6f3c] text-white shadow-md transition-all hover:scale-105 hover:bg-[#9f5528]"
+                                    aria-label="Ver perfil académico de Juan Carlos Rauld en Academia.edu"
+                                    className="inline-flex h-10 items-center gap-2 rounded-full bg-[#bd6f3c] px-4 text-xs font-bold uppercase tracking-[0.12em] text-white shadow-md transition-all hover:scale-[1.02] hover:bg-[#9f5528]"
                                 >
                                     <GraduationCap className="h-5 w-5" />
+                                    Academia.edu
                                 </a>
                                 <a href="https://www.linkedin.com/in/juan-carlos-rauld-farias-a64710a4/" target="_blank" rel="noopener noreferrer" className="text-[#8a8276] hover:text-[#bd6f3c] transition-colors"><Linkedin className="h-6 w-6" /></a>
                             </div>
@@ -138,7 +138,7 @@ export default function About() {
                             <div>
                                 <h4 className="text-xl font-semibold text-[#171713] mb-4 border-b border-[#ded5c7] pb-2">Rol Editorial y Académico</h4>
                                 <p className="text-[#55574f] leading-relaxed">
-                                    <strong>Juan Carlos Rauld es trabajador social.</strong> Magíster en Pensamiento Contemporáneo en Filosofía y Pensamiento Político del Instituto de Filosofía de la Universidad Diego Portales. Actualmente es <strong>Estudiante de doctorado de Trabajo Social de la Universidad de Rovira I Virgilli, Facultad de Ciencias Jurídicas y Sociales, España</strong>. Investigador del Centro de Reflexiones Críticas, sus áreas de interés son el trauma psíquico infantil, la filosofía social y política contemporánea, especialmente la biopolítica de la infancia pobre en Chile y la filosofía de la infancia. Posee una doble especialización en salud mental infantil y en filosofía práctica de la niñez, desde el siglo XIX hasta la actualidad. Actualmente, le interesa evaluar metodológicamente la calidad de la intervención clínica especializada con niños, niñas y adolescentes en situaciones de desprotección, así como la fidelidad de implementación de programas y políticas públicas con enfoque basado en evidencia científica.
+                                    <strong>Juan Carlos Rauld es trabajador social formado en la Universidad Tecnológica Metropolitana (UTEM).</strong> Magíster en Pensamiento Contemporáneo en Filosofía y Pensamiento Político del Instituto de Filosofía de la Universidad Diego Portales. Actualmente es <strong>doctorando en Trabajo Social de la Universidad de Rovira I Virgilli, Facultad de Ciencias Jurídicas y Sociales, España</strong>. Investigador del Centro de Reflexiones Críticas, sus áreas de interés son el trauma psíquico infantil, la filosofía social y política contemporánea, especialmente la biopolítica de la infancia pobre en Chile y la filosofía de la infancia. Posee una doble especialización en salud mental infantil y en filosofía práctica de la niñez, desde el siglo XIX hasta la actualidad. Actualmente, le interesa evaluar metodológicamente la calidad de la intervención clínica especializada con niños, niñas y adolescentes en situaciones de desprotección, así como la fidelidad de implementación de programas y políticas públicas con enfoque basado en evidencia científica.
                                 </p>
                             </div>
                             <div>
