@@ -52,6 +52,29 @@ export function Footer({ initialFooter }: { initialFooter?: FooterContent }) {
                             <EditableText path="footer.description" ariaLabel="Footer descripción" multiline />
                         </p>
 
+                        <a
+                            href="https://www.editorialhammurabi.com/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group mb-7 block border-t border-[rgba(193,127,62,0.22)] pt-5"
+                            aria-label="Editorial Hammurabi"
+                            onClick={(e) => { if (adminEnabled) { e.preventDefault(); e.stopPropagation(); } }}
+                        >
+                            <span className="mb-2 block text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-[#bd6f3c]">
+                                Respaldo editorial
+                            </span>
+                            <span className="block text-xs leading-relaxed text-[#a99f91]">
+                                Cursos y talleres CRC cuentan con el respaldo de Editorial Hammurabi.
+                            </span>
+                            <Image
+                                src="/images/editorial-hammurabi-logo-transparent.png"
+                                alt="Editorial Hammurabi"
+                                width={180}
+                                height={177}
+                                className="mt-3 h-auto w-32 opacity-85 invert transition-opacity duration-200 group-hover:opacity-100 sm:w-36"
+                            />
+                        </a>
+
                         {/* Social icons */}
                         <div className="flex gap-4">
                             <a
