@@ -22,58 +22,64 @@ export function Footer({ initialFooter }: { initialFooter?: FooterContent }) {
         <footer style={{ background: "#171713" }} className="border-t border-[rgba(176,145,100,0.18)]">
             {/* ── Top section ──────────────────────────────────────── */}
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-16 pb-12">
+                <div className="mb-10 flex flex-col gap-6 border-b border-[rgba(193,127,62,0.22)] pb-8 sm:flex-row sm:items-center sm:justify-between">
+                    <div className="flex min-w-fit items-center gap-3">
+                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#f8f5ee] p-1 opacity-95">
+                            <Image
+                                src="/logo-crc.png"
+                                alt="CRC"
+                                width={44}
+                                height={44}
+                                className="h-11 w-11 object-contain"
+                            />
+                        </div>
+                        <div className="flex min-w-fit flex-col">
+                            <span className="text-[9px] font-semibold tracking-[0.2em] uppercase text-[#a99f91] leading-none">Centro de</span>
+                            <span
+                                className="whitespace-nowrap text-[13px] font-bold tracking-[0.08em] text-white leading-snug"
+                                style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+                            >
+                                Reflexiones Críticas
+                            </span>
+                        </div>
+                    </div>
+
+                    <a
+                        href="https://www.editorialhammurabi.com/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group flex max-w-sm items-center gap-4 sm:justify-end sm:text-right"
+                        aria-label="Editorial Hammurabi"
+                        onClick={(e) => { if (adminEnabled) { e.preventDefault(); e.stopPropagation(); } }}
+                    >
+                        <span className="block">
+                            <span className="mb-1 block text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-[#bd6f3c]">
+                                Respaldo editorial
+                            </span>
+                            <span className="block text-xs leading-relaxed text-[#a99f91]">
+                                Cursos y talleres CRC cuentan con respaldo de Editorial Hammurabi.
+                            </span>
+                        </span>
+                        <Image
+                            src="/images/editorial-hammurabi-logo-transparent.png"
+                            alt="Editorial Hammurabi"
+                            width={180}
+                            height={177}
+                            className="h-auto w-16 shrink-0 opacity-85 invert transition-opacity duration-200 group-hover:opacity-100 sm:w-20"
+                        />
+                    </a>
+                </div>
+
                 <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4">
 
                     {/* Brand / Logo column */}
                     <div className="lg:col-span-1">
-                        <div className="flex items-center gap-3 mb-6">
-                            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#f8f5ee] p-1 opacity-95">
-                                <Image
-                                    src="/logo-crc.png"
-                                    alt="CRC"
-                                    width={44}
-                                    height={44}
-                                    className="h-11 w-11 object-contain"
-                                />
-                            </div>
-                            <div className="flex flex-col">
-                                <span className="text-[9px] font-semibold tracking-[0.2em] uppercase text-[#a99f91] leading-none">Centro de</span>
-                                <span className="text-[13px] font-bold tracking-[0.08em] text-white leading-snug"
-                                    style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
-                                    Reflexiones Críticas
-                                </span>
-                            </div>
-                        </div>
-
                         {/* Gold rule */}
                         <div className="w-8 h-[1px] bg-[#bd6f3c] mb-5" />
 
                         <p className="text-[#a99f91] text-sm leading-relaxed mb-7">
                             <EditableText path="footer.description" ariaLabel="Footer descripción" multiline />
                         </p>
-
-                        <a
-                            href="https://www.editorialhammurabi.com/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="group mb-7 block border-t border-[rgba(193,127,62,0.22)] pt-5"
-                            aria-label="Editorial Hammurabi"
-                            onClick={(e) => { if (adminEnabled) { e.preventDefault(); e.stopPropagation(); } }}
-                        >
-                            <span className="mb-2 block text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-[#bd6f3c]">
-                                Respaldo editorial
-                            </span>
-                            <span className="block text-xs leading-relaxed text-[#a99f91]">
-                                Cursos y talleres CRC cuentan con el respaldo de Editorial Hammurabi.
-                            </span>
-                            <Image
-                                src="/images/editorial-hammurabi-logo-transparent.png"
-                                alt="Editorial Hammurabi"
-                                width={180}
-                                height={177}
-                                className="mt-3 h-auto w-20 opacity-85 invert transition-opacity duration-200 group-hover:opacity-100 sm:w-24"
-                            />
-                        </a>
 
                         {/* Social icons */}
                         <div className="flex gap-4">
