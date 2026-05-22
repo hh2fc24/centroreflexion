@@ -71,7 +71,7 @@ export function Footer({ initialFooter }: { initialFooter?: FooterContent }) {
                                 alt="Editorial Hammurabi"
                                 width={180}
                                 height={177}
-                                className="mt-3 h-auto w-32 opacity-85 invert transition-opacity duration-200 group-hover:opacity-100 sm:w-36"
+                                className="mt-3 h-auto w-20 opacity-85 invert transition-opacity duration-200 group-hover:opacity-100 sm:w-24"
                             />
                         </a>
 
