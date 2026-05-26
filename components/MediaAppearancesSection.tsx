@@ -1,8 +1,19 @@
 "use client";
 
 import { MotionDiv } from "@/components/ui/Motion";
-import { Tv2, PlayCircle, Radio, Mic2 } from "lucide-react";
+import { Calendar, ExternalLink, Mic2, Newspaper, PlayCircle, Quote, Radio, Tv2 } from "lucide-react";
 import { useState } from "react";
+
+const featuredArticle = {
+    url: "https://www.elmostrador.cl/agenda-pais/ninez/2026/04/05/juan-carlos-rauld-el-estado-desprotege-es-una-intervencion-cara-con-malos-resultados/",
+    title: "Juan Carlos Rauld: “El Estado desprotege. Es una intervención cara con malos resultados”",
+    channel: "El Mostrador",
+    date: "5 abril, 2026",
+    section: "Agenda País · Niñez",
+    excerpt: "Entrevista sobre la crisis estructural del sistema de protección de infancias en Chile, la sobreintervención institucional y el desplazamiento del cuidado por la gestión tecnocrática.",
+    quote: "El Estado desprotege. Es una intervención cara con malos resultados.",
+    image: "https://media-front.elmostrador.cl/2026/03/Editar-Imagenes-3-13-700x350.png",
+};
 
 const appearances = [
     {
@@ -70,6 +81,7 @@ const appearances = [
 export function MediaAppearancesSection() {
     const [activeVideo, setActiveVideo] = useState<number | null>(null);
     const [hoveredId, setHoveredId] = useState<number | null>(null);
+    const activeVideoItem = appearances.find((item) => item.id === activeVideo);
 
     return (
         <section className="relative overflow-hidden bg-[#171713] py-14 sm:py-20">
@@ -105,8 +117,78 @@ export function MediaAppearancesSection() {
                     </div>
                 </MotionDiv>
 
+                <MotionDiv
+                    initial={{ opacity: 0, y: 24 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6 }}
+                    className="mb-8 overflow-hidden rounded-[8px] border border-[#4b4e45]/80 bg-[#172017]/70 shadow-[0_28px_90px_-56px_rgba(189,111,60,0.58)] sm:mb-10 lg:grid lg:grid-cols-[0.9fr_1.1fr]"
+                >
+                    <a
+                        href={featuredArticle.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group relative block min-h-[260px] overflow-hidden bg-[#0f0d0a] sm:min-h-[320px] lg:min-h-full"
+                        aria-label={`Leer entrevista en ${featuredArticle.channel}: ${featuredArticle.title}`}
+                    >
+                        <img
+                            src={featuredArticle.image}
+                            alt={featuredArticle.title}
+                            className="absolute inset-0 h-full w-full object-cover opacity-90 transition-all duration-700 group-hover:scale-105 group-hover:opacity-100"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#172017] via-[#172017]/35 to-transparent lg:bg-gradient-to-r lg:from-transparent lg:to-[#172017]" />
+                        <div className="absolute top-4 left-4">
+                            <span className="inline-flex items-center gap-1 rounded-[5px] border border-[#bd6f3c]/70 bg-[#9f5528]/40 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-[#f1ded0] backdrop-blur-sm">
+                                <Newspaper className="h-3 w-3" />
+                                Entrevista escrita
+                            </span>
+                        </div>
+                        <div className="absolute right-4 bottom-4 flex h-11 w-11 items-center justify-center rounded-[5px] bg-[#fffdf8]/95 shadow-md ring-1 ring-white/20 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+                            <ExternalLink className="h-5 w-5 text-[#171713]" />
+                        </div>
+                    </a>
+
+                    <div className="p-5 sm:p-8 lg:p-10">
+                        <div className="mb-4 flex flex-wrap items-center gap-2 text-[10px] font-bold uppercase tracking-[0.14em] text-[#a99f91]">
+                            <span>{featuredArticle.channel}</span>
+                            <span className="h-1 w-1 rounded-full bg-[#70695f]" />
+                            <span className="inline-flex items-center gap-1">
+                                <Calendar className="h-3 w-3" />
+                                {featuredArticle.date}
+                            </span>
+                        </div>
+                        <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.14em] text-[#d3976d]">
+                            {featuredArticle.section}
+                        </p>
+                        <h3 className="max-w-3xl text-2xl font-bold leading-tight text-white font-serif sm:text-3xl">
+                            {featuredArticle.title}
+                        </h3>
+                        <p className="mt-4 max-w-3xl text-sm leading-relaxed text-[#a99f91] sm:text-base">
+                            {featuredArticle.excerpt}
+                        </p>
+                        <div className="mt-6 rounded-[6px] border border-[#4b4e45]/80 bg-[#0f0d0a]/24 p-4">
+                            <div className="mb-2 flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.16em] text-[#70695f]">
+                                <Quote className="h-3 w-3" />
+                                Cita destacada
+                            </div>
+                            <p className="text-base font-medium leading-relaxed text-[#f1ded0]">
+                                “{featuredArticle.quote}”
+                            </p>
+                        </div>
+                        <a
+                            href={featuredArticle.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-[5px] bg-[#bd6f3c] px-5 py-3 text-xs font-bold uppercase tracking-[0.14em] text-white shadow-sm transition-all hover:translate-x-0.5 hover:bg-[#9f5528] sm:w-auto"
+                        >
+                            Leer en El Mostrador
+                            <ExternalLink className="h-4 w-4" />
+                        </a>
+                    </div>
+                </MotionDiv>
+
                 {/* Active Video Player */}
-                {activeVideo !== null && (
+                {activeVideoItem ? (
                     <MotionDiv
                         key={activeVideo}
                         initial={{ opacity: 0, y: 16, scale: 0.98 }}
@@ -117,7 +199,7 @@ export function MediaAppearancesSection() {
                         <div className="relative aspect-video bg-[#0f0d0a]">
                             <iframe
                                 className="absolute inset-0 h-full w-full"
-                                src={`https://www.youtube.com/embed/${appearances.find(a => a.id === activeVideo)?.youtubeId}?autoplay=1&controls=1&rel=0&modestbranding=1`}
+                                src={`https://www.youtube.com/embed/${activeVideoItem.youtubeId}?autoplay=1&controls=1&rel=0&modestbranding=1`}
                                 title="Video destacado"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                                 allowFullScreen
@@ -125,7 +207,7 @@ export function MediaAppearancesSection() {
                         </div>
                         <div className="flex items-center justify-between bg-[#172017] px-4 py-3 border-t border-[#34362f]">
                             <p className="text-xs font-semibold text-white line-clamp-1 max-w-lg">
-                                {appearances.find(a => a.id === activeVideo)?.title}
+                                {activeVideoItem.title}
                             </p>
                             <button
                                 onClick={() => setActiveVideo(null)}
@@ -135,7 +217,7 @@ export function MediaAppearancesSection() {
                             </button>
                         </div>
                     </MotionDiv>
-                )}
+                ) : null}
 
                 {/* Netflix-style Catalog Grid */}
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
