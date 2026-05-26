@@ -78,7 +78,7 @@ const pressItems = [
     court: "Corte Suprema (Primera Sala)",
     detail: 'El máximo tribunal dictaminó que la simple existencia de protocolos no basta si las medidas son "tardías e ineficaces".',
     href: "https://www.biobiochile.cl/noticias/sociedad/y-a-ti-que-te-pasa/2025/12/16/condenan-a-scuola-italiana-deberan-indemnizar-con-25-millones-a-mama-de-alumna-victima-de-bullying.shtml",
-    image: "/images/press/scuola-italiana-press.jpg",
+    image: "/images/press/scuola-italiana-press.png",
     imageAlt: "Captura de pantalla del fallo de la Corte Suprema contra la Scuola Italiana",
   },
   {
@@ -89,7 +89,7 @@ const pressItems = [
     court: "Corte Suprema",
     detail: "El tribunal declaró improcedente la cancelación de matrícula como sanción o represalia aplicada a los estudiantes por conductas de su apoderada.",
     href: "https://www.pjud.cl/prensa-y-comunicaciones/noticias-del-poder-judicial/",
-    image: "/images/press/lincoln-academy-press.jpg",
+    image: "/images/press/lincoln-academy-press.png",
     imageAlt: "Captura de pantalla del fallo del máximo tribunal contra el colegio Lincoln de Lo Barnechea",
   },
 ];
