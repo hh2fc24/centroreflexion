@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Brain, Building2, GraduationCap, HeartHandshake, Mail, School, Stethoscope } from "lucide-react";
+import { ArrowRight, Building2, GraduationCap, Mail, School, ShieldCheck, Stethoscope } from "lucide-react";
 
 const serviceRoutes = [
     {
@@ -19,6 +19,15 @@ const serviceRoutes = [
         audience: "Organizaciones públicas, privadas, fundaciones, programas y equipos directivos.",
         outcome: "Criterios, procesos y herramientas para operar con mayor coherencia y trazabilidad.",
         href: "/servicios/consultoria",
+    },
+    {
+        icon: ShieldCheck,
+        eyebrow: "Soy un colegio",
+        title: "Compliance escolar",
+        problem: "Auditoría de protocolos, Ley 21.809, convivencia escolar, trazabilidad y exposición civil o administrativa.",
+        audience: "Sostenedores, equipos directivos y encargados de convivencia que necesitan blindar su respuesta institucional.",
+        outcome: "Brechas claras, equipos entrenados y una ruta de cumplimiento verificable.",
+        href: "/servicios/compliance-escolar",
     },
     {
         icon: School,
@@ -65,7 +74,7 @@ export default function ServicesHub() {
 
             <section className="border-b border-[#eee8dc] py-12 sm:py-16">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="grid gap-4 lg:grid-cols-4">
+                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
                         {serviceRoutes.map((service, index) => {
                             const Icon = service.icon;
                             return (

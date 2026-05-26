@@ -13,8 +13,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const articles = await readPublishedArticleCollections();
 
   const out: MetadataRoute.Sitemap = [];
+  const staticRoutes = [
+    "/servicios",
+    "/servicios/clinica",
+    "/servicios/consultoria",
+    "/servicios/bienestar-escolar",
+    "/servicios/formacion",
+    "/servicios/compliance-escolar",
+    "/contacto",
+    "/conocenos",
+    "/publicaciones",
+  ];
 
   out.push({ url: `${baseUrl}/`, lastModified: new Date() });
+
+  for (const route of staticRoutes) {
+    out.push({ url: `${baseUrl}${route}`, lastModified: new Date() });
+  }
 
   for (const p of pages) {
     if (!p.slug) continue;

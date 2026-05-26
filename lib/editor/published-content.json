@@ -67,9 +67,9 @@
         "id": "svc-clinica",
         "tone": "success",
         "title": "Consultoría",
-        "description": "Asesoría y diagnóstico para instituciones, programas y políticas públicas.",
+        "description": "Especialistas en Compliance Escolar y Ley 21.809. Protegemos a su comunidad y blindamos su institución.",
         "ctaLabel": "Ver más",
-        "href": "/servicios/consultoria"
+        "href": "/servicios/compliance-escolar"
       },
       {
         "id": "svc-formacion",
