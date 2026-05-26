@@ -326,7 +326,7 @@ export default function ComplianceEscolarPage() {
           <div className="mb-8">
             <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#d3976d]">Contraste</span>
             <h2 className="mt-1 text-xl font-bold text-white font-serif sm:text-2xl">
-              Basado en evidencia clínica y jurídica, con respaldo editorial Hammurabi.
+              Debida diligencia: de la existencia formal del protocolo a la gobernanza escolar efectiva.
             </h2>
           </div>
           <div className="grid gap-4 lg:grid-cols-2">
