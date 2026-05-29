@@ -29,7 +29,13 @@ export default async function MisCursosPage() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/academia/login?redirect=/academia/mis-cursos");
 
-  const { data: inscripciones } = await supabase
+  type InscripcionConCurso = {
+    id: string;
+    estado: string;
+    fecha_inscripcion: string;
+    cursos: { id: string; slug: string; titulo: string; imagen_url: string | null; descripcion_corta: string | null; nivel: string | null } | null;
+  };
+  const { data: inscripcionesRaw } = await supabase
     .from("inscripciones")
     .select(`
       id,
@@ -40,6 +46,7 @@ export default async function MisCursosPage() {
     .eq("alumno_id", user.id)
     .eq("estado", "activa")
     .order("fecha_inscripcion", { ascending: false });
+  const inscripciones = inscripcionesRaw as InscripcionConCurso[] | null;
 
   return (
     <div className="mx-auto max-w-5xl px-5 py-16 sm:px-8">
@@ -69,10 +76,7 @@ export default async function MisCursosPage() {
       ) : (
         <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {inscripciones.map((ins) => {
-            const curso = ins.cursos as unknown as {
-              id: string; slug: string; titulo: string;
-              imagen_url: string | null; descripcion_corta: string | null; nivel: string | null;
-            } | null;
+            const curso = ins.cursos;
             if (!curso) return null;
             return (
               <Link

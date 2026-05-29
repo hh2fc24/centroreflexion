@@ -4,6 +4,7 @@
  */
 import { NextResponse } from "next/server";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/server";
+import type { Curso, Inscripcion } from "@/lib/supabase/database.types";
 
 export async function POST(request: Request) {
   if (!isSupabaseConfigured()) {
@@ -27,29 +28,32 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "curso_id requerido" }, { status: 400 });
   }
 
-  const { data: curso } = await supabase
+  const { data: cursoRaw } = await supabase
     .from("cursos")
     .select("id, precio")
     .eq("id", curso_id)
     .eq("estado", "publicado")
     .single();
+  const curso = cursoRaw as Pick<Curso, "id" | "precio"> | null;
 
   if (!curso) {
     return NextResponse.json({ error: "Curso no encontrado" }, { status: 404 });
   }
 
-  const { data: existing } = await supabase
+  const { data: existingRaw } = await supabase
     .from("inscripciones")
     .select("id")
     .eq("alumno_id", user.id)
     .eq("curso_id", curso_id)
     .maybeSingle();
+  const existing = existingRaw as Pick<Inscripcion, "id"> | null;
 
   if (existing) {
     return NextResponse.redirect(new URL("/academia/mis-cursos", request.url), 303);
   }
 
-  const { error } = await supabase
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error } = await (supabase as any)
     .from("inscripciones")
     .insert({
       alumno_id: user.id,

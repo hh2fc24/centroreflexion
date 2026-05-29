@@ -6,6 +6,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
+import type { Curso, Profile } from "@/lib/supabase/database.types";
 import { HeroAcademia } from "./_components/HeroAcademia";
 import { StatsBar } from "./_components/StatsBar";
 import { CatalogoCursos } from "./_components/CatalogoCursos";
@@ -20,6 +21,10 @@ export default async function AcademiaPage() {
   const supabase = await createClient();
 
   // Si Supabase no está configurado, mostrar catálogo vacío sin crashear
+  type CursoRow = Pick<Curso, "id" | "slug" | "titulo" | "descripcion_corta" | "imagen_url" | "precio" | "moneda" | "nivel" | "duracion_horas" | "categoria"> & {
+    profiles: Pick<Profile, "nombre" | "apellido"> | Pick<Profile, "nombre" | "apellido">[] | null;
+  };
+
   const cursos = supabase
     ? await supabase
         .from("cursos")
@@ -32,7 +37,7 @@ export default async function AcademiaPage() {
         .order("created_at", { ascending: false })
         .limit(9)
         .then(({ data }) =>
-          (data ?? []).map((c) => ({
+          (data as CursoRow[] | null ?? []).map((c) => ({
             ...c,
             precio: Number(c.precio),
             profesor: Array.isArray(c.profiles) ? c.profiles[0] : c.profiles,

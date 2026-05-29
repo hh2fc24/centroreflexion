@@ -5,6 +5,7 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/server";
+import type { Profile, Curso } from "@/lib/supabase/database.types";
 
 export default async function ProfesorCursosPage() {
   if (!isSupabaseConfigured()) redirect("/academia");
@@ -15,21 +16,23 @@ export default async function ProfesorCursosPage() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/academia/login?redirect=/academia/profesor/cursos");
 
-  const { data: profile } = await supabase
+  const { data: profileRaw } = await supabase
     .from("profiles")
     .select("rol")
     .eq("id", user.id)
     .single();
+  const profile = profileRaw as Pick<Profile, "rol"> | null;
 
   if (!profile || (profile.rol !== "profesor" && profile.rol !== "admin")) {
     redirect("/academia/dashboard");
   }
 
-  const { data: cursos } = await supabase
+  const { data: cursosRaw } = await supabase
     .from("cursos")
     .select("id, slug, titulo, estado, precio, moneda, created_at")
     .eq("profesor_id", user.id)
     .order("created_at", { ascending: false });
+  const cursos = cursosRaw as Pick<Curso, "id" | "slug" | "titulo" | "estado" | "precio" | "moneda" | "created_at">[] | null;
 
   const estadoColor: Record<string, string> = {
     publicado: "text-green-700 bg-green-50 border-green-200",

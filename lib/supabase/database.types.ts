@@ -106,31 +106,37 @@ export interface Database {
         Row: Profile;
         Insert: Omit<Profile, "created_at" | "updated_at">;
         Update: Partial<Omit<Profile, "id" | "created_at" | "updated_at">>;
+        Relationships: [];
       };
       cursos: {
         Row: Curso;
         Insert: Omit<Curso, "id" | "created_at" | "updated_at">;
         Update: Partial<Omit<Curso, "id" | "created_at" | "updated_at">>;
+        Relationships: [];
       };
       modulos: {
         Row: Modulo;
         Insert: Omit<Modulo, "id" | "created_at" | "updated_at">;
         Update: Partial<Omit<Modulo, "id" | "created_at" | "updated_at">>;
+        Relationships: [];
       };
       lecciones: {
         Row: Leccion;
         Insert: Omit<Leccion, "id" | "created_at" | "updated_at">;
         Update: Partial<Omit<Leccion, "id" | "created_at" | "updated_at">>;
+        Relationships: [];
       };
       inscripciones: {
         Row: Inscripcion;
         Insert: Omit<Inscripcion, "id" | "created_at" | "updated_at">;
         Update: Partial<Omit<Inscripcion, "id" | "created_at" | "updated_at">>;
+        Relationships: [];
       };
       progreso_lecciones: {
         Row: ProgresoLeccion;
         Insert: Omit<ProgresoLeccion, "id" | "created_at" | "updated_at">;
         Update: Partial<Omit<ProgresoLeccion, "id" | "created_at" | "updated_at">>;
+        Relationships: [];
       };
     };
     Views: Record<string, never>;
@@ -140,5 +146,6 @@ export interface Database {
       curso_estado: CursoEstado;
       inscripcion_estado: InscripcionEstado;
     };
+    CompositeTypes: Record<string, never>;
   };
 }
