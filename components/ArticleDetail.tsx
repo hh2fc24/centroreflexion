@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/Button";
 import { MotionDiv, MotionItem } from "@/components/ui/Motion";
 import { Article } from "@/lib/data";
 import { JsonLd } from "@/components/JsonLd";
+import { NewsletterBlock } from "@/components/NewsletterBlock";
 
 const getServiceCTA = (category: string): { label: string; description: string; href: string } => {
     const cat = category.toLowerCase();
@@ -164,6 +165,9 @@ export default function ArticleDetail({
                         })}
                     </div>
                 </MotionDiv>
+
+                {/* Newsletter capture */}
+                <NewsletterBlock origen={article.category} />
 
                 {/* Author Bio / Footer */}
                 <div className="mt-16 pt-10 border-t border-[#eee8dc]">
