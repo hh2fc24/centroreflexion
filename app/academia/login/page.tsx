@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { createClient } from "@/lib/supabase/client";
@@ -17,7 +17,7 @@ const CITA = {
   autor: "Academia CRC",
 };
 
-export default function AcademiaLoginPage() {
+function AcademiaLoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirect = searchParams.get("redirect") ?? "/academia/dashboard";
@@ -380,5 +380,13 @@ export default function AcademiaLoginPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function AcademiaLoginPage() {
+  return (
+    <Suspense fallback={<div style={{ minHeight: "100vh", background: "var(--ac-bg)" }} />}>
+      <AcademiaLoginForm />
+    </Suspense>
   );
 }
