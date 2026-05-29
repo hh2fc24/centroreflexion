@@ -6,6 +6,7 @@ import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 
+import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { EditorProviders } from "@/components/editor/EditorProviders";
 import { IntegrationsScripts } from "@/components/editor/IntegrationsScripts";
 import { DEFAULT_CONTENT, DEFAULT_THEME } from "@/lib/editor/defaults";
@@ -150,6 +151,7 @@ export default async function RootLayout({
           <Footer initialFooter={content.footer} />
 
           <IntegrationsScripts />
+          <WhatsAppButton />
         </EditorProviders>
 
         {/* Global JSON-LD */}

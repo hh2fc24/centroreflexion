@@ -185,7 +185,7 @@ export default function ConsultoriaPage() {
                     })}
                 </div>
                 <div className="mx-auto mt-8 max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <Link href="/contacto" className="inline-flex items-center gap-2 rounded-[5px] bg-[#171713] px-6 py-3 text-sm font-bold text-white hover:bg-[#34362f]">
+                    <Link href="/contacto?servicio=consultoria" className="inline-flex items-center gap-2 rounded-[5px] bg-[#171713] px-6 py-3 text-sm font-bold text-white hover:bg-[#34362f]">
                         <Mail className="h-4 w-4" />
                         Solicitar reunión institucional
                     </Link>

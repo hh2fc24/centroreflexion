@@ -92,7 +92,7 @@ export default function BienestarEscolarPage() {
                                 </p>
                             </div>
                             <div className="mt-7 flex flex-col gap-3">
-                                <Link href="/contacto" className="inline-flex items-center justify-center gap-2 rounded-[5px] bg-[#bd6f3c] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#9f5528]">
+                                <Link href="/contacto?servicio=bienestar-escolar" className="inline-flex items-center justify-center gap-2 rounded-[5px] bg-[#bd6f3c] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#9f5528]">
                                     <Mail className="h-4 w-4" />
                                     Solicitar reunión institucional
                                 </Link>
@@ -271,7 +271,7 @@ export default function BienestarEscolarPage() {
                                 </div>
                             ))}
                         </div>
-                        <Link href="/contacto" className="mt-8 inline-flex items-center justify-center gap-2 rounded-[5px] bg-[#171713] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#34362f]">
+                        <Link href="/contacto?servicio=bienestar-escolar" className="mt-8 inline-flex items-center justify-center gap-2 rounded-[5px] bg-[#171713] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#34362f]">
                             Contactar al equipo
                             <ArrowRight className="h-4 w-4" />
                         </Link>

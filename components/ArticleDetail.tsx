@@ -1,10 +1,40 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, User, Calendar, Share2, Bookmark } from "lucide-react";
+import { ArrowLeft, ArrowRight, User, Calendar, Share2, Bookmark } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { MotionDiv, MotionItem } from "@/components/ui/Motion";
 import { Article } from "@/lib/data";
 import { JsonLd } from "@/components/JsonLd";
+
+const getServiceCTA = (category: string): { label: string; description: string; href: string } => {
+    const cat = category.toLowerCase();
+    if (cat.includes("salud mental") || cat.includes("infancia") || cat.includes("niñez") || cat.includes("adiccion") || cat.includes("adicción")) {
+        return {
+            label: "Atención clínica",
+            description: "Evaluación, intervención y acompañamiento especializado en salud mental e infancia.",
+            href: "/servicios/clinica",
+        };
+    }
+    if (cat.includes("escuela") || cat.includes("educacion") || cat.includes("educación") || cat.includes("escolar") || cat.includes("colegio")) {
+        return {
+            label: "Bienestar escolar",
+            description: "Soporte interdisciplinario para convivencia, salud mental y protección institucional.",
+            href: "/servicios/bienestar-escolar",
+        };
+    }
+    if (cat.includes("institucion") || cat.includes("institución") || cat.includes("política") || cat.includes("politica") || cat.includes("sociedad")) {
+        return {
+            label: "Consultoría institucional",
+            description: "Diseño y mejora de modelos de intervención para organizaciones que trabajan con problemas complejos.",
+            href: "/servicios/consultoria",
+        };
+    }
+    return {
+        label: "Servicios CRC",
+        description: "Atención clínica, consultoría institucional y bienestar escolar con criterio técnico y pensamiento crítico.",
+        href: "/servicios",
+    };
+};
 
 const getAuthorDetails = (author: string) => {
     if (author.includes("Rocío Solar")) {
@@ -161,18 +191,21 @@ export default function ArticleDetail({
                     </div>
                 </div>
 
-                {/* CTA */}
-                <MotionItem className="mt-16 rounded-[8px] bg-[#bd6f3c] p-6 text-center text-white shadow-md sm:mt-20 sm:p-10">
-                    <h3 className="text-2xl font-bold mb-4">¿Te interesa profundizar en estos temas?</h3>
-                    <p className="mb-8 text-[#f1ded0]">
-                        Ofrecemos consultoría especializada para instituciones y académicos que buscan maximizar su impacto.
-                    </p>
-                    <Link href="/servicios">
-                        <Button className="w-full border-none bg-[#fffdf8] font-bold text-[#bd6f3c] hover:bg-[#eee8dc] sm:w-auto">
-                            Ver Servicios de Consultoría
-                        </Button>
-                    </Link>
-                </MotionItem>
+                {/* CTA contextual */}
+                {(() => {
+                    const cta = getServiceCTA(article.category);
+                    return (
+                        <MotionItem className="mt-16 rounded-[8px] bg-[#171713] p-6 text-white shadow-md sm:mt-20 sm:p-10">
+                            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#d3976d]">Servicio relacionado</span>
+                            <h3 className="mt-3 text-2xl font-bold font-serif">{cta.label}</h3>
+                            <p className="mt-3 text-sm leading-7 text-[#d8d0c4]">{cta.description}</p>
+                            <Link href={cta.href} className="mt-6 inline-flex items-center gap-2 rounded-[5px] bg-[#bd6f3c] px-5 py-3 text-sm font-bold text-white hover:bg-[#9f5528]">
+                                Conocer servicio
+                                <ArrowRight className="h-4 w-4" />
+                            </Link>
+                        </MotionItem>
+                    );
+                })()}
 
                 <JsonLd article={article} />
 

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 
-export function ContactForm() {
+export function ContactForm({ servicio }: { servicio?: string }) {
   const [busy, setBusy] = useState(false);
   const [result, setResult] = useState<string | null>(null);
 
@@ -22,6 +22,7 @@ export function ContactForm() {
             email: String(form.get("email") ?? ""),
             message: String(form.get("message") ?? ""),
             page: "/contacto",
+            ...(servicio ? { servicio } : {}),
           };
           const r = await fetch("/api/leads", {
             method: "POST",

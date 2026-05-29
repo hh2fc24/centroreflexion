@@ -393,6 +393,13 @@
         "children": []
       },
       {
+        "id": "fe1b15f9-f5fd-4cbd-88b5-b62b2435e133",
+        "label": "Academia CRC",
+        "href": "/academia",
+        "visible": true,
+        "children": []
+      },
+      {
         "id": "nav-contacto",
         "label": "Contacto",
         "href": "/contacto",

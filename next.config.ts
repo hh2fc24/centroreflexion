@@ -14,6 +14,15 @@ const nextConfig: NextConfig = {
         port: "",
         pathname: "/**",
       },
+      // Supabase Storage – imágenes de cursos y avatares de la Academia CRC
+      // El hostname real es: <project-id>.supabase.co
+      // Se usa un wildcard para cubrir cualquier proyecto durante el desarrollo.
+      {
+        protocol: "https",
+        hostname: "*.supabase.co",
+        port: "",
+        pathname: "/storage/v1/object/public/**",
+      },
     ],
   },
   async headers() {

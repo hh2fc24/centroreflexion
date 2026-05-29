@@ -9,6 +9,7 @@ const serviceRoutes = [
         problem: "Evaluación, intervención y acompañamiento especializado en salud mental, infancia, familia y terapia ocupacional.",
         audience: "Personas, familias, cuidadores y equipos que requieren una orientación profesional clara.",
         outcome: "Un proceso situado, respetuoso y técnicamente fundado.",
+        modality: "Presencial · Online · Domiciliario",
         href: "/servicios/clinica",
     },
     {
@@ -18,24 +19,27 @@ const serviceRoutes = [
         problem: "Diseño, diagnóstico y mejora de modelos de intervención, programas sociales, gestión y toma de decisiones.",
         audience: "Organizaciones públicas, privadas, fundaciones, programas y equipos directivos.",
         outcome: "Criterios, procesos y herramientas para operar con mayor coherencia y trazabilidad.",
+        modality: "Presencial · Online",
         href: "/servicios/consultoria",
     },
     {
         icon: ShieldCheck,
-        eyebrow: "Soy un colegio",
+        eyebrow: "Soy un colegio · cumplimiento normativo",
         title: "Compliance escolar",
         problem: "Auditoría de protocolos, Ley 21.809, convivencia escolar, trazabilidad y exposición civil o administrativa.",
         audience: "Sostenedores, equipos directivos y encargados de convivencia que necesitan blindar su respuesta institucional.",
         outcome: "Brechas claras, equipos entrenados y una ruta de cumplimiento verificable.",
+        modality: "Presencial · Online",
         href: "/servicios/compliance-escolar",
     },
     {
         icon: School,
-        eyebrow: "Soy un colegio",
+        eyebrow: "Soy un colegio · salud y prevención",
         title: "Bienestar escolar",
         problem: "Soporte interdisciplinario para convivencia, salud mental, riesgo suicida, protocolos y cumplimiento escolar.",
         audience: "Colegios y comunidades educativas que necesitan ordenar su gestión preventiva.",
         outcome: "Un marco de acompañamiento para que el colegio pueda enfocarse en educar.",
+        modality: "Presencial · Online",
         href: "/servicios/bienestar-escolar",
     },
     {
@@ -45,6 +49,7 @@ const serviceRoutes = [
         problem: "Capacitaciones, charlas, supervisión clínica y espacios de actualización para equipos profesionales.",
         audience: "Profesionales, instituciones, comunidades educativas y equipos de salud o intervención social.",
         outcome: "Aprendizaje aplicable, reflexión técnica y fortalecimiento de buenas prácticas.",
+        modality: "Presencial · Online",
         href: "/servicios/formacion",
     },
 ];
@@ -90,6 +95,7 @@ export default function ServicesHub() {
                                         </div>
                                         <p className="mt-7 text-[11px] font-bold uppercase tracking-[0.18em] text-[#d3976d]">{service.eyebrow}</p>
                                         <h2 className="mt-3 text-2xl font-bold leading-tight text-white font-serif">{service.title}</h2>
+                                        <span className="mt-3 inline-flex items-center rounded-[4px] bg-white/8 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#b0a898]">{service.modality}</span>
                                     </div>
                                     <div className="flex flex-1 flex-col p-6">
                                         <div className="space-y-4 text-sm leading-7 text-[#70695f]">
@@ -102,7 +108,7 @@ export default function ServicesHub() {
                                                 Ver detalle
                                                 <ArrowRight className="h-4 w-4" />
                                             </Link>
-                                            <Link href="/contacto" className="inline-flex items-center justify-center gap-2 rounded-[5px] border border-[#ded5c7] bg-[#fffdf8] px-5 py-3 text-sm font-bold text-[#171713] transition hover:border-[#bd6f3c]/50">
+                                            <Link href={`/contacto?servicio=${service.href.split("/").pop()}`} className="inline-flex items-center justify-center gap-2 rounded-[5px] border border-[#ded5c7] bg-[#fffdf8] px-5 py-3 text-sm font-bold text-[#171713] transition hover:border-[#bd6f3c]/50">
                                                 <Mail className="h-4 w-4" />
                                                 Solicitar orientación
                                             </Link>

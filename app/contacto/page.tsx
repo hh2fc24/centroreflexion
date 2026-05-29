@@ -2,7 +2,21 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Mail, MapPin } from "lucide-react";
 import { ContactForm } from "@/components/ContactForm";
 
-export default function Contact() {
+const servicioLabels: Record<string, string> = {
+    clinica: "Atención clínica",
+    consultoria: "Consultoría institucional",
+    "compliance-escolar": "Compliance escolar",
+    "bienestar-escolar": "Bienestar escolar",
+};
+
+export default async function Contact({
+    searchParams,
+}: {
+    searchParams: Promise<{ servicio?: string }>;
+}) {
+    const { servicio } = await searchParams;
+    const servicioLabel = servicio ? servicioLabels[servicio] : null;
+
     return (
         <div className="bg-[#fffdf8] py-16 sm:py-24 lg:py-32">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -10,9 +24,13 @@ export default function Contact() {
 
                     {/* Contact Info */}
                     <div>
-                        <h2 className="text-3xl font-bold tracking-tight text-[#171713] sm:text-4xl">Ponte en contacto</h2>
+                        <h2 className="text-3xl font-bold tracking-tight text-[#171713] sm:text-4xl">
+                            {servicioLabel ? `Solicitar orientación: ${servicioLabel}` : "Ponte en contacto"}
+                        </h2>
                         <p className="mt-4 text-base leading-7 text-[#55574f] sm:text-lg sm:leading-8">
-                            ¿Tienes alguna pregunta sobre nuestros servicios, columnas o quieres colaborar? Escríbenos.
+                            {servicioLabel
+                                ? `Cuéntanos tu situación y te orientamos sobre cómo podemos ayudarte con ${servicioLabel}.`
+                                : "¿Tienes alguna pregunta sobre nuestros servicios, columnas o quieres colaborar? Escríbenos."}
                         </p>
 
                         <dl className="mt-8 space-y-6 text-base leading-7 text-[#55574f]">
@@ -39,14 +57,14 @@ export default function Contact() {
                         </dl>
                     </div>
 
-                    {/* Contact Form Placeholder */}
+                    {/* Contact Form */}
                     <Card>
                         <CardHeader>
                             <CardTitle>Envíanos un mensaje</CardTitle>
                             <CardDescription>Te responderemos lo antes posible.</CardDescription>
                         </CardHeader>
                         <CardContent>
-                            <ContactForm />
+                            <ContactForm servicio={servicio} />
                         </CardContent>
                     </Card>
 
