@@ -30,14 +30,14 @@ const PHILOSOPHERS = [
   { name: "Max Weber",           era: "Sociología comprensiva", src: "/images/philosophers/weber.jpg",    objPos: "50% 22%" },
   { name: "Émile Durkheim",      era: "Sociología positiva",    src: "/images/philosophers/durkheim.jpg", objPos: "50% 15%" },
   { name: "Walter Benjamin",     era: "Escuela de Frankfurt",   src: "/images/philosophers/benjamin.jpg", objPos: "50% 15%" },
-  { name: "Hannah Arendt",       era: "Filosofía política",     src: "/images/philosophers/arendt.jpg",   objPos: "50% 62%" },
+  { name: "Hannah Arendt",       era: "Filosofía política",     src: "/images/philosophers/arendt.jpg",   objPos: "50% 36%" },
   { name: "Theodor Adorno",      era: "Teoría crítica",         src: "/images/philosophers/adorno.jpg",   objPos: "50% 26%" },
-  { name: "Michel Foucault",     era: "Filosofía del poder",    src: "/images/philosophers/foucault.jpg", objPos: "50% 35%" },
+  { name: "Sigmund Freud",       era: "Psicoanálisis",          src: "/images/philosophers/freud.jpg",    objPos: "50% 32%" },
   { name: "Rosa Luxemburg",      era: "Pensamiento político",   src: "/images/philosophers/luxemburg.jpg",objPos: "50% 30%" },
   { name: "Georg Simmel",        era: "Sociología formal",      src: "/images/philosophers/simmel.jpg",   objPos: "50% 39%" },
   { name: "Simone de Beauvoir",  era: "Existencialismo",        src: "/images/philosophers/beauvoir.jpg", objPos: "50% 66%" },
   { name: "Herbert Marcuse",     era: "Teoría crítica",         src: "/images/philosophers/marcuse.jpg",  objPos: "50% 38%" },
-  { name: "Adam Smith",          era: "Economía política",      src: "/images/philosophers/smith.jpg",    objPos: "50% 43%" },
+  { name: "Adam Smith",          era: "Economía política",      src: "/images/philosophers/smith.jpg",    objPos: "50% 32%" },
 ];
 
 const SLIDE_MS = 6500;
