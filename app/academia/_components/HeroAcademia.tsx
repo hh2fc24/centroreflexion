@@ -1,9 +1,9 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { ArrowRight } from "lucide-react";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -14,16 +14,128 @@ const DISCIPLINES = [
   "Análisis Cultural", "Epistemología",
 ];
 
+// Imágenes de dominio público vía Wikimedia Commons
+const PHILOSOPHERS = [
+  { name: "Karl Marx",           era: "Sociología clásica",    src: "https://upload.wikimedia.org/wikipedia/commons/d/d4/Karl_Marx_001.jpg" },
+  { name: "Max Weber",           era: "Sociología comprensiva", src: "https://upload.wikimedia.org/wikipedia/commons/1/16/Max_Weber_1917.jpg" },
+  { name: "Friedrich Nietzsche", era: "Filosofía continental",  src: "https://upload.wikimedia.org/wikipedia/commons/1/1b/Nietzsche187a.jpg" },
+  { name: "Émile Durkheim",      era: "Sociología positiva",    src: "https://upload.wikimedia.org/wikipedia/commons/2/23/Emile_Durkheim.jpg" },
+  { name: "Walter Benjamin",     era: "Escuela de Frankfurt",   src: "https://upload.wikimedia.org/wikipedia/commons/2/21/Walter_Benjamin_vers_1928.jpg" },
+  { name: "Hannah Arendt",       era: "Filosofía política",     src: "https://upload.wikimedia.org/wikipedia/commons/d/dd/Hannah_Arendt_1975_%28IV%29.jpg" },
+  { name: "Theodor Adorno",      era: "Teoría crítica",         src: "https://upload.wikimedia.org/wikipedia/commons/1/10/Theodor_W._Adorno_1964.jpg" },
+  { name: "Michel Foucault",     era: "Filosofía del poder",    src: "https://upload.wikimedia.org/wikipedia/commons/5/5a/Michel_Foucault_1974_Brasil.jpg" },
+  { name: "Rosa Luxemburg",      era: "Pensamiento crítico",    src: "https://upload.wikimedia.org/wikipedia/commons/b/b5/Rosa_Luxemburg.jpg" },
+  { name: "Georg Simmel",        era: "Sociología formal",      src: "https://upload.wikimedia.org/wikipedia/commons/5/58/GeorgSimmel.jpg" },
+  { name: "Simone de Beauvoir",  era: "Existencialismo",        src: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Simone_de_Beauvoir2.png" },
+  { name: "Herbert Marcuse",     era: "Teoría crítica",         src: "https://upload.wikimedia.org/wikipedia/commons/2/2d/Herbert_Marcuse.png" },
+];
+
+const SLIDE_DURATION = 6000; // ms por filósofo
+
 export function HeroAcademia() {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const yContent = useTransform(scrollYProgress, [0, 1], [0, 60]);
   const opContent = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
+  const [currentIdx, setCurrentIdx] = useState(0);
+  const [prevIdx, setPrevIdx] = useState<number | null>(null);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentIdx((i) => {
+        setPrevIdx(i);
+        return (i + 1) % PHILOSOPHERS.length;
+      });
+    }, SLIDE_DURATION);
+    return () => clearInterval(timer);
+  }, []);
+
   const all = [...DISCIPLINES, ...DISCIPLINES];
 
   return (
     <section ref={ref} className="relative overflow-hidden" style={{ background: "var(--ac-bg)" }}>
+
+      {/* ── Carrusel de filósofos (fondo) ── */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+
+        {/* Imagen saliente */}
+        <AnimatePresence>
+          {prevIdx !== null && (
+            <motion.div
+              key={`prev-${prevIdx}`}
+              initial={{ opacity: 1 }}
+              animate={{ opacity: 0 }}
+              exit={{}}
+              transition={{ duration: 1.8, ease: "easeInOut" }}
+              className="absolute inset-0"
+            >
+              <img
+                src={PHILOSOPHERS[prevIdx].src}
+                alt=""
+                aria-hidden
+                className="h-full w-full object-cover object-top"
+                style={{ filter: "grayscale(100%) brightness(0.55) contrast(1.1)" }}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Imagen entrante con Ken Burns */}
+        <AnimatePresence mode="sync">
+          <motion.div
+            key={`curr-${currentIdx}`}
+            initial={{ opacity: 0, scale: 1.0 }}
+            animate={{ opacity: 1, scale: 1.06 }}
+            exit={{ opacity: 0 }}
+            transition={{
+              opacity: { duration: 1.8, ease: "easeInOut" },
+              scale:   { duration: SLIDE_DURATION / 1000, ease: "linear" },
+            }}
+            className="absolute inset-0"
+          >
+            <img
+              src={PHILOSOPHERS[currentIdx].src}
+              alt=""
+              aria-hidden
+              className="h-full w-full object-cover object-top"
+              style={{ filter: "grayscale(100%) brightness(0.55) contrast(1.1)" }}
+            />
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Overlay oscuro principal — mantiene legibilidad del texto */}
+        <div
+          className="absolute inset-0"
+          style={{ background: "linear-gradient(135deg, rgba(8,8,12,0.82) 0%, rgba(8,8,12,0.70) 50%, rgba(8,8,12,0.78) 100%)" }}
+        />
+
+        {/* Degradado inferior para fundir con el marquee */}
+        <div
+          className="absolute bottom-0 left-0 right-0 h-32"
+          style={{ background: "linear-gradient(to bottom, transparent, var(--ac-bg))" }}
+        />
+
+        {/* Atribución del pensador — esquina inferior derecha */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={`name-${currentIdx}`}
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -4 }}
+            transition={{ duration: 0.7, ease: "easeOut", delay: 0.4 }}
+            className="absolute bottom-20 right-6 text-right"
+            style={{ zIndex: 5 }}
+          >
+            <p style={{ fontSize: "0.6rem", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--ac-gold)", opacity: 0.8 }}>
+              {PHILOSOPHERS[currentIdx].era}
+            </p>
+            <p style={{ fontSize: "0.75rem", fontWeight: 500, letterSpacing: "0.06em", color: "rgba(240,236,228,0.5)", marginTop: "0.15rem" }}>
+              {PHILOSOPHERS[currentIdx].name}
+            </p>
+          </motion.div>
+        </AnimatePresence>
+      </div>
 
       {/* ── Fondo: grain + orb dorado sutil ── */}
       <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
