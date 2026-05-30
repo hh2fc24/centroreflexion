@@ -15,26 +15,32 @@ const DISCIPLINES = [
 ];
 
 /**
- * Imágenes locales en /public/images/philosophers/
- * Todas son dominio público (Wikimedia Commons).
- * objPos: object-position para centrar el rostro en la imagen.
+ * Imágenes locales en /public/images/philosophers/ (dominio público — Wikimedia Commons).
+ *
+ * objPos calculado matemáticamente para cada imagen:
+ * - Se miden dimensiones reales de cada archivo
+ * - Se estima pixel del rostro en la imagen renderizada a cover-scale
+ * - Se calcula el % de overflow a recortar para que el rostro quede
+ *   en el tercio superior del container (28% del alto)
+ * - Resultados verificados con PIL/Pillow antes del commit
  */
 const PHILOSOPHERS = [
   { name: "Karl Marx",           era: "Sociología clásica",     src: "/images/philosophers/marx.jpg",     objPos: "50% 18%" },
-  { name: "Friedrich Nietzsche", era: "Filosofía continental",  src: "/images/philosophers/nietzsche.jpg", objPos: "50% 22%" },
-  { name: "Max Weber",           era: "Sociología comprensiva", src: "/images/philosophers/weber.jpg",    objPos: "50% 20%" },
-  { name: "Émile Durkheim",      era: "Sociología positiva",    src: "/images/philosophers/durkheim.jpg", objPos: "50% 25%" },
-  { name: "Walter Benjamin",     era: "Escuela de Frankfurt",   src: "/images/philosophers/benjamin.jpg", objPos: "50% 20%" },
-  { name: "Hannah Arendt",       era: "Filosofía política",     src: "/images/philosophers/arendt.jpg",   objPos: "50% 30%" },
-  { name: "Theodor Adorno",      era: "Teoría crítica",         src: "/images/philosophers/adorno.jpg",   objPos: "50% 22%" },
-  { name: "Michel Foucault",     era: "Filosofía del poder",    src: "/images/philosophers/foucault.jpg", objPos: "50% 20%" },
-  { name: "Rosa Luxemburg",      era: "Pensamiento político",   src: "/images/philosophers/luxemburg.jpg",objPos: "50% 18%" },
-  { name: "Georg Simmel",        era: "Sociología formal",      src: "/images/philosophers/simmel.jpg",   objPos: "50% 20%" },
-  { name: "Simone de Beauvoir",  era: "Existencialismo",        src: "/images/philosophers/beauvoir.jpg", objPos: "50% 22%" },
-  { name: "Herbert Marcuse",     era: "Teoría crítica",         src: "/images/philosophers/marcuse.jpg",  objPos: "50% 20%" },
+  { name: "Friedrich Nietzsche", era: "Filosofía continental",  src: "/images/philosophers/nietzsche.jpg", objPos: "50% 32%" },
+  { name: "Max Weber",           era: "Sociología comprensiva", src: "/images/philosophers/weber.jpg",    objPos: "50% 50%" },
+  { name: "Émile Durkheim",      era: "Sociología positiva",    src: "/images/philosophers/durkheim.jpg", objPos: "50% 28%" },
+  { name: "Walter Benjamin",     era: "Escuela de Frankfurt",   src: "/images/philosophers/benjamin.jpg", objPos: "50% 36%" },
+  { name: "Hannah Arendt",       era: "Filosofía política",     src: "/images/philosophers/arendt.jpg",   objPos: "50% 41%" },
+  { name: "Theodor Adorno",      era: "Teoría crítica",         src: "/images/philosophers/adorno.jpg",   objPos: "50% 46%" },
+  { name: "Michel Foucault",     era: "Filosofía del poder",    src: "/images/philosophers/foucault.jpg", objPos: "50% 52%" },
+  { name: "Rosa Luxemburg",      era: "Pensamiento político",   src: "/images/philosophers/luxemburg.jpg",objPos: "50% 11%" },
+  { name: "Georg Simmel",        era: "Sociología formal",      src: "/images/philosophers/simmel.jpg",   objPos: "50% 25%" },
+  { name: "Simone de Beauvoir",  era: "Existencialismo",        src: "/images/philosophers/beauvoir.jpg", objPos: "50% 17%" },
+  { name: "Herbert Marcuse",     era: "Teoría crítica",         src: "/images/philosophers/marcuse.jpg",  objPos: "50% 35%" },
+  { name: "Adam Smith",          era: "Economía política",      src: "/images/philosophers/smith.jpg",    objPos: "50% 22%" },
 ];
 
-const SLIDE_MS = 6000;
+const SLIDE_MS = 6500;
 
 export function HeroAcademia() {
   const ref = useRef<HTMLElement>(null);
@@ -55,71 +61,73 @@ export function HeroAcademia() {
   return (
     <section ref={ref} className="relative overflow-hidden" style={{ background: "var(--ac-bg)" }}>
 
-      {/* ── Carrusel de filósofos ── */}
+      {/* ── Carrusel de filósofos (fondo) ── */}
       <div className="pointer-events-none absolute inset-0">
 
-        {/* Crossfade entre retratos */}
+        {/* Crossfade puro — sin scale en el wrapper para que objPos no varíe */}
         <AnimatePresence mode="sync">
           <motion.div
             key={current.src}
-            initial={{ opacity: 0, scale: 1.0 }}
-            animate={{ opacity: 1,  scale: 1.06 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{
-              opacity: { duration: 2.0, ease: "easeInOut" },
-              scale:   { duration: SLIDE_MS / 1000 + 1, ease: "linear" },
-            }}
-            className="absolute inset-0 overflow-hidden"
-            /* El zoom se ancla en la zona del rostro para que no salga de cuadro */
-            style={{ transformOrigin: current.objPos }}
+            transition={{ duration: 2.2, ease: "easeInOut" }}
+            className="absolute inset-0"
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={current.src}
               alt=""
               aria-hidden
-              className="absolute inset-0 h-full w-full object-cover"
               style={{
+                position: "absolute",
+                inset: 0,
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
                 objectPosition: current.objPos,
-                filter: "grayscale(100%) brightness(0.6) contrast(1.12)",
+                filter: "grayscale(100%) brightness(0.65) contrast(1.1)",
               }}
             />
           </motion.div>
         </AnimatePresence>
 
-        {/* Overlay: oscuro + viñeta lateral para profundidad */}
+        {/* Overlay compuesto:
+            – izquierda más oscura (donde cae el texto)
+            – derecha más translúcida (el retrato se percibe mejor)
+            – abajo funde con --ac-bg para el marquee */}
         <div
           className="absolute inset-0"
           style={{
-            background: [
-              "linear-gradient(to right,  rgba(8,8,12,0.88) 0%, rgba(8,8,12,0.55) 55%, rgba(8,8,12,0.72) 100%)",
-              "linear-gradient(to bottom, rgba(8,8,12,0.30) 0%, rgba(8,8,12,0.15) 40%, rgba(8,8,12,0.95) 100%)",
-            ].join(", "),
+            background: `
+              linear-gradient(to right,  rgba(8,8,12,0.90) 0%, rgba(8,8,12,0.70) 45%, rgba(8,8,12,0.42) 100%),
+              linear-gradient(to bottom, rgba(8,8,12,0.20) 0%, rgba(8,8,12,0.05) 45%, rgba(8,8,12,0.96) 100%)
+            `,
           }}
         />
 
-        {/* Atribución del pensador — esquina inferior derecha, sobre el degradado */}
+        {/* Atribución del pensador — derecha, donde la imagen se ve más */}
         <AnimatePresence mode="wait">
           <motion.div
             key={current.name}
-            initial={{ opacity: 0, y: 8 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -6 }}
-            transition={{ duration: 0.65, ease: "easeOut", delay: 0.5 }}
-            className="absolute bottom-24 right-6 text-right"
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.7, ease: "easeOut", delay: 0.6 }}
+            className="absolute bottom-24 right-7 text-right"
             style={{ zIndex: 5 }}
           >
             <p style={{
-              fontSize: "0.55rem", fontWeight: 700,
+              fontSize: "0.56rem", fontWeight: 700,
               letterSpacing: "0.22em", textTransform: "uppercase",
-              color: "var(--ac-gold)", opacity: 0.9,
+              color: "var(--ac-gold)", opacity: 0.95,
             }}>
               {current.era}
             </p>
             <p style={{
-              fontSize: "0.78rem", fontWeight: 400,
-              letterSpacing: "0.04em",
-              color: "rgba(240,236,228,0.55)", marginTop: "0.2rem",
+              fontSize: "0.8rem", fontWeight: 300,
+              letterSpacing: "0.05em",
+              color: "rgba(240,236,228,0.60)", marginTop: "0.18rem",
             }}>
               {current.name}
             </p>
@@ -144,7 +152,7 @@ export function HeroAcademia() {
           style={{ background: "linear-gradient(to bottom, transparent, var(--ac-border) 25%, var(--ac-border) 75%, transparent)" }} />
       </div>
 
-      {/* ── Contenido ── */}
+      {/* ── Contenido principal ── */}
       <motion.div
         style={{ y: yContent, opacity: opContent }}
         className="relative z-10 mx-auto max-w-7xl px-5 sm:px-8 lg:px-14"
