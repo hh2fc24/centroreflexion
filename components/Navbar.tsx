@@ -39,7 +39,7 @@ export function Navbar({ initialNavigation }: { initialNavigation?: NavigationCo
     }, []);
 
     return (
-        <nav className={cn(
+        <nav data-main-nav="" className={cn(
             "sticky top-0 z-50 w-full transition-all duration-300",
             scrolled
                 ? "bg-[#f8f5ee]/96 shadow-[0_1px_18px_rgba(31,27,22,0.08)] backdrop-blur"

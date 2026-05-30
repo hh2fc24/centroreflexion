@@ -1,5 +1,34 @@
 import Link from "next/link";
 import { ArrowLeft, Check, ClipboardCheck, HeartPulse, Home, Mail, MapPin, ShieldCheck, Stethoscope, Users } from "lucide-react";
+import { TestimonialsSection } from "@/components/TestimonialsSection";
+
+const testimoniosClinica = [
+    {
+        texto: "Su dedicación, paciencia, cariño y compromiso fueron fundamentales para nosotros. Gracias por entregar siempre lo mejor, por su gran vocación y por dejar una huella tan positiva en nuestra familia.",
+        autor: "Francisca, 36 años",
+        contexto: "Mamá de hijo con TEA y TDAH",
+    },
+    {
+        texto: "Siempre fuiste muy paciente, amable y preocupada por ayudarlo en su proceso. Estamos muy agradecidos por todo el apoyo y cariño que le entregaste.",
+        autor: "Catherine, 40 años",
+        contexto: "Madre de hijo con TDAH",
+    },
+    {
+        texto: "Logró sacar a mi hijo del mutismo y generó una confianza en él que hizo que avanzara enormemente en su relación con el entorno. Tiene el corazón y el profesionalismo para lograr ese progreso.",
+        autor: "Margarita, 54 años",
+        contexto: "Mamá de joven con autismo severo",
+    },
+    {
+        texto: "Atendió mis problemas y supo identificar qué cosas podía mejorar. Me daba ejercicios y tareas para avanzar. Es de verdad una maravillosa persona.",
+        autor: "Cristian, 20 años",
+        contexto: "Joven con TEA",
+    },
+    {
+        texto: "Ayudó mucho a mi hijo a ser más autónomo en las cosas del hogar. Cuando dejó de atenderlo, Benjamín la extrañó. Muchas gracias por ser tan buena persona y profesional.",
+        autor: "Macarena",
+        contexto: "Mamá de Benjamín, 17 años, autismo",
+    },
+];
 
 const juanServices = [
     { name: "Evaluación de competencias parentales", detail: "Análisis psicosocial, contexto familiar, factores protectores y riesgo.", price: "Desde 3 UF" },
@@ -199,6 +228,11 @@ export default function ClinicaPage() {
                     </Link>
                 </div>
             </section>
+
+            <TestimonialsSection
+                testimonios={testimoniosClinica}
+                titulo="Lo que dicen quienes trabajaron con Rocío Solar"
+            />
         </main>
     );
 }

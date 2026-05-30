@@ -1,59 +1,83 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Video, Users, Award, BookOpen, MessageSquare, Zap } from "lucide-react";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
+// cols: number of columns to span out of 6 at lg breakpoint
 const features = [
   {
     n: "01",
+    icon: Video,
     title: "Clases en video HD",
-    desc: "Accede a clases grabadas por expertos cuando y donde quieras. Sin horarios fijos — avanza según tu tiempo y retoma donde lo dejaste con seguimiento automático.",
+    desc: "Accede a clases grabadas por expertos cuando y donde quieras. Sin horarios fijos — avanza según tu tiempo y retoma donde lo dejaste.",
     tag: "Asíncrono",
+    cols: 4,
   },
   {
     n: "02",
+    icon: Users,
     title: "Profesores del mundo real",
-    desc: "Todos los cursos son impartidos por académicos, investigadores y profesionales activos del Centro de Reflexiones Críticas. No hay intermediarios.",
+    desc: "Todos los cursos son impartidos por académicos e investigadores activos del CRC. Sin intermediarios.",
     tag: "Expertos",
+    cols: 2,
   },
   {
     n: "03",
+    icon: Award,
     title: "Certificados de logro",
-    desc: "Al completar cada curso recibes un certificado firmado por el CRC. Descargable, verificable y con valor en tu trayectoria académica.",
+    desc: "Al completar cada curso recibes un certificado firmado por el CRC. Descargable y verificable.",
     tag: "Certificación",
+    cols: 2,
   },
   {
     n: "04",
+    icon: BookOpen,
     title: "Material de profundización",
-    desc: "Cada lección incluye lecturas complementarias, documentos descargables y recursos curados para seguir más allá del video.",
+    desc: "Lecturas complementarias, documentos descargables y recursos curados para ir más allá del video.",
     tag: "Recursos",
+    cols: 2,
   },
   {
     n: "05",
+    icon: MessageSquare,
     title: "Comunidad y debate",
-    desc: "Participa en foros moderados por los propios profesores. Las ideas se construyen en conversación, no en soledad.",
+    desc: "Foros moderados por los propios profesores. Las ideas se construyen en conversación, no en soledad.",
     tag: "Comunidad",
+    cols: 2,
   },
   {
     n: "06",
+    icon: Zap,
     title: "Talleres y actividades en vivo",
-    desc: "Sesiones sincrónicas con profesores del CRC: debates guiados, presentaciones y espacios de reflexión colectiva programados durante el semestre.",
+    desc: "Sesiones sincrónicas con el equipo CRC: debates guiados, presentaciones y espacios de reflexión colectiva programados durante el semestre.",
     tag: "En vivo",
+    cols: 6,
   },
 ];
+
+const container = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.08 } },
+};
+
+const cardAnim = {
+  hidden: { opacity: 0, y: 28 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.65, ease } },
+};
 
 export function FeaturesSection() {
   return (
     <section className="mx-auto max-w-7xl px-6 sm:px-10 lg:px-16">
 
-      {/* Header editorial */}
+      {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-80px" }}
         transition={{ duration: 0.7, ease }}
-        className="mb-16 grid gap-6 lg:grid-cols-2 lg:items-end"
+        className="mb-14 grid gap-6 lg:grid-cols-2 lg:items-end"
       >
         <h2
           style={{
@@ -70,91 +94,183 @@ export function FeaturesSection() {
           <span style={{ color: "var(--ac-gold)", fontStyle: "italic" }}>para aprender de verdad.</span>
         </h2>
         <p
-          className="max-w-sm text-sm leading-relaxed lg:text-right lg:ml-auto"
+          className="max-w-sm text-sm leading-relaxed lg:ml-auto lg:text-right"
           style={{ color: "var(--ac-text-3)" }}
         >
           Construimos la Academia CRC con un principio claro: el aprendizaje profundo requiere tiempo, contexto y conversación.
         </p>
       </motion.div>
 
-      {/* Regla separadora */}
-      <div className="mb-0 h-px w-full" style={{ background: "var(--ac-border)" }} />
-
-      {/* Lista editorial de features */}
-      <div>
-        {features.map((f, i) => (
-          <motion.div
-            key={f.n}
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-40px" }}
-            transition={{ duration: 0.6, ease, delay: (i % 2) * 0.06 }}
-          >
-            <div
-              className="group grid cursor-default grid-cols-[auto_1fr_auto] items-center gap-6 py-7 transition-colors duration-200 lg:gap-10 lg:py-8"
-              style={{ borderBottom: "1px solid var(--ac-border)" }}
+      {/* Bento grid — uses inline style for col-span to avoid Tailwind purge */}
+      <motion.div
+        variants={container}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: "-60px" }}
+        style={{
+          display: "grid",
+          gap: "0.75rem",
+          gridTemplateColumns: "repeat(6, minmax(0, 1fr))",
+        }}
+      >
+        {features.map((f) => {
+          const Icon = f.icon;
+          const isFull = f.cols === 6;
+          return (
+            <motion.div
+              key={f.n}
+              variants={cardAnim}
+              className="group relative overflow-hidden rounded-[10px] transition-all duration-300"
+              style={{
+                gridColumn: `span ${f.cols} / span ${f.cols}`,
+                padding: isFull ? "2rem 2.5rem" : "1.75rem",
+                background: isFull
+                  ? "linear-gradient(135deg, var(--ac-surface) 0%, var(--ac-surface-2) 100%)"
+                  : "var(--ac-surface)",
+                border: "1px solid var(--ac-border)",
+              }}
             >
-              {/* Número */}
-              <span
-                className="font-bold tabular-nums leading-none transition-colors duration-200 group-hover:text-[var(--ac-gold)]"
-                style={{
-                  fontFamily: "var(--font-cormorant, Georgia, serif)",
-                  fontSize: "clamp(1.1rem, 2vw, 1.5rem)",
-                  color: "var(--ac-text-3)",
-                  minWidth: "2.5rem",
-                }}
-              >
-                {f.n}
-              </span>
+              {/* Gold border on hover */}
+              <div
+                className="pointer-events-none absolute inset-0 rounded-[10px] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                style={{ border: "1px solid rgba(212,168,67,0.45)" }}
+              />
 
-              {/* Título + descripción */}
-              <div className="min-w-0">
-                <h3
-                  className="mb-1 font-semibold transition-colors duration-200 group-hover:text-[var(--ac-gold)] lg:mb-0"
+              {/* Glow on hover */}
+              <div
+                className="pointer-events-none absolute inset-0 rounded-[10px] opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                style={{
+                  background: isFull
+                    ? "radial-gradient(ellipse at 8% 50%, rgba(212,168,67,0.08) 0%, transparent 55%)"
+                    : "radial-gradient(ellipse at 20% 15%, rgba(212,168,67,0.07) 0%, transparent 60%)",
+                }}
+              />
+
+              {/* Gold top line for full-width card */}
+              {isFull && (
+                <div
+                  className="absolute inset-x-0 top-0 h-px opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                  style={{ background: "linear-gradient(90deg, transparent, rgba(212,168,67,0.55), transparent)" }}
+                />
+              )}
+
+              <div
+                className="relative z-10"
+                style={
+                  isFull
+                    ? { display: "flex", flexDirection: "column", gap: "1rem" }
+                    : undefined
+                }
+              >
+                {/* Number + icon */}
+                <div
                   style={{
-                    fontFamily: "var(--font-cormorant, Georgia, serif)",
-                    fontSize: "clamp(1rem, 1.6vw, 1.2rem)",
-                    fontWeight: 600,
-                    color: "var(--ac-text)",
-                    letterSpacing: "-0.01em",
+                    display: "flex",
+                    alignItems: "flex-start",
+                    justifyContent: "space-between",
+                    marginBottom: isFull ? 0 : "1.25rem",
                   }}
                 >
-                  {f.title}
-                </h3>
-                <p
-                  className="mt-1.5 max-w-2xl text-sm leading-relaxed lg:hidden"
-                  style={{ color: "var(--ac-text-3)" }}
+                  <span
+                    style={{
+                      fontFamily: "var(--font-cormorant, Georgia, serif)",
+                      fontSize: isFull ? "clamp(2.8rem, 4vw, 3.8rem)" : "clamp(1.9rem, 2.8vw, 2.6rem)",
+                      fontWeight: 700,
+                      lineHeight: 1,
+                      color: "rgba(255,255,255,0.12)",
+                      transition: "color 0.3s",
+                      userSelect: "none",
+                    }}
+                    className="group-hover:!text-[rgba(212,168,67,0.22)]"
+                  >
+                    {f.n}
+                  </span>
+                  <div
+                    className="transition-all duration-300 group-hover:scale-110"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      width: isFull ? "3rem" : "2.5rem",
+                      height: isFull ? "3rem" : "2.5rem",
+                      borderRadius: "7px",
+                      flexShrink: 0,
+                      background: "var(--ac-gold-dim)",
+                      border: "1px solid rgba(212,168,67,0.22)",
+                    }}
+                  >
+                    <Icon
+                      style={{
+                        width: isFull ? "1.2rem" : "1rem",
+                        height: isFull ? "1.2rem" : "1rem",
+                        color: "var(--ac-gold)",
+                        opacity: 0.85,
+                      }}
+                    />
+                  </div>
+                </div>
+
+                {/* Text content — horizontal on full-width */}
+                <div
+                  style={
+                    isFull
+                      ? { display: "flex", alignItems: "center", gap: "3rem", flexWrap: "wrap" }
+                      : undefined
+                  }
                 >
-                  {f.desc}
-                </p>
-                {/* Desktop: desc aparece en hover */}
-                <motion.p
-                  initial={{ height: 0, opacity: 0 }}
-                  className="mt-2 hidden max-w-2xl overflow-hidden text-sm leading-relaxed lg:block"
-                  style={{
-                    color: "var(--ac-text-3)",
-                    /* usando max-height para el efecto hover con CSS */
-                  }}
-                >
-                  {f.desc}
-                </motion.p>
+                  <div style={isFull ? { flex: "0 0 auto" } : undefined}>
+                    <h3
+                      className="transition-colors duration-300 group-hover:!text-[var(--ac-gold)]"
+                      style={{
+                        fontFamily: "var(--font-cormorant, Georgia, serif)",
+                        fontSize: isFull ? "clamp(1.3rem, 1.8vw, 1.55rem)" : "clamp(1rem, 1.5vw, 1.18rem)",
+                        fontWeight: 600,
+                        color: "var(--ac-text)",
+                        letterSpacing: "-0.01em",
+                        lineHeight: 1.15,
+                        marginBottom: "0.5rem",
+                        whiteSpace: isFull ? "nowrap" : undefined,
+                      }}
+                    >
+                      {f.title}
+                    </h3>
+                  </div>
+
+                  <p
+                    style={{
+                      flex: isFull ? 1 : undefined,
+                      fontSize: isFull ? "0.88rem" : "0.81rem",
+                      lineHeight: 1.65,
+                      color: "var(--ac-text-3)",
+                      minWidth: 0,
+                    }}
+                  >
+                    {f.desc}
+                  </p>
+
+                  <div style={isFull ? { flexShrink: 0 } : { marginTop: "1.1rem" }}>
+                    <span
+                      className="inline-block rounded-full transition-all duration-300 group-hover:!border-[rgba(212,168,67,0.5)] group-hover:!text-[var(--ac-gold)]"
+                      style={{
+                        padding: "0.2rem 0.65rem",
+                        fontSize: "10px",
+                        fontWeight: 700,
+                        textTransform: "uppercase",
+                        letterSpacing: "0.12em",
+                        border: "1px solid var(--ac-border-md)",
+                        color: "var(--ac-text-3)",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {f.tag}
+                    </span>
+                  </div>
+                </div>
               </div>
-
-              {/* Tag */}
-              <span
-                className="shrink-0 rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-widest transition-colors duration-200 group-hover:border-[var(--ac-gold)] group-hover:text-[var(--ac-gold)]"
-                style={{
-                  border: "1px solid var(--ac-border-md)",
-                  color: "var(--ac-text-3)",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {f.tag}
-              </span>
-            </div>
-          </motion.div>
-        ))}
-      </div>
+            </motion.div>
+          );
+        })}
+      </motion.div>
     </section>
   );
 }

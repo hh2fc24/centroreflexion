@@ -422,3 +422,7 @@ span {
 [data-academia] ::-webkit-scrollbar-track { background: var(--ac-bg); }
 [data-academia] ::-webkit-scrollbar-thumb { background: rgba(212,168,67,0.25); border-radius: 3px; }
 [data-academia] ::-webkit-scrollbar-thumb:hover { background: rgba(212,168,67,0.45); }
+
+/* Ocultar navbar y footer principal en páginas de Academia */
+body:has([data-academia]) [data-main-nav] { display: none !important; }
+body:has([data-academia]) footer { display: none !important; }
