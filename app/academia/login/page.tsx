@@ -141,29 +141,6 @@ function AcademiaLoginForm() {
             </p>
           </div>
 
-          {/* Mini preview de cursos flotando */}
-          <div className="flex gap-4">
-            {[
-              { label: "Filosofía crítica", pct: 75 },
-              { label: "Ciencias sociales", pct: 40 },
-            ].map((item) => (
-              <div
-                key={item.label}
-                className="ac-float flex-1 rounded-[6px] p-4"
-                style={{ background: "var(--ac-card)", border: "1px solid var(--ac-border-md)" }}
-              >
-                <p className="mb-2 truncate text-xs font-medium" style={{ color: "var(--ac-text-2)" }}>
-                  {item.label}
-                </p>
-                <div className="h-1.5 overflow-hidden rounded-full" style={{ background: "var(--ac-border-md)" }}>
-                  <div className="h-full ac-progress-bar" style={{ width: `${item.pct}%` }} />
-                </div>
-                <p className="mt-1 text-right text-[10px] font-bold" style={{ color: "var(--ac-gold)" }}>
-                  {item.pct}%
-                </p>
-              </div>
-            ))}
-          </div>
         </div>
       </div>
 

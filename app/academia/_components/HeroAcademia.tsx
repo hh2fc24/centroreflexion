@@ -14,30 +14,72 @@ const DISCIPLINES = [
   "Análisis Cultural", "Epistemología",
 ];
 
-/**
- * objPos calculado matemáticamente para cada imagen:
- * - Container desktop: 1440×936px (100svh – 64px nav)
- * - scale = max(CW/orig_w, CH/orig_h)  [object-fit: cover]
- * - overflow_y = orig_h×scale − CH
- * - face_px_rendered = face_pct×orig_h×scale  (center del rostro en imagen renderizada)
- * - target_y = CH×0.28 = 262px  (rostro en tercio superior del container)
- * - objY% = (face_px_rendered − target_y) / overflow_y × 100  [clamp 0–88]
- * Valores verificados con simulación de recorte en PIL antes del commit.
- */
 const PHILOSOPHERS = [
-  { name: "Karl Marx",           era: "Sociología clásica",     src: "/images/philosophers/marx.jpg",     objPos: "50% 26%" },
-  { name: "Friedrich Nietzsche", era: "Filosofía continental",  src: "/images/philosophers/nietzsche.jpg", objPos: "50% 49%" },
-  { name: "Max Weber",           era: "Sociología comprensiva", src: "/images/philosophers/weber.jpg",    objPos: "50% 22%" },
-  { name: "Émile Durkheim",      era: "Sociología positiva",    src: "/images/philosophers/durkheim.jpg", objPos: "50% 15%" },
-  { name: "Walter Benjamin",     era: "Escuela de Frankfurt",   src: "/images/philosophers/benjamin.jpg", objPos: "50% 15%" },
-  { name: "Hannah Arendt",       era: "Filosofía política",     src: "/images/philosophers/arendt.jpg",   objPos: "50% 36%" },
-  { name: "Theodor Adorno",      era: "Teoría crítica",         src: "/images/philosophers/adorno.jpg",   objPos: "50% 26%" },
-  { name: "Sigmund Freud",       era: "Psicoanálisis",          src: "/images/philosophers/freud.jpg",    objPos: "50% 32%" },
-  { name: "Rosa Luxemburg",      era: "Pensamiento político",   src: "/images/philosophers/luxemburg.jpg",objPos: "50% 30%" },
-  { name: "Georg Simmel",        era: "Sociología formal",      src: "/images/philosophers/simmel.jpg",   objPos: "50% 39%" },
-  { name: "Simone de Beauvoir",  era: "Existencialismo",        src: "/images/philosophers/beauvoir.jpg", objPos: "50% 66%" },
-  { name: "Herbert Marcuse",     era: "Teoría crítica",         src: "/images/philosophers/marcuse.jpg",  objPos: "50% 38%" },
-  { name: "Adam Smith",          era: "Economía política",      src: "/images/philosophers/smith.jpg",    objPos: "50% 32%" },
+  {
+    name: "Karl Marx", era: "Sociología clásica",
+    src: "/images/philosophers/marx.jpg", objPos: "50% 26%",
+    quote: "Los filósofos solo han interpretado el mundo; de lo que se trata es de transformarlo.",
+  },
+  {
+    name: "Friedrich Nietzsche", era: "Filosofía continental",
+    src: "/images/philosophers/nietzsche.jpg", objPos: "50% 49%",
+    quote: "Lo que no me mata me hace más fuerte.",
+  },
+  {
+    name: "Max Weber", era: "Sociología comprensiva",
+    src: "/images/philosophers/weber.jpg", objPos: "50% 22%",
+    quote: "La política es la perforación lenta de tablas duras.",
+  },
+  {
+    name: "Émile Durkheim", era: "Sociología positiva",
+    src: "/images/philosophers/durkheim.jpg", objPos: "50% 15%",
+    quote: "La sociedad es una realidad sui generis.",
+  },
+  {
+    name: "Walter Benjamin", era: "Escuela de Frankfurt",
+    src: "/images/philosophers/benjamin.jpg", objPos: "50% 15%",
+    quote: "Todo documento de cultura es también un documento de barbarie.",
+  },
+  {
+    name: "Hannah Arendt", era: "Filosofía política",
+    src: "/images/philosophers/arendt.jpg", objPos: "50% 36%",
+    quote: "El mal más radical proviene de la renuncia a pensar.",
+  },
+  {
+    name: "Theodor Adorno", era: "Teoría crítica",
+    src: "/images/philosophers/adorno.jpg", objPos: "50% 26%",
+    quote: "El todo es falso.",
+  },
+  {
+    name: "Sigmund Freud", era: "Psicoanálisis",
+    src: "/images/philosophers/freud.jpg", objPos: "50% 32%",
+    quote: "Las palabras son el instrumento fundamental del trabajo psíquico.",
+  },
+  {
+    name: "Rosa Luxemburg", era: "Pensamiento político",
+    src: "/images/philosophers/luxemburg.jpg", objPos: "50% 30%",
+    quote: "Quien no se mueve no siente sus cadenas.",
+  },
+  {
+    name: "Georg Simmel", era: "Sociología formal",
+    src: "/images/philosophers/simmel.jpg", objPos: "50% 39%",
+    quote: "La vida es perpetua aventura hacia formas que no la agotan.",
+  },
+  {
+    name: "Simone de Beauvoir", era: "Existencialismo",
+    src: "/images/philosophers/beauvoir.jpg", objPos: "50% 66%",
+    quote: "No se nace mujer: se llega a serlo.",
+  },
+  {
+    name: "Herbert Marcuse", era: "Teoría crítica",
+    src: "/images/philosophers/marcuse.jpg", objPos: "50% 38%",
+    quote: "La tolerancia represiva protege el statu quo.",
+  },
+  {
+    name: "Adam Smith", era: "Economía política",
+    src: "/images/philosophers/smith.jpg", objPos: "50% 32%",
+    quote: "No es la benevolencia del carnicero lo que nos procura la cena.",
+  },
 ];
 
 const SLIDE_MS = 6500;
@@ -64,7 +106,9 @@ export function HeroAcademia() {
       {/* ── Carrusel de filósofos (fondo) ── */}
       <div className="pointer-events-none absolute inset-0">
 
-        {/* Crossfade puro — sin scale en el wrapper para que objPos no varíe */}
+        {/* ── Crossfade + Ken Burns ──
+            El key en motion.div fuerza remount → reinicia la animación de scale
+            en el motion.img hijo. transformOrigin anclado a objPos → zoom hacia el rostro. */}
         <AnimatePresence mode="sync">
           <motion.div
             key={current.src}
@@ -75,10 +119,13 @@ export function HeroAcademia() {
             className="absolute inset-0"
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <motion.img
               src={current.src}
               alt=""
               aria-hidden
+              initial={{ scale: 1 }}
+              animate={{ scale: 1.055 }}
+              transition={{ duration: SLIDE_MS / 1000, ease: "linear" }}
               style={{
                 position: "absolute",
                 inset: 0,
@@ -86,51 +133,91 @@ export function HeroAcademia() {
                 height: "100%",
                 objectFit: "cover",
                 objectPosition: current.objPos,
-                filter: "grayscale(100%) brightness(0.65) contrast(1.1)",
+                transformOrigin: current.objPos,
+                filter: "grayscale(100%) brightness(0.62) contrast(1.12)",
               }}
             />
           </motion.div>
         </AnimatePresence>
 
-        {/* Overlay compuesto:
-            – izquierda más oscura (donde cae el texto)
-            – derecha más translúcida (el retrato se percibe mejor)
-            – abajo funde con --ac-bg para el marquee */}
+        {/* Overlay compuesto */}
         <div
           className="absolute inset-0"
           style={{
             background: `
-              linear-gradient(to right,  rgba(8,8,12,0.90) 0%, rgba(8,8,12,0.70) 45%, rgba(8,8,12,0.42) 100%),
-              linear-gradient(to bottom, rgba(8,8,12,0.20) 0%, rgba(8,8,12,0.05) 45%, rgba(8,8,12,0.96) 100%)
+              linear-gradient(to right,  rgba(8,8,12,0.88) 0%, rgba(8,8,12,0.65) 45%, rgba(8,8,12,0.36) 100%),
+              linear-gradient(to bottom, rgba(8,8,12,0.18) 0%, rgba(8,8,12,0.04) 45%, rgba(8,8,12,0.96) 100%)
             `,
           }}
         />
 
-        {/* Atribución del pensador — derecha, donde la imagen se ve más */}
+        {/* ── Atribución + cita + barra de progreso ── */}
         <AnimatePresence mode="wait">
           <motion.div
             key={current.name}
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.7, ease: "easeOut", delay: 0.6 }}
+            transition={{ duration: 0.65, ease: "easeOut", delay: 0.5 }}
             className="absolute bottom-24 right-7 text-right"
-            style={{ zIndex: 5 }}
+            style={{ zIndex: 5, maxWidth: "18rem" }}
           >
+            {/* Cita filosófica — aparece con delay extra */}
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.1, duration: 0.9 }}
+              style={{
+                fontFamily: "var(--font-cormorant, Georgia, serif)",
+                fontSize: "0.72rem",
+                fontStyle: "italic",
+                fontWeight: 400,
+                lineHeight: 1.55,
+                color: "rgba(240,236,228,0.42)",
+                marginBottom: "0.65rem",
+              }}
+            >
+              &ldquo;{current.quote}&rdquo;
+            </motion.p>
+
+            {/* Era */}
             <p style={{
-              fontSize: "0.56rem", fontWeight: 700,
+              fontSize: "0.54rem", fontWeight: 700,
               letterSpacing: "0.22em", textTransform: "uppercase",
-              color: "var(--ac-gold)", opacity: 0.95,
+              color: "var(--ac-gold)", opacity: 0.9,
             }}>
               {current.era}
             </p>
+
+            {/* Nombre */}
             <p style={{
               fontSize: "0.8rem", fontWeight: 300,
               letterSpacing: "0.05em",
-              color: "rgba(240,236,228,0.60)", marginTop: "0.18rem",
+              color: "rgba(240,236,228,0.65)", marginTop: "0.16rem",
             }}>
               {current.name}
             </p>
+
+            {/* Barra de progreso — se llena durante SLIDE_MS y resetea con cada pensador */}
+            <div style={{
+              marginTop: "0.65rem",
+              height: "1px",
+              width: "100%",
+              background: "rgba(240,236,228,0.12)",
+              overflow: "hidden",
+            }}>
+              <motion.div
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{ duration: SLIDE_MS / 1000, ease: "linear" }}
+                style={{
+                  height: "100%",
+                  background: "var(--ac-gold)",
+                  transformOrigin: "left",
+                  opacity: 0.8,
+                }}
+              />
+            </div>
           </motion.div>
         </AnimatePresence>
       </div>
