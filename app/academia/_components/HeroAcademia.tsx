@@ -15,29 +15,29 @@ const DISCIPLINES = [
 ];
 
 /**
- * Imágenes locales en /public/images/philosophers/ (dominio público — Wikimedia Commons).
- *
  * objPos calculado matemáticamente para cada imagen:
- * - Se miden dimensiones reales de cada archivo
- * - Se estima pixel del rostro en la imagen renderizada a cover-scale
- * - Se calcula el % de overflow a recortar para que el rostro quede
- *   en el tercio superior del container (28% del alto)
- * - Resultados verificados con PIL/Pillow antes del commit
+ * - Container desktop: 1440×936px (100svh – 64px nav)
+ * - scale = max(CW/orig_w, CH/orig_h)  [object-fit: cover]
+ * - overflow_y = orig_h×scale − CH
+ * - face_px_rendered = face_pct×orig_h×scale  (center del rostro en imagen renderizada)
+ * - target_y = CH×0.28 = 262px  (rostro en tercio superior del container)
+ * - objY% = (face_px_rendered − target_y) / overflow_y × 100  [clamp 0–88]
+ * Valores verificados con simulación de recorte en PIL antes del commit.
  */
 const PHILOSOPHERS = [
-  { name: "Karl Marx",           era: "Sociología clásica",     src: "/images/philosophers/marx.jpg",     objPos: "50% 18%" },
-  { name: "Friedrich Nietzsche", era: "Filosofía continental",  src: "/images/philosophers/nietzsche.jpg", objPos: "50% 32%" },
-  { name: "Max Weber",           era: "Sociología comprensiva", src: "/images/philosophers/weber.jpg",    objPos: "50% 50%" },
-  { name: "Émile Durkheim",      era: "Sociología positiva",    src: "/images/philosophers/durkheim.jpg", objPos: "50% 28%" },
-  { name: "Walter Benjamin",     era: "Escuela de Frankfurt",   src: "/images/philosophers/benjamin.jpg", objPos: "50% 36%" },
-  { name: "Hannah Arendt",       era: "Filosofía política",     src: "/images/philosophers/arendt.jpg",   objPos: "50% 41%" },
-  { name: "Theodor Adorno",      era: "Teoría crítica",         src: "/images/philosophers/adorno.jpg",   objPos: "50% 46%" },
-  { name: "Michel Foucault",     era: "Filosofía del poder",    src: "/images/philosophers/foucault.jpg", objPos: "50% 52%" },
-  { name: "Rosa Luxemburg",      era: "Pensamiento político",   src: "/images/philosophers/luxemburg.jpg",objPos: "50% 11%" },
-  { name: "Georg Simmel",        era: "Sociología formal",      src: "/images/philosophers/simmel.jpg",   objPos: "50% 25%" },
-  { name: "Simone de Beauvoir",  era: "Existencialismo",        src: "/images/philosophers/beauvoir.jpg", objPos: "50% 17%" },
-  { name: "Herbert Marcuse",     era: "Teoría crítica",         src: "/images/philosophers/marcuse.jpg",  objPos: "50% 35%" },
-  { name: "Adam Smith",          era: "Economía política",      src: "/images/philosophers/smith.jpg",    objPos: "50% 22%" },
+  { name: "Karl Marx",           era: "Sociología clásica",     src: "/images/philosophers/marx.jpg",     objPos: "50% 26%" },
+  { name: "Friedrich Nietzsche", era: "Filosofía continental",  src: "/images/philosophers/nietzsche.jpg", objPos: "50% 49%" },
+  { name: "Max Weber",           era: "Sociología comprensiva", src: "/images/philosophers/weber.jpg",    objPos: "50% 22%" },
+  { name: "Émile Durkheim",      era: "Sociología positiva",    src: "/images/philosophers/durkheim.jpg", objPos: "50% 15%" },
+  { name: "Walter Benjamin",     era: "Escuela de Frankfurt",   src: "/images/philosophers/benjamin.jpg", objPos: "50% 15%" },
+  { name: "Hannah Arendt",       era: "Filosofía política",     src: "/images/philosophers/arendt.jpg",   objPos: "50% 62%" },
+  { name: "Theodor Adorno",      era: "Teoría crítica",         src: "/images/philosophers/adorno.jpg",   objPos: "50% 26%" },
+  { name: "Michel Foucault",     era: "Filosofía del poder",    src: "/images/philosophers/foucault.jpg", objPos: "50% 35%" },
+  { name: "Rosa Luxemburg",      era: "Pensamiento político",   src: "/images/philosophers/luxemburg.jpg",objPos: "50% 30%" },
+  { name: "Georg Simmel",        era: "Sociología formal",      src: "/images/philosophers/simmel.jpg",   objPos: "50% 39%" },
+  { name: "Simone de Beauvoir",  era: "Existencialismo",        src: "/images/philosophers/beauvoir.jpg", objPos: "50% 66%" },
+  { name: "Herbert Marcuse",     era: "Teoría crítica",         src: "/images/philosophers/marcuse.jpg",  objPos: "50% 38%" },
+  { name: "Adam Smith",          era: "Economía política",      src: "/images/philosophers/smith.jpg",    objPos: "50% 43%" },
 ];
 
 const SLIDE_MS = 6500;
