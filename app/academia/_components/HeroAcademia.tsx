@@ -200,7 +200,7 @@ export function HeroAcademia() {
         <div className="flex animate-marquee pause-on-hover whitespace-nowrap">
           {all.map((item, i) => (
             <span key={i} className="inline-flex items-center gap-6 px-7">
-              <span style={{ fontSize: "13px", fontWeight: 400, letterSpacing: "0.03em", color: "rgba(240,236,228,0.6)" }}>
+              <span style={{ fontSize: "13px", fontWeight: 500, letterSpacing: "0.06em", color: "rgba(240,236,228,0.85)" }}>
                 {item}
               </span>
               <span className="inline-block h-1 w-1 rounded-full shrink-0" style={{ background: "var(--ac-gold)", opacity: 0.6 }} />

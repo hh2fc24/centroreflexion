@@ -73,37 +73,20 @@ export function PensamientoCriticoPage({ articles }: { articles: Article[] }) {
               }`}
             >
               Todas
-              <span
-                className={`ml-2 rounded-full px-1.5 py-0.5 text-[10px] font-bold ${
-                  activeCategory === "Todas" ? "bg-[#fffdf8]/20 text-white" : "bg-[#ecd8c7] text-[#bd6f3c]"
+            </button>
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className={`cursor-pointer inline-flex items-center rounded-full px-4 py-2 text-sm font-medium ring-1 ring-inset transition-all duration-200 ${
+                  activeCategory === cat
+                    ? "bg-[#171713] text-white ring-[#171713] shadow-md"
+                    : "bg-[#fffdf8] text-[#55574f] ring-[#ded5c7] hover:bg-[#f8f5ee] hover:text-[#171713]"
                 }`}
               >
-                {allArticles.length}
-              </span>
-            </button>
-            {categories.map((cat) => {
-              const count = allArticles.filter((a) => a.category === cat).length;
-              return (
-                <button
-                  key={cat}
-                  onClick={() => setActiveCategory(cat)}
-                  className={`cursor-pointer inline-flex items-center rounded-full px-4 py-2 text-sm font-medium ring-1 ring-inset transition-all duration-200 ${
-                    activeCategory === cat
-                      ? "bg-[#171713] text-white ring-[#171713] shadow-md"
-                      : "bg-[#fffdf8] text-[#55574f] ring-[#ded5c7] hover:bg-[#f8f5ee] hover:text-[#171713]"
-                  }`}
-                >
-                  {cat}
-                  <span
-                    className={`ml-2 rounded-full px-1.5 py-0.5 text-[10px] font-bold ${
-                      activeCategory === cat ? "bg-[#fffdf8]/20 text-white" : "bg-[#eee8dc] text-[#70695f]"
-                    }`}
-                  >
-                    {count}
-                  </span>
-                </button>
-              );
-            })}
+                {cat}
+              </button>
+            ))}
           </div>
           {activeCategory !== "Todas" ? (
             <p className="mt-4 text-sm text-[#8a8276]">
