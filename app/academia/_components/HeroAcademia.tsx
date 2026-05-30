@@ -197,13 +197,16 @@ export function HeroAcademia() {
       >
         <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-20" style={{ background: "linear-gradient(to right, var(--ac-bg), transparent)" }} />
         <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-20" style={{ background: "linear-gradient(to left, var(--ac-bg), transparent)" }} />
-        <div className="flex animate-marquee pause-on-hover whitespace-nowrap">
+        <div
+          className="animate-marquee pause-on-hover"
+          style={{ display: "flex", width: "max-content", flexWrap: "nowrap" }}
+        >
           {all.map((item, i) => (
-            <span key={i} className="inline-flex items-center gap-6 px-7">
-              <span style={{ fontSize: "13px", fontWeight: 500, letterSpacing: "0.06em", color: "rgba(240,236,228,0.85)" }}>
+            <span key={i} style={{ display: "inline-flex", alignItems: "center", gap: "1.5rem", padding: "0 1.75rem", flexShrink: 0 }}>
+              <span style={{ fontSize: "13px", fontWeight: 500, letterSpacing: "0.06em", color: "rgba(240,236,228,0.85)", whiteSpace: "nowrap" }}>
                 {item}
               </span>
-              <span className="inline-block h-1 w-1 rounded-full shrink-0" style={{ background: "var(--ac-gold)", opacity: 0.6 }} />
+              <span style={{ display: "inline-block", height: "4px", width: "4px", borderRadius: "50%", flexShrink: 0, background: "var(--ac-gold)", opacity: 0.6 }} />
             </span>
           ))}
         </div>
