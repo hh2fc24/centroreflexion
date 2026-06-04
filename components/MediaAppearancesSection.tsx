@@ -15,7 +15,33 @@ const featuredArticle = {
     image: "https://media-front.elmostrador.cl/2026/03/Editar-Imagenes-3-13-700x350.png",
 };
 
-const appearances = [
+interface AppearanceItem {
+    id: number;
+    youtubeId?: string;
+    videoUrl?: string;
+    imageUrl?: string;
+    title: string;
+    channel: string;
+    icon: React.ComponentType<{ className?: string }>;
+    color: string;
+    badge: string;
+    badgeColor: string;
+    description?: string;
+}
+
+const appearances: AppearanceItem[] = [
+    {
+        id: 7,
+        videoUrl: "/crc.mp4",
+        imageUrl: "/JC.jpeg",
+        title: "Presentación en La Furia del Libro: Tecnócratas de la Infancia y la Crítica al Sistema",
+        channel: "La Furia del Libro 2026",
+        icon: PlayCircle,
+        color: "from-[#bd6f3c]/30 to-[#172017]/10",
+        badge: "Presentación",
+        badgeColor: "text-[#d3976d] border-[#9f5528] bg-[#172017]/30",
+        description: "El Centro de Reflexiones Críticas estuvo presente en la versión invernal de La Furia del Libro 2026, celebrada en el Centro Cultural Estación Mapocho del 28 al 31 de mayo. A través de nuestro director, Juan Carlos Rauld, participamos activamente de este encuentro fundamental de la edición independiente chilena. En el marco del lanzamiento de su obra 'Tecnócratas de la Infancia' (Editorial Hammurabi), Rauld expuso y fue entrevistado en profundidad sobre el sistema de desprotección estatal, la biopolítica de la infancia pobre y el impacto del modelo neoliberal en los sistemas de cuidado alternativo.",
+    },
     {
         id: 1,
         youtubeId: "c-xOCEXFCXU",
@@ -197,24 +223,49 @@ export function MediaAppearancesSection() {
                         className="mb-10 overflow-hidden rounded-[8px] border border-[#34362f] shadow-[0_0_80px_-20px_rgba(189,111,60,0.24)]"
                     >
                         <div className="relative aspect-video bg-[#0f0d0a]">
-                            <iframe
-                                className="absolute inset-0 h-full w-full"
-                                src={`https://www.youtube.com/embed/${activeVideoItem.youtubeId}?autoplay=1&controls=1&rel=0&modestbranding=1`}
-                                title="Video destacado"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                allowFullScreen
-                            />
+                            {activeVideoItem.videoUrl ? (
+                                <video
+                                    className="absolute inset-0 h-full w-full object-contain"
+                                    src={activeVideoItem.videoUrl}
+                                    controls
+                                    autoPlay
+                                    preload="metadata"
+                                />
+                            ) : (
+                                <iframe
+                                    className="absolute inset-0 h-full w-full"
+                                    src={`https://www.youtube.com/embed/${activeVideoItem.youtubeId}?autoplay=1&controls=1&rel=0&modestbranding=1`}
+                                    title="Video destacado"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    allowFullScreen
+                                />
+                            )}
                         </div>
-                        <div className="flex items-center justify-between bg-[#172017] px-4 py-3 border-t border-[#34362f]">
-                            <p className="text-xs font-semibold text-white line-clamp-1 max-w-lg">
-                                {activeVideoItem.title}
-                            </p>
-                            <button
-                                onClick={() => setActiveVideo(null)}
-                                className="text-[10px] font-bold uppercase tracking-widest text-[#70695f] hover:text-[#d8d0c4] transition-colors ml-4 shrink-0"
-                            >
-                                Cerrar ✕
-                            </button>
+                        <div className="bg-[#172017] p-5 border-t border-[#34362f]">
+                            <div className="flex items-start justify-between gap-4">
+                                <div>
+                                    <span className="inline-flex items-center gap-1 rounded-[5px] border border-[#bd6f3c]/70 bg-[#9f5528]/40 px-2.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-[#f1ded0] mb-2">
+                                        {activeVideoItem.badge}
+                                    </span>
+                                    <h4 className="text-base font-bold text-white font-serif sm:text-lg">
+                                        {activeVideoItem.title}
+                                    </h4>
+                                    <p className="text-xs text-[#a99f91] mt-1 font-semibold uppercase tracking-wider">
+                                        {activeVideoItem.channel}
+                                    </p>
+                                </div>
+                                <button
+                                    onClick={() => setActiveVideo(null)}
+                                    className="text-[10px] font-bold uppercase tracking-widest text-[#70695f] hover:text-[#d8d0c4] transition-colors shrink-0 border border-[#34362f] rounded-[4px] px-2.5 py-1 bg-[#0f0d0a]"
+                                >
+                                    Cerrar ✕
+                                </button>
+                            </div>
+                            {activeVideoItem.description && (
+                                <p className="text-sm text-[#eee8dc] mt-3 leading-relaxed border-t border-[#34362f]/60 pt-3 font-light">
+                                    {activeVideoItem.description}
+                                </p>
+                            )}
                         </div>
                     </MotionDiv>
                 ) : null}
@@ -247,7 +298,7 @@ export function MediaAppearancesSection() {
                                 {/* Thumbnail / Preview Area */}
                                 <div className={`relative aspect-video overflow-hidden bg-gradient-to-br ${item.color} bg-[#172017]`}>
                                     <img
-                                        src={`https://img.youtube.com/vi/${item.youtubeId}/mqdefault.jpg`}
+                                        src={item.imageUrl || `https://img.youtube.com/vi/${item.youtubeId}/mqdefault.jpg`}
                                         alt={item.title}
                                         className="h-full w-full object-cover opacity-80 transition-all duration-700 group-hover:scale-105 group-hover:opacity-100"
                                     />

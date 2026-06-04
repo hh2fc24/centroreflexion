@@ -147,6 +147,36 @@ export default function About() {
                                     Su experiencia cruza programas de infancia, salud mental, protección de derechos y análisis institucional. Ha trabajado en espacios donde la intervención exige lectura técnica, criterio ético, coordinación de equipos y comprensión de los marcos públicos que organizan la protección social.
                                 </p>
                             </div>
+                            <div>
+                                <h4 className="text-xl font-semibold text-[#171713] mb-4 border-b border-[#ded5c7] pb-2">Actividades e Intervenciones Públicas</h4>
+                                <div className="mt-4 rounded-[8px] border border-[#eee8dc] bg-[#f8f5ee] p-5">
+                                    <div className="grid gap-6 sm:grid-cols-[140px_1fr] items-center">
+                                        <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[4px] border border-[#eee8dc] bg-white sm:aspect-[1/1]">
+                                            <Image
+                                                src="/JC.jpeg"
+                                                alt="Juan Carlos Rauld en la Furia del Libro"
+                                                fill
+                                                className="object-cover"
+                                            />
+                                        </div>
+                                        <div>
+                                            <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#bd6f3c]">Estación Mapocho · Mayo 2026</span>
+                                            <h5 className="text-base font-bold text-[#171713] mt-1 font-serif">Presentación en La Furia del Libro</h5>
+                                            <p className="mt-2 text-xs leading-relaxed text-[#55574f]">
+                                                El Centro de Reflexiones Críticas estuvo presente en la versión invernal de <strong>La Furia del Libro 2026</strong>, celebrada en el histórico Centro Cultural Estación Mapocho del 28 al 31 de mayo. Nuestro director, Juan Carlos Rauld, participó de este importante encuentro de edición independiente en el marco de la presentación y discusión sobre su obra <em>&quot;Tecnócratas de la Infancia&quot;</em> (Editorial Hammurabi), abriendo un debate crítico sobre la biopolítica, la institucionalización de la pobreza y las deudas de la protección social en Chile.
+                                            </p>
+                                            <div className="mt-3">
+                                                <Link
+                                                    href="/publicaciones"
+                                                    className="inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-[0.08em] text-[#bd6f3c] hover:text-[#9f5528] transition-colors"
+                                                >
+                                                    Ver entrevista y video de la actividad →
+                                                </Link>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
