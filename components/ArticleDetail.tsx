@@ -11,6 +11,14 @@ import { Article } from "@/lib/data";
 import { JsonLd } from "@/components/JsonLd";
 import { NewsletterBlock } from "@/components/NewsletterBlock";
 
+function WhatsAppIcon({ className }: { className?: string }) {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" className={className} fill="currentColor" aria-hidden="true">
+            <path d="M16 .5C7.44.5.5 7.44.5 16c0 2.83.74 5.49 2.03 7.8L.5 31.5l7.93-2.08A15.44 15.44 0 0 0 16 31.5C24.56 31.5 31.5 24.56 31.5 16S24.56.5 16 .5zm0 28.22a13.7 13.7 0 0 1-7-1.92l-.5-.3-5.18 1.36 1.38-5.04-.33-.52A13.72 13.72 0 1 1 16 28.72zm7.52-10.28c-.41-.2-2.43-1.2-2.81-1.33-.37-.14-.64-.2-.91.2-.27.4-1.05 1.33-1.28 1.6-.23.27-.47.3-.88.1-.41-.2-1.73-.64-3.3-2.04-1.22-1.09-2.04-2.43-2.28-2.84-.24-.41-.03-.63.18-.83.18-.18.41-.47.61-.7.2-.23.27-.4.41-.67.14-.27.07-.5-.03-.7-.1-.2-.91-2.2-1.25-3.01-.33-.8-.67-.69-.91-.7h-.78c-.27 0-.7.1-1.07.5-.37.4-1.4 1.37-1.4 3.34s1.43 3.87 1.63 4.14c.2.27 2.82 4.3 6.83 6.03.95.41 1.7.66 2.28.84.96.3 1.83.26 2.52.16.77-.11 2.43-1 2.77-1.96.34-.97.34-1.8.24-1.97-.1-.17-.37-.27-.78-.47z" />
+        </svg>
+    );
+}
+
 const getServiceCTA = (category: string): { label: string; description: string; href: string } => {
     const cat = category.toLowerCase();
     if (cat.includes("salud mental") || cat.includes("infancia") || cat.includes("niñez") || cat.includes("adiccion") || cat.includes("adicción")) {
@@ -166,36 +174,34 @@ export default function ArticleDetail({
                     <p className="text-lg font-serif italic leading-relaxed text-[#70695f] sm:text-xl">
                         {article.excerpt}
                     </p>
-                    <div className="flex items-center gap-2 shrink-0">
+                    <div className="flex flex-wrap items-center gap-2 shrink-0">
                         {/* Guardar */}
                         <button
                             aria-label="Guardar"
-                            className="p-2.5 rounded-full border border-[#ded5c7] bg-[#fffdf8] text-[#8a8276] hover:text-[#171713] hover:bg-[#f8f5ee] transition-all duration-200"
+                            className="p-2 rounded-full border border-[#ded5c7] bg-[#fffdf8] text-[#8a8276] hover:text-[#171713] hover:bg-[#f8f5ee] transition-all duration-200 mr-1"
                         >
                             <Bookmark className="h-4 w-4" />
                         </button>
-                        
-                        <div className="h-6 w-[1px] bg-[#eee8dc] mx-1" />
 
                         {/* WhatsApp */}
                         <a
                             href={`https://api.whatsapp.com/send?text=${encodeURIComponent(`${article.title} - ${typeof window !== "undefined" ? window.location.href : ""}`)}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            aria-label="Compartir por WhatsApp"
-                            className="p-2.5 rounded-full border border-[#ded5c7] bg-[#fffdf8] text-[#8a8276] hover:text-[#25D366] hover:border-[#25D366] hover:bg-[#25D366]/5 transition-all duration-200"
+                            className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-[#25D366] text-white text-xs font-sans font-bold uppercase tracking-wider hover:bg-[#20ba5a] hover:shadow-md transition-all duration-200"
                         >
-                            <MessageCircle className="h-4 w-4" />
+                            <WhatsAppIcon className="h-4 w-4 fill-white" />
+                            <span>WhatsApp</span>
                         </a>
 
                         {/* Instagram */}
                         <div className="relative">
                             <button
                                 onClick={(e) => handleInstagramCopy(e, 'upper')}
-                                aria-label="Compartir en Instagram"
-                                className="p-2.5 rounded-full border border-[#ded5c7] bg-[#fffdf8] text-[#8a8276] hover:text-[#E1306C] hover:border-[#E1306C] hover:bg-[#E1306C]/5 transition-all duration-200"
+                                className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] text-white text-xs font-sans font-bold uppercase tracking-wider hover:brightness-105 hover:shadow-md transition-all duration-200"
                             >
-                                {copiedInstagramUpper ? <Check className="h-4 w-4 text-[#25D366]" /> : <Instagram className="h-4 w-4" />}
+                                <Instagram className="h-4 w-4" />
+                                <span>Instagram</span>
                             </button>
                             <AnimatePresence>
                                 {copiedInstagramUpper && (
@@ -204,23 +210,23 @@ export default function ArticleDetail({
                                         animate={{ opacity: 1, y: 0, scale: 1 }}
                                         exit={{ opacity: 0, y: 5, scale: 0.95 }}
                                         transition={{ duration: 0.15 }}
-                                        className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-50 whitespace-nowrap bg-[#171713] text-white text-[10px] font-sans font-semibold py-1 px-2.5 rounded-[4px] shadow-md"
+                                        className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-50 whitespace-nowrap bg-[#171713] text-white text-[10px] font-sans font-semibold py-1.5 px-3 rounded-[4px] shadow-lg border border-white/10"
                                     >
-                                        ¡Copiado para Historias!
+                                        ¡Copiado! Pégalo en tu Historia
                                         <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-[4px] border-4 border-transparent border-t-[#171713]" />
                                     </motion.div>
                                 )}
                             </AnimatePresence>
                         </div>
 
-                        {/* Copy Link */}
+                        {/* Copiar enlace */}
                         <div className="relative">
                             <button
                                 onClick={(e) => handleCopy(e, 'upper')}
-                                aria-label="Copiar enlace"
-                                className="p-2.5 rounded-full border border-[#ded5c7] bg-[#fffdf8] text-[#8a8276] hover:text-[#bd6f3c] hover:border-[#bd6f3c] hover:bg-[#bd6f3c]/5 transition-all duration-200"
+                                className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full border border-[#ded5c7] bg-[#fffdf8] text-[#171713] text-xs font-sans font-bold uppercase tracking-wider hover:bg-[#f8f5ee] transition-all duration-200"
                             >
-                                {copiedUpper ? <Check className="h-4 w-4 text-[#25D366]" /> : <LinkIcon className="h-4 w-4" />}
+                                {copiedUpper ? <Check className="h-4 w-4 text-[#25D366]" /> : <LinkIcon className="h-4 w-4 text-[#8a8276]" />}
+                                <span>{copiedUpper ? "Copiado" : "Enlace"}</span>
                             </button>
                             <AnimatePresence>
                                 {copiedUpper && (
@@ -229,7 +235,7 @@ export default function ArticleDetail({
                                         animate={{ opacity: 1, y: 0, scale: 1 }}
                                         exit={{ opacity: 0, y: 5, scale: 0.95 }}
                                         transition={{ duration: 0.15 }}
-                                        className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-50 whitespace-nowrap bg-[#171713] text-white text-[10px] font-sans font-semibold py-1 px-2.5 rounded-[4px] shadow-md"
+                                        className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-50 whitespace-nowrap bg-[#171713] text-white text-[10px] font-sans font-semibold py-1.5 px-3 rounded-[4px] shadow-lg border border-white/10"
                                     >
                                         ¡Enlace copiado!
                                         <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-[4px] border-4 border-transparent border-t-[#171713]" />
@@ -237,28 +243,6 @@ export default function ArticleDetail({
                                 )}
                             </AnimatePresence>
                         </div>
-
-                        {/* Facebook */}
-                        <a
-                            href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(typeof window !== "undefined" ? window.location.href : "")}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            aria-label="Compartir en Facebook"
-                            className="p-2.5 rounded-full border border-[#ded5c7] bg-[#fffdf8] text-[#8a8276] hover:text-[#1877F2] hover:border-[#1877F2] hover:bg-[#1877F2]/5 transition-all duration-200"
-                        >
-                            <Facebook className="h-4 w-4" />
-                        </a>
-
-                        {/* Twitter/X */}
-                        <a
-                            href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(typeof window !== "undefined" ? window.location.href : "")}&text=${encodeURIComponent(article.title)}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            aria-label="Compartir en X (Twitter)"
-                            className="p-2.5 rounded-full border border-[#ded5c7] bg-[#fffdf8] text-[#8a8276] hover:text-[#171713] hover:border-[#171713] hover:bg-[#171713]/5 transition-all duration-200"
-                        >
-                            <Twitter className="h-4 w-4" />
-                        </a>
                     </div>
                 </div>
 
@@ -300,26 +284,26 @@ export default function ArticleDetail({
                 {/* Share Section at the bottom */}
                 <div className="my-12 py-6 border-t border-b border-[#eee8dc] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <span className="text-sm font-serif font-bold text-[#70695f]">¿Te pareció interesante? Comparte esta columna:</span>
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-2">
                         {/* WhatsApp */}
                         <a
                             href={`https://api.whatsapp.com/send?text=${encodeURIComponent(`${article.title} - ${typeof window !== "undefined" ? window.location.href : ""}`)}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            aria-label="Compartir por WhatsApp"
-                            className="p-2.5 rounded-full border border-[#ded5c7] bg-[#fffdf8] text-[#8a8276] hover:text-[#25D366] hover:border-[#25D366] hover:bg-[#25D366]/5 transition-all duration-200"
+                            className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-[#25D366] text-white text-xs font-sans font-bold uppercase tracking-wider hover:bg-[#20ba5a] hover:shadow-md transition-all duration-200"
                         >
-                            <MessageCircle className="h-4 w-4" />
+                            <WhatsAppIcon className="h-4 w-4 fill-white" />
+                            <span>WhatsApp</span>
                         </a>
 
                         {/* Instagram */}
                         <div className="relative">
                             <button
                                 onClick={(e) => handleInstagramCopy(e, 'lower')}
-                                aria-label="Compartir en Instagram"
-                                className="p-2.5 rounded-full border border-[#ded5c7] bg-[#fffdf8] text-[#8a8276] hover:text-[#E1306C] hover:border-[#E1306C] hover:bg-[#E1306C]/5 transition-all duration-200"
+                                className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] text-white text-xs font-sans font-bold uppercase tracking-wider hover:brightness-105 hover:shadow-md transition-all duration-200"
                             >
-                                {copiedInstagramLower ? <Check className="h-4 w-4 text-[#25D366]" /> : <Instagram className="h-4 w-4" />}
+                                <Instagram className="h-4 w-4" />
+                                <span>Instagram</span>
                             </button>
                             <AnimatePresence>
                                 {copiedInstagramLower && (
@@ -328,23 +312,23 @@ export default function ArticleDetail({
                                         animate={{ opacity: 1, y: 0, scale: 1 }}
                                         exit={{ opacity: 0, y: 5, scale: 0.95 }}
                                         transition={{ duration: 0.15 }}
-                                        className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-50 whitespace-nowrap bg-[#171713] text-white text-[10px] font-sans font-semibold py-1 px-2.5 rounded-[4px] shadow-md"
+                                        className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-50 whitespace-nowrap bg-[#171713] text-white text-[10px] font-sans font-semibold py-1.5 px-3 rounded-[4px] shadow-lg border border-white/10"
                                     >
-                                        ¡Copiado para Historias!
+                                        ¡Copiado! Pégalo en tu Historia
                                         <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-[4px] border-4 border-transparent border-t-[#171713]" />
                                     </motion.div>
                                 )}
                             </AnimatePresence>
                         </div>
 
-                        {/* Copy Link */}
+                        {/* Copiar enlace */}
                         <div className="relative">
                             <button
                                 onClick={(e) => handleCopy(e, 'lower')}
-                                aria-label="Copiar enlace"
-                                className="p-2.5 rounded-full border border-[#ded5c7] bg-[#fffdf8] text-[#8a8276] hover:text-[#bd6f3c] hover:border-[#bd6f3c] hover:bg-[#bd6f3c]/5 transition-all duration-200"
+                                className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full border border-[#ded5c7] bg-[#fffdf8] text-[#171713] text-xs font-sans font-bold uppercase tracking-wider hover:bg-[#f8f5ee] transition-all duration-200"
                             >
-                                {copiedLower ? <Check className="h-4 w-4 text-[#25D366]" /> : <LinkIcon className="h-4 w-4" />}
+                                {copiedLower ? <Check className="h-4 w-4 text-[#25D366]" /> : <LinkIcon className="h-4 w-4 text-[#8a8276]" />}
+                                <span>{copiedLower ? "Copiado" : "Copiar enlace"}</span>
                             </button>
                             <AnimatePresence>
                                 {copiedLower && (
@@ -353,7 +337,7 @@ export default function ArticleDetail({
                                         animate={{ opacity: 1, y: 0, scale: 1 }}
                                         exit={{ opacity: 0, y: 5, scale: 0.95 }}
                                         transition={{ duration: 0.15 }}
-                                        className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-50 whitespace-nowrap bg-[#171713] text-white text-[10px] font-sans font-semibold py-1 px-2.5 rounded-[4px] shadow-md"
+                                        className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-50 whitespace-nowrap bg-[#171713] text-white text-[10px] font-sans font-semibold py-1.5 px-3 rounded-[4px] shadow-lg border border-white/10"
                                     >
                                         ¡Enlace copiado!
                                         <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-[4px] border-4 border-transparent border-t-[#171713]" />
@@ -361,28 +345,6 @@ export default function ArticleDetail({
                                 )}
                             </AnimatePresence>
                         </div>
-
-                        {/* Facebook */}
-                        <a
-                            href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(typeof window !== "undefined" ? window.location.href : "")}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            aria-label="Compartir en Facebook"
-                            className="p-2.5 rounded-full border border-[#ded5c7] bg-[#fffdf8] text-[#8a8276] hover:text-[#1877F2] hover:border-[#1877F2] hover:bg-[#1877F2]/5 transition-all duration-200"
-                        >
-                            <Facebook className="h-4 w-4" />
-                        </a>
-
-                        {/* Twitter/X */}
-                        <a
-                            href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(typeof window !== "undefined" ? window.location.href : "")}&text=${encodeURIComponent(article.title)}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            aria-label="Compartir en X (Twitter)"
-                            className="p-2.5 rounded-full border border-[#ded5c7] bg-[#fffdf8] text-[#8a8276] hover:text-[#171713] hover:border-[#171713] hover:bg-[#171713]/5 transition-all duration-200"
-                        >
-                            <Twitter className="h-4 w-4" />
-                        </a>
                     </div>
                 </div>
 
