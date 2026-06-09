@@ -149,23 +149,41 @@ export default function ArticleDetail({
         window.open(`https://wa.me/?text=${encodeURIComponent(`${article.title} - ${pageUrl}`)}`, '_blank');
     };
 
-    // Instagram: open Stories camera with article image pre-loaded + copy URL
+    // Instagram: share article image as file → OS share sheet → user picks Instagram Stories/Feed
     const handleInstagramStory = async () => {
         setIgMenu(null);
         if (typeof window === "undefined") return;
         const pageUrl = window.location.href;
-        const imageUrl = encodeURIComponent(`${window.location.origin}${article.image}`);
+        const imageUrl = `${window.location.origin}${article.image}`;
+        // Copy URL so user can paste as link sticker in Stories
         try { await navigator.clipboard.writeText(pageUrl); } catch (_) {}
-        window.location.href = `instagram-stories://share?backgroundImageURL=${imageUrl}&source_application=web`;
+        try {
+            const res = await fetch(imageUrl);
+            const blob = await res.blob();
+            const ext = blob.type.includes('png') ? 'png' : 'jpg';
+            const file = new File([blob], `articulo.${ext}`, { type: blob.type || 'image/jpeg' });
+            if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+                await navigator.share({
+                    files: [file],
+                    title: article.title,
+                    text: `${article.title}\n\n${pageUrl}`,
+                });
+                return;
+            }
+        } catch (_) {}
+        // Fallback: share without image
+        if (navigator.share) {
+            try { await navigator.share({ title: article.title, text: article.excerpt, url: pageUrl }); } catch (_) {}
+        }
     };
 
-    // Instagram: DM / system share sheet
+    // Instagram: share link as text (for DM / Feed post caption)
     const handleInstagramShare = async () => {
         setIgMenu(null);
         if (typeof window === "undefined") return;
         const url = window.location.href;
         if (navigator.share) {
-            try { await navigator.share({ title: article.title, text: article.excerpt, url }); } catch (_) {}
+            try { await navigator.share({ title: article.title, text: `${article.excerpt}\n\n${url}`, url }); } catch (_) {}
         } else {
             try { await navigator.clipboard.writeText(url); } catch (_) {}
         }
