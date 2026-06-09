@@ -1,8 +1,12 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, User, Calendar, Share2, Bookmark } from "lucide-react";
+import { ArrowLeft, ArrowRight, User, Calendar, Share2, Bookmark, Check, Link as LinkIcon, MessageCircle, Facebook, Twitter, Instagram } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { MotionDiv, MotionItem } from "@/components/ui/Motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Article } from "@/lib/data";
 import { JsonLd } from "@/components/JsonLd";
 import { NewsletterBlock } from "@/components/NewsletterBlock";
@@ -58,6 +62,86 @@ export default function ArticleDetail({
     backHref = "/pensamiento-critico",
     backLabel = "Volver a Pensamiento Crítico",
 }: ArticleDetailProps) {
+    const [isOpenUpper, setIsOpenUpper] = useState(false);
+    const [isOpenLower, setIsOpenLower] = useState(false);
+    const [copiedUpper, setCopiedUpper] = useState(false);
+    const [copiedLower, setCopiedLower] = useState(false);
+    const [copiedInstagramUpper, setCopiedInstagramUpper] = useState(false);
+    const [copiedInstagramLower, setCopiedInstagramLower] = useState(false);
+
+    useEffect(() => {
+        const handleOutsideClick = () => {
+            setIsOpenUpper(false);
+            setIsOpenLower(false);
+        };
+        if (isOpenUpper || isOpenLower) {
+            window.addEventListener("click", handleOutsideClick);
+        }
+        return () => {
+            window.removeEventListener("click", handleOutsideClick);
+        };
+    }, [isOpenUpper, isOpenLower]);
+
+    const handleShare = (e: React.MouseEvent, location: 'upper' | 'lower') => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const shareData = {
+            title: article.title,
+            text: article.excerpt,
+            url: typeof window !== "undefined" ? window.location.href : "",
+        };
+
+        if (typeof navigator !== "undefined" && navigator.share) {
+            navigator.share(shareData).catch((err) => console.log("Shared cancelled/failed:", err));
+            return;
+        }
+
+        if (location === 'upper') {
+            setIsOpenUpper(!isOpenUpper);
+            setIsOpenLower(false);
+        } else {
+            setIsOpenLower(!isOpenLower);
+            setIsOpenUpper(false);
+        }
+    };
+
+    const handleCopy = async (e: React.MouseEvent, location: 'upper' | 'lower') => {
+        e.preventDefault();
+        e.stopPropagation();
+        const url = typeof window !== "undefined" ? window.location.href : "";
+        try {
+            await navigator.clipboard.writeText(url);
+            if (location === 'upper') {
+                setCopiedUpper(true);
+                setTimeout(() => setCopiedUpper(false), 2000);
+            } else {
+                setCopiedLower(true);
+                setTimeout(() => setCopiedLower(false), 2000);
+            }
+        } catch (err) {
+            console.error("Failed to copy:", err);
+        }
+    };
+
+    const handleInstagramCopy = async (e: React.MouseEvent, location: 'upper' | 'lower') => {
+        e.preventDefault();
+        e.stopPropagation();
+        const url = typeof window !== "undefined" ? window.location.href : "";
+        try {
+            await navigator.clipboard.writeText(url);
+            if (location === 'upper') {
+                setCopiedInstagramUpper(true);
+                setTimeout(() => setCopiedInstagramUpper(false), 2000);
+            } else {
+                setCopiedInstagramLower(true);
+                setTimeout(() => setCopiedInstagramLower(false), 2000);
+            }
+        } catch (err) {
+            console.error("Failed to copy for Instagram:", err);
+        }
+    };
+
     return (
         <article className="min-h-screen bg-[#fffdf8] pb-16 sm:pb-24">
             {/* Hero Image */}
@@ -121,13 +205,88 @@ export default function ArticleDetail({
                     <p className="text-lg font-serif italic leading-relaxed text-[#70695f] sm:text-xl">
                         {article.excerpt}
                     </p>
-                    <div className="hidden sm:flex items-center gap-2">
+                    <div className="flex items-center gap-2 relative">
                         <Button variant="ghost" size="sm" aria-label="Guardar">
                             <Bookmark className="h-5 w-5 text-[#8a8276] hover:text-[#171713]" />
                         </Button>
-                        <Button variant="ghost" size="sm" aria-label="Compartir">
-                            <Share2 className="h-5 w-5 text-[#8a8276] hover:text-[#171713]" />
-                        </Button>
+                        <div className="relative">
+                            <Button variant="ghost" size="sm" aria-label="Compartir" onClick={(e) => handleShare(e, 'upper')}>
+                                <Share2 className="h-5 w-5 text-[#8a8276] hover:text-[#171713]" />
+                            </Button>
+                            
+                            <AnimatePresence>
+                                {isOpenUpper && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                                        transition={{ duration: 0.15, ease: "easeOut" }}
+                                        onClick={(e) => e.stopPropagation()}
+                                        className="absolute right-0 top-full mt-2 z-50 w-72 rounded-[6px] border border-[#ded5c7] bg-[#fffdf8] p-4 shadow-xl text-[#171713]"
+                                    >
+                                        <h4 className="text-xs font-bold uppercase tracking-wider text-[#bd6f3c] mb-3">Compartir columna</h4>
+                                        <div className="flex flex-col gap-1.5">
+                                            <button
+                                                onClick={(e) => handleCopy(e, 'upper')}
+                                                className="flex items-center gap-3 w-full px-3 py-2 text-sm text-left hover:bg-[#f8f5ee] rounded-[4px] transition-colors cursor-pointer text-[#171713]"
+                                            >
+                                                {copiedUpper ? (
+                                                    <Check className="h-4 w-4 text-green-600" />
+                                                ) : (
+                                                    <LinkIcon className="h-4 w-4 text-[#8a8276]" />
+                                                )}
+                                                <span className="font-serif">{copiedUpper ? "¡Enlace copiado!" : "Copiar enlace"}</span>
+                                            </button>
+                                            
+                                            <a
+                                                href={`https://api.whatsapp.com/send?text=${encodeURIComponent(`${article.title} - ${typeof window !== "undefined" ? window.location.href : ""}`)}`}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="flex items-center gap-3 w-full px-3 py-2 text-sm text-left hover:bg-[#f8f5ee] rounded-[4px] transition-colors text-[#171713]"
+                                            >
+                                                <MessageCircle className="h-4 w-4 text-[#25D366]" />
+                                                <span className="font-serif">Compartir por WhatsApp</span>
+                                            </a>
+
+                                            <button
+                                                onClick={(e) => handleInstagramCopy(e, 'upper')}
+                                                className="flex items-center gap-3 w-full px-3 py-2 text-sm text-left hover:bg-[#f8f5ee] rounded-[4px] transition-colors cursor-pointer text-[#171713]"
+                                            >
+                                                {copiedInstagramUpper ? (
+                                                    <Check className="h-4 w-4 text-green-600" />
+                                                ) : (
+                                                    <Instagram className="h-4 w-4 text-[#E1306C]" />
+                                                )}
+                                                <span className="font-serif">{copiedInstagramUpper ? "¡Copiado! Pégalo en tu Historia" : "Compartir en Instagram"}</span>
+                                            </button>
+
+                                            <a
+                                                href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(typeof window !== "undefined" ? window.location.href : "")}`}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="flex items-center gap-3 w-full px-3 py-2 text-sm text-left hover:bg-[#f8f5ee] rounded-[4px] transition-colors text-[#171713]"
+                                            >
+                                                <Facebook className="h-4 w-4 text-[#1877F2]" />
+                                                <span className="font-serif">Compartir en Facebook</span>
+                                            </a>
+
+                                            <a
+                                                href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(typeof window !== "undefined" ? window.location.href : "")}&text=${encodeURIComponent(article.title)}`}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="flex items-center gap-3 w-full px-3 py-2 text-sm text-left hover:bg-[#f8f5ee] rounded-[4px] transition-colors text-[#171713]"
+                                            >
+                                                <Twitter className="h-4 w-4 text-[#1DA1F2]" />
+                                                <span className="font-serif">Compartir en X (Twitter)</span>
+                                            </a>
+                                        </div>
+                                        <div className="mt-3 pt-3 border-t border-[#eee8dc] text-[11px] text-[#70695f] leading-normal font-serif italic">
+                                            Copia el enlace para compartirlo en tu Biografía o Historias de Instagram.
+                                        </div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
                     </div>
                 </div>
 
@@ -165,6 +324,107 @@ export default function ArticleDetail({
                         })}
                     </div>
                 </MotionDiv>
+
+                {/* Share Section at the bottom */}
+                <div className="my-12 py-6 border-t border-b border-[#eee8dc] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <span className="text-sm font-serif font-bold text-[#70695f]">¿Te pareció interesante? Comparte esta columna:</span>
+                    <div className="flex flex-wrap items-center gap-2 relative">
+                        <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            onClick={(e) => handleShare(e, 'lower')}
+                            className="flex items-center gap-2 text-[#8a8276] hover:text-[#171713]"
+                            aria-label="Compartir"
+                        >
+                            <Share2 className="h-4 w-4" />
+                            <span className="text-xs font-bold uppercase tracking-wider">Compartir</span>
+                        </Button>
+                        <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            onClick={(e) => handleCopy(e, 'lower')}
+                            className="flex items-center gap-2 text-[#8a8276] hover:text-[#171713]"
+                            aria-label="Copiar Enlace"
+                        >
+                            {copiedLower ? <Check className="h-4 w-4 text-green-600" /> : <LinkIcon className="h-4 w-4" />}
+                            <span className="text-xs font-bold uppercase tracking-wider">{copiedLower ? "¡Copiado!" : "Copiar enlace"}</span>
+                        </Button>
+
+                        {/* Popover Lower */}
+                        <AnimatePresence>
+                            {isOpenLower && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                                    transition={{ duration: 0.15, ease: "easeOut" }}
+                                    onClick={(e) => e.stopPropagation()}
+                                    className="absolute bottom-full mb-2 right-0 z-50 w-72 rounded-[6px] border border-[#ded5c7] bg-[#fffdf8] p-4 shadow-xl text-[#171713]"
+                                >
+                                    <h4 className="text-xs font-bold uppercase tracking-wider text-[#bd6f3c] mb-3">Compartir columna</h4>
+                                    <div className="flex flex-col gap-1.5">
+                                        <button
+                                            onClick={(e) => handleCopy(e, 'lower')}
+                                            className="flex items-center gap-3 w-full px-3 py-2 text-sm text-left hover:bg-[#f8f5ee] rounded-[4px] transition-colors cursor-pointer text-[#171713]"
+                                        >
+                                            {copiedLower ? (
+                                                <Check className="h-4 w-4 text-green-600" />
+                                            ) : (
+                                                <LinkIcon className="h-4 w-4 text-[#8a8276]" />
+                                            )}
+                                            <span className="font-serif">{copiedLower ? "¡Enlace copiado!" : "Copiar enlace"}</span>
+                                        </button>
+                                        
+                                        <a
+                                            href={`https://api.whatsapp.com/send?text=${encodeURIComponent(`${article.title} - ${typeof window !== "undefined" ? window.location.href : ""}`)}`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="flex items-center gap-3 w-full px-3 py-2 text-sm text-left hover:bg-[#f8f5ee] rounded-[4px] transition-colors text-[#171713]"
+                                        >
+                                            <MessageCircle className="h-4 w-4 text-[#25D366]" />
+                                            <span className="font-serif">Compartir por WhatsApp</span>
+                                        </a>
+
+                                        <button
+                                            onClick={(e) => handleInstagramCopy(e, 'lower')}
+                                            className="flex items-center gap-3 w-full px-3 py-2 text-sm text-left hover:bg-[#f8f5ee] rounded-[4px] transition-colors cursor-pointer text-[#171713]"
+                                        >
+                                            {copiedInstagramLower ? (
+                                                <Check className="h-4 w-4 text-green-600" />
+                                            ) : (
+                                                <Instagram className="h-4 w-4 text-[#E1306C]" />
+                                            )}
+                                            <span className="font-serif">{copiedInstagramLower ? "¡Copiado! Pégalo en tu Historia" : "Compartir en Instagram"}</span>
+                                        </button>
+
+                                        <a
+                                            href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(typeof window !== "undefined" ? window.location.href : "")}`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="flex items-center gap-3 w-full px-3 py-2 text-sm text-left hover:bg-[#f8f5ee] rounded-[4px] transition-colors text-[#171713]"
+                                        >
+                                            <Facebook className="h-4 w-4 text-[#1877F2]" />
+                                            <span className="font-serif">Compartir en Facebook</span>
+                                        </a>
+
+                                        <a
+                                            href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(typeof window !== "undefined" ? window.location.href : "")}&text=${encodeURIComponent(article.title)}`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="flex items-center gap-3 w-full px-3 py-2 text-sm text-left hover:bg-[#f8f5ee] rounded-[4px] transition-colors text-[#171713]"
+                                        >
+                                            <Twitter className="h-4 w-4 text-[#1DA1F2]" />
+                                            <span className="font-serif">Compartir en X (Twitter)</span>
+                                        </a>
+                                    </div>
+                                    <div className="mt-3 pt-3 border-t border-[#eee8dc] text-[11px] text-[#70695f] leading-normal font-serif italic">
+                                        Copia el enlace para compartirlo en tu Biografía o Historias de Instagram.
+                                    </div>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+                    </div>
+                </div>
 
                 {/* Newsletter capture */}
                 <NewsletterBlock origen={article.category} />
