@@ -113,22 +113,56 @@ export default function ArticleDetail({
         }
     };
 
-    // WhatsApp: share article image as file → OS share sheet → user picks WhatsApp Status
+    // WhatsApp: share article image WITH URL burned in via Canvas → user picks WhatsApp Estado
     const handleWhatsAppStatus = async () => {
         setWaMenu(null);
         if (typeof window === 'undefined') return;
         const pageUrl = window.location.href;
         const imageUrl = `${window.location.origin}${article.image}`;
         try {
-            const res = await fetch(imageUrl);
-            const blob = await res.blob();
-            const ext = blob.type.includes('png') ? 'png' : 'jpg';
-            const file = new File([blob], `articulo.${ext}`, { type: blob.type || 'image/jpeg' });
+            // Load image
+            const img = new window.Image();
+            img.crossOrigin = "anonymous";
+            img.src = imageUrl;
+            await new Promise<void>((resolve, reject) => {
+                img.onload = () => resolve();
+                img.onerror = () => reject();
+            });
+
+            // Draw on canvas with URL overlay
+            const canvas = document.createElement("canvas");
+            canvas.width = img.naturalWidth;
+            canvas.height = img.naturalHeight;
+            const ctx = canvas.getContext("2d");
+            if (!ctx) throw new Error("No canvas context");
+
+            ctx.drawImage(img, 0, 0);
+
+            // Semi-transparent dark strip at the bottom
+            const stripH = Math.max(48, canvas.height * 0.06);
+            ctx.fillStyle = "rgba(0,0,0,0.55)";
+            ctx.fillRect(0, canvas.height - stripH, canvas.width, stripH);
+
+            // URL text
+            const fontSize = Math.max(14, Math.round(canvas.width * 0.022));
+            ctx.font = `600 ${fontSize}px -apple-system, BlinkMacSystemFont, sans-serif`;
+            ctx.fillStyle = "#ffffff";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText(pageUrl, canvas.width / 2, canvas.height - stripH / 2);
+
+            // Convert canvas to file
+            const blob = await new Promise<Blob | null>((resolve) =>
+                canvas.toBlob(resolve, "image/jpeg", 0.92)
+            );
+            if (!blob) throw new Error("Canvas toBlob failed");
+            const file = new File([blob], "articulo.jpg", { type: "image/jpeg" });
+
             if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
                 await navigator.share({
                     files: [file],
                     title: article.title,
-                    text: `${article.excerpt}\n\n${pageUrl}`,
+                    text: pageUrl,
                 });
                 return;
             }
@@ -149,24 +183,58 @@ export default function ArticleDetail({
         window.open(`https://wa.me/?text=${encodeURIComponent(`${article.title} - ${pageUrl}`)}`, '_blank');
     };
 
-    // Instagram: share article image as file → OS share sheet → user picks Instagram Stories/Feed
+    // Instagram: share article image WITH URL burned into the image via Canvas
     const handleInstagramStory = async () => {
         setIgMenu(null);
         if (typeof window === "undefined") return;
         const pageUrl = window.location.href;
         const imageUrl = `${window.location.origin}${article.image}`;
-        // Copy URL so user can paste as link sticker in Stories
+        // Also copy URL to clipboard as backup
         try { await navigator.clipboard.writeText(pageUrl); } catch (_) {}
         try {
-            const res = await fetch(imageUrl);
-            const blob = await res.blob();
-            const ext = blob.type.includes('png') ? 'png' : 'jpg';
-            const file = new File([blob], `articulo.${ext}`, { type: blob.type || 'image/jpeg' });
+            // Load the original image
+            const img = new window.Image();
+            img.crossOrigin = "anonymous";
+            img.src = imageUrl;
+            await new Promise<void>((resolve, reject) => {
+                img.onload = () => resolve();
+                img.onerror = () => reject();
+            });
+
+            // Draw on canvas with URL overlay
+            const canvas = document.createElement("canvas");
+            canvas.width = img.naturalWidth;
+            canvas.height = img.naturalHeight;
+            const ctx = canvas.getContext("2d");
+            if (!ctx) throw new Error("No canvas context");
+
+            ctx.drawImage(img, 0, 0);
+
+            // Semi-transparent dark strip at the bottom
+            const stripH = Math.max(48, canvas.height * 0.06);
+            ctx.fillStyle = "rgba(0,0,0,0.55)";
+            ctx.fillRect(0, canvas.height - stripH, canvas.width, stripH);
+
+            // URL text
+            const fontSize = Math.max(14, Math.round(canvas.width * 0.022));
+            ctx.font = `600 ${fontSize}px -apple-system, BlinkMacSystemFont, sans-serif`;
+            ctx.fillStyle = "#ffffff";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText(pageUrl, canvas.width / 2, canvas.height - stripH / 2);
+
+            // Convert canvas to file
+            const blob = await new Promise<Blob | null>((resolve) =>
+                canvas.toBlob(resolve, "image/jpeg", 0.92)
+            );
+            if (!blob) throw new Error("Canvas toBlob failed");
+            const file = new File([blob], "articulo.jpg", { type: "image/jpeg" });
+
             if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
                 await navigator.share({
                     files: [file],
                     title: article.title,
-                    text: `${article.title}\n\n${pageUrl}`,
+                    text: pageUrl,
                 });
                 return;
             }
