@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, User, Calendar, Share2, Bookmark, Check, Link as LinkIcon, MessageCircle, Facebook, Twitter, Instagram } from "lucide-react";
@@ -72,8 +72,20 @@ export default function ArticleDetail({
 }: ArticleDetailProps) {
     const [copiedUpper, setCopiedUpper] = useState(false);
     const [copiedLower, setCopiedLower] = useState(false);
-    const [copiedInstagramUpper, setCopiedInstagramUpper] = useState(false);
-    const [copiedInstagramLower, setCopiedInstagramLower] = useState(false);
+    // 'upper' | 'lower' | null  — which Instagram menu is open
+    const [igMenu, setIgMenu] = useState<'upper' | 'lower' | null>(null);
+    const igMenuRef = useRef<HTMLDivElement>(null);
+
+    // Close Instagram menu on outside click
+    useEffect(() => {
+        const handler = (e: MouseEvent) => {
+            if (igMenuRef.current && !igMenuRef.current.contains(e.target as Node)) {
+                setIgMenu(null);
+            }
+        };
+        document.addEventListener('mousedown', handler);
+        return () => document.removeEventListener('mousedown', handler);
+    }, []);
 
     const handleCopy = async (e: React.MouseEvent, location: 'upper' | 'lower') => {
         e.preventDefault();
@@ -93,37 +105,32 @@ export default function ArticleDetail({
         }
     };
 
-    const handleInstagramClick = async (e: React.MouseEvent, location: 'upper' | 'lower') => {
-        e.preventDefault();
-        e.stopPropagation();
-        const url = typeof window !== "undefined" ? window.location.href : "";
+    // Option 1: Share to Instagram Story
+    // Copies URL to clipboard + opens the instagram-stories:// deep link
+    // with the article image as the story background.
+    // User lands in Stories camera ready to post, and can paste the link sticker.
+    const handleInstagramStory = async () => {
+        setIgMenu(null);
+        if (typeof window === "undefined") return;
+        const pageUrl = window.location.href;
+        const imageUrl = encodeURIComponent(`${window.location.origin}${article.image}`);
+        try { await navigator.clipboard.writeText(pageUrl); } catch (_) {}
+        // Deep link: opens Instagram Stories camera with article image pre-loaded
+        window.location.href = `instagram-stories://share?backgroundImageURL=${imageUrl}&source_application=web`;
+    };
 
-        // On mobile: opens native OS share sheet (Instagram, Stories, DMs, etc.)
-        if (typeof navigator !== "undefined" && navigator.share) {
+    // Option 2: Share via DM / system share sheet
+    const handleInstagramShare = async () => {
+        setIgMenu(null);
+        if (typeof window === "undefined") return;
+        const url = window.location.href;
+        if (navigator.share) {
             try {
-                await navigator.share({
-                    title: article.title,
-                    text: article.excerpt,
-                    url,
-                });
-            } catch (_) {
-                // User cancelled — do nothing
-            }
-            return;
-        }
-
-        // Desktop fallback: copy URL + show tooltip
-        try {
-            await navigator.clipboard.writeText(url);
-            if (location === 'upper') {
-                setCopiedInstagramUpper(true);
-                setTimeout(() => setCopiedInstagramUpper(false), 2500);
-            } else {
-                setCopiedInstagramLower(true);
-                setTimeout(() => setCopiedInstagramLower(false), 2500);
-            }
-        } catch (err) {
-            console.error("Failed to copy:", err);
+                await navigator.share({ title: article.title, text: article.excerpt, url });
+            } catch (_) {}
+        } else {
+            // Desktop: copy link
+            try { await navigator.clipboard.writeText(url); } catch (_) {}
         }
     };
 
@@ -213,26 +220,46 @@ export default function ArticleDetail({
                         </a>
 
                         {/* Instagram */}
-                        <div className="relative">
+                        <div className="relative" ref={igMenuRef}>
                             <button
                                 type="button"
                                 aria-label="Compartir en Instagram"
-                                onClick={(e) => handleInstagramClick(e, 'upper')}
-                                className="inline-flex items-center justify-center p-2.5 rounded-full border border-[#ded5c7] bg-transparent text-[#70695f] hover:text-[#bd6f3c] hover:border-[#bd6f3c] hover:bg-[#f8f5ee] transition-all duration-200"
+                                onClick={() => setIgMenu(igMenu === 'upper' ? null : 'upper')}
+                                className={`inline-flex items-center justify-center p-2.5 rounded-full border transition-all duration-200 ${
+                                    igMenu === 'upper'
+                                        ? 'border-[#bd6f3c] bg-[#f8f5ee] text-[#bd6f3c]'
+                                        : 'border-[#ded5c7] bg-transparent text-[#70695f] hover:text-[#bd6f3c] hover:border-[#bd6f3c] hover:bg-[#f8f5ee]'
+                                }`}
                             >
                                 <Instagram className="h-[18px] w-[18px]" />
                             </button>
                             <AnimatePresence>
-                                {copiedInstagramUpper && (
+                                {igMenu === 'upper' && (
                                     <motion.div
-                                        initial={{ opacity: 0, y: 5, scale: 0.95 }}
+                                        initial={{ opacity: 0, y: 6, scale: 0.95 }}
                                         animate={{ opacity: 1, y: 0, scale: 1 }}
-                                        exit={{ opacity: 0, y: 5, scale: 0.95 }}
-                                        transition={{ duration: 0.15 }}
-                                        className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-50 whitespace-nowrap bg-[#171713] text-white text-[10px] font-sans font-semibold py-1.5 px-3 rounded-[4px] shadow-lg border border-white/10"
+                                        exit={{ opacity: 0, y: 6, scale: 0.95 }}
+                                        transition={{ duration: 0.15, ease: 'easeOut' }}
+                                        className="absolute bottom-full right-0 mb-2.5 z-50 bg-[#171713] rounded-[8px] shadow-xl border border-white/10 overflow-hidden min-w-[168px]"
                                     >
-                                        ¡Copiado! Pégalo en tu Historia
-                                        <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-[4px] border-4 border-transparent border-t-[#171713]" />
+                                        <div className="absolute bottom-0 right-3 translate-y-full border-4 border-transparent border-t-[#171713]" />
+                                        <button
+                                            type="button"
+                                            onClick={handleInstagramStory}
+                                            className="w-full flex items-center gap-2.5 px-4 py-3 text-left text-[11px] font-sans font-semibold uppercase tracking-wider text-[#d8d0c4] hover:bg-white/10 hover:text-white transition-colors"
+                                        >
+                                            <svg className="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l2 2"/></svg>
+                                            Historia
+                                        </button>
+                                        <div className="h-[1px] bg-white/10 mx-3" />
+                                        <button
+                                            type="button"
+                                            onClick={handleInstagramShare}
+                                            className="w-full flex items-center gap-2.5 px-4 py-3 text-left text-[11px] font-sans font-semibold uppercase tracking-wider text-[#d8d0c4] hover:bg-white/10 hover:text-white transition-colors"
+                                        >
+                                            <svg className="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                                            DM / Feed
+                                        </button>
                                     </motion.div>
                                 )}
                             </AnimatePresence>
@@ -320,22 +347,42 @@ export default function ArticleDetail({
                             <button
                                 type="button"
                                 aria-label="Compartir en Instagram"
-                                onClick={(e) => handleInstagramClick(e, 'lower')}
-                                className="inline-flex items-center justify-center p-2.5 rounded-full border border-[#ded5c7] bg-transparent text-[#70695f] hover:text-[#bd6f3c] hover:border-[#bd6f3c] hover:bg-[#f8f5ee] transition-all duration-200"
+                                onClick={() => setIgMenu(igMenu === 'lower' ? null : 'lower')}
+                                className={`inline-flex items-center justify-center p-2.5 rounded-full border transition-all duration-200 ${
+                                    igMenu === 'lower'
+                                        ? 'border-[#bd6f3c] bg-[#f8f5ee] text-[#bd6f3c]'
+                                        : 'border-[#ded5c7] bg-transparent text-[#70695f] hover:text-[#bd6f3c] hover:border-[#bd6f3c] hover:bg-[#f8f5ee]'
+                                }`}
                             >
                                 <Instagram className="h-[18px] w-[18px]" />
                             </button>
                             <AnimatePresence>
-                                {copiedInstagramLower && (
+                                {igMenu === 'lower' && (
                                     <motion.div
-                                        initial={{ opacity: 0, y: 5, scale: 0.95 }}
+                                        initial={{ opacity: 0, y: 6, scale: 0.95 }}
                                         animate={{ opacity: 1, y: 0, scale: 1 }}
-                                        exit={{ opacity: 0, y: 5, scale: 0.95 }}
-                                        transition={{ duration: 0.15 }}
-                                        className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-50 whitespace-nowrap bg-[#171713] text-white text-[10px] font-sans font-semibold py-1.5 px-3 rounded-[4px] shadow-lg border border-white/10"
+                                        exit={{ opacity: 0, y: 6, scale: 0.95 }}
+                                        transition={{ duration: 0.15, ease: 'easeOut' }}
+                                        className="absolute bottom-full right-0 mb-2.5 z-50 bg-[#171713] rounded-[8px] shadow-xl border border-white/10 overflow-hidden min-w-[168px]"
                                     >
-                                        ¡Copiado! Pégalo en tu Historia
-                                        <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-[4px] border-4 border-transparent border-t-[#171713]" />
+                                        <div className="absolute bottom-0 right-3 translate-y-full border-4 border-transparent border-t-[#171713]" />
+                                        <button
+                                            type="button"
+                                            onClick={handleInstagramStory}
+                                            className="w-full flex items-center gap-2.5 px-4 py-3 text-left text-[11px] font-sans font-semibold uppercase tracking-wider text-[#d8d0c4] hover:bg-white/10 hover:text-white transition-colors"
+                                        >
+                                            <svg className="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l2 2"/></svg>
+                                            Historia
+                                        </button>
+                                        <div className="h-[1px] bg-white/10 mx-3" />
+                                        <button
+                                            type="button"
+                                            onClick={handleInstagramShare}
+                                            className="w-full flex items-center gap-2.5 px-4 py-3 text-left text-[11px] font-sans font-semibold uppercase tracking-wider text-[#d8d0c4] hover:bg-white/10 hover:text-white transition-colors"
+                                        >
+                                            <svg className="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                                            DM / Feed
+                                        </button>
                                     </motion.div>
                                 )}
                             </AnimatePresence>
