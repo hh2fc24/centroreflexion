@@ -138,28 +138,56 @@ export default function ArticleDetail({
 
             ctx.drawImage(img, 0, 0);
 
-            // Semi-transparent dark strip at the bottom
-            const stripH = Math.max(90, canvas.height * 0.12);
-            ctx.fillStyle = "rgba(0,0,0,0.75)";
+            // Smooth gradient at the bottom for readability
+            const stripH = Math.max(180, canvas.height * 0.3);
+            const grad = ctx.createLinearGradient(0, canvas.height - stripH, 0, canvas.height);
+            grad.addColorStop(0, "rgba(0,0,0,0)");
+            grad.addColorStop(0.4, "rgba(0,0,0,0.6)");
+            grad.addColorStop(1, "rgba(0,0,0,0.95)");
+            ctx.fillStyle = grad;
             ctx.fillRect(0, canvas.height - stripH, canvas.width, stripH);
 
-            // Title text
-            const titleFontSize = Math.max(18, Math.round(canvas.width * 0.035));
+            // Title text with wrapping
+            const titleFontSize = Math.max(20, Math.round(canvas.width * 0.04));
             ctx.font = `bold ${titleFontSize}px -apple-system, BlinkMacSystemFont, sans-serif`;
             ctx.fillStyle = "#ffffff";
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
-            let displayTitle = article.title;
-            if (displayTitle.length > 55) {
-                displayTitle = displayTitle.substring(0, 52) + "...";
-            }
-            ctx.fillText(displayTitle, canvas.width / 2, canvas.height - stripH * 0.65);
 
-            // URL text
-            const urlFontSize = Math.max(12, Math.round(canvas.width * 0.022));
-            ctx.font = `400 ${urlFontSize}px -apple-system, BlinkMacSystemFont, sans-serif`;
-            ctx.fillStyle = "#d8d0c4";
-            ctx.fillText(pageUrl, canvas.width / 2, canvas.height - stripH * 0.3);
+            const words = article.title.split(' ');
+            let line = '';
+            let lines = [];
+            const maxWidth = canvas.width * 0.85;
+            for (let i = 0; i < words.length; i++) {
+                let testLine = line + words[i] + ' ';
+                let metrics = ctx.measureText(testLine);
+                if (metrics.width > maxWidth && i > 0) {
+                    lines.push(line);
+                    line = words[i] + ' ';
+                } else {
+                    line = testLine;
+                }
+            }
+            lines.push(line);
+
+            // Limit to 3 lines
+            if (lines.length > 3) {
+                lines = [lines[0], lines[1], lines[2] + '...'];
+            }
+
+            const lineHeight = titleFontSize * 1.3;
+            // Calculate startY so the block of text + domain is vertically balanced at the bottom
+            let startY = canvas.height - (lines.length * lineHeight) - 35;
+
+            lines.forEach((l, i) => {
+                ctx.fillText(l.trim(), canvas.width / 2, startY + (i * lineHeight));
+            });
+
+            // Domain text (Watermark)
+            const urlFontSize = Math.max(13, Math.round(canvas.width * 0.025));
+            ctx.font = `600 ${urlFontSize}px -apple-system, BlinkMacSystemFont, sans-serif`;
+            ctx.fillStyle = "#d3976d"; // Brand accent color
+            ctx.fillText("centroreflexionescriticas.com", canvas.width / 2, canvas.height - 20);
 
             // Convert canvas to file
             const blob = await new Promise<Blob | null>((resolve) =>
@@ -220,28 +248,56 @@ export default function ArticleDetail({
 
             ctx.drawImage(img, 0, 0);
 
-            // Semi-transparent dark strip at the bottom
-            const stripH = Math.max(90, canvas.height * 0.12);
-            ctx.fillStyle = "rgba(0,0,0,0.75)";
+            // Smooth gradient at the bottom for readability
+            const stripH = Math.max(180, canvas.height * 0.3);
+            const grad = ctx.createLinearGradient(0, canvas.height - stripH, 0, canvas.height);
+            grad.addColorStop(0, "rgba(0,0,0,0)");
+            grad.addColorStop(0.4, "rgba(0,0,0,0.6)");
+            grad.addColorStop(1, "rgba(0,0,0,0.95)");
+            ctx.fillStyle = grad;
             ctx.fillRect(0, canvas.height - stripH, canvas.width, stripH);
 
-            // Title text
-            const titleFontSize = Math.max(18, Math.round(canvas.width * 0.035));
+            // Title text with wrapping
+            const titleFontSize = Math.max(20, Math.round(canvas.width * 0.04));
             ctx.font = `bold ${titleFontSize}px -apple-system, BlinkMacSystemFont, sans-serif`;
             ctx.fillStyle = "#ffffff";
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
-            let displayTitle = article.title;
-            if (displayTitle.length > 55) {
-                displayTitle = displayTitle.substring(0, 52) + "...";
-            }
-            ctx.fillText(displayTitle, canvas.width / 2, canvas.height - stripH * 0.65);
 
-            // URL text
-            const urlFontSize = Math.max(12, Math.round(canvas.width * 0.022));
-            ctx.font = `400 ${urlFontSize}px -apple-system, BlinkMacSystemFont, sans-serif`;
-            ctx.fillStyle = "#d8d0c4";
-            ctx.fillText(pageUrl, canvas.width / 2, canvas.height - stripH * 0.3);
+            const words = article.title.split(' ');
+            let line = '';
+            let lines = [];
+            const maxWidth = canvas.width * 0.85;
+            for (let i = 0; i < words.length; i++) {
+                let testLine = line + words[i] + ' ';
+                let metrics = ctx.measureText(testLine);
+                if (metrics.width > maxWidth && i > 0) {
+                    lines.push(line);
+                    line = words[i] + ' ';
+                } else {
+                    line = testLine;
+                }
+            }
+            lines.push(line);
+
+            // Limit to 3 lines
+            if (lines.length > 3) {
+                lines = [lines[0], lines[1], lines[2] + '...'];
+            }
+
+            const lineHeight = titleFontSize * 1.3;
+            // Calculate startY so the block of text + domain is vertically balanced at the bottom
+            let startY = canvas.height - (lines.length * lineHeight) - 35;
+
+            lines.forEach((l, i) => {
+                ctx.fillText(l.trim(), canvas.width / 2, startY + (i * lineHeight));
+            });
+
+            // Domain text (Watermark)
+            const urlFontSize = Math.max(13, Math.round(canvas.width * 0.025));
+            ctx.font = `600 ${urlFontSize}px -apple-system, BlinkMacSystemFont, sans-serif`;
+            ctx.fillStyle = "#d3976d"; // Brand accent color
+            ctx.fillText("centroreflexionescriticas.com", canvas.width / 2, canvas.height - 20);
 
             // Convert canvas to file
             const blob = await new Promise<Blob | null>((resolve) =>
