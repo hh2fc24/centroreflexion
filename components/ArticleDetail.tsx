@@ -94,20 +94,36 @@ export default function ArticleDetail({
     };
 
     const handleInstagramClick = async (e: React.MouseEvent, location: 'upper' | 'lower') => {
-        // No preventDefault() here to allow standard target="_blank" navigation
+        e.preventDefault();
         e.stopPropagation();
         const url = typeof window !== "undefined" ? window.location.href : "";
+
+        // On mobile: opens native OS share sheet (Instagram, Stories, DMs, etc.)
+        if (typeof navigator !== "undefined" && navigator.share) {
+            try {
+                await navigator.share({
+                    title: article.title,
+                    text: article.excerpt,
+                    url,
+                });
+            } catch (_) {
+                // User cancelled — do nothing
+            }
+            return;
+        }
+
+        // Desktop fallback: copy URL + show tooltip
         try {
             await navigator.clipboard.writeText(url);
             if (location === 'upper') {
                 setCopiedInstagramUpper(true);
-                setTimeout(() => setCopiedInstagramUpper(false), 2000);
+                setTimeout(() => setCopiedInstagramUpper(false), 2500);
             } else {
                 setCopiedInstagramLower(true);
-                setTimeout(() => setCopiedInstagramLower(false), 2000);
+                setTimeout(() => setCopiedInstagramLower(false), 2500);
             }
         } catch (err) {
-            console.error("Failed to copy for Instagram:", err);
+            console.error("Failed to copy:", err);
         }
     };
 
@@ -190,24 +206,22 @@ export default function ArticleDetail({
                             href={`https://api.whatsapp.com/send?text=${encodeURIComponent(`${article.title} - ${typeof window !== "undefined" ? window.location.href : ""}`)}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full border border-[#ded5c7] bg-transparent text-[#70695f] hover:text-[#bd6f3c] hover:border-[#bd6f3c] hover:bg-[#f8f5ee] text-xs font-sans font-bold uppercase tracking-wider transition-all duration-200"
+                            aria-label="Compartir por WhatsApp"
+                            className="inline-flex items-center justify-center p-2.5 rounded-full border border-[#ded5c7] bg-transparent text-[#70695f] hover:text-[#bd6f3c] hover:border-[#bd6f3c] hover:bg-[#f8f5ee] transition-all duration-200"
                         >
-                            <WhatsAppIcon className="h-4 w-4" />
-                            <span>WhatsApp</span>
+                            <WhatsAppIcon className="h-[18px] w-[18px]" />
                         </a>
 
                         {/* Instagram */}
                         <div className="relative">
-                            <a
-                                href="https://www.instagram.com/centrodereflexionescriticas/"
-                                target="_blank"
-                                rel="noopener noreferrer"
+                            <button
+                                type="button"
+                                aria-label="Compartir en Instagram"
                                 onClick={(e) => handleInstagramClick(e, 'upper')}
-                                className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full border border-[#ded5c7] bg-transparent text-[#70695f] hover:text-[#bd6f3c] hover:border-[#bd6f3c] hover:bg-[#f8f5ee] text-xs font-sans font-bold uppercase tracking-wider transition-all duration-200"
+                                className="inline-flex items-center justify-center p-2.5 rounded-full border border-[#ded5c7] bg-transparent text-[#70695f] hover:text-[#bd6f3c] hover:border-[#bd6f3c] hover:bg-[#f8f5ee] transition-all duration-200"
                             >
-                                <Instagram className="h-4 w-4" />
-                                <span>Instagram</span>
-                            </a>
+                                <Instagram className="h-[18px] w-[18px]" />
+                            </button>
                             <AnimatePresence>
                                 {copiedInstagramUpper && (
                                     <motion.div
@@ -228,10 +242,10 @@ export default function ArticleDetail({
                         <div className="relative">
                             <button
                                 onClick={(e) => handleCopy(e, 'upper')}
-                                className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full border border-[#ded5c7] bg-transparent text-[#70695f] hover:text-[#bd6f3c] hover:border-[#bd6f3c] hover:bg-[#f8f5ee] text-xs font-sans font-bold uppercase tracking-wider transition-all duration-200"
+                                aria-label="Copiar enlace"
+                                className="inline-flex items-center justify-center p-2.5 rounded-full border border-[#ded5c7] bg-transparent text-[#70695f] hover:text-[#bd6f3c] hover:border-[#bd6f3c] hover:bg-[#f8f5ee] transition-all duration-200"
                             >
-                                {copiedUpper ? <Check className="h-4 w-4 text-[#25D366]" /> : <LinkIcon className="h-4 w-4" />}
-                                <span>{copiedUpper ? "Copiado" : "Enlace"}</span>
+                                {copiedUpper ? <Check className="h-[18px] w-[18px] text-emerald-600" /> : <LinkIcon className="h-[18px] w-[18px]" />}
                             </button>
                             <AnimatePresence>
                                 {copiedUpper && (
@@ -295,24 +309,22 @@ export default function ArticleDetail({
                             href={`https://api.whatsapp.com/send?text=${encodeURIComponent(`${article.title} - ${typeof window !== "undefined" ? window.location.href : ""}`)}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full border border-[#ded5c7] bg-transparent text-[#70695f] hover:text-[#bd6f3c] hover:border-[#bd6f3c] hover:bg-[#f8f5ee] text-xs font-sans font-bold uppercase tracking-wider transition-all duration-200"
+                            aria-label="Compartir por WhatsApp"
+                            className="inline-flex items-center justify-center p-2.5 rounded-full border border-[#ded5c7] bg-transparent text-[#70695f] hover:text-[#bd6f3c] hover:border-[#bd6f3c] hover:bg-[#f8f5ee] transition-all duration-200"
                         >
-                            <WhatsAppIcon className="h-4 w-4" />
-                            <span>WhatsApp</span>
+                            <WhatsAppIcon className="h-[18px] w-[18px]" />
                         </a>
 
                         {/* Instagram */}
                         <div className="relative">
-                            <a
-                                href="https://www.instagram.com/centrodereflexionescriticas/"
-                                target="_blank"
-                                rel="noopener noreferrer"
+                            <button
+                                type="button"
+                                aria-label="Compartir en Instagram"
                                 onClick={(e) => handleInstagramClick(e, 'lower')}
-                                className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full border border-[#ded5c7] bg-transparent text-[#70695f] hover:text-[#bd6f3c] hover:border-[#bd6f3c] hover:bg-[#f8f5ee] text-xs font-sans font-bold uppercase tracking-wider transition-all duration-200"
+                                className="inline-flex items-center justify-center p-2.5 rounded-full border border-[#ded5c7] bg-transparent text-[#70695f] hover:text-[#bd6f3c] hover:border-[#bd6f3c] hover:bg-[#f8f5ee] transition-all duration-200"
                             >
-                                <Instagram className="h-4 w-4" />
-                                <span>Instagram</span>
-                            </a>
+                                <Instagram className="h-[18px] w-[18px]" />
+                            </button>
                             <AnimatePresence>
                                 {copiedInstagramLower && (
                                     <motion.div
@@ -333,10 +345,10 @@ export default function ArticleDetail({
                         <div className="relative">
                             <button
                                 onClick={(e) => handleCopy(e, 'lower')}
-                                className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full border border-[#ded5c7] bg-transparent text-[#70695f] hover:text-[#bd6f3c] hover:border-[#bd6f3c] hover:bg-[#f8f5ee] text-xs font-sans font-bold uppercase tracking-wider transition-all duration-200"
+                                aria-label="Copiar enlace"
+                                className="inline-flex items-center justify-center p-2.5 rounded-full border border-[#ded5c7] bg-transparent text-[#70695f] hover:text-[#bd6f3c] hover:border-[#bd6f3c] hover:bg-[#f8f5ee] transition-all duration-200"
                             >
-                                {copiedLower ? <Check className="h-4 w-4 text-[#25D366]" /> : <LinkIcon className="h-4 w-4" />}
-                                <span>{copiedLower ? "Copiado" : "Copiar enlace"}</span>
+                                {copiedLower ? <Check className="h-[18px] w-[18px] text-emerald-600" /> : <LinkIcon className="h-[18px] w-[18px]" />}
                             </button>
                             <AnimatePresence>
                                 {copiedLower && (
