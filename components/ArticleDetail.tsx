@@ -72,15 +72,23 @@ export default function ArticleDetail({
 }: ArticleDetailProps) {
     const [copiedUpper, setCopiedUpper] = useState(false);
     const [copiedLower, setCopiedLower] = useState(false);
-    // 'upper' | 'lower' | null  — which Instagram menu is open
+
+    // Instagram mini-menu
     const [igMenu, setIgMenu] = useState<'upper' | 'lower' | null>(null);
     const igMenuRef = useRef<HTMLDivElement>(null);
 
-    // Close Instagram menu on outside click
+    // WhatsApp mini-menu
+    const [waMenu, setWaMenu] = useState<'upper' | 'lower' | null>(null);
+    const waMenuRef = useRef<HTMLDivElement>(null);
+
+    // Close menus on outside click
     useEffect(() => {
         const handler = (e: MouseEvent) => {
             if (igMenuRef.current && !igMenuRef.current.contains(e.target as Node)) {
                 setIgMenu(null);
+            }
+            if (waMenuRef.current && !waMenuRef.current.contains(e.target as Node)) {
+                setWaMenu(null);
             }
         };
         document.addEventListener('mousedown', handler);
@@ -105,34 +113,64 @@ export default function ArticleDetail({
         }
     };
 
-    // Option 1: Share to Instagram Story
-    // Copies URL to clipboard + opens the instagram-stories:// deep link
-    // with the article image as the story background.
-    // User lands in Stories camera ready to post, and can paste the link sticker.
+    // WhatsApp: share article image as file → OS share sheet → user picks WhatsApp Status
+    const handleWhatsAppStatus = async () => {
+        setWaMenu(null);
+        if (typeof window === 'undefined') return;
+        const pageUrl = window.location.href;
+        const imageUrl = `${window.location.origin}${article.image}`;
+        try {
+            const res = await fetch(imageUrl);
+            const blob = await res.blob();
+            const ext = blob.type.includes('png') ? 'png' : 'jpg';
+            const file = new File([blob], `articulo.${ext}`, { type: blob.type || 'image/jpeg' });
+            if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+                await navigator.share({
+                    files: [file],
+                    title: article.title,
+                    text: `${article.excerpt}\n\n${pageUrl}`,
+                });
+                return;
+            }
+        } catch (_) {}
+        // Fallback: regular Web Share or open WhatsApp
+        if (navigator.share) {
+            try { await navigator.share({ title: article.title, text: article.excerpt, url: pageUrl }); } catch (_) {}
+        } else {
+            window.open(`https://wa.me/?text=${encodeURIComponent(`${article.title} - ${pageUrl}`)}`, '_blank');
+        }
+    };
+
+    // WhatsApp: classic text message link
+    const handleWhatsAppMessage = () => {
+        setWaMenu(null);
+        if (typeof window === 'undefined') return;
+        const pageUrl = window.location.href;
+        window.open(`https://wa.me/?text=${encodeURIComponent(`${article.title} - ${pageUrl}`)}`, '_blank');
+    };
+
+    // Instagram: open Stories camera with article image pre-loaded + copy URL
     const handleInstagramStory = async () => {
         setIgMenu(null);
         if (typeof window === "undefined") return;
         const pageUrl = window.location.href;
         const imageUrl = encodeURIComponent(`${window.location.origin}${article.image}`);
         try { await navigator.clipboard.writeText(pageUrl); } catch (_) {}
-        // Deep link: opens Instagram Stories camera with article image pre-loaded
         window.location.href = `instagram-stories://share?backgroundImageURL=${imageUrl}&source_application=web`;
     };
 
-    // Option 2: Share via DM / system share sheet
+    // Instagram: DM / system share sheet
     const handleInstagramShare = async () => {
         setIgMenu(null);
         if (typeof window === "undefined") return;
         const url = window.location.href;
         if (navigator.share) {
-            try {
-                await navigator.share({ title: article.title, text: article.excerpt, url });
-            } catch (_) {}
+            try { await navigator.share({ title: article.title, text: article.excerpt, url }); } catch (_) {}
         } else {
-            // Desktop: copy link
             try { await navigator.clipboard.writeText(url); } catch (_) {}
         }
     };
+
 
     return (
         <article className="min-h-screen bg-[#fffdf8] pb-16 sm:pb-24">
@@ -209,15 +247,50 @@ export default function ArticleDetail({
                         <div className="h-6 w-[1px] bg-[#eee8dc] mx-1" />
 
                         {/* WhatsApp */}
-                        <a
-                            href={`https://api.whatsapp.com/send?text=${encodeURIComponent(`${article.title} - ${typeof window !== "undefined" ? window.location.href : ""}`)}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            aria-label="Compartir por WhatsApp"
-                            className="inline-flex items-center justify-center p-2.5 rounded-full border border-[#ded5c7] bg-transparent text-[#70695f] hover:text-[#bd6f3c] hover:border-[#bd6f3c] hover:bg-[#f8f5ee] transition-all duration-200"
-                        >
-                            <WhatsAppIcon className="h-[18px] w-[18px]" />
-                        </a>
+                        <div className="relative" ref={waMenuRef}>
+                            <button
+                                type="button"
+                                aria-label="Compartir por WhatsApp"
+                                onClick={() => setWaMenu(waMenu === 'upper' ? null : 'upper')}
+                                className={`inline-flex items-center justify-center p-2.5 rounded-full border transition-all duration-200 ${
+                                    waMenu === 'upper'
+                                        ? 'border-[#bd6f3c] bg-[#f8f5ee] text-[#bd6f3c]'
+                                        : 'border-[#ded5c7] bg-transparent text-[#70695f] hover:text-[#bd6f3c] hover:border-[#bd6f3c] hover:bg-[#f8f5ee]'
+                                }`}
+                            >
+                                <WhatsAppIcon className="h-[18px] w-[18px]" />
+                            </button>
+                            <AnimatePresence>
+                                {waMenu === 'upper' && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 6, scale: 0.95 }}
+                                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                                        exit={{ opacity: 0, y: 6, scale: 0.95 }}
+                                        transition={{ duration: 0.15, ease: 'easeOut' }}
+                                        className="absolute bottom-full right-0 mb-2.5 z-50 bg-[#171713] rounded-[8px] shadow-xl border border-white/10 overflow-hidden min-w-[168px]"
+                                    >
+                                        <div className="absolute bottom-0 right-3 translate-y-full border-4 border-transparent border-t-[#171713]" />
+                                        <button
+                                            type="button"
+                                            onClick={handleWhatsAppStatus}
+                                            className="w-full flex items-center gap-2.5 px-4 py-3 text-left text-[11px] font-sans font-semibold uppercase tracking-wider text-[#d8d0c4] hover:bg-white/10 hover:text-white transition-colors"
+                                        >
+                                            <svg className="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l2 2"/></svg>
+                                            Estado
+                                        </button>
+                                        <div className="h-[1px] bg-white/10 mx-3" />
+                                        <button
+                                            type="button"
+                                            onClick={handleWhatsAppMessage}
+                                            className="w-full flex items-center gap-2.5 px-4 py-3 text-left text-[11px] font-sans font-semibold uppercase tracking-wider text-[#d8d0c4] hover:bg-white/10 hover:text-white transition-colors"
+                                        >
+                                            <svg className="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                                            Mensaje
+                                        </button>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
 
                         {/* Instagram */}
                         <div className="relative" ref={igMenuRef}>
@@ -332,15 +405,50 @@ export default function ArticleDetail({
                     <span className="text-sm font-serif font-bold text-[#70695f]">¿Te pareció interesante? Comparte esta columna:</span>
                     <div className="flex flex-wrap items-center gap-2">
                         {/* WhatsApp */}
-                        <a
-                            href={`https://api.whatsapp.com/send?text=${encodeURIComponent(`${article.title} - ${typeof window !== "undefined" ? window.location.href : ""}`)}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            aria-label="Compartir por WhatsApp"
-                            className="inline-flex items-center justify-center p-2.5 rounded-full border border-[#ded5c7] bg-transparent text-[#70695f] hover:text-[#bd6f3c] hover:border-[#bd6f3c] hover:bg-[#f8f5ee] transition-all duration-200"
-                        >
-                            <WhatsAppIcon className="h-[18px] w-[18px]" />
-                        </a>
+                        <div className="relative">
+                            <button
+                                type="button"
+                                aria-label="Compartir por WhatsApp"
+                                onClick={() => setWaMenu(waMenu === 'lower' ? null : 'lower')}
+                                className={`inline-flex items-center justify-center p-2.5 rounded-full border transition-all duration-200 ${
+                                    waMenu === 'lower'
+                                        ? 'border-[#bd6f3c] bg-[#f8f5ee] text-[#bd6f3c]'
+                                        : 'border-[#ded5c7] bg-transparent text-[#70695f] hover:text-[#bd6f3c] hover:border-[#bd6f3c] hover:bg-[#f8f5ee]'
+                                }`}
+                            >
+                                <WhatsAppIcon className="h-[18px] w-[18px]" />
+                            </button>
+                            <AnimatePresence>
+                                {waMenu === 'lower' && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 6, scale: 0.95 }}
+                                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                                        exit={{ opacity: 0, y: 6, scale: 0.95 }}
+                                        transition={{ duration: 0.15, ease: 'easeOut' }}
+                                        className="absolute bottom-full right-0 mb-2.5 z-50 bg-[#171713] rounded-[8px] shadow-xl border border-white/10 overflow-hidden min-w-[168px]"
+                                    >
+                                        <div className="absolute bottom-0 right-3 translate-y-full border-4 border-transparent border-t-[#171713]" />
+                                        <button
+                                            type="button"
+                                            onClick={handleWhatsAppStatus}
+                                            className="w-full flex items-center gap-2.5 px-4 py-3 text-left text-[11px] font-sans font-semibold uppercase tracking-wider text-[#d8d0c4] hover:bg-white/10 hover:text-white transition-colors"
+                                        >
+                                            <svg className="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l2 2"/></svg>
+                                            Estado
+                                        </button>
+                                        <div className="h-[1px] bg-white/10 mx-3" />
+                                        <button
+                                            type="button"
+                                            onClick={handleWhatsAppMessage}
+                                            className="w-full flex items-center gap-2.5 px-4 py-3 text-left text-[11px] font-sans font-semibold uppercase tracking-wider text-[#d8d0c4] hover:bg-white/10 hover:text-white transition-colors"
+                                        >
+                                            <svg className="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                                            Mensaje
+                                        </button>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
 
                         {/* Instagram */}
                         <div className="relative">
