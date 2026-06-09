@@ -139,17 +139,27 @@ export default function ArticleDetail({
             ctx.drawImage(img, 0, 0);
 
             // Semi-transparent dark strip at the bottom
-            const stripH = Math.max(48, canvas.height * 0.06);
-            ctx.fillStyle = "rgba(0,0,0,0.55)";
+            const stripH = Math.max(90, canvas.height * 0.12);
+            ctx.fillStyle = "rgba(0,0,0,0.75)";
             ctx.fillRect(0, canvas.height - stripH, canvas.width, stripH);
 
-            // URL text
-            const fontSize = Math.max(14, Math.round(canvas.width * 0.022));
-            ctx.font = `600 ${fontSize}px -apple-system, BlinkMacSystemFont, sans-serif`;
+            // Title text
+            const titleFontSize = Math.max(18, Math.round(canvas.width * 0.035));
+            ctx.font = `bold ${titleFontSize}px -apple-system, BlinkMacSystemFont, sans-serif`;
             ctx.fillStyle = "#ffffff";
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
-            ctx.fillText(pageUrl, canvas.width / 2, canvas.height - stripH / 2);
+            let displayTitle = article.title;
+            if (displayTitle.length > 55) {
+                displayTitle = displayTitle.substring(0, 52) + "...";
+            }
+            ctx.fillText(displayTitle, canvas.width / 2, canvas.height - stripH * 0.65);
+
+            // URL text
+            const urlFontSize = Math.max(12, Math.round(canvas.width * 0.022));
+            ctx.font = `400 ${urlFontSize}px -apple-system, BlinkMacSystemFont, sans-serif`;
+            ctx.fillStyle = "#d8d0c4";
+            ctx.fillText(pageUrl, canvas.width / 2, canvas.height - stripH * 0.3);
 
             // Convert canvas to file
             const blob = await new Promise<Blob | null>((resolve) =>
@@ -211,17 +221,27 @@ export default function ArticleDetail({
             ctx.drawImage(img, 0, 0);
 
             // Semi-transparent dark strip at the bottom
-            const stripH = Math.max(48, canvas.height * 0.06);
-            ctx.fillStyle = "rgba(0,0,0,0.55)";
+            const stripH = Math.max(90, canvas.height * 0.12);
+            ctx.fillStyle = "rgba(0,0,0,0.75)";
             ctx.fillRect(0, canvas.height - stripH, canvas.width, stripH);
 
-            // URL text
-            const fontSize = Math.max(14, Math.round(canvas.width * 0.022));
-            ctx.font = `600 ${fontSize}px -apple-system, BlinkMacSystemFont, sans-serif`;
+            // Title text
+            const titleFontSize = Math.max(18, Math.round(canvas.width * 0.035));
+            ctx.font = `bold ${titleFontSize}px -apple-system, BlinkMacSystemFont, sans-serif`;
             ctx.fillStyle = "#ffffff";
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
-            ctx.fillText(pageUrl, canvas.width / 2, canvas.height - stripH / 2);
+            let displayTitle = article.title;
+            if (displayTitle.length > 55) {
+                displayTitle = displayTitle.substring(0, 52) + "...";
+            }
+            ctx.fillText(displayTitle, canvas.width / 2, canvas.height - stripH * 0.65);
+
+            // URL text
+            const urlFontSize = Math.max(12, Math.round(canvas.width * 0.022));
+            ctx.font = `400 ${urlFontSize}px -apple-system, BlinkMacSystemFont, sans-serif`;
+            ctx.fillStyle = "#d8d0c4";
+            ctx.fillText(pageUrl, canvas.width / 2, canvas.height - stripH * 0.3);
 
             // Convert canvas to file
             const blob = await new Promise<Blob | null>((resolve) =>
