@@ -40,7 +40,10 @@ export function WaitlistHero() {
       <div className="relative z-10 w-full max-w-3xl mx-auto text-center">
         {/* Eyebrow */}
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8 border border-[var(--ac-gold-dim)] bg-black/40 backdrop-blur-sm">
-          <Sparkles className="w-4 h-4 text-[var(--ac-gold)]" />
+          <svg className="w-4 h-4 text-[var(--ac-gold)]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L22 12L12 22L2 12L12 2Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
+            <path d="M12 7C10.8954 7 10 7.89543 10 9C10 9.74028 10.4022 10.3866 11 10.7324V14.5L12 15.5L13 14.5V10.7324C13.5978 10.3866 14 9.74028 14 9C14 7.89543 13.1046 7 12 7Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
+          </svg>
           <span className="text-[0.65rem] font-extrabold uppercase tracking-[0.2em] text-[var(--ac-gold)]">
             Acceso Anticipado Exclusivo
           </span>
