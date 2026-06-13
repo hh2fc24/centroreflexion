@@ -11,10 +11,11 @@ import { HeroAcademia } from "./_components/HeroAcademia";
 import { StatsBar } from "./_components/StatsBar";
 import { CatalogoCursos } from "./_components/CatalogoCursos";
 import { FeaturesSection } from "./_components/FeaturesSection";
+import { WaitlistHero } from "./_components/WaitlistHero";
 
 export const metadata: Metadata = {
-  title: "Academia CRC | Cursos y Talleres",
-  description: "Plataforma de aprendizaje del Centro de Reflexiones Críticas.",
+  title: "Academia CRC | Próximamente",
+  description: "La academia para mentes críticas abre pronto sus puertas.",
 };
 
 export default async function AcademiaPage() {
@@ -45,6 +46,13 @@ export default async function AcademiaPage() {
           }))
         )
     : [];
+
+  // MODO "PRÓXIMAMENTE" / WAITLIST
+  const isLaunched = false;
+
+  if (!isLaunched) {
+    return <WaitlistHero />;
+  }
 
   return (
     <>
