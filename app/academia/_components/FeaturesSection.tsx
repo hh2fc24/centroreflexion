@@ -101,17 +101,13 @@ export function FeaturesSection() {
         </p>
       </motion.div>
 
-      {/* Bento grid — uses inline style for col-span to avoid Tailwind purge */}
+      {/* Bento grid — responsivo vía clases en globals.css (.ac-bento) */}
       <motion.div
         variants={container}
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, margin: "-60px" }}
-        style={{
-          display: "grid",
-          gap: "0.75rem",
-          gridTemplateColumns: "repeat(6, minmax(0, 1fr))",
-        }}
+        className="ac-bento"
       >
         {features.map((f) => {
           const Icon = f.icon;
@@ -120,10 +116,10 @@ export function FeaturesSection() {
             <motion.div
               key={f.n}
               variants={cardAnim}
-              className="group relative overflow-hidden rounded-[10px] transition-all duration-300"
+              data-cols={f.cols}
+              className="ac-bento-card group relative overflow-hidden rounded-[10px] transition-all duration-300"
               style={{
-                gridColumn: `span ${f.cols} / span ${f.cols}`,
-                padding: isFull ? "2rem 2.5rem" : "1.75rem",
+                padding: isFull ? "1.6rem 1.5rem" : "1.5rem",
                 background: isFull
                   ? "linear-gradient(135deg, var(--ac-surface) 0%, var(--ac-surface-2) 100%)"
                   : "var(--ac-surface)",
@@ -210,17 +206,11 @@ export function FeaturesSection() {
                   </div>
                 </div>
 
-                {/* Text content — horizontal on full-width */}
-                <div
-                  style={
-                    isFull
-                      ? { display: "flex", alignItems: "center", gap: "3rem", flexWrap: "wrap" }
-                      : undefined
-                  }
-                >
+                {/* Text content — horizontal on full-width (apila en móvil) */}
+                <div className={isFull ? "ac-feat-full" : undefined}>
                   <div style={isFull ? { flex: "0 0 auto" } : undefined}>
                     <h3
-                      className="transition-colors duration-300 group-hover:!text-[var(--ac-gold)]"
+                      className={`transition-colors duration-300 group-hover:!text-[var(--ac-gold)]${isFull ? " ac-feat-full-title" : ""}`}
                       style={{
                         fontFamily: "var(--font-cormorant, Georgia, serif)",
                         fontSize: isFull ? "clamp(1.3rem, 1.8vw, 1.55rem)" : "clamp(1rem, 1.5vw, 1.18rem)",
@@ -229,7 +219,6 @@ export function FeaturesSection() {
                         letterSpacing: "-0.01em",
                         lineHeight: 1.15,
                         marginBottom: "0.5rem",
-                        whiteSpace: isFull ? "nowrap" : undefined,
                       }}
                     >
                       {f.title}

@@ -426,3 +426,43 @@ span {
 /* Ocultar navbar y footer principal en páginas de Academia */
 body:has([data-academia]) [data-main-nav] { display: none !important; }
 body:has([data-academia]) footer { display: none !important; }
+
+/* ──────────────────────────────────────────────
+   Bento grid responsivo (FeaturesSection)
+   Móvil: 1 columna · Tablet: 2 por fila · Desktop: layout bento
+   ────────────────────────────────────────────── */
+.ac-bento {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: 1fr;
+}
+.ac-bento > .ac-bento-card { grid-column: auto; }
+
+@media (min-width: 640px) {
+  .ac-bento { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .ac-bento > .ac-bento-card[data-cols="2"] { grid-column: span 3 / span 3; }
+  .ac-bento > .ac-bento-card[data-cols="4"] { grid-column: span 6 / span 6; }
+  .ac-bento > .ac-bento-card[data-cols="6"] { grid-column: span 6 / span 6; }
+}
+
+@media (min-width: 1024px) {
+  .ac-bento > .ac-bento-card[data-cols="2"] { grid-column: span 2 / span 2; }
+  .ac-bento > .ac-bento-card[data-cols="4"] { grid-column: span 4 / span 4; }
+  .ac-bento > .ac-bento-card[data-cols="6"] { grid-column: span 6 / span 6; }
+}
+
+/* Tarjeta full-width: apilar en móvil, fila en desktop */
+.ac-feat-full {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+@media (min-width: 1024px) {
+  .ac-feat-full {
+    flex-direction: row;
+    align-items: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+  }
+  .ac-feat-full-title { white-space: nowrap; }
+}
