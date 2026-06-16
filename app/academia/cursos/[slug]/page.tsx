@@ -60,7 +60,7 @@ export default async function CursoPage({ params }: Props) {
     .from("cursos")
     .select(`
       id, titulo, descripcion, descripcion_corta, imagen_url,
-      precio, moneda, nivel, duracion_horas, categoria,
+      precio, moneda, nivel, duracion_horas, categoria, profesor_id,
       profiles (nombre, apellido, bio, avatar_url)
     `)
     .eq("slug", slug)
@@ -68,6 +68,7 @@ export default async function CursoPage({ params }: Props) {
     .single();
   const raw = rawData as {
     id: string;
+    profesor_id: string | null;
     titulo: string;
     descripcion: string | null;
     descripcion_corta: string | null;
@@ -98,59 +99,62 @@ export default async function CursoPage({ params }: Props) {
   const profesor = (Array.isArray(raw.profiles) ? raw.profiles[0] : raw.profiles) as {
     nombre: string | null; apellido: string | null; bio: string | null; avatar_url: string | null;
   } | null;
+  const profesorId = raw.profesor_id;
 
   const { data: { user } } = await supabase.auth.getUser();
 
   let inscrito = false;
+  let estadoInscripcion: string | null = null;
   if (user) {
     const { data: ins } = await supabase
       .from("inscripciones")
-      .select("id")
+      .select("id, estado")
       .eq("alumno_id", user.id)
       .eq("curso_id", raw.id)
-      .eq("estado", "activa")
       .maybeSingle();
-    inscrito = !!ins;
+    estadoInscripcion = (ins as { estado: string } | null)?.estado ?? null;
+    inscrito = estadoInscripcion === "activa";
   }
 
+  // Módulos + lecciones (temario completo): las lecciones se leen desde la vista
+  // pública `lecciones_meta` (solo metadatos, sin contenido ni recurso_url), para
+  // mostrar el temario íntegro con candado a visitantes no inscritos.
   const { data: modulosData } = await supabase
     .from("modulos")
-    .select(`
-      id, titulo, orden,
-      lecciones (id, titulo, tipo, video_duracion_seg, es_preview, orden)
-    `)
+    .select("id, titulo, orden")
     .eq("curso_id", raw.id)
     .order("orden");
-  const modulosRaw = modulosData as Array<{
-    id: string;
-    titulo: string;
-    orden: number;
-    lecciones: {
-      id: string;
-      titulo: string;
-      tipo: string;
-      video_duracion_seg: number | null;
-      es_preview: boolean;
-      orden: number;
-    }[];
-  }> | null;
+  const modulosRaw = (modulosData as Array<{ id: string; titulo: string; orden: number }> | null) ?? [];
 
-  const modulos = (modulosRaw ?? []).map((m) => ({
+  type LecMeta = { id: string; modulo_id: string; titulo: string; tipo: string; video_duracion_seg: number | null; es_preview: boolean; orden: number };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: lecData } = await (supabase as any)
+    .from("lecciones_meta")
+    .select("id, modulo_id, titulo, tipo, video_duracion_seg, es_preview, orden")
+    .eq("curso_id", raw.id)
+    .order("orden");
+  const lecciones = (lecData as LecMeta[] | null) ?? [];
+
+  const modulos = modulosRaw.map((m) => ({
     id: m.id,
     titulo: m.titulo,
     orden: m.orden,
-    lecciones: m.lecciones as unknown as {
-      id: string; titulo: string; tipo: string;
-      video_duracion_seg: number | null; es_preview: boolean; orden: number;
-    }[],
+    lecciones: lecciones
+      .filter((l) => l.modulo_id === m.id)
+      .map((l) => ({
+        id: l.id, titulo: l.titulo, tipo: l.tipo,
+        video_duracion_seg: l.video_duracion_seg, es_preview: l.es_preview, orden: l.orden,
+      })),
   }));
 
   return (
     <CursoPageClient
       curso={curso}
       profesor={profesor}
+      profesorId={profesorId}
       modulos={modulos}
       inscrito={inscrito}
+      estadoInscripcion={estadoInscripcion}
       userId={user?.id ?? null}
       slug={slug}
     />

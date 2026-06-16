@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, Play, FileText, Lock, CheckCircle2, Clock, Users, Star, ArrowRight } from "lucide-react";
+import { ChevronDown, Play, FileText, Lock, CheckCircle2, Clock, Users, Star, ArrowRight, Eye } from "lucide-react";
 
 interface Leccion {
   id: string;
@@ -39,8 +40,10 @@ interface Props {
     bio: string | null;
     avatar_url: string | null;
   } | null;
+  profesorId?: string | null;
   modulos: Modulo[];
   inscrito: boolean;
+  estadoInscripcion?: string | null;
   userId: string | null;
   slug: string;
 }
@@ -51,7 +54,8 @@ function dur(seg: number | null) {
   return `${m}min`;
 }
 
-export function CursoPageClient({ curso, profesor, modulos, inscrito, userId, slug }: Props) {
+export function CursoPageClient({ curso, profesor, profesorId, modulos, inscrito, estadoInscripcion, userId, slug }: Props) {
+  const pendiente = estadoInscripcion === "pendiente";
   const [openModulo, setOpenModulo] = useState<string | null>(modulos[0]?.id ?? null);
   const [activeTab, setActiveTab] = useState<"descripcion" | "temario" | "instructor">("descripcion");
 
@@ -229,6 +233,17 @@ export function CursoPageClient({ curso, profesor, modulos, inscrito, userId, sl
                   >
                     Ir a mis cursos <ArrowRight className="h-4 w-4" />
                   </a>
+                ) : pendiente ? (
+                  <a
+                    href={`/academia/cursos/${slug}/inscripcion`}
+                    className="flex w-full flex-col items-center justify-center gap-1 py-3 text-[0.66rem] font-extrabold uppercase tracking-[0.13em] ac-btn-ghost"
+                    style={{ borderRadius: "5px" }}
+                  >
+                    <span className="flex items-center gap-2"><Clock className="h-3.5 w-3.5" /> Solicitud en revisión</span>
+                    <span className="text-[0.6rem] font-medium normal-case tracking-normal" style={{ color: "var(--ac-text-3)" }}>
+                      Ver instrucciones de pago
+                    </span>
+                  </a>
                 ) : userId ? (
                   <form action="/api/academia/inscribir" method="POST">
                     <input type="hidden" name="curso_id" value={curso.id} />
@@ -237,7 +252,7 @@ export function CursoPageClient({ curso, profesor, modulos, inscrito, userId, sl
                       className="w-full py-3 text-[0.66rem] font-extrabold uppercase tracking-[0.13em] ac-btn-gold ac-glow-gold"
                       style={{ borderRadius: "5px" }}
                     >
-                      {curso.precio === 0 ? "Inscribirse gratis" : "Inscribirse ahora"}
+                      {curso.precio === 0 ? "Inscribirse gratis" : "Solicitar inscripción"}
                     </button>
                   </form>
                 ) : (
@@ -250,11 +265,18 @@ export function CursoPageClient({ curso, profesor, modulos, inscrito, userId, sl
                   </a>
                 )}
 
+                {curso.precio > 0 && !inscrito && !pendiente && (
+                  <p className="mt-3 text-center text-[0.65rem]" style={{ color: "var(--ac-text-3)" }}>
+                    Pago por transferencia · activación tras confirmar
+                  </p>
+                )}
+
                 <ul className="mt-5 flex flex-col gap-2 text-xs" style={{ color: "var(--ac-text-3)" }}>
                   {[
+                    "Lectura en línea: diapositivas, PDF y texto",
                     "Material descargable incluido",
+                    "Acceso de por vida al contenido",
                     "Certificado al completar",
-                    "Clases en video HD",
                   ].map((f) => (
                     <li key={f} className="flex items-center gap-2">
                       <CheckCircle2 className="h-3.5 w-3.5 shrink-0" style={{ color: "var(--ac-gold)" }} />
@@ -365,46 +387,55 @@ export function CursoPageClient({ curso, profesor, modulos, inscrito, userId, sl
                             <div
                               style={{ borderTop: "1px solid var(--ac-border)" }}
                             >
-                              {mod.lecciones.sort((a, b) => a.orden - b.orden).map((lec) => (
-                                <div
-                                  key={lec.id}
-                                  className="flex items-center gap-4 px-6 py-3.5 transition-colors"
-                                  style={{ borderBottom: "1px solid var(--ac-border)" }}
-                                >
-                                  {/* Icono tipo lección */}
+                              {mod.lecciones.sort((a, b) => a.orden - b.orden).map((lec) => {
+                                const accesible = lec.es_preview || inscrito;
+                                const Row = (
                                   <div
-                                    className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg"
-                                    style={{ background: lec.es_preview ? "rgba(212,168,67,0.1)" : "var(--ac-surface-2)" }}
+                                    className="flex items-center gap-4 px-6 py-3.5 transition-colors"
+                                    style={{ borderBottom: "1px solid var(--ac-border)", cursor: accesible ? "pointer" : "default" }}
                                   >
-                                    {lec.tipo === "video"
-                                      ? <Play className="h-3 w-3" style={{ color: lec.es_preview ? "var(--ac-gold)" : "var(--ac-text-3)" }} />
-                                      : <FileText className="h-3 w-3" style={{ color: "var(--ac-text-3)" }} />
-                                    }
-                                  </div>
+                                    {/* Icono tipo lección */}
+                                    <div
+                                      className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg"
+                                      style={{ background: lec.es_preview ? "rgba(212,168,67,0.1)" : "var(--ac-surface-2)" }}
+                                    >
+                                      {lec.tipo === "video"
+                                        ? <Play className="h-3 w-3" style={{ color: lec.es_preview ? "var(--ac-gold)" : "var(--ac-text-3)" }} />
+                                        : <FileText className="h-3 w-3" style={{ color: accesible ? "var(--ac-gold)" : "var(--ac-text-3)" }} />
+                                      }
+                                    </div>
 
-                                  {/* Título */}
-                                  <span className="flex-1 text-sm" style={{ color: "var(--ac-text-2)" }}>
-                                    {lec.titulo}
-                                  </span>
+                                    {/* Título */}
+                                    <span className="flex-1 text-sm" style={{ color: accesible ? "var(--ac-text)" : "var(--ac-text-2)" }}>
+                                      {lec.titulo}
+                                    </span>
 
-                                  {/* Preview / lock */}
-                                  <div className="flex items-center gap-3 shrink-0 text-xs" style={{ color: "var(--ac-text-3)" }}>
-                                    {dur(lec.video_duracion_seg) && <span>{dur(lec.video_duracion_seg)}</span>}
-                                    {lec.es_preview ? (
-                                      <span
-                                        className="rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider"
-                                        style={{ background: "rgba(212,168,67,0.12)", color: "var(--ac-gold)" }}
-                                      >
-                                        Preview
-                                      </span>
-                                    ) : !inscrito ? (
-                                      <Lock className="h-3.5 w-3.5" />
-                                    ) : (
-                                      <CheckCircle2 className="h-3.5 w-3.5" style={{ color: "var(--ac-gold)" }} />
-                                    )}
+                                    {/* Preview / lock / abrir */}
+                                    <div className="flex items-center gap-3 shrink-0 text-xs" style={{ color: "var(--ac-text-3)" }}>
+                                      {dur(lec.video_duracion_seg) && <span>{dur(lec.video_duracion_seg)}</span>}
+                                      {lec.es_preview && !inscrito ? (
+                                        <span
+                                          className="flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider"
+                                          style={{ background: "rgba(212,168,67,0.12)", color: "var(--ac-gold)" }}
+                                        >
+                                          <Eye className="h-3 w-3" /> Preview
+                                        </span>
+                                      ) : !accesible ? (
+                                        <Lock className="h-3.5 w-3.5" />
+                                      ) : (
+                                        <ArrowRight className="h-3.5 w-3.5" style={{ color: "var(--ac-gold)" }} />
+                                      )}
+                                    </div>
                                   </div>
-                                </div>
-                              ))}
+                                );
+                                return accesible ? (
+                                  <Link key={lec.id} href={`/academia/cursos/${slug}/leccion/${lec.id}`} className="block hover:bg-[var(--ac-surface-2)]">
+                                    {Row}
+                                  </Link>
+                                ) : (
+                                  <div key={lec.id}>{Row}</div>
+                                );
+                              })}
                             </div>
                           </motion.div>
                         )}
@@ -462,6 +493,15 @@ export function CursoPageClient({ curso, profesor, modulos, inscrito, userId, sl
                     <p className="mt-3 text-sm leading-relaxed" style={{ color: "var(--ac-text-2)" }}>
                       {profesor.bio}
                     </p>
+                  )}
+                  {profesorId && (
+                    <Link
+                      href={`/academia/profesores/${profesorId}`}
+                      className="mt-4 inline-flex items-center gap-1.5 text-xs font-bold"
+                      style={{ color: "var(--ac-gold)" }}
+                    >
+                      Ver perfil completo <ArrowRight className="h-3.5 w-3.5" />
+                    </Link>
                   )}
                 </div>
               </div>

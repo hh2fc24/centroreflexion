@@ -46,16 +46,24 @@ export default async function AdminCursosPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8">
-      <h1
-        style={{
-          fontFamily: "var(--font-cormorant, Georgia, serif)",
-          fontSize: "2.5rem",
-          fontWeight: 700,
-          color: "var(--ac-text)",
-        }}
-      >
-        Administración de cursos
-      </h1>
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <h1
+          style={{
+            fontFamily: "var(--font-cormorant, Georgia, serif)",
+            fontSize: "2.5rem",
+            fontWeight: 700,
+            color: "var(--ac-text)",
+          }}
+        >
+          Administración de cursos
+        </h1>
+        <Link
+          href="/academia/admin/solicitudes"
+          className="inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-[0.7rem] font-bold uppercase tracking-[0.1em] ac-btn-ghost"
+        >
+          Solicitudes de inscripción →
+        </Link>
+      </div>
 
       {!cursos || cursos.length === 0 ? (
         <p className="mt-12 text-center" style={{ color: "var(--ac-text-3)" }}>No hay cursos todavía.</p>

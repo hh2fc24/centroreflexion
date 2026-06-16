@@ -8,7 +8,7 @@
 
 export type UserRole = "admin" | "profesor" | "alumno";
 export type CursoEstado = "borrador" | "publicado" | "archivado";
-export type InscripcionEstado = "activa" | "completada" | "cancelada";
+export type InscripcionEstado = "pendiente" | "activa" | "completada" | "cancelada";
 
 // ─────────────────────────────────────────────
 // Tablas
@@ -79,6 +79,11 @@ export interface Inscripcion {
   fecha_inscripcion: string;
   fecha_completado: string | null;
   monto_pagado: number | null;
+  metodo_pago: string | null;
+  comprobante_ref: string | null;
+  nota_admin: string | null;
+  activada_por: string | null;
+  fecha_activacion: string | null;
   created_at: string;
   updated_at: string;
 }

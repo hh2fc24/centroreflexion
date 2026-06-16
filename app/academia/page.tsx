@@ -48,7 +48,8 @@ export default async function AcademiaPage() {
     : [];
 
   // MODO "PRÓXIMAMENTE" / WAITLIST
-  const isLaunched = false;
+  // Lanzado por defecto. Para volver al modo waitlist: NEXT_PUBLIC_ACADEMIA_LAUNCHED=false
+  const isLaunched = process.env.NEXT_PUBLIC_ACADEMIA_LAUNCHED !== "false";
 
   if (!isLaunched) {
     return <WaitlistHero />;

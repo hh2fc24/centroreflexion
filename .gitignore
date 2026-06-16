@@ -36,6 +36,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# academia – assets generados (clases) que se suben a Supabase Storage, no a git
+/academia-content
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
