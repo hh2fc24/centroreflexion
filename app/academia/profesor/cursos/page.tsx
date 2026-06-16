@@ -32,13 +32,18 @@ export default async function ProfesorCursosPage() {
     .select("id, slug, titulo, estado, precio, moneda, created_at")
     .eq("profesor_id", user.id)
     .order("created_at", { ascending: false });
-  const cursos = cursosRaw as Pick<Curso, "id" | "slug" | "titulo" | "estado" | "precio" | "moneda" | "created_at">[] | null;
+  const cursosBase = (cursosRaw as Pick<Curso, "id" | "slug" | "titulo" | "estado" | "precio" | "moneda" | "created_at">[] | null) ?? [];
 
-  const estadoColor: Record<string, string> = {
-    publicado: "text-green-700 bg-green-50 border-green-200",
-    borrador:  "text-yellow-700 bg-yellow-50 border-yellow-200",
-    archivado: "text-gray-500 bg-gray-50 border-gray-200",
-  };
+  const cursos = await Promise.all(
+    cursosBase.map(async (c) => {
+      const { count } = await supabase
+        .from("inscripciones")
+        .select("*", { count: "exact", head: true })
+        .eq("curso_id", c.id)
+        .eq("estado", "activa");
+      return { ...c, nInscritos: count ?? 0 };
+    })
+  );
 
   return (
     <div className="mx-auto max-w-5xl px-5 py-16 sm:px-8">
@@ -55,7 +60,7 @@ export default async function ProfesorCursosPage() {
 
       {!cursos || cursos.length === 0 ? (
         <p className="mt-12 text-center" style={{ color: "var(--ac-text-3)" }}>
-          Aún no has creado ningún curso.
+          Aún no tienes cursos asignados.
         </p>
       ) : (
         <table className="mt-8 w-full text-sm">
@@ -67,6 +72,7 @@ export default async function ProfesorCursosPage() {
               <th className="pb-3 pr-4">Título</th>
               <th className="pb-3 pr-4">Estado</th>
               <th className="pb-3 pr-4">Precio</th>
+              <th className="pb-3 pr-4">Inscritos</th>
               <th className="pb-3">Acciones</th>
             </tr>
           </thead>
@@ -75,17 +81,29 @@ export default async function ProfesorCursosPage() {
               <tr key={c.id} style={{ borderBottom: "1px solid var(--ac-border)" }}>
                 <td className="py-3 pr-4 font-medium" style={{ color: "var(--ac-text)" }}>{c.titulo}</td>
                 <td className="py-3 pr-4">
-                  <span className={`rounded-full border px-2 py-0.5 text-xs capitalize ${estadoColor[c.estado] ?? ""}`}>
+                  <span
+                    className="rounded-full px-2.5 py-0.5 text-xs capitalize"
+                    style={{
+                      background: c.estado === "publicado" ? "rgba(74,222,128,0.12)" : c.estado === "borrador" ? "rgba(212,168,67,0.12)" : "var(--ac-surface-2)",
+                      color: c.estado === "publicado" ? "#4ade80" : c.estado === "borrador" ? "var(--ac-gold)" : "var(--ac-text-3)",
+                    }}
+                  >
                     {c.estado}
                   </span>
                 </td>
                 <td className="py-3 pr-4">
                   {Number(c.precio) === 0 ? "Gratuito" : `${c.moneda} ${Number(c.precio).toLocaleString("es-CL")}`}
                 </td>
+                <td className="py-3 pr-4 tabular-nums">{c.nInscritos}</td>
                 <td className="py-3">
-                  <Link href={`/academia/cursos/${c.slug}`} style={{ color: "var(--ac-gold)" }} className="hover:underline">
-                    Ver →
-                  </Link>
+                  <div className="flex items-center gap-3">
+                    <Link href={`/academia/profesor/cursos/${c.id}/inscritos`} style={{ color: "var(--ac-gold)" }} className="hover:underline">
+                      Inscritos
+                    </Link>
+                    <Link href={`/academia/cursos/${c.slug}`} style={{ color: "var(--ac-text-3)" }} className="hover:underline">
+                      Ver
+                    </Link>
+                  </div>
                 </td>
               </tr>
             ))}

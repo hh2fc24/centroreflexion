@@ -176,9 +176,12 @@ async function ensureProfesor() {
       email_confirm: true,
       password: cryptoRandom(),
       user_metadata: { nombre: PROFESOR.nombre, apellido: PROFESOR.apellido },
+      app_metadata: { role: "profesor" }, // el middleware lee el rol del JWT
     });
     if (error) throw new Error(`crear profesor: ${error.message}`);
     id = created.user.id;
+  } else {
+    await supabase.auth.admin.updateUserById(id, { app_metadata: { role: "profesor" } });
   }
 
   const { error: upErr } = await supabase

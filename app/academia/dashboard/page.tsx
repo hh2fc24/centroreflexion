@@ -6,6 +6,8 @@ import { redirect } from "next/navigation";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/server";
 import type { Profile, Curso, Inscripcion } from "@/lib/supabase/database.types";
 import { DashboardClient } from "../_components/DashboardClient";
+import { ProfesorDashboard } from "../_components/ProfesorDashboard";
+import { AdminDashboard } from "../_components/AdminDashboard";
 
 // Estado vacío para cuando Supabase no está configurado
 function DashboardNotConfigured() {
@@ -75,6 +77,48 @@ export default async function DashboardPage() {
     .map((n) => n![0].toUpperCase())
     .join("")
     .slice(0, 2) || user.email?.slice(0, 2).toUpperCase() || "AC";
+
+  // ── Dashboard del PROFESOR ──────────────────────────────
+  if (rol === "profesor") {
+    const { data: cursosRaw } = await supabase
+      .from("cursos")
+      .select("id, slug, titulo, estado")
+      .eq("profesor_id", user.id)
+      .order("created_at", { ascending: false });
+    const cursosP = (cursosRaw as Array<{ id: string; slug: string; titulo: string; estado: string }> | null) ?? [];
+
+    const cursos = await Promise.all(
+      cursosP.map(async (c) => {
+        const { count } = await supabase
+          .from("inscripciones")
+          .select("*", { count: "exact", head: true })
+          .eq("curso_id", c.id)
+          .eq("estado", "activa");
+        return { ...c, nInscritos: count ?? 0 };
+      })
+    );
+    const totalInscritos = cursos.reduce((a, c) => a + c.nInscritos, 0);
+    return <ProfesorDashboard nombre={nombre} cursos={cursos} totalInscritos={totalInscritos} />;
+  }
+
+  // ── Dashboard del ADMIN ─────────────────────────────────
+  if (rol === "admin") {
+    const [cursosCount, alumnosCount, profesoresCount, solicitudesCount] = await Promise.all([
+      supabase.from("cursos").select("*", { count: "exact", head: true }),
+      supabase.from("profiles").select("*", { count: "exact", head: true }).eq("rol", "alumno"),
+      supabase.from("profiles").select("*", { count: "exact", head: true }).eq("rol", "profesor"),
+      supabase.from("inscripciones").select("*", { count: "exact", head: true }).eq("estado", "pendiente"),
+    ]);
+    return (
+      <AdminDashboard
+        nombre={nombre}
+        totalCursos={cursosCount.count ?? 0}
+        totalAlumnos={alumnosCount.count ?? 0}
+        totalProfesores={profesoresCount.count ?? 0}
+        solicitudesPendientes={solicitudesCount.count ?? 0}
+      />
+    );
+  }
 
   type InscripcionConCurso = Pick<Inscripcion, "id" | "curso_id"> & {
     cursos: (Pick<Curso, "id" | "slug" | "titulo" | "imagen_url"> & { lecciones: { id: string }[] }) | null;

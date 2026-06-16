@@ -34,11 +34,12 @@ async function ensure(c) {
     const { data, error } = await sb.auth.admin.createUser({
       email: c.email, password: PASS, email_confirm: true,
       user_metadata: { nombre: c.nombre, apellido: c.apellido },
+      app_metadata: { role: c.rol }, // el middleware lee el rol del JWT
     });
     if (error) throw new Error(c.email + ": " + error.message);
     id = data.user.id;
   } else {
-    await sb.auth.admin.updateUserById(id, { password: PASS, email_confirm: true });
+    await sb.auth.admin.updateUserById(id, { password: PASS, email_confirm: true, app_metadata: { role: c.rol } });
   }
   await sb.from("profiles").update({ nombre: c.nombre, apellido: c.apellido, rol: c.rol }).eq("id", id);
   console.log("✓", c.rol.padEnd(9), c.email);

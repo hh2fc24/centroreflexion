@@ -1,19 +1,42 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import { Menu, X, BookOpen, GraduationCap } from "lucide-react";
+import { Menu, X, GraduationCap, LogOut } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { createClient } from "@/lib/supabase/client";
 
-const links = [
-  { href: "/academia",            label: "Cursos"      },
-  { href: "/academia/mis-cursos", label: "Mis cursos"  },
-  { href: "/academia/dashboard",  label: "Dashboard"   },
-];
+type Rol = "alumno" | "profesor" | "admin" | null;
 
-export function AcademiaNav() {
+function linksForRole(rol: Rol) {
+  const base = [{ href: "/academia", label: "Cursos" }];
+  if (rol === "admin") {
+    return [
+      ...base,
+      { href: "/academia/admin/cursos", label: "Cursos (admin)" },
+      { href: "/academia/admin/solicitudes", label: "Solicitudes" },
+      { href: "/academia/dashboard", label: "Dashboard" },
+    ];
+  }
+  if (rol === "profesor") {
+    return [
+      ...base,
+      { href: "/academia/profesor/cursos", label: "Mis cursos" },
+      { href: "/academia/dashboard", label: "Dashboard" },
+    ];
+  }
+  // alumno (o autenticado sin rol específico)
+  return [
+    ...base,
+    { href: "/academia/mis-cursos", label: "Mis cursos" },
+    { href: "/academia/dashboard", label: "Dashboard" },
+  ];
+}
+
+export function AcademiaNav({ rol = null, authed = false }: { rol?: Rol; authed?: boolean }) {
   const pathname = usePathname();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -23,6 +46,17 @@ export function AcademiaNav() {
     return () => window.removeEventListener("scroll", fn);
   }, []);
 
+  const links = authed ? linksForRole(rol) : [{ href: "/academia", label: "Cursos" }];
+
+  async function logout() {
+    const sb = createClient();
+    if (sb) await sb.auth.signOut();
+    router.push("/academia");
+    router.refresh();
+  }
+
+  const rolLabel = rol === "admin" ? "Admin" : rol === "profesor" ? "Profesor" : "Alumno";
+
   return (
     <motion.header
       initial={{ y: -20, opacity: 0 }}
@@ -30,9 +64,7 @@ export function AcademiaNav() {
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       className="sticky top-0 z-50"
       style={{
-        background: scrolled
-          ? "rgba(9,9,15,0.9)"
-          : "transparent",
+        background: scrolled ? "rgba(9,9,15,0.9)" : "transparent",
         backdropFilter: scrolled ? "blur(20px)" : "none",
         borderBottom: scrolled ? "1px solid rgba(255,255,255,0.06)" : "1px solid transparent",
         transition: "background 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease",
@@ -46,11 +78,7 @@ export function AcademiaNav() {
           </div>
           <span
             className="font-bold tracking-tight"
-            style={{
-              fontFamily: "var(--font-cormorant, Georgia, serif)",
-              fontSize: "1.15rem",
-              color: "var(--ac-text)",
-            }}
+            style={{ fontFamily: "var(--font-cormorant, Georgia, serif)", fontSize: "1.15rem", color: "var(--ac-text)" }}
           >
             Academia <span style={{ color: "var(--ac-gold)" }}>CRC</span>
           </span>
@@ -69,11 +97,7 @@ export function AcademiaNav() {
               >
                 {l.label}
                 {active && (
-                  <motion.span
-                    layoutId="ac-nav-indicator"
-                    className="absolute inset-x-3 -bottom-px h-px"
-                    style={{ background: "var(--ac-gold)" }}
-                  />
+                  <motion.span layoutId="ac-nav-indicator" className="absolute inset-x-3 -bottom-px h-px" style={{ background: "var(--ac-gold)" }} />
                 )}
               </Link>
             );
@@ -82,13 +106,31 @@ export function AcademiaNav() {
 
         {/* CTA + mobile toggle */}
         <div className="flex items-center gap-3">
-          <Link
-            href="/academia/login"
-            className="hidden rounded-lg px-4 py-2 text-sm sm:block ac-btn-gold"
-            style={{ fontSize: "0.8rem", letterSpacing: "0.04em", padding: "0.5rem 1.1rem" }}
-          >
-            Iniciar sesión
-          </Link>
+          {authed ? (
+            <div className="hidden items-center gap-3 sm:flex">
+              <span
+                className="rounded-full px-2.5 py-1 text-[0.65rem] font-bold uppercase tracking-wider"
+                style={{ background: "var(--ac-gold-dim)", color: "var(--ac-gold)", border: "1px solid rgba(212,168,67,0.3)" }}
+              >
+                {rolLabel}
+              </span>
+              <button
+                onClick={logout}
+                className="flex items-center gap-1.5 rounded-lg px-3 py-2"
+                style={{ border: "1px solid var(--ac-border-md)", color: "var(--ac-text-2)", fontSize: "0.8rem" }}
+              >
+                <LogOut className="h-3.5 w-3.5" /> Salir
+              </button>
+            </div>
+          ) : (
+            <Link
+              href="/academia/login"
+              className="hidden rounded-lg px-4 py-2 text-sm sm:block ac-btn-gold"
+              style={{ fontSize: "0.8rem", letterSpacing: "0.04em", padding: "0.5rem 1.1rem" }}
+            >
+              Iniciar sesión
+            </Link>
+          )}
           <button
             className="flex h-9 w-9 items-center justify-center rounded-lg md:hidden"
             style={{ border: "1px solid var(--ac-border-md)", color: "var(--ac-text-2)" }}
@@ -126,13 +168,19 @@ export function AcademiaNav() {
                   {l.label}
                 </Link>
               ))}
-              <Link
-                href="/academia/login"
-                onClick={() => setOpen(false)}
-                className="mt-2 rounded-lg px-4 py-3 text-center text-sm ac-btn-gold"
-              >
-                Iniciar sesión
-              </Link>
+              {authed ? (
+                <button
+                  onClick={() => { setOpen(false); logout(); }}
+                  className="mt-2 flex items-center justify-center gap-2 rounded-lg px-4 py-3 text-center text-sm"
+                  style={{ border: "1px solid var(--ac-border-md)", color: "var(--ac-text-2)" }}
+                >
+                  <LogOut className="h-4 w-4" /> Salir
+                </button>
+              ) : (
+                <Link href="/academia/login" onClick={() => setOpen(false)} className="mt-2 rounded-lg px-4 py-3 text-center text-sm ac-btn-gold">
+                  Iniciar sesión
+                </Link>
+              )}
             </div>
           </motion.div>
         )}
