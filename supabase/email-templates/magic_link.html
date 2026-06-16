@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark light"></head>
+<body style="margin:0;padding:0;background:#0c0c10;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#0c0c10;padding:32px 16px;">
+<tr><td align="center">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;background:#14141e;border:1px solid #2a2a38;border-radius:14px;overflow:hidden;">
+    <!-- Línea dorada superior -->
+    <tr><td style="height:3px;background:linear-gradient(90deg,transparent,#d4a843,#f0c355,transparent);font-size:0;line-height:0;">&nbsp;</td></tr>
+    <!-- Marca -->
+    <tr><td style="padding:30px 40px 0 40px;">
+      <table role="presentation" cellpadding="0" cellspacing="0"><tr>
+        <td style="width:34px;height:34px;background:#d4a843;border-radius:8px;text-align:center;vertical-align:middle;font-size:18px;line-height:34px;">&#127891;</td>
+        <td style="padding-left:12px;font-family:Georgia,'Times New Roman',serif;font-size:19px;font-weight:bold;color:#f0ece4;">Academia <span style="color:#d4a843;">CRC</span></td>
+      </tr></table>
+    </td></tr>
+    <!-- Cuerpo -->
+    <tr><td style="padding:28px 40px 8px 40px;">
+      <p style="margin:0 0 10px 0;font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:bold;letter-spacing:2px;text-transform:uppercase;color:#d4a843;">Acceso sin contraseña</p>
+      <h1 style="margin:0 0 16px 0;font-family:Georgia,'Times New Roman',serif;font-size:28px;line-height:1.15;font-weight:bold;color:#f0ece4;">Inicia sesión en la Academia</h1>
+      <p style="margin:0 0 26px 0;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.65;color:#b9b4ab;">Usa este enlace para entrar a tu cuenta de la Academia CRC. Es válido por tiempo limitado y de un solo uso.</p>
+      <!-- Botón -->
+      <table role="presentation" cellpadding="0" cellspacing="0"><tr>
+        <td style="border-radius:8px;background:linear-gradient(90deg,#d4a843,#f0c355);">
+          <a href="{{ .ConfirmationURL }}" target="_blank" style="display:inline-block;padding:14px 34px;font-family:Arial,Helvetica,sans-serif;font-size:13px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;color:#0c0c10;text-decoration:none;">Iniciar sesión</a>
+        </td>
+      </tr></table>
+      <p style="margin:24px 0 0 0;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.6;color:#8a8680;">
+        Si el botón no funciona, copia y pega este enlace en tu navegador:<br>
+        <a href="{{ .ConfirmationURL }}" target="_blank" style="color:#d4a843;word-break:break-all;">{{ .ConfirmationURL }}</a>
+      </p>
+      
+    </td></tr>
+    <!-- Separador -->
+    <tr><td style="padding:28px 40px 0 40px;"><div style="height:1px;background:#2a2a38;font-size:0;line-height:0;">&nbsp;</div></td></tr>
+    <!-- Pie -->
+    <tr><td style="padding:20px 40px 32px 40px;">
+      <p style="margin:0 0 4px 0;font-family:Georgia,serif;font-size:14px;color:#b9b4ab;">Centro de Reflexiones Críticas</p>
+      <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.6;color:#8a8680;">
+        Recibiste este correo porque creaste una cuenta en la Academia CRC.
+        Si no fuiste tú, puedes ignorarlo.<br>
+        <a href="https://centrodereflexionescriticas.com" target="_blank" style="color:#8a8680;text-decoration:underline;">centrodereflexionescriticas.com</a>
+      </p>
+    </td></tr>
+  </table>
+  <p style="margin:18px 0 0 0;font-family:Georgia,serif;font-style:italic;font-size:12px;color:#8a8680;">Pensamiento crítico para transformar el mundo.</p>
+</td></tr>
+</table>
+</body></html>

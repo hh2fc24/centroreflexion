@@ -1,0 +1,5 @@
+confirmation: Confirma tu cuenta · Academia CRC
+recovery: Restablece tu contraseña · Academia CRC
+magic_link: Tu enlace de acceso · Academia CRC
+invite: Te invitaron a la Academia CRC
+email_change: Confirma tu nuevo correo · Academia CRC
