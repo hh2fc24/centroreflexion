@@ -26,24 +26,28 @@ function WaIcon() {
 
 export function WhatsAppButton() {
     const [open, setOpen] = useState(false);
+    const [criticalOpen, setCriticalOpen] = useState(false);
     const [step, setStep] = useState<Step>("idle");
     const [servicio, setServicio] = useState<typeof SERVICIOS[0] | null>(null);
     const [mensaje, setMensaje] = useState("");
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const panelRef = useRef<HTMLDivElement>(null);
+    const criticalPanelRef = useRef<HTMLDivElement>(null);
 
     // Cerrar al hacer clic fuera
     useEffect(() => {
         function handleClickOutside(e: MouseEvent) {
             const target = e.target as Node;
             const clickedWhatsapp = panelRef.current?.contains(target);
-            if (!clickedWhatsapp) {
+            const clickedCritical = criticalPanelRef.current?.contains(target);
+            if (!clickedWhatsapp && !clickedCritical) {
                 setOpen(false);
+                setCriticalOpen(false);
             }
         }
-        if (open) document.addEventListener("mousedown", handleClickOutside);
+        if (open || criticalOpen) document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, [open]);
+    }, [open, criticalOpen]);
 
     // Focus textarea al llegar al paso de mensaje
     useEffect(() => {
@@ -54,11 +58,18 @@ export function WhatsAppButton() {
 
     function handleOpen() {
         setOpen(true);
+        setCriticalOpen(false);
         setStep("servicios");
+    }
+
+    function handleCriticalOpen() {
+        setCriticalOpen(true);
+        setOpen(false);
     }
 
     function handleClose() {
         setOpen(false);
+        setCriticalOpen(false);
         setTimeout(() => {
             setStep("idle");
             setServicio(null);
@@ -84,9 +95,62 @@ export function WhatsAppButton() {
 
     return (
         <>
-        <div className="fixed bottom-5 left-4 z-50 flex max-w-[calc(100vw-2rem)] flex-col items-start sm:bottom-6 sm:left-6">
-            <a
-                href={`tel:${CALL_NUMBER}`}
+        <div ref={criticalPanelRef} className="fixed bottom-5 left-4 z-50 flex max-w-[calc(100vw-2rem)] flex-col items-start gap-3 sm:bottom-6 sm:left-6">
+            <div
+                className="overflow-hidden rounded-[12px] shadow-2xl transition-all duration-300"
+                style={{
+                    width: "340px",
+                    maxHeight: criticalOpen ? "520px" : "0px",
+                    opacity: criticalOpen ? 1 : 0,
+                    pointerEvents: criticalOpen ? "auto" : "none",
+                    border: "1px solid #ded5c7",
+                    background: "#fffdf8",
+                    transformOrigin: "bottom left",
+                    transform: criticalOpen ? "scale(1)" : "scale(0.95)",
+                }}
+            >
+                <div className="flex items-start justify-between border-b border-[#2d3029] bg-[#171713] px-5 py-4">
+                    <div className="flex gap-3">
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[6px] border border-[#d3976d]/40 bg-[#d3976d]/12 text-[#d3976d]">
+                            <ShieldAlert className="h-5 w-5" />
+                        </div>
+                        <div>
+                            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#d3976d]">Canal crítico CRC</p>
+                            <h2 className="mt-1 text-lg font-bold leading-tight text-white font-serif">Orientación inmediata</h2>
+                        </div>
+                    </div>
+                    <button
+                        onClick={handleClose}
+                        className="flex h-8 w-8 items-center justify-center rounded-[5px] text-[#b0a898] transition hover:bg-white/10 hover:text-white"
+                        aria-label="Cerrar canal crítico"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                    </button>
+                </div>
+
+                <div className="px-5 py-5">
+                    <p className="text-sm leading-7 text-[#3f423a]">
+                        Si estas viviendo una situacion de riesgo, crisis suicida, desregulacion grave o un episodio critico con un nino, nina o adolescente, puedes solicitar orientacion directa del especialista.
+                    </p>
+                    <div className="mt-4 border-y border-[#ded5c7] py-3">
+                        <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#9f5528]">Contacto reservado</p>
+                        <p className="mt-1 text-sm leading-6 text-[#70695f]">
+                            Llamada prioritaria con Juan Carlos Rauld / equipo CRC.
+                        </p>
+                    </div>
+                    <a
+                        href={`tel:${CALL_NUMBER}`}
+                        className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-[6px] bg-[#171713] px-4 py-3 text-sm font-bold text-white shadow-[0_12px_24px_rgba(23,23,19,0.18)] transition hover:bg-[#2d3029]"
+                        onClick={() => setCriticalOpen(false)}
+                    >
+                        <Phone className="h-4 w-4" />
+                        Llamar directo al especialista
+                    </a>
+                </div>
+            </div>
+
+            <button
+                onClick={criticalOpen ? handleClose : handleCriticalOpen}
                 aria-label="Abrir canal crítico CRC"
                 className="group inline-flex min-h-14 items-center gap-3 rounded-[8px] border border-[#d3976d]/35 bg-[#171713] px-4 py-2.5 text-left text-[#fffdf8] shadow-[0_14px_30px_rgba(23,23,19,0.2)] transition hover:-translate-y-0.5 hover:border-[#d3976d]/70 hover:bg-[#22251f] sm:px-5"
                 style={{ flexShrink: 0 }}
@@ -96,7 +160,7 @@ export function WhatsAppButton() {
                     <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#d3976d]">Canal crítico CRC</span>
                     <span className="mt-1.5 text-[12px] font-extrabold uppercase tracking-[0.12em] text-white sm:text-[13px]">¿Necesitas ayuda ahora?</span>
                 </span>
-            </a>
+            </button>
         </div>
 
         <div ref={panelRef} className="fixed bottom-5 right-4 z-50 flex max-w-[calc(100vw-2rem)] flex-col items-end gap-3 sm:bottom-6 sm:right-6">
