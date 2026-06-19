@@ -1,8 +1,10 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { Phone, ShieldAlert } from "lucide-react";
 
 const WA_NUMBER = "56949186447";
+const CALL_NUMBER = "+56949186447";
 
 const SERVICIOS = [
     { id: "clinica", label: "Atención clínica", emoji: "🩺" },
@@ -33,7 +35,9 @@ export function WhatsAppButton() {
     // Cerrar al hacer clic fuera
     useEffect(() => {
         function handleClickOutside(e: MouseEvent) {
-            if (panelRef.current && !panelRef.current.contains(e.target as Node)) {
+            const target = e.target as Node;
+            const clickedWhatsapp = panelRef.current?.contains(target);
+            if (!clickedWhatsapp) {
                 setOpen(false);
             }
         }
@@ -79,7 +83,23 @@ export function WhatsAppButton() {
     }
 
     return (
-        <div ref={panelRef} className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
+        <>
+        <div className="fixed bottom-5 left-4 z-50 flex max-w-[calc(100vw-2rem)] flex-col items-start sm:bottom-6 sm:left-6">
+            <a
+                href={`tel:${CALL_NUMBER}`}
+                aria-label="Abrir canal crítico CRC"
+                className="group inline-flex min-h-14 items-center gap-3 rounded-[8px] border border-[#d3976d]/35 bg-[#171713] px-4 py-2.5 text-left text-[#fffdf8] shadow-[0_14px_30px_rgba(23,23,19,0.2)] transition hover:-translate-y-0.5 hover:border-[#d3976d]/70 hover:bg-[#22251f] sm:px-5"
+                style={{ flexShrink: 0 }}
+            >
+                <ShieldAlert className="h-4 w-4 text-[#d3976d]" />
+                <span className="flex flex-col leading-none">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#d3976d]">Canal crítico CRC</span>
+                    <span className="mt-1.5 text-[12px] font-extrabold uppercase tracking-[0.12em] text-white sm:text-[13px]">¿Necesitas ayuda ahora?</span>
+                </span>
+            </a>
+        </div>
+
+        <div ref={panelRef} className="fixed bottom-5 right-4 z-50 flex max-w-[calc(100vw-2rem)] flex-col items-end gap-3 sm:bottom-6 sm:right-6">
 
             {/* Panel del chat */}
             <div
@@ -175,19 +195,22 @@ export function WhatsAppButton() {
                 )}
             </div>
 
-            {/* Botón flotante principal */}
-            <button
-                onClick={open ? handleClose : handleOpen}
-                aria-label="Contactar por WhatsApp"
-                className="flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] shadow-lg transition hover:scale-110 hover:shadow-xl"
-                style={{ flexShrink: 0 }}
-            >
-                {open ? (
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
-                ) : (
-                    <WaIcon />
-                )}
-            </button>
+            <div className="flex flex-col items-end">
+                {/* Botón flotante principal */}
+                <button
+                    onClick={open ? handleClose : handleOpen}
+                    aria-label="Contactar por WhatsApp"
+                    className="flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] shadow-lg transition hover:scale-110 hover:shadow-xl"
+                    style={{ flexShrink: 0 }}
+                >
+                    {open ? (
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                    ) : (
+                        <WaIcon />
+                    )}
+                </button>
+            </div>
         </div>
+        </>
     );
 }
