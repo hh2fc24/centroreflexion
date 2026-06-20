@@ -1,10 +1,21 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Phone, ShieldAlert } from "lucide-react";
+import { Check, Copy, CreditCard, Phone, ShieldAlert } from "lucide-react";
 
 const WA_NUMBER = "56949186447";
 const CALL_NUMBER = "+56949186447";
+const MERCADO_PAGO_LINK = "https://link.mercadopago.cl/asesoriasaludmental";
+const UF_QUANTITY = 2;
+
+const TRANSFER_DATA = [
+    ["Titular", "Juan Carlos Rauld Farias"],
+    ["RUT", "15.929.424-2"],
+    ["Banco", "Mercado Pago"],
+    ["Tipo de cuenta", "Cuenta Vista"],
+    ["Numero de cuenta", "1031549162"],
+    ["Email", "juan.rauld@mail.udp.cl"],
+];
 
 const SERVICIOS = [
     { id: "clinica", label: "Atención clínica", emoji: "🩺" },
@@ -27,6 +38,9 @@ function WaIcon() {
 export function WhatsAppButton() {
     const [open, setOpen] = useState(false);
     const [criticalOpen, setCriticalOpen] = useState(false);
+    const [showTransfer, setShowTransfer] = useState(false);
+    const [copiedTransfer, setCopiedTransfer] = useState(false);
+    const [ufAmount, setUfAmount] = useState<number | null>(null);
     const [step, setStep] = useState<Step>("idle");
     const [servicio, setServicio] = useState<typeof SERVICIOS[0] | null>(null);
     const [mensaje, setMensaje] = useState("");
@@ -43,6 +57,7 @@ export function WhatsAppButton() {
             if (!clickedWhatsapp && !clickedCritical) {
                 setOpen(false);
                 setCriticalOpen(false);
+                setShowTransfer(false);
             }
         }
         if (open || criticalOpen) document.addEventListener("mousedown", handleClickOutside);
@@ -55,6 +70,26 @@ export function WhatsAppButton() {
             setTimeout(() => textareaRef.current?.focus(), 100);
         }
     }, [step]);
+
+    useEffect(() => {
+        let cancelled = false;
+        async function fetchUf() {
+            try {
+                const response = await fetch("https://mindicador.cl/api/uf", { cache: "no-store" });
+                const data = (await response.json()) as { serie?: Array<{ valor?: number }> };
+                const value = data.serie?.[0]?.valor;
+                if (!cancelled && typeof value === "number") {
+                    setUfAmount(Math.round(value * UF_QUANTITY));
+                }
+            } catch {
+                if (!cancelled) setUfAmount(null);
+            }
+        }
+        fetchUf();
+        return () => {
+            cancelled = true;
+        };
+    }, []);
 
     function handleOpen() {
         setOpen(true);
@@ -70,6 +105,8 @@ export function WhatsAppButton() {
     function handleClose() {
         setOpen(false);
         setCriticalOpen(false);
+        setShowTransfer(false);
+        setCopiedTransfer(false);
         setTimeout(() => {
             setStep("idle");
             setServicio(null);
@@ -92,6 +129,21 @@ export function WhatsAppButton() {
         window.open(url, "_blank", "noopener,noreferrer");
         handleClose();
     }
+
+    async function handleCopyTransfer() {
+        const text = TRANSFER_DATA.map(([label, value]) => `${label}: ${value}`).join("\n");
+        try {
+            await navigator.clipboard.writeText(text);
+            setCopiedTransfer(true);
+            window.setTimeout(() => setCopiedTransfer(false), 1800);
+        } catch {
+            setCopiedTransfer(false);
+        }
+    }
+
+    const formattedUfAmount = ufAmount
+        ? new Intl.NumberFormat("es-CL", { style: "currency", currency: "CLP", maximumFractionDigits: 0 }).format(ufAmount)
+        : "2 UF";
 
     return (
         <>
@@ -129,23 +181,68 @@ export function WhatsAppButton() {
                 </div>
 
                 <div className="px-5 py-5">
-                    <p className="text-sm leading-6 text-[#3f423a]">
-                        Consulta prioritaria para riesgo suicida, desregulacion grave o episodios criticos con ninos, ninas, adolescentes, familias o comunidades educativas.
-                    </p>
-                    <div className="mt-4 space-y-2.5 border-y border-[#ded5c7] py-4 text-sm leading-5 text-[#70695f]">
-                        <p><strong className="text-[#171713]">Modalidad:</strong> llamada, videollamada o asistencia presencial si se requiere.</p>
-                        <p><strong className="text-[#171713]">Duracion:</strong> 40 a 60 minutos.</p>
-                        <p><strong className="text-[#171713]">Valor:</strong> 2 UF, activado tras confirmar transferencia.</p>
-                        <p><strong className="text-[#171713]">Alcance:</strong> diagnostico inicial, contencion, intervencion critica y plan de trabajo.</p>
-                    </div>
-                    <a
-                        href={`tel:${CALL_NUMBER}`}
-                        className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-[6px] bg-[#171713] px-4 py-3 text-sm font-bold text-white shadow-[0_12px_24px_rgba(23,23,19,0.18)] transition hover:bg-[#2d3029]"
-                        onClick={() => setCriticalOpen(false)}
-                    >
-                        <Phone className="h-4 w-4" />
-                        Activar consulta prioritaria
-                    </a>
+                    {!showTransfer ? (
+                        <>
+                            <p className="text-sm leading-6 text-[#3f423a]">
+                                Consulta prioritaria para riesgo suicida, desregulacion grave o episodios criticos con ninos, ninas, adolescentes, familias o comunidades educativas.
+                            </p>
+                            <div className="mt-4 space-y-2.5 border-y border-[#ded5c7] py-4 text-sm leading-5 text-[#70695f]">
+                                <p><strong className="text-[#171713]">Modalidad:</strong> llamada, videollamada o asistencia presencial si se requiere.</p>
+                                <p><strong className="text-[#171713]">Duracion:</strong> 40 a 60 minutos.</p>
+                                <p><strong className="text-[#171713]">Valor:</strong> 2 UF {ufAmount ? `(${formattedUfAmount})` : "(valor UF del dia)"}.</p>
+                                <p><strong className="text-[#171713]">Alcance:</strong> diagnostico inicial, contencion, intervencion critica y plan de trabajo.</p>
+                            </div>
+                            <a
+                                href={MERCADO_PAGO_LINK}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-[6px] bg-[#171713] px-4 py-3 text-sm font-bold text-white shadow-[0_12px_24px_rgba(23,23,19,0.18)] transition hover:bg-[#2d3029]"
+                            >
+                                <CreditCard className="h-4 w-4" />
+                                Pagar con Mercado Pago
+                            </a>
+                            <p className="mt-2 text-xs leading-5 text-[#8a8276]">
+                                Link de pago abierto: ingresa manualmente el monto indicado, <strong className="text-[#171713]">{formattedUfAmount}</strong>.
+                            </p>
+                            <button
+                                type="button"
+                                onClick={() => setShowTransfer(true)}
+                                className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-[6px] border border-[#ded5c7] bg-[#fffdf8] px-4 py-2.5 text-sm font-bold text-[#171713] transition hover:border-[#bd6f3c]/50"
+                            >
+                                Ver transferencia bancaria
+                            </button>
+                        </>
+                    ) : (
+                        <>
+                            <p className="text-sm leading-6 text-[#3f423a]">
+                                Para activar la consulta prioritaria, realiza la transferencia por <strong>{formattedUfAmount}</strong>. Confirmado el pago, el especialista toma contacto en un maximo de 20 minutos.
+                            </p>
+                            <div className="mt-4 overflow-hidden rounded-[8px] border border-[#ded5c7] bg-[#f8f5ee]">
+                                {TRANSFER_DATA.map(([label, value]) => (
+                                    <div key={label} className="grid grid-cols-[112px_1fr] border-b border-[#ded5c7] px-3 py-2.5 text-sm last:border-b-0">
+                                        <span className="font-bold text-[#171713]">{label}</span>
+                                        <span className="break-words text-[#55574f]">{value}</span>
+                                    </div>
+                                ))}
+                            </div>
+                            <button
+                                type="button"
+                                onClick={handleCopyTransfer}
+                                className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-[6px] border border-[#ded5c7] bg-[#fffdf8] px-4 py-2.5 text-sm font-bold text-[#171713] transition hover:border-[#bd6f3c]/50"
+                            >
+                                {copiedTransfer ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                                {copiedTransfer ? "Datos copiados" : "Copiar datos de transferencia"}
+                            </button>
+                            <a
+                                href={`tel:${CALL_NUMBER}`}
+                                className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-[6px] bg-[#171713] px-4 py-3 text-sm font-bold text-white shadow-[0_12px_24px_rgba(23,23,19,0.18)] transition hover:bg-[#2d3029]"
+                                onClick={() => setCriticalOpen(false)}
+                            >
+                                <Phone className="h-4 w-4" />
+                                Llamar tras transferir
+                            </a>
+                        </>
+                    )}
                 </div>
             </div>
 
