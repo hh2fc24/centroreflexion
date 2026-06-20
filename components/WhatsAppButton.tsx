@@ -97,10 +97,10 @@ export function WhatsAppButton() {
         <>
         <div ref={criticalPanelRef} className="fixed bottom-5 left-4 z-50 flex max-w-[calc(100vw-2rem)] flex-col items-start gap-3 sm:bottom-6 sm:left-6">
             <div
-                className="overflow-hidden rounded-[12px] shadow-2xl transition-all duration-300"
+                className="overflow-y-auto overflow-x-hidden rounded-[12px] shadow-2xl transition-all duration-300"
                 style={{
                     width: "340px",
-                    maxHeight: criticalOpen ? "520px" : "0px",
+                    maxHeight: criticalOpen ? "calc(100vh - 132px)" : "0px",
                     opacity: criticalOpen ? 1 : 0,
                     pointerEvents: criticalOpen ? "auto" : "none",
                     border: "1px solid #ded5c7",
@@ -129,14 +129,14 @@ export function WhatsAppButton() {
                 </div>
 
                 <div className="px-5 py-5">
-                    <p className="text-sm leading-7 text-[#3f423a]">
+                    <p className="text-sm leading-6 text-[#3f423a]">
                         Consulta prioritaria para riesgo suicida, desregulacion grave o episodios criticos con ninos, ninas, adolescentes, familias o comunidades educativas.
                     </p>
-                    <div className="mt-4 space-y-3 border-y border-[#ded5c7] py-4 text-sm leading-6 text-[#70695f]">
-                        <p><strong className="text-[#171713]">Modalidad:</strong> llamada telefonica, videollamada o asistencia presencial si el caso lo requiere.</p>
+                    <div className="mt-4 space-y-2.5 border-y border-[#ded5c7] py-4 text-sm leading-5 text-[#70695f]">
+                        <p><strong className="text-[#171713]">Modalidad:</strong> llamada, videollamada o asistencia presencial si se requiere.</p>
                         <p><strong className="text-[#171713]">Duracion:</strong> 40 a 60 minutos.</p>
-                        <p><strong className="text-[#171713]">Valor:</strong> 2 UF. La consulta se activa una vez confirmada la transferencia.</p>
-                        <p><strong className="text-[#171713]">Alcance:</strong> diagnostico inicial, contencion, intervencion critica y plan de trabajo para abordar el problema de fondo.</p>
+                        <p><strong className="text-[#171713]">Valor:</strong> 2 UF, activado tras confirmar transferencia.</p>
+                        <p><strong className="text-[#171713]">Alcance:</strong> diagnostico inicial, contencion, intervencion critica y plan de trabajo.</p>
                     </div>
                     <a
                         href={`tel:${CALL_NUMBER}`}
