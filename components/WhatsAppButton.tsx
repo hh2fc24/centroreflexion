@@ -130,13 +130,13 @@ export function WhatsAppButton() {
 
                 <div className="px-5 py-5">
                     <p className="text-sm leading-7 text-[#3f423a]">
-                        Si estas viviendo una situacion de riesgo, crisis suicida, desregulacion grave o un episodio critico con un nino, nina o adolescente, puedes solicitar orientacion directa del especialista.
+                        Consulta prioritaria para riesgo suicida, desregulacion grave o episodios criticos con ninos, ninas, adolescentes, familias o comunidades educativas.
                     </p>
-                    <div className="mt-4 border-y border-[#ded5c7] py-3">
-                        <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#9f5528]">Contacto reservado</p>
-                        <p className="mt-1 text-sm leading-6 text-[#70695f]">
-                            Llamada prioritaria con Juan Carlos Rauld / equipo CRC.
-                        </p>
+                    <div className="mt-4 space-y-3 border-y border-[#ded5c7] py-4 text-sm leading-6 text-[#70695f]">
+                        <p><strong className="text-[#171713]">Modalidad:</strong> llamada telefonica, videollamada o asistencia presencial si el caso lo requiere.</p>
+                        <p><strong className="text-[#171713]">Duracion:</strong> 40 a 60 minutos.</p>
+                        <p><strong className="text-[#171713]">Valor:</strong> 2 UF. La consulta se activa una vez confirmada la transferencia.</p>
+                        <p><strong className="text-[#171713]">Alcance:</strong> diagnostico inicial, contencion, intervencion critica y plan de trabajo para abordar el problema de fondo.</p>
                     </div>
                     <a
                         href={`tel:${CALL_NUMBER}`}
@@ -144,7 +144,7 @@ export function WhatsAppButton() {
                         onClick={() => setCriticalOpen(false)}
                     >
                         <Phone className="h-4 w-4" />
-                        Llamar directo al especialista
+                        Activar consulta prioritaria
                     </a>
                 </div>
             </div>
