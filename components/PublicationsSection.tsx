@@ -1,7 +1,7 @@
 "use client";
 
 import { MotionDiv } from "@/components/ui/Motion";
-import { ArrowRight, BookOpen, ExternalLink, LibraryBig, PlayCircle, Quote } from "lucide-react";
+import { ArrowRight, BookOpen, ExternalLink, LibraryBig, PlayCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -46,9 +46,6 @@ const books = [
         quote: "Pensar la salud mental infantil exige mirar también las instituciones que producen sufrimiento.",
     },
 ];
-
-const featuredBook = books[0];
-const backlistBooks = books.slice(1);
 
 export function PublicationsSection() {
     return (
@@ -150,94 +147,80 @@ export function PublicationsSection() {
                         </p>
                     </div>
 
-                    <div className="mt-8 grid gap-5 lg:grid-cols-[minmax(0,1.15fr)_minmax(320px,0.85fr)]">
-                        <MotionDiv
-                            initial={{ opacity: 0, y: 18 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.5 }}
-                            className="grid overflow-hidden rounded-[8px] border border-[#ded5c7] bg-[#fffdf8] shadow-sm md:grid-cols-[280px_1fr]"
-                        >
-                            <div className="bg-[#171713] p-4">
-                                <div className="relative mx-auto aspect-[4/5] max-h-[420px] overflow-hidden rounded-[7px] bg-[#0f0d0a]">
-                                    <Image
-                                        src={featuredBook.image}
-                                        alt={`Afiche real del lanzamiento de ${featuredBook.title}`}
-                                        fill
-                                        sizes="(min-width: 1024px) 280px, 70vw"
-                                        className="object-contain"
-                                    />
+                    <div className="mt-8 grid gap-5 lg:grid-cols-3">
+                        {books.map((book, index) => (
+                            <MotionDiv
+                                key={book.title}
+                                initial={{ opacity: 0, y: 18 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.5, delay: index * 0.08 }}
+                                className="flex h-full flex-col rounded-[8px] border border-[#ded5c7] bg-[#fffdf8] p-5 shadow-sm transition duration-200 hover:border-[#bd6f3c]/45 hover:shadow-[0_12px_26px_rgba(31,27,22,0.08)]"
+                            >
+                                <div className="rounded-[7px] bg-[#171713] p-3">
+                                    <div className="relative mx-auto aspect-[4/5] w-full max-w-[190px] overflow-hidden rounded-[6px] bg-[#0f0d0a]">
+                                        <Image
+                                            src={book.image}
+                                            alt={`Portada o afiche de ${book.title}`}
+                                            fill
+                                            sizes="220px"
+                                            className="object-contain"
+                                        />
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div className="flex flex-col p-5 sm:p-6">
-                                <div className="flex flex-wrap items-center gap-3">
+                                <div className="mt-5 flex flex-wrap items-center gap-2">
                                     <span className="rounded-[5px] bg-[#ecd8c7] px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-[#9f5528]">
-                                        {featuredBook.tag}
+                                        {book.tag}
                                     </span>
                                     <span className="text-xs font-bold uppercase tracking-[0.14em] text-[#8a8175]">
-                                        {featuredBook.author} · {featuredBook.year}
+                                        {book.author} · {book.year}
                                     </span>
                                 </div>
-                                <h3 className="mt-5 max-w-2xl font-serif text-3xl font-bold leading-tight text-[#171713] sm:text-4xl">
-                                    {featuredBook.title}
+                                <h3 className="mt-4 font-serif text-2xl font-bold leading-tight text-[#171713]">
+                                    {book.title}
                                 </h3>
-                                <p className="mt-2 text-xl font-semibold leading-8 text-[#bd6f3c]">{featuredBook.subtitle}</p>
-                                <p className="mt-5 max-w-2xl text-sm leading-7 text-[#625c52]">{featuredBook.summary}</p>
+                                <p className="mt-2 min-h-12 text-base font-semibold leading-6 text-[#bd6f3c]">{book.subtitle}</p>
+                                <p className="mt-4 text-sm leading-7 text-[#70695f]">{book.summary}</p>
 
-                                <div className="mt-4 grid gap-2 text-xs font-semibold text-[#625c52] sm:grid-cols-3">
-                                    <span className="rounded-[5px] border border-[#ded5c7] bg-[#f8f5ee] px-3 py-2">
-                                        Editorial Hammurabi
-                                    </span>
-                                    <span className="rounded-[5px] border border-[#ded5c7] bg-[#f8f5ee] px-3 py-2">
-                                        Lanzamiento UAH
-                                    </span>
-                                    <span className="rounded-[5px] border border-[#ded5c7] bg-[#f8f5ee] px-3 py-2">
-                                        Registro audiovisual
-                                    </span>
-                                </div>
-
-                                <div className="mt-5 flex flex-wrap gap-2">
-                                    {featuredBook.points.map((point) => (
+                                <div className="mt-4 flex flex-wrap gap-1.5">
+                                    {book.points.map((point) => (
                                         <span
                                             key={point}
-                                            className="rounded-[5px] border border-[#ded5c7] bg-[#f8f5ee] px-2.5 py-1 text-xs font-semibold text-[#625c52]"
+                                            className="rounded-[5px] border border-[#ded5c7] bg-[#f8f5ee] px-2 py-0.5 text-[11px] font-semibold text-[#625c52]"
                                         >
                                             {point}
                                         </span>
                                     ))}
                                 </div>
 
-                                <div className="mt-6 border-l-2 border-[#bd6f3c] pl-4">
-                                    <Quote className="mb-2 h-4 w-4 text-[#bd6f3c]" />
-                                    <p className="text-sm italic leading-6 text-[#70695f]">{featuredBook.quote}</p>
-                                </div>
+                                {book.title === "Tecnócratas de la Infancia" ? (
+                                    <div className="mt-4 grid gap-1.5 text-[11px] font-semibold text-[#625c52]">
+                                        <span className="rounded-[5px] border border-[#ded5c7] bg-[#f8f5ee] px-2.5 py-1">
+                                            Editorial Hammurabi
+                                        </span>
+                                        <span className="rounded-[5px] border border-[#ded5c7] bg-[#f8f5ee] px-2.5 py-1">
+                                            Lanzamiento UAH · registro audiovisual
+                                        </span>
+                                    </div>
+                                ) : null}
 
-                                <div className="mt-auto flex flex-col gap-3 pt-6 sm:flex-row">
-                                    <a
-                                        href={featuredBook.href}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="group/cta inline-flex items-center justify-center gap-2 rounded-[7px] bg-[#171713] px-5 py-3 text-sm font-bold text-white transition duration-200 hover:bg-[#34362f]"
-                                    >
-                                        Comprar libro
-                                        <ExternalLink className="h-4 w-4 transition-transform duration-200 group-hover/cta:translate-x-0.5" />
-                                    </a>
-                                    <a
-                                        href="#medios-publicaciones"
-                                        className="inline-flex items-center justify-center rounded-[7px] border border-[#ded5c7] bg-[#fffdf8] px-5 py-3 text-sm font-bold text-[#171713] transition duration-200 hover:border-[#bd6f3c]/50"
-                                    >
-                                        Ver medios
-                                    </a>
-                                </div>
-
-                                <details className="mt-4 rounded-[7px] border border-[#ded5c7] bg-[#fffdf8] px-4 py-3 text-sm text-[#70695f]">
+                                <details className="mt-4 text-sm text-[#70695f]">
                                     <summary className="cursor-pointer list-none font-bold text-[#171713] marker:hidden">
-                                        Ver registro audiovisual
+                                        Ver cita
                                     </summary>
-                                    <div className="mt-3 grid gap-3 border-t border-[#eee8dc] pt-3 sm:grid-cols-[140px_1fr] sm:items-center">
+                                    <p className="mt-2 border-l-2 border-[#bd6f3c] pl-3 italic leading-6">
+                                        {book.quote}
+                                    </p>
+                                </details>
+
+                                {book.title === "Tecnócratas de la Infancia" ? (
+                                    <details className="mt-3 rounded-[7px] border border-[#ded5c7] bg-[#fffdf8] px-3 py-2 text-sm text-[#70695f]">
+                                        <summary className="cursor-pointer list-none font-bold text-[#171713] marker:hidden">
+                                            Ver registro audiovisual
+                                        </summary>
                                         <video
-                                            className="aspect-[9/16] w-full max-w-[140px] rounded-[6px] bg-black object-cover"
+                                            className="mt-3 aspect-[9/16] w-full max-w-[140px] rounded-[6px] bg-black object-cover"
                                             controls
                                             preload="metadata"
                                             poster="/images/tecnocratas_abstract_1771965880554.png"
@@ -246,78 +229,20 @@ export function PublicationsSection() {
                                             <source src="/videos/tecnocratas-lanzamiento.mp4" type="video/mp4" />
                                             Tu navegador no soporta el elemento de video.
                                         </video>
-                                        <p className="leading-6">
-                                            Pieza audiovisual breve que acompaña la aparición editorial de la obra.
-                                        </p>
-                                    </div>
-                                </details>
-                            </div>
-                        </MotionDiv>
+                                    </details>
+                                ) : null}
 
-                        <div className="grid gap-5">
-                            {backlistBooks.map((book, index) => (
-                                <MotionDiv
-                                    key={book.title}
-                                    initial={{ opacity: 0, y: 18 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: 0.5, delay: index * 0.08 }}
-                                    className="grid grid-cols-[96px_1fr] gap-4 rounded-[8px] border border-[#ded5c7] bg-[#fffdf8] p-4 shadow-sm transition duration-200 hover:border-[#bd6f3c]/45 hover:shadow-[0_12px_26px_rgba(31,27,22,0.08)]"
+                                <a
+                                    href={book.href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="mt-auto inline-flex items-center gap-2 pt-5 text-sm font-bold text-[#171713] transition hover:text-[#bd6f3c]"
                                 >
-                                    <div className="relative aspect-[4/5] overflow-hidden rounded-[6px] bg-[#eee8dc]">
-                                        <Image
-                                            src={book.image}
-                                            alt={`Portada de ${book.title}`}
-                                            fill
-                                            sizes="120px"
-                                            className="object-contain"
-                                        />
-                                    </div>
-                                    <div className="min-w-0">
-                                        <div className="flex flex-wrap items-center gap-2">
-                                            <span className="rounded-[5px] bg-[#ecd8c7] px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.12em] text-[#9f5528]">
-                                                {book.tag}
-                                            </span>
-                                            <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#8a8175]">
-                                                {book.year}
-                                            </span>
-                                        </div>
-                                        <h3 className="mt-2 font-serif text-xl font-bold leading-tight text-[#171713]">
-                                            {book.title}
-                                        </h3>
-                                        <p className="mt-1 text-sm font-semibold leading-6 text-[#bd6f3c]">{book.subtitle}</p>
-                                        <p className="mt-3 text-sm leading-6 text-[#70695f]">{book.summary}</p>
-                                        <div className="mt-3 flex flex-wrap gap-1.5">
-                                            {book.points.map((point) => (
-                                                <span
-                                                    key={point}
-                                                    className="rounded-[5px] border border-[#ded5c7] bg-[#f8f5ee] px-2 py-0.5 text-[11px] font-semibold text-[#625c52]"
-                                                >
-                                                    {point}
-                                                </span>
-                                            ))}
-                                        </div>
-                                        <details className="mt-3 text-sm text-[#70695f]">
-                                            <summary className="cursor-pointer list-none font-bold text-[#171713] marker:hidden">
-                                                Ver cita
-                                            </summary>
-                                            <p className="mt-2 border-l-2 border-[#bd6f3c] pl-3 italic leading-6">
-                                                {book.quote}
-                                            </p>
-                                        </details>
-                                        <a
-                                            href={book.href}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-[#171713] transition hover:text-[#bd6f3c]"
-                                        >
-                                            Comprar
-                                            <ExternalLink className="h-3.5 w-3.5" />
-                                        </a>
-                                    </div>
-                                </MotionDiv>
-                            ))}
-                        </div>
+                                    Comprar
+                                    <ExternalLink className="h-3.5 w-3.5" />
+                                </a>
+                            </MotionDiv>
+                        ))}
                     </div>
                 </div>
             </section>
