@@ -153,7 +153,7 @@ function CinemaCard({
           alt={article.title}
           fill
           sizes={size === "lg" ? "(min-width:1024px) 50vw, 100vw" : "320px"}
-          className="object-cover transition duration-700 group-hover:scale-105 group-hover:brightness-110"
+          className="object-cover grayscale transition duration-700 group-hover:scale-105 group-hover:grayscale-0"
         />
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
@@ -171,10 +171,10 @@ function CinemaCard({
           {mins} min
         </span>
 
-        {/* Title overlay at bottom */}
-        <div className="absolute inset-x-0 bottom-0 p-4">
+        {/* Title overlay at bottom — hidden on hover to avoid overlap */}
+        <div className="absolute inset-x-0 bottom-0 p-4 transition-opacity duration-300 group-hover:opacity-0">
           <h3
-            className={`font-serif font-semibold leading-tight text-white transition-colors group-hover:text-[#f2d5b8] ${titleClass}`}
+            className={`font-serif font-semibold leading-tight text-white ${titleClass}`}
           >
             {article.title}
           </h3>
@@ -229,7 +229,7 @@ function HeroFeature({ article }: { article: EditorialArticle }) {
             fill
             priority
             sizes="100vw"
-            className="object-cover transition duration-1000 group-hover:scale-[1.03]"
+            className="object-cover grayscale transition duration-1000 group-hover:scale-[1.03] group-hover:grayscale-0"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#11100c]/95 via-[#11100c]/60 to-[#11100c]/30 lg:from-[#11100c]/90 lg:via-[#11100c]/50 lg:to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#11100c] via-transparent to-[#11100c]/40" />
@@ -415,7 +415,7 @@ function EditorialIndex({ articles }: { articles: EditorialArticle[] }) {
                     alt=""
                     fill
                     sizes="64px"
-                    className="object-cover transition duration-500 group-hover:scale-110"
+                    className="object-cover grayscale transition duration-500 group-hover:scale-110 group-hover:grayscale-0"
                   />
                 </div>
                 <div className="min-w-0 flex-1">
