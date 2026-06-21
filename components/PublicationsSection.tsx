@@ -1,15 +1,7 @@
 "use client";
 
 import { MotionDiv } from "@/components/ui/Motion";
-import {
-    ArrowRight,
-    BookOpen,
-    ExternalLink,
-    LibraryBig,
-    PlayCircle,
-    Quote,
-    Sparkles,
-} from "lucide-react";
+import { ArrowRight, BookOpen, ExternalLink, LibraryBig, PlayCircle, Quote } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -23,7 +15,7 @@ const books = [
         href: "https://www.editorialhammurabi.com/shop/colecciones-hammurabi/tecnocratas-de-la-infancia/",
         tag: "Último lanzamiento",
         summary:
-            "Una crítica a la racionalidad tecnocrática que administra la infancia pobre y normaliza la desprotección estatal.",
+            "Crítica a la racionalidad tecnocrática que administra la infancia pobre y normaliza la desprotección estatal.",
         points: ["Infancia y Estado", "Neoliberalismo", "Cuidado alternativo"],
         quote: "La infancia no puede ser reducida a expediente, protocolo o indicador.",
     },
@@ -36,7 +28,7 @@ const books = [
         href: "https://www.editorialhammurabi.com/shop/derecho/privado/derecho-civil/derecho-familiar/desproteccion-de-la-infancia/",
         tag: "Libro",
         summary:
-            "Un examen genealógico de la institucionalización infantil en Chile y sus vínculos con gobierno, clase y disciplina.",
+            "Genealogía de la institucionalización infantil en Chile y sus vínculos con gobierno, clase y disciplina.",
         points: ["Biopolítica", "Institucionalización", "Derecho de familia"],
         quote: "Una lectura crítica sobre el poder que se ejerce sobre la vida del niño.",
     },
@@ -49,238 +41,164 @@ const books = [
         href: "https://www.editorialhammurabi.com/shop/derecho/privado/derecho-civil/derecho-familiar/desproteccion-de-la-infancia/",
         tag: "Libro",
         summary:
-            "Una aproximación clínica y ética a trauma, hospitalización, institucionalización y sufrimiento infantil.",
+            "Aproximación clínica y ética a trauma, hospitalización, institucionalización y sufrimiento infantil.",
         points: ["Salud mental", "Trauma", "Clínica infantil"],
         quote: "Pensar la salud mental infantil exige mirar también las instituciones que producen sufrimiento.",
     },
 ];
 
-const editorialRoutes = [
-    {
-        label: "Libros",
-        description: "Obras publicadas para profundizar en infancia, institucionalización y salud mental.",
-        href: "#catalogo-editorial",
-        icon: LibraryBig,
-    },
-    {
-        label: "Lanzamiento",
-        description: "Tecnócratas de la Infancia como pieza central del catálogo editorial reciente.",
-        href: "#lanzamiento-tecnocratas",
-        icon: Sparkles,
-    },
-    {
-        label: "Medios",
-        description: "Entrevistas, presentaciones y debates públicos que amplifican la conversación.",
-        href: "#medios-publicaciones",
-        icon: PlayCircle,
-    },
-];
+const featuredBook = books[0];
+const backlistBooks = books.slice(1);
 
 export function PublicationsSection() {
     return (
         <>
-            <section className="relative min-h-[680px] overflow-hidden bg-[#171713] text-white">
-                <Image
-                    src="/images/hero_crc_library.jpg"
-                    alt=""
-                    fill
-                    priority
-                    sizes="100vw"
-                    className="object-cover opacity-[0.54]"
-                />
-                <div className="absolute inset-0 bg-gradient-to-r from-[#171713] via-[#171713]/84 to-[#171713]/28" />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#171713] via-transparent to-[#171713]/20" />
-
-                <div className="relative z-10 mx-auto flex min-h-[680px] max-w-7xl flex-col justify-end px-4 pb-12 pt-28 sm:px-6 sm:pb-16 lg:px-8">
+            <section className="bg-[#171713] text-white">
+                <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 sm:py-20 lg:grid-cols-[0.95fr_1.05fr] lg:items-end lg:px-8">
                     <MotionDiv
-                        initial={{ opacity: 0, y: 24 }}
+                        initial={{ opacity: 0, y: 18 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.7 }}
-                        className="max-w-4xl"
+                        transition={{ duration: 0.55 }}
+                        className="max-w-3xl"
                     >
-                        <div className="inline-flex items-center gap-2 rounded-[6px] border border-white/12 bg-white/8 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-[#f1ded0] backdrop-blur">
+                        <div className="inline-flex items-center gap-2 rounded-[6px] border border-white/12 bg-white/[0.06] px-3 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-[#f1ded0]">
                             <BookOpen className="h-3.5 w-3.5 text-[#d3976d]" />
                             Publicaciones CRC
                         </div>
-                        <h1 className="mt-6 max-w-4xl font-serif text-4xl font-bold leading-[1.02] text-white sm:text-6xl lg:text-7xl">
-                            Libros y debate público desde una posición crítica.
+                        <h1 className="mt-6 font-serif text-4xl font-bold leading-[1.04] text-white sm:text-5xl lg:text-6xl">
+                            Libros, lanzamientos y debate público.
                         </h1>
-                        <p className="mt-6 max-w-2xl text-base leading-8 text-[#eee8dc] sm:text-lg">
-                            Catálogo editorial, lanzamientos y apariciones públicas sobre infancia, salud mental,
-                            instituciones y políticas públicas.
+                        <p className="mt-5 max-w-2xl text-base leading-8 text-[#d8d0c4]">
+                            Una selección editorial sobre infancia, salud mental, instituciones y políticas públicas,
+                            organizada para leer rápido y actuar sin rodeos.
                         </p>
                         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                             <a
                                 href="#catalogo-editorial"
                                 className="group inline-flex items-center justify-center gap-2 rounded-[7px] bg-[#bd6f3c] px-5 py-3 text-sm font-bold text-white transition duration-200 hover:bg-[#9f5528]"
                             >
-                                Explorar publicaciones
+                                Ver catálogo
                                 <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
                             </a>
                             <Link
                                 href="/contacto"
-                                className="inline-flex items-center justify-center gap-2 rounded-[7px] border border-white/16 bg-white/8 px-5 py-3 text-sm font-bold text-white backdrop-blur transition duration-200 hover:bg-white/14"
+                                className="inline-flex items-center justify-center rounded-[7px] border border-white/14 bg-white/[0.06] px-5 py-3 text-sm font-bold text-white transition duration-200 hover:bg-white/[0.1]"
                             >
                                 Agenda de atención
                             </Link>
                         </div>
                     </MotionDiv>
 
-                    <div className="mt-12 grid max-w-3xl gap-3 sm:grid-cols-3">
+                    <MotionDiv
+                        initial={{ opacity: 0, y: 18 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.55, delay: 0.08 }}
+                        className="grid gap-3 sm:grid-cols-3 lg:justify-self-end"
+                    >
                         {[
-                            ["3", "libros publicados"],
-                            ["1", "lanzamiento destacado"],
-                            ["7+", "apariciones en medios"],
+                            ["3", "libros"],
+                            ["1", "lanzamiento"],
+                            ["7+", "medios"],
                         ].map(([value, label]) => (
-                            <div key={label} className="border-l border-white/16 pl-4">
+                            <div key={label} className="min-w-[150px] rounded-[8px] border border-white/10 bg-white/[0.045] p-4">
                                 <p className="font-serif text-3xl font-bold text-white">{value}</p>
                                 <p className="mt-1 text-xs font-bold uppercase tracking-[0.16em] text-[#c9b9aa]">{label}</p>
                             </div>
                         ))}
-                    </div>
+                    </MotionDiv>
                 </div>
             </section>
 
-            <section className="border-b border-[#eee8dc] bg-[#fffdf8] py-10">
-                <div className="mx-auto grid max-w-7xl gap-4 px-4 sm:px-6 md:grid-cols-3 lg:px-8">
-                    {editorialRoutes.map((route) => {
-                        const Icon = route.icon;
+            <section className="border-b border-[#eee8dc] bg-[#fffdf8]">
+                <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-4 sm:px-6 md:flex-row lg:px-8">
+                    {[
+                        ["Catálogo", "#catalogo-editorial", LibraryBig],
+                        ["Lanzamiento", "#catalogo-editorial", BookOpen],
+                        ["Medios", "#medios-publicaciones", PlayCircle],
+                    ].map(([label, href, Icon]) => {
+                        const NavIcon = Icon as typeof LibraryBig;
                         return (
                             <a
-                                key={route.label}
-                                href={route.href}
-                                className="group flex min-h-[150px] flex-col justify-between rounded-[8px] border border-[#ded5c7] bg-[#fffdf8] p-5 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-[#bd6f3c]/50 hover:shadow-[0_16px_34px_rgba(31,27,22,0.08)] motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+                                key={label as string}
+                                href={href as string}
+                                className="group inline-flex items-center justify-between gap-4 rounded-[7px] border border-[#ded5c7] bg-[#fffdf8] px-4 py-3 text-sm font-bold text-[#171713] transition duration-200 hover:border-[#bd6f3c]/50 hover:bg-[#f8f5ee]"
                             >
-                                <div className="flex items-start justify-between gap-4">
-                                    <span className="flex h-10 w-10 items-center justify-center rounded-[7px] bg-[#171713] text-[#d3976d] transition duration-300 group-hover:bg-[#bd6f3c] group-hover:text-white">
-                                        <Icon className="h-5 w-5" />
-                                    </span>
-                                    <ArrowRight className="h-4 w-4 text-[#bd6f3c] transition-transform duration-200 group-hover:translate-x-0.5" />
-                                </div>
-                                <div className="mt-5">
-                                    <h2 className="font-serif text-2xl font-bold text-[#171713]">{route.label}</h2>
-                                    <p className="mt-2 text-sm leading-6 text-[#70695f]">{route.description}</p>
-                                </div>
+                                <span className="inline-flex items-center gap-2">
+                                    <NavIcon className="h-4 w-4 text-[#bd6f3c]" />
+                                    {label as string}
+                                </span>
+                                <ArrowRight className="h-4 w-4 text-[#bd6f3c] transition-transform duration-200 group-hover:translate-x-0.5" />
                             </a>
                         );
                     })}
                 </div>
             </section>
 
-            <section id="catalogo-editorial" className="bg-[#f8f5ee] py-14 sm:py-20">
+            <section id="catalogo-editorial" className="bg-[#f8f5ee] py-12 sm:py-16">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
+                    <div className="flex flex-col gap-4 border-b border-[#ded5c7] pb-6 md:flex-row md:items-end md:justify-between">
                         <div>
                             <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#bd6f3c]">
                                 Catálogo editorial
                             </span>
                             <h2 className="mt-3 font-serif text-3xl font-bold leading-tight text-[#171713] sm:text-4xl">
-                                Libros que instalan una posición crítica.
+                                Obras centrales
                             </h2>
                         </div>
-                        <p className="max-w-3xl text-base leading-7 text-[#70695f] lg:justify-self-end">
-                            Títulos que articulan investigación, crítica institucional y experiencia pública en torno
-                            a la infancia y sus formas de desprotección.
+                        <p className="max-w-2xl text-sm leading-7 text-[#70695f]">
+                            Títulos publicados y piezas de lanzamiento. Menos vitrina ornamental, más información útil.
                         </p>
                     </div>
 
-                    <div className="mt-10 grid gap-5 lg:grid-cols-[1.18fr_0.82fr]">
+                    <div className="mt-8 grid gap-5 lg:grid-cols-[minmax(0,1.15fr)_minmax(320px,0.85fr)]">
                         <MotionDiv
-                            initial={{ opacity: 0, y: 24 }}
+                            initial={{ opacity: 0, y: 18 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            transition={{ duration: 0.55 }}
-                            className="group grid overflow-hidden rounded-[8px] border border-[#2d2b25] bg-[#171713] text-white shadow-[0_24px_70px_rgba(31,27,22,0.18)] md:grid-cols-[0.85fr_1.15fr]"
+                            transition={{ duration: 0.5 }}
+                            className="grid overflow-hidden rounded-[8px] border border-[#ded5c7] bg-[#fffdf8] shadow-sm md:grid-cols-[280px_1fr]"
                         >
-                            <div className="relative min-h-[420px] overflow-hidden bg-[#0f0d0a]">
-                                <Image
-                                    src={books[0].image}
-                                    alt={`Afiche del lanzamiento de ${books[0].title}`}
-                                    fill
-                                    sizes="(min-width: 1024px) 42vw, 100vw"
-                                    className="object-cover transition duration-700 group-hover:scale-105"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-[#171713]/72 via-transparent to-transparent" />
+                            <div className="bg-[#171713] p-4">
+                                <div className="relative mx-auto aspect-[4/5] max-h-[420px] overflow-hidden rounded-[7px] bg-[#0f0d0a]">
+                                    <Image
+                                        src={featuredBook.image}
+                                        alt={`Afiche real del lanzamiento de ${featuredBook.title}`}
+                                        fill
+                                        sizes="(min-width: 1024px) 280px, 70vw"
+                                        className="object-contain"
+                                    />
+                                </div>
                             </div>
 
-                            <div className="flex flex-col p-6 sm:p-8">
-                                <span className="inline-flex w-fit items-center rounded-[5px] bg-[#bd6f3c] px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.16em] text-white">
-                                    {books[0].tag}
-                                </span>
-                                <h3 className="mt-6 font-serif text-4xl font-bold leading-[1.02] text-white sm:text-5xl">
-                                    {books[0].title}
+                            <div className="flex flex-col p-5 sm:p-6">
+                                <div className="flex flex-wrap items-center gap-3">
+                                    <span className="rounded-[5px] bg-[#ecd8c7] px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-[#9f5528]">
+                                        {featuredBook.tag}
+                                    </span>
+                                    <span className="text-xs font-bold uppercase tracking-[0.14em] text-[#8a8175]">
+                                        {featuredBook.author} · {featuredBook.year}
+                                    </span>
+                                </div>
+                                <h3 className="mt-5 max-w-2xl font-serif text-3xl font-bold leading-tight text-[#171713] sm:text-4xl">
+                                    {featuredBook.title}
                                 </h3>
-                                <p className="mt-3 text-xl font-semibold leading-8 text-[#d3976d]">{books[0].subtitle}</p>
-                                <p className="mt-6 max-w-xl text-base leading-8 text-[#d8d0c4]">{books[0].summary}</p>
+                                <p className="mt-2 text-xl font-semibold leading-8 text-[#bd6f3c]">{featuredBook.subtitle}</p>
+                                <p className="mt-5 max-w-2xl text-sm leading-7 text-[#625c52]">{featuredBook.summary}</p>
 
-                                <div className="mt-7 flex flex-wrap gap-2">
-                                    {books[0].points.map((point) => (
-                                        <span
-                                            key={point}
-                                            className="rounded-[5px] border border-white/12 bg-white/7 px-3 py-1.5 text-xs font-semibold text-[#eee8dc]"
-                                        >
-                                            {point}
-                                        </span>
-                                    ))}
+                                <div className="mt-4 grid gap-2 text-xs font-semibold text-[#625c52] sm:grid-cols-3">
+                                    <span className="rounded-[5px] border border-[#ded5c7] bg-[#f8f5ee] px-3 py-2">
+                                        Editorial Hammurabi
+                                    </span>
+                                    <span className="rounded-[5px] border border-[#ded5c7] bg-[#f8f5ee] px-3 py-2">
+                                        Lanzamiento UAH
+                                    </span>
+                                    <span className="rounded-[5px] border border-[#ded5c7] bg-[#f8f5ee] px-3 py-2">
+                                        Registro audiovisual
+                                    </span>
                                 </div>
-
-                                <div className="mt-8 border-l-2 border-[#bd6f3c] pl-4">
-                                    <Quote className="mb-2 h-4 w-4 text-[#d3976d]" />
-                                    <p className="text-sm italic leading-6 text-[#eee8dc]">{books[0].quote}</p>
-                                </div>
-
-                                <div className="mt-auto flex flex-col gap-3 pt-8 sm:flex-row sm:items-center sm:justify-between">
-                                    <div className="text-xs font-bold uppercase tracking-[0.14em] text-[#a99f91]">
-                                        {books[0].author} · {books[0].year}
-                                    </div>
-                                    <a
-                                        href={books[0].href}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="group/cta inline-flex items-center justify-center gap-2 rounded-[7px] bg-[#bd6f3c] px-5 py-3 text-sm font-bold text-white transition duration-200 hover:bg-[#9f5528]"
-                                    >
-                                        Comprar libro
-                                        <ExternalLink className="h-4 w-4 transition-transform duration-200 group-hover/cta:translate-x-0.5" />
-                                    </a>
-                                </div>
-                            </div>
-                        </MotionDiv>
-
-                        <div className="grid gap-5">
-                        {books.slice(1).map((book, index) => (
-                            <MotionDiv
-                                key={book.title}
-                                initial={{ opacity: 0, y: 24 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.55, delay: (index + 1) * 0.08 }}
-                                className="group flex h-full flex-col rounded-[8px] border border-[#ded5c7] bg-[#fffdf8] p-5 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-[#bd6f3c]/45 hover:shadow-[0_22px_46px_rgba(31,27,22,0.1)] motion-reduce:transition-none motion-reduce:hover:translate-y-0"
-                            >
-                                <div className="flex items-start gap-5">
-                                    <div className="relative aspect-[4/5] w-28 shrink-0 overflow-hidden rounded-[7px] bg-[#eee8dc] shadow-[0_16px_30px_rgba(31,27,22,0.12)] sm:w-32">
-                                        <Image
-                                            src={book.image}
-                                            alt={`Portada de ${book.title}`}
-                                            fill
-                                            sizes="160px"
-                                            className="object-cover transition duration-500 group-hover:scale-105"
-                                        />
-                                    </div>
-                                    <div className="min-w-0">
-                                        <span className="inline-flex items-center rounded-[5px] bg-[#ecd8c7] px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-[#9f5528]">
-                                            {book.tag}
-                                        </span>
-                                        <h3 className="mt-3 font-serif text-2xl font-bold leading-tight text-[#171713]">
-                                            {book.title}
-                                        </h3>
-                                        <p className="mt-1 text-sm font-semibold text-[#bd6f3c]">{book.subtitle}</p>
-                                    </div>
-                                </div>
-
-                                <p className="mt-5 text-sm leading-7 text-[#625c52]">{book.summary}</p>
 
                                 <div className="mt-5 flex flex-wrap gap-2">
-                                    {book.points.map((point) => (
+                                    {featuredBook.points.map((point) => (
                                         <span
                                             key={point}
                                             className="rounded-[5px] border border-[#ded5c7] bg-[#f8f5ee] px-2.5 py-1 text-xs font-semibold text-[#625c52]"
@@ -290,18 +208,14 @@ export function PublicationsSection() {
                                     ))}
                                 </div>
 
-                                <div className="mt-5 border-l-2 border-[#bd6f3c] pl-4">
+                                <div className="mt-6 border-l-2 border-[#bd6f3c] pl-4">
                                     <Quote className="mb-2 h-4 w-4 text-[#bd6f3c]" />
-                                    <p className="text-sm italic leading-6 text-[#70695f]">{book.quote}</p>
+                                    <p className="text-sm italic leading-6 text-[#70695f]">{featuredBook.quote}</p>
                                 </div>
 
-                                <div className="mt-auto flex flex-col gap-3 pt-6">
-                                    <div className="flex items-center justify-between text-xs font-bold uppercase tracking-[0.14em] text-[#8a8175]">
-                                        <span>{book.author}</span>
-                                        <span>{book.year}</span>
-                                    </div>
+                                <div className="mt-auto flex flex-col gap-3 pt-6 sm:flex-row">
                                     <a
-                                        href={book.href}
+                                        href={featuredBook.href}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="group/cta inline-flex items-center justify-center gap-2 rounded-[7px] bg-[#171713] px-5 py-3 text-sm font-bold text-white transition duration-200 hover:bg-[#34362f]"
@@ -309,70 +223,102 @@ export function PublicationsSection() {
                                         Comprar libro
                                         <ExternalLink className="h-4 w-4 transition-transform duration-200 group-hover/cta:translate-x-0.5" />
                                     </a>
+                                    <a
+                                        href="#medios-publicaciones"
+                                        className="inline-flex items-center justify-center rounded-[7px] border border-[#ded5c7] bg-[#fffdf8] px-5 py-3 text-sm font-bold text-[#171713] transition duration-200 hover:border-[#bd6f3c]/50"
+                                    >
+                                        Ver medios
+                                    </a>
                                 </div>
-                            </MotionDiv>
-                        ))}
+
+                                <details className="mt-4 rounded-[7px] border border-[#ded5c7] bg-[#fffdf8] px-4 py-3 text-sm text-[#70695f]">
+                                    <summary className="cursor-pointer list-none font-bold text-[#171713] marker:hidden">
+                                        Ver registro audiovisual
+                                    </summary>
+                                    <div className="mt-3 grid gap-3 border-t border-[#eee8dc] pt-3 sm:grid-cols-[140px_1fr] sm:items-center">
+                                        <video
+                                            className="aspect-[9/16] w-full max-w-[140px] rounded-[6px] bg-black object-cover"
+                                            controls
+                                            preload="metadata"
+                                            poster="/images/tecnocratas_abstract_1771965880554.png"
+                                            aria-label="Presentación audiovisual del libro Tecnócratas de la Infancia"
+                                        >
+                                            <source src="/videos/tecnocratas-lanzamiento.mp4" type="video/mp4" />
+                                            Tu navegador no soporta el elemento de video.
+                                        </video>
+                                        <p className="leading-6">
+                                            Pieza audiovisual breve que acompaña la aparición editorial de la obra.
+                                        </p>
+                                    </div>
+                                </details>
+                            </div>
+                        </MotionDiv>
+
+                        <div className="grid gap-5">
+                            {backlistBooks.map((book, index) => (
+                                <MotionDiv
+                                    key={book.title}
+                                    initial={{ opacity: 0, y: 18 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.5, delay: index * 0.08 }}
+                                    className="grid grid-cols-[96px_1fr] gap-4 rounded-[8px] border border-[#ded5c7] bg-[#fffdf8] p-4 shadow-sm transition duration-200 hover:border-[#bd6f3c]/45 hover:shadow-[0_12px_26px_rgba(31,27,22,0.08)]"
+                                >
+                                    <div className="relative aspect-[4/5] overflow-hidden rounded-[6px] bg-[#eee8dc]">
+                                        <Image
+                                            src={book.image}
+                                            alt={`Portada de ${book.title}`}
+                                            fill
+                                            sizes="120px"
+                                            className="object-contain"
+                                        />
+                                    </div>
+                                    <div className="min-w-0">
+                                        <div className="flex flex-wrap items-center gap-2">
+                                            <span className="rounded-[5px] bg-[#ecd8c7] px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.12em] text-[#9f5528]">
+                                                {book.tag}
+                                            </span>
+                                            <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#8a8175]">
+                                                {book.year}
+                                            </span>
+                                        </div>
+                                        <h3 className="mt-2 font-serif text-xl font-bold leading-tight text-[#171713]">
+                                            {book.title}
+                                        </h3>
+                                        <p className="mt-1 text-sm font-semibold leading-6 text-[#bd6f3c]">{book.subtitle}</p>
+                                        <p className="mt-3 text-sm leading-6 text-[#70695f]">{book.summary}</p>
+                                        <div className="mt-3 flex flex-wrap gap-1.5">
+                                            {book.points.map((point) => (
+                                                <span
+                                                    key={point}
+                                                    className="rounded-[5px] border border-[#ded5c7] bg-[#f8f5ee] px-2 py-0.5 text-[11px] font-semibold text-[#625c52]"
+                                                >
+                                                    {point}
+                                                </span>
+                                            ))}
+                                        </div>
+                                        <details className="mt-3 text-sm text-[#70695f]">
+                                            <summary className="cursor-pointer list-none font-bold text-[#171713] marker:hidden">
+                                                Ver cita
+                                            </summary>
+                                            <p className="mt-2 border-l-2 border-[#bd6f3c] pl-3 italic leading-6">
+                                                {book.quote}
+                                            </p>
+                                        </details>
+                                        <a
+                                            href={book.href}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-[#171713] transition hover:text-[#bd6f3c]"
+                                        >
+                                            Comprar
+                                            <ExternalLink className="h-3.5 w-3.5" />
+                                        </a>
+                                    </div>
+                                </MotionDiv>
+                            ))}
                         </div>
                     </div>
-                </div>
-            </section>
-
-            <section id="lanzamiento-tecnocratas" className="bg-[#171713] py-14 text-white sm:py-20">
-                <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[1fr_0.78fr] lg:px-8">
-                    <div>
-                        <span className="inline-flex items-center gap-2 rounded-[6px] border border-white/12 bg-white/8 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-[#f1ded0]">
-                            <Sparkles className="h-3.5 w-3.5 text-[#d3976d]" />
-                            Lanzamiento editorial
-                        </span>
-                        <h2 className="mt-5 max-w-3xl font-serif text-3xl font-bold leading-tight text-white sm:text-5xl">
-                            Una obra para discutir el lenguaje técnico de la desprotección.
-                        </h2>
-                        <p className="mt-5 max-w-2xl text-base leading-8 text-[#c9b9aa]">
-                            Tecnócratas de la Infancia articula una crítica sobre la gestión estatal, el daño institucional
-                            y las formas en que la infancia pobre queda atrapada entre expediente, protocolo y administración.
-                        </p>
-                        <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-                            <a
-                                href={books[0].href}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="group inline-flex items-center justify-center gap-2 rounded-[7px] bg-[#bd6f3c] px-5 py-3 text-sm font-bold text-white transition duration-200 hover:bg-[#9f5528]"
-                            >
-                                Comprar último libro
-                                <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
-                            </a>
-                            <a
-                                href="#medios-publicaciones"
-                                className="inline-flex items-center justify-center gap-2 rounded-[7px] border border-white/14 bg-white/6 px-5 py-3 text-sm font-bold text-white transition duration-200 hover:bg-white/10"
-                            >
-                                Ver entrevistas
-                            </a>
-                        </div>
-                    </div>
-
-                    <MotionDiv
-                        initial={{ opacity: 0, y: 24 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.65 }}
-                        className="relative overflow-hidden rounded-[8px] border border-white/10 bg-[#0f0d0a] shadow-[0_26px_70px_rgba(0,0,0,0.34)]"
-                    >
-                        <div className="relative aspect-[4/5] bg-black sm:aspect-[16/11]">
-                            <Image
-                                src="/images/tecnocratas-evento-uah.jpeg"
-                                alt="Afiche real del lanzamiento de Tecnócratas de la Infancia"
-                                fill
-                                sizes="(min-width: 1024px) 45vw, 100vw"
-                                className="object-cover"
-                            />
-                        </div>
-                        <div className="border-t border-white/10 p-4">
-                            <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#d3976d]">Lanzamiento UAH</p>
-                            <p className="mt-2 text-sm leading-6 text-[#c9b9aa]">
-                                Registro gráfico del lanzamiento del libro en la Universidad Alberto Hurtado.
-                            </p>
-                        </div>
-                    </MotionDiv>
                 </div>
             </section>
         </>
