@@ -1,10 +1,15 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useRef, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { parseDisplayDate } from "@/lib/articles/date";
 import type { Article } from "@/lib/data";
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+
+/* ------------------------------------------------------------------ */
+/*  Types                                                              */
+/* ------------------------------------------------------------------ */
 
 type EditorialArticle = Article & { basePath: string };
 
@@ -12,255 +17,288 @@ type EditorialSection = {
   id: string;
   title: string;
   shortTitle: string;
-  description: string;
   accent: string;
+  /** Categories that map to this section */
+  categories: string[];
 };
+
+/* ------------------------------------------------------------------ */
+/*  Sections — auto-classification by article.category                 */
+/* ------------------------------------------------------------------ */
 
 const editorialSections: EditorialSection[] = [
   {
     id: "infancia-derechos",
     title: "Infancia y Derechos",
     shortTitle: "Infancia",
-    description: "Niñez, familia, protección, justicia y derechos sociales.",
     accent: "#d3976d",
+    categories: ["Infancia y Niñez"],
   },
   {
     id: "salud-mental-critica",
     title: "Salud Mental Crítica",
-    shortTitle: "Salud mental",
-    description: "Malestar, medicalización, trauma, clínica y comunidad.",
+    shortTitle: "Salud Mental",
     accent: "#91a884",
+    categories: ["Salud Mental"],
   },
   {
     id: "escuela-instituciones",
     title: "Escuela e Instituciones",
     shortTitle: "Instituciones",
-    description: "Escuela, Estado, tribunales, residencias y dispositivos de cuidado.",
     accent: "#c9a34f",
+    categories: ["Educación"],
   },
   {
     id: "cultura-pensamiento",
     title: "Cultura y Pensamiento",
     shortTitle: "Cultura",
-    description: "Libros, filosofía, documentales y crítica cultural para leer el presente.",
     accent: "#b9857c",
+    categories: ["Crítica Literaria", "Filosofía", "Reseñas"],
   },
   {
     id: "debate-publico",
     title: "Debate Público",
     shortTitle: "Debate",
-    description: "Política social, Estado, elecciones, ciudadanía y vida común.",
     accent: "#9aa7bd",
+    categories: ["Política y Sociedad"],
   },
 ];
 
-const primarySectionByArticleId: Record<string, string> = {
-  "la-infancia-olvidada-adopcion-sin-familia": "infancia-derechos",
-  "naneas-realidad": "infancia-derechos",
-  "ninez-discapacidad-cifras-full": "infancia-derechos",
-  "infancia-que-nos-robaron-full": "infancia-derechos",
-  "escuchar-antes-de-corregir-desafio-infancia": "salud-mental-critica",
-  "medicalizar-la-infancia": "salud-mental-critica",
-  "salud-mental-infantil-elecciones": "salud-mental-critica",
-  "neoliberalismo-soledad-salud-mental": "salud-mental-critica",
-  "sufrimiento-ninez-derecho-familia-tecnocracia": "escuela-instituciones",
-  "escuelas-desreguladas-sufrimiento-infancia-terapia-ocupacional": "escuela-instituciones",
-  "desinstitucionalizacion-infantil": "escuela-instituciones",
-  "tecnocratas-infancia-pobre": "escuela-instituciones",
-  "costo-abandonar-nino-calle": "escuela-instituciones",
-  "el-mundo-de-sofia-recuperar-asombro": "cultura-pensamiento",
-  "el-principito-infancia-asombro": "cultura-pensamiento",
-  "frankenstein-moderno-prometeo-mary-shelley": "cultura-pensamiento",
-  "el-rey-filosofo": "cultura-pensamiento",
-  "la-libertad": "cultura-pensamiento",
-  "bajo-custodia-documental": "cultura-pensamiento",
-  "freudomarxismo-psicoanalisis": "cultura-pensamiento",
-  "aliviar-conciencia-planeta": "debate-publico",
-  "eleccion-presidencial-40-horas": "debate-publico",
-  "los-therians": "debate-publico",
-};
+/* ------------------------------------------------------------------ */
+/*  Helpers                                                            */
+/* ------------------------------------------------------------------ */
 
-const getAuthorDetails = (author: string) => {
-  if (author.includes("Rocío Solar")) {
-    return {
-      image: "/images/rocio_solar_real_white.png",
-      role: "Cofundadora CRC · Terapeuta Ocupacional",
-    };
+function getSectionForArticle(article: EditorialArticle): EditorialSection {
+  for (const section of editorialSections) {
+    if (section.categories.includes(article.category)) return section;
   }
-  if (author.includes("Juan Carlos Rauld")) {
-    return {
-      image: "/images/juan_carlos_real_white.png",
-      role: "Director CRC · Investigador en infancia e instituciones",
-    };
-  }
-  return null;
-};
+  return editorialSections[0];
+}
 
 function getReadingMinutes(article: EditorialArticle) {
   const words = article.content.join(" ").trim().split(/\s+/).filter(Boolean).length;
   return Math.max(3, Math.ceil(words / 210));
 }
 
-function getSectionForArticle(article: EditorialArticle) {
-  const sectionId = primarySectionByArticleId[article.id];
-  if (sectionId) return editorialSections.find((section) => section.id === sectionId) ?? editorialSections[0];
-  if (article.category === "Salud Mental") return editorialSections[1];
-  if (article.category === "Educación") return editorialSections[2];
-  if (article.category === "Crítica Literaria" || article.category === "Filosofía" || article.category === "Reseñas") {
-    return editorialSections[3];
-  }
-  if (article.category === "Política y Sociedad") return editorialSections[4];
-  return editorialSections[0];
+/* ------------------------------------------------------------------ */
+/*  Scroll Rail Hook                                                   */
+/* ------------------------------------------------------------------ */
+
+function useScrollRail() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [canLeft, setCanLeft] = useState(false);
+  const [canRight, setCanRight] = useState(false);
+
+  const update = useCallback(() => {
+    const el = ref.current;
+    if (!el) return;
+    setCanLeft(el.scrollLeft > 4);
+    setCanRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 4);
+  }, []);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    update();
+    el.addEventListener("scroll", update, { passive: true });
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => {
+      el.removeEventListener("scroll", update);
+      ro.disconnect();
+    };
+  }, [update]);
+
+  const scroll = useCallback((dir: "left" | "right") => {
+    const el = ref.current;
+    if (!el) return;
+    const amount = el.clientWidth * 0.75;
+    el.scrollBy({ left: dir === "left" ? -amount : amount, behavior: "smooth" });
+  }, []);
+
+  return { ref, canLeft, canRight, scroll };
 }
 
-function getSectionArticles(section: EditorialSection, articles: EditorialArticle[]) {
-  return articles.filter((article) => getSectionForArticle(article).id === section.id);
-}
+/* ------------------------------------------------------------------ */
+/*  Netflix Card — Image-first with overlay title                      */
+/* ------------------------------------------------------------------ */
 
-function AuthorLine({ article, tone = "dark" }: { article: EditorialArticle; tone?: "dark" | "light" }) {
-  const details = getAuthorDetails(article.author);
-  const textColor = tone === "light" ? "text-[#f3eadf]" : "text-[#171713]";
-  const mutedColor = tone === "light" ? "text-[#d8d0c4]" : "text-[#70695f]";
-
-  return (
-    <div className="flex min-w-0 items-center gap-3">
-      {details?.image ? (
-        <Image
-          src={details.image}
-          alt={article.author}
-          width={42}
-          height={42}
-          className="h-10 w-10 shrink-0 rounded-full object-cover ring-1 ring-white/35"
-        />
-      ) : (
-        <div
-          className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
-            tone === "light" ? "bg-white/14 text-white ring-1 ring-white/20" : "bg-[#eee8dc] text-[#55574f]"
-          }`}
-        >
-          {article.author.charAt(0)}
-        </div>
-      )}
-      <div className="min-w-0">
-        <p className={`truncate text-sm font-bold ${textColor}`}>{article.author}</p>
-        <p className={`truncate text-xs ${mutedColor}`}>{details?.role ?? article.date}</p>
-      </div>
-    </div>
-  );
-}
-
-function ArticleCard({
+function CinemaCard({
   article,
-  compact = false,
-  variant = "rail",
+  size = "md",
 }: {
   article: EditorialArticle;
-  compact?: boolean;
-  variant?: "rail" | "grid";
+  size?: "sm" | "md" | "lg";
 }) {
   const section = getSectionForArticle(article);
-  const sizeClass =
-    variant === "rail"
-      ? "w-[74vw] max-w-[320px] shrink-0 snap-start sm:w-[300px]"
-      : "w-full";
+  const mins = getReadingMinutes(article);
+
+  const aspectClass =
+    size === "lg" ? "aspect-[16/9]" : size === "sm" ? "aspect-[4/3]" : "aspect-[16/10]";
+  const titleClass =
+    size === "lg"
+      ? "text-[clamp(1.15rem,1.8vw,1.65rem)]"
+      : size === "sm"
+        ? "text-[0.92rem] leading-snug"
+        : "text-[clamp(0.95rem,1.3vw,1.15rem)]";
 
   return (
-    <article className={`group overflow-hidden rounded-[8px] bg-[#fffdf8] shadow-[0_18px_48px_rgba(0,0,0,0.22)] ring-1 ring-white/10 ${sizeClass}`}>
-      <Link href={`${article.basePath}/${article.id}`} className="relative block aspect-[16/10] overflow-hidden bg-[#222018]">
+    <Link
+      href={`${article.basePath}/${article.id}`}
+      className="group relative block overflow-hidden rounded-lg bg-[#1a1814]"
+    >
+      <div className={`relative ${aspectClass} overflow-hidden`}>
         <Image
           src={article.image}
           alt={article.title}
           fill
-          sizes="360px"
-          className="object-cover saturate-[0.88] transition duration-700 group-hover:scale-105 group-hover:saturate-100"
+          sizes={size === "lg" ? "(min-width:1024px) 50vw, 100vw" : "320px"}
+          className="object-cover transition duration-700 group-hover:scale-105 group-hover:brightness-110"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/5 to-transparent" />
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
+
+        {/* Section pill */}
         <span
-          className="absolute bottom-3 left-3 rounded-full px-3 py-1 text-[10px] font-extrabold uppercase tracking-[0.16em] text-[#171713]"
+          className="absolute left-3 top-3 rounded-full px-2.5 py-1 text-[9px] font-extrabold uppercase tracking-[0.14em] text-[#111]"
           style={{ backgroundColor: section.accent }}
         >
           {section.shortTitle}
         </span>
-      </Link>
-      <div className="flex min-h-[190px] flex-col p-4">
-        <div className="mb-3 text-[10px] font-bold uppercase tracking-[0.13em] text-[#8a8276]">
-          Lectura · {getReadingMinutes(article)} min
+
+        {/* Reading time */}
+        <span className="absolute right-3 top-3 rounded-full bg-black/50 px-2.5 py-1 text-[9px] font-bold uppercase tracking-wider text-white/70 backdrop-blur-sm">
+          {mins} min
+        </span>
+
+        {/* Title overlay at bottom */}
+        <div className="absolute inset-x-0 bottom-0 p-4">
+          <h3
+            className={`font-serif font-semibold leading-tight text-white transition-colors group-hover:text-[#f2d5b8] ${titleClass}`}
+          >
+            {article.title}
+          </h3>
+          <p className="mt-2 text-[11px] font-semibold tracking-wide text-white/50">
+            {article.author}
+          </p>
         </div>
-        <h3 className={`font-serif font-bold leading-tight text-[#171713] transition-colors group-hover:text-[#9f5528] ${compact ? "text-[1.05rem]" : "text-[1.18rem]"}`}>
-          <Link href={`${article.basePath}/${article.id}`}>{article.title}</Link>
-        </h3>
-        {variant === "grid" ? (
-          <p className="mt-3 line-clamp-3 text-[0.82rem] leading-5 text-[#55574f]">{article.excerpt}</p>
-        ) : null}
-        <div className="mt-auto pt-5">
-          <AuthorLine article={article} />
+
+        {/* Hover reveal: excerpt */}
+        <div className="absolute inset-0 flex items-end bg-gradient-to-t from-black/95 via-black/60 to-black/20 p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+          <div>
+            <span
+              className="mb-2 inline-block rounded-full px-2.5 py-1 text-[9px] font-extrabold uppercase tracking-[0.14em] text-[#111]"
+              style={{ backgroundColor: section.accent }}
+            >
+              {section.shortTitle}
+            </span>
+            <h3 className={`font-serif font-semibold leading-tight text-white ${titleClass}`}>
+              {article.title}
+            </h3>
+            <p className="mt-2 line-clamp-2 text-[0.78rem] leading-relaxed text-white/65">
+              {article.excerpt}
+            </p>
+            <div className="mt-3 flex items-center justify-between">
+              <span className="text-[11px] font-semibold text-white/50">{article.author} · {article.date}</span>
+              <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-[#d3976d]">
+                Leer <ArrowRight className="h-3 w-3" />
+              </span>
+            </div>
+          </div>
         </div>
       </div>
-    </article>
+    </Link>
   );
 }
 
-function DossierFeature({ articles }: { articles: EditorialArticle[] }) {
-  const lead = articles[0];
-  if (!lead) return null;
+/* ------------------------------------------------------------------ */
+/*  Hero — Latest article, full width                                  */
+/* ------------------------------------------------------------------ */
+
+function HeroFeature({ article }: { article: EditorialArticle }) {
+  const section = getSectionForArticle(article);
+  const mins = getReadingMinutes(article);
 
   return (
-    <section className="relative overflow-hidden border-b border-white/10 bg-[#15130f] px-4 py-12 sm:px-6 lg:px-10 lg:py-16">
-      <div className="absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(211,151,109,0.65),transparent)]" />
-      <div className="mx-auto grid max-w-[1640px] gap-5 xl:grid-cols-[minmax(440px,0.92fr)_minmax(620px,1.08fr)]">
-        <Link
-          href={`${lead.basePath}/${lead.id}`}
-          className="group relative min-h-[480px] overflow-hidden rounded-[8px] border border-white/10 bg-[#211d17] shadow-[0_28px_90px_rgba(0,0,0,0.3)]"
-        >
+    <section className="relative isolate overflow-hidden">
+      <Link href={`${article.basePath}/${article.id}`} className="group relative block">
+        <div className="relative h-[55vh] min-h-[400px] max-h-[600px] lg:h-[60vh]">
           <Image
-            src={lead.image}
-            alt={lead.title}
+            src={article.image}
+            alt={article.title}
             fill
-            sizes="(min-width: 1280px) 44vw, 100vw"
-            className="object-cover opacity-74 saturate-[0.82] transition duration-700 group-hover:scale-[1.035] group-hover:opacity-88 group-hover:saturate-100"
+            priority
+            sizes="100vw"
+            className="object-cover transition duration-1000 group-hover:scale-[1.03]"
           />
-          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(18,15,11,0.08)_0%,rgba(18,15,11,0.44)_46%,rgba(18,15,11,0.94)_100%)]" />
-          <div className="absolute left-5 top-5 border border-white/18 bg-[#11100c]/72 px-4 py-2 text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#ead7c1] backdrop-blur">
-            Dossier · {articles.length} textos
-          </div>
-          <div className="absolute inset-x-0 bottom-0 p-6 sm:p-8 lg:p-10">
-            <p className="mb-3 text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#d3976d]">
-              Curaduría editorial
+          <div className="absolute inset-0 bg-gradient-to-r from-[#11100c]/95 via-[#11100c]/60 to-[#11100c]/30 lg:from-[#11100c]/90 lg:via-[#11100c]/50 lg:to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#11100c] via-transparent to-[#11100c]/40" />
+        </div>
+        <div className="absolute inset-0 flex items-end">
+          <div className="w-full px-5 pb-10 sm:px-8 lg:max-w-[55%] lg:px-12 lg:pb-14">
+            <div className="mb-4 flex items-center gap-3">
+              <span
+                className="rounded-full px-3 py-1.5 text-[9px] font-extrabold uppercase tracking-[0.16em] text-[#111]"
+                style={{ backgroundColor: section.accent }}
+              >
+                {section.shortTitle}
+              </span>
+              <span className="text-[10px] font-bold uppercase tracking-wider text-white/50">
+                {mins} min lectura · {article.date}
+              </span>
+            </div>
+            <h1 className="font-serif text-[clamp(1.55rem,3vw,2.75rem)] font-semibold leading-[1.08] text-white">
+              {article.title}
+            </h1>
+            <p className="mt-3 line-clamp-2 max-w-xl text-[0.88rem] leading-relaxed text-white/55">
+              {article.excerpt}
             </p>
-            <h2 className="max-w-xl font-serif text-[clamp(1.85rem,3.1vw,3.35rem)] font-semibold leading-[1.02] text-[#fff8ef]">
-              Infancia, Estado y cuidado
-            </h2>
-            <p className="mt-4 max-w-xl text-sm font-medium leading-7 text-[#ded1c2] sm:text-base">
-              Una selección sobre protección, justicia de familia, escuela, residencias y políticas públicas de niñez.
-            </p>
-            <span className="mt-6 inline-flex border-b border-[#d3976d] pb-1 text-[11px] font-extrabold uppercase tracking-[0.16em] text-[#f2be91] transition group-hover:border-[#fff8ef] group-hover:text-[#fff8ef]">
-              Comenzar lectura
-            </span>
+            <div className="mt-5 flex items-center gap-4">
+              <span className="inline-flex items-center gap-2 rounded-md bg-white/10 px-4 py-2.5 text-[11px] font-bold uppercase tracking-wider text-white backdrop-blur-sm transition group-hover:bg-[#d3976d] group-hover:text-[#111]">
+                Leer columna <ArrowRight className="h-3.5 w-3.5" />
+              </span>
+              <span className="text-[12px] font-semibold text-white/45">
+                Por {article.author}
+              </span>
+            </div>
           </div>
-        </Link>
+        </div>
+      </Link>
+    </section>
+  );
+}
 
-        <div className="grid gap-4 sm:grid-cols-2">
-          {articles.slice(1).map((article, index) => (
-            <Link
-              key={article.id}
-              href={`${article.basePath}/${article.id}`}
-              className="group relative min-h-[250px] overflow-hidden rounded-[8px] border border-white/10 bg-[#1b1813] p-5 pb-20 transition duration-300 hover:-translate-y-1 hover:border-[#d3976d]/55 hover:bg-[#211d17] hover:shadow-[0_22px_60px_rgba(0,0,0,0.22)]"
-            >
-              <div className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-[#d3976d] transition-transform duration-300 group-hover:scale-x-100" />
-              <div className="flex items-start justify-between gap-4">
-                <span className="font-serif text-3xl leading-none text-[#d3976d]">{String(index + 2).padStart(2, "0")}</span>
-                <span className="text-right text-[10px] font-extrabold uppercase tracking-[0.16em] text-[#8f867b]">
-                  {getReadingMinutes(article)} min
-                </span>
-              </div>
-              <h3 className="mt-6 line-clamp-4 font-serif text-[1.12rem] font-semibold leading-snug text-[#fff8ef] transition group-hover:text-[#f2be91]">
-                {article.title}
-              </h3>
-              <p className="mt-3 line-clamp-2 text-[0.82rem] leading-5 text-[#bfb4a7]">{article.excerpt}</p>
-              <p className="absolute bottom-5 left-5 right-5 border-t border-white/10 pt-4 text-[10px] font-extrabold uppercase tracking-[0.14em] text-[#9f9487]">
-                {article.author}
-              </p>
-            </Link>
+/* ------------------------------------------------------------------ */
+/*  Featured Grid — next 4 articles in 2x2                             */
+/* ------------------------------------------------------------------ */
+
+function FeaturedGrid({ articles }: { articles: EditorialArticle[] }) {
+  if (articles.length === 0) return null;
+
+  return (
+    <section className="border-b border-white/8 px-5 py-10 sm:px-8 lg:px-12 lg:py-12">
+      <div className="mx-auto max-w-[1640px]">
+        <div className="mb-6 flex items-end justify-between">
+          <div>
+            <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#d3976d]">
+              Recientes
+            </p>
+            <h2 className="mt-1 font-serif text-lg font-semibold text-white/90 sm:text-xl">
+              Últimas publicaciones
+            </h2>
+          </div>
+        </div>
+        {/* Desktop: 2x2 grid. Mobile: horizontal scroll */}
+        <div className="hidden gap-4 sm:grid sm:grid-cols-2 xl:grid-cols-4">
+          {articles.slice(0, 4).map((a) => (
+            <CinemaCard key={a.id} article={a} size="md" />
+          ))}
+        </div>
+        <div className="flex snap-x gap-3 overflow-x-auto sm:hidden">
+          {articles.slice(0, 4).map((a) => (
+            <div key={a.id} className="w-[78vw] shrink-0 snap-start">
+              <CinemaCard article={a} size="md" />
+            </div>
           ))}
         </div>
       </div>
@@ -268,54 +306,236 @@ function DossierFeature({ articles }: { articles: EditorialArticle[] }) {
   );
 }
 
+/* ------------------------------------------------------------------ */
+/*  Section Rail — horizontal scroll per editorial section             */
+/* ------------------------------------------------------------------ */
+
 function SectionRail({
   section,
   articles,
-  onSelect,
 }: {
   section: EditorialSection;
   articles: EditorialArticle[];
-  onSelect: (sectionId: string) => void;
 }) {
+  const { ref, canLeft, canRight, scroll } = useScrollRail();
+
   if (articles.length === 0) return null;
 
   return (
-    <section className="border-t border-white/10 py-10 sm:py-12">
-      <div className="mb-5 flex flex-col gap-3 px-4 sm:flex-row sm:items-end sm:justify-between sm:px-6 lg:px-10">
-        <div>
-          <div className="mb-2 flex items-center gap-2">
-            <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: section.accent }} />
-            <p className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#b9afa2]">
-              {articles.length} lectura{articles.length !== 1 ? "s" : ""}
-            </p>
-          </div>
-          <h2 className="font-serif text-xl font-semibold text-[#fff8ef] sm:text-2xl">{section.title}</h2>
-          <p className="mt-1 max-w-2xl text-[0.82rem] leading-5 text-[#c9beb0]">{section.description}</p>
+    <section className="border-b border-white/6 py-8 lg:py-10">
+      {/* Header */}
+      <div className="mb-5 flex items-end justify-between px-5 sm:px-8 lg:px-12">
+        <div className="flex items-center gap-3">
+          <span
+            className="h-2 w-2 rounded-full"
+            style={{ backgroundColor: section.accent }}
+          />
+          <h2 className="font-serif text-base font-semibold text-white/90 sm:text-lg">
+            {section.title}
+          </h2>
+          <span className="rounded-full bg-white/8 px-2 py-0.5 text-[10px] font-bold text-white/40">
+            {articles.length}
+          </span>
         </div>
-        <button
-          type="button"
-          onClick={() => onSelect(section.id)}
-          className="self-start border-b border-[#d3976d]/70 pb-1 text-[11px] font-extrabold uppercase tracking-[0.16em] text-[#d3976d] transition hover:border-[#fff8ef] hover:text-[#fff8ef] sm:self-auto"
-        >
-          Ver sección
-        </button>
+        <div className="hidden items-center gap-1.5 sm:flex">
+          <button
+            type="button"
+            onClick={() => scroll("left")}
+            disabled={!canLeft}
+            className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/12 text-white/40 transition hover:border-white/25 hover:text-white/70 disabled:opacity-25 disabled:cursor-default"
+            aria-label="Anterior"
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </button>
+          <button
+            type="button"
+            onClick={() => scroll("right")}
+            disabled={!canRight}
+            className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/12 text-white/40 transition hover:border-white/25 hover:text-white/70 disabled:opacity-25 disabled:cursor-default"
+            aria-label="Siguiente"
+          >
+            <ChevronRight className="h-4 w-4" />
+          </button>
+        </div>
       </div>
-      <div className="flex snap-x gap-4 overflow-x-auto px-4 pb-3 sm:gap-5 sm:px-6 lg:px-10">
-        {articles.slice(0, 10).map((article) => (
-          <ArticleCard key={`${section.id}-${article.id}`} article={article} />
+
+      {/* Rail */}
+      <div
+        ref={ref}
+        className="flex snap-x gap-3.5 overflow-x-auto px-5 pb-2 sm:px-8 lg:px-12"
+        style={{ scrollbarWidth: "none" }}
+      >
+        {articles.map((a) => (
+          <div
+            key={`${section.id}-${a.id}`}
+            className="w-[70vw] shrink-0 snap-start sm:w-[260px] lg:w-[280px]"
+          >
+            <CinemaCard article={a} size="sm" />
+          </div>
         ))}
       </div>
     </section>
   );
 }
 
+/* ------------------------------------------------------------------ */
+/*  Editorial Index — clean list at the bottom                         */
+/* ------------------------------------------------------------------ */
+
+function EditorialIndex({ articles }: { articles: EditorialArticle[] }) {
+  return (
+    <section className="px-5 py-10 sm:px-8 lg:px-12 lg:py-14">
+      <div className="mx-auto max-w-[1640px]">
+        <div className="mb-8 flex items-end justify-between">
+          <div>
+            <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#d3976d]">
+              Índice completo
+            </p>
+            <h2 className="mt-1 font-serif text-lg font-semibold text-white/90">
+              Todas las publicaciones
+            </h2>
+          </div>
+          <span className="text-[11px] font-semibold text-white/35">
+            {articles.length} textos
+          </span>
+        </div>
+        <div className="grid gap-x-10 md:grid-cols-2 xl:grid-cols-3">
+          {articles.map((article) => {
+            const sec = getSectionForArticle(article);
+            return (
+              <Link
+                key={`idx-${article.id}`}
+                href={`${article.basePath}/${article.id}`}
+                className="group flex items-start gap-4 border-b border-white/6 py-4 transition hover:border-white/15"
+              >
+                {/* Thumbnail */}
+                <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-md bg-[#1a1814] lg:h-16 lg:w-16">
+                  <Image
+                    src={article.image}
+                    alt=""
+                    fill
+                    sizes="64px"
+                    className="object-cover transition duration-500 group-hover:scale-110"
+                  />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-2">
+                    <span
+                      className="h-1.5 w-1.5 shrink-0 rounded-full"
+                      style={{ backgroundColor: sec.accent }}
+                    />
+                    <span className="truncate text-[9px] font-bold uppercase tracking-wider text-white/35">
+                      {sec.shortTitle} · {article.date}
+                    </span>
+                  </div>
+                  <h3 className="mt-1 line-clamp-2 text-[0.82rem] font-semibold leading-snug text-white/75 transition group-hover:text-[#f2d5b8]">
+                    {article.title}
+                  </h3>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Section Filter Bar                                                 */
+/* ------------------------------------------------------------------ */
+
+function SectionBar({
+  sections,
+  activeSection,
+  onSelect,
+}: {
+  sections: { section: EditorialSection; count: number }[];
+  activeSection: string;
+  onSelect: (id: string) => void;
+}) {
+  return (
+    <div className="sticky top-0 z-30 border-b border-white/8 bg-[#11100c]/90 backdrop-blur-md">
+      <div className="mx-auto flex max-w-[1640px] gap-1.5 overflow-x-auto px-5 py-3 sm:px-8 lg:px-12" style={{ scrollbarWidth: "none" }}>
+        <button
+          type="button"
+          onClick={() => onSelect("portada")}
+          className={`inline-flex h-9 shrink-0 items-center rounded-full px-4 text-[10px] font-extrabold uppercase tracking-[0.14em] transition ${
+            activeSection === "portada"
+              ? "bg-white/90 text-[#111]"
+              : "bg-white/6 text-white/50 hover:bg-white/10 hover:text-white/70"
+          }`}
+        >
+          Portada
+        </button>
+        {sections.map(({ section, count }) => (
+          <button
+            key={section.id}
+            type="button"
+            onClick={() => onSelect(section.id)}
+            className={`inline-flex h-9 shrink-0 items-center gap-2 rounded-full px-4 text-[10px] font-extrabold uppercase tracking-[0.14em] transition ${
+              activeSection === section.id
+                ? "text-[#111]"
+                : "bg-white/6 text-white/50 hover:bg-white/10 hover:text-white/70"
+            }`}
+            style={activeSection === section.id ? { backgroundColor: section.accent } : undefined}
+          >
+            {section.shortTitle}
+            <span className="rounded-full bg-black/15 px-1.5 py-0.5 text-[9px]">{count}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Section Detail — grid view when a section is selected              */
+/* ------------------------------------------------------------------ */
+
+function SectionDetail({
+  section,
+  articles,
+}: {
+  section: EditorialSection;
+  articles: EditorialArticle[];
+}) {
+  return (
+    <section className="px-5 py-10 sm:px-8 lg:px-12 lg:py-14">
+      <div className="mx-auto max-w-[1640px]">
+        <div className="mb-8">
+          <div className="mb-2 flex items-center gap-2">
+            <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: section.accent }} />
+            <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-white/40">
+              Sección editorial · {articles.length} textos
+            </p>
+          </div>
+          <h2 className="font-serif text-2xl font-semibold text-white/90 sm:text-3xl">
+            {section.title}
+          </h2>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+          {articles.map((a) => (
+            <CinemaCard key={`${section.id}-${a.id}`} article={a} size="md" />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Main Page                                                          */
+/* ------------------------------------------------------------------ */
+
 export function PensamientoCriticoPage({ articles }: { articles: Article[] }) {
   const [activeSection, setActiveSection] = useState<string>("portada");
 
-  const allArticles = useMemo(
+  // Sort all articles newest first, attach basePath
+  const allArticles = useMemo<EditorialArticle[]>(
     () =>
       [...articles]
-        .map((article) => ({ ...article, basePath: "/pensamiento-critico" }))
+        .map((a) => ({ ...a, basePath: "/pensamiento-critico" }))
         .sort((a, b) => {
           const tb = parseDisplayDate(b.date);
           const ta = parseDisplayDate(a.date);
@@ -325,189 +545,85 @@ export function PensamientoCriticoPage({ articles }: { articles: Article[] }) {
     [articles]
   );
 
+  // Group articles by section
   const sectionCollections = useMemo(
     () =>
-      editorialSections.map((section) => ({
-        ...section,
-        articles: getSectionArticles(section, allArticles),
-      })),
+      editorialSections
+        .map((section) => ({
+          section,
+          articles: allArticles.filter(
+            (a) => getSectionForArticle(a).id === section.id
+          ),
+        }))
+        .filter((s) => s.articles.length > 0),
     [allArticles]
   );
 
-  const featuredArticle =
-    allArticles.find((article) => article.id === "sufrimiento-ninez-derecho-familia-tecnocracia") ??
-    allArticles[0] ??
-    null;
-  const dossierArticles = useMemo(() => {
-    const ids = [
-      "desinstitucionalizacion-infantil",
-      "medicalizar-la-infancia",
-      "escuelas-desreguladas-sufrimiento-infancia-terapia-ocupacional",
-      "infancia-que-nos-robaron-full",
-    ];
-    return ids.map((id) => allArticles.find((article) => article.id === id)).filter(Boolean) as EditorialArticle[];
-  }, [allArticles]);
+  // Hero = most recent article
+  const heroArticle = allArticles[0] ?? null;
 
-  const usedInLead = useMemo(() => {
-    return new Set([featuredArticle?.id, ...dossierArticles.map((article) => article.id)].filter(Boolean));
-  }, [dossierArticles, featuredArticle?.id]);
+  // Featured grid = next 4
+  const featuredArticles = allArticles.slice(1, 5);
 
-  const homeSectionCollections = useMemo(
-    () =>
-      sectionCollections.map((section) => ({
-        ...section,
-        articles: section.articles.filter((article) => !usedInLead.has(article.id)),
-      })),
-    [sectionCollections, usedInLead]
+  // IDs already shown in hero + featured
+  const usedIds = useMemo(
+    () => new Set([heroArticle?.id, ...featuredArticles.map((a) => a.id)].filter(Boolean)),
+    [heroArticle, featuredArticles]
   );
 
-  const selectedCollection =
+  // Rails: per section, excluding already-shown articles
+  const railCollections = useMemo(
+    () =>
+      sectionCollections.map((sc) => ({
+        ...sc,
+        articles: sc.articles.filter((a) => !usedIds.has(a.id)),
+      })),
+    [sectionCollections, usedIds]
+  );
+
+  // Currently selected section
+  const selectedSection =
     activeSection === "portada"
       ? null
-      : sectionCollections.find((section) => section.id === activeSection) ?? null;
+      : sectionCollections.find((sc) => sc.section.id === activeSection) ?? null;
 
-  if (!featuredArticle) return null;
-
-  const featuredSection = getSectionForArticle(featuredArticle);
+  if (!heroArticle) return null;
 
   return (
-    <div className="min-h-screen bg-[#11100c] text-[#fff8ef]">
-      <section className="relative isolate min-h-[520px] overflow-hidden lg:min-h-[580px]">
-        <Image
-          src={featuredArticle.image}
-          alt={featuredArticle.title}
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-center opacity-58 saturate-[0.78]"
-        />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(17,16,12,0.97)_0%,rgba(17,16,12,0.84)_43%,rgba(17,16,12,0.5)_72%,rgba(17,16,12,0.78)_100%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(17,16,12,0.2)_0%,rgba(17,16,12,0.48)_72%,#11100c_100%)]" />
+    <div className="min-h-screen bg-[#11100c] text-white">
+      {/* Hero */}
+      <HeroFeature article={heroArticle} />
 
-        <div className="relative z-10 mx-auto flex min-h-[520px] max-w-[1640px] flex-col justify-center px-4 py-10 sm:px-6 lg:min-h-[580px] lg:px-10 lg:py-14">
-          <div className="grid max-w-[720px] gap-7">
-            <div className="max-w-[680px]">
-              <div className="mb-5 flex flex-wrap items-center gap-3">
-                <span className="inline-flex rounded-full border border-white/15 bg-white/10 px-4 py-2 text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#f4dfca] backdrop-blur">
-                  Observatorio CRC
-                </span>
-                <span
-                  className="rounded-full px-4 py-2 text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#171713]"
-                  style={{ backgroundColor: featuredSection.accent }}
-                >
-                  {featuredSection.title}
-                </span>
-              </div>
-              <h1 className="font-serif text-[clamp(2.25rem,3.6vw,3.9rem)] font-semibold leading-[0.98] tracking-normal text-[#fff8ef]">
-                Observatorio Crítico
-              </h1>
-              <p className="mt-3 max-w-[620px] font-serif text-[clamp(1.08rem,1.55vw,1.65rem)] font-semibold leading-tight text-[#ead7c1]">
-                Infancia, Salud Mental e Instituciones
-              </p>
-              <p className="mt-5 max-w-lg text-sm font-medium leading-6 text-[#d8d0c4] sm:text-[0.96rem]">
-                Análisis, columnas y ensayos para comprender las tensiones entre infancia, salud mental, escuela, familia y Estado.
-              </p>
-              <div className="mt-6 flex flex-wrap items-center gap-3">
-                <Link
-                  href={`${featuredArticle.basePath}/${featuredArticle.id}`}
-                  className="inline-flex h-10 items-center rounded-[6px] bg-[#d3976d] px-5 text-[11px] font-extrabold uppercase tracking-[0.13em] text-[#171713] transition hover:bg-[#e7b187]"
-                >
-                  Leer portada
-                </Link>
-                <a
-                  href="#secciones"
-                  className="inline-flex h-10 items-center rounded-[6px] border border-white/20 bg-white/8 px-5 text-[11px] font-extrabold uppercase tracking-[0.13em] text-white transition hover:bg-white/14"
-                >
-                  Ver secciones
-                </a>
-              </div>
-            </div>
+      {/* Section Bar */}
+      <SectionBar
+        sections={sectionCollections.map((sc) => ({
+          section: sc.section,
+          count: sc.articles.length,
+        }))}
+        activeSection={activeSection}
+        onSelect={setActiveSection}
+      />
 
-          </div>
-        </div>
-      </section>
-
-      <section id="secciones" className="border-y border-white/10 bg-[#11100c] px-4 py-4 sm:px-6 lg:px-10">
-        <div className="mx-auto flex max-w-[1640px] gap-3 overflow-x-auto">
-          <button
-            type="button"
-            onClick={() => setActiveSection("portada")}
-            className={`inline-flex h-11 shrink-0 items-center gap-2 rounded-full px-5 text-xs font-extrabold uppercase tracking-[0.14em] transition ${
-              activeSection === "portada"
-                ? "bg-[#fff8ef] text-[#171713]"
-                : "bg-white/7 text-[#d8d0c4] ring-1 ring-white/12 hover:bg-white/12"
-            }`}
-          >
-            Portada
-          </button>
-          {sectionCollections.map((section) => (
-            <button
-              key={section.id}
-              type="button"
-              onClick={() => setActiveSection(section.id)}
-              className={`inline-flex h-11 shrink-0 items-center gap-2 rounded-full px-5 text-xs font-extrabold uppercase tracking-[0.14em] transition ${
-                activeSection === section.id
-                  ? "text-[#171713]"
-                  : "bg-white/7 text-[#d8d0c4] ring-1 ring-white/12 hover:bg-white/12"
-              }`}
-              style={activeSection === section.id ? { backgroundColor: section.accent } : undefined}
-            >
-              {section.shortTitle}
-              <span className="rounded-full bg-black/18 px-2 py-0.5 text-[10px]">{section.articles.length}</span>
-            </button>
-          ))}
-        </div>
-      </section>
-
+      {/* Content */}
       <main className="mx-auto max-w-[1640px]">
-        {selectedCollection ? (
-          <section className="px-4 py-12 sm:px-6 lg:px-10 lg:py-16">
-            <div className="mb-8 max-w-3xl">
-              <p className="mb-3 text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#d3976d]">
-                Sección editorial
-              </p>
-              <h2 className="font-serif text-3xl font-semibold text-[#fff8ef] sm:text-4xl">{selectedCollection.title}</h2>
-              <p className="mt-3 text-sm leading-6 text-[#c9beb0]">{selectedCollection.description}</p>
-            </div>
-            <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-              {selectedCollection.articles.map((article) => (
-                <ArticleCard key={`${selectedCollection.id}-${article.id}`} article={article} compact variant="grid" />
-              ))}
-            </div>
-          </section>
+        {selectedSection ? (
+          <SectionDetail section={selectedSection.section} articles={selectedSection.articles} />
         ) : (
           <>
-            <DossierFeature articles={dossierArticles} />
+            {/* Featured Grid */}
+            <FeaturedGrid articles={featuredArticles} />
 
-            {homeSectionCollections.map((section) => (
-              <SectionRail key={section.id} section={section} articles={section.articles} onSelect={setActiveSection} />
+            {/* Section Rails */}
+            {railCollections.map((sc) => (
+              <SectionRail
+                key={sc.section.id}
+                section={sc.section}
+                articles={sc.articles}
+              />
             ))}
 
-            <section className="border-t border-white/10 px-4 py-10 sm:px-6 lg:px-10 lg:py-12">
-              <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-                <div>
-                  <p className="mb-3 text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#d3976d]">Índice completo</p>
-                  <h2 className="font-serif text-2xl font-semibold text-[#fff8ef]">Todas las publicaciones</h2>
-                </div>
-                <p className="text-xs font-semibold text-[#b9afa2]">{allArticles.length} textos publicados</p>
-              </div>
-              <div className="grid gap-x-8 gap-y-0 border-t border-white/10 md:grid-cols-2 xl:grid-cols-3">
-                {allArticles.map((article) => (
-                  <Link
-                    key={`archive-${article.id}`}
-                    href={`${article.basePath}/${article.id}`}
-                    className="group border-b border-white/10 py-4 transition hover:border-[#d3976d]/50"
-                  >
-                    <p className="text-[10px] font-extrabold uppercase tracking-[0.15em] text-[#8f867b]">
-                      {getSectionForArticle(article).shortTitle} · {article.date}
-                    </p>
-                    <h3 className="mt-1 font-serif text-[1.02rem] font-semibold leading-snug text-[#efe7dc] transition group-hover:text-[#f2be91]">
-                      {article.title}
-                    </h3>
-                  </Link>
-                ))}
-              </div>
-            </section>
+            {/* Full Index */}
+            <EditorialIndex articles={allArticles} />
           </>
         )}
       </main>
