@@ -1,6 +1,31 @@
 {
   "columns": [
     {
+      "id": "los-ninos-que-no-eligieron-aceptar-nuevas-parejas",
+      "title": "Los niños que no eligieron: el silencioso desafío de aceptar a las nuevas parejas de sus padres",
+      "excerpt": "La llegada de una nueva pareja al entorno familiar representa mucho más que un cambio de rutina. Para muchos menores significa enfrentar una transformación emocional para la que nadie los preparó.",
+      "author": "Camila Belmar",
+      "date": "21 Jun 2026",
+      "category": "Infancia y Niñez",
+      "image": "/images/ninos_nuevas_parejas_real.png",
+      "content": [
+        "En Chile, la familia está cambiando. Ya no responde únicamente a la imagen tradicional de madre, padre e hijos compartiendo un mismo hogar. Separaciones, divorcios, nuevas convivencias y familias reconstituidas forman parte de una realidad cada vez más común. Sin embargo, mientras los adultos intentan reconstruir sus vidas afectivas, existe un actor cuya voz suele quedar relegada: los niños.",
+        "La llegada de una nueva pareja al entorno familiar representa mucho más que un cambio de rutina. Para muchos menores significa enfrentar una transformación emocional para la que nadie los preparó. No eligieron la separación de sus padres y tampoco eligieron a quienes llegan después.",
+        "Las cifras muestran que este fenómeno afecta a un número creciente de familias. Según datos oficiales de la Subsecretaría de la Niñez, la familia nuclear biparental sigue siendo la estructura predominante entre los hogares con niños, niñas y adolescentes, con un 56,3%. Sin embargo, los hogares monoparentales ya representan un 20,7%, evidenciando la diversidad de configuraciones familiares presentes en el país. (Biblioteca del Congreso Chile)",
+        "La transformación no es menor. Datos de la encuesta Casen revelaron que el porcentaje de niños que viven con un solo progenitor pasó de 8% en el año 2000 a más de 19% en menos de dos décadas, reflejando una profunda reconfiguración de la vida familiar chilena. (BioBioChile)",
+        "Sin embargo, el debate público suele concentrarse en las estadísticas de divorcio, natalidad o composición de los hogares, dejando fuera una pregunta fundamental: ¿cómo viven los niños estos cambios?",
+        "La sociedad suele asumir que los menores se adaptan rápidamente. Que el tiempo cura las heridas. Que basta con explicarles la situación para que comprendan. Pero la experiencia cotidiana demuestra algo distinto.",
+        "Para muchos niños, la aparición de una nueva pareja representa la confirmación definitiva de que sus padres no volverán a estar juntos. Lo que para los adultos puede ser el inicio de una nueva etapa, para ellos puede significar el cierre de una esperanza.",
+        "A menudo, el rechazo que manifiestan no nace de la mala voluntad ni de la inmadurez. Surge del miedo. Miedo a ser reemplazados, a perder atención, a modificar vínculos que consideraban seguros. Es una reacción emocional que encuentra pocas oportunidades para expresarse en un entorno donde los adultos también están intentando adaptarse.",
+        "La paradoja es evidente: mientras Chile experimenta una de las transformaciones familiares más aceleradas de su historia, la conversación sobre el impacto emocional de estos cambios en los niños sigue siendo limitada. El país vive una transición demográfica profunda, marcada por menos nacimientos, hogares más pequeños y nuevas formas de convivencia. Incluso la tasa de fecundidad alcanzó en 2025 el nivel más bajo registrado, con menos de un hijo por mujer, reflejando cambios culturales que van mucho más allá de la maternidad y la paternidad. (Instituto Nacional de Estadísticas)",
+        "En este escenario, las familias reconstituidas ya no son una excepción, sino parte de la normalidad social. Sin embargo, aceptar esta realidad no significa ignorar los desafíos que conlleva.",
+        "La pregunta quizás no sea por qué algunos niños rechazan a las nuevas parejas de sus padres. La verdadera interrogante es si los adultos están dispuestos a comprender lo que ese rechazo intenta comunicar.",
+        "Porque detrás de cada silencio, de cada mala cara o de cada conducta desafiante, puede existir una emoción legítima: la necesidad de sentirse escuchados en una historia que está cambiando sin que ellos tengan el control.",
+        "En una sociedad que valora cada vez más la autonomía de los adultos para rehacer sus vidas, tal vez el desafío pendiente sea recordar que los niños también viven las consecuencias de esas decisiones. Y que, aunque no tengan la última palabra, merecen ser considerados parte de la conversación.",
+        "Quizás el futuro de las familias reconstituidas no dependa únicamente de la capacidad de los adultos para volver a enamorarse, sino también de su disposición para acompañar a quienes deben aprender a convivir con una realidad que nunca eligieron."
+      ]
+    },
+    {
       "id": "el-mundo-de-sofia-recuperar-asombro",
       "title": "El mundo de Sofía: Recuperar el asombro",
       "excerpt": "Una invitación a cuestionar aquello que damos por sentado y a recuperar la capacidad de asombro a través de un recorrido por la historia de la filosofía.",
