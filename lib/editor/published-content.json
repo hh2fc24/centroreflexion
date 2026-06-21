@@ -398,13 +398,6 @@
         "href": "/academia",
         "visible": true,
         "children": []
-      },
-      {
-        "id": "nav-contacto",
-        "label": "Contacto",
-        "href": "/contacto",
-        "visible": true,
-        "children": []
       }
     ]
   },
