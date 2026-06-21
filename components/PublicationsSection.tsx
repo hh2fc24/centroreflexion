@@ -4,10 +4,8 @@ import { MotionDiv } from "@/components/ui/Motion";
 import {
     ArrowRight,
     BookOpen,
-    CalendarDays,
     ExternalLink,
     LibraryBig,
-    Newspaper,
     PlayCircle,
     Quote,
     Sparkles,
@@ -15,24 +13,13 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 
-export type PublicationTeaser = {
-    id: string;
-    title: string;
-    excerpt: string;
-    author: string;
-    date: string;
-    category: string;
-    image: string;
-    href: string;
-};
-
 const books = [
     {
         title: "Tecnócratas de la Infancia",
         subtitle: "Desprotección y neoliberalismo en Chile",
         author: "Juan Carlos Rauld",
         year: "2026",
-        image: "/images/tecnocratas_infancia_real.jpg",
+        image: "/images/tecnocratas-evento-uah.jpeg",
         href: "https://www.editorialhammurabi.com/shop/colecciones-hammurabi/tecnocratas-de-la-infancia/",
         tag: "Último lanzamiento",
         summary:
@@ -76,10 +63,10 @@ const editorialRoutes = [
         icon: LibraryBig,
     },
     {
-        label: "Columnas y ensayos",
-        description: "Textos recientes para leer el presente desde una perspectiva crítica.",
-        href: "#publicaciones-recientes",
-        icon: Newspaper,
+        label: "Lanzamiento",
+        description: "Tecnócratas de la Infancia como pieza central del catálogo editorial reciente.",
+        href: "#lanzamiento-tecnocratas",
+        icon: Sparkles,
     },
     {
         label: "Medios",
@@ -89,21 +76,7 @@ const editorialRoutes = [
     },
 ];
 
-function readingMinutes(article: PublicationTeaser) {
-    const words = `${article.title} ${article.excerpt}`.trim().split(/\s+/).filter(Boolean).length;
-    return Math.max(2, Math.ceil((words + 650) / 220));
-}
-
-export function PublicationsSection({
-    latestArticles = [],
-    articleCount = latestArticles.length,
-}: {
-    latestArticles?: PublicationTeaser[];
-    articleCount?: number;
-}) {
-    const featuredArticle = latestArticles[0] ?? null;
-    const secondaryArticles = latestArticles.slice(1, 6);
-
+export function PublicationsSection() {
     return (
         <>
             <section className="relative min-h-[680px] overflow-hidden bg-[#171713] text-white">
@@ -130,11 +103,11 @@ export function PublicationsSection({
                             Publicaciones CRC
                         </div>
                         <h1 className="mt-6 max-w-4xl font-serif text-4xl font-bold leading-[1.02] text-white sm:text-6xl lg:text-7xl">
-                            Ideas, libros y debate público para pensar la infancia.
+                            Libros y debate público desde una posición crítica.
                         </h1>
                         <p className="mt-6 max-w-2xl text-base leading-8 text-[#eee8dc] sm:text-lg">
-                            Una biblioteca viva de libros, columnas, entrevistas y piezas editoriales sobre infancia,
-                            salud mental, instituciones y políticas públicas.
+                            Catálogo editorial, lanzamientos y apariciones públicas sobre infancia, salud mental,
+                            instituciones y políticas públicas.
                         </p>
                         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                             <a
@@ -156,7 +129,7 @@ export function PublicationsSection({
                     <div className="mt-12 grid max-w-3xl gap-3 sm:grid-cols-3">
                         {[
                             ["3", "libros publicados"],
-                            [String(articleCount), "textos disponibles"],
+                            ["1", "lanzamiento destacado"],
                             ["7+", "apariciones en medios"],
                         ].map(([value, label]) => (
                             <div key={label} className="border-l border-white/16 pl-4">
@@ -206,19 +179,81 @@ export function PublicationsSection({
                             </h2>
                         </div>
                         <p className="max-w-3xl text-base leading-7 text-[#70695f] lg:justify-self-end">
-                            En vez de presentar los libros como una lista, los mostramos como productos intelectuales:
-                            tema, utilidad, autoridad y acción de compra en una sola lectura.
+                            Títulos que articulan investigación, crítica institucional y experiencia pública en torno
+                            a la infancia y sus formas de desprotección.
                         </p>
                     </div>
 
-                    <div className="mt-10 grid gap-5 lg:grid-cols-3">
-                        {books.map((book, index) => (
+                    <div className="mt-10 grid gap-5 lg:grid-cols-[1.18fr_0.82fr]">
+                        <MotionDiv
+                            initial={{ opacity: 0, y: 24 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.55 }}
+                            className="group grid overflow-hidden rounded-[8px] border border-[#2d2b25] bg-[#171713] text-white shadow-[0_24px_70px_rgba(31,27,22,0.18)] md:grid-cols-[0.85fr_1.15fr]"
+                        >
+                            <div className="relative min-h-[420px] overflow-hidden bg-[#0f0d0a]">
+                                <Image
+                                    src={books[0].image}
+                                    alt={`Afiche del lanzamiento de ${books[0].title}`}
+                                    fill
+                                    sizes="(min-width: 1024px) 42vw, 100vw"
+                                    className="object-cover transition duration-700 group-hover:scale-105"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-[#171713]/72 via-transparent to-transparent" />
+                            </div>
+
+                            <div className="flex flex-col p-6 sm:p-8">
+                                <span className="inline-flex w-fit items-center rounded-[5px] bg-[#bd6f3c] px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.16em] text-white">
+                                    {books[0].tag}
+                                </span>
+                                <h3 className="mt-6 font-serif text-4xl font-bold leading-[1.02] text-white sm:text-5xl">
+                                    {books[0].title}
+                                </h3>
+                                <p className="mt-3 text-xl font-semibold leading-8 text-[#d3976d]">{books[0].subtitle}</p>
+                                <p className="mt-6 max-w-xl text-base leading-8 text-[#d8d0c4]">{books[0].summary}</p>
+
+                                <div className="mt-7 flex flex-wrap gap-2">
+                                    {books[0].points.map((point) => (
+                                        <span
+                                            key={point}
+                                            className="rounded-[5px] border border-white/12 bg-white/7 px-3 py-1.5 text-xs font-semibold text-[#eee8dc]"
+                                        >
+                                            {point}
+                                        </span>
+                                    ))}
+                                </div>
+
+                                <div className="mt-8 border-l-2 border-[#bd6f3c] pl-4">
+                                    <Quote className="mb-2 h-4 w-4 text-[#d3976d]" />
+                                    <p className="text-sm italic leading-6 text-[#eee8dc]">{books[0].quote}</p>
+                                </div>
+
+                                <div className="mt-auto flex flex-col gap-3 pt-8 sm:flex-row sm:items-center sm:justify-between">
+                                    <div className="text-xs font-bold uppercase tracking-[0.14em] text-[#a99f91]">
+                                        {books[0].author} · {books[0].year}
+                                    </div>
+                                    <a
+                                        href={books[0].href}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="group/cta inline-flex items-center justify-center gap-2 rounded-[7px] bg-[#bd6f3c] px-5 py-3 text-sm font-bold text-white transition duration-200 hover:bg-[#9f5528]"
+                                    >
+                                        Comprar libro
+                                        <ExternalLink className="h-4 w-4 transition-transform duration-200 group-hover/cta:translate-x-0.5" />
+                                    </a>
+                                </div>
+                            </div>
+                        </MotionDiv>
+
+                        <div className="grid gap-5">
+                        {books.slice(1).map((book, index) => (
                             <MotionDiv
                                 key={book.title}
                                 initial={{ opacity: 0, y: 24 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
-                                transition={{ duration: 0.55, delay: index * 0.08 }}
+                                transition={{ duration: 0.55, delay: (index + 1) * 0.08 }}
                                 className="group flex h-full flex-col rounded-[8px] border border-[#ded5c7] bg-[#fffdf8] p-5 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-[#bd6f3c]/45 hover:shadow-[0_22px_46px_rgba(31,27,22,0.1)] motion-reduce:transition-none motion-reduce:hover:translate-y-0"
                             >
                                 <div className="flex items-start gap-5">
@@ -277,11 +312,12 @@ export function PublicationsSection({
                                 </div>
                             </MotionDiv>
                         ))}
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <section className="bg-[#171713] py-14 text-white sm:py-20">
+            <section id="lanzamiento-tecnocratas" className="bg-[#171713] py-14 text-white sm:py-20">
                 <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[1fr_0.78fr] lg:px-8">
                     <div>
                         <span className="inline-flex items-center gap-2 rounded-[6px] border border-white/12 bg-white/8 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-[#f1ded0]">
@@ -319,140 +355,24 @@ export function PublicationsSection({
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.65 }}
-                        className="relative overflow-hidden rounded-[8px] border border-white/10 bg-[#0f0d0a]"
+                        className="relative overflow-hidden rounded-[8px] border border-white/10 bg-[#0f0d0a] shadow-[0_26px_70px_rgba(0,0,0,0.34)]"
                     >
-                        <video
-                            className="aspect-video w-full bg-black object-cover"
-                            autoPlay
-                            loop
-                            muted
-                            playsInline
-                            preload="metadata"
-                            poster="/images/tecnocratas_abstract_1771965880554.png"
-                            aria-label="Pieza audiovisual del libro Tecnócratas de la Infancia"
-                        >
-                            <source src="/videos/tecnocratas-lanzamiento.mp4" type="video/mp4" />
-                            Tu navegador no soporta el elemento de video.
-                        </video>
+                        <div className="relative aspect-[4/5] bg-black sm:aspect-[16/11]">
+                            <Image
+                                src="/images/tecnocratas-evento-uah.jpeg"
+                                alt="Afiche real del lanzamiento de Tecnócratas de la Infancia"
+                                fill
+                                sizes="(min-width: 1024px) 45vw, 100vw"
+                                className="object-cover"
+                            />
+                        </div>
                         <div className="border-t border-white/10 p-4">
-                            <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#d3976d]">Pieza audiovisual</p>
+                            <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#d3976d]">Lanzamiento UAH</p>
                             <p className="mt-2 text-sm leading-6 text-[#c9b9aa]">
-                                Una entrada breve al tono y los problemas centrales de la obra.
+                                Registro gráfico del lanzamiento del libro en la Universidad Alberto Hurtado.
                             </p>
                         </div>
                     </MotionDiv>
-                </div>
-            </section>
-
-            <section id="publicaciones-recientes" className="bg-[#fffdf8] py-14 sm:py-20">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="flex flex-col gap-4 border-b border-[#ded5c7] pb-6 sm:flex-row sm:items-end sm:justify-between">
-                        <div>
-                            <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#bd6f3c]">
-                                Lectura reciente
-                            </span>
-                            <h2 className="mt-3 font-serif text-3xl font-bold leading-tight text-[#171713] sm:text-4xl">
-                                Pensamiento activo, no archivo estático.
-                            </h2>
-                        </div>
-                        <Link
-                            href="/pensamiento-critico"
-                            className="group inline-flex items-center gap-2 text-sm font-bold text-[#171713] transition hover:text-[#bd6f3c]"
-                        >
-                            Ver todas las publicaciones
-                            <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
-                        </Link>
-                    </div>
-
-                    {featuredArticle ? (
-                        <div className="mt-10 grid gap-5 lg:grid-cols-[1.08fr_0.92fr]">
-                            <a
-                                href={featuredArticle.href}
-                                className="group relative min-h-[420px] overflow-hidden rounded-[8px] bg-[#171713]"
-                            >
-                                <Image
-                                    src={featuredArticle.image}
-                                    alt={featuredArticle.title}
-                                    fill
-                                    sizes="(min-width: 1024px) 55vw, 100vw"
-                                    className="object-cover opacity-84 transition duration-700 group-hover:scale-105"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-[#171713] via-[#171713]/54 to-transparent" />
-                                <div className="absolute inset-x-0 bottom-0 p-6 sm:p-8">
-                                    <span className="inline-flex rounded-[5px] bg-[#bd6f3c] px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-white">
-                                        Destacado
-                                    </span>
-                                    <h3 className="mt-4 max-w-3xl font-serif text-3xl font-bold leading-tight text-white sm:text-4xl">
-                                        {featuredArticle.title}
-                                    </h3>
-                                    <p className="mt-3 max-w-2xl text-sm leading-7 text-[#eee8dc]">{featuredArticle.excerpt}</p>
-                                    <div className="mt-5 flex flex-wrap items-center gap-3 text-xs font-bold uppercase tracking-[0.13em] text-[#c9b9aa]">
-                                        <span>{featuredArticle.author}</span>
-                                        <span className="h-1 w-1 rounded-full bg-[#d3976d]" />
-                                        <span>{featuredArticle.category}</span>
-                                        <span className="h-1 w-1 rounded-full bg-[#d3976d]" />
-                                        <span>{readingMinutes(featuredArticle)} min</span>
-                                    </div>
-                                </div>
-                            </a>
-
-                            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
-                                {secondaryArticles.slice(0, 3).map((article) => (
-                                    <a
-                                        key={article.id}
-                                        href={article.href}
-                                        className="group grid grid-cols-[92px_1fr] gap-4 rounded-[8px] border border-[#ded5c7] bg-[#fffdf8] p-3 shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-[#bd6f3c]/45 hover:shadow-[0_14px_30px_rgba(31,27,22,0.08)]"
-                                    >
-                                        <div className="relative min-h-28 overflow-hidden rounded-[7px] bg-[#eee8dc]">
-                                            <Image
-                                                src={article.image}
-                                                alt={article.title}
-                                                fill
-                                                sizes="120px"
-                                                className="object-cover transition duration-500 group-hover:scale-105"
-                                            />
-                                        </div>
-                                        <div className="min-w-0">
-                                            <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#bd6f3c]">
-                                                {article.category}
-                                            </p>
-                                            <h3 className="mt-2 line-clamp-2 font-serif text-xl font-bold leading-tight text-[#171713]">
-                                                {article.title}
-                                            </h3>
-                                            <div className="mt-3 flex items-center gap-2 text-xs text-[#70695f]">
-                                                <CalendarDays className="h-3.5 w-3.5" />
-                                                {article.date}
-                                            </div>
-                                        </div>
-                                    </a>
-                                ))}
-                            </div>
-                        </div>
-                    ) : null}
-
-                    {secondaryArticles.length > 3 ? (
-                        <div className="mt-5 grid gap-4 md:grid-cols-3">
-                            {secondaryArticles.slice(3).map((article) => (
-                                <a
-                                    key={article.id}
-                                    href={article.href}
-                                    className="group rounded-[8px] border border-[#ded5c7] bg-[#fffdf8] p-5 shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-[#bd6f3c]/45 hover:shadow-[0_14px_30px_rgba(31,27,22,0.08)]"
-                                >
-                                    <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#bd6f3c]">
-                                        {article.category}
-                                    </p>
-                                    <h3 className="mt-3 line-clamp-2 font-serif text-xl font-bold leading-tight text-[#171713]">
-                                        {article.title}
-                                    </h3>
-                                    <p className="mt-3 line-clamp-3 text-sm leading-6 text-[#70695f]">{article.excerpt}</p>
-                                    <div className="mt-5 flex items-center justify-between gap-4 text-xs font-semibold text-[#8a8175]">
-                                        <span>{article.author}</span>
-                                        <span>{readingMinutes(article)} min</span>
-                                    </div>
-                                </a>
-                            ))}
-                        </div>
-                    ) : null}
                 </div>
             </section>
         </>
