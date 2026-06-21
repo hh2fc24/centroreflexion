@@ -281,7 +281,7 @@ export function PensamientoCriticoPage({ articles }: { articles: Article[] }) {
 
   return (
     <div className="min-h-screen bg-[#11100c] text-[#fff8ef]">
-      <section className="relative isolate min-h-[720px] overflow-hidden">
+      <section className="relative isolate min-h-[580px] overflow-hidden lg:min-h-[640px]">
         <Image
           src={featuredArticle.image}
           alt={featuredArticle.title}
@@ -290,13 +290,13 @@ export function PensamientoCriticoPage({ articles }: { articles: Article[] }) {
           sizes="100vw"
           className="object-cover object-center opacity-58 saturate-[0.78]"
         />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(17,16,12,0.98)_0%,rgba(17,16,12,0.86)_34%,rgba(17,16,12,0.52)_68%,rgba(17,16,12,0.86)_100%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(17,16,12,0.18)_0%,rgba(17,16,12,0.64)_72%,#11100c_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(17,16,12,0.97)_0%,rgba(17,16,12,0.84)_43%,rgba(17,16,12,0.5)_72%,rgba(17,16,12,0.78)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(17,16,12,0.2)_0%,rgba(17,16,12,0.48)_72%,#11100c_100%)]" />
 
-        <div className="relative z-10 mx-auto flex min-h-[720px] max-w-[1640px] flex-col justify-end px-4 pb-10 pt-20 sm:px-6 lg:px-10 lg:pb-14">
-          <div className="mb-10 grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-end">
-            <div className="max-w-4xl">
-              <div className="mb-5 flex flex-wrap items-center gap-3">
+        <div className="relative z-10 mx-auto flex min-h-[580px] max-w-[1640px] flex-col justify-center px-4 py-12 sm:px-6 lg:min-h-[640px] lg:px-10 lg:py-16">
+          <div className="grid gap-8 lg:grid-cols-[minmax(0,760px)_minmax(320px,380px)] lg:items-center lg:justify-between">
+            <div className="max-w-[760px]">
+              <div className="mb-6 flex flex-wrap items-center gap-3">
                 <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#f4dfca] backdrop-blur">
                   <Newspaper className="h-4 w-4" />
                   Observatorio CRC
@@ -308,41 +308,44 @@ export function PensamientoCriticoPage({ articles }: { articles: Article[] }) {
                   {featuredSection.title}
                 </span>
               </div>
-              <h1 className="max-w-5xl font-serif text-[clamp(2.65rem,6vw,6.3rem)] font-semibold leading-[0.95] tracking-normal text-[#fff8ef]">
-                Observatorio Crítico de Infancia, Salud Mental e Instituciones
+              <h1 className="font-serif text-[clamp(2.6rem,4.8vw,5rem)] font-semibold leading-[0.94] tracking-normal text-[#fff8ef]">
+                Observatorio Crítico
               </h1>
-              <p className="mt-6 max-w-2xl text-base font-medium leading-8 text-[#d8d0c4] sm:text-lg">
-                Una portada editorial para leer el sufrimiento infantil, la salud mental y los dispositivos institucionales sin reducirlos a titulares.
+              <p className="mt-3 max-w-[680px] font-serif text-[clamp(1.35rem,2.25vw,2.45rem)] font-semibold leading-tight text-[#ead7c1]">
+                Infancia, Salud Mental e Instituciones
               </p>
-              <div className="mt-8 flex flex-wrap items-center gap-3">
+              <p className="mt-6 max-w-xl text-base font-medium leading-7 text-[#d8d0c4] sm:text-lg">
+                Análisis, columnas y ensayos para comprender las tensiones entre infancia, salud mental, escuela, familia y Estado.
+              </p>
+              <div className="mt-7 flex flex-wrap items-center gap-3">
                 <Link
                   href={`${featuredArticle.basePath}/${featuredArticle.id}`}
-                  className="inline-flex h-12 items-center gap-3 rounded-[6px] bg-[#d3976d] px-6 text-sm font-extrabold uppercase tracking-[0.13em] text-[#171713] transition hover:bg-[#e7b187]"
+                  className="inline-flex h-11 items-center gap-3 rounded-[6px] bg-[#d3976d] px-5 text-xs font-extrabold uppercase tracking-[0.13em] text-[#171713] transition hover:bg-[#e7b187] sm:h-12 sm:px-6 sm:text-sm"
                 >
                   Leer portada
                   <ArrowRight className="h-4 w-4" />
                 </Link>
                 <a
                   href="#secciones"
-                  className="inline-flex h-12 items-center rounded-[6px] border border-white/20 bg-white/8 px-6 text-sm font-extrabold uppercase tracking-[0.13em] text-white transition hover:bg-white/14"
+                  className="inline-flex h-11 items-center rounded-[6px] border border-white/20 bg-white/8 px-5 text-xs font-extrabold uppercase tracking-[0.13em] text-white transition hover:bg-white/14 sm:h-12 sm:px-6 sm:text-sm"
                 >
                   Ver secciones
                 </a>
               </div>
             </div>
 
-            <aside className="rounded-[8px] border border-white/14 bg-[#171713]/72 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.32)] backdrop-blur-md">
-              <p className="mb-4 flex items-center gap-2 text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#d3976d]">
+            <aside className="max-w-[380px] rounded-[8px] border border-white/14 bg-[#171713]/76 p-5 shadow-[0_24px_70px_rgba(0,0,0,0.28)] backdrop-blur-md lg:justify-self-end">
+              <p className="mb-3 flex items-center gap-2 text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#d3976d]">
                 <Sparkles className="h-4 w-4" />
                 En portada
               </p>
               <Link href={`${featuredArticle.basePath}/${featuredArticle.id}`} className="group block">
-                <h2 className="font-serif text-3xl font-semibold leading-tight text-[#fff8ef] transition group-hover:text-[#f2be91]">
+                <h2 className="font-serif text-2xl font-semibold leading-tight text-[#fff8ef] transition group-hover:text-[#f2be91] sm:text-[1.7rem]">
                   {featuredArticle.title}
                 </h2>
-                <p className="mt-4 line-clamp-4 text-sm leading-7 text-[#d8d0c4]">{featuredArticle.excerpt}</p>
+                <p className="mt-4 line-clamp-3 text-sm leading-6 text-[#d8d0c4]">{featuredArticle.excerpt}</p>
               </Link>
-              <div className="mt-6 border-t border-white/10 pt-5">
+              <div className="mt-5 border-t border-white/10 pt-5">
                 <AuthorLine article={featuredArticle} tone="light" />
               </div>
             </aside>
@@ -409,7 +412,7 @@ export function PensamientoCriticoPage({ articles }: { articles: Article[] }) {
                   Infancia, Estado y sufrimiento institucional
                 </h2>
                 <p className="mt-4 max-w-2xl text-base leading-8 text-[#c9beb0]">
-                  Una ruta de lectura para entender cómo la niñez queda atrapada entre familia, escuela, justicia, residencias y salud mental.
+                  Una selección de textos sobre protección, justicia de familia, escuela, residencias y políticas públicas de niñez.
                 </p>
               </div>
               <div className="space-y-3">
