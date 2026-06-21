@@ -1,54 +1,74 @@
 import Link from "next/link";
-import { ArrowRight, Building2, GraduationCap, Mail, School, ShieldCheck, Stethoscope } from "lucide-react";
+import { ArrowRight, Building2, ChevronDown, GraduationCap, School, ShieldCheck, Stethoscope } from "lucide-react";
 
 const serviceRoutes = [
     {
         icon: Stethoscope,
-        eyebrow: "Necesito apoyo clínico",
+        eyebrow: "Personas y familias",
         title: "Atención clínica",
-        problem: "Evaluación, intervención y acompañamiento especializado en salud mental, infancia, familia y terapia ocupacional.",
-        audience: "Personas, familias, cuidadores y equipos que requieren una orientación profesional clara.",
-        outcome: "Un proceso situado, respetuoso y técnicamente fundado.",
+        promise: "Apoyo profesional para ordenar lo que está pasando y definir un proceso de cuidado.",
+        focus: "Salud mental, infancia, familia y terapia ocupacional.",
+        details: [
+            ["Qué resuelve", "Evaluación, intervención y acompañamiento especializado en salud mental, infancia, familia y terapia ocupacional."],
+            ["Para quién", "Personas, familias, cuidadores y equipos que requieren una orientación profesional clara."],
+            ["Qué obtienes", "Un proceso situado, respetuoso y técnicamente fundado."],
+        ],
         modality: "Presencial · Online · Domiciliario",
         href: "/servicios/clinica",
     },
     {
         icon: Building2,
-        eyebrow: "Soy una institución",
+        eyebrow: "Instituciones",
         title: "Consultoría institucional",
-        problem: "Diseño, diagnóstico y mejora de modelos de intervención, programas sociales, gestión y toma de decisiones.",
-        audience: "Organizaciones públicas, privadas, fundaciones, programas y equipos directivos.",
-        outcome: "Criterios, procesos y herramientas para operar con mayor coherencia y trazabilidad.",
+        promise: "Diagnóstico y mejora para tomar mejores decisiones con equipos, programas y procesos.",
+        focus: "Modelos de intervención, gestión y trazabilidad.",
+        details: [
+            ["Qué resuelve", "Diseño, diagnóstico y mejora de modelos de intervención, programas sociales, gestión y toma de decisiones."],
+            ["Para quién", "Organizaciones públicas, privadas, fundaciones, programas y equipos directivos."],
+            ["Qué obtienes", "Criterios, procesos y herramientas para operar con mayor coherencia y trazabilidad."],
+        ],
         modality: "Presencial · Online",
         href: "/servicios/consultoria",
     },
     {
         icon: ShieldCheck,
-        eyebrow: "Soy un colegio · cumplimiento normativo",
+        eyebrow: "Colegios",
         title: "Compliance escolar",
-        problem: "Auditoría de protocolos, Ley 21.809, convivencia escolar, trazabilidad y exposición civil o administrativa.",
-        audience: "Sostenedores, equipos directivos y encargados de convivencia que necesitan blindar su respuesta institucional.",
-        outcome: "Brechas claras, equipos entrenados y una ruta de cumplimiento verificable.",
+        promise: "Revisión de brechas y protocolos para responder con claridad y respaldo técnico.",
+        focus: "Ley 21.809, convivencia escolar y exposición institucional.",
+        details: [
+            ["Qué resuelve", "Auditoría de protocolos, Ley 21.809, convivencia escolar, trazabilidad y exposición civil o administrativa."],
+            ["Para quién", "Sostenedores, equipos directivos y encargados de convivencia que necesitan blindar su respuesta institucional."],
+            ["Qué obtienes", "Brechas claras, equipos entrenados y una ruta de cumplimiento verificable."],
+        ],
         modality: "Presencial · Online",
         href: "/servicios/compliance-escolar",
     },
     {
         icon: School,
-        eyebrow: "Soy un colegio · salud y prevención",
+        eyebrow: "Comunidades educativas",
         title: "Bienestar escolar",
-        problem: "Soporte interdisciplinario para convivencia, salud mental, riesgo suicida, protocolos y cumplimiento escolar.",
-        audience: "Colegios y comunidades educativas que necesitan ordenar su gestión preventiva.",
-        outcome: "Un marco de acompañamiento para que el colegio pueda enfocarse en educar.",
+        promise: "Acompañamiento para prevenir, contener y ordenar situaciones complejas dentro del colegio.",
+        focus: "Convivencia, salud mental, riesgo suicida y protocolos.",
+        details: [
+            ["Qué resuelve", "Soporte interdisciplinario para convivencia, salud mental, riesgo suicida, protocolos y cumplimiento escolar."],
+            ["Para quién", "Colegios y comunidades educativas que necesitan ordenar su gestión preventiva."],
+            ["Qué obtienes", "Un marco de acompañamiento para que el colegio pueda enfocarse en educar."],
+        ],
         modality: "Presencial · Online",
         href: "/servicios/bienestar-escolar",
     },
     {
         icon: GraduationCap,
-        eyebrow: "Quiero formar equipos",
+        eyebrow: "Equipos profesionales",
         title: "Formación y supervisión",
-        problem: "Capacitaciones, charlas, supervisión clínica y espacios de actualización para equipos profesionales.",
-        audience: "Profesionales, instituciones, comunidades educativas y equipos de salud o intervención social.",
-        outcome: "Aprendizaje aplicable, reflexión técnica y fortalecimiento de buenas prácticas.",
+        promise: "Capacitaciones y supervisión para fortalecer criterio, práctica y trabajo de equipo.",
+        focus: "Charlas, actualización técnica y supervisión clínica.",
+        details: [
+            ["Qué resuelve", "Capacitaciones, charlas, supervisión clínica y espacios de actualización para equipos profesionales."],
+            ["Para quién", "Profesionales, instituciones, comunidades educativas y equipos de salud o intervención social."],
+            ["Qué obtienes", "Aprendizaje aplicable, reflexión técnica y fortalecimiento de buenas prácticas."],
+        ],
         modality: "Presencial · Online",
         href: "/servicios/formacion",
     },
@@ -79,40 +99,67 @@ export default function ServicesHub() {
 
             <section className="border-b border-[#eee8dc] py-12 sm:py-16">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+                    <div className="mb-8 max-w-3xl">
+                        <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#bd6f3c]">Rutas de atención</span>
+                        <h2 className="mt-3 font-serif text-3xl font-bold leading-tight text-[#171713] sm:text-4xl">
+                            Elige una ruta. Nosotros ordenamos el siguiente paso.
+                        </h2>
+                        <p className="mt-3 text-base leading-7 text-[#70695f]">
+                            Cada servicio parte con una orientación inicial para entender la necesidad y recomendar el camino adecuado.
+                        </p>
+                    </div>
+
+                    <div className="grid items-stretch gap-5 md:grid-cols-2 xl:grid-cols-3">
                         {serviceRoutes.map((service, index) => {
                             const Icon = service.icon;
                             return (
-                                <article key={service.title} className="group flex h-full flex-col rounded-[8px] border border-[#ded5c7] bg-[#fffdf8] shadow-sm transition hover:-translate-y-1 hover:border-[#bd6f3c]/40 hover:shadow-md">
-                                    <div className="border-b border-[#eee8dc] bg-[#171713] p-6">
-                                        <div className="flex items-start justify-between gap-4">
-                                            <div className="flex h-12 w-12 items-center justify-center rounded-[6px] bg-[#fffdf8] text-[#bd6f3c] shadow-sm">
-                                                <Icon className="h-6 w-6" />
-                                            </div>
-                                            <span className="font-serif text-5xl font-bold leading-none text-white/12">
-                                                0{index + 1}
+                                <article key={service.title} className="group flex h-full min-h-[390px] flex-col rounded-[8px] border border-[#ded5c7] bg-[#fffdf8] p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-[#bd6f3c]/45 hover:shadow-[0_18px_42px_rgba(31,27,22,0.09)] motion-reduce:transition-none motion-reduce:hover:translate-y-0">
+                                    <div className="flex items-start justify-between gap-5">
+                                        <div className="flex items-center gap-3">
+                                            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[8px] bg-[#171713] text-[#d3976d] transition duration-300 group-hover:bg-[#bd6f3c] group-hover:text-white">
+                                                <Icon className="h-5 w-5 transition-transform duration-300 group-hover:scale-105" />
                                             </span>
+                                            <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#bd6f3c]">{service.eyebrow}</p>
                                         </div>
-                                        <p className="mt-7 text-[11px] font-bold uppercase tracking-[0.18em] text-[#d3976d]">{service.eyebrow}</p>
-                                        <h2 className="mt-3 text-2xl font-bold leading-tight text-white font-serif">{service.title}</h2>
-                                        <span className="mt-3 inline-flex items-center rounded-[4px] bg-white/8 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#b0a898]">{service.modality}</span>
+                                        <span className="font-serif text-4xl font-bold leading-none text-[#171713]/10">
+                                            0{index + 1}
+                                        </span>
                                     </div>
-                                    <div className="flex flex-1 flex-col p-6">
-                                        <div className="space-y-4 text-sm leading-7 text-[#70695f]">
-                                            <p><strong className="text-[#3f423a]">Qué resuelve:</strong> {service.problem}</p>
-                                            <p><strong className="text-[#3f423a]">Para quién:</strong> {service.audience}</p>
-                                            <p><strong className="text-[#3f423a]">Qué obtienes:</strong> {service.outcome}</p>
+
+                                    <h3 className="mt-7 font-serif text-2xl font-bold leading-tight text-[#171713] sm:text-[1.7rem]">
+                                        {service.title}
+                                    </h3>
+                                    <p className="mt-4 text-base leading-7 text-[#625c52]">
+                                        {service.promise}
+                                    </p>
+
+                                    <div className="mt-5 space-y-3 border-t border-[#eee8dc] pt-5 text-sm leading-6 text-[#70695f]">
+                                        <p><strong className="font-semibold text-[#3f423a]">Enfoque:</strong> {service.focus}</p>
+                                        <p><strong className="font-semibold text-[#3f423a]">Modalidad:</strong> {service.modality}</p>
+                                    </div>
+
+                                    <details className="group/details mt-4 rounded-[7px] border border-[#eee8dc] bg-[#f8f5ee]/55 px-4 py-3 text-sm text-[#70695f] open:bg-[#fffdf8]">
+                                        <summary className="flex cursor-pointer list-none items-center justify-between gap-3 font-semibold text-[#3f423a] marker:hidden">
+                                            Ver alcance
+                                            <ChevronDown className="h-4 w-4 shrink-0 text-[#bd6f3c] transition-transform duration-200 group-open/details:rotate-180" />
+                                        </summary>
+                                        <div className="mt-3 space-y-3 border-t border-[#eee8dc] pt-3 leading-6">
+                                            {service.details.map(([label, text]) => (
+                                                <p key={label}>
+                                                    <strong className="font-semibold text-[#3f423a]">{label}:</strong> {text}
+                                                </p>
+                                            ))}
                                         </div>
-                                        <div className="mt-auto flex flex-col gap-3 pt-7">
-                                            <Link href={service.href} className="inline-flex items-center justify-center gap-2 rounded-[5px] bg-[#171713] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#34362f]">
-                                                Ver detalle
-                                                <ArrowRight className="h-4 w-4" />
-                                            </Link>
-                                            <Link href={`/contacto?servicio=${service.href.split("/").pop()}`} className="inline-flex items-center justify-center gap-2 rounded-[5px] border border-[#ded5c7] bg-[#fffdf8] px-5 py-3 text-sm font-bold text-[#171713] transition hover:border-[#bd6f3c]/50">
-                                                <Mail className="h-4 w-4" />
-                                                Solicitar orientación
-                                            </Link>
-                                        </div>
+                                    </details>
+
+                                    <div className="mt-auto flex flex-col gap-3 pt-7 sm:flex-row">
+                                        <Link href={`/contacto?servicio=${service.href.split("/").pop()}`} className="group/cta inline-flex flex-1 items-center justify-center gap-2 rounded-[7px] bg-[#171713] px-5 py-3 text-sm font-bold text-white transition duration-200 hover:bg-[#34362f]">
+                                            Agenda de atención
+                                            <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover/cta:translate-x-0.5" />
+                                        </Link>
+                                        <Link href={service.href} className="inline-flex items-center justify-center gap-2 rounded-[7px] border border-[#ded5c7] bg-[#fffdf8] px-5 py-3 text-sm font-bold text-[#171713] transition hover:border-[#bd6f3c]/50">
+                                            Ver detalle
+                                        </Link>
                                     </div>
                                 </article>
                             );
