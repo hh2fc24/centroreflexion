@@ -383,7 +383,22 @@
         "label": "Pensamiento Crítico",
         "href": "/pensamiento-critico",
         "visible": true,
-        "children": []
+        "children": [
+          {
+            "id": "nav-pc-columnas",
+            "label": "Ver Columnas",
+            "href": "/pensamiento-critico",
+            "visible": true,
+            "children": []
+          },
+          {
+            "id": "nav-pc-envia",
+            "label": "Envía tu Texto",
+            "href": "/envia-tu-texto",
+            "visible": true,
+            "children": []
+          }
+        ]
       },
       {
         "id": "nav-publicaciones",
