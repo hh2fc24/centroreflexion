@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Instagram, Linkedin, Mail, MapPin, MessageCircle } from "lucide-react";
+import { Instagram, Linkedin, Mail, MapPin, MessageCircle, Youtube } from "lucide-react";
 import { EditableText } from "@/components/editor/EditableText";
 import { useContent, useEditor } from "@/lib/editor/hooks";
 import type { FooterColumn, FooterContent, FooterLink } from "@/lib/editor/types";
@@ -16,6 +16,7 @@ export function Footer({ initialFooter }: { initialFooter?: FooterContent }) {
     const instagramHref = footer?.instagramHref || get<string>("footer.instagramHref") || "#";
     const linkedinHref  = footer?.linkedinHref  || get<string>("footer.linkedinHref")  || "#";
     const whatsappHref  = footer?.whatsappHref  || get<string>("footer.whatsappHref")  || "#";
+    const youtubeHref   = footer?.youtubeHref   || get<string>("footer.youtubeHref")   || "https://www.youtube.com/@CentrodeReflexionesCr%C3%ADticas";
     const columns = (footer?.columns ?? get<FooterColumn[]>("footer.columns") ?? []) as FooterColumn[];
 
     return (
@@ -110,6 +111,16 @@ export function Footer({ initialFooter }: { initialFooter?: FooterContent }) {
                             >
                                 <MessageCircle className="h-4 w-4" />
                                 <span className="sr-only">WhatsApp</span>
+                            </a>
+                            <a
+                                href={youtubeHref}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-8 h-8 border border-[rgba(193,127,62,0.35)] flex items-center justify-center text-[#a99f91] hover:text-white hover:border-[#bd6f3c] transition-all duration-200"
+                                onClick={(e) => { if (adminEnabled) { e.preventDefault(); e.stopPropagation(); } }}
+                            >
+                                <Youtube className="h-4 w-4" />
+                                <span className="sr-only">YouTube</span>
                             </a>
                         </div>
                     </div>

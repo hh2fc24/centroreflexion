@@ -244,6 +244,7 @@ export interface FooterContent {
   instagramHref: string;
   linkedinHref: string;
   whatsappHref: string;
+  youtubeHref?: string;
   contactEmail: string;
   contactLocation: string;
   copyrightName: string;
