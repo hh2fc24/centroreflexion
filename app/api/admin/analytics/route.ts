@@ -30,7 +30,7 @@ export async function GET(req: Request) {
   const sinceIso = new Date(Date.now() - ms).toISOString();
 
   try {
-    const summary = await getAnalyticsSummary(sinceIso);
+    const summary = await getAnalyticsSummary(sinceIso, ms);
     if (!summary) {
       return NextResponse.json(
         { ok: false, error: "supabase_not_configured" },

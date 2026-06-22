@@ -8,15 +8,20 @@ import {
   BarChart,
   CartesianGrid,
   Cell,
+  Line,
+  LineChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
 } from "recharts";
+import { Minus, TrendingDown, TrendingUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type Count = { value: string; count: number };
 type DailyPoint = { date: string; human: number; bot: number; total: number };
+type HourPoint = { hour: number; count: number };
+type ConsentDayPoint = { date: string; accepted: number; rejected: number; rate: number };
 
 type RecentRow = {
   id: string;
@@ -41,12 +46,20 @@ type Summary = {
     consentAccepted: number;
     consentRejected: number;
   };
+  comparison: {
+    humanChangePct: number | null;
+    consentRateChangePct: number | null;
+    consentRate: number | null;
+    previousHuman: number;
+  };
   topPaths: Count[];
   topCountries: Count[];
   topReferrers: Count[];
   topDevices: Count[];
   suspiciousNonChileCountries: Count[];
   dailySeries: DailyPoint[];
+  hourlyDistribution: HourPoint[];
+  consentDailySeries: ConsentDayPoint[];
   recent: RecentRow[];
 };
 
@@ -57,12 +70,53 @@ const ACCENT_SOFT = "rgba(34,211,238,0.18)";
 const AMBER = "#f59e0b";
 const PALETTE = ["#22d3ee", "#a78bfa", "#f472b6", "#fb923c", "#34d399", "#facc15", "#60a5fa", "#f87171", "#c084fc", "#4ade80"];
 
-function StatCard({ label, value, hint }: { label: string; value: string | number; hint?: string }) {
+function ChangeBadge({ pct }: { pct: number | null }) {
+  if (pct === null) {
+    return <span className="text-[11px] text-white/40">sin base previa</span>;
+  }
+  if (pct === 0) {
+    return (
+      <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-white/50">
+        <Minus className="h-3 w-3" /> 0%
+      </span>
+    );
+  }
+  const up = pct > 0;
+  return (
+    <span
+      className={cn(
+        "inline-flex items-center gap-1 text-[11px] font-semibold",
+        up ? "text-emerald-300" : "text-red-300"
+      )}
+    >
+      {up ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />}
+      {up ? "+" : ""}
+      {pct}% vs periodo anterior
+    </span>
+  );
+}
+
+function StatCard({
+  label,
+  value,
+  hint,
+  changePct,
+}: {
+  label: string;
+  value: string | number;
+  hint?: string;
+  changePct?: number | null;
+}) {
   return (
     <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
       <div className="text-[11px] font-semibold uppercase tracking-wide text-white/50">{label}</div>
       <div className="mt-1 text-2xl font-bold text-white">{value}</div>
       {hint ? <div className="mt-1 text-[11px] text-white/40">{hint}</div> : null}
+      {changePct !== undefined ? (
+        <div className="mt-1">
+          <ChangeBadge pct={changePct} />
+        </div>
+      ) : null}
     </div>
   );
 }
@@ -149,6 +203,75 @@ function RankedBarChart({ items, height = 200 }: { items: Count[]; height?: numb
   );
 }
 
+function HourlyChart({ data }: { data: HourPoint[] }) {
+  if (!data.some((d) => d.count > 0)) return <div className="text-xs text-white/40">Sin datos en este rango.</div>;
+  const peak = data.reduce((max, d) => (d.count > max.count ? d : max), data[0]!);
+  return (
+    <div>
+      <ResponsiveContainer width="100%" height={160}>
+        <BarChart data={data} margin={{ top: 4, right: 4, left: -20, bottom: 0 }}>
+          <CartesianGrid stroke="rgba(255,255,255,0.06)" vertical={false} />
+          <XAxis
+            dataKey="hour"
+            tickFormatter={(h: number) => `${h}h`}
+            tick={{ fill: "rgba(255,255,255,0.4)", fontSize: 10 }}
+            axisLine={false}
+            tickLine={false}
+            interval={1}
+          />
+          <YAxis tick={{ fill: "rgba(255,255,255,0.4)", fontSize: 10 }} axisLine={false} tickLine={false} width={28} />
+          <Tooltip
+            contentStyle={{ background: "#0b0b0c", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 12, fontSize: 12 }}
+            cursor={{ fill: "rgba(255,255,255,0.04)" }}
+            labelFormatter={(h: number) => `${h}:00 hrs (Chile)`}
+          />
+          <Bar dataKey="count" radius={[4, 4, 0, 0]} animationDuration={700} animationEasing="ease-out">
+            {data.map((d) => (
+              <Cell key={d.hour} fill={d.hour === peak.hour ? ACCENT : "rgba(148,163,184,0.35)"} />
+            ))}
+          </Bar>
+        </BarChart>
+      </ResponsiveContainer>
+      <div className="mt-1 text-[11px] text-white/40">
+        Hora con más visitas: <span className="text-cyan-200 font-semibold">{peak.hour}:00 hrs</span> (horario de Chile).
+      </div>
+    </div>
+  );
+}
+
+function ConsentRateChart({ data }: { data: ConsentDayPoint[] }) {
+  if (!data.length) return <div className="text-xs text-white/40">Sin datos en este rango.</div>;
+  return (
+    <ResponsiveContainer width="100%" height={160}>
+      <LineChart data={data} margin={{ top: 4, right: 8, left: -16, bottom: 0 }}>
+        <CartesianGrid stroke="rgba(255,255,255,0.06)" vertical={false} />
+        <XAxis dataKey="date" tick={{ fill: "rgba(255,255,255,0.4)", fontSize: 10 }} axisLine={false} tickLine={false} />
+        <YAxis
+          domain={[0, 100]}
+          tickFormatter={(v: number) => `${v}%`}
+          tick={{ fill: "rgba(255,255,255,0.4)", fontSize: 10 }}
+          axisLine={false}
+          tickLine={false}
+          width={32}
+        />
+        <Tooltip
+          contentStyle={{ background: "#0b0b0c", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 12, fontSize: 12 }}
+          formatter={(v: number) => [`${v}%`, "Aceptación"]}
+        />
+        <Line
+          type="monotone"
+          dataKey="rate"
+          stroke="#34d399"
+          strokeWidth={2}
+          dot={{ r: 3, fill: "#34d399" }}
+          animationDuration={900}
+          animationEasing="ease-out"
+        />
+      </LineChart>
+    </ResponsiveContainer>
+  );
+}
+
 const RANGE_LABEL: Record<RangeKey, string> = { "24h": "24 horas", "7d": "7 días", "30d": "30 días" };
 
 export function AnalyticsPanel() {
@@ -231,15 +354,35 @@ export function AnalyticsPanel() {
         <>
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
             <StatCard label="Vistas totales" value={totals!.pageviews} />
-            <StatCard label="Vistas humanas" value={totals!.human} />
+            <StatCard
+              label="Vistas humanas"
+              value={totals!.human}
+              changePct={summary.comparison.humanChangePct}
+              hint={`Periodo anterior: ${summary.comparison.previousHuman}`}
+            />
             <StatCard label="Bots / crawlers" value={totals!.bot} />
             <StatCard label="IPs únicas" value={totals!.uniqueIps} />
           </div>
 
           <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
             <div className="text-xs font-semibold text-white/70">Tendencia de visitas</div>
+            <div className="mt-1 text-[11px] text-white/40">
+              Visitas humanas vs. bots/crawlers por día. Sirve para ver si el tráfico crece y cuánto de ese tráfico es
+              real (no scrapers o monitores).
+            </div>
             <div className="mt-2">
               <TrendChart data={summary.dailySeries} />
+            </div>
+          </div>
+
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+            <div className="text-xs font-semibold text-white/70">Horas con más visitas</div>
+            <div className="mt-1 text-[11px] text-white/40">
+              Distribución de visitas humanas por hora del día (horario de Chile). Útil para saber cuándo publicar
+              contenido o programar campañas.
+            </div>
+            <div className="mt-2">
+              <HourlyChart data={summary.hourlyDistribution} />
             </div>
           </div>
 
@@ -254,12 +397,33 @@ export function AnalyticsPanel() {
               value={totals!.consentRejected}
               hint={consentTotal ? `${((totals!.consentRejected / consentTotal) * 100).toFixed(0)}% del total` : undefined}
             />
+            <StatCard
+              label="Tasa de aceptación"
+              value={summary.comparison.consentRate !== null ? `${summary.comparison.consentRate}%` : "—"}
+              changePct={summary.comparison.consentRateChangePct}
+            />
+          </div>
+
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+            <div className="text-xs font-semibold text-white/70">Evolución de aceptación de cookies</div>
+            <div className="mt-1 text-[11px] text-white/40">
+              % de visitantes que aceptan cookies cada día. Si baja sostenidamente, puede valer la pena revisar el
+              mensaje del banner.
+            </div>
+            <div className="mt-2">
+              <ConsentRateChart data={summary.consentDailySeries} />
+            </div>
           </div>
 
           {summary.suspiciousNonChileCountries.length ? (
             <div className="rounded-2xl border border-amber-500/20 bg-amber-500/5 p-4">
               <div className="text-xs font-semibold text-amber-200">
                 Tráfico humano fuera de Chile (revisar si parece bot/spam)
+              </div>
+              <div className="mt-1 text-[11px] text-amber-200/60">
+                Visitas marcadas como "no bot" pero con IP fuera de Chile. No siempre es malo (puede ser un chileno
+                viajando o con VPN), pero si ves volumen alto desde un país inesperado, vale la pena revisar las IPs
+                en la tabla de abajo.
               </div>
               <div className="mt-2">
                 <RankedBarChart items={summary.suspiciousNonChileCountries} height={Math.min(220, 36 * summary.suspiciousNonChileCountries.length + 40)} />

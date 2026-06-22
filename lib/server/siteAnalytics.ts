@@ -111,26 +111,70 @@ function topCounts(items: (string | null | undefined)[], limit: number) {
     .map(([value, count]) => ({ value, count }));
 }
 
-export async function getAnalyticsSummary(sinceIso: string) {
+function pctChange(current: number, previous: number): number | null {
+  if (previous === 0) return current > 0 ? null : 0; // sin base de comparación
+  return Math.round(((current - previous) / previous) * 1000) / 10;
+}
+
+const SANTIAGO_TZ = "America/Santiago";
+
+function hourInSantiago(isoDate: string): number {
+  const hourStr = new Intl.DateTimeFormat("en-US", {
+    timeZone: SANTIAGO_TZ,
+    hour: "2-digit",
+    hour12: false,
+  }).format(new Date(isoDate));
+  // Intl puede devolver "24" para medianoche en algunos entornos; normalizamos a 0.
+  const h = parseInt(hourStr, 10);
+  return h === 24 ? 0 : h;
+}
+
+export async function getAnalyticsSummary(sinceIso: string, rangeMs: number) {
   const client = createAdminClient();
   if (!client) return null;
 
-  const [pageviewsRes, consentRes] = await Promise.all([
+  const prevSinceIso = new Date(new Date(sinceIso).getTime() - rangeMs).toISOString();
+
+  const [pageviewsRes, consentRes, prevPageviewsRes, prevConsentRes] = await Promise.all([
     client
       .from("analytics_pageviews")
       .select("*")
       .gte("created_at", sinceIso)
       .order("created_at", { ascending: false })
       .limit(5000),
-    client.from("analytics_consent_events").select("choice").gte("created_at", sinceIso).limit(5000),
+    client.from("analytics_consent_events").select("choice, created_at").gte("created_at", sinceIso).limit(5000),
+    client
+      .from("analytics_pageviews")
+      .select("is_bot")
+      .gte("created_at", prevSinceIso)
+      .lt("created_at", sinceIso)
+      .limit(5000),
+    client
+      .from("analytics_consent_events")
+      .select("choice")
+      .gte("created_at", prevSinceIso)
+      .lt("created_at", sinceIso)
+      .limit(5000),
   ]);
 
   const rows = (pageviewsRes.data ?? []) as PageviewRow[];
-  const consentRows = (consentRes.data ?? []) as { choice: string }[];
+  const consentRows = (consentRes.data ?? []) as { choice: string; created_at: string }[];
+  const prevRows = (prevPageviewsRes.data ?? []) as { is_bot: boolean }[];
+  const prevConsentRows = (prevConsentRes.data ?? []) as { choice: string }[];
 
   const humanRows = rows.filter((r) => !r.is_bot);
   const botRows = rows.filter((r) => r.is_bot);
   const uniqueIps = new Set(rows.map((r) => r.ip).filter(Boolean)).size;
+
+  const consentAccepted = consentRows.filter((c) => c.choice === "accepted").length;
+  const consentRejected = consentRows.filter((c) => c.choice === "rejected").length;
+
+  const prevHuman = prevRows.filter((r) => !r.is_bot).length;
+  const prevConsentAccepted = prevConsentRows.filter((c) => c.choice === "accepted").length;
+  const prevConsentTotal = prevConsentRows.length;
+  const prevConsentRate = prevConsentTotal ? (prevConsentAccepted / prevConsentTotal) * 100 : null;
+  const consentTotal = consentAccepted + consentRejected;
+  const consentRate = consentTotal ? (consentAccepted / consentTotal) * 100 : null;
 
   const nonChileHumanCountries = topCounts(
     humanRows.filter((r) => (r.country || "").toUpperCase() !== "CL").map((r) => r.country),
@@ -149,6 +193,36 @@ export async function getAnalyticsSummary(sinceIso: string) {
     .sort((a, b) => (a[0] < b[0] ? -1 : 1))
     .map(([date, v]) => ({ date, human: v.human, bot: v.bot, total: v.human + v.bot }));
 
+  const byHour = new Map<number, number>();
+  for (const r of humanRows) {
+    const h = hourInSantiago(r.created_at);
+    byHour.set(h, (byHour.get(h) ?? 0) + 1);
+  }
+  const hourlyDistribution = Array.from({ length: 24 }, (_, h) => ({
+    hour: h,
+    count: byHour.get(h) ?? 0,
+  }));
+
+  const byConsentDay = new Map<string, { accepted: number; rejected: number }>();
+  for (const c of consentRows) {
+    const day = c.created_at.slice(0, 10);
+    const bucket = byConsentDay.get(day) ?? { accepted: 0, rejected: 0 };
+    if (c.choice === "accepted") bucket.accepted += 1;
+    else bucket.rejected += 1;
+    byConsentDay.set(day, bucket);
+  }
+  const consentDailySeries = Array.from(byConsentDay.entries())
+    .sort((a, b) => (a[0] < b[0] ? -1 : 1))
+    .map(([date, v]) => {
+      const total = v.accepted + v.rejected;
+      return {
+        date,
+        accepted: v.accepted,
+        rejected: v.rejected,
+        rate: total ? Math.round((v.accepted / total) * 1000) / 10 : 0,
+      };
+    });
+
   return {
     range: { since: sinceIso },
     totals: {
@@ -156,8 +230,17 @@ export async function getAnalyticsSummary(sinceIso: string) {
       human: humanRows.length,
       bot: botRows.length,
       uniqueIps,
-      consentAccepted: consentRows.filter((c) => c.choice === "accepted").length,
-      consentRejected: consentRows.filter((c) => c.choice === "rejected").length,
+      consentAccepted,
+      consentRejected,
+    },
+    comparison: {
+      humanChangePct: pctChange(humanRows.length, prevHuman),
+      consentRateChangePct:
+        consentRate !== null && prevConsentRate !== null
+          ? Math.round((consentRate - prevConsentRate) * 10) / 10
+          : null,
+      consentRate: consentRate !== null ? Math.round(consentRate * 10) / 10 : null,
+      previousHuman: prevHuman,
     },
     topPaths: topCounts(rows.map((r) => r.path), 10),
     topCountries: topCounts(rows.map((r) => r.country), 10),
@@ -168,6 +251,8 @@ export async function getAnalyticsSummary(sinceIso: string) {
     topDevices: topCounts(rows.map((r) => r.device), 6),
     suspiciousNonChileCountries: nonChileHumanCountries,
     dailySeries,
+    hourlyDistribution,
+    consentDailySeries,
     recent: rows.slice(0, 100).map((r) => ({
       id: r.id,
       createdAt: r.created_at,
