@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Reorder } from "framer-motion";
 import {
+  BarChart3,
   BookOpen,
   Eye,
   EyeOff,
@@ -40,6 +41,7 @@ import { useUndoStore } from "@/lib/editor/undoStore";
 import { getDesignPresetTheme } from "@/lib/editor/designPresets";
 import { MediaPanel } from "@/components/admin/MediaPanel";
 import { UsersPanel } from "@/components/admin/UsersPanel";
+import { AnalyticsPanel } from "@/components/admin/AnalyticsPanel";
 import { PreviewChangesModal } from "@/components/admin/PreviewChangesModal";
 import { LATEST_BLOCK_SCHEMA_VERSION } from "@/lib/editor/blockMigrations";
 
@@ -167,7 +169,7 @@ const HOME_BLOCK_ADD: { type: SiteBlock["type"]; label: string; preset?: SiteBlo
   { type: "spacer", label: "Espaciador", preset: "minimal" },
 ];
 
-type Tab = "site" | "content" | "style" | "media" | "people" | "articles" | "leads" | "access";
+type Tab = "site" | "content" | "style" | "media" | "people" | "articles" | "leads" | "analytics" | "access";
 
 export function AdminApp() {
   const [session, setSession] = useState<Session | null>(null);
@@ -1477,6 +1479,23 @@ export function AdminApp() {
             >
               <Inbox className="h-4 w-4" />
               Leads
+            </button>
+            <button
+              className={cn(
+                "rounded-xl px-3 py-2 text-xs font-semibold border transition inline-flex items-center justify-center gap-2",
+                tab === "analytics"
+                  ? "border-cyan-500/30 bg-cyan-500/10 text-cyan-100"
+                  : "border-white/10 bg-white/5 text-white/70 hover:bg-white/10",
+                !canReadLeads && "opacity-60 cursor-not-allowed"
+              )}
+              disabled={!canReadLeads}
+              onClick={() => {
+                if (!canReadLeads) return;
+                setTab("analytics");
+              }}
+            >
+              <BarChart3 className="h-4 w-4" />
+              Analíticas
             </button>
             {canManageUsers ? (
               <button
@@ -4089,6 +4108,8 @@ export function AdminApp() {
                 </div>
               </div>
             ) : null}
+
+            {tab === "analytics" ? <AnalyticsPanel /> : null}
 
             {tab === "access" ? <UsersPanel /> : null}
           </div>

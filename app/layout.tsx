@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { CSSProperties } from "react";
+import { Suspense } from "react";
 import { Analytics } from "@vercel/analytics/next";
 import { Cormorant_Garamond, Geist, Inter, Merriweather } from "next/font/google";
 import "./globals.css";
@@ -8,6 +9,7 @@ import { Footer } from "@/components/Footer";
 
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { CookieConsentBanner } from "@/components/CookieConsentBanner";
+import { SiteAnalyticsTracker } from "@/components/analytics/SiteAnalyticsTracker";
 import { EditorProviders } from "@/components/editor/EditorProviders";
 import { IntegrationsScripts } from "@/components/editor/IntegrationsScripts";
 import { DEFAULT_CONTENT, DEFAULT_THEME } from "@/lib/editor/defaults";
@@ -154,6 +156,9 @@ export default async function RootLayout({
           <IntegrationsScripts />
           <WhatsAppButton />
           <CookieConsentBanner />
+          <Suspense fallback={null}>
+            <SiteAnalyticsTracker />
+          </Suspense>
         </EditorProviders>
 
         {/* Global JSON-LD */}

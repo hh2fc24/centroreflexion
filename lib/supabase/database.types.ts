@@ -101,6 +101,33 @@ export interface ProgresoLeccion {
 }
 
 // ─────────────────────────────────────────────
+// Analítica propia del sitio (pageviews + consentimiento de cookies)
+// ─────────────────────────────────────────────
+
+export interface AnalyticsPageview {
+  id: string;
+  created_at: string;
+  path: string;
+  referrer: string | null;
+  ip: string | null;
+  country: string | null;
+  region: string | null;
+  city: string | null;
+  user_agent: string | null;
+  device: string | null;
+  is_bot: boolean;
+}
+
+export interface AnalyticsConsentEvent {
+  id: string;
+  created_at: string;
+  choice: "accepted" | "rejected";
+  path: string | null;
+  ip: string | null;
+  country: string | null;
+}
+
+// ─────────────────────────────────────────────
 // Tipo Database completo (compatible con createClient<Database>)
 // ─────────────────────────────────────────────
 
@@ -141,6 +168,18 @@ export interface Database {
         Row: ProgresoLeccion;
         Insert: Omit<ProgresoLeccion, "id" | "created_at" | "updated_at">;
         Update: Partial<Omit<ProgresoLeccion, "id" | "created_at" | "updated_at">>;
+        Relationships: [];
+      };
+      analytics_pageviews: {
+        Row: AnalyticsPageview;
+        Insert: Omit<AnalyticsPageview, "id" | "created_at">;
+        Update: Partial<Omit<AnalyticsPageview, "id" | "created_at">>;
+        Relationships: [];
+      };
+      analytics_consent_events: {
+        Row: AnalyticsConsentEvent;
+        Insert: Omit<AnalyticsConsentEvent, "id" | "created_at">;
+        Update: Partial<Omit<AnalyticsConsentEvent, "id" | "created_at">>;
         Relationships: [];
       };
     };
