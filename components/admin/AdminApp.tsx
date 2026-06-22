@@ -176,6 +176,7 @@ export function AdminApp() {
   const [tab, setTab] = useState<Tab>("content");
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [showLoginPass, setShowLoginPass] = useState(false);
   const [addOpen, setAddOpen] = useState(false);
   const [publishOpen, setPublishOpen] = useState(false);
   const [publishValidate, setPublishValidate] = useState(true);
@@ -695,14 +696,25 @@ export function AdminApp() {
                 />
 
                 <label className="mt-4 block text-xs font-semibold text-white/70">Contraseña</label>
-                <input
-                  name="pass"
-                  type="password"
-                  autoComplete="current-password"
-                  className="mt-2 w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none ring-1 ring-transparent focus:ring-cyan-300/30"
-                  placeholder="••••••••••••"
-                  disabled={busy}
-                />
+                <div className="relative mt-2">
+                  <input
+                    name="pass"
+                    type={showLoginPass ? "text" : "password"}
+                    autoComplete="current-password"
+                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 pr-11 text-sm outline-none ring-1 ring-transparent focus:ring-cyan-300/30"
+                    placeholder="••••••••••••"
+                    disabled={busy}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowLoginPass((v) => !v)}
+                    className="absolute inset-y-0 right-0 flex items-center px-3 text-white/50 hover:text-white/80"
+                    tabIndex={-1}
+                    aria-label={showLoginPass ? "Ocultar contraseña" : "Mostrar contraseña"}
+                  >
+                    {showLoginPass ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
 
                 {error ? (
                   <div className="mt-4 rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-200">
