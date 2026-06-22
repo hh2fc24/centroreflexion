@@ -33,6 +33,14 @@ function AcademiaLoginForm() {
 
   const supabase = createClient();
 
+  function resetToStart() {
+    setConfirmSent(false);
+    setMode("login");
+    setPassword("");
+    setNombre("");
+    setError(null);
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
@@ -170,13 +178,14 @@ function AcademiaLoginForm() {
                 Te enviamos un enlace a <strong style={{ color: "var(--ac-gold)" }}>{email}</strong>.<br />
                 Confírmalo para activar tu cuenta.
               </p>
-              <Link
-                href="/academia/login"
+              <button
+                type="button"
+                onClick={resetToStart}
                 className="mt-8 inline-block px-6 py-3 text-[0.66rem] font-extrabold uppercase tracking-[0.13em] ac-btn-ghost"
                 style={{ borderRadius: "5px" }}
               >
                 Volver al inicio
-              </Link>
+              </button>
             </motion.div>
           ) : (
             <>
