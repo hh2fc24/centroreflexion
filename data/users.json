@@ -3,9 +3,9 @@
     "id": "u_admin",
     "username": "admin",
     "role": "admin",
-    "salt": "2856d5ffb036af99a5ca91cf53f2d6a7",
-    "passHash": "adc4c9631b84464e9262a7b641ee26f8748ca91810801561ddd80be91d56274c",
+    "salt": "270f90220943c8ec4deb947703ad7a3b",
+    "passHash": "e42898a25a0da17c8bcd8a9d3312b0c63752c19fbd8317799a5d7f5e35b76eea",
     "createdAt": 1773159161677,
-    "updatedAt": 1773159161677
+    "updatedAt": 1782160845737
   }
 ]
