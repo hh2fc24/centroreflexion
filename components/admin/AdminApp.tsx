@@ -5,6 +5,7 @@ import { Reorder } from "framer-motion";
 import {
   BarChart3,
   BookOpen,
+  ChevronLeft,
   Eye,
   EyeOff,
   Image as ImageIcon,
@@ -177,6 +178,7 @@ export function AdminApp() {
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [showLoginPass, setShowLoginPass] = useState(false);
+  const [appMode, setAppMode] = useState<"menu" | "editor" | "analytics">("menu");
   const [addOpen, setAddOpen] = useState(false);
   const [publishOpen, setPublishOpen] = useState(false);
   const [publishValidate, setPublishValidate] = useState(true);
@@ -753,6 +755,108 @@ export function AdminApp() {
     );
   }
 
+  if (appMode === "menu") {
+    return (
+      <div className="fixed inset-0 z-[999] bg-[#05070c] text-white">
+        <div className="absolute inset-0 opacity-60 bg-[radial-gradient(900px_circle_at_20%_10%,rgba(56,189,248,0.25),transparent_40%),radial-gradient(800px_circle_at_70%_30%,rgba(99,102,241,0.18),transparent_45%),radial-gradient(700px_circle_at_40%_90%,rgba(168,85,247,0.14),transparent_45%)]" />
+        <div className="relative mx-auto flex min-h-full max-w-4xl flex-col items-center justify-center px-6 py-16">
+          <div className="mb-10 text-center">
+            <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold tracking-wide">
+              <ShieldCheck className="h-4 w-4 text-cyan-300" />
+              {session.user} · {session.role.toUpperCase()}
+            </div>
+            <h1 className="mt-4 text-3xl font-semibold tracking-tight">¿Qué quieres abrir?</h1>
+            <p className="mt-2 text-sm text-white/60">Elige una sección para continuar.</p>
+          </div>
+
+          <div className="grid w-full gap-4 sm:grid-cols-2">
+            <button
+              type="button"
+              onClick={() => setAppMode("editor")}
+              className="group crc-glass rounded-2xl p-6 text-left shadow-2xl shadow-black/30 transition hover:bg-white/[0.07]"
+            >
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-cyan-500/10 ring-1 ring-cyan-500/20">
+                <Sparkles className="h-5 w-5 text-cyan-300" />
+              </div>
+              <div className="mt-4 text-lg font-semibold">Editor del sitio</div>
+              <div className="mt-1 text-sm text-white/50">
+                Edita textos, secciones, estilos, artículos, leads y accesos como en Notion.
+              </div>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setAppMode("analytics")}
+              className="group crc-glass rounded-2xl p-6 text-left shadow-2xl shadow-black/30 transition hover:bg-white/[0.07]"
+            >
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-500/10 ring-1 ring-indigo-500/20">
+                <BarChart3 className="h-5 w-5 text-indigo-300" />
+              </div>
+              <div className="mt-4 text-lg font-semibold">Analíticas</div>
+              <div className="mt-1 text-sm text-white/50">
+                Dashboard pro de visitas, países, referrers, dispositivos y consentimiento de cookies.
+              </div>
+            </button>
+          </div>
+
+          <button
+            type="button"
+            className="mt-10 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold hover:bg-white/10 transition"
+            onClick={async () => {
+              try {
+                await fetch("/api/admin/logout", { method: "POST" });
+              } catch {
+                // ignore
+              }
+              clearSession();
+              window.dispatchEvent(new Event("crc-admin-session"));
+            }}
+          >
+            <LogOut className="h-4 w-4" />
+            Salir
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (appMode === "analytics") {
+    return (
+      <div className="fixed inset-0 z-[999] overflow-y-auto bg-[#05070c] text-white">
+        <div className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-white/10 bg-black/40 px-4 backdrop-blur-xl">
+          <button
+            type="button"
+            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold hover:bg-white/10 transition"
+            onClick={() => setAppMode("menu")}
+          >
+            <ChevronLeft className="h-4 w-4" />
+            Volver
+          </button>
+          <div className="text-sm font-semibold">Analíticas</div>
+          <button
+            type="button"
+            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold hover:bg-white/10 transition"
+            onClick={async () => {
+              try {
+                await fetch("/api/admin/logout", { method: "POST" });
+              } catch {
+                // ignore
+              }
+              clearSession();
+              window.dispatchEvent(new Event("crc-admin-session"));
+            }}
+          >
+            <LogOut className="h-4 w-4" />
+            Salir
+          </button>
+        </div>
+        <div className="mx-auto max-w-7xl px-4 py-6">
+          <AnalyticsPanel />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="fixed inset-0 z-[999] bg-[#05070c] text-white">
       <div className="absolute inset-0 opacity-60 bg-[radial-gradient(900px_circle_at_20%_10%,rgba(56,189,248,0.18),transparent_40%),radial-gradient(800px_circle_at_70%_30%,rgba(99,102,241,0.12),transparent_45%),radial-gradient(700px_circle_at_40%_90%,rgba(168,85,247,0.1),transparent_45%)]" />
@@ -922,6 +1026,15 @@ export function AdminApp() {
             }}
           >
             Publicar cambios
+          </button>
+
+          <button
+            type="button"
+            className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold hover:bg-white/10 transition inline-flex items-center gap-2"
+            onClick={() => setAppMode("menu")}
+          >
+            <ChevronLeft className="h-4 w-4" />
+            Menú
           </button>
 
           <button
@@ -1503,15 +1616,13 @@ export function AdminApp() {
             <button
               className={cn(
                 "rounded-xl px-3 py-2 text-xs font-semibold border transition inline-flex items-center justify-center gap-2",
-                tab === "analytics"
-                  ? "border-cyan-500/30 bg-cyan-500/10 text-cyan-100"
-                  : "border-white/10 bg-white/5 text-white/70 hover:bg-white/10",
+                "border-white/10 bg-white/5 text-white/70 hover:bg-white/10",
                 !canReadLeads && "opacity-60 cursor-not-allowed"
               )}
               disabled={!canReadLeads}
               onClick={() => {
                 if (!canReadLeads) return;
-                setTab("analytics");
+                setAppMode("analytics");
               }}
             >
               <BarChart3 className="h-4 w-4" />
@@ -4128,8 +4239,6 @@ export function AdminApp() {
                 </div>
               </div>
             ) : null}
-
-            {tab === "analytics" ? <AnalyticsPanel /> : null}
 
             {tab === "access" ? <UsersPanel /> : null}
           </div>
