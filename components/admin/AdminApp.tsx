@@ -669,7 +669,15 @@ export function AdminApp() {
                     });
                     const json = (await r.json()) as { ok?: boolean; error?: string; user?: string; role?: AdminRole; insecureDevMode?: boolean };
                     if (!json.ok) {
-                      setError("Usuario o contraseña incorrectos.");
+                      const reasons: Record<string, string> = {
+                        invalid_credentials: "Usuario o contraseña incorrectos.",
+                        rate_limited: "Demasiados intentos. Espera un minuto y vuelve a intentar.",
+                        invalid_origin: "Origen de la solicitud no permitido (revisa el dominio/proxy).",
+                        missing_origin: "Falta el origen de la solicitud.",
+                        auth_not_configured: "El login de admin no está configurado en el servidor (faltan variables de entorno).",
+                        invalid_json: "Solicitud inválida.",
+                      };
+                      setError(reasons[json.error ?? ""] ?? `Error (${json.error ?? "desconocido"}, status ${r.status}).`);
                       return;
                     }
                     const role: AdminRole =
