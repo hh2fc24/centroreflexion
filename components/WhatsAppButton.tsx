@@ -199,7 +199,7 @@ export function WhatsAppButton() {
                         className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-[6px] bg-[#171713] px-4 py-3 text-sm font-bold text-white shadow-[0_12px_24px_rgba(23,23,19,0.18)] transition hover:bg-[#2d3029] disabled:cursor-not-allowed disabled:opacity-70"
                     >
                         <CreditCard className="h-4 w-4" />
-                        {paymentLoading ? "Preparando pago..." : "Pagar 2 UF con Mercado Pago"}
+                        {paymentLoading ? "Preparando pago..." : "Pagar online"}
                     </button>
                     <p className="mt-2 text-xs leading-5 text-[#8a8276]">
                         El checkout se abre con el monto cargado automaticamente: <strong className="text-[#171713]">{formattedUfAmount}</strong>.
