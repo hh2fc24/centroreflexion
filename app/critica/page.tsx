@@ -1,9 +1,20 @@
+import type { Metadata } from "next";
 import { MotionList, MotionItem } from "@/components/ui/Motion";
 import Image from "next/image";
 import Link from "next/link";
 import { readPublishedArticleCollections } from "@/lib/server/publicArticles";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+    title: "Crítica",
+    description:
+        "Crítica literaria, cultural y cinematográfica del Centro de Reflexiones Críticas: reseñas y análisis con mirada social y humanista.",
+    openGraph: {
+        title: "Crítica | Centro de Reflexiones Críticas",
+        description: "Reseñas y crítica literaria, cultural y cinematográfica.",
+    },
+};
 
 const getAuthorDetails = (author: string) => {
     if (author.includes("Rocío Solar")) {

@@ -1,6 +1,18 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, Check, ClipboardCheck, HeartPulse, Home, Mail, MapPin, ShieldCheck, Stethoscope, Users } from "lucide-react";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
+
+export const metadata: Metadata = {
+    title: "Atención Clínica | Salud Mental, Infancia y Familia",
+    description:
+        "Evaluación, intervención y acompañamiento en salud mental, infancia, familia y terapia ocupacional. Atención presencial, online y domiciliaria con informes socioocupacionales.",
+    openGraph: {
+        title: "Atención clínica CRC: salud mental, infancia y familia",
+        description:
+            "Apoyo profesional para ordenar lo que está pasando y definir un proceso de cuidado en salud mental, infancia y familia.",
+    },
+};
 
 const testimoniosClinica = [
     {

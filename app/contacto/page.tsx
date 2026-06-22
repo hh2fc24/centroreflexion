@@ -1,6 +1,17 @@
+import type { Metadata } from "next";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/Card";
 import { Mail, MapPin } from "lucide-react";
 import { ContactForm } from "@/components/ContactForm";
+
+export const metadata: Metadata = {
+    title: "Contacto",
+    description:
+        "Escríbenos para agendar atención clínica, consultoría institucional, compliance escolar o formación con el Centro de Reflexiones Críticas.",
+    openGraph: {
+        title: "Contacto | Centro de Reflexiones Críticas",
+        description: "Agenda una conversación sobre tu necesidad clínica, institucional o de formación.",
+    },
+};
 
 const servicioLabels: Record<string, string> = {
     clinica: "Atención clínica",

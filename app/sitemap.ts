@@ -3,6 +3,7 @@ import type { SitePage } from "@/lib/editor/types";
 import { readPublishedArticleCollections } from "@/lib/server/publicArticles";
 import { readPublishedDiskState } from "@/lib/server/publishedDisk";
 import { getSiteUrl } from "@/lib/site";
+import { createClient } from "@/lib/supabase/server";
 
 export const dynamic = "force-dynamic";
 
@@ -23,6 +24,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/contacto",
     "/conocenos",
     "/publicaciones",
+    "/critica",
+    "/pensamiento-critico",
+    "/envia-tu-texto",
+    "/academia",
+    "/declaracion-publica/ninez-migrante-haitiana",
   ];
 
   out.push({ url: `${baseUrl}/`, lastModified: new Date() });
@@ -44,6 +50,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
   for (const a of articles.reviews ?? []) {
     out.push({ url: `${baseUrl}/critica/${a.id}`, lastModified: new Date() });
+  }
+
+  try {
+    const supabase = await createClient();
+    if (supabase) {
+      const { data: cursos } = await supabase
+        .from("cursos")
+        .select("slug, updated_at")
+        .eq("estado", "publicado") as { data: { slug: string; updated_at: string }[] | null };
+      for (const c of cursos ?? []) {
+        if (!c.slug) continue;
+        out.push({
+          url: `${baseUrl}/academia/cursos/${c.slug}`,
+          lastModified: c.updated_at ? new Date(c.updated_at) : new Date(),
+        });
+      }
+    }
+  } catch {
+    // Supabase no disponible en build/preview: se omiten cursos del sitemap.
   }
 
   return out;

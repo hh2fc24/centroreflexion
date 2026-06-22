@@ -1,5 +1,17 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, Check, FileWarning, Mail, ShieldCheck } from "lucide-react";
+
+export const metadata: Metadata = {
+    title: "Bienestar Escolar | Convivencia, Protección y Cumplimiento Ley 21.809",
+    description:
+        "Asesoría en convivencia escolar, protección institucional y cumplimiento de la Ley 21.809 de Convivencia, Buen Trato y Bienestar. Protocolos frente a acoso y maltrato escolar.",
+    openGraph: {
+        title: "Bienestar escolar CRC: convivencia y protección institucional",
+        description:
+            "Apoyo técnico para colegios frente a la nueva Ley de Convivencia Escolar: protocolos, planes de convivencia y prevención de bullying.",
+    },
+};
 
 const system = [
     {

@@ -412,7 +412,7 @@ function EditorialIndex({ articles }: { articles: EditorialArticle[] }) {
                 <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-md bg-[#1a1814] lg:h-16 lg:w-16">
                   <Image
                     src={article.image}
-                    alt=""
+                    alt={article.title}
                     fill
                     sizes="64px"
                     className="object-cover grayscale transition duration-500 group-hover:scale-110 group-hover:grayscale-0"

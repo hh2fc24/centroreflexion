@@ -7,6 +7,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 
 import { WhatsAppButton } from "@/components/WhatsAppButton";
+import { CookieConsentBanner } from "@/components/CookieConsentBanner";
 import { EditorProviders } from "@/components/editor/EditorProviders";
 import { IntegrationsScripts } from "@/components/editor/IntegrationsScripts";
 import { DEFAULT_CONTENT, DEFAULT_THEME } from "@/lib/editor/defaults";
@@ -152,6 +153,7 @@ export default async function RootLayout({
 
           <IntegrationsScripts />
           <WhatsAppButton />
+          <CookieConsentBanner />
         </EditorProviders>
 
         {/* Global JSON-LD */}
@@ -162,12 +164,33 @@ export default async function RootLayout({
               "@context": "https://schema.org",
               "@type": "Organization",
               "name": "Centro de Reflexiones Críticas",
+              "alternateName": "CRC",
               "url": siteUrl,
               "logo": `${siteUrl}/logo-crc.png`,
               "contactPoint": {
                 "@type": "ContactPoint",
                 "email": "centrodereflexionescriticas@gmail.com",
                 "contactType": "customer service"
+              },
+              "sameAs": [
+                "https://www.instagram.com/centrodereflexionescriticas/",
+                "https://www.youtube.com/@CentrodeReflexionesCr%C3%ADticas"
+              ]
+            })
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": "Centro de Reflexiones Críticas",
+              "url": siteUrl,
+              "potentialAction": {
+                "@type": "SearchAction",
+                "target": `${siteUrl}/pensamiento-critico?q={search_term_string}`,
+                "query-input": "required name=search_term_string"
               }
             })
           }}

@@ -3,6 +3,7 @@
 import Script from "next/script";
 import { usePathname } from "next/navigation";
 import { useContent } from "@/lib/editor/hooks";
+import { useCookieConsent } from "@/lib/cookieConsent";
 
 function sanitizeTrackingId(input: string, kind: "ga" | "gtm" | "pixel") {
   const raw = input.trim();
@@ -14,8 +15,12 @@ function sanitizeTrackingId(input: string, kind: "ga" | "gtm" | "pixel") {
 export function IntegrationsScripts() {
   const pathname = usePathname();
   const { content } = useContent();
+  const consentStatus = useCookieConsent((s) => s.status);
 
   if (pathname.startsWith("/admin")) return null;
+
+  // No cargar cookies de tracking hasta que el visitante acepte.
+  if (consentStatus !== "accepted") return null;
 
   const gaId = sanitizeTrackingId(content.integrations?.googleAnalyticsId || "", "ga");
   const gtmId = sanitizeTrackingId(content.integrations?.googleTagId || "", "gtm");

@@ -1,6 +1,17 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, BarChart3, Brain, Building2, Check, GraduationCap, HeartHandshake, Mail, Network, Rocket, Scale, ShieldCheck, TrendingUp } from "lucide-react";
+
+export const metadata: Metadata = {
+    title: "Consultoría Institucional | Modelos de Intervención y Gestión",
+    description:
+        "Diagnóstico y mejora de modelos de intervención, programas sociales y procesos institucionales. Trabajo social, salud mental, derecho, sociología y transformación digital.",
+    openGraph: {
+        title: "Consultoría institucional CRC",
+        description: "Criterios, procesos y herramientas para organizaciones, fundaciones y equipos directivos.",
+    },
+};
 
 const pillars = [
     {

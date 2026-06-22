@@ -1,6 +1,17 @@
+import type { Metadata } from "next";
 import { Button } from "@/components/ui/Button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/Card";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+    title: "Envía tu Texto",
+    description:
+        "Comparte tu columna de opinión, crítica cultural o artículo de ciencias sociales para su publicación en el Centro de Reflexiones Críticas.",
+    openGraph: {
+        title: "Envía tu Texto | Centro de Reflexiones Críticas",
+        description: "Convoca a colaboradores a enviar columnas de opinión y crítica cultural para publicación.",
+    },
+};
 
 const OFFICIAL_EMAIL = "centrodereflexionescriticas@gmail.com";
 
