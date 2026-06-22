@@ -56,6 +56,9 @@ const getAuthorDetails = (author: string) => {
     if (author.includes("Juan Carlos Rauld")) {
         return { image: "/images/juan_carlos_real_white.png", role: "Director Editorial & Consultor en Ciencias Sociales" };
     }
+    if (author.includes("Alejandro Castro")) {
+        return { image: null, role: "Doctor en Sociología. Académico Departamento Trabajo Social, Universidad Alberto Hurtado." };
+    }
     return null;
 };
 
