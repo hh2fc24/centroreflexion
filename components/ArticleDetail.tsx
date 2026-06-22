@@ -538,6 +538,15 @@ export default function ArticleDetail({
                             
                             const isReference = refHeaderIndex !== -1 && index > refHeaderIndex;
 
+                            const noteHeaderIndex = arr.findIndex(p => 
+                                p.toLowerCase().startsWith("nota:") || 
+                                p.toLowerCase().startsWith("nota de la redacción:") ||
+                                p.toLowerCase().startsWith("columna publicada originalmente") ||
+                                p.toLowerCase().startsWith("publicado originalmente")
+                            );
+                            
+                            const isNote = noteHeaderIndex !== -1 && index >= noteHeaderIndex && !isReferenceHeader && !isReference;
+
                             if (isReferenceHeader) {
                                 return (
                                     <h3 key={index} className="text-lg font-bold mt-12 mb-6 text-[#171713] border-b pb-2">
@@ -552,6 +561,18 @@ export default function ArticleDetail({
                                 return (
                                     <p key={index} className="pl-6 -indent-6 mb-3 text-sm text-[#70695f] leading-relaxed font-serif italic">
                                         {cleanRef}
+                                    </p>
+                                );
+                            }
+
+                            if (isNote) {
+                                const isFirstNote = index === noteHeaderIndex;
+                                return (
+                                    <p 
+                                        key={index} 
+                                        className={`text-sm text-[#70695f] font-serif italic leading-relaxed mb-4${isFirstNote ? " border-t border-[#eee8dc]/70 pt-6 mt-8" : ""}`}
+                                    >
+                                        {paragraph}
                                     </p>
                                 );
                             }
