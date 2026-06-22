@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, Play, FileText, Lock, CheckCircle2, Clock, Users, Star, ArrowRight, Eye } from "lucide-react";
+import { AcademiaCoursePaymentButton } from "./AcademiaCoursePaymentButton";
 
 interface Leccion {
   id: string;
@@ -234,27 +235,34 @@ export function CursoPageClient({ curso, profesor, profesorId, modulos, inscrito
                     Ir a mis cursos <ArrowRight className="h-4 w-4" />
                   </a>
                 ) : pendiente ? (
-                  <a
-                    href={`/academia/cursos/${slug}/inscripcion`}
-                    className="flex w-full flex-col items-center justify-center gap-1 py-3 text-[0.66rem] font-extrabold uppercase tracking-[0.13em] ac-btn-ghost"
+                  <AcademiaCoursePaymentButton
+                    cursoId={curso.id}
+                    slug={slug}
+                    label="Finalizar pago online"
+                    className="flex w-full items-center justify-center gap-2 py-3 text-[0.66rem] font-extrabold uppercase tracking-[0.13em] ac-btn-gold ac-glow-gold disabled:opacity-70"
                     style={{ borderRadius: "5px" }}
-                  >
-                    <span className="flex items-center gap-2"><Clock className="h-3.5 w-3.5" /> Solicitud en revisión</span>
-                    <span className="text-[0.6rem] font-medium normal-case tracking-normal" style={{ color: "var(--ac-text-3)" }}>
-                      Ver instrucciones de pago
-                    </span>
-                  </a>
+                  />
                 ) : userId ? (
-                  <form action="/api/academia/inscribir" method="POST">
-                    <input type="hidden" name="curso_id" value={curso.id} />
-                    <button
-                      type="submit"
-                      className="w-full py-3 text-[0.66rem] font-extrabold uppercase tracking-[0.13em] ac-btn-gold ac-glow-gold"
+                  curso.precio === 0 ? (
+                    <form action="/api/academia/inscribir" method="POST">
+                      <input type="hidden" name="curso_id" value={curso.id} />
+                      <button
+                        type="submit"
+                        className="w-full py-3 text-[0.66rem] font-extrabold uppercase tracking-[0.13em] ac-btn-gold ac-glow-gold"
+                        style={{ borderRadius: "5px" }}
+                      >
+                        Inscribirse gratis
+                      </button>
+                    </form>
+                  ) : (
+                    <AcademiaCoursePaymentButton
+                      cursoId={curso.id}
+                      slug={slug}
+                      label="Pagar online"
+                      className="flex w-full items-center justify-center gap-2 py-3 text-[0.66rem] font-extrabold uppercase tracking-[0.13em] ac-btn-gold ac-glow-gold disabled:opacity-70"
                       style={{ borderRadius: "5px" }}
-                    >
-                      {curso.precio === 0 ? "Inscribirse gratis" : "Solicitar inscripción"}
-                    </button>
-                  </form>
+                    />
+                  )
                 ) : (
                   <a
                     href={`/academia/login?redirect=/academia/cursos/${slug}`}
@@ -267,7 +275,7 @@ export function CursoPageClient({ curso, profesor, profesorId, modulos, inscrito
 
                 {curso.precio > 0 && !inscrito && !pendiente && (
                   <p className="mt-3 text-center text-[0.65rem]" style={{ color: "var(--ac-text-3)" }}>
-                    Pago por transferencia · activación tras confirmar
+                    Pago online seguro · acceso automático al confirmarse
                   </p>
                 )}
 

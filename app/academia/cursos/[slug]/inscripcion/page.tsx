@@ -40,6 +40,7 @@ export default async function InscripcionPage({ params }: Props) {
   return (
     <PagoInstrucciones
       cursoTitulo={curso.titulo}
+      cursoId={curso.id}
       cursoSlug={slug}
       precio={Number(curso.precio)}
       moneda={curso.moneda}

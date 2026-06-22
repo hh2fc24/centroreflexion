@@ -1,5 +1,6 @@
 import crypto from "crypto";
 import { NextRequest, NextResponse } from "next/server";
+import { createClient } from "@supabase/supabase-js";
 import { appendMercadoPagoPaymentEvent } from "@/lib/server/mercadoPagoPayments";
 
 type MercadoPagoWebhookPayload = {
@@ -17,6 +18,12 @@ type MercadoPagoPayment = {
   external_reference?: string;
   transaction_amount?: number;
 };
+
+function getAcademiaEnrollmentId(externalReference?: string) {
+  if (!externalReference?.startsWith("crc-academia:")) return null;
+  const [, enrollmentId] = externalReference.split(":");
+  return enrollmentId || null;
+}
 
 function extractPaymentId(payload: MercadoPagoWebhookPayload, request: NextRequest) {
   return (
@@ -40,10 +47,35 @@ async function fetchPayment(paymentId: string) {
   return (await response.json()) as MercadoPagoPayment;
 }
 
+async function activateAcademiaEnrollment(payment: MercadoPagoPayment | null) {
+  if (payment?.status !== "approved") return;
+
+  const enrollmentId = getAcademiaEnrollmentId(payment.external_reference);
+  if (!enrollmentId) return;
+
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!supabaseUrl || !serviceRoleKey) return;
+
+  const supabaseAdmin = createClient(supabaseUrl, serviceRoleKey);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  await (supabaseAdmin as any)
+    .from("inscripciones")
+    .update({
+      estado: "activa",
+      monto_pagado: payment.transaction_amount ?? null,
+      metodo_pago: "mercadopago",
+      comprobante_ref: payment.id ? String(payment.id) : null,
+      fecha_activacion: new Date().toISOString(),
+    })
+    .eq("id", enrollmentId);
+}
+
 export async function POST(request: NextRequest) {
   const payload = (await request.json().catch(() => ({}))) as MercadoPagoWebhookPayload;
   const paymentId = extractPaymentId(payload, request);
   const payment = paymentId ? await fetchPayment(paymentId) : null;
+  await activateAcademiaEnrollment(payment);
 
   await appendMercadoPagoPaymentEvent({
     id: crypto.randomUUID(),
