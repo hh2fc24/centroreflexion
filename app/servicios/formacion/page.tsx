@@ -12,7 +12,7 @@ const juanTraining = [
 const rocioTraining = [
     { name: "Charlas en salud mental y género", detail: "Instancias presenciales u online de 60 a 90 minutos.", price: "Consultar" },
     { name: "Formación de equipos en VIF", detail: "Actualización conceptual, abordaje situado y criterios de cuidado.", price: "Consultar" },
-    { name: "Asesorías PIE", detail: "Supervisión reflexiva para Programas de Integración Escolar.", price: "Plan mensual" },
+    { name: "Asesorías PIE", detail: "Supervisión reflexiva para Programas de Integración Escolar.", price: "Plan" },
     { name: "Taller de terapia ocupacional comunitaria", detail: "Enfoque de derechos humanos, participación y territorio.", price: "Consultar" },
     { name: "Acompañamiento en terreno", detail: "Capacitación para equipos de salud mental comunitaria.", price: "Consultar" },
 ];
