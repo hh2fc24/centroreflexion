@@ -25,8 +25,16 @@ export default function SubmitText() {
                                 <li><strong>Originalidad:</strong> Aceptamos textos inéditos que aporten una perspectiva fresca.</li>
                                 <li><strong>Extensión:</strong> Recomendamos entre 800 y 1,500 palabras para artículos de fondo.</li>
                                 <li><strong>Estilo:</strong> Buscamos rigor intelectual pero con un lenguaje accesible y claro.</li>
-                                <li><strong>Formato:</strong> Envía tu archivo en Word o PDF, interlineado 1.5.</li>
+                                <li><strong>Formato:</strong> Envía tu archivo exclusivamente en formato <strong>Word (.docx)</strong>, interlineado 1.5.</li>
+                                <li><strong>Referencias y citas:</strong> Todas las referencias bibliográficas y citas deben ajustarse a la norma <strong>APA 7.ª edición</strong>.</li>
                             </ul>
+                        </section>
+
+                        <section>
+                            <h3 className="text-xl font-bold text-[#171713] mb-4">Envío de Columnas de Opinión</h3>
+                            <p className="text-[#55574f] mb-4">
+                                Las columnas de opinión deben enviarse únicamente en formato <strong className="text-[#171713]">Word (.docx)</strong>. No se aceptan archivos en PDF ni en otros formatos. Las referencias bibliográficas y citas textuales deben estar formateadas según la norma <strong className="text-[#171713]">APA 7.ª edición</strong>.
+                            </p>
                         </section>
 
                         <section>

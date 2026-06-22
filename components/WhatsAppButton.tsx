@@ -41,6 +41,7 @@ export function WhatsAppButton() {
     const [showTransfer, setShowTransfer] = useState(false);
     const [copiedTransfer, setCopiedTransfer] = useState(false);
     const [ufAmount, setUfAmount] = useState<number | null>(null);
+    const [ufFallback, setUfFallback] = useState(false);
     const [step, setStep] = useState<Step>("idle");
     const [servicio, setServicio] = useState<typeof SERVICIOS[0] | null>(null);
     const [mensaje, setMensaje] = useState("");
@@ -75,14 +76,17 @@ export function WhatsAppButton() {
         let cancelled = false;
         async function fetchUf() {
             try {
-                const response = await fetch("https://mindicador.cl/api/uf", { cache: "no-store" });
-                const data = (await response.json()) as { serie?: Array<{ valor?: number }> };
-                const value = data.serie?.[0]?.valor;
-                if (!cancelled && typeof value === "number") {
-                    setUfAmount(Math.round(value * UF_QUANTITY));
+                const response = await fetch("/api/uf", { cache: "no-store" });
+                const data = (await response.json()) as { amount?: number; fallback?: boolean };
+                if (!cancelled && typeof data.amount === "number") {
+                    setUfAmount(data.amount);
+                    setUfFallback(Boolean(data.fallback));
                 }
             } catch {
-                if (!cancelled) setUfAmount(null);
+                if (!cancelled) {
+                    setUfAmount(40000 * UF_QUANTITY);
+                    setUfFallback(true);
+                }
             }
         }
         fetchUf();
@@ -203,6 +207,7 @@ export function WhatsAppButton() {
                             </a>
                             <p className="mt-2 text-xs leading-5 text-[#8a8276]">
                                 Link de pago abierto: ingresa manualmente el monto indicado, <strong className="text-[#171713]">{formattedUfAmount}</strong>.
+                                {ufFallback ? " Valor de respaldo si la UF diaria no esta disponible." : ""}
                             </p>
                             <button
                                 type="button"
