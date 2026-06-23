@@ -145,7 +145,7 @@ function CinemaCard({
   return (
     <Link
       href={`${article.basePath}/${article.id}`}
-      className="group relative block overflow-hidden rounded-lg bg-[#1a1814]"
+      className="group relative block overflow-hidden rounded-lg bg-[#1a1814] outline-none focus-visible:ring-2 focus-visible:ring-[#d3976d]/70"
     >
       <div className={`relative ${aspectClass} overflow-hidden`}>
         <Image
@@ -158,18 +158,18 @@ function CinemaCard({
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
 
-        {/* Section pill */}
-        <span
-          className="absolute left-3 top-3 rounded-full px-2.5 py-1 text-[9px] font-extrabold uppercase tracking-[0.14em] text-[#111]"
-          style={{ backgroundColor: section.accent }}
-        >
-          {section.shortTitle}
-        </span>
-
-        {/* Reading time */}
-        <span className="absolute right-3 top-3 rounded-full bg-black/50 px-2.5 py-1 text-[9px] font-bold uppercase tracking-wider text-white/70 backdrop-blur-sm">
-          {mins} min
-        </span>
+        {/* Persistent metadata: one classification label, also on hover */}
+        <div className="pointer-events-none absolute inset-x-3 top-3 z-20 flex items-start justify-between gap-2">
+          <span
+            className="rounded-full px-2.5 py-1 text-[9px] font-extrabold uppercase tracking-[0.14em] text-[#111] shadow-[0_8px_24px_rgba(0,0,0,0.28)]"
+            style={{ backgroundColor: section.accent }}
+          >
+            {section.shortTitle}
+          </span>
+          <span className="rounded-full bg-black/55 px-2.5 py-1 text-[9px] font-bold uppercase tracking-wider text-white/75 shadow-[0_8px_24px_rgba(0,0,0,0.25)] backdrop-blur-sm">
+            {mins} min
+          </span>
+        </div>
 
         {/* Title overlay at bottom — hidden on hover to avoid overlap */}
         <div className="absolute inset-x-0 bottom-0 p-4 transition-opacity duration-300 group-hover:opacity-0">
@@ -184,14 +184,8 @@ function CinemaCard({
         </div>
 
         {/* Hover reveal: excerpt */}
-        <div className="absolute inset-0 flex items-end bg-gradient-to-t from-black/95 via-black/60 to-black/20 p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-          <div>
-            <span
-              className="mb-2 inline-block rounded-full px-2.5 py-1 text-[9px] font-extrabold uppercase tracking-[0.14em] text-[#111]"
-              style={{ backgroundColor: section.accent }}
-            >
-              {section.shortTitle}
-            </span>
+        <div className="absolute inset-0 flex items-end bg-gradient-to-t from-black/95 via-black/64 to-black/25 p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+          <div className="border-l-2 pl-3" style={{ borderColor: section.accent }}>
             <h3 className={`font-serif font-semibold leading-tight text-white ${titleClass}`}>
               {article.title}
             </h3>
