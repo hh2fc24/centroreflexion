@@ -37,6 +37,7 @@ export function WhatsAppButton() {
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const panelRef = useRef<HTMLDivElement>(null);
     const criticalPanelRef = useRef<HTMLDivElement>(null);
+    const skipNextCriticalClickRef = useRef(false);
 
     // Cerrar al hacer clic fuera
     useEffect(() => {
@@ -94,6 +95,14 @@ export function WhatsAppButton() {
         setOpen(false);
     }
 
+    function handleCriticalPress() {
+        if (criticalOpen) {
+            handleClose();
+        } else {
+            handleCriticalOpen();
+        }
+    }
+
     function handleClose() {
         setOpen(false);
         setCriticalOpen(false);
@@ -149,11 +158,11 @@ export function WhatsAppButton() {
 
     return (
         <>
-        <div ref={criticalPanelRef} className="fixed bottom-5 left-4 z-50 flex max-w-[calc(100vw-2rem)] flex-col items-start gap-3 sm:bottom-6 sm:left-6">
+        <div ref={criticalPanelRef} className="pointer-events-none fixed bottom-[calc(env(safe-area-inset-bottom)+1.25rem)] left-4 z-[120] flex max-w-[calc(100vw-2rem)] flex-col items-start gap-3 sm:bottom-6 sm:left-6">
             <div
-                className="overflow-y-auto overflow-x-hidden rounded-[12px] shadow-2xl transition-all duration-300"
+                className="pointer-events-auto overflow-y-auto overflow-x-hidden rounded-[12px] shadow-2xl transition-all duration-300"
                 style={{
-                    width: "340px",
+                    width: "min(340px, calc(100vw - 2rem))",
                     maxHeight: criticalOpen ? "calc(100vh - 132px)" : "0px",
                     opacity: criticalOpen ? 1 : 0,
                     pointerEvents: criticalOpen ? "auto" : "none",
@@ -214,9 +223,21 @@ export function WhatsAppButton() {
             </div>
 
             <button
-                onClick={criticalOpen ? handleClose : handleCriticalOpen}
+                type="button"
+                onTouchEnd={(event) => {
+                    event.preventDefault();
+                    skipNextCriticalClickRef.current = true;
+                    handleCriticalPress();
+                }}
+                onClick={() => {
+                    if (skipNextCriticalClickRef.current) {
+                        skipNextCriticalClickRef.current = false;
+                        return;
+                    }
+                    handleCriticalPress();
+                }}
                 aria-label="Abrir canal crítico CRC"
-                className="group inline-flex min-h-14 items-center gap-3 rounded-[8px] border border-[#d3976d]/35 bg-[#171713] px-4 py-2.5 text-left text-[#fffdf8] shadow-[0_14px_30px_rgba(23,23,19,0.2)] transition hover:-translate-y-0.5 hover:border-[#d3976d]/70 hover:bg-[#22251f] sm:px-5"
+                className="group pointer-events-auto inline-flex min-h-14 touch-manipulation items-center gap-3 rounded-[8px] border border-[#d3976d]/35 bg-[#171713] px-4 py-2.5 text-left text-[#fffdf8] shadow-[0_14px_30px_rgba(23,23,19,0.2)] transition hover:-translate-y-0.5 hover:border-[#d3976d]/70 hover:bg-[#22251f] sm:px-5"
                 style={{ flexShrink: 0 }}
             >
                 <ShieldAlert className="h-4 w-4 text-[#d3976d]" />
@@ -227,13 +248,13 @@ export function WhatsAppButton() {
             </button>
         </div>
 
-        <div ref={panelRef} className="fixed bottom-5 right-4 z-50 flex max-w-[calc(100vw-2rem)] flex-col items-end gap-3 sm:bottom-6 sm:right-6">
+        <div ref={panelRef} className="pointer-events-none fixed bottom-[calc(env(safe-area-inset-bottom)+1.25rem)] right-4 z-[120] flex max-w-[calc(100vw-2rem)] flex-col items-end gap-3 sm:bottom-6 sm:right-6">
 
             {/* Panel del chat */}
             <div
-                className="overflow-hidden rounded-[12px] shadow-2xl transition-all duration-300"
+                className="pointer-events-auto overflow-hidden rounded-[12px] shadow-2xl transition-all duration-300"
                 style={{
-                    width: "320px",
+                    width: "min(320px, calc(100vw - 2rem))",
                     maxHeight: open ? "520px" : "0px",
                     opacity: open ? 1 : 0,
                     pointerEvents: open ? "auto" : "none",
@@ -326,9 +347,10 @@ export function WhatsAppButton() {
             <div className="flex flex-col items-end">
                 {/* Botón flotante principal */}
                 <button
+                    type="button"
                     onClick={open ? handleClose : handleOpen}
                     aria-label="Contactar por WhatsApp"
-                    className="flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] shadow-lg transition hover:scale-110 hover:shadow-xl"
+                    className="pointer-events-auto flex h-14 w-14 touch-manipulation items-center justify-center rounded-full bg-[#25D366] shadow-lg transition hover:scale-110 hover:shadow-xl"
                     style={{ flexShrink: 0 }}
                 >
                     {open ? (
