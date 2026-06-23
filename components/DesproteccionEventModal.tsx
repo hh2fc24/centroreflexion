@@ -30,17 +30,26 @@ export function DesproteccionEventModal() {
     return () => window.clearTimeout(timer);
   }, [isAdmin]);
 
+  // El componente vive en el layout raíz y nunca se desmonta entre navegaciones,
+  // así que si el usuario navega a una ruta "isAdmin" mientras el popup estaba
+  // abierto (p.ej. al hacer clic en "Ver página del evento" desde dentro del
+  // propio popup), el render se oculta (return null) pero `open` sigue en true
+  // en el estado. Por eso los efectos de abajo deben usar `isVisible`
+  // (que ya descarta isAdmin) y no `open` a secas — de lo contrario dejan
+  // <body> bloqueado para siempre tras esa navegación.
+  const isVisible = open && !isAdmin;
+
   useEffect(() => {
-    if (!open) return;
+    if (!isVisible) return;
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = previous;
     };
-  }, [open]);
+  }, [isVisible]);
 
   useEffect(() => {
-    if (!open) return;
+    if (!isVisible) return;
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key !== "Escape") return;
       window.sessionStorage.setItem(DISMISS_KEY, "1");
@@ -48,9 +57,9 @@ export function DesproteccionEventModal() {
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [open]);
+  }, [isVisible]);
 
-  if (!open || isAdmin) return null;
+  if (!isVisible) return null;
 
   const close = () => {
     if (typeof window !== "undefined") {
