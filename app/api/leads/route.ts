@@ -7,6 +7,8 @@ import { sanitizePlainText } from "@/lib/server/sanitize";
 import { appendStoredLead, readStoredLeads, type StoredLead } from "@/lib/server/leadsStore";
 import { getGoogleAppsScriptUrl } from "@/lib/site";
 import { getGeo, recordConversionEvent } from "@/lib/server/siteAnalytics";
+import { DESPROTECCION_EVENT_SOURCE } from "@/lib/server/eventRegistrations";
+import { insertDesproteccionRegistration } from "@/lib/server/desproteccionRegistrationsStore";
 
 export const runtime = "nodejs";
 
@@ -77,17 +79,36 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "missing_contact", id: lead.id }, { status: 400 });
   }
 
-  try {
-    await forwardLeadToGoogleSheets(lead);
+  if (lead.source === DESPROTECCION_EVENT_SOURCE) {
+    // Este evento NO se reenvía al Apps Script (ese script pertenece al evento
+    // UAH y no podemos verificar que maneje correctamente un `source` nuevo).
+    // Supabase es la fuente de verdad aquí: durable y compartida entre todas
+    // las instancias serverless, a diferencia del archivo JSON local.
+    try {
+      await insertDesproteccionRegistration(lead);
+    } catch (e: unknown) {
+      const detail = e instanceof Error ? e.message : typeof e === "string" ? e : JSON.stringify(e);
+      return NextResponse.json({ ok: false, error: "write_failed", detail, id: lead.id }, { status: 500 });
+    }
 
     try {
       await appendStoredLead(lead);
     } catch {
-      // Mirror failures should not break successful signups; Google Sheets is the source of truth.
+      // Mirror local opcional; Supabase ya es la fuente de verdad.
     }
-  } catch (e: unknown) {
-    const detail = e instanceof Error ? e.message : typeof e === "string" ? e : JSON.stringify(e);
-    return NextResponse.json({ ok: false, error: "write_failed", detail, id: lead.id }, { status: 500 });
+  } else {
+    try {
+      await forwardLeadToGoogleSheets(lead);
+
+      try {
+        await appendStoredLead(lead);
+      } catch {
+        // Mirror failures should not break successful signups; Google Sheets is the source of truth.
+      }
+    } catch (e: unknown) {
+      const detail = e instanceof Error ? e.message : typeof e === "string" ? e : JSON.stringify(e);
+      return NextResponse.json({ ok: false, error: "write_failed", detail, id: lead.id }, { status: 500 });
+    }
   }
 
   try {

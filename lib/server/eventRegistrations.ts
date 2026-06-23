@@ -1,5 +1,9 @@
 import { readStoredLeads, type StoredLead } from "@/lib/server/leadsStore";
 import { getGoogleAppsScriptUrl } from "@/lib/site";
+import {
+  listDesproteccionRegistrations,
+  type DesproteccionRegistrationRow,
+} from "@/lib/server/desproteccionRegistrationsStore";
 
 export type PublicRegistration = {
   id: string;
@@ -132,17 +136,34 @@ export async function findPublicEventRegistrationById(id: string): Promise<{
 }
 
 // --- "Desprotección y sufrimiento de la infancia en Chile" conversatorio (30 junio 2026) ---
-// Unlike the UAH launch event above, this one is not mirrored to an external Google Sheet,
-// so registrations are read straight from the local leads store (verified source/formId match).
+// Unlike the UAH launch event above, this one is not mirrored to an external Google Sheet.
+// Supabase is the source of truth (durable, shared across serverless instances); the local
+// leads store is kept only as a best-effort fallback if Supabase is unreachable/misconfigured.
 export const DESPROTECCION_EVENT_SOURCE = "evento-desproteccion-infancia";
 export const DESPROTECCION_EVENT_FORM_ID = "desproteccion-infancia-modal";
 
+function mapRowToRegistration(row: DesproteccionRegistrationRow): PublicRegistration {
+  return {
+    id: row.id,
+    name: row.name?.trim() || "Inscripción registrada",
+    email: row.email?.trim() || "Sin correo",
+    phone: row.phone?.trim() || "Sin teléfono",
+    createdAt: new Date(row.created_at).getTime(),
+    source: DESPROTECCION_EVENT_SOURCE,
+  };
+}
+
 async function readDesproteccionLeads() {
-  const leads = await readStoredLeads();
-  return leads
-    .filter((lead) => lead.source === DESPROTECCION_EVENT_SOURCE || lead.formId === DESPROTECCION_EVENT_FORM_ID)
-    .sort((a, b) => (b.createdAt ?? 0) - (a.createdAt ?? 0))
-    .map(mapLeadToRegistration);
+  try {
+    const rows = await listDesproteccionRegistrations();
+    return rows.map(mapRowToRegistration);
+  } catch {
+    const leads = await readStoredLeads();
+    return leads
+      .filter((lead) => lead.source === DESPROTECCION_EVENT_SOURCE || lead.formId === DESPROTECCION_EVENT_FORM_ID)
+      .sort((a, b) => (b.createdAt ?? 0) - (a.createdAt ?? 0))
+      .map(mapLeadToRegistration);
+  }
 }
 
 export async function readDesproteccionEventRegistrations(): Promise<{
