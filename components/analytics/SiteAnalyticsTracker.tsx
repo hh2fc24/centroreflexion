@@ -23,6 +23,11 @@ export function SiteAnalyticsTracker() {
     const payload = JSON.stringify({
       path: fullPath,
       referrer: document.referrer || "",
+      utmSource: searchParams?.get("utm_source") || "",
+      utmMedium: searchParams?.get("utm_medium") || "",
+      utmCampaign: searchParams?.get("utm_campaign") || "",
+      language: navigator.language || "",
+      viewportWidth: window.innerWidth || undefined,
     });
 
     try {

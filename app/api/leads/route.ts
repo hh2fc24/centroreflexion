@@ -6,6 +6,7 @@ import { requireTrustedOrigin } from "@/lib/server/requestSecurity";
 import { sanitizePlainText } from "@/lib/server/sanitize";
 import { appendStoredLead, readStoredLeads, type StoredLead } from "@/lib/server/leadsStore";
 import { getGoogleAppsScriptUrl } from "@/lib/site";
+import { getGeo, recordConversionEvent } from "@/lib/server/siteAnalytics";
 
 export const runtime = "nodejs";
 
@@ -87,6 +88,19 @@ export async function POST(req: Request) {
   } catch (e: unknown) {
     const detail = e instanceof Error ? e.message : typeof e === "string" ? e : JSON.stringify(e);
     return NextResponse.json({ ok: false, error: "write_failed", detail, id: lead.id }, { status: 500 });
+  }
+
+  try {
+    const { country } = getGeo(req);
+    await recordConversionEvent({
+      eventName: "lead_submitted",
+      path: lead.page,
+      ip,
+      country,
+      metadata: { source: lead.source, formId: lead.formId },
+    });
+  } catch {
+    // No bloquear la respuesta al usuario si falla el registro de analítica.
   }
 
   return NextResponse.json({ ok: true, id: lead.id });

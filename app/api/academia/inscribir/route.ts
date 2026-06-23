@@ -5,6 +5,8 @@
 import { NextResponse } from "next/server";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/server";
 import type { Curso, Inscripcion } from "@/lib/supabase/database.types";
+import { getClientIp } from "@/lib/server/rateLimit";
+import { getGeo, recordConversionEvent } from "@/lib/server/siteAnalytics";
 
 export async function POST(request: Request) {
   if (!isSupabaseConfigured()) {
@@ -70,6 +72,19 @@ export async function POST(request: Request) {
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  try {
+    const { country } = getGeo(request);
+    await recordConversionEvent({
+      eventName: esGratuito ? "course_enrollment_free" : "course_enrollment_pending",
+      path: `/academia/cursos/${curso.slug}`,
+      ip: getClientIp(request),
+      country,
+      metadata: { cursoId: curso_id },
+    });
+  } catch {
+    // No bloquear el flujo de inscripción si falla el registro de analítica.
   }
 
   return NextResponse.redirect(esGratuito ? destinoActivo : destinoPago, 303);

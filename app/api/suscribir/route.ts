@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { getClientIp } from "@/lib/server/rateLimit";
+import { getGeo, recordConversionEvent } from "@/lib/server/siteAnalytics";
 
 export const runtime = "nodejs";
 
@@ -29,6 +31,18 @@ export async function POST(req: NextRequest) {
                 return NextResponse.json({ ok: true, existing: true });
             }
             throw error;
+        }
+
+        try {
+            const { country } = getGeo(req);
+            await recordConversionEvent({
+                eventName: "newsletter_signup",
+                ip: getClientIp(req),
+                country,
+                metadata: { origen: cleanOrigen },
+            });
+        } catch {
+            // No bloquear la respuesta si falla el registro de analítica.
         }
 
         return NextResponse.json({ ok: true });

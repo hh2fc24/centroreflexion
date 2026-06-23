@@ -2,6 +2,7 @@ import crypto from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { appendMercadoPagoPaymentEvent } from "@/lib/server/mercadoPagoPayments";
+import { recordConversionEvent } from "@/lib/server/siteAnalytics";
 
 type MercadoPagoWebhookPayload = {
   action?: string;
@@ -76,6 +77,20 @@ export async function POST(request: NextRequest) {
   const paymentId = extractPaymentId(payload, request);
   const payment = paymentId ? await fetchPayment(paymentId) : null;
   await activateAcademiaEnrollment(payment);
+
+  if (payment?.status === "approved") {
+    try {
+      await recordConversionEvent({
+        eventName: "payment_approved",
+        metadata: {
+          externalReference: payment.external_reference,
+          amount: payment.transaction_amount,
+        },
+      });
+    } catch {
+      // No bloquear la confirmación a MercadoPago si falla el registro de analítica.
+    }
+  }
 
   await appendMercadoPagoPaymentEvent({
     id: crypto.randomUUID(),

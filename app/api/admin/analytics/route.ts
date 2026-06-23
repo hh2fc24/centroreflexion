@@ -12,6 +12,7 @@ const NO_STORE_HEADERS = {
 };
 
 const RANGE_MS: Record<string, number> = {
+  "6h": 6 * 60 * 60 * 1000,
   "24h": 24 * 60 * 60 * 1000,
   "7d": 7 * 24 * 60 * 60 * 1000,
   "30d": 30 * 24 * 60 * 60 * 1000,

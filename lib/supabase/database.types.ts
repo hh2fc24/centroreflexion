@@ -116,6 +116,13 @@ export interface AnalyticsPageview {
   user_agent: string | null;
   device: string | null;
   is_bot: boolean;
+  utm_source: string | null;
+  utm_medium: string | null;
+  utm_campaign: string | null;
+  language: string | null;
+  browser: string | null;
+  os: string | null;
+  viewport_width: number | null;
 }
 
 export interface AnalyticsConsentEvent {
@@ -125,6 +132,16 @@ export interface AnalyticsConsentEvent {
   path: string | null;
   ip: string | null;
   country: string | null;
+}
+
+export interface AnalyticsEvent {
+  id: string;
+  created_at: string;
+  event_name: string;
+  path: string | null;
+  ip: string | null;
+  country: string | null;
+  metadata: Record<string, unknown> | null;
 }
 
 // ─────────────────────────────────────────────
@@ -180,6 +197,12 @@ export interface Database {
         Row: AnalyticsConsentEvent;
         Insert: Omit<AnalyticsConsentEvent, "id" | "created_at">;
         Update: Partial<Omit<AnalyticsConsentEvent, "id" | "created_at">>;
+        Relationships: [];
+      };
+      analytics_events: {
+        Row: AnalyticsEvent;
+        Insert: Omit<AnalyticsEvent, "id" | "created_at">;
+        Update: Partial<Omit<AnalyticsEvent, "id" | "created_at">>;
         Relationships: [];
       };
     };

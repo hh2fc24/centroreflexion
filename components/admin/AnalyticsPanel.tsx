@@ -20,6 +20,7 @@ import { cn } from "@/lib/utils";
 
 type Count = { value: string; count: number };
 type DailyPoint = { date: string; human: number; bot: number; total: number };
+type HourlySeriesPoint = { hour: string; human: number; bot: number; total: number };
 type HourPoint = { hour: number; count: number };
 type ConsentDayPoint = { date: string; accepted: number; rejected: number; rate: number };
 
@@ -45,6 +46,7 @@ type Summary = {
     uniqueIps: number;
     consentAccepted: number;
     consentRejected: number;
+    conversions: number;
   };
   comparison: {
     humanChangePct: number | null;
@@ -52,18 +54,30 @@ type Summary = {
     consentRate: number | null;
     previousHuman: number;
   };
+  engagement: {
+    activeNow: number;
+    totalSessions: number;
+    bounceRate: number | null;
+    avgPagesPerSession: number | null;
+    avgSessionDurationSec: number | null;
+  };
   topPaths: Count[];
   topCountries: Count[];
+  topRegions: Count[];
   topReferrers: Count[];
   topDevices: Count[];
+  topUtmSources: Count[];
+  topUtmCampaigns: Count[];
+  conversionsByEvent: Count[];
   suspiciousNonChileCountries: Count[];
   dailySeries: DailyPoint[];
+  hourlySeries: HourlySeriesPoint[];
   hourlyDistribution: HourPoint[];
   consentDailySeries: ConsentDayPoint[];
   recent: RecentRow[];
 };
 
-type RangeKey = "24h" | "7d" | "30d";
+type RangeKey = "6h" | "24h" | "7d" | "30d";
 
 const ACCENT = "#22d3ee";
 const ACCENT_SOFT = "rgba(34,211,238,0.18)";
@@ -121,7 +135,7 @@ function StatCard({
   );
 }
 
-function TrendChart({ data }: { data: DailyPoint[] }) {
+function TrendChart({ data, xKey = "date" }: { data: (DailyPoint | HourlySeriesPoint)[]; xKey?: "date" | "hour" }) {
   if (!data.length) return <div className="text-xs text-white/40">Sin datos en este rango.</div>;
   return (
     <ResponsiveContainer width="100%" height={220}>
@@ -138,10 +152,11 @@ function TrendChart({ data }: { data: DailyPoint[] }) {
         </defs>
         <CartesianGrid stroke="rgba(255,255,255,0.06)" vertical={false} />
         <XAxis
-          dataKey="date"
+          dataKey={xKey}
           tick={{ fill: "rgba(255,255,255,0.45)", fontSize: 11 }}
           axisLine={false}
           tickLine={false}
+          interval={xKey === "hour" ? Math.ceil(data.length / 8) : undefined}
         />
         <YAxis tick={{ fill: "rgba(255,255,255,0.45)", fontSize: 11 }} axisLine={false} tickLine={false} width={32} />
         <Tooltip
@@ -272,7 +287,20 @@ function ConsentRateChart({ data }: { data: ConsentDayPoint[] }) {
   );
 }
 
-const RANGE_LABEL: Record<RangeKey, string> = { "24h": "24 horas", "7d": "7 días", "30d": "30 días" };
+const RANGE_LABEL: Record<RangeKey, string> = {
+  "6h": "6 horas",
+  "24h": "24 horas",
+  "7d": "7 días",
+  "30d": "30 días",
+};
+
+function formatDuration(seconds: number | null): string {
+  if (seconds === null) return "—";
+  if (seconds < 60) return `${seconds}s`;
+  const m = Math.floor(seconds / 60);
+  const s = seconds % 60;
+  return `${m}m ${s}s`;
+}
 
 export function AnalyticsPanel() {
   const [range, setRange] = useState<RangeKey>("7d");
@@ -315,7 +343,7 @@ export function AnalyticsPanel() {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            {(["24h", "7d", "30d"] as RangeKey[]).map((r) => (
+            {(["6h", "24h", "7d", "30d"] as RangeKey[]).map((r) => (
               <button
                 key={r}
                 type="button"
@@ -364,14 +392,40 @@ export function AnalyticsPanel() {
             <StatCard label="IPs únicas" value={totals!.uniqueIps} />
           </div>
 
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-5">
+            <StatCard
+              label="Activos ahora"
+              value={summary.engagement.activeNow}
+              hint="Últimos 5 min"
+            />
+            <StatCard label="Sesiones" value={summary.engagement.totalSessions} />
+            <StatCard
+              label="Tasa de rebote"
+              value={summary.engagement.bounceRate !== null ? `${summary.engagement.bounceRate}%` : "—"}
+              hint="1 sola vista por sesión"
+            />
+            <StatCard
+              label="Páginas / sesión"
+              value={summary.engagement.avgPagesPerSession ?? "—"}
+            />
+            <StatCard
+              label="Duración media"
+              value={formatDuration(summary.engagement.avgSessionDurationSec)}
+            />
+          </div>
+
           <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
             <div className="text-xs font-semibold text-white/70">Tendencia de visitas</div>
             <div className="mt-1 text-[11px] text-white/40">
-              Visitas humanas vs. bots/crawlers por día. Sirve para ver si el tráfico crece y cuánto de ese tráfico es
-              real (no scrapers o monitores).
+              Visitas humanas vs. bots/crawlers{range === "6h" || range === "24h" ? " por hora" : " por día"}. Sirve
+              para ver si el tráfico crece y cuánto de ese tráfico es real (no scrapers o monitores).
             </div>
             <div className="mt-2">
-              <TrendChart data={summary.dailySeries} />
+              {range === "6h" || range === "24h" ? (
+                <TrendChart data={summary.hourlySeries} xKey="hour" />
+              ) : (
+                <TrendChart data={summary.dailySeries} xKey="date" />
+              )}
             </div>
           </div>
 
@@ -439,6 +493,12 @@ export function AnalyticsPanel() {
               </div>
             </div>
             <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+              <div className="text-xs font-semibold text-white/70">Regiones (Chile)</div>
+              <div className="mt-2">
+                <RankedBarChart items={summary.topRegions} />
+              </div>
+            </div>
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
               <div className="text-xs font-semibold text-white/70">Páginas más vistas</div>
               <div className="mt-2">
                 <RankedBarChart items={summary.topPaths} />
@@ -455,6 +515,28 @@ export function AnalyticsPanel() {
               <div className="mt-2">
                 <RankedBarChart items={summary.topDevices} height={160} />
               </div>
+            </div>
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+              <div className="text-xs font-semibold text-white/70">Campañas (UTM source)</div>
+              <div className="mt-1 text-[11px] text-white/40">Solo vistas con utm_source en la URL.</div>
+              <div className="mt-2">
+                <RankedBarChart items={summary.topUtmSources} height={160} />
+              </div>
+            </div>
+          </div>
+
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="text-xs font-semibold text-white/70">Conversiones</div>
+                <div className="mt-1 text-[11px] text-white/40">
+                  Leads, suscripciones, inscripciones y pagos aprobados registrados en este rango.
+                </div>
+              </div>
+              <div className="text-2xl font-bold text-white">{totals!.conversions}</div>
+            </div>
+            <div className="mt-3">
+              <RankedBarChart items={summary.conversionsByEvent} height={160} />
             </div>
           </div>
 
