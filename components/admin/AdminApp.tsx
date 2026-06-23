@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import { Reorder } from "framer-motion";
 import {
   BarChart3,
@@ -797,6 +798,21 @@ export function AdminApp() {
                 Dashboard pro de visitas, países, referrers, dispositivos y consentimiento de cookies.
               </div>
             </button>
+
+            {canReadLeads ? (
+              <Link
+                href="/45453546/inscritos"
+                className="group crc-glass rounded-2xl p-6 text-left shadow-2xl shadow-black/30 transition hover:bg-white/[0.07] sm:col-span-2"
+              >
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-500/10 ring-1 ring-emerald-500/20">
+                  <Users className="h-5 w-5 text-emerald-300" />
+                </div>
+                <div className="mt-4 text-lg font-semibold">Inscritos al conversatorio</div>
+                <div className="mt-1 text-sm text-white/50">
+                  Revisa quiénes se han inscrito a &ldquo;Desprotección y sufrimiento de la infancia en Chile&rdquo;.
+                </div>
+              </Link>
+            ) : null}
           </div>
 
           <button
