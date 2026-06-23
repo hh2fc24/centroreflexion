@@ -32,9 +32,17 @@ function formatTimestamp(ts: number) {
 export function EventRegistrantsPage({
   initialCount,
   initialRegistrations,
+  apiPath = "/api/evento/inscritos",
+  title = "Inscritos al lanzamiento de “Tecnócratas de la infancia”",
+  subtitle = "Vista ejecutiva para seguimiento de inscripciones, contacto con asistentes y gestión posterior del sorteo.",
+  eventInfoText = "Miércoles 29 de abril · 18:30 hrs. · Sala A-27 · Alameda 1825",
 }: {
   initialCount: number;
   initialRegistrations: PublicRegistration[];
+  apiPath?: string;
+  title?: string;
+  subtitle?: string;
+  eventInfoText?: string;
 }) {
   const [data, setData] = useState<Payload>({
     count: initialCount,
@@ -48,7 +56,7 @@ export function EventRegistrantsPage({
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`/api/evento/inscritos?ts=${Date.now()}`, { cache: "no-store" });
+        const response = await fetch(`${apiPath}?ts=${Date.now()}`, { cache: "no-store" });
         const json = (await response.json()) as { ok?: boolean; count?: number; registrations?: PublicRegistration[] };
         if (!json.ok || cancelled) return;
         setData({
@@ -68,7 +76,7 @@ export function EventRegistrantsPage({
       cancelled = true;
       window.clearInterval(interval);
     };
-  }, []);
+  }, [apiPath]);
 
   const metrics = useMemo(() => {
     const withPhone = data.registrations.filter((item) => item.phone && item.phone !== "Sin teléfono").length;
@@ -88,10 +96,10 @@ export function EventRegistrantsPage({
                 Panel de gestión
               </div>
               <h1 className="mt-5 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl lg:text-[3.4rem] font-serif">
-                Inscritos al lanzamiento de “Tecnócratas de la infancia”
+                {title}
               </h1>
               <p className="mt-4 max-w-2xl text-base leading-7 text-slate-700 sm:text-lg">
-                Vista ejecutiva para seguimiento de inscripciones, contacto con asistentes y gestión posterior del sorteo.
+                {subtitle}
               </p>
             </div>
 
@@ -126,7 +134,7 @@ export function EventRegistrantsPage({
             <InfoCard
               icon={Clock3}
               title="Evento"
-              text="Miércoles 29 de abril · 18:30 hrs. · Sala A-27 · Alameda 1825"
+              text={eventInfoText}
             />
             <InfoCard
               icon={Activity}

@@ -130,3 +130,42 @@ export async function findPublicEventRegistrationById(id: string): Promise<{
     };
   }
 }
+
+// --- "Desprotección y sufrimiento de la infancia en Chile" conversatorio (30 junio 2026) ---
+// Unlike the UAH launch event above, this one is not mirrored to an external Google Sheet,
+// so registrations are read straight from the local leads store (verified source/formId match).
+export const DESPROTECCION_EVENT_SOURCE = "evento-desproteccion-infancia";
+export const DESPROTECCION_EVENT_FORM_ID = "desproteccion-infancia-modal";
+
+async function readDesproteccionLeads() {
+  const leads = await readStoredLeads();
+  return leads
+    .filter((lead) => lead.source === DESPROTECCION_EVENT_SOURCE || lead.formId === DESPROTECCION_EVENT_FORM_ID)
+    .sort((a, b) => (b.createdAt ?? 0) - (a.createdAt ?? 0))
+    .map(mapLeadToRegistration);
+}
+
+export async function readDesproteccionEventRegistrations(): Promise<{
+  count: number;
+  registrations: PublicRegistration[];
+}> {
+  const registrations = await readDesproteccionLeads();
+  return {
+    count: registrations.length,
+    registrations: registrations.slice(0, 500),
+  };
+}
+
+export async function findDesproteccionEventRegistrationById(id: string): Promise<{
+  registration: PublicRegistration | null;
+  unavailable: boolean;
+}> {
+  const targetId = id.trim();
+  if (!targetId) {
+    return { registration: null, unavailable: false };
+  }
+
+  const registrations = await readDesproteccionLeads();
+  const registration = registrations.find((item) => item.id === targetId) ?? null;
+  return { registration, unavailable: false };
+}
