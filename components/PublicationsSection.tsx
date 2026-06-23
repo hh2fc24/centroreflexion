@@ -95,7 +95,7 @@ export function PublicationsSection() {
                         {[
                             ["3", "libros"],
                             ["1", "lanzamiento"],
-                            ["7+", "medios"],
+                            ["8+", "medios"],
                         ].map(([value, label]) => (
                             <div key={label} className="min-w-[150px] rounded-[8px] border border-white/10 bg-white/[0.045] p-4">
                                 <p className="font-serif text-3xl font-bold text-white">{value}</p>

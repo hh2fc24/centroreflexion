@@ -15,6 +15,18 @@ const featuredArticle = {
     image: "https://media-front.elmostrador.cl/2026/03/Editar-Imagenes-3-13-700x350.png",
 };
 
+const contextualReport = {
+    url: "https://www.elmostrador.cl/noticias/pais/2024/07/21/crisis-de-informacion-el-estado-no-sabe-cuantos-ninos-desaparecen-de-su-cuidado/",
+    title: "Crisis de información: el Estado no sabe cuántos niños “desaparecen” de su cuidado",
+    channel: "El Mostrador",
+    date: "21 julio, 2024",
+    section: "País · Protección especializada",
+    excerpt:
+        "Reportaje sobre la falta de datos unificados respecto de niños, niñas y adolescentes ausentes de residencias y el cierre de Red Calle Niños. Juan Carlos Rauld participó como coordinador regional metropolitano de la iniciativa, advirtiendo que la institucionalización puede profundizar la vida de la niñez en calle.",
+    note:
+        "Archivo relevante para la discusión pública actual en Chile: una problemática que Juan Carlos Rauld ya venía abordando desde la intervención especializada y la crítica institucional.",
+};
+
 interface AppearanceItem {
     id: number;
     youtubeId?: string;
@@ -137,7 +149,7 @@ export function MediaAppearancesSection() {
                                 </span>
                             </h2>
                             <p className="mt-2 max-w-2xl text-sm text-[#a99f91] font-light leading-relaxed">
-                                Entrevistas, análisis y debates en medios y plataformas digitales sobre salud mental infantil, infancia y políticas públicas.
+                                Entrevistas, reportajes, análisis y debates en medios y plataformas digitales sobre salud mental infantil, infancia y políticas públicas.
                             </p>
                         </div>
                     </div>
@@ -208,6 +220,53 @@ export function MediaAppearancesSection() {
                             className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-[5px] bg-[#bd6f3c] px-5 py-3 text-xs font-bold uppercase tracking-[0.14em] text-white shadow-sm transition-all hover:translate-x-0.5 hover:bg-[#9f5528] sm:w-auto"
                         >
                             Leer en El Mostrador
+                            <ExternalLink className="h-4 w-4" />
+                        </a>
+                    </div>
+                </MotionDiv>
+
+                <MotionDiv
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.55 }}
+                    className="mb-8 rounded-[8px] border border-[#bd6f3c]/35 bg-[#0f0d0a]/45 p-5 shadow-[0_18px_60px_-46px_rgba(189,111,60,0.55)] sm:mb-10 sm:p-6"
+                >
+                    <div className="grid gap-5 lg:grid-cols-[220px_1fr_auto] lg:items-start">
+                        <div>
+                            <span className="inline-flex items-center gap-1.5 rounded-[5px] border border-[#bd6f3c]/50 bg-[#9f5528]/25 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-[#f1ded0]">
+                                <Newspaper className="h-3 w-3" />
+                                Reportaje de contexto
+                            </span>
+                            <div className="mt-4 space-y-1 text-[10px] font-bold uppercase tracking-[0.14em] text-[#a99f91]">
+                                <p>{contextualReport.channel}</p>
+                                <p className="inline-flex items-center gap-1">
+                                    <Calendar className="h-3 w-3" />
+                                    {contextualReport.date}
+                                </p>
+                                <p className="text-[#d3976d]">{contextualReport.section}</p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 className="font-serif text-xl font-bold leading-tight text-white sm:text-2xl">
+                                {contextualReport.title}
+                            </h3>
+                            <p className="mt-3 text-sm leading-7 text-[#d8d0c4]">
+                                {contextualReport.excerpt}
+                            </p>
+                            <p className="mt-3 border-l-2 border-[#bd6f3c] pl-3 text-sm leading-6 text-[#f1ded0]">
+                                {contextualReport.note}
+                            </p>
+                        </div>
+
+                        <a
+                            href={contextualReport.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center justify-center gap-2 rounded-[5px] border border-[#bd6f3c]/50 bg-[#fffdf8] px-4 py-3 text-xs font-bold uppercase tracking-[0.12em] text-[#171713] transition hover:-translate-y-0.5 hover:bg-[#f1ded0] lg:mt-1"
+                        >
+                            Leer reportaje
                             <ExternalLink className="h-4 w-4" />
                         </a>
                     </div>
