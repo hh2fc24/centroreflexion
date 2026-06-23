@@ -79,23 +79,35 @@ export function DesproteccionEventModal() {
 
         <div className="grid grid-cols-1 lg:grid-cols-[1.05fr_1fr]">
           {/* Flyer a sangre — la pieza ya trae título, foto, fecha y hora */}
-          <div className="relative aspect-[16/13] lg:aspect-auto lg:min-h-[560px]">
+          <div className="relative aspect-[16/13] overflow-hidden bg-slate-950 lg:aspect-auto lg:min-h-[560px]">
+            {/* Fondo difuminado para llenar el panel sin recortar el afiche real */}
+            <Image
+              src={IMAGE_SRC}
+              alt=""
+              aria-hidden="true"
+              fill
+              sizes="(min-width: 1024px) 480px, 100vw"
+              className="scale-125 object-cover object-center opacity-50 blur-2xl"
+            />
+            <div className="absolute inset-0 bg-slate-950/35" />
+
+            {/* Afiche completo, sin recortes */}
             <Image
               src={IMAGE_SRC}
               alt="Afiche del conversatorio 'Desprotección y sufrimiento de la infancia en Chile' con Juan Carlos Rauld, martes 30 de junio, 20:30 hrs."
               fill
               priority
               sizes="(min-width: 1024px) 480px, 100vw"
-              className="object-cover object-[60%_center]"
+              className="object-contain object-center p-3"
             />
-            <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/65 to-transparent" />
+
             <div className="absolute left-4 top-4 flex flex-wrap gap-2 lg:left-5 lg:top-5">
               <LiveStreamBadge />
               <LiveCountBadge />
             </div>
             <Link
               href="/eventos/desproteccion-infancia"
-              className="absolute bottom-4 left-4 inline-flex items-center gap-1.5 text-xs font-semibold text-white underline-offset-4 hover:underline lg:bottom-5 lg:left-5"
+              className="absolute bottom-3 left-4 inline-flex items-center gap-1.5 rounded-full bg-black/55 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur-sm transition hover:bg-black/70 lg:bottom-4 lg:left-5"
             >
               Ver página del evento
               <ArrowRight className="h-3.5 w-3.5" />

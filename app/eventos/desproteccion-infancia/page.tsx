@@ -66,16 +66,27 @@ export default async function DesproteccionInfanciaEvent() {
   return (
     <div className="bg-[#fffdf8]">
       {/* Hero a sangre con el afiche real */}
-      <div className="relative h-[78vh] min-h-[420px] w-full overflow-hidden sm:h-[80vh] lg:h-[86vh]">
+      <div className="relative h-[78vh] min-h-[420px] w-full overflow-hidden bg-slate-950 sm:h-[80vh] lg:h-[86vh]">
+        {/* Fondo difuminado para llenar el hero sin recortar el afiche real */}
+        <Image
+          src={IMAGE_PATH}
+          alt=""
+          aria-hidden="true"
+          fill
+          sizes="100vw"
+          className="scale-125 object-cover object-center opacity-45 blur-3xl"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/15" />
+
+        {/* Afiche completo, sin recortes */}
         <Image
           src={IMAGE_PATH}
           alt={`Afiche del conversatorio "${TITLE}" con Juan Carlos Rauld`}
           fill
           priority
           sizes="100vw"
-          className="object-cover object-[68%_18%]"
+          className="object-contain object-center p-6 sm:p-10"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-black/10" />
 
         <div className="absolute inset-x-0 top-0 flex items-center justify-between p-4 sm:p-6">
           <div className="flex flex-wrap gap-2">
