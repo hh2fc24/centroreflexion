@@ -65,50 +65,28 @@ export default async function DesproteccionInfanciaEvent() {
 
   return (
     <div className="bg-[#fffdf8]">
-      {/* Hero a sangre con el afiche real */}
-      <div className="relative h-[78vh] min-h-[420px] w-full overflow-hidden bg-slate-950 sm:h-[80vh] lg:h-[86vh]">
-        {/* Fondo difuminado para llenar el hero sin recortar el afiche real */}
-        <Image
-          src={IMAGE_PATH}
-          alt=""
-          aria-hidden="true"
-          fill
-          sizes="100vw"
-          className="scale-125 object-cover object-center opacity-45 blur-3xl"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/15" />
+      {/* Hero en dos columnas: texto a la izquierda, afiche completo a la derecha (sin superposiciones) */}
+      <div className="relative w-full overflow-hidden bg-slate-950">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 lg:grid-cols-[1.05fr_1fr]">
+          {/* Columna de texto */}
+          <div className="flex flex-col justify-center px-5 py-12 sm:px-8 sm:py-16 lg:px-12 lg:py-20">
+            <div className="flex flex-wrap gap-2">
+              <LiveStreamBadge />
+              <LiveCountBadge seed={initialCount} />
+            </div>
 
-        {/* Afiche completo, sin recortes */}
-        <Image
-          src={IMAGE_PATH}
-          alt={`Afiche del conversatorio "${TITLE}" con Juan Carlos Rauld`}
-          fill
-          priority
-          sizes="100vw"
-          className="object-contain object-center p-6 sm:p-10"
-        />
-
-        <div className="absolute inset-x-0 top-0 flex items-center justify-between p-4 sm:p-6">
-          <div className="flex flex-wrap gap-2">
-            <LiveStreamBadge />
-            <LiveCountBadge seed={initialCount} />
-          </div>
-        </div>
-
-        <div className="absolute inset-x-0 bottom-0 p-5 sm:p-8 lg:p-12">
-          <div className="mx-auto max-w-6xl">
-            <span className="inline-flex items-center rounded-full bg-white px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-950">
+            <span className="mt-6 inline-flex w-fit items-center rounded-full bg-white px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-950">
               Conversatorio · CRC
             </span>
-            <h1 className="mt-3 max-w-3xl text-3xl font-bold leading-[1.05] tracking-tight text-white sm:text-5xl lg:text-6xl">
+            <h1 className="mt-4 max-w-xl text-3xl font-bold leading-[1.08] tracking-tight text-white sm:text-4xl lg:text-5xl">
               {TITLE}
             </h1>
-            <p className="mt-3 max-w-xl text-base leading-7 text-slate-200 sm:text-lg">
+            <p className="mt-4 max-w-md text-base leading-7 text-slate-300 sm:text-lg">
               Con <span className="font-semibold text-white">Juan Carlos Rauld</span>, Director del Centro de
               Reflexiones Críticas.
             </p>
 
-            <div className="mt-6 flex flex-wrap items-center gap-3">
+            <div className="mt-7 flex flex-wrap items-center gap-3">
               <a
                 href="#inscripcion"
                 className="inline-flex h-12 items-center gap-2 rounded-full bg-cyan-400 px-6 text-sm font-semibold text-slate-950 shadow-lg transition hover:bg-cyan-300"
@@ -116,12 +94,38 @@ export default async function DesproteccionInfanciaEvent() {
                 Inscribirme para participar
                 <ArrowRight className="h-4 w-4" />
               </a>
-              <div className="flex items-center gap-2 text-sm font-medium text-slate-200">
-                <CalendarDays className="h-4 w-4" /> Martes 30 de junio
-                <span className="text-slate-500">·</span>
-                <Clock3 className="h-4 w-4" /> 20:30 hrs. (Chile)
-              </div>
             </div>
+
+            <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm font-medium text-slate-300">
+              <span className="flex items-center gap-2">
+                <CalendarDays className="h-4 w-4" /> Martes 30 de junio
+              </span>
+              <span className="hidden text-slate-600 sm:inline">·</span>
+              <span className="flex items-center gap-2">
+                <Clock3 className="h-4 w-4" /> 20:30 hrs. (Chile)
+              </span>
+            </div>
+          </div>
+
+          {/* Columna de imagen: afiche completo, sin recortes */}
+          <div className="relative min-h-[360px] overflow-hidden bg-slate-950 sm:min-h-[440px] lg:min-h-[620px]">
+            <Image
+              src={IMAGE_PATH}
+              alt=""
+              aria-hidden="true"
+              fill
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="scale-125 object-cover object-center opacity-45 blur-3xl"
+            />
+            <div className="absolute inset-0 bg-slate-950/30" />
+            <Image
+              src={IMAGE_PATH}
+              alt={`Afiche del conversatorio "${TITLE}" con Juan Carlos Rauld`}
+              fill
+              priority
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="object-contain object-center p-5 sm:p-8"
+            />
           </div>
         </div>
       </div>
@@ -169,10 +173,22 @@ export default async function DesproteccionInfanciaEvent() {
                   <p className="mt-1 text-sm font-semibold uppercase tracking-[0.08em] text-[#bd6f3c]">
                     Trabajador Social · Autor · Analista en políticas de infancia
                   </p>
+                  <p className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-[#171713]/5 px-3 py-1 text-xs font-semibold text-[#171713]">
+                    <GraduationCap className="h-3.5 w-3.5" />
+                    Doctorando en Trabajo Social, Universidad Rovira i Virgili (España)
+                  </p>
                   <p className="mt-3 text-sm leading-6 text-slate-700">
-                    Investigador del Centro de Reflexiones Críticas. Sus áreas de interés son el trauma psíquico
-                    infantil y la biopolítica de la infancia pobre en Chile. Doctorando en Trabajo Social en la
-                    Universidad Rovira i Virgili (España).
+                    Juan Carlos Rauld es Director del Centro de Reflexiones Críticas e investigador especializado en
+                    infancia, trauma psíquico y biopolítica. Es Magíster en Filosofía Política Contemporánea por la
+                    Universidad Diego Portales y Trabajador Social de la Universidad Tecnológica Metropolitana, con
+                    16 años de experiencia en dirección de programas de infancia y gestión pública en Chile.
+                    Actualmente cursa un doctorado en Trabajo Social en la Universidad Rovira i Virgili (España), donde
+                    profundiza su investigación sobre cómo el Estado chileno gobierna —y desprotege— a la infancia
+                    pobre. Es autor del libro{" "}
+                    <Link href="/publicaciones" className="font-semibold text-slate-950 underline">
+                      Desprotección de la infancia: Dominación, Biopolítica y Gobierno
+                    </Link>
+                    , que sirve de base a este conversatorio.
                   </p>
                   <div className="mt-4 flex flex-wrap items-center gap-3">
                     <Link
