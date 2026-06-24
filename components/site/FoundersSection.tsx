@@ -53,7 +53,7 @@ export function FoundersSection() {
                                             </div>
                                             <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#8a8276]">Foto próximamente</span>
                                         </div>
-                                    ) : imageSrc === "/images/hugo-hormazabal-crc-2026.png" ? (
+                                    ) : imageSrc === "/images/hugo-hormazabal-crc-2026-large.png" ? (
                                         <Image
                                             src={imageSrc}
                                             alt={founder.name}

@@ -244,7 +244,7 @@ export default function About() {
                         <div className="lg:col-span-4 flex flex-col items-center text-center lg:text-left lg:items-start">
                             <div className="relative mb-6 h-72 w-56 overflow-hidden rounded-[6px] bg-white shadow-sm ring-1 ring-[#eee8dc] sm:h-80 sm:w-64">
                                 <Image
-                                    src="/images/hugo-hormazabal-crc-2026.png"
+                                    src="/images/hugo-hormazabal-crc-2026-large.png"
                                     alt="Hugo Felipe Hormazábal"
                                     width={640}
                                     height={900}
