@@ -1,12 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Radio, Users } from "lucide-react";
+import { Radio } from "lucide-react";
 
 // Martes 30 de junio de 2026, 20:30 hrs. hora continental de Chile (UTC-4, horario de invierno).
 const EVENT_TARGET_ISO = "2026-06-30T20:30:00-04:00";
-const COUNT_API_PATH = "/api/evento-desproteccion/contador";
-const COUNT_POLL_MS = 20_000;
 
 function getRemaining() {
   const diff = new Date(EVENT_TARGET_ISO).getTime() - Date.now();
@@ -26,35 +24,6 @@ export function useDesproteccionCountdown() {
   }, []);
 
   return remaining;
-}
-
-export function useDesproteccionRegistrationCount(seed = 0) {
-  const [count, setCount] = useState(seed);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    const fetchCount = async () => {
-      try {
-        const response = await fetch(`${COUNT_API_PATH}?ts=${Date.now()}`, { cache: "no-store" });
-        const json = (await response.json()) as { ok?: boolean; count?: number };
-        if (!cancelled && json.ok && typeof json.count === "number") {
-          setCount(json.count);
-        }
-      } catch {
-        // Keep last known count if the poll fails.
-      }
-    };
-
-    void fetchCount();
-    const interval = window.setInterval(fetchCount, COUNT_POLL_MS);
-    return () => {
-      cancelled = true;
-      window.clearInterval(interval);
-    };
-  }, []);
-
-  return count;
 }
 
 export function CountdownStrip({ dark = true }: { dark?: boolean }) {
@@ -81,24 +50,6 @@ export function CountdownStrip({ dark = true }: { dark?: boolean }) {
         <div className={numberClass}>{remaining.minutes}</div>
         <div className={labelClass}>min.</div>
       </div>
-    </div>
-  );
-}
-
-export function LiveCountBadge({ seed = 0, className = "" }: { seed?: number; className?: string }) {
-  const count = useDesproteccionRegistrationCount(seed);
-  if (count <= 0) return null;
-
-  return (
-    <div
-      className={`inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/55 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white backdrop-blur-sm ${className}`}
-    >
-      <span className="relative flex h-2 w-2">
-        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-        <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
-      </span>
-      <Users className="h-3.5 w-3.5" />
-      {count} inscrito{count === 1 ? "" : "s"}
     </div>
   );
 }

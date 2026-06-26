@@ -6,7 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ArrowRight, X } from "lucide-react";
 import { DesproteccionRegistrationForm } from "@/components/DesproteccionRegistrationForm";
-import { CountdownStrip, LiveCountBadge, LiveStreamBadge } from "@/components/DesproteccionEventMeta";
+import { CountdownStrip, LiveStreamBadge } from "@/components/DesproteccionEventMeta";
 
 const IMAGE_SRC = "/images/jc1.png";
 const DISMISS_KEY = "crc.evento.desproteccion.dismissed.session";
@@ -73,7 +73,7 @@ export function DesproteccionEventModal() {
   };
 
   return (
-    <div className="fixed inset-0 z-[90] overflow-y-auto bg-slate-950/78 p-3 backdrop-blur-md sm:p-4">
+    <div className="fixed inset-0 z-[200] overflow-y-auto bg-slate-950/78 p-3 backdrop-blur-md sm:p-4">
       <div className="absolute inset-0" onClick={close} aria-hidden="true" />
 
       <section className="relative z-10 mx-auto my-0 w-full max-w-[920px] overflow-hidden rounded-[1.5rem] border border-white/12 bg-slate-950 shadow-[0_40px_120px_-35px_rgba(15,23,42,0.7)] sm:my-4">
@@ -112,7 +112,6 @@ export function DesproteccionEventModal() {
 
             <div className="absolute left-4 top-4 flex flex-wrap gap-2 lg:left-5 lg:top-5">
               <LiveStreamBadge />
-              <LiveCountBadge />
             </div>
             <Link
               href="/eventos/desproteccion-infancia"

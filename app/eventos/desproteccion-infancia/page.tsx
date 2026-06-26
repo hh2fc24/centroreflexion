@@ -14,8 +14,7 @@ import {
   Youtube,
 } from "lucide-react";
 import { DesproteccionRegistrationForm } from "@/components/DesproteccionRegistrationForm";
-import { CountdownStrip, LiveCountBadge, LiveStreamBadge } from "@/components/DesproteccionEventMeta";
-import { readDesproteccionEventRegistrations } from "@/lib/server/eventRegistrations";
+import { CountdownStrip, LiveStreamBadge } from "@/components/DesproteccionEventMeta";
 import { getSiteUrl } from "@/lib/site";
 
 const TITLE = "Desprotección y sufrimiento de la infancia en Chile";
@@ -55,14 +54,6 @@ const IDEAS_CLAVE = [
 ];
 
 export default async function DesproteccionInfanciaEvent() {
-  let initialCount = 0;
-  try {
-    const data = await readDesproteccionEventRegistrations();
-    initialCount = data.count;
-  } catch {
-    // El badge en cliente seguirá intentando obtener el conteo.
-  }
-
   return (
     <div className="bg-[#fffdf8]">
       {/* Hero en dos columnas: texto a la izquierda, afiche completo a la derecha (sin superposiciones) */}
@@ -72,7 +63,6 @@ export default async function DesproteccionInfanciaEvent() {
           <div className="flex flex-col justify-center px-5 py-12 sm:px-8 sm:py-16 lg:px-12 lg:py-20">
             <div className="flex flex-wrap gap-2">
               <LiveStreamBadge />
-              <LiveCountBadge seed={initialCount} />
             </div>
 
             <span className="mt-6 inline-flex w-fit items-center rounded-full bg-white px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-950">
