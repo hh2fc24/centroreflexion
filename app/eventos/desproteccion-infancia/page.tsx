@@ -13,13 +13,12 @@ import {
   Radio,
   Youtube,
 } from "lucide-react";
-import { DesproteccionRegistrationForm } from "@/components/DesproteccionRegistrationForm";
 import { CountdownStrip, LiveStreamBadge } from "@/components/DesproteccionEventMeta";
 import { getSiteUrl } from "@/lib/site";
 
 const TITLE = "Desprotección y sufrimiento de la infancia en Chile";
 const DESCRIPTION =
-  "Conversatorio en vivo con Juan Carlos Rauld, Director del Centro de Reflexiones Críticas (CRC). Martes 30 de junio, 20:30 hrs. (Chile). Inscripción gratuita.";
+  "Conversatorio en vivo con Juan Carlos Rauld, Director del Centro de Reflexiones Críticas (CRC). Martes 30 de junio, 20:30 hrs. (Chile).";
 const IMAGE_PATH = "/images/jc1.png";
 
 export const dynamic = "force-dynamic";
@@ -77,13 +76,11 @@ export default async function DesproteccionInfanciaEvent() {
             </p>
 
             <div className="mt-7 flex flex-wrap items-center gap-3">
-              <a
-                href="#inscripcion"
-                className="inline-flex h-12 items-center gap-2 rounded-full bg-cyan-400 px-6 text-sm font-semibold text-slate-950 shadow-lg transition hover:bg-cyan-300"
+              <span
+                className="inline-flex h-12 items-center gap-2 rounded-full bg-white/12 px-6 text-sm font-semibold text-white ring-1 ring-white/15"
               >
-                Inscribirme para participar
-                <ArrowRight className="h-4 w-4" />
-              </a>
+                Inscripciones cerradas
+              </span>
             </div>
 
             <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm font-medium text-slate-300">
@@ -253,8 +250,8 @@ export default async function DesproteccionInfanciaEvent() {
             <section className="mt-14 rounded-2xl border border-black/8 bg-white p-5">
               <h2 className="text-sm font-semibold uppercase tracking-[0.16em] text-slate-500">Sigue la transmisión</h2>
               <p className="mt-2 text-sm leading-6 text-slate-700">
-                Enviaremos el enlace directo de la transmisión por correo a quienes se inscriban. También puedes
-                seguir nuestras cuentas para no perderte el aviso de inicio.
+                Puedes seguir nuestras cuentas para no perderte el aviso de inicio y las próximas actividades del
+                Centro de Reflexiones Críticas.
               </p>
               <div className="mt-4 flex flex-wrap gap-3">
                 <Link
@@ -279,20 +276,18 @@ export default async function DesproteccionInfanciaEvent() {
             </section>
           </div>
 
-          {/* Formulario */}
+          {/* Estado de inscripción */}
           <div id="inscripcion" className="lg:sticky lg:top-24">
             <div className="rounded-[1.5rem] border border-black/8 bg-slate-950 p-6 text-white shadow-[0_30px_80px_-40px_rgba(15,23,42,0.45)] sm:p-7">
               <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/8 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-300">
                 <Radio className="h-3.5 w-3.5 text-cyan-300" />
-                Inscripción gratuita
+                Inscripción cerrada
               </div>
-              <h2 className="mt-3.5 text-2xl font-semibold tracking-tight text-white">Reserva tu cupo</h2>
+              <h2 className="mt-3.5 text-2xl font-semibold tracking-tight text-white">Formulario no disponible</h2>
               <p className="mt-1.5 text-sm leading-6 text-slate-300">
-                Completa tus datos y te enviaremos el link de acceso a la transmisión antes del evento.
+                El formulario de inscripción ya no está activo en el sitio. Te invitamos a seguir las redes del CRC
+                para recibir avisos de próximas actividades.
               </p>
-              <div className="mt-4">
-                <DesproteccionRegistrationForm variant="dark" />
-              </div>
             </div>
           </div>
         </div>

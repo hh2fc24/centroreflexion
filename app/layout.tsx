@@ -9,7 +9,6 @@ import { Footer } from "@/components/Footer";
 
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { CookieConsentBanner } from "@/components/CookieConsentBanner";
-import { DesproteccionEventModal } from "@/components/DesproteccionEventModal";
 import { SiteAnalyticsTracker } from "@/components/analytics/SiteAnalyticsTracker";
 import { EditorProviders } from "@/components/editor/EditorProviders";
 import { IntegrationsScripts } from "@/components/editor/IntegrationsScripts";
@@ -157,7 +156,6 @@ export default async function RootLayout({
           <IntegrationsScripts />
           <WhatsAppButton />
           <CookieConsentBanner />
-          <DesproteccionEventModal />
           <Suspense fallback={null}>
             <SiteAnalyticsTracker />
           </Suspense>
