@@ -74,16 +74,46 @@ export function LeccionViewer({
     return () => window.removeEventListener("keydown", fn);
   }, [modo, go]);
 
-  // Marcar progreso (visto) al abrir, si está inscrito
+  // Registro de aprendizaje: apertura (vista) + tiempo dedicado real.
+  // Cuenta solo el tiempo con la pestaña visible y lo envía por "heartbeat".
   useEffect(() => {
     if (!userId || !inscrito) return;
     const sb = createClient();
     if (!sb) return;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (sb as any).from("progreso_lecciones").upsert(
-      { alumno_id: userId, leccion_id: leccion.id, curso_id: cursoId, porcentaje_visto: 10 },
-      { onConflict: "alumno_id,leccion_id" }
-    ).then(() => {});
+
+    const registrar = (deltaSeg: number, nuevaVista: boolean, pct: number | null) =>
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (sb as any).rpc("registrar_progreso", {
+        p_leccion: leccion.id,
+        p_curso: cursoId,
+        p_delta_seg: Math.round(deltaSeg),
+        p_pct: pct,
+        p_nueva_vista: nuevaVista,
+      }).then(() => {}, () => {});
+
+    let acumulado = 0;
+    let ultimoTick = Date.now();
+    registrar(0, true, 10); // apertura de la lección
+
+    const tick = setInterval(() => {
+      const ahora = Date.now();
+      if (document.visibilityState === "visible") {
+        acumulado += (ahora - ultimoTick) / 1000;
+        if (acumulado >= 15) { registrar(acumulado, false, null); acumulado = 0; }
+      }
+      ultimoTick = ahora;
+    }, 5000);
+
+    const flush = () => { if (acumulado >= 1) { registrar(acumulado, false, null); acumulado = 0; } };
+    document.addEventListener("visibilitychange", flush);
+    window.addEventListener("beforeunload", flush);
+
+    return () => {
+      clearInterval(tick);
+      document.removeEventListener("visibilitychange", flush);
+      window.removeEventListener("beforeunload", flush);
+      flush();
+    };
   }, [userId, inscrito, leccion.id, cursoId]);
 
   async function toggleCompletada() {

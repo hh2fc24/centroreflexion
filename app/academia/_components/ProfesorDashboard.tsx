@@ -3,7 +3,7 @@
  * Resumen de sus cursos, inscritos y accesos a la gestión.
  */
 import Link from "next/link";
-import { BookOpen, Users, GraduationCap, ArrowRight, Eye } from "lucide-react";
+import { BookOpen, Users, GraduationCap, ArrowRight, Eye, Clock, TrendingUp, Activity } from "lucide-react";
 
 interface CursoResumen {
   id: string;
@@ -17,10 +17,12 @@ export function ProfesorDashboard({
   nombre,
   cursos,
   totalInscritos,
+  engagement,
 }: {
   nombre: string | null;
   cursos: CursoResumen[];
   totalInscritos: number;
+  engagement?: { horas: number; avance: number; activos7d: number };
 }) {
   return (
     <div className="mx-auto max-w-5xl px-5 py-14 sm:px-8">
@@ -41,6 +43,18 @@ export function ProfesorDashboard({
         <Stat icon={Users} label="Estudiantes inscritos" value={totalInscritos} color="#d4a843" />
         <Stat icon={GraduationCap} label="Publicados" value={cursos.filter((c) => c.estado === "publicado").length} color="#4ade80" />
       </div>
+
+      {/* Engagement */}
+      {engagement && (
+        <>
+          <h2 className="mt-10 mb-4 text-xs font-bold uppercase tracking-[0.15em]" style={{ color: "var(--ac-gold)" }}>Aprendizaje</h2>
+          <div className="grid gap-4 sm:grid-cols-3">
+            <Stat icon={TrendingUp} label="Avance promedio" value={`${engagement.avance}%`} color="#6b5ce7" />
+            <Stat icon={Clock} label="Horas dedicadas" value={`${engagement.horas}h`} color="#38bdf8" />
+            <Stat icon={Activity} label="Activos (7 días)" value={engagement.activos7d} color="#4ade80" />
+          </div>
+        </>
+      )}
 
       {/* Cursos */}
       <div className="mt-12 flex items-center justify-between">
@@ -81,7 +95,7 @@ export function ProfesorDashboard({
   );
 }
 
-function Stat({ icon: Icon, label, value, color }: { icon: typeof BookOpen; label: string; value: number; color: string }) {
+function Stat({ icon: Icon, label, value, color }: { icon: typeof BookOpen; label: string; value: number | string; color: string }) {
   return (
     <div className="rounded-xl p-5" style={{ background: "var(--ac-surface)", border: "1px solid var(--ac-border)" }}>
       <div className="flex h-9 w-9 items-center justify-center rounded-lg" style={{ background: `${color}1f` }}>

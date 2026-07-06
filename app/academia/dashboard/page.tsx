@@ -98,17 +98,60 @@ export default async function DashboardPage() {
       })
     );
     const totalInscritos = cursos.reduce((a, c) => a + c.nInscritos, 0);
-    return <ProfesorDashboard nombre={nombre} cursos={cursos} totalInscritos={totalInscritos} />;
+
+    // ── Engagement (aprendizaje real) ──
+    const courseIds = cursosP.map((c) => c.id);
+    let engagement: { horas: number; avance: number; activos7d: number } | undefined;
+    if (courseIds.length) {
+      const [progRes, lecRes, insRes] = await Promise.all([
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (supabase as any).from("progreso_lecciones").select("alumno_id, curso_id, completada, segundos_dedicados, ultima_vista").in("curso_id", courseIds),
+        supabase.from("lecciones").select("id, curso_id").in("curso_id", courseIds),
+        supabase.from("inscripciones").select("alumno_id, curso_id").in("curso_id", courseIds).in("estado", ["activa", "completada"]),
+      ]);
+      type P = { alumno_id: string; curso_id: string; completada: boolean; segundos_dedicados: number | null; ultima_vista: string | null };
+      const prog = (progRes.data as P[] | null) ?? [];
+      const lecCount = new Map<string, number>();
+      ((lecRes.data as { id: string; curso_id: string }[] | null) ?? []).forEach((l) => lecCount.set(l.curso_id, (lecCount.get(l.curso_id) ?? 0) + 1));
+      const compByKey = new Map<string, number>();
+      prog.forEach((p) => { if (p.completada) { const k = `${p.alumno_id}|${p.curso_id}`; compByKey.set(k, (compByKey.get(k) ?? 0) + 1); } });
+      const inscritosList = (insRes.data as { alumno_id: string; curso_id: string }[] | null) ?? [];
+      const avances = inscritosList.map((i) => {
+        const tot = lecCount.get(i.curso_id) ?? 0;
+        return tot > 0 ? ((compByKey.get(`${i.alumno_id}|${i.curso_id}`) ?? 0) / tot) * 100 : 0;
+      });
+      const semana = Date.now() - 7 * 86400000;
+      engagement = {
+        horas: Math.round((prog.reduce((a, p) => a + (p.segundos_dedicados ?? 0), 0) / 3600) * 10) / 10,
+        avance: avances.length ? Math.round(avances.reduce((a, b) => a + b, 0) / avances.length) : 0,
+        activos7d: new Set(prog.filter((p) => p.ultima_vista && new Date(p.ultima_vista).getTime() >= semana).map((p) => p.alumno_id)).size,
+      };
+    }
+
+    return <ProfesorDashboard nombre={nombre} cursos={cursos} totalInscritos={totalInscritos} engagement={engagement} />;
   }
 
   // ── Dashboard del ADMIN ─────────────────────────────────
   if (rol === "admin") {
-    const [cursosCount, alumnosCount, profesoresCount, solicitudesCount] = await Promise.all([
+    const [cursosCount, alumnosCount, profesoresCount, solicitudesCount, insTotal, insCompletadas, progRes] = await Promise.all([
       supabase.from("cursos").select("*", { count: "exact", head: true }),
       supabase.from("profiles").select("*", { count: "exact", head: true }).eq("rol", "alumno"),
       supabase.from("profiles").select("*", { count: "exact", head: true }).eq("rol", "profesor"),
       supabase.from("inscripciones").select("*", { count: "exact", head: true }).eq("estado", "pendiente"),
+      supabase.from("inscripciones").select("*", { count: "exact", head: true }).in("estado", ["activa", "completada"]),
+      supabase.from("inscripciones").select("*", { count: "exact", head: true }).eq("estado", "completada"),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (supabase as any).from("progreso_lecciones").select("alumno_id, segundos_dedicados, ultima_vista"),
     ]);
+    type P = { alumno_id: string; segundos_dedicados: number | null; ultima_vista: string | null };
+    const prog = (progRes.data as P[] | null) ?? [];
+    const semana = Date.now() - 7 * 86400000;
+    const insBase = insTotal.count ?? 0;
+    const engagement = {
+      horas: Math.round((prog.reduce((a, p) => a + (p.segundos_dedicados ?? 0), 0) / 3600) * 10) / 10,
+      activos7d: new Set(prog.filter((p) => p.ultima_vista && new Date(p.ultima_vista).getTime() >= semana).map((p) => p.alumno_id)).size,
+      tasaFinalizacion: insBase > 0 ? Math.round(((insCompletadas.count ?? 0) / insBase) * 100) : 0,
+    };
     return (
       <AdminDashboard
         nombre={nombre}
@@ -116,6 +159,7 @@ export default async function DashboardPage() {
         totalAlumnos={alumnosCount.count ?? 0}
         totalProfesores={profesoresCount.count ?? 0}
         solicitudesPendientes={solicitudesCount.count ?? 0}
+        engagement={engagement}
       />
     );
   }
@@ -174,20 +218,24 @@ export default async function DashboardPage() {
     .eq("alumno_id", user.id)
     .eq("estado", "completada");
 
-  type ProgresoConLeccion = { leccion_id: string; lecciones: { video_duracion_seg: number | null } | null };
-  const { data: progresoRaw } = await supabase
+  // Tiempo real dedicado (segundos_dedicados) y racha de días activos
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: progresoRaw } = await (supabase as any)
     .from("progreso_lecciones")
-    .select("leccion_id, lecciones(video_duracion_seg)")
-    .eq("alumno_id", user.id)
-    .eq("completada", true);
-  const progreso = progresoRaw as ProgresoConLeccion[] | null;
+    .select("segundos_dedicados, ultima_vista")
+    .eq("alumno_id", user.id);
+  const progreso = (progresoRaw as { segundos_dedicados: number | null; ultima_vista: string | null }[] | null) ?? [];
 
-  const horasEstudiadas = Math.round(
-    (progreso ?? []).reduce((acc, p) => {
-      const dur = p.lecciones?.video_duracion_seg ?? 0;
-      return acc + dur;
-    }, 0) / 3600
+  const horasEstudiadas = Math.round(progreso.reduce((acc, p) => acc + (p.segundos_dedicados ?? 0), 0) / 3600);
+
+  const diasActivos = new Set(
+    progreso.filter((p) => p.ultima_vista).map((p) => new Date(p.ultima_vista as string).toISOString().slice(0, 10))
   );
+  let racha_dias = 0;
+  for (const d = new Date(); ; d.setDate(d.getDate() - 1)) {
+    if (diasActivos.has(d.toISOString().slice(0, 10))) racha_dias++;
+    else break;
+  }
 
   return (
     <DashboardClient
@@ -197,7 +245,7 @@ export default async function DashboardPage() {
         cursos_inscritos: totalInscritos,
         cursos_completados: completados ?? 0,
         horas_estudiadas: horasEstudiadas,
-        racha_dias: 0,
+        racha_dias,
       }}
     />
   );

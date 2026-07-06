@@ -3,7 +3,7 @@
  * Vista general + accesos rápidos a la gestión.
  */
 import Link from "next/link";
-import { BookOpen, Users, Inbox, GraduationCap, ArrowRight } from "lucide-react";
+import { BookOpen, Users, Inbox, GraduationCap, ArrowRight, Clock, Activity, CheckCircle2 } from "lucide-react";
 
 export function AdminDashboard({
   nombre,
@@ -11,12 +11,14 @@ export function AdminDashboard({
   totalAlumnos,
   totalProfesores,
   solicitudesPendientes,
+  engagement,
 }: {
   nombre: string | null;
   totalCursos: number;
   totalAlumnos: number;
   totalProfesores: number;
   solicitudesPendientes: number;
+  engagement?: { horas: number; activos7d: number; tasaFinalizacion: number };
 }) {
   return (
     <div className="mx-auto max-w-5xl px-5 py-14 sm:px-8">
@@ -39,6 +41,18 @@ export function AdminDashboard({
         <Stat icon={Inbox} label="Solicitudes" value={solicitudesPendientes} color="#f97316" highlight={solicitudesPendientes > 0} />
       </div>
 
+      {/* Engagement */}
+      {engagement && (
+        <>
+          <h2 className="mt-10 mb-4 text-xs font-bold uppercase tracking-[0.15em]" style={{ color: "var(--ac-gold)" }}>Aprendizaje en la plataforma</h2>
+          <div className="grid gap-4 sm:grid-cols-3">
+            <Stat icon={Clock} label="Horas de estudio" value={`${engagement.horas}h`} color="#38bdf8" />
+            <Stat icon={Activity} label="Alumnos activos (7 días)" value={engagement.activos7d} color="#4ade80" />
+            <Stat icon={CheckCircle2} label="Tasa de finalización" value={`${engagement.tasaFinalizacion}%`} color="#6b5ce7" />
+          </div>
+        </>
+      )}
+
       {/* Accesos rápidos */}
       <h2 className="mt-12 mb-5 text-xs font-bold uppercase tracking-[0.15em]" style={{ color: "var(--ac-gold)" }}>Gestión</h2>
       <div className="grid gap-4 sm:grid-cols-2">
@@ -55,7 +69,7 @@ export function AdminDashboard({
   );
 }
 
-function Stat({ icon: Icon, label, value, color, highlight }: { icon: typeof BookOpen; label: string; value: number; color: string; highlight?: boolean }) {
+function Stat({ icon: Icon, label, value, color, highlight }: { icon: typeof BookOpen; label: string; value: number | string; color: string; highlight?: boolean }) {
   return (
     <div className="rounded-xl p-5" style={{ background: "var(--ac-surface)", border: highlight ? `1px solid ${color}` : "1px solid var(--ac-border)" }}>
       <div className="flex h-9 w-9 items-center justify-center rounded-lg" style={{ background: `${color}1f` }}>
