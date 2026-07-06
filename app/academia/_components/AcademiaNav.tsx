@@ -6,11 +6,13 @@ import { useState, useEffect } from "react";
 import { Menu, X, GraduationCap, LogOut } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { createClient } from "@/lib/supabase/client";
+import { ThemeToggle } from "./ThemeToggle";
 
 type Rol = "alumno" | "profesor" | "admin" | null;
 
 function linksForRole(rol: Rol) {
-  const base = [{ href: "/academia", label: "Cursos" }];
+  // Usuarios autenticados exploran el catálogo en el área privada (sin marketing)
+  const base = [{ href: "/academia/explorar", label: "Cursos" }];
   if (rol === "admin") {
     return [
       ...base,
@@ -64,9 +66,9 @@ export function AcademiaNav({ rol = null, authed = false }: { rol?: Rol; authed?
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       className="sticky top-0 z-50"
       style={{
-        background: scrolled ? "rgba(9,9,15,0.9)" : "transparent",
+        background: scrolled ? "var(--ac-nav-bg)" : "transparent",
         backdropFilter: scrolled ? "blur(20px)" : "none",
-        borderBottom: scrolled ? "1px solid rgba(255,255,255,0.06)" : "1px solid transparent",
+        borderBottom: scrolled ? "1px solid var(--ac-nav-border)" : "1px solid transparent",
         transition: "background 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease",
       }}
     >
@@ -106,6 +108,8 @@ export function AcademiaNav({ rol = null, authed = false }: { rol?: Rol; authed?
 
         {/* CTA + mobile toggle */}
         <div className="flex items-center gap-3">
+          {/* Toggle día/noche */}
+          <ThemeToggle />
           {authed ? (
             <div className="hidden items-center gap-3 sm:flex">
               <span

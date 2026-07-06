@@ -15,7 +15,7 @@ export default async function MisCursosPage() {
           <p className="text-lg font-semibold" style={{ color: "var(--ac-text-2)" }}>
             Supabase no configurado aún.
           </p>
-          <Link href="/academia" className="mt-4 inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm ac-btn-ghost">
+          <Link href="/academia/explorar" className="mt-4 inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm ac-btn-ghost">
             Volver al catálogo <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
@@ -67,7 +67,7 @@ export default async function MisCursosPage() {
             Aún no estás inscrito en ningún curso.
           </p>
           <Link
-            href="/academia"
+            href="/academia/explorar"
             className="mt-6 inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm ac-btn-gold"
           >
             Explorar catálogo <ArrowRight className="h-4 w-4" />

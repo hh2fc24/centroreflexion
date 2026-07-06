@@ -250,7 +250,7 @@ export function DashboardClient({ user, cursosActivos, stats }: DashboardProps) 
               </p>
               {stats.cursos_inscritos === 0 && (
                 <Link
-                  href="/academia"
+                  href="/academia/explorar"
                   className="mt-4 inline-flex items-center gap-2 px-5 py-2.5 text-[0.66rem] font-extrabold uppercase tracking-[0.13em] ac-btn-gold"
               style={{ borderRadius: "5px" }}
                 >

@@ -253,6 +253,37 @@ span {
   --ac-text-3:       rgba(240, 236, 228, 0.35);
   --ac-purple:       #6b5ce7;
   --ac-purple-dim:   rgba(107, 92, 231, 0.15);
+  /* Barra de navegación (se adapta al tema) */
+  --ac-nav-bg:       rgba(9, 9, 15, 0.9);
+  --ac-nav-border:   rgba(255, 255, 255, 0.06);
+  --ac-shadow-card:  0 20px 50px rgba(0, 0, 0, 0.4);
+}
+
+/* ─── Tema claro (modo día) ─────────────────────────────────
+   Se activa con data-theme="light" sobre el contenedor [data-academia].
+   Mantiene el acento dorado, invierte fondos y textos.            */
+[data-academia][data-theme="light"] {
+  --ac-bg:           #f6f4ee;
+  --ac-bg-soft:      #efece3;
+  --ac-surface:      #ffffff;
+  --ac-surface-2:    #f2efe7;
+  --ac-card:         #ffffff;
+  --ac-card-hover:   #f4f1e9;
+  --ac-border:       rgba(30, 25, 15, 0.10);
+  --ac-border-md:    rgba(30, 25, 15, 0.16);
+  --ac-border-gold:  rgba(170, 128, 40, 0.55);
+  --ac-gold:         #a97d1c;
+  --ac-gold-light:   #c1912a;
+  --ac-gold-dim:     rgba(169, 125, 28, 0.12);
+  --ac-gold-glow:    rgba(169, 125, 28, 0.20);
+  --ac-text:         #1c1a22;
+  --ac-text-2:       rgba(28, 26, 34, 0.72);
+  --ac-text-3:       rgba(28, 26, 34, 0.48);
+  --ac-purple:       #5a4bd4;
+  --ac-purple-dim:   rgba(90, 75, 212, 0.12);
+  --ac-nav-bg:       rgba(246, 244, 238, 0.85);
+  --ac-nav-border:   rgba(30, 25, 15, 0.10);
+  --ac-shadow-card:  0 20px 50px rgba(40, 30, 10, 0.14);
 }
 
 /* ─── Keyframes ────────────────────────────────────────────── */
