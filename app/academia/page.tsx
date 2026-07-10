@@ -4,6 +4,7 @@
  */
 import type { Metadata } from "next";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import type { Curso, Profile } from "@/lib/supabase/database.types";
@@ -20,6 +21,13 @@ export const metadata: Metadata = {
 
 export default async function AcademiaPage() {
   const supabase = await createClient();
+
+  // Home público SOLO para visitantes sin sesión.
+  // Si el usuario ya inició sesión, su lugar es el entorno privado, no el marketing.
+  if (supabase) {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) redirect("/academia/dashboard");
+  }
 
   // Si Supabase no está configurado, mostrar catálogo vacío sin crashear
   type CursoRow = Pick<Curso, "id" | "slug" | "titulo" | "descripcion_corta" | "imagen_url" | "precio" | "moneda" | "nivel" | "duracion_horas" | "categoria"> & {

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { CreditCard, ShieldAlert } from "lucide-react";
 
 const WA_NUMBER = "56949186447";
@@ -25,6 +26,7 @@ function WaIcon() {
 }
 
 export function WhatsAppButton() {
+    const pathname = usePathname();
     const [open, setOpen] = useState(false);
     const [criticalOpen, setCriticalOpen] = useState(false);
     const [ufAmount, setUfAmount] = useState<number | null>(null);
@@ -155,6 +157,9 @@ export function WhatsAppButton() {
     const formattedUfAmount = ufAmount
         ? new Intl.NumberFormat("es-CL", { style: "currency", currency: "CLP", maximumFractionDigits: 0 }).format(ufAmount)
         : "2 UF";
+
+    // En la Academia CRC no se muestran los canales de ayuda/WhatsApp del sitio.
+    if (pathname?.startsWith("/academia")) return null;
 
     return (
         <>
