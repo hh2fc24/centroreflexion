@@ -63,10 +63,10 @@ export default async function DashboardPage() {
 
   const { data: profileRaw } = await supabase
     .from("profiles")
-    .select("nombre, apellido, rol")
+    .select("nombre, apellido, rol, avatar_url")
     .eq("id", user.id)
     .single();
-  const profile = profileRaw as Pick<Profile, "nombre" | "apellido" | "rol"> | null;
+  const profile = profileRaw as Pick<Profile, "nombre" | "apellido" | "rol" | "avatar_url"> | null;
 
   // Google SSO entrega el nombre en user_metadata (full_name / name / given_name).
   // Lo usamos como respaldo cuando el perfil aún no tiene nombre guardado, para no
@@ -79,6 +79,8 @@ export default async function DashboardPage() {
   const rol = profile?.rol ?? "alumno";
   const nombre = profile?.nombre || metaGiven || null;
   const apellido = profile?.apellido || metaFamily || null;
+  // Foto de perfil de Google (avatar_url / picture); respaldo: iniciales.
+  const avatar_url = profile?.avatar_url || meta.avatar_url || meta.picture || null;
 
   const avatar_initials = [nombre, apellido]
     .filter(Boolean)
@@ -247,7 +249,7 @@ export default async function DashboardPage() {
 
   return (
     <DashboardClient
-      user={{ nombre, email: user.email!, rol, avatar_initials }}
+      user={{ nombre, email: user.email!, rol, avatar_initials, avatar_url }}
       cursosActivos={cursosActivos}
       stats={{
         cursos_inscritos: totalInscritos,

@@ -14,6 +14,7 @@ interface DashboardProps {
     email: string;
     rol: string;
     avatar_initials: string;
+    avatar_url?: string | null;
   };
   cursosActivos: {
     id: string;
@@ -194,14 +195,24 @@ function WelcomeHeader({ user }: { user: DashboardProps["user"] }) {
       className="flex flex-wrap items-center justify-between gap-5"
     >
       <div className="flex items-center gap-4">
-        <div className="flex h-14 w-14 shrink-0 items-center justify-center text-lg font-bold ac-glow-gold"
-          style={{
-            background: "linear-gradient(135deg, var(--ac-gold-dim), rgba(107,92,231,0.18))",
-            border: "1px solid var(--ac-border-gold)", borderRadius: "14px",
-            color: "var(--ac-gold-light)", fontFamily: "var(--font-cormorant, serif)",
-          }}>
-          {user.avatar_initials}
-        </div>
+        {user.avatar_url ? (
+          <div className="h-14 w-14 shrink-0 overflow-hidden ac-glow-gold"
+            style={{ border: "1px solid var(--ac-border-gold)", borderRadius: "14px" }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={user.avatar_url} alt={user.nombre ?? "Avatar"}
+              referrerPolicy="no-referrer"
+              className="h-full w-full object-cover" />
+          </div>
+        ) : (
+          <div className="flex h-14 w-14 shrink-0 items-center justify-center text-lg font-bold ac-glow-gold"
+            style={{
+              background: "linear-gradient(135deg, var(--ac-gold-dim), rgba(107,92,231,0.18))",
+              border: "1px solid var(--ac-border-gold)", borderRadius: "14px",
+              color: "var(--ac-gold-light)", fontFamily: "var(--font-cormorant, serif)",
+            }}>
+            {user.avatar_initials}
+          </div>
+        )}
         <div>
           <p className="text-[0.72rem] uppercase tracking-[0.18em]" style={{ color: "var(--ac-text-3)" }}>{saludo}</p>
           <h1 style={{
