@@ -21,7 +21,7 @@ export function AdminDashboard({
   engagement?: { horas: number; activos7d: number; tasaFinalizacion: number };
 }) {
   return (
-    <div className="mx-auto max-w-5xl px-5 py-14 sm:px-8">
+    <div className="mx-auto max-w-6xl px-5 py-12 sm:px-8">
       <span className="crc-eyebrow" style={{ color: "var(--ac-gold)" }}>Panel de administración</span>
       <h1
         className="mt-2"
@@ -71,12 +71,12 @@ export function AdminDashboard({
 
 function Stat({ icon: Icon, label, value, color, highlight }: { icon: typeof BookOpen; label: string; value: number | string; color: string; highlight?: boolean }) {
   return (
-    <div className="rounded-xl p-5" style={{ background: "var(--ac-surface)", border: highlight ? `1px solid ${color}` : "1px solid var(--ac-border)" }}>
-      <div className="flex h-9 w-9 items-center justify-center rounded-lg" style={{ background: `${color}1f` }}>
-        <Icon className="h-4 w-4" style={{ color }} />
+    <div className="p-5" style={{ background: "var(--ac-surface)", border: highlight ? `1px solid ${color}` : "1px solid var(--ac-border)", borderRadius: "14px" }}>
+      <div className="flex h-10 w-10 items-center justify-center" style={{ background: `${color}1f`, borderRadius: "10px" }}>
+        <Icon className="h-[18px] w-[18px]" style={{ color }} />
       </div>
-      <p className="mt-3" style={{ fontFamily: "var(--font-cormorant, serif)", fontSize: "2rem", fontWeight: 700, color: "var(--ac-text)" }}>{value}</p>
-      <p className="text-xs" style={{ color: "var(--ac-text-3)" }}>{label}</p>
+      <p className="mt-3 tabular-nums" style={{ fontFamily: "var(--font-cormorant, serif)", fontSize: "2.1rem", fontWeight: 700, color: "var(--ac-text)", lineHeight: 1 }}>{value}</p>
+      <p className="mt-1 text-[0.7rem] uppercase tracking-[0.1em]" style={{ color: "var(--ac-text-3)" }}>{label}</p>
     </div>
   );
 }

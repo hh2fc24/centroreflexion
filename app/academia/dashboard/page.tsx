@@ -68,9 +68,17 @@ export default async function DashboardPage() {
     .single();
   const profile = profileRaw as Pick<Profile, "nombre" | "apellido" | "rol"> | null;
 
+  // Google SSO entrega el nombre en user_metadata (full_name / name / given_name).
+  // Lo usamos como respaldo cuando el perfil aún no tiene nombre guardado, para no
+  // caer nunca en el prefijo del correo (ej. "hh2fc24").
+  const meta = (user.user_metadata ?? {}) as Record<string, string | undefined>;
+  const metaFull = (meta.full_name || meta.name || "").trim();
+  const metaGiven = (meta.given_name || (metaFull ? metaFull.split(" ")[0] : "")).trim();
+  const metaFamily = (meta.family_name || (metaFull.split(" ").length > 1 ? metaFull.split(" ").slice(1).join(" ") : "")).trim();
+
   const rol = profile?.rol ?? "alumno";
-  const nombre = profile?.nombre ?? null;
-  const apellido = profile?.apellido ?? null;
+  const nombre = profile?.nombre || metaGiven || null;
+  const apellido = profile?.apellido || metaFamily || null;
 
   const avatar_initials = [nombre, apellido]
     .filter(Boolean)
