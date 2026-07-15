@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Building2, ChevronDown, GraduationCap, School, ShieldCheck, Stethoscope } from "lucide-react";
+import StaffSection from "@/components/StaffSection";
 
 export const metadata: Metadata = {
     title: "Servicios | Atención Clínica, Consultoría y Compliance Escolar",
@@ -180,65 +181,7 @@ export default function ServicesHub() {
                 </div>
             </section>
 
-            <section className="bg-[#f8f5ee] border-b border-[#eee8dc] py-12 sm:py-16">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="mb-10 max-w-3xl">
-                        <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#bd6f3c]">Nuestro Equipo</span>
-                        <h2 className="mt-3 font-serif text-3xl font-bold leading-tight text-[#171713] sm:text-4xl">
-                            Staff Profesional
-                        </h2>
-                        <p className="mt-3 text-base leading-7 text-[#70695f]">
-                            Conoce al equipo de especialistas detrás de nuestras intervenciones. Profesionales con trayectoria clínica, institucional y corporativa.
-                        </p>
-                    </div>
-
-                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                        {[
-                            {
-                                name: "Juan Carlos Rauld",
-                                role: "Director CRC & Consultor",
-                                desc: "Salud mental infantil y diseño de programas.",
-                                img: "/images/juan_carlos_real_white.png",
-                                href: "/conocenos#equipo"
-                            },
-                            {
-                                name: "Rocío Solar",
-                                role: "Terapeuta Ocupacional · Cofundadora",
-                                desc: "Salud mental infanto-juvenil y regulación.",
-                                img: "/images/rocio_solar_real_white.png",
-                                href: "/conocenos#equipo"
-                            },
-                            {
-                                name: "Hugo Felipe Hormazábal",
-                                role: "Ingeniero Comercial",
-                                desc: "Estrategia tecnológica y servicios.",
-                                img: "/images/hugo-hormazabal-crc-2026-large.png",
-                                href: "/conocenos#equipo"
-                            },
-                            {
-                                name: "Fernanda Gumucio Dobbs",
-                                role: "Psicóloga Clínica Infanto-Juvenil",
-                                desc: "Terapia Basada en Mentalización.",
-                                img: "/images/fernanda-gumucio.jpg",
-                                href: "https://subjetivamente.cl"
-                            }
-                        ].map((person) => (
-                            <Link key={person.name} href={person.href} className="group flex flex-col rounded-[8px] border border-[#ded5c7] bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:border-[#bd6f3c]/50">
-                                <div className="relative mb-4 aspect-[4/5] w-full overflow-hidden rounded-[6px] bg-[#f8f5ee]">
-                                    <img
-                                        src={person.img}
-                                        alt={person.name}
-                                        className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
-                                    />
-                                </div>
-                                <h3 className="font-serif text-lg font-bold text-[#171713]">{person.name}</h3>
-                                <p className="mt-1 text-[11px] font-bold uppercase tracking-[0.1em] text-[#bd6f3c]">{person.role}</p>
-                                <p className="mt-2 text-xs leading-5 text-[#70695f]">{person.desc}</p>
-                            </Link>
-                        ))}
-                    </div>
-                </div>
-            </section>
+            <StaffSection />
 
             <section className="bg-white py-12 sm:py-16">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
