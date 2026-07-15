@@ -75,13 +75,13 @@ const teamMembers = [
     },
     {
         name: "Fernanda Gumucio Dobbs",
-        role: "Psicóloga Clínica · Directora Centro Subjetivamente",
+        role: "Psicóloga Clínica Infanto-Juvenil",
         shortRole: "Psicóloga Clínica Infanto-Juvenil",
         desc: "Terapia Basada en Mentalización.",
         img: "/images/fernanda-gumucio.jpg",
         degree: "Magíster en Psicología Clínica Infanto-Juvenil · Universidad de Chile",
         bio: [
-            "Fernanda Gumucio es psicóloga clínica, Magíster en Psicología Clínica Infanto-Juvenil por la Universidad de Chile y directora del Centro de Psicología Clínica Subjetivamente. Su trayectoria se ha desarrollado en los ámbitos clínicos, educacionales e institucionales, combinando la atención psicoterapéutica, la evaluación psicológica, la supervisión clínica y el desarrollo de programas orientados a la salud mental.",
+            "Fernanda Gumucio es psicóloga clínica, Magíster en Psicología Clínica Infanto-Juvenil por la Universidad de Chile. Su trayectoria se ha desarrollado en los ámbitos clínicos, educacionales e institucionales, combinando la atención psicoterapéutica, la evaluación psicológica, la supervisión clínica y el desarrollo de programas orientados a la salud mental.",
             "Ha trabajado con niños, adolescentes, adultos y familias en diversos contextos asistenciales, incluyendo programas especializados de protección de niños, niñas y adolescentes, intervención con víctimas de maltrato y abuso sexual, acompañamiento a familias en contextos de alta vulnerabilidad psicosocial y coordinación con redes de salud, educación y protección.",
         ],
         sections: [
@@ -91,12 +91,10 @@ const teamMembers = [
             },
             {
                 title: "Gestión y Liderazgo Institucional",
-                text: "Como directora del Centro de Psicología Clínica Subjetivamente lidera el desarrollo de procesos clínicos, la coordinación de equipos profesionales y la implementación de estándares de calidad en la atención psicológica. Asimismo, realiza supervisión clínica a psicólogos y equipos, acompañando procesos de formulación clínica, análisis de casos y toma de decisiones en situaciones de alta complejidad.",
+                text: "En su rol de gestión clínica lidera el desarrollo de procesos clínicos, la coordinación de equipos profesionales y la implementación de estándares de calidad en la atención psicológica. Asimismo, realiza supervisión clínica a psicólogos y equipos, acompañando procesos de formulación clínica, análisis de casos y toma de decisiones en situaciones de alta complejidad.",
             },
         ],
-        links: [
-            { label: "Subjetivamente.cl", href: "https://subjetivamente.cl" },
-        ],
+        links: [],
     },
 ];
 
