@@ -8,6 +8,7 @@ import { PublicationsSection } from "@/components/PublicationsSection";
 import { InterviewsSection } from "@/components/InterviewsSection";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
+import { FeaturedColumnBanner } from "@/components/site/FeaturedColumnBanner";
 import { ArrowRight, Star } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { MotionDiv, MotionItem, MotionList } from "@/components/ui/Motion";
@@ -40,7 +41,12 @@ export function LegacyBlock({ block }: { pageId: string; block: SiteBlock; edita
   // Home still uses the legacy HomeCanvas end-to-end; pages can optionally embed these sections.
   switch (block.type) {
     case "legacy.hero":
-      return wrapLegacySection("hero", <Hero />, true);
+      return (
+        <>
+          {wrapLegacySection("hero", <Hero />, true)}
+          <FeaturedColumnBanner />
+        </>
+      );
     case "legacy.founders":
       return wrapLegacySection("founders", <FoundersSection />);
     case "legacy.servicesPreview":
