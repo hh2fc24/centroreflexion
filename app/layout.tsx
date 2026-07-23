@@ -195,6 +195,7 @@ export default async function RootLayout({
               "telephone": "+56 9 4918 6447",
               "email": "centrodereflexionescriticas@gmail.com",
               "areaServed": [
+                { "@type": "AdministrativeArea", "name": "Providencia, Santiago de Chile" },
                 { "@type": "City", "name": "Santiago" },
                 { "@type": "Country", "name": "Chile" }
               ],
@@ -203,7 +204,13 @@ export default async function RootLayout({
                 "email": "centrodereflexionescriticas@gmail.com",
                 "telephone": "+56 9 4918 6447",
                 "contactType": "customer service",
-                "availableLanguage": "es"
+                "availableLanguage": "es",
+                "hoursAvailable": {
+                  "@type": "OpeningHoursSpecification",
+                  "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+                  "opens": "09:00",
+                  "closes": "18:00"
+                }
               }],
               "sameAs": [
                 "https://www.instagram.com/centrodereflexionescriticas/",

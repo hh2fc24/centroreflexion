@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/Card";
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Clock3, Mail, MapPin, Phone } from "lucide-react";
 import { ContactForm } from "@/components/ContactForm";
 import { pageMetadata } from "@/lib/seo";
 
@@ -69,11 +69,20 @@ export default async function Contact({
                             </div>
                             <div className="flex gap-x-4">
                                 <dt className="flex-none">
-                                    <span className="sr-only">Dirección</span>
+                                    <span className="sr-only">Área de atención</span>
                                     <MapPin className="h-7 w-6 text-[#8a8276]" aria-hidden="true" />
                                 </dt>
                                 <dd>
-                                    Froilán Roa, La Florida
+                                    Providencia, Santiago de Chile
+                                </dd>
+                            </div>
+                            <div className="flex gap-x-4">
+                                <dt className="flex-none">
+                                    <span className="sr-only">Horario de atención</span>
+                                    <Clock3 className="h-7 w-6 text-[#8a8276]" aria-hidden="true" />
+                                </dt>
+                                <dd>
+                                    Lunes a viernes, 09:00 a 18:00 hrs.
                                 </dd>
                             </div>
                         </dl>
