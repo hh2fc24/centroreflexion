@@ -36,13 +36,13 @@ export async function generateMetadata({ params }: { params: Promise<CmsPagePara
   const ogImage = page.seo?.ogImage || "";
   const ogTitle = page.seo?.ogTitle || title;
   const ogDescription = page.seo?.ogDescription || description;
-  const canonical = page.seo?.canonical || "";
+  const canonical = page.seo?.canonical || `/${slug}`;
 
   return {
     title,
     description,
     robots,
-    alternates: canonical ? { canonical } : undefined,
+    alternates: { canonical },
     openGraph: ogImage ? { title: ogTitle, description: ogDescription, images: [{ url: ogImage }] } : { title: ogTitle, description: ogDescription },
   };
 }

@@ -12,6 +12,11 @@ import { insertDesproteccionRegistration } from "@/lib/server/desproteccionRegis
 
 export const runtime = "nodejs";
 
+type LeadInput = Partial<StoredLead> & {
+  contactMethod?: unknown;
+  horario?: unknown;
+};
+
 function newId(prefix: string) {
   return `${prefix}-${Date.now()}-${Math.random().toString(16).slice(2)}`;
 }
@@ -55,9 +60,9 @@ export async function POST(req: Request) {
   const rl = checkRateLimit(`leads:post:${ip}`, { limit: 30, windowMs: 60_000 });
   if (!rl.ok) return NextResponse.json({ ok: false, error: "rate_limited" }, { status: 429 });
 
-  let body: Partial<StoredLead>;
+  let body: LeadInput;
   try {
-    body = (await req.json()) as Partial<StoredLead>;
+    body = (await req.json()) as LeadInput;
   } catch {
     return NextResponse.json({ ok: false, error: "invalid_json" }, { status: 400 });
   }
@@ -72,7 +77,11 @@ export async function POST(req: Request) {
     message: sanitizePlainText(body.message ?? "", { maxLen: 4000 }),
     page: sanitizePlainText(body.page ?? "", { maxLen: 180 }),
     formId: body.formId ? sanitizePlainText(body.formId, { maxLen: 80 }) : undefined,
-    fields: body.fields && typeof body.fields === "object" ? (body.fields as Record<string, unknown>) : undefined,
+    fields: {
+      ...(body.fields && typeof body.fields === "object" ? (body.fields as Record<string, unknown>) : {}),
+      ...(body.contactMethod ? { contactMethod: sanitizePlainText(body.contactMethod, { maxLen: 40 }) } : {}),
+      ...(body.horario ? { horario: sanitizePlainText(body.horario, { maxLen: 40 }) } : {}),
+    },
   };
 
   if (!lead.email) {

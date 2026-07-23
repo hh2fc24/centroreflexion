@@ -475,7 +475,7 @@ export function AnalyticsPanel() {
                 Tráfico humano fuera de Chile (revisar si parece bot/spam)
               </div>
               <div className="mt-1 text-[11px] text-amber-200/60">
-                Visitas marcadas como "no bot" pero con IP fuera de Chile. No siempre es malo (puede ser un chileno
+                Visitas marcadas como &quot;no bot&quot; pero con IP fuera de Chile. No siempre es malo (puede ser un chileno
                 viajando o con VPN), pero si ves volumen alto desde un país inesperado, vale la pena revisar las IPs
                 en la tabla de abajo.
               </div>

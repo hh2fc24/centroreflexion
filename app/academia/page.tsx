@@ -13,11 +13,13 @@ import { StatsBar } from "./_components/StatsBar";
 import { CatalogoCursos } from "./_components/CatalogoCursos";
 import { FeaturesSection } from "./_components/FeaturesSection";
 import { WaitlistHero } from "./_components/WaitlistHero";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Academia CRC | Próximamente",
   description: "La academia para mentes críticas abre pronto sus puertas.",
-};
+  path: "/academia",
+});
 
 export default async function AcademiaPage() {
   const supabase = await createClient();

@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { CountdownStrip, LiveStreamBadge } from "@/components/DesproteccionEventMeta";
 import { getSiteUrl } from "@/lib/site";
+import { pageMetadata } from "@/lib/seo";
 
 const TITLE = "Desprotección y sufrimiento de la infancia en Chile";
 const DESCRIPTION =
@@ -24,12 +25,17 @@ const IMAGE_PATH = "/images/jc1.png";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: TITLE,
-  description: DESCRIPTION,
+  ...pageMetadata({
+    title: TITLE,
+    description: DESCRIPTION,
+    path: "/eventos/desproteccion-infancia",
+    ogTitle: `${TITLE} | Centro de Reflexiones Críticas`,
+  }),
   openGraph: {
     title: `${TITLE} | Centro de Reflexiones Críticas`,
     description: DESCRIPTION,
-    images: [{ url: `${getSiteUrl()}${IMAGE_PATH}` }],
+    type: "article",
+    images: [{ url: `${getSiteUrl()}${IMAGE_PATH}`, width: 1200, height: 630, alt: TITLE }],
   },
   twitter: {
     card: "summary_large_image",

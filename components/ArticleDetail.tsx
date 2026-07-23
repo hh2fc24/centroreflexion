@@ -162,8 +162,8 @@ export default function ArticleDetail({
             let lines = [];
             const maxWidth = canvas.width * 0.85;
             for (let i = 0; i < words.length; i++) {
-                let testLine = line + words[i] + ' ';
-                let metrics = ctx.measureText(testLine);
+                const testLine = line + words[i] + ' ';
+                const metrics = ctx.measureText(testLine);
                 if (metrics.width > maxWidth && i > 0) {
                     lines.push(line);
                     line = words[i] + ' ';
@@ -180,7 +180,7 @@ export default function ArticleDetail({
 
             const lineHeight = titleFontSize * 1.3;
             // Calculate startY so the block of text + domain is vertically balanced at the bottom
-            let startY = canvas.height - (lines.length * lineHeight) - 35;
+            const startY = canvas.height - (lines.length * lineHeight) - 35;
 
             lines.forEach((l, i) => {
                 ctx.fillText(l.trim(), canvas.width / 2, startY + (i * lineHeight));
@@ -272,8 +272,8 @@ export default function ArticleDetail({
             let lines = [];
             const maxWidth = canvas.width * 0.85;
             for (let i = 0; i < words.length; i++) {
-                let testLine = line + words[i] + ' ';
-                let metrics = ctx.measureText(testLine);
+                const testLine = line + words[i] + ' ';
+                const metrics = ctx.measureText(testLine);
                 if (metrics.width > maxWidth && i > 0) {
                     lines.push(line);
                     line = words[i] + ' ';
@@ -290,7 +290,7 @@ export default function ArticleDetail({
 
             const lineHeight = titleFontSize * 1.3;
             // Calculate startY so the block of text + domain is vertically balanced at the bottom
-            let startY = canvas.height - (lines.length * lineHeight) - 35;
+            const startY = canvas.height - (lines.length * lineHeight) - 35;
 
             lines.forEach((l, i) => {
                 ctx.fillText(l.trim(), canvas.width / 2, startY + (i * lineHeight));

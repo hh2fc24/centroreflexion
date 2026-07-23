@@ -4,7 +4,24 @@ import { getSiteUrl } from "@/lib/site";
 export default function robots(): MetadataRoute.Robots {
   const baseUrl = getSiteUrl();
   return {
-    rules: [{ userAgent: "*", allow: "/" }],
+    rules: [
+      {
+        userAgent: "*",
+        allow: "/",
+        disallow: [
+          "/admin/",
+          "/api/",
+          "/academia/admin/",
+          "/academia/dashboard/",
+          "/academia/explorar/",
+          "/academia/login/",
+          "/academia/mis-cursos/",
+          "/academia/profesor/",
+          "/45453545/",
+          "/45453546/",
+        ],
+      },
+    ],
     sitemap: `${baseUrl}/sitemap.xml`,
   };
 }

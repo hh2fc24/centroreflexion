@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import {
   BookOpen, Clock, Trophy, Flame, ArrowRight, Play,
-  Sparkles, Compass, GraduationCap, Target,
+  Sparkles, Compass, GraduationCap,
 } from "lucide-react";
 
 interface DashboardProps {
@@ -43,8 +43,11 @@ function useGreeting() {
   // Se calcula tras el montaje para evitar mismatch de hidratación.
   const [saludo, setSaludo] = useState("Hola");
   useEffect(() => {
-    const h = new Date().getHours();
-    setSaludo(h < 6 ? "Buenas noches" : h < 13 ? "Buenos días" : h < 20 ? "Buenas tardes" : "Buenas noches");
+    const timer = window.setTimeout(() => {
+      const h = new Date().getHours();
+      setSaludo(h < 6 ? "Buenas noches" : h < 13 ? "Buenos días" : h < 20 ? "Buenas tardes" : "Buenas noches");
+    }, 0);
+    return () => window.clearTimeout(timer);
   }, []);
   return saludo;
 }

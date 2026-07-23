@@ -2,17 +2,16 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Building2, ChevronDown, GraduationCap, School, ShieldCheck, Stethoscope } from "lucide-react";
 import StaffSection from "@/components/StaffSection";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
     title: "Servicios | Atención Clínica, Consultoría y Compliance Escolar",
     description:
         "Conoce los servicios del Centro de Reflexiones Críticas: atención clínica en salud mental e infancia, consultoría institucional, bienestar y compliance escolar, y formación para equipos.",
-    openGraph: {
-        title: "Servicios CRC: clínica, consultoría, bienestar escolar y formación",
-        description:
-            "Atención clínica, consultoría institucional, compliance escolar y formación profesional con enfoque técnico y humano.",
-    },
-};
+    path: "/servicios",
+    ogTitle: "Servicios CRC: clínica, consultoría, bienestar escolar y formación",
+    ogDescription: "Atención clínica, consultoría institucional, compliance escolar y formación profesional con enfoque técnico y humano.",
+});
 
 const serviceRoutes = [
     {

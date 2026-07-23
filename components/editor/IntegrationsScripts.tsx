@@ -9,7 +9,8 @@ function sanitizeTrackingId(input: string, kind: "ga" | "gtm" | "pixel") {
   const raw = input.trim();
   if (!raw) return "";
   if (kind === "pixel") return /^\d{5,20}$/.test(raw) ? raw : "";
-  return /^[A-Za-z0-9_-]{4,40}$/.test(raw) ? raw : "";
+  if (kind === "ga") return /^G-[A-Z0-9]{6,20}$/.test(raw) ? raw : "";
+  return /^GTM-[A-Z0-9]{4,20}$/.test(raw) ? raw : "";
 }
 
 export function IntegrationsScripts() {

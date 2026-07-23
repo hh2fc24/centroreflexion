@@ -3,6 +3,7 @@ import { HomeCanvas } from "@/components/site/HomeCanvas";
 import { readPublishedDiskState } from "@/lib/server/publishedDisk";
 import { normalizePagesForStore } from "@/lib/editor/pagesStore";
 import type { SitePage } from "@/lib/editor/types";
+import { pageMetadata } from "@/lib/seo";
 
 const DEFAULT_TITLE = "Centro de Reflexiones Críticas | Salud Mental, Infancia y Consultoría Institucional";
 const DEFAULT_DESCRIPTION =
@@ -21,20 +22,18 @@ export async function generateMetadata(): Promise<Metadata> {
   const title = home?.seo?.title || DEFAULT_TITLE;
   const description = home?.seo?.description || DEFAULT_DESCRIPTION;
   const robots = home?.seo?.noIndex ? { index: false, follow: false } : { index: true, follow: true };
-  const ogImage = home?.seo?.ogImage || "";
   const ogTitle = home?.seo?.ogTitle || title;
   const ogDescription = home?.seo?.ogDescription || description;
-  const canonical = home?.seo?.canonical || "";
+  const canonical = home?.seo?.canonical || "/";
 
-  return {
+  return pageMetadata({
     title,
     description,
-    robots,
-    alternates: canonical ? { canonical } : undefined,
-    openGraph: ogImage
-      ? { title: ogTitle, description: ogDescription, images: [{ url: ogImage }] }
-      : { title: ogTitle, description: ogDescription },
-  };
+    path: canonical,
+    noIndex: !robots.index,
+    ogTitle,
+    ogDescription,
+  });
 }
 
 export default async function Home() {

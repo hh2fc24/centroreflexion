@@ -1,17 +1,17 @@
 import type { Metadata } from "next";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/Card";
-import { Mail, MapPin } from "lucide-react";
+import { Mail, MapPin, Phone } from "lucide-react";
 import { ContactForm } from "@/components/ContactForm";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
     title: "Contacto",
     description:
         "Escríbenos para agendar atención clínica, consultoría institucional, compliance escolar o formación con el Centro de Reflexiones Críticas.",
-    openGraph: {
-        title: "Contacto | Centro de Reflexiones Críticas",
-        description: "Agenda una conversación sobre tu necesidad clínica, institucional o de formación.",
-    },
-};
+    path: "/contacto",
+    ogTitle: "Contacto | Centro de Reflexiones Críticas",
+    ogDescription: "Agenda una conversación sobre tu necesidad clínica, institucional o de formación.",
+});
 
 const servicioLabels: Record<string, string> = {
     clinica: "Atención clínica",
@@ -35,9 +35,9 @@ export default async function Contact({
 
                     {/* Contact Info */}
                     <div>
-                        <h2 className="text-3xl font-bold tracking-tight text-[#171713] sm:text-4xl">
+                        <h1 className="text-3xl font-bold tracking-tight text-[#171713] sm:text-4xl">
                             {servicioLabel ? `Solicitar orientación: ${servicioLabel}` : "Ponte en contacto"}
-                        </h2>
+                        </h1>
                         <p className="mt-4 text-base leading-7 text-[#55574f] sm:text-lg sm:leading-8">
                             {servicioLabel
                                 ? `Cuéntanos tu situación y te orientamos sobre cómo podemos ayudarte con ${servicioLabel}.`
@@ -58,11 +58,22 @@ export default async function Contact({
                             </div>
                             <div className="flex gap-x-4">
                                 <dt className="flex-none">
+                                    <span className="sr-only">Teléfono</span>
+                                    <Phone className="h-7 w-6 text-[#8a8276]" aria-hidden="true" />
+                                </dt>
+                                <dd>
+                                    <a className="hover:text-[#171713]" href="tel:+56949186447">
+                                        +56 9 4918 6447
+                                    </a>
+                                </dd>
+                            </div>
+                            <div className="flex gap-x-4">
+                                <dt className="flex-none">
                                     <span className="sr-only">Dirección</span>
                                     <MapPin className="h-7 w-6 text-[#8a8276]" aria-hidden="true" />
                                 </dt>
                                 <dd>
-                                    Santiago de Chile
+                                    Froilán Roa, La Florida
                                 </dd>
                             </div>
                         </dl>

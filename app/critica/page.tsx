@@ -3,18 +3,18 @@ import { MotionList, MotionItem } from "@/components/ui/Motion";
 import Image from "next/image";
 import Link from "next/link";
 import { readPublishedArticleCollections } from "@/lib/server/publicArticles";
+import { pageMetadata } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
     title: "Crítica",
     description:
         "Crítica literaria, cultural y cinematográfica del Centro de Reflexiones Críticas: reseñas y análisis con mirada social y humanista.",
-    openGraph: {
-        title: "Crítica | Centro de Reflexiones Críticas",
-        description: "Reseñas y crítica literaria, cultural y cinematográfica.",
-    },
-};
+    path: "/critica",
+    ogTitle: "Crítica | Centro de Reflexiones Críticas",
+    ogDescription: "Reseñas y crítica literaria, cultural y cinematográfica.",
+});
 
 const getAuthorDetails = (author: string) => {
     if (author.includes("Rocío Solar")) {

@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, BookOpen, Check, GraduationCap, Mail, MessageSquareText, Users } from "lucide-react";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
     title: "Formación y Capacitación | Intervención en Crisis y Equipos",
     description:
         "Capacitación en intervención de crisis, salud mental, inclusión y trabajo con comunidad. Aprendizaje situado, supervisión reflexiva y aplicación práctica para equipos e instituciones.",
-    openGraph: {
-        title: "Formación CRC para equipos e instituciones",
-        description: "Programas de capacitación con fundamento técnico y transferencia a casos y protocolos reales.",
-    },
-};
+    path: "/servicios/formacion",
+    ogTitle: "Formación CRC para equipos e instituciones",
+    ogDescription: "Programas de capacitación con fundamento técnico y transferencia a casos y protocolos reales.",
+});
 
 const juanTraining = [
     { name: "Capacitación en intervención de crisis", detail: "Modalidad presencial u online. Programas de 4 a 8 horas.", price: "Desde 5 UF" },

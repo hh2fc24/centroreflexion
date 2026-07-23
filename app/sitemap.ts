@@ -31,10 +31,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/declaracion-publica/ninez-migrante-haitiana",
   ];
 
-  out.push({ url: `${baseUrl}/`, lastModified: new Date() });
+  out.push({ url: `${baseUrl}/` });
 
   for (const route of staticRoutes) {
-    out.push({ url: `${baseUrl}${route}`, lastModified: new Date() });
+    out.push({ url: `${baseUrl}${route}` });
   }
 
   for (const p of pages) {
@@ -42,14 +42,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     if ((p.kind ?? "page") !== "page") continue;
     if (p.visible === false) continue;
     if (p.seo?.noIndex) continue;
-    out.push({ url: `${baseUrl}/${p.slug}`, lastModified: new Date(p.updatedAt || Date.now()) });
+    const updatedAt = typeof p.updatedAt === "number" && p.updatedAt > 0 ? new Date(p.updatedAt) : undefined;
+    out.push({ url: `${baseUrl}/${p.slug}`, ...(updatedAt ? { lastModified: updatedAt } : {}) });
   }
 
   for (const a of articles.columns ?? []) {
-    out.push({ url: `${baseUrl}/pensamiento-critico/${a.id}`, lastModified: new Date() });
+    const publishedAt = a.date ? new Date(a.date) : undefined;
+    out.push({
+      url: `${baseUrl}/pensamiento-critico/${a.id}`,
+      ...(publishedAt && !Number.isNaN(publishedAt.getTime()) ? { lastModified: publishedAt } : {}),
+    });
   }
   for (const a of articles.reviews ?? []) {
-    out.push({ url: `${baseUrl}/critica/${a.id}`, lastModified: new Date() });
+    const publishedAt = a.date ? new Date(a.date) : undefined;
+    out.push({
+      url: `${baseUrl}/critica/${a.id}`,
+      ...(publishedAt && !Number.isNaN(publishedAt.getTime()) ? { lastModified: publishedAt } : {}),
+    });
   }
 
   try {
@@ -63,7 +72,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         if (!c.slug) continue;
         out.push({
           url: `${baseUrl}/academia/cursos/${c.slug}`,
-          lastModified: c.updated_at ? new Date(c.updated_at) : new Date(),
+          ...(c.updated_at ? { lastModified: new Date(c.updated_at) } : {}),
         });
       }
     }

@@ -16,6 +16,7 @@ import { DEFAULT_CONTENT, DEFAULT_THEME } from "@/lib/editor/defaults";
 import type { SiteContent, ThemeSettings } from "@/lib/editor/types";
 import { readPublishedDiskState } from "@/lib/server/publishedDisk";
 import { getSiteUrl } from "@/lib/site";
+import { DEFAULT_OG_IMAGE, SITE_NAME } from "@/lib/seo";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -47,31 +48,50 @@ const geist = Geist({
 const siteUrl = getSiteUrl();
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
     default: "Centro de Reflexiones Críticas",
     template: "%s | Centro de Reflexiones Críticas",
   },
-  description: "Columnas de opinión, crítica literaria y cultural, y artículos sobre ciencias sociales.",
-  keywords: ["crítica cultural", "opinión", "literatura", "cine", "ciencias sociales", "Chile", "política"],
-  authors: [{ name: "Centro de Reflexiones Críticas" }],
-  creator: "Centro de Reflexiones Críticas",
+  description: "Centro de Reflexiones Críticas (CRC): salud mental, infancia, consultoría institucional, formación y pensamiento crítico en Chile.",
+  keywords: ["salud mental", "infancia", "consultoría institucional", "compliance escolar", "formación", "pensamiento crítico", "Chile"],
+  authors: [{ name: SITE_NAME }],
+  creator: SITE_NAME,
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     type: "website",
     locale: "es_CL",
     url: siteUrl,
-    title: "Centro de Reflexiones Críticas",
-    description: "Columnas de opinión, crítica literaria y cultural, y artículos sobre ciencias sociales.",
+    title: SITE_NAME,
+    description: "Salud mental, infancia, consultoría institucional, formación y pensamiento crítico en Chile.",
     siteName: "CRC",
+    images: [
+      {
+        url: DEFAULT_OG_IMAGE,
+        width: 1200,
+        height: 630,
+        alt: SITE_NAME,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Centro de Reflexiones Críticas",
-    description: "Columnas de opinión, crítica literaria y cultural.",
-    creator: "@crcritica", // Placeholder
+    title: SITE_NAME,
+    description: "Salud mental, infancia, consultoría institucional, formación y pensamiento crítico en Chile.",
+    images: [DEFAULT_OG_IMAGE],
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
   },
   icons: {
     icon: [
@@ -168,15 +188,23 @@ export default async function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Organization",
-              "name": "Centro de Reflexiones Críticas",
+              "name": SITE_NAME,
               "alternateName": "CRC",
               "url": siteUrl,
               "logo": `${siteUrl}/logo-crc.png`,
-              "contactPoint": {
+              "telephone": "+56 9 4918 6447",
+              "email": "centrodereflexionescriticas@gmail.com",
+              "areaServed": [
+                { "@type": "City", "name": "Santiago" },
+                { "@type": "Country", "name": "Chile" }
+              ],
+              "contactPoint": [{
                 "@type": "ContactPoint",
                 "email": "centrodereflexionescriticas@gmail.com",
-                "contactType": "customer service"
-              },
+                "telephone": "+56 9 4918 6447",
+                "contactType": "customer service",
+                "availableLanguage": "es"
+              }],
               "sameAs": [
                 "https://www.instagram.com/centrodereflexionescriticas/",
                 "https://www.youtube.com/@CentrodeReflexionesCr%C3%ADticas"
@@ -190,12 +218,13 @@ export default async function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "WebSite",
-              "name": "Centro de Reflexiones Críticas",
+              "name": SITE_NAME,
               "url": siteUrl,
-              "potentialAction": {
-                "@type": "SearchAction",
-                "target": `${siteUrl}/pensamiento-critico?q={search_term_string}`,
-                "query-input": "required name=search_term_string"
+              "inLanguage": "es-CL",
+              "publisher": {
+                "@type": "Organization",
+                "name": SITE_NAME,
+                "url": siteUrl
               }
             })
           }}

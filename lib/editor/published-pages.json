@@ -8,9 +8,9 @@
       "seo": {
         "title": "Centro de Reflexiones Críticas",
         "description": "Columnas de opinión, crítica literaria y cultural, y artículos sobre ciencias sociales.",
-        "ogImage": "/images/og.png",
+        "ogImage": "/opengraph-image",
         "noIndex": false,
-        "canonical": ""
+        "canonical": "/"
       },
       "blocks": [
         {

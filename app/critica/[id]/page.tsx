@@ -3,6 +3,7 @@ import { findPublishedArticle } from "@/lib/server/publicArticles";
 import { notFound } from "next/navigation";
 
 import { Metadata } from "next";
+import { DEFAULT_OG_IMAGE } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
@@ -20,6 +21,7 @@ export async function generateMetadata(props: { params: Promise<{ id: string }> 
     return {
         title: post.title,
         description: post.excerpt,
+        alternates: { canonical: `/critica/${params.id}` },
         openGraph: {
             title: post.title,
             description: post.excerpt,
@@ -39,7 +41,7 @@ export async function generateMetadata(props: { params: Promise<{ id: string }> 
             card: "summary_large_image",
             title: post.title,
             description: post.excerpt,
-            images: [post.image],
+            images: [post.image || DEFAULT_OG_IMAGE],
         },
     };
 }
