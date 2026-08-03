@@ -59,6 +59,9 @@ const getAuthorDetails = (author: string) => {
     if (author.includes("Alejandro Castro")) {
         return { image: null, role: "Doctor en Sociología. Académico Departamento Trabajo Social, Universidad Alberto Hurtado." };
     }
+    if (author.includes("Camilo Gallyas")) {
+        return { image: null, role: "Psicólogo clínico" };
+    }
     return null;
 };
 
