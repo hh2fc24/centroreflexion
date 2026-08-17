@@ -393,6 +393,13 @@
             "children": []
           },
           {
+            "id": "nav-pc-articulos",
+            "label": "Artículos Académicos",
+            "href": "/publicaciones",
+            "visible": true,
+            "children": []
+          },
+          {
             "id": "nav-pc-envia",
             "label": "Envía tu Texto",
             "href": "/envia-tu-texto",
