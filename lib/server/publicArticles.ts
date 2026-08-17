@@ -5,6 +5,7 @@ import { readPublishedDiskState } from "@/lib/server/publishedDisk";
 type PublishedArticlesRecord = {
   columns?: unknown;
   reviews?: unknown;
+  academic?: unknown;
 };
 
 function toArticles(input: unknown): Article[] {
@@ -20,18 +21,19 @@ function sortNewestFirst(items: Article[]): Article[] {
   });
 }
 
-export async function readPublishedArticleCollections(): Promise<{ columns: Article[]; reviews: Article[] }> {
+export async function readPublishedArticleCollections(): Promise<{ columns: Article[]; reviews: Article[]; academic: Article[] }> {
   const { state } = await readPublishedDiskState();
   const rec = (state.articles ?? {}) as PublishedArticlesRecord;
 
   return {
     columns: sortNewestFirst(toArticles(rec.columns)),
     reviews: sortNewestFirst(toArticles(rec.reviews)),
+    academic: sortNewestFirst(toArticles(rec.academic)),
   };
 }
 
-export async function findPublishedArticle(kind: "columns" | "reviews", id: string): Promise<Article | null> {
+export async function findPublishedArticle(kind: "columns" | "reviews" | "academic", id: string): Promise<Article | null> {
   const collections = await readPublishedArticleCollections();
-  const list = kind === "columns" ? collections.columns : collections.reviews;
+  const list = collections[kind];
   return list.find((item) => item.id === id) ?? null;
 }

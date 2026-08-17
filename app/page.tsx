@@ -4,6 +4,8 @@ import { readPublishedDiskState } from "@/lib/server/publishedDisk";
 import { normalizePagesForStore } from "@/lib/editor/pagesStore";
 import type { SitePage } from "@/lib/editor/types";
 import { pageMetadata } from "@/lib/seo";
+import { readPublishedArticleCollections } from "@/lib/server/publicArticles";
+import { AcademicPublicationsSection } from "@/components/AcademicPublicationsSection";
 
 const DEFAULT_TITLE = "Centro de Reflexiones Críticas | Salud Mental, Infancia y Consultoría Institucional";
 const DEFAULT_DESCRIPTION =
@@ -38,5 +40,12 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function Home() {
   const home = await findHomePage();
-  return <HomeCanvas initialPage={home} />;
+  const { academic } = await readPublishedArticleCollections();
+  
+  return (
+    <>
+      <HomeCanvas initialPage={home} />
+      <AcademicPublicationsSection academic={academic} />
+    </>
+  );
 }
