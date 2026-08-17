@@ -8,7 +8,9 @@ import { DEFAULT_OG_IMAGE } from "@/lib/seo";
 export const dynamic = "force-dynamic";
 
 async function findPensamientoCriticoArticle(id: string) {
-    return (await findPublishedArticle("columns", id)) ?? (await findPublishedArticle("reviews", id));
+    return (await findPublishedArticle("columns", id)) ?? 
+           (await findPublishedArticle("reviews", id)) ?? 
+           (await findPublishedArticle("academic", id));
 }
 
 export async function generateMetadata(props: { params: Promise<{ id: string }> }): Promise<Metadata> {
