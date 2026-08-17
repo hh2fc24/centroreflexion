@@ -16,18 +16,36 @@ export function Hero() {
             className="relative w-full overflow-hidden bg-[#15120e]"
             style={{ minHeight: "clamp(500px, calc(100svh - 190px), 620px)" }}
         >
-            <div className="absolute inset-0 z-0">
-                <Image
-                    src="/images/hero_crc_library.jpg"
-                    alt="Biblioteca y sala de trabajo del Centro de Reflexiones Críticas"
-                    fill
-                    sizes="100vw"
-                    priority
-                    className="object-cover object-[58%_45%] saturate-[0.82] contrast-[1.04]"
-                />
+            <div className="absolute inset-0 z-0 bg-black">
+                {/* 
+                  Estructura para el loop de videos. 
+                  Por ahora, pondremos 3 videos de prueba (placeholders). 
+                  Cuando tengas los definitivos, se reemplazarán las URLs aquí.
+                */}
+                <div className="absolute inset-0 transition-opacity duration-1000 opacity-100">
+                    <video
+                        src="https://cdn.pixabay.com/video/2021/08/24/86047-592652150_large.mp4" 
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        className="h-full w-full object-cover object-center saturate-[0.82] contrast-[1.04]"
+                    />
+                </div>
+                
+                {/* 
+                  Nota técnica: Para hacer un cross-fade real entre 3 videos distintos de forma contínua,
+                  se requiere un estado (useState) en React para controlar la opacidad de 3 etiquetas <video> 
+                  distintas en secuencia.
+                  Para simplificar y evitar problemas de rendimiento/carga en móviles, lo ideal es que 
+                  tu editor de video (CapCut, Premiere) exporte los 3 clips unidos en un solo archivo de video en loop.
+                  Así, solo necesitamos un único tag <video> que se reproduce infinitamente sin cortes.
+                  Por ahora, he puesto un único video de prueba largo que simula el efecto.
+                */}
+
                 <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(17,14,10,0.96)_0%,rgba(17,14,10,0.87)_26%,rgba(17,14,10,0.52)_54%,rgba(17,14,10,0.18)_100%)]" />
                 <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(250,247,242,0.02)_0%,rgba(21,18,14,0.12)_47%,rgba(21,18,14,0.58)_100%)]" />
-                <div className="absolute inset-0 bg-[#7c4a26]/15 mix-blend-multiply" />
+                <div className="absolute inset-0 bg-[#7c4a26]/20 mix-blend-multiply" />
             </div>
 
             <div className="relative z-10 mx-auto flex min-h-[inherit] max-w-[1640px] items-center px-5 py-10 sm:px-8 lg:px-14 xl:px-20">
