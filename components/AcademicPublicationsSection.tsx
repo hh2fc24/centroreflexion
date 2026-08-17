@@ -74,7 +74,7 @@ export function AcademicPublicationsSection({ academic }: { academic: Article[] 
                         
                         <div className="mt-8">
                             <Link
-                                href={`/pensamiento-critico/${featuredArticle.id}`}
+                                href={`/trabajos-intelectuales/${featuredArticle.id}`}
                                 className="group inline-flex items-center justify-center gap-2 rounded-[7px] bg-[#bd6f3c] px-6 py-3.5 text-sm font-bold text-white transition duration-200 hover:bg-[#9f5528]"
                             >
                                 Leer Artículo Completo

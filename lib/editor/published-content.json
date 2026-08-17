@@ -395,7 +395,7 @@
           {
             "id": "nav-pc-articulos",
             "label": "Artículos Académicos",
-            "href": "/publicaciones",
+            "href": "/trabajos-intelectuales",
             "visible": true,
             "children": []
           },
