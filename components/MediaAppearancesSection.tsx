@@ -41,7 +41,18 @@ interface AppearanceItem {
     description?: string;
 }
 
-const appearances: AppearanceItem[] = [
+const appearances: AppearanceItem[
+    {
+        id: 8,
+        youtubeId: "cppUbVIMdVY",
+        title: "Aparición de Juan Carlos Rauld",
+        channel: "YouTube",
+        icon: PlayCircle,
+        color: "from-[#bd6f3c]/30 to-[#172017]/10",
+        badge: "Aparición en Medios",
+        badgeColor: "text-[#d3976d] border-[#9f5528] bg-[#172017]/30",
+    },
+] = [
     {
         id: 7,
         videoUrl: "/crc.mp4",
