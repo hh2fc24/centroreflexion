@@ -238,7 +238,7 @@ export default function AcademicArticleReader({ article }: { article: Article })
               <div className="bg-[#f8f5ee] p-8 rounded-sm">
                 <h3 className="text-lg font-bold text-[#171713] mb-2">Sobre el autor</h3>
                 <p className="text-[#70695f] font-serif">
-                  <strong>{article.author}</strong> — Doctor en Trabajo Social de la Universidad Alberto Hurtado.
+                  <strong>{article.author}</strong> — doctorando interuniversitario en Trabajo Social Universitat Rovira I Virgilli.
                   Este artículo fue publicado el {article.date} en la categoría {article.category}.
                 </p>
               </div>
