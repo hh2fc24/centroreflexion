@@ -3,7 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, FileText } from 'lucide-react';
 import { MotionDiv } from '@/components/ui/Motion';
 import { Article } from '@/lib/data';
 
@@ -35,11 +35,11 @@ export default function AcademicArticleReader({ article }: { article: Article })
     }
     
     if (line.startsWith('PALABRAS CLAVE:')) {
-      keywords = line.replace('PALABRAS CLAVE:', '').split(',').map(k => k.trim());
+      keywords = line.replace('PALABRAS CLAVE:', '').split(/[;,]/).map(k => k.trim());
       continue;
     }
     
-    if (line.match(/^(?:BIBLIOGRAFÍA|REFERENCIAS)$/i) || line === 'REFERENCIAS' || line === 'BIBLIOGRAFÍA') {
+    if (/^(?:\d+\.\s+)?(?:BIBLIOGRAFÍA|REFERENCIAS(?: BIBLIOGRÁFICAS)?)$/i.test(line)) {
       inReferences = true;
       const id = 'referencias';
       parsedContent.push({ type: 'heading', text: line, id });
@@ -55,13 +55,15 @@ export default function AcademicArticleReader({ article }: { article: Article })
     // Check if it's a section heading
     // 1. All caps (and not a single word like "A")
     // 2. Starts with number like "1. TITLE"
-    const isNumberedHeading = /^\d+\.\s+[A-ZÁÉÍÓÚÑ]/.test(line);
+    const isNumberedHeading = /^\d+(?:\.\d+)*\.\s+[A-ZÁÉÍÓÚÑ]/.test(line);
     const isAllCapsHeading = line === line.toUpperCase() && line.length > 4 && /[A-ZÁÉÍÓÚÑ]/.test(line);
+    const isExplicitHeading = /^#{2,3}\s+/.test(line);
     
-    if ((isNumberedHeading || isAllCapsHeading) && line.length < 150) {
-      const id = line.toLowerCase().replace(/[^a-z0-9]+/gi, '-').replace(/(^-|-$)/g, '');
-      parsedContent.push({ type: 'heading', text: line, id });
-      toc.push({ id, title: line });
+    if ((isNumberedHeading || isAllCapsHeading || isExplicitHeading) && line.length < 150) {
+      const heading = line.replace(/^#{2,3}\s+/, '');
+      const id = heading.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+      parsedContent.push({ type: 'heading', text: heading, id });
+      toc.push({ id, title: heading });
       continue;
     }
     
@@ -88,6 +90,14 @@ export default function AcademicArticleReader({ article }: { article: Article })
     }
   }
 
+  if (article.footnotes?.length) toc.push({ id: 'notas', title: 'Notas' });
+
+  const renderText = (text: string) => text.split(/(\[\d+\])/).map((part, index) => {
+    const match = part.match(/^\[(\d+)\]$/);
+    if (!match || !article.footnotes?.some(note => note.id === Number(match[1]))) return part;
+    return <sup key={index} className="ml-0.5 text-xs"><a href={`#nota-${match[1]}`} aria-label={`Ver nota ${match[1]}`} className="text-[#9f5528] underline underline-offset-2">{match[1]}</a></sup>;
+  });
+
   const renderImage = () => {
     if (!article.image) return null;
     return (
@@ -95,15 +105,16 @@ export default function AcademicArticleReader({ article }: { article: Article })
         <div className="relative aspect-video w-full overflow-hidden rounded-sm border border-[#ded5c7]">
           <Image
             src={article.image}
-            alt={article.title}
+            alt={article.imageAlt || article.title}
             fill
+            sizes="(min-width: 1024px) 850px, 100vw"
             className="object-cover"
             priority
           />
         </div>
-        <figcaption className="mt-3 text-sm text-[#70695f] text-center font-serif italic">
-          Figura 1. {article.title}
-        </figcaption>
+        {article.imageCaption && <figcaption className="mt-3 text-sm text-[#70695f] text-center font-serif italic">
+          {article.imageCaption}
+        </figcaption>}
       </figure>
     );
   };
@@ -125,12 +136,12 @@ export default function AcademicArticleReader({ article }: { article: Article })
       {/* Article Header */}
       <header className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12 text-center">
         <h1 className="text-3xl md:text-5xl font-serif text-[#171713] leading-tight md:leading-[1.15] mb-8 max-w-3xl mx-auto">
-          {article.title.charAt(0).toUpperCase() + article.title.slice(1).toLowerCase().replace(/[""\u201c\u201d]([a-záéíóúñ])/g, (_, c) => `"${c.toUpperCase()}`).replace(/\.\s+[a-záéíóúñ]/g, m => m.toUpperCase())}
+          {article.title}
         </h1>
         
         <div className="flex flex-col items-center justify-center space-y-2 text-[#70695f]">
           <div className="text-lg">
-            <span className="text-[#171713]">Autor:</span> {article.author}
+            <span className="text-[#171713]">Autor:</span> {article.author}{article.footnotes?.some(note => note.id === 1) && renderText('[1]')}
           </div>
           <div className="flex items-center space-x-4 text-sm">
             <span>{article.date}</span>
@@ -138,6 +149,16 @@ export default function AcademicArticleReader({ article }: { article: Article })
             <span className="uppercase tracking-wider">{article.category}</span>
           </div>
         </div>
+        {article.publication && (
+          <div className="mt-6 space-y-3 text-sm leading-6 text-[#70695f]">
+            <p><cite>{article.publication.journal}</cite>, {article.publication.volume} ({article.publication.year}), pp. {article.publication.pages}.</p>
+            <p>Recibido: {article.publication.received} · Aceptado: {article.publication.accepted}</p>
+            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
+              <a href={`https://doi.org/${article.publication.doi}`} target="_blank" rel="noopener noreferrer" className="text-[#9f5528] underline underline-offset-4">DOI: {article.publication.doi}</a>
+              <a href={article.publication.pdf} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded border border-[#ded5c7] px-4 py-2 text-[#171713] hover:border-[#bd6f3c]"><FileText className="h-4 w-4" />Leer PDF original</a>
+            </div>
+          </div>
+        )}
       </header>
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -146,10 +167,10 @@ export default function AcademicArticleReader({ article }: { article: Article })
 
       {/* Main Content Layout */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="flex flex-col lg:flex-row gap-12 lg:gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_18rem] gap-12 lg:gap-16">
           
           {/* Main Column */}
-          <main className="lg:w-2/3 xl:w-3/4 flex-shrink-0">
+          <article className="min-w-0">
             
             {/* Abstract Section */}
             {(abstract || keywords.length > 0) && (
@@ -181,12 +202,19 @@ export default function AcademicArticleReader({ article }: { article: Article })
 
             {renderImage()}
 
+            {toc.length > 0 && <details className="mb-10 border border-[#ded5c7] p-5 lg:hidden">
+              <summary className="cursor-pointer font-bold">Contenido del artículo</summary>
+              <nav aria-label="Contenido del artículo" className="mt-4 flex flex-col gap-3 text-sm">
+                {toc.map(item => <a key={item.id} href={`#${item.id}`} className="text-[#70695f] hover:text-[#9f5528]">{item.title}</a>)}
+              </nav>
+            </details>}
+
             {/* Content Body */}
-            <div className="article-body font-serif text-lg md:text-xl leading-8 md:leading-9 text-[#171713] space-y-8">
+            <div className="article-body font-serif text-lg md:text-xl leading-8 md:leading-9 text-[#171713] space-y-8 break-words">
               {parsedContent.map((block, idx) => {
                 switch (block.type) {
                   case 'heading':
-                    const match = block.text.match(/^(\d+\.)\s+(.*)$/);
+                    const match = block.text.match(/^(\d+(?:\.\d+)*\.)\s+(.*)$/);
                     if (match) {
                       return (
                         <h2 key={idx} id={block.id} className="text-2xl md:text-3xl font-bold mt-16 mb-8 text-[#171713] flex items-baseline border-l-4 border-[#d3976d] pl-4 scroll-mt-24">
@@ -203,35 +231,44 @@ export default function AcademicArticleReader({ article }: { article: Article })
                     
                   case 'intro-paragraph':
                     return (
-                      <p key={idx} className="text-justify first-letter:text-6xl first-letter:font-bold first-letter:text-[#bd6f3c] first-letter:mr-3 first-letter:float-left first-line:uppercase first-line:tracking-widest">
-                        {block.text}
+                      <p key={idx} className="text-left sm:text-justify">
+                        {renderText(block.text)}
                       </p>
                     );
                     
                   case 'blockquote':
                     return (
                       <blockquote key={idx} className="ml-4 md:ml-12 pl-6 border-l-2 border-[#d3976d] font-serif italic text-[#70695f] text-base md:text-lg leading-relaxed py-2">
-                        {block.text}
+                        {renderText(block.text)}
                       </blockquote>
                     );
                     
                   case 'reference':
                     return (
                       <p key={idx} className="pl-8 -indent-8 text-base text-[#70695f] mb-4 leading-relaxed">
-                        {block.text}
+                        {renderText(block.text)}
                       </p>
                     );
                     
                   case 'paragraph':
                   default:
                     return (
-                      <p key={idx} className="text-justify">
-                        {block.text}
+                      <p key={idx} className="text-left sm:text-justify">
+                        {renderText(block.text)}
                       </p>
                     );
                 }
               })}
             </div>
+
+            {!!article.footnotes?.length && <section id="notas" className="mt-16 border-t border-[#ded5c7] pt-8 scroll-mt-24">
+              <h2 className="mb-6 text-2xl font-bold">Notas</h2>
+              <ol className="space-y-5 text-base leading-7 text-[#70695f]">
+                {article.footnotes.map(note => <li key={note.id} id={`nota-${note.id}`} className="flex gap-3 scroll-mt-24">
+                  <span className="font-bold text-[#9f5528]">{note.id}.</span><p>{note.text}</p>
+                </li>)}
+              </ol>
+            </section>}
 
             {/* Author Footer */}
             <div className="mt-20 pt-10 border-t border-[#eee8dc]">
@@ -253,11 +290,11 @@ export default function AcademicArticleReader({ article }: { article: Article })
               </div>
             </div>
             
-          </main>
+          </article>
 
           {/* Sidebar */}
-          <aside className="lg:w-1/3 xl:w-1/4 hidden lg:block">
-            <div className="sticky top-24 space-y-10">
+          <aside className="hidden lg:block">
+            <div className="sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto space-y-10 pr-2">
               
               {/* Metadata Card */}
               <div className="p-6 border border-[#eee8dc] bg-white rounded-sm shadow-sm">

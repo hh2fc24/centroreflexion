@@ -59,8 +59,8 @@ export default async function TrabajosIntelectualesPage() {
                                         {/* Image */}
                                         <div className="relative aspect-[4/3] lg:aspect-auto overflow-hidden rounded-t-[8px] lg:rounded-l-[8px] lg:rounded-tr-none">
                                             <Image
-                                                src={article.image}
-                                                alt={article.title}
+                                                src={article.image || "/images/infancia_estado_hero.jpg"}
+                                                alt={article.imageAlt || article.title}
                                                 fill
                                                 sizes="(min-width: 1024px) 380px, 100vw"
                                                 className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -81,8 +81,7 @@ export default async function TrabajosIntelectualesPage() {
                                             </div>
 
                                             <h2 className="mt-4 font-serif text-xl sm:text-2xl font-bold leading-tight text-[#171713]">
-                                                {article.title.charAt(0).toUpperCase() +
-                                                    article.title.slice(1).toLowerCase().replace(/\.\s+[a-z]/g, (m) => m.toUpperCase())}
+                                                {article.title}
                                             </h2>
 
                                             <div className="mt-3 flex items-center gap-2 text-sm text-[#70695f]">

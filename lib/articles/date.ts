@@ -32,6 +32,7 @@ const MONTHS: Record<string, number> = {
 
 export function parseDisplayDate(date: string): number {
   const trimmed = date.trim();
+  if (/^\d{4}$/.test(trimmed)) return Date.UTC(Number(trimmed), 0, 1, 12);
   const fullDate = trimmed.match(/^(\d{1,2})\s+([A-Za-zÁÉÍÓÚáéíóúñÑ]+)\s+(\d{4})$/);
   const monthYear = trimmed.match(/^([A-Za-zÁÉÍÓÚáéíóúñÑ]+)\s+(\d{4})$/);
   if (!fullDate && !monthYear) return Number.NaN;
