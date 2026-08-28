@@ -41,7 +41,7 @@ interface AppearanceItem {
     description?: string;
 }
 
-const appearances: AppearanceItem[
+const appearances: AppearanceItem[] = [
     {
         id: 8,
         youtubeId: "cppUbVIMdVY",
@@ -52,7 +52,6 @@ const appearances: AppearanceItem[
         badge: "Aparición en Medios",
         badgeColor: "text-[#d3976d] border-[#9f5528] bg-[#172017]/30",
     },
-] = [
     {
         id: 7,
         videoUrl: "/crc.mp4",
