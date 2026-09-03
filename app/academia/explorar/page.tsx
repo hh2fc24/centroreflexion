@@ -10,6 +10,7 @@ import { ArrowRight } from "lucide-react";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/server";
 import type { Curso, Profile } from "@/lib/supabase/database.types";
 import { CatalogoCursos } from "../_components/CatalogoCursos";
+import { DEMO_SLUG_LIKE } from "@/lib/academia/catalogo";
 
 export const metadata: Metadata = {
   title: "Explorar cursos | Academia CRC",
@@ -43,6 +44,7 @@ export default async function ExplorarPage() {
       profiles (nombre, apellido)
     `)
     .eq("estado", "publicado")
+    .not("slug", "like", DEMO_SLUG_LIKE)
     .order("created_at", { ascending: false })
     .then(({ data }) =>
       (data as CursoRow[] | null ?? []).map((c) => ({

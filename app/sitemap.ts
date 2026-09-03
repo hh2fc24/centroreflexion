@@ -4,6 +4,7 @@ import { readPublishedArticleCollections } from "@/lib/server/publicArticles";
 import { readPublishedDiskState } from "@/lib/server/publishedDisk";
 import { getSiteUrl } from "@/lib/site";
 import { createClient } from "@/lib/supabase/server";
+import { DEMO_SLUG_LIKE } from "@/lib/academia/catalogo";
 
 export const dynamic = "force-dynamic";
 
@@ -68,7 +69,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       const { data: cursos } = await supabase
         .from("cursos")
         .select("slug, updated_at")
-        .eq("estado", "publicado") as { data: { slug: string; updated_at: string }[] | null };
+        .eq("estado", "publicado")
+        .not("slug", "like", DEMO_SLUG_LIKE) as { data: { slug: string; updated_at: string }[] | null };
       for (const c of cursos ?? []) {
         if (!c.slug) continue;
         out.push({

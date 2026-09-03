@@ -14,6 +14,7 @@ import { CatalogoCursos } from "./_components/CatalogoCursos";
 import { FeaturesSection } from "./_components/FeaturesSection";
 import { WaitlistHero } from "./_components/WaitlistHero";
 import { pageMetadata } from "@/lib/seo";
+import { DEMO_SLUG_LIKE } from "@/lib/academia/catalogo";
 
 export const metadata: Metadata = pageMetadata({
   title: "Academia CRC | Próximamente",
@@ -45,6 +46,7 @@ export default async function AcademiaPage() {
           profiles (nombre, apellido)
         `)
         .eq("estado", "publicado")
+        .not("slug", "like", DEMO_SLUG_LIKE)
         .order("created_at", { ascending: false })
         .limit(9)
         .then(({ data }) =>
@@ -62,7 +64,11 @@ export default async function AcademiaPage() {
   const stats = supabase
     ? await (async () => {
         const [cursosRes, profesRes, alumnosRes] = await Promise.all([
-          supabase.from("cursos").select("id", { count: "exact", head: true }).eq("estado", "publicado"),
+          supabase
+            .from("cursos")
+            .select("id", { count: "exact", head: true })
+            .eq("estado", "publicado")
+            .not("slug", "like", DEMO_SLUG_LIKE),
           supabase.from("profiles").select("id", { count: "exact", head: true }).eq("rol", "profesor"),
           supabase.from("inscripciones").select("id", { count: "exact", head: true }),
         ]);

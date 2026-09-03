@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useMemo } from "react";
 import { ArrowRight, Play, Scale, ShieldAlert } from "lucide-react";
@@ -23,9 +24,81 @@ export function HomeCanvas({ initialPage }: { initialPage?: SitePage | null }) {
   return (
     <>
       <BlockCanvas page={home} editable={adminEnabled} />
+      <HomeSeminarioBanner />
       <HomePublicDeclaration />
       <HomeComplianceBanner />
     </>
+  );
+}
+
+/**
+ * Banda del seminario en portada. Va sobre la declaración pública porque
+ * mientras dure la campaña es la única página del sitio con fecha de cierre:
+ * si no está a la vista en el home, el tráfico de Instagram y LinkedIn llega
+ * a la portada y no encuentra por dónde entrar.
+ */
+function HomeSeminarioBanner() {
+  return (
+    <section className="relative overflow-hidden border-b border-[#34362f] bg-[#15120e]">
+      <div className="absolute inset-0">
+        <Image
+          src="/images/desproteccion-institucionalizacion-editorial.png"
+          alt=""
+          aria-hidden="true"
+          fill
+          sizes="100vw"
+          className="object-cover object-center opacity-70 saturate-[0.78]"
+        />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(17,14,10,0.96)_0%,rgba(17,14,10,0.9)_38%,rgba(17,14,10,0.55)_70%,rgba(17,14,10,0.3)_100%)]" />
+        <div className="absolute inset-0 bg-[#7c4a26]/20 mix-blend-multiply" />
+      </div>
+
+      <div className="relative mx-auto max-w-[1640px] px-5 py-14 sm:px-8 sm:py-16 lg:px-14">
+        <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
+          <div className="max-w-[640px]">
+            <p className="text-[0.66rem] font-extrabold uppercase tracking-[0.22em] text-[#f1ede4]">
+              Seminario en vivo
+              <span className="mx-2 text-[#bd6f3c]">·</span>
+              Cohorte 1
+              <span className="mx-2 text-[#bd6f3c]">·</span>
+              Octubre 2026
+            </p>
+
+            <h2 className="crc-serif mt-4 text-[clamp(1.9rem,3vw,3rem)] font-medium leading-[1.02] text-[#fbf7ee]">
+              Desprotección de la <span className="italic text-[#bd6f3c]">infancia</span>
+            </h2>
+
+            <div className="my-5 h-px w-14 bg-[#bd6f3c]" />
+
+            <p className="max-w-[520px] text-[0.9rem] font-semibold leading-[1.65] text-[#ede7dc]/85">
+              Ocho sesiones con Juan Carlos Rauld, autor del libro y Director del CRC. Jueves de 19:00 a 21:00, del 15
+              de octubre al 3 de diciembre. Cohorte cerrada de quince personas, con certificación CRC y Editorial
+              Hammurabi.
+            </p>
+
+            <p className="mt-4 text-[0.72rem] font-extrabold uppercase tracking-[0.16em] text-[#bd6f3c]">
+              La matrícula cierra el martes 13 de octubre
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3">
+            <Link
+              href="/seminarios/desproteccion-infancia"
+              className="inline-flex h-11 items-center gap-3 rounded-[5px] bg-[#bd6f3c] px-6 text-[0.66rem] font-extrabold uppercase tracking-[0.13em] text-white shadow-[0_18px_40px_rgba(90,45,18,0.32)] transition duration-200 hover:bg-[#a85f31]"
+            >
+              Ver el seminario
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+            <Link
+              href="/seminarios/desproteccion-infancia#postular"
+              className="inline-flex h-11 items-center rounded-[5px] border border-[#f1ede4]/42 px-6 text-[0.66rem] font-extrabold uppercase tracking-[0.13em] text-white transition duration-200 hover:border-[#f1ede4]/72 hover:bg-white/10"
+            >
+              Postular
+            </Link>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 

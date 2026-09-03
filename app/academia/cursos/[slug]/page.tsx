@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/server";
 import { CursoPageClient } from "../../_components/CursoPageClient";
+import { esCursoDemo } from "@/lib/academia/catalogo";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -33,6 +34,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function CursoPage({ params }: Props) {
   const { slug } = await params;
+
+  // Los cursos de ejemplo no tienen página pública, ni siquiera por URL directa.
+  if (esCursoDemo(slug)) notFound();
 
   // Sin Supabase: mostrar placeholder en vez de crashear
   if (!isSupabaseConfigured()) {
