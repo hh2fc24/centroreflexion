@@ -57,6 +57,23 @@ export default async function AcademiaPage() {
         )
     : [];
 
+  // Métricas reales de la barra de estadísticas. Se cuentan aquí (server) para no
+  // publicar números inventados: la barra oculta cualquier métrica que esté en 0.
+  const stats = supabase
+    ? await (async () => {
+        const [cursosRes, profesRes, alumnosRes] = await Promise.all([
+          supabase.from("cursos").select("id", { count: "exact", head: true }).eq("estado", "publicado"),
+          supabase.from("profiles").select("id", { count: "exact", head: true }).eq("rol", "profesor"),
+          supabase.from("inscripciones").select("id", { count: "exact", head: true }),
+        ]);
+        return {
+          cursos: cursosRes.count ?? 0,
+          profesores: profesRes.count ?? 0,
+          alumnos: alumnosRes.count ?? 0,
+        };
+      })()
+    : { cursos: 0, profesores: 0, alumnos: 0 };
+
   // MODO "PRÓXIMAMENTE" / WAITLIST
   // Lanzado por defecto. Para volver al modo waitlist: NEXT_PUBLIC_ACADEMIA_LAUNCHED=false
   const isLaunched = process.env.NEXT_PUBLIC_ACADEMIA_LAUNCHED !== "false";
@@ -72,13 +89,56 @@ export default async function AcademiaPage() {
 
       {/* ── Stats ────────────────────────────────────────── */}
       <div style={{ marginBottom: "8rem" }}>
-        <StatsBar />
+        <StatsBar stats={stats} />
       </div>
 
       {/* ── Features ─────────────────────────────────────── */}
       <div style={{ marginBottom: "9rem" }}>
         <FeaturesSection />
       </div>
+
+      {/* ── Seminario en vivo (fuera del catálogo) ────────── */}
+      {/* El seminario no es un curso del catálogo: es en vivo, con cupo cerrado y
+          otro precio. Va antes del grid para que no se compare de reojo con los
+          cursos asincrónicos, que es de donde salen las dudas de precio. */}
+      <section className="mx-auto mb-24 max-w-7xl px-6 sm:px-10 lg:px-16">
+        <Link
+          href="/seminarios/desproteccion-infancia"
+          className="group grid gap-6 rounded-[12px] p-7 sm:p-9 lg:grid-cols-[1fr_auto] lg:items-center"
+          style={{ background: "var(--ac-surface)", border: "1px solid var(--ac-border-md)" }}
+        >
+          <div>
+            <span className="crc-eyebrow" style={{ color: "var(--ac-gold)" }}>
+              Seminario en vivo · Cohorte 1
+            </span>
+            <h3
+              className="mt-3 leading-tight"
+              style={{
+                fontFamily: "var(--font-cormorant, Georgia, serif)",
+                fontSize: "clamp(1.6rem, 2.6vw, 2.3rem)",
+                fontWeight: 700,
+                color: "var(--ac-text)",
+              }}
+            >
+              Desprotección de la Infancia
+            </h3>
+            <p className="mt-2.5 max-w-xl text-sm leading-6" style={{ color: "var(--ac-text-2)" }}>
+              Ocho sesiones en vivo con Juan Carlos Rauld, autor del libro y Director del CRC. Jueves 19:00, del 15
+              de octubre al 3 de diciembre. Cohorte cerrada de 15 personas, con certificación CRC + Editorial
+              Hammurabi.
+            </p>
+            <p className="mt-2 text-xs" style={{ color: "var(--ac-text-3)" }}>
+              Formato distinto al de los cursos del catálogo: en vivo, con cupo limitado y ensayo final.
+            </p>
+          </div>
+          <span
+            className="inline-flex items-center gap-2 px-7 py-3.5 text-[0.66rem] font-extrabold uppercase tracking-[0.13em] ac-btn-gold"
+            style={{ borderRadius: "5px" }}
+          >
+            Ver el seminario <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
+          </span>
+        </Link>
+      </section>
 
       {/* ── Catálogo de cursos ────────────────────────────── */}
       <section id="catalogo" className="mx-auto max-w-7xl px-6 sm:px-10 lg:px-16" style={{ marginBottom: "9rem" }}>

@@ -1,0 +1,10 @@
+# pnpm 11 ya no lee "pnpm.onlyBuiltDependencies" desde package.json:
+# la aprobación de build scripts vive acá. El archivo lo generó pnpm solo,
+# con los valores en placeholder ("set this to true or false"), y mientras
+# quedaran así cada `pnpm install` fallaba con ERR_PNPM_IGNORED_BUILDS.
+#
+# sharp        → binario nativo que Next usa para optimizar imágenes.
+# unrs-resolver → resolver nativo de eslint-import-resolver.
+allowBuilds:
+  sharp: true
+  unrs-resolver: true

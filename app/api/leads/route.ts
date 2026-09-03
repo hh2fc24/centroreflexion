@@ -9,6 +9,7 @@ import { getGoogleAppsScriptUrl } from "@/lib/site";
 import { getGeo, recordConversionEvent } from "@/lib/server/siteAnalytics";
 import { DESPROTECCION_EVENT_SOURCE } from "@/lib/server/eventRegistrations";
 import { insertDesproteccionRegistration } from "@/lib/server/desproteccionRegistrationsStore";
+import { insertSeminarioPostulacion, SEMINARIO_SOURCE } from "@/lib/server/seminarioPostulacionesStore";
 
 export const runtime = "nodejs";
 
@@ -88,7 +89,23 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "missing_contact", id: lead.id }, { status: 400 });
   }
 
-  if (lead.source === DESPROTECCION_EVENT_SOURCE) {
+  if (lead.source === SEMINARIO_SOURCE) {
+    // Postulaciones al seminario "Desprotección de la Infancia". Igual que el
+    // conversatorio: no se reenvían al Apps Script (esa hoja pertenece al evento
+    // UAH). Supabase es la fuente de verdad; el archivo local es solo espejo.
+    try {
+      await insertSeminarioPostulacion(lead);
+    } catch (e: unknown) {
+      const detail = e instanceof Error ? e.message : typeof e === "string" ? e : JSON.stringify(e);
+      return NextResponse.json({ ok: false, error: "write_failed", detail, id: lead.id }, { status: 500 });
+    }
+
+    try {
+      await appendStoredLead(lead);
+    } catch {
+      // Mirror local opcional; Supabase ya es la fuente de verdad.
+    }
+  } else if (lead.source === DESPROTECCION_EVENT_SOURCE) {
     // Este evento NO se reenvía al Apps Script (ese script pertenece al evento
     // UAH y no podemos verificar que maneje correctamente un `source` nuevo).
     // Supabase es la fuente de verdad aquí: durable y compartida entre todas

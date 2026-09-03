@@ -29,6 +29,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/envia-tu-texto",
     "/academia",
     "/declaracion-publica/ninez-migrante-haitiana",
+    "/seminarios/desproteccion-infancia",
   ];
 
   out.push({ url: `${baseUrl}/` });

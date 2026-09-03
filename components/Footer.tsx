@@ -19,6 +19,9 @@ export function Footer({ initialFooter }: { initialFooter?: FooterContent }) {
     const youtubeHref   = footer?.youtubeHref   || get<string>("footer.youtubeHref")   || "https://www.youtube.com/@CentrodeReflexionesCr%C3%ADticas";
     const columns = (footer?.columns ?? get<FooterColumn[]>("footer.columns") ?? []) as FooterColumn[];
 
+    // Un icono social sin URL real es un enlace muerto: mejor no mostrarlo.
+    const hasHref = (href: string) => Boolean(href) && href !== "#";
+
     return (
         <footer style={{ background: "#171713" }} className="border-t border-[rgba(176,145,100,0.18)]">
             {/* ── Top section ──────────────────────────────────────── */}
@@ -94,14 +97,18 @@ export function Footer({ initialFooter }: { initialFooter?: FooterContent }) {
                                 <Instagram className="h-4 w-4" />
                                 <span className="sr-only">Instagram</span>
                             </a>
-                            <a
-                                href={linkedinHref}
-                                className="w-8 h-8 border border-[rgba(193,127,62,0.35)] flex items-center justify-center text-[#a99f91] hover:text-white hover:border-[#bd6f3c] transition-all duration-200"
-                                onClick={(e) => { if (adminEnabled) { e.preventDefault(); e.stopPropagation(); } }}
-                            >
-                                <Linkedin className="h-4 w-4" />
-                                <span className="sr-only">LinkedIn</span>
-                            </a>
+                            {(hasHref(linkedinHref) || adminEnabled) && (
+                                <a
+                                    href={linkedinHref}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="w-8 h-8 border border-[rgba(193,127,62,0.35)] flex items-center justify-center text-[#a99f91] hover:text-white hover:border-[#bd6f3c] transition-all duration-200"
+                                    onClick={(e) => { if (adminEnabled) { e.preventDefault(); e.stopPropagation(); } }}
+                                >
+                                    <Linkedin className="h-4 w-4" />
+                                    <span className="sr-only">LinkedIn</span>
+                                </a>
+                            )}
                             <a
                                 href={whatsappHref}
                                 target="_blank"

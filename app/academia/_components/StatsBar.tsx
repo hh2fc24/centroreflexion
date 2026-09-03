@@ -5,12 +5,36 @@ import { motion, useInView } from "framer-motion";
 
 interface Stat { value: number; suffix: string; label: string; note?: string }
 
-const STATS: Stat[] = [
-  { value: 40,   suffix: "+", label: "Cursos",      note: "Disponibles ahora"   },
-  { value: 20,   suffix: "+", label: "Profesores",  note: "Activos en el CRC"   },
-  { value: 1200, suffix: "+", label: "Alumnos",     note: "Formados hasta hoy"  },
-  { value: 100,  suffix: "%", label: "En español",  note: "Todo el contenido"   },
-];
+/**
+ * Los números de esta barra vienen de la base de datos, no están escritos a mano.
+ * Antes eran fijos (40+ cursos, 20+ profesores, 1200+ alumnos) y no correspondían
+ * a nada real: cualquiera que contara los cursos del catálogo veía la diferencia,
+ * y en el HTML servido —lo que leen los buscadores y los previsualizadores de
+ * redes— aparecían como "0+" porque la animación solo corre en el navegador.
+ * Una métrica que no se puede verificar resta credibilidad en vez de sumarla,
+ * así que la barra ahora muestra solo lo que existe: un tramo en 0 no se muestra.
+ */
+export interface AcademiaStats {
+  cursos: number;
+  profesores: number;
+  alumnos: number;
+}
+
+const LG_COLS: Record<number, string> = {
+  2: "lg:grid-cols-2",
+  3: "lg:grid-cols-3",
+  4: "lg:grid-cols-4",
+};
+
+function buildStats({ cursos, profesores, alumnos }: AcademiaStats): Stat[] {
+  const out: Stat[] = [];
+  if (cursos > 0) out.push({ value: cursos, suffix: "", label: cursos === 1 ? "Curso" : "Cursos", note: "Publicados hoy" });
+  if (profesores > 0) out.push({ value: profesores, suffix: "", label: profesores === 1 ? "Profesor" : "Profesores", note: "Activos en el CRC" });
+  // Es el total de inscripciones, no de personas únicas: la etiqueta dice eso.
+  if (alumnos > 0) out.push({ value: alumnos, suffix: "", label: alumnos === 1 ? "Inscripción" : "Inscripciones", note: "Registradas hasta hoy" });
+  out.push({ value: 100, suffix: "%", label: "En español", note: "Todo el contenido" });
+  return out;
+}
 
 function useCountUp(target: number, duration = 1600, active: boolean) {
   const [val, setVal] = useState(0);
@@ -70,9 +94,13 @@ function StatItem({ stat, active, last }: { stat: Stat; active: boolean; last: b
   );
 }
 
-export function StatsBar() {
+export function StatsBar({ stats }: { stats: AcademiaStats }) {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
+  const items = buildStats(stats);
+
+  // Con una sola métrica real la barra no aporta nada; mejor no renderizarla.
+  if (items.length < 2) return null;
 
   return (
     <motion.section
@@ -101,9 +129,12 @@ export function StatsBar() {
         <rect width="100%" height="100%" filter="url(#stats-grain)" />
       </svg>
 
-      <div className="grid grid-cols-2 divide-y lg:grid-cols-4 lg:divide-y-0" style={{ borderColor: "var(--ac-border)" }}>
-        {STATS.map((s, i) => (
-          <StatItem key={s.label} stat={s} active={inView} last={i === STATS.length - 1} />
+      <div
+        className={`grid grid-cols-2 divide-y lg:divide-y-0 ${LG_COLS[items.length] ?? "lg:grid-cols-4"}`}
+        style={{ borderColor: "var(--ac-border)" }}
+      >
+        {items.map((s, i) => (
+          <StatItem key={s.label} stat={s} active={inView} last={i === items.length - 1} />
         ))}
       </div>
 
