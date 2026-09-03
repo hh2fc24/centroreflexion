@@ -3,6 +3,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { SeminarioPostulacionForm } from "@/components/SeminarioPostulacionForm";
+import { SeminarioPagoButton } from "@/components/SeminarioPagoButton";
+import { leerEstadoVenta } from "@/lib/server/seminarioPagosStore";
+import {
+  SEMINARIO_CUPOS_TOTALES,
+  TRAMOS,
+  estadoDeTramo,
+  formatoCLP,
+} from "@/lib/seminario/tramos";
 import { getSiteUrl } from "@/lib/site";
 import { pageMetadata } from "@/lib/seo";
 
@@ -15,6 +23,13 @@ const IMAGE_PATH = "/images/book_desproteccion.png";
 // a un niño, y su paleta cálida ya es la de la casa. Va de fondo del hero; la
 // portada del libro queda como objeto aparte para que no se lea dos veces.
 const HERO_IMAGE = "/images/desproteccion-institucionalizacion-editorial.png";
+
+// El tramo vigente y los cupos disponibles se cuentan en cada visita: si la
+// página quedara cacheada, seguiría ofreciendo un tramo ya agotado.
+export const dynamic = "force-dynamic";
+
+/** Valor de lista, para el tachado cuando el tramo vigente trae descuento. */
+const PRECIO_LISTA = TRAMOS[TRAMOS.length - 1].precio;
 
 export const metadata: Metadata = {
   ...pageMetadata({
@@ -109,33 +124,6 @@ const SESIONES = [
   },
 ];
 
-const TRAMOS = [
-  {
-    nombre: "Fundadores",
-    cupos: "Cupos 1 a 5",
-    precio: "225.000",
-    ahorro: "Ahorras $75.000",
-    nota: "Hasta el miércoles 1 de octubre, o hasta agotar los cinco cupos.",
-    vigente: true,
-  },
-  {
-    nombre: "Anticipada",
-    cupos: "Cupos 6 a 10",
-    precio: "265.000",
-    ahorro: "Ahorras $35.000",
-    nota: "Hasta el viernes 9 de octubre, o hasta agotar los cinco cupos.",
-    vigente: false,
-  },
-  {
-    nombre: "General",
-    cupos: "Cupos 11 a 15",
-    precio: "300.000",
-    ahorro: "Valor de lista",
-    nota: "Hasta el cierre de matrícula, martes 13 de octubre.",
-    vigente: false,
-  },
-];
-
 const PARA_QUIEN_SI = [
   "Duplas psicosociales de programas PIE, PRM, PPF, DAM y OPD.",
   "Equipos y direcciones de residencias y cuidado alternativo.",
@@ -211,7 +199,10 @@ function Rule({ tone = "gold" }: { tone?: "gold" | "light" }) {
   return <div className={`my-5 h-px w-14 ${tone === "gold" ? "bg-[#bd6f3c]" : "bg-[#bd6f3c]"}`} />;
 }
 
-export default function SeminarioDesproteccionInfancia() {
+export default async function SeminarioDesproteccionInfancia() {
+  const venta = await leerEstadoVenta();
+  const vigente = venta.vigente;
+
   return (
     <div className="bg-[#f8f5ee] text-[#171713]">
       {/* ═══ HERO ═══════════════════════════════════════════ */}
@@ -262,12 +253,20 @@ export default function SeminarioDesproteccionInfancia() {
               sino una forma específica de gobernar.
             </p>
 
-            <div className="mt-8 flex flex-wrap items-center gap-3">
+            {/* El contador sale de los pagos aprobados, no de una frase fija:
+                si dice "quedan 8" es porque quedan 8. */}
+            <p className="mt-7 inline-flex w-fit items-center rounded-[5px] border border-[#f1ede4]/20 bg-[#f1ede4]/[0.06] px-3 py-1.5 text-[0.6rem] font-extrabold uppercase tracking-[0.16em] text-[#ede7dc]/85">
+              {venta.disponibles > 0
+                ? `Quedan ${venta.disponibles} de ${SEMINARIO_CUPOS_TOTALES} cupos`
+                : "Cohorte 1 completa"}
+            </p>
+
+            <div className="mt-6 flex flex-wrap items-center gap-3">
               <Link
                 href="#postular"
                 className="inline-flex h-11 items-center gap-3 rounded-[5px] bg-[#bd6f3c] px-6 text-[0.66rem] font-extrabold uppercase tracking-[0.13em] text-white shadow-[0_18px_40px_rgba(90,45,18,0.32)] transition duration-200 hover:bg-[#a85f31]"
               >
-                Postular al seminario <ArrowRight className="h-4 w-4" />
+                {vigente ? "Postular al seminario" : "Lista cohorte 2"} <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 href="#programa"
@@ -290,8 +289,18 @@ export default function SeminarioDesproteccionInfancia() {
               <div>
                 <dt className="text-[0.6rem] font-extrabold uppercase tracking-[0.2em] text-[#bd6f3c]">Valor</dt>
                 <dd className="mt-1.5 text-[0.85rem] font-semibold text-[#f1ede4]">
-                  $225.000{" "}
-                  <span className="font-normal text-[#ede7dc]/50 line-through">$300.000</span>
+                  {vigente ? (
+                    <>
+                      {formatoCLP(vigente.precio)}{" "}
+                      {vigente.precio < PRECIO_LISTA ? (
+                        <span className="font-normal text-[#ede7dc]/50 line-through">
+                          {formatoCLP(PRECIO_LISTA)}
+                        </span>
+                      ) : null}
+                    </>
+                  ) : (
+                    "Matrícula cerrada"
+                  )}
                 </dd>
               </div>
             </dl>
@@ -619,39 +628,86 @@ export default function SeminarioDesproteccionInfancia() {
                 El valor sube por tramos de cupo. Cuando se agotan los cinco cupos de un tramo, el tramo se cierra
                 aunque la fecha todavía no haya llegado.
               </p>
+              <p className="mt-5 max-w-[26ch] text-[0.82rem] leading-[1.7] text-[#55574f]">
+                Solo el tramo vigente se puede pagar. El valor lo calcula el sitio según los cupos ya tomados.
+              </p>
             </div>
 
             <div>
+              <div className="mb-8 flex flex-wrap items-baseline gap-x-3 gap-y-1 border-b border-[rgba(101,91,74,0.16)] pb-6">
+                <span className="crc-serif text-[2rem] font-medium leading-none text-[#171713]">
+                  {venta.disponibles}
+                </span>
+                <span className="text-[0.72rem] font-extrabold uppercase tracking-[0.16em] text-[#55574f]">
+                  {venta.disponibles === 1 ? "cupo disponible" : "cupos disponibles"} de {SEMINARIO_CUPOS_TOTALES}
+                </span>
+              </div>
+
               <div className="grid border-t border-[rgba(101,91,74,0.23)] sm:grid-cols-3">
-                {TRAMOS.map((t, i) => (
-                  <div
-                    key={t.nombre}
-                    className="border-b border-[rgba(101,91,74,0.16)] py-8 sm:border-b-0 sm:border-r sm:border-[rgba(101,91,74,0.16)] sm:py-0 sm:pb-2 sm:last:border-r-0"
-                  >
-                    <div className={`h-full sm:px-7 ${i === 0 ? "sm:pl-0" : ""}`}>
-                      {t.vigente ? (
-                        <span className="mb-4 inline-block bg-[#bd6f3c] px-2.5 py-1 text-[0.58rem] font-extrabold uppercase tracking-[0.16em] text-white">
-                          Tramo vigente
-                        </span>
-                      ) : (
-                        <span className="mb-4 inline-block px-0 py-1 text-[0.58rem] font-extrabold uppercase tracking-[0.16em] text-[#a9a294]">
-                          Próximo tramo
-                        </span>
-                      )}
-                      <p className="text-[0.66rem] font-extrabold uppercase tracking-[0.18em] text-[#171713]">
-                        {t.nombre}
-                      </p>
-                      <p className="mt-1 text-[0.72rem] text-[#8a8276]">{t.cupos}</p>
-                      <p className="crc-serif mt-5 text-[2.6rem] font-medium leading-none text-[#171713]">
-                        ${t.precio}
-                      </p>
-                      <p className="mt-2 text-[0.72rem] font-bold uppercase tracking-[0.1em] text-[#bd6f3c]">
-                        {t.ahorro}
-                      </p>
-                      <p className="mt-4 max-w-[28ch] text-[0.8rem] leading-[1.65] text-[#55574f]">{t.nota}</p>
+                {TRAMOS.map((t, i) => {
+                  const estado = estadoDeTramo(t, venta);
+                  const activo = estado === "vigente";
+                  return (
+                    <div
+                      key={t.id}
+                      className="border-b border-[rgba(101,91,74,0.16)] py-8 sm:border-b-0 sm:border-r sm:border-[rgba(101,91,74,0.16)] sm:py-0 sm:pb-2 sm:last:border-r-0"
+                    >
+                      <div className={`flex h-full flex-col sm:px-7 ${i === 0 ? "sm:pl-0" : ""}`}>
+                        {activo ? (
+                          <span className="mb-4 inline-block w-fit bg-[#bd6f3c] px-2.5 py-1 text-[0.58rem] font-extrabold uppercase tracking-[0.16em] text-white">
+                            Tramo vigente
+                          </span>
+                        ) : (
+                          <span className="mb-4 inline-block w-fit py-1 text-[0.58rem] font-extrabold uppercase tracking-[0.16em] text-[#a9a294]">
+                            {estado === "agotado" ? "Agotado" : estado === "vencido" ? "Cerrado" : "Próximo tramo"}
+                          </span>
+                        )}
+                        <p
+                          className={`text-[0.66rem] font-extrabold uppercase tracking-[0.18em] ${
+                            activo ? "text-[#171713]" : "text-[#8a8276]"
+                          }`}
+                        >
+                          {t.nombre}
+                        </p>
+                        <p className="mt-1 text-[0.72rem] text-[#8a8276]">
+                          Cupos {t.desde} a {t.hasta}
+                        </p>
+                        <p
+                          className={`crc-serif mt-5 text-[2.6rem] font-medium leading-none ${
+                            activo ? "text-[#171713]" : "text-[#a9a294] line-through decoration-1"
+                          }`}
+                        >
+                          {formatoCLP(t.precio)}
+                        </p>
+                        <p
+                          className={`mt-2 text-[0.72rem] font-bold uppercase tracking-[0.1em] ${
+                            activo ? "text-[#bd6f3c]" : "text-[#a9a294]"
+                          }`}
+                        >
+                          {t.ahorro}
+                        </p>
+                        <p className="mt-4 max-w-[28ch] text-[0.8rem] leading-[1.65] text-[#55574f]">{t.nota}</p>
+
+                        <div className="mt-6 sm:mt-auto sm:pt-6">
+                          {activo ? (
+                            <SeminarioPagoButton
+                              precioLabel={formatoCLP(t.precio)}
+                              tramoNombre={t.nombre}
+                            />
+                          ) : (
+                            <p className="text-[0.72rem] leading-[1.5] text-[#a9a294]">
+                              {estado === "agotado"
+                                ? "Estos cupos ya se tomaron."
+                                : estado === "vencido"
+                                  ? "Este tramo ya cerró."
+                                  : "Se habilita cuando se agote el tramo anterior."}
+                            </p>
+                          )}
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
 
               <div className="mt-10 grid gap-8 border-t border-[rgba(101,91,74,0.23)] pt-8 sm:grid-cols-2 sm:gap-14">
@@ -722,6 +778,21 @@ export default function SeminarioDesproteccionInfancia() {
 
             <div className="border border-[#f1ede4]/14 bg-[#1c1710]/60 p-6 sm:p-8">
               <SeminarioPostulacionForm variant="dark" />
+
+              {vigente ? (
+                <div className="mt-7 border-t border-[#f1ede4]/12 pt-6">
+                  <p className="text-[0.78rem] leading-[1.6] text-[#ede7dc]/65">
+                    ¿Ya lo tienes decidido? Puedes reservar tu cupo pagando ahora, sin pasar por la postulación.
+                  </p>
+                  <div className="mt-4">
+                    <SeminarioPagoButton
+                      precioLabel={formatoCLP(vigente.precio)}
+                      tramoNombre={vigente.nombre}
+                      variant="dark"
+                    />
+                  </div>
+                </div>
+              ) : null}
             </div>
           </div>
         </div>

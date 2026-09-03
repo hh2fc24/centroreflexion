@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { appendMercadoPagoPaymentEvent } from "@/lib/server/mercadoPagoPayments";
 import { recordConversionEvent } from "@/lib/server/siteAnalytics";
+import { marcarPagoAprobado } from "@/lib/server/seminarioPagosStore";
 
 type MercadoPagoWebhookPayload = {
   action?: string;
@@ -72,11 +73,30 @@ async function activateAcademiaEnrollment(payment: MercadoPagoPayment | null) {
     .eq("id", enrollmentId);
 }
 
+/**
+ * Un pago aprobado del seminario es lo que ocupa un cupo: hasta que el webhook
+ * marca la fila, el contador de cupos no se mueve y el tramo de precio no
+ * avanza. Por eso se hace acá y no en la vuelta del navegador, que el
+ * comprador puede no completar.
+ */
+async function confirmarPagoSeminario(payment: MercadoPagoPayment | null) {
+  if (payment?.status !== "approved") return;
+  const ref = payment.external_reference;
+  if (!ref?.startsWith("crc-seminario:")) return;
+
+  await marcarPagoAprobado(
+    ref,
+    payment.id != null ? String(payment.id) : null,
+    typeof payment.transaction_amount === "number" ? payment.transaction_amount : null
+  );
+}
+
 export async function POST(request: NextRequest) {
   const payload = (await request.json().catch(() => ({}))) as MercadoPagoWebhookPayload;
   const paymentId = extractPaymentId(payload, request);
   const payment = paymentId ? await fetchPayment(paymentId) : null;
   await activateAcademiaEnrollment(payment);
+  await confirmarPagoSeminario(payment);
 
   if (payment?.status === "approved") {
     try {
