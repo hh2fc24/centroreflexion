@@ -102,8 +102,8 @@ export async function POST(request: NextRequest) {
       items: [
         {
           id: `seminario-desproteccion-${tramo.id}`,
-          title: "Seminario Desproteccion de la Infancia - Cohorte 1",
-          description: `Matricula ${tramo.nombre}. 8 sesiones en vivo, 15 al 3 de diciembre de 2026.`,
+          title: "Seminario Desprotección de la Infancia · Cohorte 1 · CRC",
+          description: `Matrícula ${tramo.nombre}. Ocho sesiones en vivo, del 15 de octubre al 3 de diciembre de 2026. Centro de Reflexiones Críticas.`,
           quantity: 1,
           currency_id: "CLP",
           unit_price: tramo.precio,
