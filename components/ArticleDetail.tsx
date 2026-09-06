@@ -49,23 +49,68 @@ const getServiceCTA = (category: string): { label: string; description: string; 
     };
 };
 
+type AuthorProfile = { match: string; image: string | null; role: string };
+
+/**
+ * Ficha de autor. La firma vive aquí y no dentro del cuerpo de la columna:
+ * el bloque "Escrito por" es la única atribución de la página.
+ * El orden importa — las coautorías van antes que los nombres individuales.
+ */
+const AUTHOR_DIRECTORY: AuthorProfile[] = [
+    {
+        match: "Rocío Solar y Juan Carlos Rauld",
+        image: "/images/rocio_solar_real_white.png",
+        role: "Cofundadora y Terapeuta Ocupacional del CRC · Director Editorial y Consultor en Ciencias Sociales.",
+    },
+    {
+        match: "Rocío Solar",
+        image: "/images/rocio_solar_real_white.png",
+        role: "Cofundadora y Terapeuta Ocupacional del CRC.",
+    },
+    {
+        match: "Juan Carlos Rauld",
+        image: "/images/juan_carlos_real_white.png",
+        role: "Director Editorial del CRC. Doctorando Internacional en Trabajo Social, Universidad Rovira i Virgili. Magíster en Pensamiento Contemporáneo en Filosofía Política. Trabajador Social, Universidad Tecnológica Metropolitana.",
+    },
+    {
+        match: "Hormazábal",
+        image: "/images/hugo_hormazabal_real_white.png",
+        role: "Ingeniero Comercial. Miembro del equipo fundador del CRC y especialista en uso aplicado de inteligencia artificial en los negocios.",
+    },
+    {
+        match: "Alejandro Castro",
+        image: null,
+        role: "Doctor en Sociología. Académico del Departamento de Trabajo Social, Universidad Alberto Hurtado.",
+    },
+    {
+        match: "Camilo Gallyas",
+        image: null,
+        role: "Psicólogo clínico.",
+    },
+    {
+        match: "Mónica Monje",
+        image: null,
+        role: "Psicóloga clínica.",
+    },
+    {
+        match: "Maximiliano Yáñez",
+        image: null,
+        role: "Departamento de Formación Integral, Universidad San Sebastián.",
+    },
+    {
+        match: "Camila Belmar",
+        image: null,
+        role: "Periodista, Universidad de Las Américas.",
+    },
+    {
+        match: "Georgette Palominos",
+        image: null,
+        role: "Pediatra de NANEAS.",
+    },
+];
+
 const getAuthorDetails = (author: string) => {
-    if (author.includes("Rocío Solar")) {
-        return { image: "/images/rocio_solar_real_white.png", role: "Cofundadora & Terapeuta Ocupacional" };
-    }
-    if (author.includes("Juan Carlos Rauld")) {
-        return { image: "/images/juan_carlos_real_white.png", role: "Director Editorial & Consultor en Ciencias Sociales" };
-    }
-    if (author.includes("Alejandro Castro")) {
-        return { image: null, role: "Doctor en Sociología. Académico Departamento Trabajo Social, Universidad Alberto Hurtado." };
-    }
-    if (author.includes("Camilo Gallyas")) {
-        return { image: null, role: "Psicólogo clínico" };
-    }
-    if (author.includes("Hugo") && author.includes("Hormaz")) {
-        return { image: "/images/hugo_hormazabal_real_white.png", role: "Ingeniero Comercial. Miembro del equipo fundador del CRC y especialista en uso aplicado de inteligencia artificial en los negocios." };
-    }
-    return null;
+    return AUTHOR_DIRECTORY.find((profile) => author.includes(profile.match)) ?? null;
 };
 
 interface ArticleDetailProps {
@@ -768,9 +813,9 @@ export default function ArticleDetail({
                                     )}
                                     <div>
                                         <h3 className="font-bold text-[#171713]">Escrito por {article.author}</h3>
-                                        <p className="text-sm text-[#70695f]">
-                                            {details?.role || "Analista y colaborador en Centro de Reflexiones Críticas."}
-                                        </p>
+                                        {details?.role ? (
+                                            <p className="text-sm text-[#70695f]">{details.role}</p>
+                                        ) : null}
                                     </div>
                                 </>
                             );
