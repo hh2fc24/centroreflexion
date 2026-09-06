@@ -553,6 +553,21 @@ export default function ArticleDetail({
                             
                             const isNote = noteHeaderIndex !== -1 && index >= noteHeaderIndex && !isReferenceHeader && !isReference;
 
+                            // Firma de cierre: última línea con el nombre y las credenciales del autor
+                            const normalize = (value: string) =>
+                                value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                            const plainParagraph = normalize(paragraph);
+                            const authorTokens = normalize(article.author).split(/\s+/).filter((token) => token.length > 3);
+                            const isSignature =
+                                index === arr.length - 1 &&
+                                !isReferenceHeader &&
+                                !isReference &&
+                                !isNote &&
+                                paragraph.length < 400 &&
+                                (plainParagraph.startsWith("por ") ||
+                                    authorTokens.some((token) => plainParagraph.startsWith(token)) ||
+                                    /^(psicolog|trabajador|abogad|sociolog|ingenier|docente|profesor|magister|doctor|licenciad|terapeuta|antropolog|periodista)/.test(plainParagraph));
+
                             if (isReferenceHeader) {
                                 return (
                                     <h3 key={index} className="text-lg font-bold mt-12 mb-6 text-[#171713] border-b pb-2">
@@ -583,8 +598,27 @@ export default function ArticleDetail({
                                 );
                             }
 
+                            if (isSignature) {
+                                return (
+                                    <p
+                                        key={index}
+                                        className="mt-12 border-t border-[#eee8dc] pt-6 text-sm font-serif italic leading-relaxed text-[#70695f]"
+                                    >
+                                        {paragraph}
+                                    </p>
+                                );
+                            }
+
+                            if (index === 0) {
+                                return (
+                                    <p key={index} className="mb-6 first-letter:text-4xl first-letter:font-bold first-letter:text-[#171713] first-letter:mr-3 first-letter:float-left">
+                                        {paragraph}
+                                    </p>
+                                );
+                            }
+
                             return (
-                                <p key={index} className="mb-6 first-letter:text-4xl first-letter:font-bold first-letter:text-[#171713] first-letter:mr-3 first-letter:float-left">
+                                <p key={index} className="mb-6">
                                     {paragraph}
                                 </p>
                             );
