@@ -1,6 +1,28 @@
 {
   "columns": [
     {
+      "id": "ninos-inteligencia-artificial-preguntas-correctas",
+      "title": "Los niños no van a esperar a que los adultos entendamos la inteligencia artificial",
+      "excerpt": "Durante años nos preocupamos por cuánto tiempo pasan nuestros hijos frente a una pantalla. Con la inteligencia artificial aparece una pregunta distinta: ¿con quién están hablando cuando están frente a ella? El desafío ya no es enseñarles a usar la IA —eso será cada día más fácil—, sino enseñarles a pensar frente a ella.",
+      "author": "Hugo Felipe Hormazábal",
+      "date": "06 Sep 2026",
+      "category": "Educación",
+      "image": "/images/ninos-inteligencia-artificial-editorial.png",
+      "imageAlt": "Un escritorio doméstico en penumbra con una pantalla encendida y una silla de adulto vacía junto a una silla infantil",
+      "content": [
+        "Ayer, después de una jornada de trabajo en la que se habló bastante de inteligencia artificial, me quedó dando vueltas una contradicción. Quienes trabajamos con tecnología aplicada vemos cómo la IA avanza a una velocidad difícil de seguir: construimos automatizaciones, agentes y sistemas que hace muy poco parecían lejanos, mientras empresas, instituciones y profesionales todavía intentamos entender qué significa realmente todo esto. Y pensé un momento en los niños, porque ellos no van a esperar a que terminemos de entenderlo.",
+        "Permítanme mencionar experiencias conocidas para todos nosotros. Durante años nos hemos preocupado por cuánto tiempo pasan nuestros hijos frente a una pantalla, qué contenido consumen o cuándo deberían tener su primer teléfono. Con la inteligencia artificial aparece una pregunta diferente: ¿con quién están hablando los niños cuando están frente a esa pantalla?",
+        "Un niño puede pedirle a una IA que le explique matemáticas, practicar inglés, aprender sobre el universo o pedir una explicación diez veces hasta encontrar una que finalmente entienda. Eso es extraordinario. Probablemente estamos frente a una de las herramientas educativas más poderosas que hemos creado. Pero ese mismo niño también puede contarle que está triste, o preguntarle sobre su cuerpo, sus relaciones, sus miedos o cosas que quizás no se atreva a conversar con sus padres, profesores o amigos.",
+        "Y la inteligencia artificial también aquí responderá. Ahí comienza, para mí, el verdadero desafío. Una IA puede entregar una respuesta brillante y cinco minutos después entregar otra completamente equivocada con exactamente la misma seguridad. Nosotros, los adultos, recién estamos aprendiendo a convivir con eso.",
+        "¿Qué pasa entonces con un niño? Mientras en Chile padres y escuelas todavía intentamos entender cómo abordar esta tecnología, otros países ya comenzaron a hacerse la pregunta. China, por citar un ejemplo, ha incorporado progresivamente la alfabetización en inteligencia artificial desde la educación escolar. Estados Unidos avanza por un camino diferente, entre iniciativas educativas y discusiones sobre privacidad, seguridad y límites. Probablemente ninguno tenga todavía la respuesta correcta en términos éticos, pedagógicos o tecnológicos. Pero los niños tampoco van a esperar a que aparezca.",
+        "Prohibir la IA en una sala de clases no significa que un niño deje de utilizarla. Probablemente significa que la utilizará en otro lugar y, quizás, sin ningún adulto acompañándolo. Por eso creo que estamos haciendo la pregunta equivocada. El desafío no es solamente enseñarles a usar inteligencia artificial, pues usarla será cada día más fácil.",
+        "El desafío será enseñarles a pensar frente a ella. Entender que una respuesta perfectamente escrita puede estar equivocada. Que obtener una respuesta no significa haber aprendido. Que una máquina puede ayudarnos a construir una opinión, pero no debería construirla por nosotros.",
+        "Nuestros hijos probablemente crecerán con acceso a más respuestas que cualquier generación anterior. Tal vez por eso nuestra responsabilidad como padres y educadores tendrá que cambiar: enseñar consistirá, quizás, en administrar el encuentro con menos respuestas, para favorecer el aprender a dudar, contrastar, preguntar y construir con criterio intelectual.",
+        "Los niños no van a esperar a que los adultos entendamos la inteligencia artificial. Y quizás, mientras intentamos alcanzarlos, deberíamos empezar por hacernos una pregunta: si nuestros hijos crecerán rodeados de máquinas capaces de darles todas las respuestas, ¿quién les enseñará a hacerse las preguntas correctas?",
+        "Hugo Felipe Hormazábal. Ingeniero Comercial, miembro del equipo fundador del Centro de Reflexiones Críticas. Especialista en uso aplicado de inteligencia artificial en los negocios."
+      ]
+    },
+    {
       "id": "patologizacion-malestar-neoliberalismo",
       "title": "La patologización del malestar en el neoliberalismo: desafíos para la clínica psicoanalítica",
       "excerpt": "Vivimos en una época en la que el rendimiento se ha convertido en una medida central del valor personal. Comprender las manifestaciones de ansiedad, depresión, cansancio crónico y burnout únicamente como trastornos individuales puede ocultar las condiciones sociales, laborales y políticas que participan en su producción.",

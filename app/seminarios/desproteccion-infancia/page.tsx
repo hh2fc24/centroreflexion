@@ -591,11 +591,11 @@ export default async function SeminarioDesproteccionInfancia() {
             <div>
               <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[5px] bg-[#eee8dc]">
                 <Image
-                  src="/images/juan-carlos-rauld-furia-del-libro.jpg"
-                  alt="Juan Carlos Rauld presentando su libro en La Furia del Libro"
+                  src="/images/juan-carlos-rauld-retrato.jpg"
+                  alt="Juan Carlos Rauld Farías, relator del seminario"
                   fill
                   sizes="(min-width: 768px) 300px, 100vw"
-                  className="object-cover object-[58%_center]"
+                  className="object-cover object-center"
                 />
               </div>
 

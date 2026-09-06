@@ -62,6 +62,9 @@ const getAuthorDetails = (author: string) => {
     if (author.includes("Camilo Gallyas")) {
         return { image: null, role: "Psicólogo clínico" };
     }
+    if (author.includes("Hugo") && author.includes("Hormaz")) {
+        return { image: "/images/hugo_hormazabal_real_white.png", role: "Ingeniero Comercial. Miembro del equipo fundador del CRC y especialista en uso aplicado de inteligencia artificial en los negocios." };
+    }
     return null;
 };
 
