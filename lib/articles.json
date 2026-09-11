@@ -1,6 +1,35 @@
 {
   "columns": [
     {
+      "id": "ninos-ninas-adolescentes-victimas-dictadura",
+      "title": "La dictadura también tuvo como víctimas directas a niños, niñas y adolescentes",
+      "excerpt": "Niños, niñas y adolescentes fueron víctimas directas de la dictadura chilena. Esta columna recupera cifras oficiales y la responsabilidad de preservar su memoria.",
+      "author": "Isaac Francisco Ruiz Muñoz",
+      "date": "11 Sep 2026",
+      "category": "Infancia y Niñez",
+      "image": "/images/nna-dictadura-memoria-editorial.jpg",
+      "imageAlt": "Una silla escolar vacía, una mochila y un cuaderno en el corredor austero de un edificio público",
+      "content": [
+        "Como profesional del Trabajo Social comprometido con la promoción y defensa de sus derechos, considero indispensable mantener viva esta dimensión de nuestra memoria histórica. No se trata solamente de cifras: detrás de cada registro hubo una vida, una familia y una infancia vulnerada.",
+        "Según la recopilación publicada en 2023 por la Defensoría de la Niñez, durante la dictadura fueron identificados:",
+        "• 150 niños, niñas y adolescentes ejecutados.",
+        "• 40 víctimas de desaparición forzada.",
+        "• 956 víctimas de prisión política y tortura.",
+        "• 102 que estuvieron en prisión política junto con una persona adulta.",
+        "Por su parte, el Informe Valech I presenta cifras correspondientes a una clasificación documental diferente: reconoce a 978 personas que fueron privadas de libertad por sí mismas cuando eran menores de edad, 102 detenidas junto con sus padres y 11 nacidas en prisión.",
+        "La violencia represiva también afectó gravemente a las mujeres embarazadas y a los hijos e hijas que gestaban. El Informe Valech registra 229 mujeres detenidas mientras estaban embarazadas: 11 declararon haber sido violadas, 20 abortaron debido a las torturas sufridas y 15 tuvieron a sus hijos en presidio.",
+        "Los informes Rettig y de la Corporación Nacional de Reparación y Reconciliación también documentan casos de mujeres embarazadas ejecutadas o detenidas desaparecidas, además de pérdidas gestacionales provocadas por golpes, torturas y otros malos tratos cometidos por agentes del Estado.",
+        "Para el Trabajo Social y para quienes participamos en los sistemas de protección, la memoria constituye una responsabilidad ética y política. Nos recuerda las consecuencias que puede alcanzar el ejercicio del poder estatal cuando la infancia deja de ser reconocida y protegida como sujeto de derechos.",
+        "Reconocer a estos niños, niñas, adolescentes y mujeres no repara el daño causado. Sin embargo, dignifica sus historias, enfrenta su negación y reafirma un compromiso irrenunciable: nunca más una infancia sometida a la tortura, la desaparición, la ejecución o cualquier forma de violencia institucional.",
+        "Referencias bibliográficas",
+        "• Comisión Nacional sobre Prisión Política y Tortura. Informe de la Comisión Nacional sobre Prisión Política y Tortura —Informe Valech I—, 2004. Véanse especialmente las páginas 74 y 252, y el anexo “Menores de edad nacidos en prisión o detenidos con sus padres”, página 777. Disponible en la Biblioteca Digital del Instituto Nacional de Derechos Humanos: https://bibliotecadigital.indh.cl/items/77e102d5-e424-4c60-9ff9-70478e618d78",
+        "• Defensoría de la Niñez. “150 ejecutados y 40 desaparecidos: Defensoría de la Niñez revela importantes datos de niños, niñas y adolescentes víctimas de la dictadura”, 8 de septiembre de 2023: https://www.defensorianinez.cl/150-ejecutados-y-40-desaparecidos-defensoria-de-la-ninez-revela-importantes-datos-de-ninos-ninas-y-adolescentes-victimas-de-la-dictadura/",
+        "• Comisión Nacional de Verdad y Reconciliación. Informe de la Comisión Nacional de Verdad y Reconciliación —Informe Rettig—, reedición elaborada por la Corporación Nacional de Reparación y Reconciliación, 1996. Biblioteca Nacional de Chile: https://www.memoriachilena.gob.cl/602/w3-article-85801.html",
+        "• Museo de la Memoria y los Derechos Humanos. Base pública de víctimas calificadas por las comisiones de verdad, con antecedentes individualizados y actualizaciones judiciales: https://interactivos.museodelamemoria.cl/victims/",
+        "• Ley N.º 19.992, artículo 15, relativo al secreto de los documentos, testimonios y antecedentes entregados a la Comisión Valech: https://www.bcn.cl/leychile/navegar?idNorma=233930"
+      ]
+    },
+    {
       "id": "ninos-inteligencia-artificial-preguntas-correctas",
       "title": "Los niños no van a esperar a que los adultos entendamos la inteligencia artificial",
       "excerpt": "Durante años nos preocupamos por cuánto tiempo pasan nuestros hijos frente a una pantalla. Con la inteligencia artificial aparece una pregunta distinta: ¿con quién están hablando cuando están frente a ella? El desafío ya no es enseñarles a usar la IA —eso será cada día más fácil—, sino enseñarles a pensar frente a ella.",

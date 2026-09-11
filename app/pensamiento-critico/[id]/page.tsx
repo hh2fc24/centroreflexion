@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import { Metadata } from "next";
 import { DEFAULT_OG_IMAGE } from "@/lib/seo";
+import { parseDisplayDate } from "@/lib/articles/date";
 
 export const dynamic = "force-dynamic";
 
@@ -24,6 +25,11 @@ export async function generateMetadata(props: { params: Promise<{ id: string }> 
         };
     }
 
+    const publishedTimestamp = parseDisplayDate(post.date);
+    const publishedTime = Number.isFinite(publishedTimestamp)
+        ? new Date(publishedTimestamp).toISOString()
+        : post.date;
+
     return {
         title: `${post.title} | Pensamiento Crítico | CRC`,
         description: post.excerpt,
@@ -32,14 +38,14 @@ export async function generateMetadata(props: { params: Promise<{ id: string }> 
             title: post.title,
             description: post.excerpt,
             type: "article",
-            publishedTime: post.date,
+            publishedTime,
             authors: [post.author],
             images: post.image ? [
                 {
                     url: post.image,
                     width: 1200,
                     height: 630,
-                    alt: post.title,
+                    alt: post.imageAlt || post.title,
                 },
             ] : []
         },

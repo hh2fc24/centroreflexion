@@ -88,6 +88,11 @@ const AUTHOR_DIRECTORY: AuthorProfile[] = [
         role: "Psicólogo clínico.",
     },
     {
+        match: "Isaac Francisco Ruiz Muñoz",
+        image: null,
+        role: "Profesional del Trabajo Social.",
+    },
+    {
         match: "Mónica Monje",
         image: null,
         role: "Psicóloga clínica.",
@@ -394,7 +399,7 @@ export default function ArticleDetail({
             <div className="relative h-[42vh] min-h-[320px] w-full sm:h-[50vh] sm:min-h-[400px]">
                 <Image
                     src={article.image}
-                    alt={article.title}
+                    alt={article.imageAlt || article.title}
                     fill
                     sizes="100vw"
                     className="object-cover"
@@ -624,9 +629,22 @@ export default function ArticleDetail({
                             if (isReference) {
                                 // Clean up bullet points if they exist
                                 const cleanRef = paragraph.replace(/^•\s*/, '');
+                                const linkedRef = cleanRef.split(/(https?:\/\/\S+)/g).map((part, partIndex) =>
+                                    part.startsWith("http") ? (
+                                        <a
+                                            key={partIndex}
+                                            href={part}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            className="break-all"
+                                        >
+                                            {part}
+                                        </a>
+                                    ) : part
+                                );
                                 return (
                                     <p key={index} className="pl-6 -indent-6 mb-3 text-sm text-[#70695f] leading-relaxed font-serif italic">
-                                        {cleanRef}
+                                        {linkedRef}
                                     </p>
                                 );
                             }
@@ -657,6 +675,14 @@ export default function ArticleDetail({
                             if (index === 0) {
                                 return (
                                     <p key={index} className="mb-6 first-letter:text-4xl first-letter:font-bold first-letter:text-[#171713] first-letter:mr-3 first-letter:float-left">
+                                        {paragraph}
+                                    </p>
+                                );
+                            }
+
+                            if (paragraph.startsWith("• ")) {
+                                return (
+                                    <p key={index} className="mb-3 pl-6 -indent-5">
                                         {paragraph}
                                     </p>
                                 );
