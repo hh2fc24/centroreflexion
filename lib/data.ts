@@ -6,6 +6,7 @@ export interface Article {
   title: string;
   excerpt: string;
   author: string;
+  authors?: ArticleAuthor[];
   date: string; // "08 Feb 2026"
   category: string;
   image: string;
@@ -25,7 +26,14 @@ export interface Article {
   };
 }
 
-type ArticlesJson = { columns: Article[]; reviews: Article[] };
+export interface ArticleAuthor {
+  name: string;
+  bio?: string;
+  orcid?: string;
+  emails?: string[];
+}
+
+type ArticlesJson = { columns: Article[]; reviews: Article[]; academic?: Article[] };
 
 export const columns: Article[] = (articles as unknown as ArticlesJson).columns;
 export const reviews: Article[] = (articles as unknown as ArticlesJson).reviews;

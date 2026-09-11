@@ -42,7 +42,7 @@ export default async function TrabajosIntelectualesPage() {
                     </p>
                 ) : (
                     <div className="space-y-12">
-                        {academic.map((article) => {
+                        {academic.map((article, index) => {
                             const wordCount = article.content
                                 .join(" ")
                                 .trim()
@@ -62,6 +62,7 @@ export default async function TrabajosIntelectualesPage() {
                                                 src={article.image || "/images/infancia_estado_hero.jpg"}
                                                 alt={article.imageAlt || article.title}
                                                 fill
+                                                priority={index === 0}
                                                 sizes="(min-width: 1024px) 380px, 100vw"
                                                 className="object-cover transition-transform duration-700 group-hover:scale-105"
                                             />

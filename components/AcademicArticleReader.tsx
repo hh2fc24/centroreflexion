@@ -5,7 +5,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeft, FileText } from 'lucide-react';
 import { MotionDiv } from '@/components/ui/Motion';
-import { Article } from '@/lib/data';
+import { Article, ArticleAuthor } from '@/lib/data';
+import { JsonLd } from '@/components/JsonLd';
 
 interface ParsedBlock {
   type: 'heading' | 'paragraph' | 'blockquote' | 'reference' | 'intro-paragraph';
@@ -14,6 +15,7 @@ interface ParsedBlock {
 }
 
 export default function AcademicArticleReader({ article }: { article: Article }) {
+  const authors: ArticleAuthor[] = article.authors?.length ? article.authors : [{ name: article.author }];
   // Parse content
   let abstract = '';
   let keywords: string[] = [];
@@ -34,8 +36,8 @@ export default function AcademicArticleReader({ article }: { article: Article })
       continue;
     }
     
-    if (line.startsWith('PALABRAS CLAVE:')) {
-      keywords = line.replace('PALABRAS CLAVE:', '').split(/[;,]/).map(k => k.trim());
+    if (/^PALABRAS CLAVE:/i.test(line)) {
+      keywords = line.replace(/^PALABRAS CLAVE:/i, '').split(/[;,]/).map(k => k.trim());
       continue;
     }
     
@@ -92,10 +94,18 @@ export default function AcademicArticleReader({ article }: { article: Article })
 
   if (article.footnotes?.length) toc.push({ id: 'notas', title: 'Notas' });
 
-  const renderText = (text: string) => text.split(/(\[\d+\])/).map((part, index) => {
+  const renderText = (text: string) => text.split(/(\[\d+\]|https?:\/\/[^\s]+)/).map((part, index) => {
     const match = part.match(/^\[(\d+)\]$/);
-    if (!match || !article.footnotes?.some(note => note.id === Number(match[1]))) return part;
-    return <sup key={index} className="ml-0.5 text-xs"><a href={`#nota-${match[1]}`} aria-label={`Ver nota ${match[1]}`} className="text-[#9f5528] underline underline-offset-2">{match[1]}</a></sup>;
+    if (match && article.footnotes?.some(note => note.id === Number(match[1]))) {
+      return <sup key={index} className="ml-0.5 text-xs"><a href={`#nota-${match[1]}`} aria-label={`Ver nota ${match[1]}`} className="text-[#9f5528] underline underline-offset-2">{match[1]}</a></sup>;
+    }
+    if (/^https?:\/\//.test(part)) {
+      const urlMatch = part.match(/^(.*?)([.,;:]*)$/);
+      const url = urlMatch?.[1] || part;
+      const trailing = urlMatch?.[2] || '';
+      return <React.Fragment key={index}><a href={url} target="_blank" rel="noopener noreferrer" className="break-all text-[#9f5528] underline underline-offset-2">{url}</a>{trailing}</React.Fragment>;
+    }
+    return part;
   });
 
   const renderImage = () => {
@@ -141,7 +151,7 @@ export default function AcademicArticleReader({ article }: { article: Article })
         
         <div className="flex flex-col items-center justify-center space-y-2 text-[#70695f]">
           <div className="text-lg">
-            <span className="text-[#171713]">Autor:</span> {article.author}{article.footnotes?.some(note => note.id === 1) && renderText('[1]')}
+            <span className="text-[#171713]">{authors.length > 1 ? 'Autores:' : 'Autor:'}</span> {authors.map(author => author.name).join(' · ')}{article.footnotes?.some(note => note.id === 1) && renderText('[1]')}
           </div>
           <div className="flex items-center space-x-4 text-sm">
             <span>{article.date}</span>
@@ -273,11 +283,21 @@ export default function AcademicArticleReader({ article }: { article: Article })
             {/* Author Footer */}
             <div className="mt-20 pt-10 border-t border-[#eee8dc]">
               <div className="bg-[#f8f5ee] p-8 rounded-sm">
-                <h3 className="text-lg font-bold text-[#171713] mb-2">Sobre el autor</h3>
-                <p className="text-[#70695f] font-serif">
-                  <strong>{article.author}</strong> — doctorando interuniversitario en Trabajo Social Universitat Rovira I Virgilli.
-                  Este artículo fue publicado el {article.date} en la categoría {article.category}.
-                </p>
+                <h3 className="text-lg font-bold text-[#171713] mb-4">{authors.length > 1 ? 'Sobre los autores' : 'Sobre el autor'}</h3>
+                <div className="space-y-5 text-[#70695f] font-serif">
+                  {authors.map((author) => (
+                    <div key={author.name}>
+                      <p><strong className="text-[#171713]">{author.name}</strong>{author.bio ? ` — ${author.bio}` : ''}</p>
+                      {(author.orcid || author.emails?.length) && (
+                        <p className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-sm">
+                          {author.orcid && <a href={author.orcid} target="_blank" rel="noopener noreferrer" className="text-[#9f5528] underline underline-offset-2">ORCID</a>}
+                          {author.emails?.map(email => <a key={email} href={`mailto:${email}`} className="break-all text-[#9f5528] underline underline-offset-2">{email}</a>)}
+                        </p>
+                      )}
+                    </div>
+                  ))}
+                  <p>Este artículo fue publicado el {article.date} en la categoría {article.category}.</p>
+                </div>
               </div>
               <div className="mt-8 text-center">
                 <Link 
@@ -301,8 +321,8 @@ export default function AcademicArticleReader({ article }: { article: Article })
                 <h4 className="text-xs uppercase tracking-widest text-[#70695f] mb-4 border-b border-[#eee8dc] pb-2">Metadatos del Artículo</h4>
                 <dl className="space-y-4 text-sm font-serif">
                   <div>
-                    <dt className="text-[#70695f] uppercase text-[10px] tracking-wider">Autor</dt>
-                    <dd className="text-[#171713]">{article.author}</dd>
+                    <dt className="text-[#70695f] uppercase text-[10px] tracking-wider">{authors.length > 1 ? 'Autores' : 'Autor'}</dt>
+                    <dd className="text-[#171713]">{authors.map(author => author.name).join(' · ')}</dd>
                   </div>
                   <div>
                     <dt className="text-[#70695f] uppercase text-[10px] tracking-wider">Fecha de Publicación</dt>
@@ -351,8 +371,9 @@ export default function AcademicArticleReader({ article }: { article: Article })
                 <div className="relative aspect-[3/4] w-full overflow-hidden rounded-sm border border-[#ded5c7] opacity-80 hover:opacity-100 transition-opacity">
                   <Image
                     src={article.image}
-                    alt={article.title}
+                    alt={article.imageAlt || article.title}
                     fill
+                    sizes="288px"
                     className="object-cover grayscale hover:grayscale-0 transition-all duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
@@ -367,6 +388,7 @@ export default function AcademicArticleReader({ article }: { article: Article })
           
         </div>
       </div>
+      <JsonLd article={article} />
     </div>
   );
 }

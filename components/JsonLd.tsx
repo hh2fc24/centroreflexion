@@ -30,12 +30,11 @@ export function JsonLd({ article }: JsonLdProps) {
         "image": [
             `${siteUrl}${article.image}`
         ],
-        "author": [
-            {
+        "author": (article.authors?.length ? article.authors : [{ name: article.author }]).map((author) => ({
                 "@type": "Person",
-                "name": article.author,
-            },
-        ],
+                "name": author.name,
+                ...(author.orcid ? { "sameAs": author.orcid } : {}),
+            })),
         "publisher": {
             "@type": "Organization",
             "name": "Centro de Reflexiones Críticas",

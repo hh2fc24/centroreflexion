@@ -5,6 +5,7 @@ import { readPublishedDiskState } from "@/lib/server/publishedDisk";
 import { getSiteUrl } from "@/lib/site";
 import { createClient } from "@/lib/supabase/server";
 import { DEMO_SLUG_LIKE } from "@/lib/academia/catalogo";
+import { parseDisplayDate } from "@/lib/articles/date";
 
 export const dynamic = "force-dynamic";
 
@@ -59,6 +60,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const publishedAt = a.date ? new Date(a.date) : undefined;
     out.push({
       url: `${baseUrl}/critica/${a.id}`,
+      ...(publishedAt && !Number.isNaN(publishedAt.getTime()) ? { lastModified: publishedAt } : {}),
+    });
+  }
+  for (const a of articles.academic ?? []) {
+    const publishedTimestamp = parseDisplayDate(a.date);
+    const publishedAt = Number.isFinite(publishedTimestamp) ? new Date(publishedTimestamp) : undefined;
+    out.push({
+      url: `${baseUrl}/trabajos-intelectuales/${a.id}`,
       ...(publishedAt && !Number.isNaN(publishedAt.getTime()) ? { lastModified: publishedAt } : {}),
     });
   }

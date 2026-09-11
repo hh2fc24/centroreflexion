@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { DEFAULT_OG_IMAGE } from "@/lib/seo";
 import AcademicArticleReader from "@/components/AcademicArticleReader";
+import { parseDisplayDate } from "@/lib/articles/date";
 
 export const dynamic = "force-dynamic";
 
@@ -17,6 +18,12 @@ export async function generateMetadata(props: { params: Promise<{ id: string }> 
         };
     }
 
+    const publishedTimestamp = parseDisplayDate(post.date);
+    const publishedTime = Number.isFinite(publishedTimestamp)
+        ? new Date(publishedTimestamp).toISOString()
+        : undefined;
+    const authors = post.authors?.length ? post.authors.map((author) => author.name) : [post.author];
+
     return {
         title: `${post.title} | Trabajos Intelectuales | CRC`,
         description: post.excerpt,
@@ -25,10 +32,10 @@ export async function generateMetadata(props: { params: Promise<{ id: string }> 
             title: post.title,
             description: post.excerpt,
             type: "article",
-            publishedTime: post.date,
-            authors: [post.author],
+            publishedTime,
+            authors,
             images: post.image
-                ? [{ url: post.image, width: 1200, height: 630, alt: post.title }]
+                ? [{ url: post.image, width: 1200, height: 630, alt: post.imageAlt || post.title }]
                 : [],
         },
         twitter: {
