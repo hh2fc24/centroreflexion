@@ -4,12 +4,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { ArrowRight, Menu, X } from "lucide-react";
+import { ArrowRight, Menu, Phone, X } from "lucide-react";
 import { useContent, useEditor } from "@/lib/editor/hooks";
 import type { NavigationContent } from "@/lib/editor/types";
 import { cn } from "@/lib/utils";
 
-type NavNode = { id: string; label: string; href: string; visible: boolean; children: NavNode[] };
+type NavNode = { id: string; label: string; href: string; visible: boolean; description?: string; children: NavNode[] };
 
 export function Navbar({ initialNavigation }: { initialNavigation?: NavigationContent }) {
     const [isOpen, setIsOpen] = useState(false);
@@ -32,10 +32,26 @@ export function Navbar({ initialNavigation }: { initialNavigation?: NavigationCo
         i.label.toLocaleLowerCase("es-CL") !== "contacto"
     ));
 
-    const isActive = (href: string) => {
-        if (href === "/") return pathname === "/";
-        return pathname === href || pathname.startsWith(`${href}/`);
+    // Un ítem padre puede ser prefijo de otro (/servicios vs /servicios/clinica),
+    // así que gana el match más específico y solo se marca activo uno.
+    const matchLength = (href: string) => {
+        const clean = (href ?? "").split("#")[0];
+        if (!clean) return -1;
+        if (clean === "/") return pathname === "/" ? 0 : -1;
+        return pathname === clean || pathname.startsWith(`${clean}/`) ? clean.length : -1;
     };
+
+    let activeId: string | null = null;
+    let bestMatch = -1;
+    for (const item of visibleItems) {
+        for (const href of [item.href, ...(item.children ?? []).map((c) => c.href)]) {
+            const length = matchLength(href);
+            if (length > bestMatch) {
+                bestMatch = length;
+                activeId = item.id;
+            }
+        }
+    }
 
     const maybePrevent = (e: React.MouseEvent) => {
         if (!adminEnabled) return;
@@ -79,7 +95,7 @@ export function Navbar({ initialNavigation }: { initialNavigation?: NavigationCo
                     <div className="flex min-w-0 items-center justify-center gap-1">
                     {visibleItems.map((item) => {
                         const hasChildren = (item.children ?? []).some((c) => c.visible !== false);
-                        const active = isActive(item.href);
+                        const active = item.id === activeId;
                         return (
                             <div key={item.id} className="relative group">
                                 <Link
@@ -98,8 +114,8 @@ export function Navbar({ initialNavigation }: { initialNavigation?: NavigationCo
                                     ) : null}
                                 </Link>
                                 {hasChildren ? (
-                                    <div className="pointer-events-none absolute left-0 top-full pt-3 opacity-0 transition duration-150 group-hover:pointer-events-auto group-hover:opacity-100">
-                                        <div className="w-max min-w-52 rounded-[8px] border border-[#d8cfc0]/80 bg-[#fffdf8] p-1 shadow-[0_18px_46px_rgba(31,27,22,0.15)]">
+                                    <div className="pointer-events-none absolute left-0 top-full pt-3 opacity-0 transition duration-150 group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100">
+                                        <div className="w-[21rem] rounded-[8px] border border-[#d8cfc0]/80 bg-[#fffdf8] p-1.5 shadow-[0_18px_46px_rgba(31,27,22,0.15)]">
                                             {(item.children ?? [])
                                                 .filter((c) => c.visible !== false)
                                                 .map((c) => (
@@ -107,12 +123,12 @@ export function Navbar({ initialNavigation }: { initialNavigation?: NavigationCo
                                                         key={c.id}
                                                         href={c.href}
                                                         onClick={(e) => { maybePrevent(e); }}
-                                                        className={cn(
-                                                            "block whitespace-nowrap rounded-[6px] px-3.5 py-2.5 text-sm font-medium text-[#4b4d46]",
-                                                            "transition-colors hover:bg-[#eee8dc] hover:text-[#171713]"
-                                                        )}
+                                                        className="block rounded-[6px] px-3.5 py-2.5 transition-colors hover:bg-[#eee8dc]"
                                                     >
-                                                        {c.label}
+                                                        <span className="block text-sm font-semibold text-[#2b2d27]">{c.label}</span>
+                                                        {c.description ? (
+                                                            <span className="mt-0.5 block text-xs leading-5 text-[#77716a]">{c.description}</span>
+                                                        ) : null}
                                                     </Link>
                                             ))}
                                         </div>
@@ -127,7 +143,7 @@ export function Navbar({ initialNavigation }: { initialNavigation?: NavigationCo
                         href="/contacto"
                         className="group inline-flex h-11 shrink-0 items-center gap-2 rounded-[8px] bg-[#172017] px-5 text-sm font-semibold text-[#fffdf8] shadow-[0_14px_34px_rgba(23,32,23,0.18)] transition duration-200 hover:bg-[#243323] hover:shadow-[0_18px_44px_rgba(23,32,23,0.22)] xl:px-6"
                     >
-                        Agenda de atención
+                        Da el primer paso
                         <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
                     </Link>
                 </div>
@@ -145,9 +161,27 @@ export function Navbar({ initialNavigation }: { initialNavigation?: NavigationCo
             {isOpen && (
                 <div className="border-t border-[#d8cfc0]/70 bg-[#f8f5ee] min-[1240px]:hidden">
                     <div className="px-5 py-4">
+                        <Link
+                            href="/contacto"
+                            onClick={() => setIsOpen(false)}
+                            className="inline-flex w-full items-center justify-center gap-2 rounded-[8px] bg-[#172017] px-4 py-3.5 text-center text-sm font-semibold text-white transition-colors hover:bg-[#233122]"
+                        >
+                            Da el primer paso
+                            <ArrowRight className="h-4 w-4" />
+                        </Link>
+                        <a
+                            href="tel:*4141"
+                            onClick={() => setIsOpen(false)}
+                            className="mt-2 flex items-center justify-center gap-2 rounded-[8px] border border-[#d9a066]/50 bg-[#f6ead9] px-4 py-3 text-sm font-semibold text-[#8a4f20]"
+                        >
+                            <Phone className="h-4 w-4" />
+                            ¿En crisis ahora? Llama al *4141
+                        </a>
+
+                        <div className="mt-4 border-t border-[#d8cfc0]/70 pt-1">
                         {visibleItems.map((item) => {
                             const kids = (item.children ?? []).filter((c) => c.visible !== false);
-                            const active = isActive(item.href);
+                            const active = item.id === activeId;
                             return (
                                 <div key={item.id}>
                                     <Link
@@ -173,9 +207,12 @@ export function Navbar({ initialNavigation }: { initialNavigation?: NavigationCo
                                                         if (adminEnabled) { maybePrevent(e); return; }
                                                         setIsOpen(false);
                                                     }}
-                                                    className="block border-b border-[#d8cfc0]/50 py-2.5 text-sm font-medium text-[#6d665a] transition-colors hover:text-[#bd6f3c]"
+                                                    className="block border-b border-[#d8cfc0]/50 py-2.5 transition-colors hover:text-[#bd6f3c]"
                                                 >
-                                                    {c.label}
+                                                    <span className="block text-sm font-medium text-[#6d665a]">{c.label}</span>
+                                                    {c.description ? (
+                                                        <span className="mt-0.5 block text-xs leading-5 text-[#918a80]">{c.description}</span>
+                                                    ) : null}
                                                 </Link>
                                             ))}
                                         </div>
@@ -183,15 +220,6 @@ export function Navbar({ initialNavigation }: { initialNavigation?: NavigationCo
                                 </div>
                             );
                         })}
-                        <div className="py-3">
-                            <Link
-                                href="/contacto"
-                                onClick={() => setIsOpen(false)}
-                                className="inline-flex w-full items-center justify-center gap-2 rounded-[8px] bg-[#172017] px-4 py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-[#233122]"
-                            >
-                                Agenda de atención
-                                <ArrowRight className="h-4 w-4" />
-                            </Link>
                         </div>
                     </div>
                 </div>

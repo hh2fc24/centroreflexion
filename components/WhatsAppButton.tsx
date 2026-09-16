@@ -8,6 +8,7 @@ const WA_NUMBER = "56949186447";
 const UF_QUANTITY = 2;
 
 const SERVICIOS = [
+    { id: "acompanamiento-familiar", label: "Acompañamiento familiar", emoji: "🤝" },
     { id: "clinica", label: "Atención clínica", emoji: "🩺" },
     { id: "consultoria", label: "Consultoría institucional", emoji: "🏛️" },
     { id: "compliance", label: "Compliance escolar", emoji: "⚖️" },

@@ -14,10 +14,12 @@ export const metadata: Metadata = pageMetadata({
 });
 
 const servicioLabels: Record<string, string> = {
+    "acompanamiento-familiar": "Acompañamiento familiar",
     clinica: "Atención clínica",
     consultoria: "Consultoría institucional",
     "compliance-escolar": "Compliance escolar",
     "bienestar-escolar": "Bienestar escolar",
+    formacion: "Formación y supervisión",
 };
 
 export default async function Contact({

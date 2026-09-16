@@ -182,8 +182,15 @@ export default function ClinicaPage() {
             <section className="border-b border-[#eee8dc] py-14 sm:py-20">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="mb-8 max-w-3xl">
-                        <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#bd6f3c]">Condiciones y señales de derivación</span>
-                        <h2 className="mt-4 text-3xl font-bold text-[#171713] font-serif">Cuándo puede ser pertinente consultar</h2>
+                        <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#bd6f3c]">Alcance clínico</span>
+                        <h2 className="mt-4 text-3xl font-bold text-[#171713] font-serif">Condiciones que abordamos</h2>
+                        <p className="mt-4 text-base leading-7 text-[#70695f]">
+                            Si todavía no sabes si lo que ocurre en tu familia amerita consultar,{" "}
+                            <Link href="/servicios/acompanamiento-familiar" className="font-semibold text-[#9f5528] underline underline-offset-4 hover:text-[#bd6f3c]">
+                                parte por acompañamiento familiar
+                            </Link>
+                            : ahí se ordena la necesidad antes de definir un proceso clínico.
+                        </p>
                     </div>
                     <div className="grid gap-3 md:grid-cols-2">
                         {conditions.map((item) => (

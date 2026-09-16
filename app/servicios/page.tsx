@@ -1,28 +1,42 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Building2, ChevronDown, GraduationCap, School, ShieldCheck, Stethoscope } from "lucide-react";
+import { ArrowRight, Building2, ChevronDown, GraduationCap, HeartHandshake, School, ShieldCheck, Stethoscope } from "lucide-react";
 import StaffSection from "@/components/StaffSection";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
-    title: "Servicios | Atención Clínica, Consultoría y Compliance Escolar",
+    title: "Servicios | Acompañamiento Familiar, Clínica y Consultoría",
     description:
-        "Conoce los servicios del Centro de Reflexiones Críticas: atención clínica en salud mental e infancia, consultoría institucional, bienestar y compliance escolar, y formación para equipos.",
+        "Conoce los servicios del Centro de Reflexiones Críticas: acompañamiento para familias, atención clínica en salud mental e infancia, consultoría institucional, bienestar y compliance escolar, y formación para equipos.",
     path: "/servicios",
-    ogTitle: "Servicios CRC: clínica, consultoría, bienestar escolar y formación",
-    ogDescription: "Atención clínica, consultoría institucional, compliance escolar y formación profesional con enfoque técnico y humano.",
+    ogTitle: "Servicios CRC: familias, clínica, consultoría y formación",
+    ogDescription: "Acompañamiento familiar, atención clínica, consultoría institucional, compliance escolar y formación profesional con enfoque técnico y humano.",
 });
 
 const serviceRoutes = [
     {
-        icon: Stethoscope,
-        eyebrow: "Personas y familias",
-        title: "Atención clínica",
-        promise: "Apoyo profesional para ordenar lo que está pasando y definir un proceso de cuidado.",
-        focus: "Salud mental, infancia, familia y terapia ocupacional.",
+        icon: HeartHandshake,
+        eyebrow: "Familias",
+        title: "Acompañamiento familiar",
+        promise: "El primer paso cuando algo en casa no está bien y todavía no sabes a quién preguntar.",
+        focus: "Conflictos familiares, contención en crisis e informe social de discapacidad.",
         details: [
-            ["Qué resuelve", "Evaluación, intervención y acompañamiento especializado en salud mental, infancia, familia y terapia ocupacional."],
-            ["Para quién", "Personas, familias, cuidadores y equipos que requieren una orientación profesional clara."],
+            ["Qué resuelve", "Orientación cuando la familia atraviesa conflictos, crisis emocionales o necesita respaldo social para trámites de discapacidad."],
+            ["Para quién", "Familias y cuidadores preocupados por niños, niñas, adolescentes o jóvenes."],
+            ["Qué obtienes", "Entender qué está pasando y salir con un siguiente paso concreto."],
+        ],
+        modality: "Online · Presencial según la situación",
+        href: "/servicios/acompanamiento-familiar",
+    },
+    {
+        icon: Stethoscope,
+        eyebrow: "Procesos clínicos",
+        title: "Atención clínica",
+        promise: "Evaluación e intervención sostenida cuando el caso requiere un equipo y respaldo documental.",
+        focus: "Salud mental, terapia ocupacional, adicciones e informes técnicos.",
+        details: [
+            ["Qué resuelve", "Evaluación de competencias parentales, informes periciales y socioocupacionales, terapia ocupacional y tratamiento en salud mental."],
+            ["Para quién", "Personas y familias que ya necesitan un proceso clínico o un documento con validez técnica."],
             ["Qué obtienes", "Un proceso situado, respetuoso y técnicamente fundado."],
         ],
         modality: "Presencial · Online · Domiciliario",
@@ -166,7 +180,7 @@ export default function ServicesHub() {
 
                                     <div className="mt-auto flex flex-col gap-3 pt-7 sm:flex-row">
                                         <Link href={`/contacto?servicio=${service.href.split("/").pop()}`} className="group/cta inline-flex flex-1 items-center justify-center gap-2 rounded-[7px] bg-[#171713] px-5 py-3 text-sm font-bold text-white transition duration-200 hover:bg-[#34362f]">
-                                            Agenda de atención
+                                            Solicitar hora
                                             <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover/cta:translate-x-0.5" />
                                         </Link>
                                         <Link href={service.href} className="inline-flex items-center justify-center gap-2 rounded-[7px] border border-[#ded5c7] bg-[#fffdf8] px-5 py-3 text-sm font-bold text-[#171713] transition hover:border-[#bd6f3c]/50">

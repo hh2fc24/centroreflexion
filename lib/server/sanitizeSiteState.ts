@@ -200,6 +200,7 @@ function sanitizeNavItems(items: unknown): unknown[] {
       label: sanitizePlainText(rec.label, { maxLen: 80 }),
       href: sanitizeUrl(rec.href, { allowRelative: true }),
       visible: rec.visible !== false,
+      description: sanitizePlainText(rec.description, { maxLen: 160 }),
       children: sanitizeNavItems(rec.children),
     };
   });

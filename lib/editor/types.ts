@@ -270,6 +270,7 @@ export interface NavItem {
   label: string;
   href: string;
   visible: boolean;
+  description?: string;
   children: NavItem[];
 }
 

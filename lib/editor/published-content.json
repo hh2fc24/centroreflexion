@@ -58,15 +58,15 @@
       {
         "id": "svc-consultoria",
         "tone": "primary",
-        "title": "Clínica",
-        "description": "Atención especializada en terapia ocupacional, psicoterapia y evaluación infantojuvenil.",
+        "title": "Acompañamiento familiar",
+        "description": "Orientación y contención cuando la familia atraviesa conflictos, crisis o preocupación por niños, niñas y adolescentes.",
         "ctaLabel": "Ver más",
-        "href": "/servicios/clinica"
+        "href": "/servicios/acompanamiento-familiar"
       },
       {
         "id": "svc-clinica",
         "tone": "success",
-        "title": "Consultoría",
+        "title": "Compliance escolar",
         "description": "Especialistas en Compliance Escolar y Ley 21.809. Protegemos a su comunidad y blindamos su institución.",
         "ctaLabel": "Ver más",
         "href": "/servicios/compliance-escolar"
@@ -269,6 +269,12 @@
         "visible": true,
         "links": [
           {
+            "id": "lnk-acompanamiento-familiar",
+            "label": "Acompañamiento Familiar",
+            "href": "/servicios/acompanamiento-familiar",
+            "visible": true
+          },
+          {
             "id": "lnk-pc",
             "label": "Pensamiento Crítico",
             "href": "/pensamiento-critico",
@@ -330,103 +336,159 @@
   "navigation": {
     "items": [
       {
-        "id": "nav-home",
-        "label": "Inicio",
-        "href": "/",
+        "id": "nav-ayuda",
+        "label": "Necesito ayuda",
+        "href": "/servicios/acompanamiento-familiar",
         "visible": true,
-        "children": []
-      },
-      {
-        "id": "nav-conocenos",
-        "label": "Quiénes Somos",
-        "href": "/conocenos",
-        "visible": true,
-        "children": []
-      },
-      {
-        "id": "nav-servicios",
-        "label": "Servicios",
-        "href": "/servicios",
-        "visible": true,
+        "description": "Apoyo para familias y personas.",
         "children": [
           {
-            "id": "nav-clinica",
-            "label": "Clínica",
-            "href": "/servicios/clinica",
+            "id": "nav-ayuda-familiar",
+            "label": "Acompañamiento familiar",
+            "href": "/servicios/acompanamiento-familiar",
             "visible": true,
+            "description": "Cuando algo en casa no está bien y no sabes por dónde partir.",
             "children": []
           },
           {
-            "id": "nav-consultoria",
+            "id": "nav-ayuda-clinica",
+            "label": "Atención clínica",
+            "href": "/servicios/clinica",
+            "visible": true,
+            "description": "Evaluación, terapia e informes con respaldo técnico.",
+            "children": []
+          },
+          {
+            "id": "nav-ayuda-crisis",
+            "label": "Estoy en crisis ahora",
+            "href": "/servicios/acompanamiento-familiar#ayuda-inmediata",
+            "visible": true,
+            "description": "Contención inmediata y teléfonos de ayuda 24 horas.",
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "nav-instituciones",
+        "label": "Instituciones",
+        "href": "/servicios",
+        "visible": true,
+        "description": "Colegios, programas y organizaciones.",
+        "children": [
+          {
+            "id": "nav-inst-compliance",
+            "label": "Compliance escolar",
+            "href": "/servicios/compliance-escolar",
+            "visible": true,
+            "description": "Ley 21.809, protocolos y trazabilidad institucional.",
+            "children": []
+          },
+          {
+            "id": "nav-inst-bienestar",
+            "label": "Bienestar escolar",
+            "href": "/servicios/bienestar-escolar",
+            "visible": true,
+            "description": "Convivencia, salud mental y prevención dentro del colegio.",
+            "children": []
+          },
+          {
+            "id": "nav-inst-consultoria",
             "label": "Consultoría",
             "href": "/servicios/consultoria",
             "visible": true,
+            "description": "Diseño y mejora de programas y modelos de intervención.",
             "children": []
           },
           {
-            "id": "nav-bienestar-escolar",
-            "label": "Bienestar Escolar",
-            "href": "/servicios/bienestar-escolar",
-            "visible": true,
-            "children": []
-          },
-          {
-            "id": "nav-formacion",
-            "label": "Formación",
+            "id": "nav-inst-formacion",
+            "label": "Formación y supervisión",
             "href": "/servicios/formacion",
             "visible": true,
+            "description": "Capacitación y supervisión clínica para equipos.",
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "nav-academia",
+        "label": "Academia",
+        "href": "/academia",
+        "visible": true,
+        "description": "Cursos y seminarios para profesionales.",
+        "children": [
+          {
+            "id": "nav-academia-cursos",
+            "label": "Cursos y programas",
+            "href": "/academia",
+            "visible": true,
+            "description": "Formación online con certificación del CRC.",
+            "children": []
+          },
+          {
+            "id": "nav-academia-seminarios",
+            "label": "Seminarios",
+            "href": "/seminarios/desproteccion-infancia",
+            "visible": true,
+            "description": "Encuentros en vivo sobre infancia y protección.",
+            "children": []
+          },
+          {
+            "id": "nav-academia-docentes",
+            "label": "Equipo docente",
+            "href": "/academia/profesores",
+            "visible": true,
+            "description": "Quiénes dictan cada curso y desde dónde lo hacen.",
             "children": []
           }
         ]
       },
       {
         "id": "nav-pc",
-        "label": "Pensamiento Crítico",
+        "label": "Pensamiento crítico",
         "href": "/pensamiento-critico",
         "visible": true,
+        "description": "Investigación, columnas y publicaciones.",
         "children": [
           {
             "id": "nav-pc-columnas",
-            "label": "Ver Columnas",
+            "label": "Columnas",
             "href": "/pensamiento-critico",
             "visible": true,
+            "description": "Análisis breve sobre infancia, política y cuidado.",
             "children": []
           },
           {
             "id": "nav-pc-articulos",
-            "label": "Artículos Académicos",
+            "label": "Artículos académicos",
             "href": "/trabajos-intelectuales",
             "visible": true,
+            "description": "Trabajos con desarrollo teórico y referencias.",
+            "children": []
+          },
+          {
+            "id": "nav-pc-publicaciones",
+            "label": "Publicaciones",
+            "href": "/publicaciones",
+            "visible": true,
+            "description": "Libros y ediciones del Centro.",
             "children": []
           },
           {
             "id": "nav-pc-envia",
-            "label": "Envía tu Texto",
+            "label": "Envía tu texto",
             "href": "/envia-tu-texto",
             "visible": true,
+            "description": "Convocatoria abierta a autoras y autores.",
             "children": []
           }
         ]
       },
       {
-        "id": "nav-publicaciones",
-        "label": "Publicaciones",
-        "href": "/publicaciones",
+        "id": "nav-conocenos",
+        "label": "Quiénes somos",
+        "href": "/conocenos",
         "visible": true,
-        "children": []
-      },
-      {
-        "id": "nav-seminario-desproteccion",
-        "label": "Seminario",
-        "href": "/seminarios/desproteccion-infancia",
-        "visible": true,
-        "children": []
-      },
-      {
-        "id": "fe1b15f9-f5fd-4cbd-88b5-b62b2435e133",
-        "label": "Academia CRC",
-        "href": "/academia",
-        "visible": true,
+        "description": "El equipo y el enfoque del CRC.",
         "children": []
       }
     ]
