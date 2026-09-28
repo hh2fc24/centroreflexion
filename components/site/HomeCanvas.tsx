@@ -50,39 +50,39 @@ function HomeSeminarioBanner() {
   return (
     <section
       aria-labelledby="home-seminario-title"
-      className="relative isolate overflow-hidden border-b border-[#342b22] bg-[#15120e] text-[#f8f3e9]"
+      className="relative isolate overflow-hidden border-b border-[#d2c6b7] bg-[#f1eadf] text-[#171713]"
     >
-      <div className="pointer-events-none absolute inset-0 opacity-[0.08] [background-image:radial-gradient(rgba(255,255,255,0.9)_0.45px,transparent_0.45px)] [background-size:5px_5px]" />
+      <div className="pointer-events-none absolute inset-0 opacity-[0.055] [background-image:radial-gradient(rgba(45,38,31,0.9)_0.45px,transparent_0.45px)] [background-size:5px_5px]" />
 
       <div className="relative mx-auto max-w-[1640px] px-5 py-8 sm:px-8 sm:py-10 lg:px-14 lg:py-14 xl:px-20">
-        <div className="mb-8 flex flex-wrap items-center justify-between gap-4 border-b border-white/15 pb-5 sm:mb-10">
-          <p className="text-[0.64rem] font-extrabold uppercase tracking-[0.22em] text-[#d98a55]">
+        <div className="mb-8 flex flex-wrap items-center justify-between gap-4 border-b border-[#9c8f80]/35 pb-5 sm:mb-10">
+          <p className="text-[0.64rem] font-extrabold uppercase tracking-[0.22em] text-[#9f5528]">
             Matrícula abierta · Cohorte 1
           </p>
-          <p className="flex items-center gap-2 text-[0.64rem] font-bold uppercase tracking-[0.16em] text-[#eee6d9]/70">
-            <CalendarDays className="h-3.5 w-3.5 text-[#d98a55]" aria-hidden="true" />
+          <p className="flex items-center gap-2 text-[0.64rem] font-bold uppercase tracking-[0.16em] text-[#5f5a52]">
+            <CalendarDays className="h-3.5 w-3.5 text-[#9f5528]" aria-hidden="true" />
             15 de octubre — 3 de diciembre de 2026
           </p>
         </div>
 
         <div className="grid gap-10 lg:grid-cols-[minmax(0,1.04fr)_minmax(420px,0.96fr)] lg:items-stretch lg:gap-14 xl:gap-20">
           <div className="flex flex-col justify-center py-2 lg:py-7">
-            <p className="text-[0.68rem] font-extrabold uppercase tracking-[0.24em] text-[#eee6d9]/68">
+            <p className="text-[0.68rem] font-extrabold uppercase tracking-[0.24em] text-[#6f675d]">
               Seminario en vivo · Michel Foucault y biopolítica
             </p>
 
             <h2
               id="home-seminario-title"
-              className="crc-serif mt-5 max-w-[11ch] text-[clamp(3rem,6.2vw,6.7rem)] font-medium leading-[0.84] tracking-[-0.035em] text-[#fffaf0] text-balance"
+              className="crc-serif mt-5 max-w-[11ch] text-[clamp(3rem,6.2vw,6.7rem)] font-medium leading-[0.84] tracking-[-0.035em] text-[#171713] text-balance"
             >
-              Desprotección de la <span className="italic text-[#d98a55]">infancia</span>
+              Desprotección de la <span className="italic text-[#9f5528]">infancia</span>
             </h2>
 
-            <p className="crc-serif mt-7 max-w-[34ch] text-[clamp(1.15rem,1.7vw,1.55rem)] font-light italic leading-[1.35] text-[#eee6d9]/88">
+            <p className="crc-serif mt-7 max-w-[34ch] text-[clamp(1.15rem,1.7vw,1.55rem)] font-light italic leading-[1.35] text-[#3f3b35]">
               Dominación, biopolítica y gobierno de la infancia en Chile.
             </p>
 
-            <p className="mt-6 max-w-[60ch] text-[0.92rem] font-medium leading-[1.75] text-[#eee6d9]/72">
+            <p className="mt-6 max-w-[60ch] text-[0.92rem] font-medium leading-[1.75] text-[#5f5a52]">
               Ocho sesiones con Juan Carlos Rauld para recorrer a Foucault, el poder disciplinario y el Chile del
               SENAME. Una cohorte cerrada de quince personas, con certificación CRC y Editorial Hammurabi.
             </p>
@@ -90,30 +90,30 @@ function HomeSeminarioBanner() {
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <Link
                 href="/seminarios/desproteccion-infancia#inversion"
-                className="group inline-flex min-h-12 items-center gap-3 rounded-[4px] bg-[#d07840] px-7 py-3 text-[0.68rem] font-extrabold uppercase tracking-[0.14em] text-white shadow-[0_20px_46px_rgba(86,42,18,0.38)] transition duration-200 hover:-translate-y-0.5 hover:bg-[#b86534] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#fffaf0] focus-visible:ring-offset-2 focus-visible:ring-offset-[#15120e] active:translate-y-0"
+                className="group inline-flex min-h-12 items-center gap-3 rounded-[4px] bg-[#a95d31] px-7 py-3 text-[0.68rem] font-extrabold uppercase tracking-[0.14em] text-white shadow-[0_18px_38px_rgba(101,62,34,0.2)] transition duration-200 hover:-translate-y-0.5 hover:bg-[#8f4925] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#171713] focus-visible:ring-offset-2 focus-visible:ring-offset-[#f1eadf] active:translate-y-0"
               >
                 Matricularme
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
               </Link>
               <Link
                 href="/seminarios/desproteccion-infancia#programa"
-                className="inline-flex min-h-12 items-center border-b border-[#d98a55] px-2 py-3 text-[0.68rem] font-extrabold uppercase tracking-[0.14em] text-[#fffaf0] transition duration-200 hover:border-[#fffaf0] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#fffaf0]"
+                className="inline-flex min-h-12 items-center border-b border-[#a95d31] px-2 py-3 text-[0.68rem] font-extrabold uppercase tracking-[0.14em] text-[#171713] transition duration-200 hover:border-[#171713] hover:text-[#8f4925] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#171713]"
               >
                 Conocer el programa
               </Link>
             </div>
 
-            <dl className="mt-10 grid max-w-[680px] grid-cols-3 border-y border-white/15 py-5">
+            <dl className="mt-10 grid max-w-[680px] grid-cols-3 border-y border-[#9c8f80]/35 py-5">
               {[
                 ["8", "sesiones en vivo"],
                 ["15", "cupos totales"],
                 ["16", "horas de seminario"],
               ].map(([value, label], index) => (
-                <div key={label} className={index === 0 ? "pr-4" : "border-l border-white/15 px-4 sm:px-6"}>
-                  <dt className="crc-serif text-[clamp(1.75rem,3vw,2.7rem)] font-medium leading-none text-[#fffaf0]">
+                <div key={label} className={index === 0 ? "pr-4" : "border-l border-[#9c8f80]/35 px-4 sm:px-6"}>
+                  <dt className="crc-serif text-[clamp(1.75rem,3vw,2.7rem)] font-medium leading-none text-[#171713]">
                     {value}
                   </dt>
-                  <dd className="mt-2 text-[0.58rem] font-bold uppercase leading-[1.45] tracking-[0.14em] text-[#eee6d9]/55">
+                  <dd className="mt-2 text-[0.58rem] font-bold uppercase leading-[1.45] tracking-[0.14em] text-[#6f675d]">
                     {label}
                   </dd>
                 </div>
@@ -154,7 +154,7 @@ function HomeSeminarioBanner() {
           </Link>
         </div>
 
-        <div className="mt-8 flex flex-col gap-2 border-t border-white/15 pt-5 text-[0.65rem] font-bold uppercase tracking-[0.14em] text-[#eee6d9]/58 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-8 flex flex-col gap-2 border-t border-[#9c8f80]/35 pt-5 text-[0.65rem] font-bold uppercase tracking-[0.14em] text-[#6f675d] sm:flex-row sm:items-center sm:justify-between">
           <span>Cierre de matrícula: martes 13 de octubre, 23:59</span>
           <span>Certificación CRC + Editorial Hammurabi</span>
         </div>
