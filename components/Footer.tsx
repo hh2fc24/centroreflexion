@@ -183,7 +183,7 @@ export function Footer({ initialFooter }: { initialFooter?: FooterContent }) {
                     Todos los derechos reservados.
                 </p>
                 <p className="text-[0.8125rem] text-[#8a8276]">
-                    Infancia · Salud mental · Instituciones
+                    Pensamiento crítico · Infancia · Salud mental
                 </p>
             </div>
         </footer>

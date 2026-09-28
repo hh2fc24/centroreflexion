@@ -46,7 +46,7 @@ export function NewsletterBlock({ origen = "articulo" }: Props) {
                 Una columna al mes, y aviso cuando abre una cohorte
             </h2>
             <p className="mt-2 max-w-[60ch] text-[0.9375rem] leading-[1.7] text-[#55574f]">
-                Ideas del CRC sobre infancia, salud mental e instituciones. Sin spam; te das de baja cuando quieras.
+                Pensamiento crítico del CRC sobre infancia, salud mental e instituciones. Sin spam; te das de baja cuando quieras.
             </p>
 
             {status === "ok" ? (

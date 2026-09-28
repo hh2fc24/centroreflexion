@@ -137,8 +137,9 @@ export function HomeManifesto() {
     useReveal(root);
 
     return (
-        <section ref={root} aria-label="Qué hace el CRC" className="bg-[#15120e] text-[#fbf7ee]">
+        <section ref={root} aria-label="Pensamiento crítico aplicado" className="bg-[#15120e] text-[#fbf7ee]">
             <div className="mx-auto max-w-[1640px] px-5 py-16 sm:px-8 sm:py-24 lg:px-14 xl:px-20">
+                <p data-reveal="" className="mb-6 text-[0.8125rem] font-semibold text-[#e4935d]">Pensamiento crítico aplicado</p>
                 <p data-reveal="" className="crc-serif max-w-[40ch] text-[clamp(1.6rem,2.3vw,2.4rem)] font-medium leading-[1.25] tracking-[-0.01em] text-balance">
                     Un protocolo no decide por nadie. Detrás de cada caso hay una institución que tiene que elegir, explicar
                     por qué eligió así y hacerse cargo. Eso es lo que enseñamos, asesoramos e instalamos:{" "}
@@ -149,6 +150,14 @@ export function HomeManifesto() {
                     <li>Consultoría</li>
                     <li>Compliance escolar</li>
                     <li>Atención clínica</li>
+                    <li className="sm:ml-auto">
+                        <Link
+                            href="/pensamiento-critico"
+                            className="font-semibold text-[#fbf7ee] underline decoration-[#e4935d] underline-offset-4 transition-colors hover:text-[#e4935d]"
+                        >
+                            Leer pensamiento crítico
+                        </Link>
+                    </li>
                 </ul>
             </div>
         </section>

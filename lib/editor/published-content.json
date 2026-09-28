@@ -42,12 +42,12 @@
     }
   },
   "hero": {
-    "badgePrefix": "Infancia · Salud mental",
-    "badgeHighlight": "Instituciones",
+    "badgePrefix": "Pensamiento crítico",
+    "badgeHighlight": "Infancia · Salud mental · Instituciones",
     "titleBefore": "Criterio experto para decidir sobre",
     "titleHighlight": "infancia",
     "titleAfter": "cuando la ley, el caso y la institución tiran para lados distintos.",
-    "subtitle": "Formación, consultoría y compliance con respaldo de libros publicados, docencia universitaria y práctica clínica.",
+    "subtitle": "Pensamiento crítico aplicado: formación, consultoría y compliance con respaldo de libros publicados, docencia universitaria y práctica clínica.",
     "primaryCtaLabel": "Soy profesional · Ver el seminario",
     "primaryCtaHref": "/seminarios/desproteccion-infancia",
     "secondaryCtaLabel": "Represento a una institución",
@@ -82,9 +82,9 @@
     ]
   },
   "homeLatest": {
-    "title": "Publicaciones destacadas",
-    "linkLabel": "Ver todas las publicaciones",
-    "linkHref": "/publicaciones"
+    "title": "Pensamiento crítico",
+    "linkLabel": "Ver todas las columnas",
+    "linkHref": "/pensamiento-critico"
   },
   "homePublications": {
     "eyebrow": "PUBLICACIONES",
@@ -254,7 +254,7 @@
   "footer": {
     "brandTitle": "Centro de Reflexiones",
     "brandHighlight": "Críticas",
-    "description": "Criterio experto sobre infancia y salud mental para profesionales, familias e instituciones. Formación, consultoría, compliance escolar y atención clínica.",
+    "description": "Pensamiento crítico sobre infancia y salud mental para profesionales, familias e instituciones. Formación, consultoría, compliance escolar y atención clínica.",
     "instagramHref": "https://www.instagram.com/centrodereflexionescriticas/",
     "linkedinHref": "#",
     "whatsappHref": "https://wa.me/56949186447?text=Hola,%20quisiera%20m%C3%A1s%20informaci%C3%B3n%20sobre%20el%20CRC.",
@@ -300,7 +300,7 @@
           },
           {
             "id": "lnk-pc",
-            "label": "Ideas",
+            "label": "Pensamiento crítico",
             "href": "/pensamiento-critico",
             "visible": true
           },
@@ -441,10 +441,10 @@
       },
       {
         "id": "nav-pc",
-        "label": "Ideas",
+        "label": "Pensamiento crítico",
         "href": "/pensamiento-critico",
         "visible": true,
-        "description": "Investigación, columnas y publicaciones.",
+        "description": "Columnas, artículos académicos y libros del CRC.",
         "children": [
           {
             "id": "nav-pc-columnas",
