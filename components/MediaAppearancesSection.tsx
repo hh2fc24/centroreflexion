@@ -1,7 +1,6 @@
 "use client";
 
-import { MotionDiv } from "@/components/ui/Motion";
-import { Calendar, ExternalLink, Mic2, Newspaper, PlayCircle, Quote, Radio, Tv2 } from "lucide-react";
+import { ExternalLink, Play, X } from "lucide-react";
 import { useState } from "react";
 
 const featuredArticle = {
@@ -34,10 +33,7 @@ interface AppearanceItem {
     imageUrl?: string;
     title: string;
     channel: string;
-    icon: React.ComponentType<{ className?: string }>;
-    color: string;
     badge: string;
-    badgeColor: string;
     description?: string;
 }
 
@@ -47,21 +43,15 @@ const appearances: AppearanceItem[] = [
         youtubeId: "cppUbVIMdVY",
         title: "Aparición de Juan Carlos Rauld",
         channel: "YouTube",
-        icon: PlayCircle,
-        color: "from-[#bd6f3c]/30 to-[#172017]/10",
-        badge: "Aparición en Medios",
-        badgeColor: "text-[#d3976d] border-[#9f5528] bg-[#172017]/30",
+        badge: "Aparición en medios",
     },
     {
         id: 7,
         videoUrl: "/crc.mp4",
-        imageUrl: "/JC.jpeg",
+        imageUrl: "/images/juan-carlos-rauld-furia-del-libro.jpg",
         title: "Presentación en La Furia del Libro: Tecnócratas de la Infancia y la Crítica al Sistema",
         channel: "La Furia del Libro 2026",
-        icon: PlayCircle,
-        color: "from-[#bd6f3c]/30 to-[#172017]/10",
         badge: "Presentación",
-        badgeColor: "text-[#d3976d] border-[#9f5528] bg-[#172017]/30",
         description: "El Centro de Reflexiones Críticas estuvo presente en la versión invernal de La Furia del Libro 2026, celebrada en el Centro Cultural Estación Mapocho del 28 al 31 de mayo. A través de nuestro director, Juan Carlos Rauld, participamos activamente de este encuentro fundamental de la edición independiente chilena. En el marco del lanzamiento de su obra 'Tecnócratas de la Infancia' (Editorial Hammurabi), Rauld expuso y fue entrevistado en profundidad sobre el sistema de desprotección estatal, la biopolítica de la infancia pobre y el impacto del modelo neoliberal en los sistemas de cuidado alternativo.",
     },
     {
@@ -69,349 +59,197 @@ const appearances: AppearanceItem[] = [
         youtubeId: "c-xOCEXFCXU",
         title: "Niños y Salud Mental: Una Mirada Crítica",
         channel: "YouTube",
-        icon: PlayCircle,
-        color: "from-[#bd6f3c]/30 to-[#172017]/10",
-        badge: "Aparición en Medios",
-        badgeColor: "text-[#d3976d] border-[#9f5528] bg-[#172017]/30",
+        badge: "Aparición en medios",
     },
     {
         id: 2,
         youtubeId: "nhjSIADQy5A",
         title: "Infancia, Institucionalización y Biopolítica",
         channel: "YouTube",
-        icon: Mic2,
-        color: "from-[#bd6f3c]/25 to-[#172017]/10",
         badge: "Entrevista",
-        badgeColor: "text-[#d3976d] border-[#9f5528] bg-[#172017]/30",
     },
     {
         id: 3,
         youtubeId: "7iXQ6jZ6o78",
         title: "Salud Mental Infantil y Neoliberalismo",
         channel: "YouTube",
-        icon: Radio,
-        color: "from-[#bd6f3c]/28 to-[#172017]/10",
         badge: "Análisis",
-        badgeColor: "text-[#d3976d] border-[#9f5528] bg-[#172017]/30",
     },
     {
         id: 4,
         youtubeId: "bc42h4sMbc0",
         title: "Desprotección de la Infancia en Chile",
         channel: "YouTube",
-        icon: Tv2,
-        color: "from-[#9f5528]/30 to-[#172017]/10",
         badge: "Debate",
-        badgeColor: "text-[#d3976d] border-[#9f5528] bg-[#172017]/30",
     },
     {
         id: 5,
         youtubeId: "QvJ5Y3pJyrY",
         title: '"Tecnócratas de la Infancia: Desprotección y Neoliberalismo"',
         channel: "Extensión Línea Uno",
-        icon: Radio,
-        color: "from-[#737d69]/30 to-[#172017]/10",
         badge: "Radio",
-        badgeColor: "text-[#d3976d] border-[#9f5528] bg-[#172017]/30",
     },
     {
         id: 6,
         youtubeId: "9fFTnDS0b6M",
         title: '"Cuando un niño pobre en Chile entra a un centro de la infancia…"',
         channel: "Análisis en Profundidad",
-        icon: Mic2,
-        color: "from-[#737d69]/35 to-[#172017]/10",
         badge: "Entrevista",
-        badgeColor: "text-[#d3976d] border-[#9f5528] bg-[#172017]/30",
     },
 ];
 
 export function MediaAppearancesSection() {
     const [activeVideo, setActiveVideo] = useState<number | null>(null);
-    const [hoveredId, setHoveredId] = useState<number | null>(null);
     const activeVideoItem = appearances.find((item) => item.id === activeVideo);
 
     return (
-        <section className="relative overflow-hidden bg-[#171713] py-14 sm:py-20">
-            {/* Cinematic gradient overlays */}
-            <div className="pointer-events-none absolute inset-0 z-0">
-            </div>
-
-            <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                {/* Section Header */}
-                <MotionDiv
-                    initial={{ opacity: 0, y: 24 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.7 }}
-                    className="mb-12 sm:mb-16"
+        <section aria-labelledby="medios-titulo" className="bg-[#15120e] py-14 text-[#f8f5ee] sm:py-20">
+            <div className="mx-auto max-w-6xl px-4 sm:px-8">
+                <p className="text-[0.8125rem] font-semibold text-[#e4935d]">En los medios</p>
+                <h2
+                    id="medios-titulo"
+                    className="crc-serif mt-3 max-w-[24ch] text-balance text-[clamp(1.6rem,2.3vw,2.4rem)] font-semibold leading-[1.1] tracking-[-0.01em] text-[#fffdf8]"
                 >
-                    <div className="inline-flex items-center gap-1.5 rounded-[5px] border border-[#4b4e45] bg-[#2a2d26]/60 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-[#a99f91] backdrop-blur-sm mb-4">
-                        <Tv2 className="h-3 w-3 text-[#70695f]" />
-                        En los Medios
-                    </div>
-                    <div className="flex flex-col gap-2">
-                        <div>
-                            <h2 className="text-2xl font-bold tracking-tight text-white sm:text-3xl font-serif">
-                                Apariciones de{" "}
-                                <span className="text-[#f8f5ee]">
-                                    Juan Carlos Rauld
-                                </span>
-                            </h2>
-                            <p className="mt-2 max-w-2xl text-sm text-[#a99f91] font-light leading-relaxed">
-                                Entrevistas, reportajes, análisis y debates en medios y plataformas digitales sobre salud mental infantil, infancia y políticas públicas.
-                            </p>
-                        </div>
-                    </div>
-                </MotionDiv>
+                    Entrevistas y apariciones de Juan Carlos Rauld
+                </h2>
+                <p className="mt-4 max-w-[62ch] text-[1rem] leading-[1.7] text-[#d8cfc0]">
+                    Entrevistas, reportajes y debates sobre infancia, sistema de protección, salud mental infantil
+                    y políticas públicas.
+                </p>
 
-                <MotionDiv
-                    initial={{ opacity: 0, y: 24 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
-                    className="mb-8 overflow-hidden rounded-[8px] border border-[#4b4e45]/80 bg-[#172017]/70 shadow-[0_28px_90px_-56px_rgba(189,111,60,0.58)] sm:mb-10 lg:grid lg:grid-cols-[0.9fr_1.1fr]"
-                >
-                    <a
-                        href={featuredArticle.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group relative block min-h-[260px] overflow-hidden bg-[#0f0d0a] sm:min-h-[320px] lg:min-h-full"
-                        aria-label={`Leer entrevista en ${featuredArticle.channel}: ${featuredArticle.title}`}
-                    >
-                        <img
-                            src={featuredArticle.image}
-                            alt={featuredArticle.title}
-                            className="absolute inset-0 h-full w-full object-cover opacity-90 transition-all duration-700 group-hover:scale-105 group-hover:opacity-100"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#172017] via-[#172017]/35 to-transparent lg:bg-gradient-to-r lg:from-transparent lg:to-[#172017]" />
-                        <div className="absolute top-4 left-4">
-                            <span className="inline-flex items-center gap-1 rounded-[5px] border border-[#bd6f3c]/70 bg-[#9f5528]/40 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-[#f1ded0] backdrop-blur-sm">
-                                <Newspaper className="h-3 w-3" />
-                                Entrevista escrita
-                            </span>
-                        </div>
-                        <div className="absolute right-4 bottom-4 flex h-11 w-11 items-center justify-center rounded-[5px] bg-[#fffdf8]/95 shadow-md ring-1 ring-white/20 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-                            <ExternalLink className="h-5 w-5 text-[#171713]" />
-                        </div>
-                    </a>
-
-                    <div className="p-5 sm:p-8 lg:p-10">
-                        <div className="mb-4 flex flex-wrap items-center gap-2 text-[10px] font-bold uppercase tracking-[0.14em] text-[#a99f91]">
-                            <span>{featuredArticle.channel}</span>
-                            <span className="h-1 w-1 rounded-full bg-[#70695f]" />
-                            <span className="inline-flex items-center gap-1">
-                                <Calendar className="h-3 w-3" />
-                                {featuredArticle.date}
-                            </span>
-                        </div>
-                        <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.14em] text-[#d3976d]">
-                            {featuredArticle.section}
+                {/* Prensa escrita */}
+                <div className="mt-10 grid gap-px overflow-hidden rounded-[6px] border border-[#f8f5ee]/12 bg-[#f8f5ee]/12 lg:grid-cols-2">
+                    <article className="flex flex-col bg-[#15120e] p-6 sm:p-8">
+                        <p className="text-[0.8125rem] font-semibold text-[#e4935d]">
+                            Entrevista · {featuredArticle.channel}
+                            <span className="font-normal text-[#d8cfc0]"> · {featuredArticle.date}</span>
                         </p>
-                        <h3 className="max-w-3xl text-2xl font-bold leading-tight text-white font-serif sm:text-3xl">
-                            {featuredArticle.title}
-                        </h3>
-                        <p className="mt-4 max-w-3xl text-sm leading-relaxed text-[#a99f91] sm:text-base">
-                            {featuredArticle.excerpt}
-                        </p>
-                        <div className="mt-6 rounded-[6px] border border-[#4b4e45]/80 bg-[#0f0d0a]/24 p-4">
-                            <div className="mb-2 flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.16em] text-[#70695f]">
-                                <Quote className="h-3 w-3" />
-                                Cita destacada
-                            </div>
-                            <p className="text-base font-medium leading-relaxed text-[#f1ded0]">
-                                “{featuredArticle.quote}”
-                            </p>
-                        </div>
+                        <span aria-hidden="true" className="mt-4 block h-[2px] w-10 bg-[#e4935d]" />
+                        <blockquote className="crc-serif mt-4 text-balance text-[1.5rem] font-semibold leading-[1.2] tracking-[-0.01em] text-[#fffdf8] sm:text-[1.75rem]">
+                            “{featuredArticle.quote}”
+                        </blockquote>
+                        <p className="mt-4 max-w-[60ch] text-[0.9375rem] leading-[1.7] text-[#d8cfc0]">{featuredArticle.excerpt}</p>
                         <a
                             href={featuredArticle.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-[5px] bg-[#bd6f3c] px-5 py-3 text-xs font-bold uppercase tracking-[0.14em] text-white shadow-sm transition-all hover:translate-x-0.5 hover:bg-[#9f5528] sm:w-auto"
+                            className="mt-6 inline-flex w-full items-center justify-center gap-2 self-start rounded-[6px] bg-[#bd6f3c] px-5 py-3 text-[0.9375rem] font-semibold text-white transition-colors hover:bg-[#a85f31] sm:w-auto"
                         >
-                            Leer en El Mostrador
-                            <ExternalLink className="h-4 w-4" />
+                            Leer en {featuredArticle.channel}
+                            <ExternalLink className="h-4 w-4" aria-hidden="true" />
                         </a>
-                    </div>
-                </MotionDiv>
+                    </article>
 
-                <MotionDiv
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.55 }}
-                    className="mb-8 rounded-[8px] border border-[#bd6f3c]/35 bg-[#0f0d0a]/45 p-5 shadow-[0_18px_60px_-46px_rgba(189,111,60,0.55)] sm:mb-10 sm:p-6"
-                >
-                    <div className="grid gap-5 lg:grid-cols-[220px_1fr_auto] lg:items-start">
-                        <div>
-                            <span className="inline-flex items-center gap-1.5 rounded-[5px] border border-[#bd6f3c]/50 bg-[#9f5528]/25 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-[#f1ded0]">
-                                <Newspaper className="h-3 w-3" />
-                                Reportaje de contexto
-                            </span>
-                            <div className="mt-4 space-y-1 text-[10px] font-bold uppercase tracking-[0.14em] text-[#a99f91]">
-                                <p>{contextualReport.channel}</p>
-                                <p className="inline-flex items-center gap-1">
-                                    <Calendar className="h-3 w-3" />
-                                    {contextualReport.date}
-                                </p>
-                                <p className="text-[#d3976d]">{contextualReport.section}</p>
-                            </div>
-                        </div>
-
-                        <div>
-                            <h3 className="font-serif text-xl font-bold leading-tight text-white sm:text-2xl">
-                                {contextualReport.title}
-                            </h3>
-                            <p className="mt-3 text-sm leading-7 text-[#d8d0c4]">
-                                {contextualReport.excerpt}
-                            </p>
-                            <p className="mt-3 border-l-2 border-[#bd6f3c] pl-3 text-sm leading-6 text-[#f1ded0]">
-                                {contextualReport.note}
-                            </p>
-                        </div>
-
+                    <article className="flex flex-col bg-[#15120e] p-6 sm:p-8">
+                        <p className="text-[0.8125rem] font-semibold text-[#e4935d]">
+                            Reportaje · {contextualReport.channel}
+                            <span className="font-normal text-[#d8cfc0]"> · {contextualReport.date}</span>
+                        </p>
+                        <span aria-hidden="true" className="mt-4 block h-[2px] w-10 bg-[#e4935d]" />
+                        <h3 className="crc-serif mt-4 text-balance text-[1.35rem] font-semibold leading-[1.25] text-[#fffdf8] sm:text-[1.5rem]">
+                            {contextualReport.title}
+                        </h3>
+                        <p className="mt-4 max-w-[60ch] text-[0.9375rem] leading-[1.7] text-[#d8cfc0]">{contextualReport.excerpt}</p>
                         <a
                             href={contextualReport.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center justify-center gap-2 rounded-[5px] border border-[#bd6f3c]/50 bg-[#fffdf8] px-4 py-3 text-xs font-bold uppercase tracking-[0.12em] text-[#171713] transition hover:-translate-y-0.5 hover:bg-[#f1ded0] lg:mt-1"
+                            className="mt-6 inline-flex items-center gap-2 self-start text-[0.9375rem] font-semibold text-[#fffdf8] underline decoration-[#e4935d] underline-offset-4 hover:text-[#e4935d]"
                         >
-                            Leer reportaje
-                            <ExternalLink className="h-4 w-4" />
+                            Leer el reportaje
+                            <ExternalLink className="h-4 w-4" aria-hidden="true" />
                         </a>
-                    </div>
-                </MotionDiv>
+                    </article>
+                </div>
 
-                {/* Active Video Player */}
+                {/* Reproductor: solo se carga cuando la persona elige un video */}
                 {activeVideoItem ? (
-                    <MotionDiv
-                        key={activeVideo}
-                        initial={{ opacity: 0, y: 16, scale: 0.98 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        transition={{ duration: 0.5, ease: "easeOut" }}
-                        className="mb-10 overflow-hidden rounded-[8px] border border-[#34362f] shadow-[0_0_80px_-20px_rgba(189,111,60,0.24)]"
-                    >
-                        <div className="relative aspect-video bg-[#0f0d0a]">
+                    <div className="mt-10 overflow-hidden rounded-[6px] border border-[#f8f5ee]/12">
+                        <div className="relative aspect-video bg-black">
                             {activeVideoItem.videoUrl ? (
                                 <video
                                     className="absolute inset-0 h-full w-full object-contain"
                                     src={activeVideoItem.videoUrl}
+                                    poster={activeVideoItem.imageUrl}
                                     controls
-                                    autoPlay
-                                    preload="metadata"
+                                    playsInline
+                                    preload="none"
                                 />
                             ) : (
                                 <iframe
                                     className="absolute inset-0 h-full w-full"
-                                    src={`https://www.youtube.com/embed/${activeVideoItem.youtubeId}?autoplay=1&controls=1&rel=0&modestbranding=1`}
-                                    title="Video destacado"
+                                    src={`https://www.youtube-nocookie.com/embed/${activeVideoItem.youtubeId}?autoplay=1&controls=1&rel=0&modestbranding=1`}
+                                    title={activeVideoItem.title}
                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                                     allowFullScreen
                                 />
                             )}
                         </div>
-                        <div className="bg-[#172017] p-5 border-t border-[#34362f]">
-                            <div className="flex items-start justify-between gap-4">
-                                <div>
-                                    <span className="inline-flex items-center gap-1 rounded-[5px] border border-[#bd6f3c]/70 bg-[#9f5528]/40 px-2.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-[#f1ded0] mb-2">
-                                        {activeVideoItem.badge}
-                                    </span>
-                                    <h4 className="text-base font-bold text-white font-serif sm:text-lg">
-                                        {activeVideoItem.title}
-                                    </h4>
-                                    <p className="text-xs text-[#a99f91] mt-1 font-semibold uppercase tracking-wider">
-                                        {activeVideoItem.channel}
-                                    </p>
-                                </div>
-                                <button
-                                    onClick={() => setActiveVideo(null)}
-                                    className="text-[10px] font-bold uppercase tracking-widest text-[#70695f] hover:text-[#d8d0c4] transition-colors shrink-0 border border-[#34362f] rounded-[4px] px-2.5 py-1 bg-[#0f0d0a]"
-                                >
-                                    Cerrar ✕
-                                </button>
-                            </div>
-                            {activeVideoItem.description && (
-                                <p className="text-sm text-[#eee8dc] mt-3 leading-relaxed border-t border-[#34362f]/60 pt-3 font-light">
-                                    {activeVideoItem.description}
+                        <div className="flex items-start justify-between gap-4 p-5">
+                            <div>
+                                <p className="text-[0.8125rem] font-semibold text-[#e4935d]">
+                                    {activeVideoItem.badge} · <span className="font-normal text-[#d8cfc0]">{activeVideoItem.channel}</span>
                                 </p>
-                            )}
+                                <h3 className="crc-serif mt-2 text-[1.25rem] font-semibold leading-[1.25] text-[#fffdf8]">
+                                    {activeVideoItem.title}
+                                </h3>
+                                {activeVideoItem.description ? (
+                                    <p className="mt-3 max-w-[65ch] text-[0.9375rem] leading-[1.7] text-[#d8cfc0]">
+                                        {activeVideoItem.description}
+                                    </p>
+                                ) : null}
+                            </div>
+                            <button
+                                type="button"
+                                onClick={() => setActiveVideo(null)}
+                                className="inline-flex shrink-0 items-center gap-1.5 rounded-[6px] border border-[#f8f5ee]/25 px-3 py-1.5 text-[0.875rem] font-semibold text-[#d8cfc0] transition-colors hover:border-[#e4935d] hover:text-[#fffdf8]"
+                            >
+                                <X className="h-4 w-4" aria-hidden="true" />
+                                Cerrar
+                            </button>
                         </div>
-                    </MotionDiv>
+                    </div>
                 ) : null}
 
-                {/* Netflix-style Catalog Grid */}
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                    {appearances.map((item, idx) => {
-                        const Icon = item.icon;
-                        const isHovered = hoveredId === item.id;
+                {/* Videos */}
+                <h3 className="mt-14 border-b border-[#f8f5ee]/12 pb-3 text-[1rem] font-semibold text-[#fffdf8]">
+                    Videos
+                </h3>
+                <ul className="mt-6 grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
+                    {appearances.map((item) => {
                         const isActive = activeVideo === item.id;
-
                         return (
-                            <MotionDiv
-                                key={item.id}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.5, delay: idx * 0.08 }}
-                                className={`group relative cursor-pointer overflow-hidden rounded-[8px] border transition-all duration-500 ${
-                                    isActive
-                                        ? "border-[#bd6f3c]/40 bg-[#172017]/20 shadow-[0_0_30px_rgba(189,111,60,0.2)]"
-                                        : isHovered
-                                        ? "border-[#5b5f53] bg-[#2a2d26]/60 -translate-y-1 shadow-sm"
-                                        : "border-[#34362f]/60 bg-[#172017]/40"
-                                }`}
-                                onMouseEnter={() => setHoveredId(item.id)}
-                                onMouseLeave={() => setHoveredId(null)}
-                                onClick={() => setActiveVideo(item.id)}
-                            >
-                                {/* Thumbnail / Preview Area */}
-                                <div className={`relative aspect-video overflow-hidden bg-gradient-to-br ${item.color} bg-[#172017]`}>
-                                    <img
-                                        src={item.imageUrl || `https://img.youtube.com/vi/${item.youtubeId}/mqdefault.jpg`}
-                                        alt={item.title}
-                                        className="h-full w-full object-cover opacity-80 transition-all duration-700 group-hover:scale-105 group-hover:opacity-100"
-                                    />
-                                    {/* Overlay gradient */}
-                                    <div className="absolute inset-0 bg-gradient-to-t from-[#172017] via-[#172017]/20 to-transparent" />
-
-                                    {/* Play button */}
-                                    <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${isHovered || isActive ? "opacity-100" : "opacity-0"}`}>
-                                        <div className="flex h-10 w-10 items-center justify-center rounded-[5px] bg-[#fffdf8]/95 shadow-md ring-2 ring-white/20 transition-transform duration-300 group-hover:scale-110">
-                                            <PlayCircle className="h-5 w-5 text-[#171713] fill-[#171713]" />
-                                        </div>
-                                    </div>
-
-                                    {/* Badge */}
-                                    <div className="absolute top-2 left-2">
-                                        <span className={`inline-flex items-center gap-1 rounded-[5px] border px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider backdrop-blur-sm ${item.badgeColor}`}>
-                                            <Icon className="h-2.5 w-2.5" />
-                                            {item.badge}
+                            <li key={item.id}>
+                                <button
+                                    type="button"
+                                    onClick={() => setActiveVideo(item.id)}
+                                    aria-pressed={isActive}
+                                    className="group block w-full text-left outline-none focus-visible:ring-2 focus-visible:ring-[#e4935d] focus-visible:ring-offset-2 focus-visible:ring-offset-[#15120e]"
+                                >
+                                    <span className={`relative block aspect-video overflow-hidden rounded-[6px] bg-[#171713] ${isActive ? "ring-2 ring-[#e4935d]" : ""}`}>
+                                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                                        <img
+                                            src={item.imageUrl || `https://img.youtube.com/vi/${item.youtubeId}/mqdefault.jpg`}
+                                            alt=""
+                                            loading="lazy"
+                                            className="h-full w-full object-cover"
+                                        />
+                                        <span className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-[6px] bg-[#15120e]/85 px-2.5 py-1 text-[0.8125rem] font-semibold text-[#fffdf8]">
+                                            <Play className="h-3.5 w-3.5" aria-hidden="true" />
+                                            Ver
                                         </span>
-                                    </div>
-                                </div>
-
-                                {/* Card Content */}
-                                <div className="p-3.5">
-                                    <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#70695f] mb-1">
-                                        {item.channel}
-                                    </p>
-                                    <h3 className="text-sm font-semibold leading-snug text-white line-clamp-2 group-hover:text-[#f8f5ee] transition-colors">
+                                    </span>
+                                    <span className="mt-3 block text-[0.8125rem] font-semibold text-[#e4935d]">
+                                        {item.badge} <span className="font-normal text-[#d8cfc0]">· {item.channel}</span>
+                                    </span>
+                                    <span className="mt-1 block text-[1rem] font-semibold leading-[1.4] text-[#fffdf8] group-hover:underline group-hover:decoration-[#e4935d] group-hover:underline-offset-4">
                                         {item.title}
-                                    </h3>
-                                    <div className="mt-2 flex items-center gap-1.5 text-[11px] font-medium text-[#70695f] group-hover:text-[#a99f91] transition-colors">
-                                        <PlayCircle className="h-3 w-3" />
-                                        Ver aquí
-                                    </div>
-                                </div>
-
-                                {/* Active indicator strip */}
-                                {isActive && (
-                                    <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#bd6f3c] to-[#737d69]" />
-                                )}
-                            </MotionDiv>
+                                    </span>
+                                </button>
+                            </li>
                         );
                     })}
-                </div>
+                </ul>
             </div>
         </section>
     );

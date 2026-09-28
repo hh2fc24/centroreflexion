@@ -31,10 +31,12 @@ export function CountdownStrip({ dark = true }: { dark?: boolean }) {
   if (!remaining) return null;
 
   const unitClass = dark
-    ? "rounded-xl border border-white/12 bg-white/8 px-2.5 py-2 text-center"
-    : "rounded-xl border border-black/10 bg-white px-2.5 py-2 text-center";
-  const numberClass = dark ? "text-lg font-bold text-white" : "text-lg font-bold text-slate-950";
-  const labelClass = dark ? "text-[10px] uppercase tracking-[0.12em] text-slate-400" : "text-[10px] uppercase tracking-[0.12em] text-slate-500";
+    ? "rounded-[6px] border border-[#f1ede4]/20 px-2.5 py-2 text-center"
+    : "rounded-[6px] border border-[#ded5c7] bg-[#fffdf8] px-2.5 py-2 text-center";
+  const numberClass = dark
+    ? "text-lg font-semibold tabular-nums text-[#fbf7ee]"
+    : "text-lg font-semibold tabular-nums text-[#171713]";
+  const labelClass = dark ? "text-[0.8125rem] text-[#ede7dc]/70" : "text-[0.8125rem] text-[#6f675d]";
 
   return (
     <div className="grid grid-cols-3 gap-2">
@@ -57,9 +59,9 @@ export function CountdownStrip({ dark = true }: { dark?: boolean }) {
 export function LiveStreamBadge({ className = "" }: { className?: string }) {
   return (
     <div
-      className={`inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/55 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white backdrop-blur-sm ${className}`}
+      className={`inline-flex items-center gap-2 rounded-[6px] border border-[#f1ede4]/25 bg-[#15120e] px-3 py-1.5 text-[0.8125rem] font-semibold text-[#fbf7ee] ${className}`}
     >
-      <Radio className="h-3.5 w-3.5 text-cyan-300" />
+      <Radio aria-hidden="true" className="h-3.5 w-3.5 text-[#e4935d]" />
       Streaming en vivo
     </div>
   );

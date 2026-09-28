@@ -20,11 +20,9 @@ const TITLE = "Seminario · Desprotección de la Infancia";
 const DESCRIPTION =
   "Seminario en vivo de 8 sesiones con Juan Carlos Rauld, autor del libro y Director del CRC. Jueves 19:00, del 15 de octubre al 3 de diciembre de 2026. Cohorte cerrada de 15 personas. Certificación CRC + Editorial Hammurabi.";
 const IMAGE_PATH = "/images/book_desproteccion.png";
-// Corredor institucional vacío con una silla de escuela y un libro encima: es la
-// única imagen del banco que dice "institución + infancia ausente" sin ilustrar
-// a un niño, y su paleta cálida ya es la de la casa. Va de fondo del hero; la
-// portada del libro queda como objeto aparte para que no se lea dos veces.
-const HERO_IMAGE = "/images/desproteccion-institucionalizacion-editorial.png";
+// Foto real del relator exponiendo en La Furia del Libro. El sistema de diseño
+// no admite ilustraciones generadas: el hero muestra a quien dicta el seminario.
+const HERO_IMAGE = "/images/juan-carlos-rauld-furia-del-libro.jpg";
 
 // El tramo vigente y los cupos disponibles se cuentan en cada visita: si la
 // página quedara cacheada, seguiría ofreciendo un tramo ya agotado.
@@ -186,28 +184,25 @@ const FAQ = [
   },
 ];
 
+
 /* ────────────────────────────────────────────────────────────
-   Piezas tipográficas de la casa.
-   El sitio no usa tarjetas redondeadas ni sombras: usa filetes,
-   versalitas y Cormorant en itálica para el énfasis. Estas dos
-   funciones evitan repetir esas clases en cada sección.
+   Clases de la casa (docs/design-system-crc.md).
+   Etiquetas en tipo oración, botones sin versalitas, radio 6px,
+   filetes en vez de tarjetas y cifras con tabular-nums.
    ──────────────────────────────────────────────────────────── */
 
-function Eyebrow({ children, tone = "gold" }: { children: React.ReactNode; tone?: "gold" | "light" }) {
-  return (
-    <p
-      className={`text-[0.66rem] font-extrabold uppercase tracking-[0.22em] ${
-        tone === "gold" ? "text-[#bd6f3c]" : "text-[#f1ede4]"
-      }`}
-    >
-      {children}
-    </p>
-  );
-}
-
-function Rule({ tone = "gold" }: { tone?: "gold" | "light" }) {
-  return <div className={`my-5 h-px w-14 ${tone === "gold" ? "bg-[#bd6f3c]" : "bg-[#bd6f3c]"}`} />;
-}
+const FOCO =
+  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#bd6f3c]";
+const BOTON_PRIMARIO = `inline-flex h-12 items-center justify-center gap-2 rounded-[6px] bg-[#bd6f3c] px-5 text-[0.9375rem] font-semibold text-white transition-colors hover:bg-[#a85f31] ${FOCO}`;
+const BOTON_SECUNDARIO = `inline-flex h-12 items-center justify-center rounded-[6px] border border-[#171713] px-5 text-[0.9375rem] font-semibold text-[#171713] transition-colors hover:bg-[#171713] hover:text-[#fffdf8] ${FOCO}`;
+const ENLACE = `inline-flex items-center gap-1.5 text-[0.9375rem] font-semibold text-[#9f5528] underline decoration-[#bd6f3c]/45 underline-offset-4 transition-colors hover:text-[#171713] hover:decoration-[#171713] ${FOCO}`;
+const ETIQUETA = "text-[0.8125rem] font-semibold text-[#9f5528]";
+const H2 =
+  "crc-serif text-balance text-[clamp(1.6rem,2.3vw,2.4rem)] font-medium leading-[1.1] tracking-[-0.01em] text-[#171713]";
+const CONTENEDOR = "mx-auto max-w-[1240px] px-4 sm:px-8 lg:px-12";
+const SECCION = `${CONTENEDOR} py-16 lg:py-24`;
+const FILETE = "border-[#d8cfc0]";
+const FILETE_SUAVE = "border-[#eee8dc]";
 
 /* ────────────────────────────────────────────────────────────
    Textos que dependen del estado de la venta.
@@ -215,7 +210,7 @@ function Rule({ tone = "gold" }: { tone?: "gold" | "light" }) {
 
 type Vigente = EstadoVenta["vigente"];
 
-/** Pill del hero: la cifra solo cuando quedan pocos cupos. */
+/** Línea del hero: la cifra solo cuando quedan pocos cupos. */
 function textoCupos(venta: EstadoVenta) {
   if (venta.disponibles === 0) return "Cohorte 1 completa";
   if (mostrarCuposRestantes(venta.disponibles)) {
@@ -226,7 +221,7 @@ function textoCupos(venta: EstadoVenta) {
   return `Cohorte cerrada de ${SEMINARIO_CUPOS_TOTALES} personas`;
 }
 
-/** Línea bajo el CTA del hero: valor del tramo vigente y hasta cuándo rige. */
+/** Valor del tramo vigente y hasta cuándo rige. */
 function plazoTramo(tramo: NonNullable<Vigente>) {
   const esUltimo = tramo.id === TRAMOS[TRAMOS.length - 1].id;
   if (esUltimo) {
@@ -235,39 +230,58 @@ function plazoTramo(tramo: NonNullable<Vigente>) {
   return `Valor ${tramo.nombre} ${formatoCLP(tramo.precio)} hasta el ${fechaCierreLegible(tramo)}, o hasta agotar sus cupos.`;
 }
 
-function ResumenHero({ vigente, className }: { vigente: Vigente; className: string }) {
+const ESTADO_TEXTO = {
+  vigente: "Vigente",
+  agotado: "Agotado",
+  vencido: "Cerrado",
+  proximo: "Próximo",
+} as const;
+
+function ResumenHero({ vigente }: { vigente: Vigente }) {
+  const items: [string, React.ReactNode][] = [
+    ["Inicio", "Jueves 15 de octubre"],
+    ["Horario", "Jueves, 19:00 a 21:00"],
+    [
+      "Valor",
+      vigente ? (
+        <>
+          {formatoCLP(vigente.precio)}{" "}
+          {vigente.precio < PRECIO_LISTA ? (
+            <span className="whitespace-nowrap font-normal text-[#6f675d] line-through">
+              {formatoCLP(PRECIO_LISTA)}
+            </span>
+          ) : null}
+        </>
+      ) : (
+        "Matrícula cerrada"
+      ),
+    ],
+  ];
   return (
-    <dl className={`max-w-[560px] gap-y-5 border-t border-[#f1ede4]/18 ${className}`}>
-      <div>
-        <dt className="text-[0.6rem] font-extrabold uppercase tracking-[0.2em] text-[#bd6f3c]">Inicio</dt>
-        <dd className="mt-1.5 text-[0.8rem] font-semibold leading-[1.4] text-[#f1ede4] sm:text-[0.85rem]">
-          Jueves 15 de octubre
-        </dd>
-      </div>
-      <div>
-        <dt className="text-[0.6rem] font-extrabold uppercase tracking-[0.2em] text-[#bd6f3c]">Horario</dt>
-        <dd className="mt-1.5 text-[0.8rem] font-semibold leading-[1.4] text-[#f1ede4] sm:text-[0.85rem]">
-          Jueves, 19:00 a 21:00
-        </dd>
-      </div>
-      <div>
-        <dt className="text-[0.6rem] font-extrabold uppercase tracking-[0.2em] text-[#bd6f3c]">Valor</dt>
-        <dd className="mt-1.5 text-[0.8rem] font-semibold leading-[1.4] text-[#f1ede4] sm:text-[0.85rem]">
-          {vigente ? (
-            <>
-              {formatoCLP(vigente.precio)}{" "}
-              {vigente.precio < PRECIO_LISTA ? (
-                <span className="whitespace-nowrap font-normal text-[#ede7dc]/50 line-through">
-                  {formatoCLP(PRECIO_LISTA)}
-                </span>
-              ) : null}
-            </>
-          ) : (
-            "Matrícula cerrada"
-          )}
-        </dd>
-      </div>
+    <dl className={`grid grid-cols-1 border-y ${FILETE} sm:grid-cols-3`}>
+      {items.map(([k, v], i) => (
+        <div
+          key={k}
+          className={`flex items-baseline justify-between gap-4 py-3 sm:block sm:py-4 ${
+            i > 0 ? `border-t ${FILETE_SUAVE} sm:border-l sm:border-t-0 sm:pl-5` : ""
+          }`}
+        >
+          <dt className="text-[0.8125rem] text-[#6f675d]">{k}</dt>
+          <dd className="text-right text-[1rem] font-semibold tabular-nums text-[#171713] sm:mt-1 sm:text-left">
+            {v}
+          </dd>
+        </div>
+      ))}
     </dl>
+  );
+}
+
+function Encabezado({ etiqueta, children }: { etiqueta: string; children?: React.ReactNode }) {
+  return (
+    <div>
+      <p className={ETIQUETA}>{etiqueta}</p>
+      {children}
+    </div>
   );
 }
 
@@ -278,199 +292,146 @@ export default async function SeminarioDesproteccionInfancia() {
   return (
     <div className="bg-[#f8f5ee] text-[#171713]">
       <SeminarioPagoAviso />
+
       {/* ═══ HERO ═══════════════════════════════════════════ */}
-      <section
-        className="relative w-full overflow-hidden bg-[#15120e]"
-        style={{ minHeight: "clamp(600px, calc(100svh - 110px), 780px)" }}
-      >
-        <div className="absolute inset-0 z-0">
-          <Image
-            src={HERO_IMAGE}
-            alt=""
-            aria-hidden="true"
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover object-center saturate-[0.78] contrast-[1.04]"
-          />
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(17,14,10,0.96)_0%,rgba(17,14,10,0.9)_30%,rgba(17,14,10,0.58)_58%,rgba(17,14,10,0.22)_100%)]" />
-          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(250,247,242,0.02)_0%,rgba(21,18,14,0.12)_47%,rgba(21,18,14,0.6)_100%)]" />
-          <div className="absolute inset-0 bg-[#7c4a26]/20 mix-blend-multiply" />
-        </div>
+      <section className={`border-b ${FILETE}`}>
+        <div className={`${CONTENEDOR} grid gap-10 py-10 sm:py-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,440px)] lg:items-center lg:gap-16 lg:py-20`}>
+          <div className="max-w-[640px]">
+            <p className={ETIQUETA}>Seminario en vivo · Cohorte 1 · Octubre a diciembre de 2026</p>
 
-        <div className="relative z-10 mx-auto flex min-h-[inherit] max-w-[1640px] items-center px-5 pb-14 pt-10 sm:px-8 sm:py-20 lg:px-14 xl:px-20">
-          <div className="max-w-[680px]">
-            <Eyebrow tone="light">
-              Seminario en vivo
-              <span className="mx-2 text-[#bd6f3c]">·</span>
-              Cohorte 1
-              <span className="mx-2 text-[#bd6f3c]">·</span>
-              Octubre 2026
-            </Eyebrow>
-
-            <h1 className="crc-serif mt-5 text-[clamp(2.3rem,4vw,4.2rem)] font-medium leading-[0.98] text-[#fbf7ee]">
-              Desprotección
-              <br />
-              de la <span className="italic text-[#bd6f3c]">infancia</span>
+            <h1 className="crc-serif mt-4 text-balance text-[clamp(2rem,3.2vw,3.25rem)] font-semibold leading-[1.1] tracking-[-0.01em] text-[#171713]">
+              Desprotección de la infancia
             </h1>
 
-            <Rule />
-
-            <p className="crc-serif max-w-[560px] text-[clamp(1.1rem,1.5vw,1.45rem)] font-light italic leading-[1.45] text-[#ede7dc]/90">
-              Dominación, biopolítica y gobierno de la infancia en Chile.
+            <p className="crc-serif mt-3 text-balance text-[1.3rem] leading-[1.35] text-[#55574f] sm:text-[1.45rem]">
+              Dominación, biopolítica y gobierno de la infancia en Chile
             </p>
 
-            {/* En móvil el resumen sube antes del párrafo: si queda al final del
-                hero, cae bajo el pliegue y nadie ve fecha ni valor. */}
-            <ResumenHero vigente={vigente} className="mt-6 grid grid-cols-3 gap-x-4 pt-5 sm:hidden" />
-
-            <p className="mt-6 max-w-[540px] text-[0.9rem] font-semibold leading-[1.65] text-[#ede7dc]/85">
+            <p className="mt-6 max-w-[60ch] text-[1.0625rem] leading-[1.7] text-[#171713]">
               Ocho sesiones en vivo con Juan Carlos Rauld, autor del libro y Director del CRC. Un recorrido desde
               Foucault hasta el Chile del SENAME para entender por qué la desprotección no es la ausencia del Estado,
               sino una forma específica de gobernar.
             </p>
 
-            {/* El contador sale de los pagos aprobados, no de una frase fija. Solo
-                se muestra la cifra cuando quedan pocos cupos (ver
-                UMBRAL_CUPOS_VISIBLES); antes, el tamaño de la cohorte. */}
-            <p className="mt-7 inline-flex w-fit items-center rounded-[5px] border border-[#f1ede4]/20 bg-[#f1ede4]/[0.06] px-3 py-1.5 text-[0.6rem] font-extrabold uppercase tracking-[0.16em] text-[#ede7dc]/85">
-              {textoCupos(venta)}
-            </p>
+            <div className="mt-7">
+              <ResumenHero vigente={vigente} />
+            </div>
 
-            <div className="mt-6 flex flex-wrap items-center gap-3">
-              <Link
-                href="#inversion"
-                className="inline-flex h-11 items-center gap-3 rounded-[5px] bg-[#bd6f3c] px-4 sm:px-6 text-[0.66rem] font-extrabold uppercase tracking-[0.13em] text-white shadow-[0_18px_40px_rgba(90,45,18,0.32)] transition duration-200 hover:bg-[#a85f31]"
-              >
-                {vigente ? "Matricularme" : "Lista cohorte 2"} <ArrowRight className="h-4 w-4" />
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+              <Link href="#inversion" className={BOTON_PRIMARIO}>
+                {vigente ? "Matricularme" : "Lista cohorte 2"} <ArrowRight aria-hidden="true" className="h-4 w-4" />
               </Link>
-              <Link
-                href="#programa"
-                className="inline-flex h-11 items-center rounded-[5px] border border-[#f1ede4]/42 bg-[#15120e]/18 px-4 sm:px-6 text-[0.66rem] font-extrabold uppercase tracking-[0.13em] text-white backdrop-blur-[2px] transition duration-200 hover:border-[#f1ede4]/72 hover:bg-white/10"
-              >
+              <Link href="#programa" className={BOTON_SECUNDARIO}>
                 Ver el programa
               </Link>
             </div>
 
-            {vigente ? (
-              <p className="mt-4 text-[0.8rem] leading-[1.55] text-[#ede7dc]/75">{plazoTramo(vigente)}</p>
-            ) : null}
+            {/* El contador sale de los pagos aprobados, no de una frase fija. Solo
+                se muestra la cifra cuando quedan pocos cupos (ver
+                UMBRAL_CUPOS_VISIBLES); antes, el tamaño de la cohorte. */}
+            <p className="mt-4 max-w-[60ch] text-[0.9375rem] leading-[1.6] text-[#55574f]">
+              <span className="font-semibold text-[#171713]">{textoCupos(venta)}.</span>{" "}
+              {vigente ? plazoTramo(vigente) : null}
+            </p>
 
-            {/* Meta + precio, en una sola franja de versalitas */}
-            <ResumenHero vigente={vigente} className="mt-10 hidden grid-cols-3 gap-x-8 pt-6 sm:grid" />
-
-            <div className="mt-8 flex items-center gap-4">
+            <div className={`mt-8 flex items-center gap-4 border-t ${FILETE_SUAVE} pt-6`}>
               <div className="relative h-10 w-10 shrink-0">
                 <Image
                   src="/images/editorial-hammurabi-logo-transparent.png"
                   alt="Editorial Hammurabi"
                   fill
-                  className="object-contain brightness-0 invert opacity-80"
+                  sizes="40px"
+                  className="object-contain"
                 />
               </div>
-              <p className="max-w-[420px] text-[0.78rem] leading-[1.6] text-[#ede7dc]/70">
+              <p className="max-w-[46ch] text-[0.875rem] leading-[1.55] text-[#55574f]">
                 Certificación conjunta del Centro de Reflexiones Críticas y Editorial Hammurabi, casa editora del
                 libro.
               </p>
             </div>
           </div>
 
-          {/* La portada como objeto físico, no como fondo: se lee una sola vez
-              y deja claro de qué libro sale el seminario. */}
-          <div className="pointer-events-none absolute right-[6vw] top-1/2 hidden -translate-y-1/2 xl:block">
-            <div className="relative h-[clamp(300px,32vw,440px)] w-[clamp(200px,21vw,292px)] rotate-[-2.5deg] shadow-[0_40px_90px_rgba(0,0,0,0.55)]">
+          <figure>
+            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[6px] bg-[#eee8dc] lg:aspect-[4/5]">
               <Image
-                src={IMAGE_PATH}
-                alt="Portada del libro Desprotección de la infancia: Dominación, Biopolítica y Gobierno"
+                src={HERO_IMAGE}
+                alt="Juan Carlos Rauld exponiendo con micrófono en La Furia del Libro"
                 fill
                 priority
-                sizes="292px"
-                className="object-cover"
+                sizes="(min-width: 1024px) 440px, 100vw"
+                className="object-cover object-[68%_30%]"
               />
-              <div className="absolute inset-0 bg-[linear-gradient(105deg,rgba(255,255,255,0.14)_0%,transparent_38%)]" />
-              <div className="absolute inset-y-0 left-0 w-[6px] bg-[linear-gradient(90deg,rgba(0,0,0,0.35),transparent)]" />
             </div>
-          </div>
+            <figcaption className="mt-3 text-[0.8125rem] leading-[1.5] text-[#6f675d]">
+              Juan Carlos Rauld, relator del seminario, en La Furia del Libro.
+            </figcaption>
+          </figure>
         </div>
       </section>
 
       {/* ═══ FRANJA DE DATOS ════════════════════════════════ */}
-      <section className="border-b border-[rgba(101,91,74,0.23)] bg-[#fffdf8]">
-        {/* Cuatro datos: 2×2 hasta lg y una fila desde lg. Con cinco quedaba
-            uno huérfano en móvil. */}
-        <div className="mx-auto grid max-w-[1640px] grid-cols-2 lg:grid-cols-4">
+      <section className={`border-b ${FILETE} bg-[#fffdf8]`}>
+        <dl className={`${CONTENEDOR} grid grid-cols-2 lg:grid-cols-4`}>
           {DATOS.map((d, i) => (
             <div
               key={d.label}
-              className={`border-[rgba(101,91,74,0.16)] px-5 py-7 sm:px-7 lg:px-8 lg:py-9 ${
-                i < 2 ? "border-b lg:border-b-0" : ""
-              } ${i % 2 === 0 ? "border-r" : i < DATOS.length - 1 ? "lg:border-r" : ""}`}
+              className={`flex flex-col-reverse justify-end gap-1.5 py-6 lg:py-8 ${
+                i % 2 === 1 ? "border-l border-[#eee8dc] pl-5 sm:pl-7" : ""
+              } ${i < 2 ? "border-b border-[#eee8dc] lg:border-b-0" : ""} ${
+                i === 2 ? "lg:border-l lg:border-[#eee8dc] lg:pl-7" : ""
+              }`}
             >
-              <p className="crc-serif text-[2.4rem] font-medium leading-none text-[#171713]">{d.valor}</p>
-              <p className="mt-2 text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-[#55574f]">
-                {d.label}
-              </p>
+              <dt className="text-[0.9375rem] leading-[1.4] text-[#55574f]">{d.label}</dt>
+              <dd className="crc-serif text-[2rem] font-medium leading-none tabular-nums text-[#171713]">{d.valor}</dd>
             </div>
           ))}
-        </div>
+        </dl>
       </section>
 
       {/* ═══ QUÉ ES ═════════════════════════════════════════ */}
-      <section className="mx-auto max-w-[1640px] px-5 py-20 sm:px-8 lg:px-14 lg:py-28 xl:px-20">
-        <div className="grid gap-10 lg:grid-cols-[220px_minmax(0,1fr)_320px] lg:gap-16">
-          <div>
-            <Eyebrow>El seminario</Eyebrow>
-          </div>
+      <section className={SECCION}>
+        <div className="grid gap-8 lg:grid-cols-[200px_minmax(0,1fr)_300px] lg:gap-14">
+          <Encabezado etiqueta="El seminario" />
           <div className="max-w-[62ch]">
-            <h2 className="crc-serif text-[clamp(1.8rem,2.6vw,2.7rem)] font-medium leading-[1.08] text-[#171713]">
-              No es un curso de técnicas. Es un seminario de{" "}
-              <span className="italic text-[#bd6f3c]">lectura crítica</span>.
-            </h2>
-            <div className="my-6 h-px w-14 bg-[#bd6f3c]" />
-            <p className="text-[0.97rem] leading-[1.85] text-[#3a3a33]">
+            <h2 className={H2}>No es un curso de técnicas. Es un seminario de lectura crítica.</h2>
+            <p className="mt-6 text-[1.0625rem] leading-[1.7] text-[#171713]">
               Ocho sesiones para construir, paso a paso, las herramientas conceptuales que permiten leer el sistema
               chileno de protección de la infancia por dentro. Empezamos preguntando qué es un niño para la filosofía
               occidental, pasamos por Foucault y la biopolítica, y terminamos en el Chile concreto de las residencias,
               los programas y los informes.
             </p>
-            <p className="mt-5 text-[0.97rem] leading-[1.85] text-[#3a3a33]">
+            <p className="mt-5 text-[1.0625rem] leading-[1.7] text-[#171713]">
               Se basa en la investigación publicada en{" "}
-              <cite className="font-semibold not-italic text-[#171713]">
+              <cite className="font-semibold not-italic">
                 Desprotección de la infancia: Dominación, Biopolítica y Gobierno
               </cite>{" "}
               (Editorial Hammurabi). Es la primera vez que el autor lo dicta.
             </p>
-            <Link
-              href="/publicaciones"
-              className="mt-6 inline-flex items-center gap-2 border-b border-[#bd6f3c] pb-1 text-[0.66rem] font-extrabold uppercase tracking-[0.13em] text-[#171713] transition hover:text-[#9f5528]"
-            >
-              Ver los libros de Juan Carlos <ArrowRight className="h-3.5 w-3.5" />
+            <Link href="/publicaciones" className={`mt-6 ${ENLACE}`}>
+              Ver los libros de Juan Carlos <ArrowRight aria-hidden="true" className="h-4 w-4" />
             </Link>
-
           </div>
 
-          <aside className="border-t border-[rgba(101,91,74,0.23)] pt-6 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
-            <p className="text-[0.6rem] font-extrabold uppercase tracking-[0.2em] text-[#bd6f3c]">
-              En qué se diferencia del catálogo
-            </p>
-            <p className="mt-4 text-[0.88rem] leading-[1.8] text-[#55574f]">
+          <aside className={`border-t ${FILETE} pt-6 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0`}>
+            <p className={ETIQUETA}>En qué se diferencia del catálogo</p>
+            <p className="mt-3 text-[0.9375rem] leading-[1.7] text-[#55574f]">
               Los cursos de la Academia CRC son asincrónicos y de acceso abierto. Este seminario es en vivo, con una
               cohorte cerrada de quince personas, discusión de casos reales, ensayo final con retroalimentación
               individual y el autor del libro conduciendo cada sesión.
             </p>
-            <p className="mt-4 text-[0.88rem] leading-[1.8] text-[#55574f]">
+            <p className="mt-3 text-[0.9375rem] leading-[1.7] text-[#55574f]">
               Por eso tiene su propio valor y su propio cupo.
             </p>
 
-            <dl className="mt-8 border-t border-[rgba(101,91,74,0.23)]">
+            <dl className={`mt-6 border-t ${FILETE}`}>
               {[
                 ["Formato", "En vivo, por Zoom"],
                 ["Cohorte", "15 personas"],
                 ["Evaluación", "Ensayo final con devolución"],
               ].map(([k, v]) => (
-                <div key={k} className="border-b border-[rgba(101,91,74,0.16)] py-3">
-                  <dt className="text-[0.58rem] font-extrabold uppercase tracking-[0.16em] text-[#a9a294]">{k}</dt>
-                  <dd className="mt-1 text-[0.85rem] font-semibold text-[#171713]">{v}</dd>
+                <div key={k} className={`flex items-baseline justify-between gap-4 border-b ${FILETE_SUAVE} py-3`}>
+                  <dt className="text-[0.875rem] text-[#6f675d]">{k}</dt>
+                  <dd className="text-right text-[0.9375rem] font-semibold tabular-nums text-[#171713]">{v}</dd>
                 </div>
               ))}
             </dl>
@@ -480,40 +441,37 @@ export default async function SeminarioDesproteccionInfancia() {
 
       {/* ═══ CITA ═══════════════════════════════════════════ */}
       <section className="bg-[#15120e]">
-        <div className="mx-auto max-w-[1640px] px-5 py-20 sm:px-8 lg:px-14 lg:py-24 xl:px-20">
-          <blockquote className="max-w-[62ch]">
-            <p className="crc-serif text-[clamp(1.6rem,3vw,2.8rem)] font-light italic leading-[1.25] text-[#fbf7ee]">
-              «Chile gobierna a su infancia pobre con tecnocracia, no con cuidado.»
-            </p>
-            <footer className="mt-7 flex items-center gap-4">
-              <div className="h-px w-10 bg-[#bd6f3c]" />
-              <span className="text-[0.66rem] font-extrabold uppercase tracking-[0.2em] text-[#ede7dc]/70">
-                Juan Carlos Rauld
-              </span>
-            </footer>
-          </blockquote>
+        <div className={`${CONTENEDOR} py-16 lg:py-20`}>
+          <figure className="max-w-[780px]">
+            <blockquote>
+              <p className="crc-serif text-balance text-[clamp(1.5rem,2.3vw,2.25rem)] font-normal leading-[1.3] text-[#fbf7ee]">
+                «Chile gobierna a su infancia pobre con tecnocracia, no con cuidado.»
+              </p>
+            </blockquote>
+            <figcaption className="mt-5 text-[0.9375rem] font-semibold text-[#e4935d]">
+              Juan Carlos Rauld, autor del libro
+            </figcaption>
+          </figure>
         </div>
       </section>
 
       {/* ═══ PARA QUIÉN ═════════════════════════════════════ */}
-      <section className="mx-auto max-w-[1640px] px-5 py-20 sm:px-8 lg:px-14 lg:py-28 xl:px-20">
-        <div className="grid gap-10 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-16">
+      <section className={SECCION}>
+        <div className="grid gap-8 lg:grid-cols-[200px_minmax(0,1fr)] lg:gap-14">
+          <Encabezado etiqueta="Perfil" />
           <div>
-            <Eyebrow>Perfil</Eyebrow>
-          </div>
-          <div>
-            <h2 className="crc-serif max-w-[20ch] text-[clamp(1.8rem,2.6vw,2.7rem)] font-medium leading-[1.08]">
-              Para quién es —y <span className="italic text-[#bd6f3c]">para quién no</span>.
-            </h2>
+            <h2 className={`${H2} max-w-[22ch]`}>Para quién es, y para quién no.</h2>
 
-            <div className="mt-10 grid gap-10 border-t border-[rgba(101,91,74,0.23)] pt-9 md:grid-cols-2 md:gap-14">
+            <div className="mt-8 grid gap-10 md:grid-cols-2 md:gap-14">
               <div>
-                <p className="text-[0.6rem] font-extrabold uppercase tracking-[0.2em] text-[#bd6f3c]">Es para ti si</p>
-                <ul className="mt-5 space-y-4">
+                <p className={`border-b ${FILETE} pb-3 text-[0.9375rem] font-semibold text-[#171713]`}>
+                  Pensado para
+                </p>
+                <ul>
                   {PARA_QUIEN_SI.map((item) => (
                     <li
                       key={item}
-                      className="border-b border-[rgba(101,91,74,0.16)] pb-4 text-[0.92rem] leading-[1.7] text-[#3a3a33]"
+                      className={`border-b ${FILETE_SUAVE} py-3.5 text-[1rem] leading-[1.6] text-[#171713]`}
                     >
                       {item}
                     </li>
@@ -521,14 +479,14 @@ export default async function SeminarioDesproteccionInfancia() {
                 </ul>
               </div>
               <div>
-                <p className="text-[0.6rem] font-extrabold uppercase tracking-[0.2em] text-[#8a8276]">
-                  No es para ti si
+                <p className={`border-b ${FILETE} pb-3 text-[0.9375rem] font-semibold text-[#55574f]`}>
+                  No es para ti
                 </p>
-                <ul className="mt-5 space-y-4">
+                <ul>
                   {PARA_QUIEN_NO.map((item) => (
                     <li
                       key={item}
-                      className="border-b border-[rgba(101,91,74,0.16)] pb-4 text-[0.92rem] leading-[1.7] text-[#8a8276]"
+                      className={`border-b ${FILETE_SUAVE} py-3.5 text-[1rem] leading-[1.6] text-[#55574f]`}
                     >
                       {item}
                     </li>
@@ -541,41 +499,43 @@ export default async function SeminarioDesproteccionInfancia() {
       </section>
 
       {/* ═══ PROGRAMA ═══════════════════════════════════════ */}
-      <section id="programa" className="scroll-mt-24 border-y border-[rgba(101,91,74,0.23)] bg-[#fffdf8]">
-        <div className="mx-auto max-w-[1640px] px-5 py-20 sm:px-8 lg:px-14 lg:py-28 xl:px-20">
-          <div className="grid gap-10 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-16">
-            <div>
-              <Eyebrow>Programa</Eyebrow>
-              <p className="mt-5 max-w-[26ch] text-[0.82rem] leading-[1.7] text-[#55574f]">
+      <section id="programa" className={`scroll-mt-24 border-y ${FILETE} bg-[#fffdf8]`}>
+        <div className={SECCION}>
+          <div className="grid gap-8 lg:grid-cols-[200px_minmax(0,1fr)] lg:gap-14">
+            <Encabezado etiqueta="Programa">
+              <p className="mt-3 max-w-[30ch] text-[0.9375rem] leading-[1.6] text-[#55574f]">
                 Todos los jueves de 19:00 a 21:00, del 15 de octubre al 3 de diciembre de 2026. Ninguna sesión cae en
                 feriado.
               </p>
-            </div>
+            </Encabezado>
 
             <div>
-              <ol className="border-t border-[rgba(101,91,74,0.23)]">
+              <h2 className={H2}>Ocho sesiones, de la filosofía de la infancia al Chile de hoy</h2>
+              <ol className={`mt-8 border-t ${FILETE}`}>
                 {SESIONES.map((s) => (
                   <li
                     key={s.n}
-                    className="group grid gap-x-8 gap-y-2 border-b border-[rgba(101,91,74,0.16)] py-7 sm:grid-cols-[auto_120px_minmax(0,1fr)] sm:items-baseline"
+                    className={`grid gap-x-8 gap-y-1.5 border-b ${FILETE_SUAVE} py-5 sm:grid-cols-[150px_minmax(0,1fr)] sm:py-6`}
                   >
-                    <span className="crc-serif text-[1.6rem] font-medium leading-none text-[#bd6f3c]">{s.n}</span>
-                    <span className="text-[0.68rem] font-extrabold uppercase tracking-[0.16em] text-[#8a8276]">
-                      {s.fecha}
-                    </span>
+                    <div className="flex items-baseline gap-3 sm:block">
+                      <p className="text-[0.9375rem] font-semibold tabular-nums text-[#171713]">{s.fecha}</p>
+                      <p className="text-[0.8125rem] tabular-nums text-[#6f675d] sm:mt-1">
+                        Sesión {Number(s.n)} de {SESIONES.length}
+                      </p>
+                    </div>
                     <div>
-                      <h3 className="crc-serif text-[1.35rem] font-medium leading-[1.2] text-[#171713]">
+                      <h3 className="crc-serif text-[1.3rem] font-medium leading-[1.25] text-[#171713] sm:text-[1.35rem]">
                         {s.titulo}
                       </h3>
-                      <p className="mt-2 max-w-[58ch] text-[0.88rem] leading-[1.75] text-[#55574f]">{s.detalle}</p>
+                      <p className="mt-1.5 max-w-[62ch] text-[1rem] leading-[1.65] text-[#55574f]">{s.detalle}</p>
                     </div>
                   </li>
                 ))}
               </ol>
 
-              <div className="mt-9 border-l-2 border-[#bd6f3c] pl-6">
-                <p className="text-[0.6rem] font-extrabold uppercase tracking-[0.2em] text-[#bd6f3c]">Ensayo final</p>
-                <p className="mt-3 max-w-[62ch] text-[0.9rem] leading-[1.8] text-[#55574f]">
+              <div className="mt-8 grid gap-x-8 gap-y-2 sm:grid-cols-[150px_minmax(0,1fr)]">
+                <p className="text-[0.9375rem] font-semibold text-[#9f5528]">Ensayo final</p>
+                <p className="max-w-[62ch] text-[1rem] leading-[1.7] text-[#55574f]">
                   Cada participante escribe un ensayo breve aplicando el marco del seminario a su propio campo de
                   trabajo. Se entrega en la primera quincena de enero de 2027 y recibe retroalimentación individual del
                   autor. Es requisito para el certificado.
@@ -587,23 +547,18 @@ export default async function SeminarioDesproteccionInfancia() {
       </section>
 
       {/* ═══ EL AUTOR ═══════════════════════════════════════ */}
-      <section className="mx-auto max-w-[1640px] px-5 py-20 sm:px-8 lg:px-14 lg:py-28 xl:px-20">
-        <div className="grid gap-10 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-16">
-          <div>
-            <Eyebrow>Quién lo dicta</Eyebrow>
-          </div>
+      <section className={SECCION}>
+        <div className="grid gap-8 lg:grid-cols-[200px_minmax(0,1fr)] lg:gap-14">
+          <Encabezado etiqueta="Quién lo dicta" />
 
-          <div className="grid gap-10 md:grid-cols-[minmax(0,1fr)_300px] md:gap-14">
+          <div className="grid gap-10 md:grid-cols-[minmax(0,1fr)_280px] md:gap-14">
             <div>
-              <h2 className="crc-serif text-[clamp(1.8rem,2.6vw,2.7rem)] font-medium leading-[1.08]">
-                Juan Carlos <span className="italic text-[#bd6f3c]">Rauld</span>
-              </h2>
-              <p className="mt-3 text-[0.66rem] font-extrabold uppercase tracking-[0.18em] text-[#8a8276]">
+              <h2 className={H2}>Juan Carlos Rauld</h2>
+              <p className="mt-2 text-[0.9375rem] font-semibold text-[#55574f]">
                 Director del CRC · Trabajador Social · Autor del libro
               </p>
-              <div className="my-6 h-px w-14 bg-[#bd6f3c]" />
 
-              <p className="max-w-[62ch] text-[0.95rem] leading-[1.85] text-[#3a3a33]">
+              <p className="mt-6 max-w-[62ch] text-[1.0625rem] leading-[1.7] text-[#171713]">
                 Investigador especializado en infancia, trauma psíquico y biopolítica. Magíster en Filosofía Política
                 Contemporánea por la Universidad Diego Portales y Trabajador Social de la Universidad Tecnológica
                 Metropolitana, con dieciséis años de experiencia en dirección de programas de infancia y gestión
@@ -612,29 +567,23 @@ export default async function SeminarioDesproteccionInfancia() {
                 pobre.
               </p>
 
-              <ul className="mt-8 border-t border-[rgba(101,91,74,0.23)]">
+              <ul className={`mt-8 border-t ${FILETE}`}>
                 {CREDENCIALES.map((item) => (
-                  <li
-                    key={item}
-                    className="border-b border-[rgba(101,91,74,0.16)] py-3.5 text-[0.86rem] leading-[1.7] text-[#55574f]"
-                  >
+                  <li key={item} className={`border-b ${FILETE_SUAVE} py-3 text-[1rem] leading-[1.6] text-[#55574f]`}>
                     {item}
                   </li>
                 ))}
               </ul>
 
-              <div className="mt-7 flex flex-wrap items-center gap-x-7 gap-y-3">
-                <Link
-                  href="/conocenos"
-                  className="inline-flex items-center gap-2 border-b border-[#bd6f3c] pb-1 text-[0.66rem] font-extrabold uppercase tracking-[0.13em] text-[#171713] transition hover:text-[#9f5528]"
-                >
-                  Perfil completo <ArrowRight className="h-3.5 w-3.5" />
+              <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
+                <Link href="/conocenos" className={ENLACE}>
+                  Perfil completo <ArrowRight aria-hidden="true" className="h-4 w-4" />
                 </Link>
                 <a
                   href="https://uc-cl.academia.edu/JUANCARLOSRAULDFAR%C3%8DAS"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[0.66rem] font-extrabold uppercase tracking-[0.13em] text-[#8a8276] transition hover:text-[#bd6f3c]"
+                  className={`text-[0.9375rem] font-semibold text-[#55574f] underline decoration-[#d8cfc0] underline-offset-4 transition-colors hover:text-[#9f5528] ${FOCO}`}
                 >
                   Academia.edu
                 </a>
@@ -642,7 +591,7 @@ export default async function SeminarioDesproteccionInfancia() {
                   href="https://www.linkedin.com/in/juan-carlos-rauld-farias-a64710a4/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[0.66rem] font-extrabold uppercase tracking-[0.13em] text-[#8a8276] transition hover:text-[#bd6f3c]"
+                  className={`text-[0.9375rem] font-semibold text-[#55574f] underline decoration-[#d8cfc0] underline-offset-4 transition-colors hover:text-[#9f5528] ${FOCO}`}
                 >
                   LinkedIn
                 </a>
@@ -650,33 +599,34 @@ export default async function SeminarioDesproteccionInfancia() {
             </div>
 
             <div>
-              <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[5px] bg-[#eee8dc]">
+              <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[6px] bg-[#eee8dc]">
                 <Image
                   src="/images/juan-carlos-rauld-retrato.jpg"
-                  alt="Juan Carlos Rauld Farías, relator del seminario"
+                  alt="Retrato de Juan Carlos Rauld Farías, relator del seminario"
                   fill
-                  sizes="(min-width: 768px) 300px, 100vw"
+                  sizes="(min-width: 768px) 280px, 100vw"
                   className="object-cover object-center"
                 />
               </div>
 
-              <Link
-                href="/publicaciones"
-                className="group mt-6 flex gap-4 border-t border-[rgba(101,91,74,0.23)] pt-6 transition"
-              >
-                <div className="relative h-24 w-[68px] shrink-0 overflow-hidden rounded-[3px] bg-[#eee8dc]">
-                  <Image src={IMAGE_PATH} alt="Portada del libro" fill className="object-cover" sizes="68px" />
+              <Link href="/publicaciones" className={`group mt-6 flex gap-4 border-t ${FILETE} pt-5 ${FOCO}`}>
+                <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-[6px] bg-[#eee8dc]">
+                  <Image
+                    src={IMAGE_PATH}
+                    alt="Portada del libro Desprotección de la infancia"
+                    fill
+                    className="object-cover"
+                    sizes="96px"
+                  />
                 </div>
                 <div>
-                  <p className="text-[0.6rem] font-extrabold uppercase tracking-[0.2em] text-[#bd6f3c]">
-                    El libro del seminario
-                  </p>
-                  <p className="crc-serif mt-2 text-[1.05rem] font-medium leading-[1.25] text-[#171713]">
+                  <p className={ETIQUETA}>El libro del seminario</p>
+                  <p className="crc-serif mt-1 text-[1.1rem] font-medium leading-[1.25] text-[#171713]">
                     Desprotección de la infancia
                   </p>
-                  <p className="mt-1.5 text-[0.75rem] text-[#8a8276]">Editorial Hammurabi</p>
-                  <p className="mt-3 inline-flex items-center gap-1.5 text-[0.62rem] font-extrabold uppercase tracking-[0.13em] text-[#171713] transition group-hover:text-[#9f5528]">
-                    Ver los libros de Juan Carlos <ArrowRight className="h-3 w-3" />
+                  <p className="mt-1 text-[0.875rem] text-[#6f675d]">Editorial Hammurabi</p>
+                  <p className="mt-2 text-[0.875rem] font-semibold text-[#9f5528] underline decoration-[#bd6f3c]/45 underline-offset-4 group-hover:text-[#171713]">
+                    Ver los libros de Juan Carlos
                   </p>
                 </div>
               </Link>
@@ -686,134 +636,169 @@ export default async function SeminarioDesproteccionInfancia() {
       </section>
 
       {/* ═══ INVERSIÓN ══════════════════════════════════════ */}
-      <section
-        id="inversion"
-        className="scroll-mt-24 border-y border-[rgba(101,91,74,0.23)] bg-[#fffdf8]"
-      >
-        <div className="mx-auto max-w-[1640px] px-5 py-20 sm:px-8 lg:px-14 lg:py-28 xl:px-20">
-          <div className="grid gap-10 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-16">
-            <div>
-              <Eyebrow>Inversión</Eyebrow>
-              <p className="mt-5 max-w-[26ch] text-[0.82rem] leading-[1.7] text-[#55574f]">
+      <section id="inversion" className={`scroll-mt-24 border-y ${FILETE} bg-[#fffdf8]`}>
+        <div className={SECCION}>
+          <div className="grid gap-8 lg:grid-cols-[200px_minmax(0,1fr)] lg:gap-14">
+            <Encabezado etiqueta="Inversión">
+              <p className="mt-3 max-w-[30ch] text-[0.9375rem] leading-[1.6] text-[#55574f]">
                 El valor sube por tramos de cupo. Cuando se agotan los cinco cupos de un tramo, el tramo se cierra
                 aunque la fecha todavía no haya llegado.
               </p>
-              <p className="mt-5 max-w-[26ch] text-[0.82rem] leading-[1.7] text-[#55574f]">
+              <p className="mt-3 max-w-[30ch] text-[0.9375rem] leading-[1.6] text-[#55574f]">
                 Solo el tramo vigente se puede pagar. El valor lo calcula el sitio según los cupos ya tomados.
               </p>
-            </div>
+            </Encabezado>
 
             <div>
-              <div className="mb-8 flex flex-wrap items-baseline gap-x-3 gap-y-1 border-b border-[rgba(101,91,74,0.16)] pb-6">
-                {mostrarCuposRestantes(venta.disponibles) ? (
-                  <>
-                    <span className="crc-serif text-[2rem] font-medium leading-none text-[#171713]">
-                      {venta.disponibles}
-                    </span>
-                    <span className="text-[0.72rem] font-extrabold uppercase tracking-[0.16em] text-[#55574f]">
-                      {venta.disponibles === 1 ? "cupo disponible" : "cupos disponibles"} de{" "}
-                      {SEMINARIO_CUPOS_TOTALES}
-                    </span>
-                  </>
-                ) : (
-                  <span className="text-[0.72rem] font-extrabold uppercase tracking-[0.16em] text-[#55574f]">
-                    {venta.disponibles === 0
+              <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
+                <h2 className={H2}>Valor y matrícula</h2>
+                <p className="text-[0.9375rem] font-semibold tabular-nums text-[#55574f]">
+                  {mostrarCuposRestantes(venta.disponibles)
+                    ? `${venta.disponibles} ${venta.disponibles === 1 ? "cupo disponible" : "cupos disponibles"} de ${SEMINARIO_CUPOS_TOTALES}`
+                    : venta.disponibles === 0
                       ? "Cohorte 1 completa"
                       : `Cohorte cerrada de ${SEMINARIO_CUPOS_TOTALES} personas`}
-                  </span>
+                </p>
+              </div>
+
+              {/* Tabla de tramos: una fila por tramo, valor alineado a la derecha. */}
+              <div className="mt-8">
+                <div
+                  aria-hidden="true"
+                  className={`hidden border-b ${FILETE} pb-2 text-[0.8125rem] text-[#6f675d] sm:grid sm:grid-cols-[minmax(0,1fr)_110px_minmax(0,1.3fr)_150px] sm:gap-x-6`}
+                >
+                  <span>Tramo</span>
+                  <span>Cupos</span>
+                  <span>Vigencia</span>
+                  <span className="text-right">Valor</span>
+                </div>
+                <ol className={`border-t ${FILETE} sm:border-t-0`}>
+                  {TRAMOS.map((t) => {
+                    const estado = estadoDeTramo(t, venta);
+                    const activo = estado === "vigente";
+                    const cerrado = estado === "agotado" || estado === "vencido";
+                    return (
+                      <li
+                        key={t.id}
+                        className={`grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-x-6 border-b ${FILETE_SUAVE} py-4 sm:grid-cols-[minmax(0,1fr)_110px_minmax(0,1.3fr)_150px] sm:py-5 ${
+                          activo ? "bg-[#f8f5ee] sm:-mx-4 sm:px-4" : ""
+                        }`}
+                      >
+                        <div>
+                          <p className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
+                            <span
+                              className={`text-[1.0625rem] font-semibold ${
+                                cerrado ? "text-[#6f675d]" : "text-[#171713]"
+                              }`}
+                            >
+                              {t.nombre}
+                            </span>
+                            <span
+                              className={
+                                activo
+                                  ? "rounded-[6px] bg-[#bd6f3c] px-2 py-0.5 text-[0.8125rem] font-semibold text-white"
+                                  : "text-[0.8125rem] text-[#6f675d]"
+                              }
+                            >
+                              {ESTADO_TEXTO[estado]}
+                            </span>
+                          </p>
+                          <p className="mt-1 text-[0.875rem] leading-[1.5] tabular-nums text-[#55574f] sm:hidden">
+                            Cupos {t.desde} a {t.hasta} · hasta el {fechaCierreLegible(t)}
+                          </p>
+                        </div>
+                        <p className="hidden text-[0.9375rem] tabular-nums text-[#55574f] sm:block">
+                          {t.desde} a {t.hasta}
+                        </p>
+                        <p className="hidden text-[0.9375rem] leading-[1.5] text-[#55574f] sm:block">
+                          Hasta el {fechaCierreLegible(t)}
+                        </p>
+                        <div className="text-right">
+                          <p
+                            className={`text-[1.25rem] font-semibold tabular-nums ${
+                              cerrado ? "text-[#6f675d] line-through decoration-1" : "text-[#171713]"
+                            }`}
+                          >
+                            {formatoCLP(t.precio)}
+                          </p>
+                          <p
+                            className={`mt-0.5 text-[0.8125rem] tabular-nums ${
+                              activo ? "font-semibold text-[#9f5528]" : "text-[#6f675d]"
+                            }`}
+                          >
+                            {t.ahorro}
+                          </p>
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ol>
+              </div>
+
+              {/* Matrícula: solo el tramo vigente se puede pagar. */}
+              <div
+                className={`mt-8 grid gap-6 rounded-[6px] border ${FILETE} bg-[#f8f5ee] p-5 sm:p-7 md:grid-cols-[minmax(0,1fr)_320px] md:gap-10`}
+              >
+                {vigente ? (
+                  <>
+                    <div>
+                      <p className={ETIQUETA}>Tramo vigente: {vigente.nombre}</p>
+                      <p className="mt-2 flex flex-wrap items-baseline gap-x-3">
+                        <span className="crc-serif text-[2.25rem] font-medium leading-none tabular-nums text-[#171713]">
+                          {formatoCLP(vigente.precio)}
+                        </span>
+                        {vigente.precio < PRECIO_LISTA ? (
+                          <span className="text-[1rem] tabular-nums text-[#6f675d] line-through">
+                            {formatoCLP(PRECIO_LISTA)}
+                          </span>
+                        ) : null}
+                      </p>
+                      <p className="mt-3 max-w-[48ch] text-[0.9375rem] leading-[1.6] text-[#55574f]">
+                        {plazoTramo(vigente)}
+                      </p>
+                    </div>
+                    <div className="md:pt-1">
+                      <SeminarioPagoButton precioLabel={formatoCLP(vigente.precio)} tramoNombre={vigente.nombre} />
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div>
+                      <p className={ETIQUETA}>Matrícula cerrada</p>
+                      <p className="mt-2 max-w-[48ch] text-[1rem] leading-[1.6] text-[#171713]">
+                        {venta.disponibles === 0
+                          ? "La cohorte 1 está completa. Postula y quedas primero en la lista de la cohorte 2, con el precio de la cohorte 1 congelado."
+                          : "La matrícula de la cohorte 1 ya cerró. Postula y quedas primero en la lista de la cohorte 2."}
+                      </p>
+                    </div>
+                    <div className="md:pt-1">
+                      <Link href="#postular" className={`${BOTON_PRIMARIO} w-full`}>
+                        Lista cohorte 2 <ArrowRight aria-hidden="true" className="h-4 w-4" />
+                      </Link>
+                    </div>
+                  </>
                 )}
               </div>
 
-              <div className="grid border-t border-[rgba(101,91,74,0.23)] sm:grid-cols-3">
-                {TRAMOS.map((t, i) => {
-                  const estado = estadoDeTramo(t, venta);
-                  const activo = estado === "vigente";
-                  return (
-                    <div
-                      key={t.id}
-                      className="border-b border-[rgba(101,91,74,0.16)] py-8 sm:border-b-0 sm:border-r sm:border-[rgba(101,91,74,0.16)] sm:py-0 sm:pb-2 sm:last:border-r-0"
-                    >
-                      <div className={`flex h-full flex-col sm:px-7 ${i === 0 ? "sm:pl-0" : ""}`}>
-                        {activo ? (
-                          <span className="mb-4 inline-block w-fit bg-[#bd6f3c] px-2.5 py-1 text-[0.58rem] font-extrabold uppercase tracking-[0.16em] text-white">
-                            Tramo vigente
-                          </span>
-                        ) : (
-                          <span className="mb-4 inline-block w-fit py-1 text-[0.58rem] font-extrabold uppercase tracking-[0.16em] text-[#a9a294]">
-                            {estado === "agotado" ? "Agotado" : estado === "vencido" ? "Cerrado" : "Próximo tramo"}
-                          </span>
-                        )}
-                        <p
-                          className={`text-[0.66rem] font-extrabold uppercase tracking-[0.18em] ${
-                            activo ? "text-[#171713]" : "text-[#8a8276]"
-                          }`}
-                        >
-                          {t.nombre}
-                        </p>
-                        <p className="mt-1 text-[0.72rem] text-[#8a8276]">
-                          Cupos {t.desde} a {t.hasta}
-                        </p>
-                        <p
-                          className={`crc-serif mt-5 text-[2.6rem] font-medium leading-none ${
-                            activo ? "text-[#171713]" : "text-[#a9a294] line-through decoration-1"
-                          }`}
-                        >
-                          {formatoCLP(t.precio)}
-                        </p>
-                        <p
-                          className={`mt-2 text-[0.72rem] font-bold uppercase tracking-[0.1em] ${
-                            activo ? "text-[#bd6f3c]" : "text-[#a9a294]"
-                          }`}
-                        >
-                          {t.ahorro}
-                        </p>
-                        <p className="mt-4 max-w-[28ch] text-[0.8rem] leading-[1.65] text-[#55574f]">{t.nota}</p>
-
-                        <div className="mt-6 sm:mt-auto sm:pt-6">
-                          {activo ? (
-                            <SeminarioPagoButton
-                              precioLabel={formatoCLP(t.precio)}
-                              tramoNombre={t.nombre}
-                            />
-                          ) : (
-                            <p className="text-[0.72rem] leading-[1.5] text-[#a9a294]">
-                              {estado === "agotado"
-                                ? "Estos cupos ya se tomaron."
-                                : estado === "vencido"
-                                  ? "Este tramo ya cerró."
-                                  : "Se habilita cuando se agote el tramo anterior."}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-
-              <div className="mt-10 grid gap-8 border-t border-[rgba(101,91,74,0.23)] pt-8 sm:grid-cols-2 sm:gap-14">
+              <div className={`mt-10 grid gap-8 border-t ${FILETE} pt-8 sm:grid-cols-2 sm:gap-12`}>
                 <div>
-                  <p className="text-[0.6rem] font-extrabold uppercase tracking-[0.2em] text-[#bd6f3c]">
-                    Puedes pagar en tres cuotas
-                  </p>
-                  <p className="mt-3 text-[0.88rem] leading-[1.75] text-[#55574f]">
+                  <h3 className="text-[1rem] font-semibold text-[#171713]">Puedes pagar en tres cuotas</h3>
+                  <p className="mt-2 text-[1rem] leading-[1.65] text-[#55574f]">
                     Tres transferencias sin interés: una antes de comenzar y dos durante el seminario. También Mercado
                     Pago, con las cuotas de tu tarjeta.
                   </p>
                 </div>
                 <div>
-                  <p className="text-[0.6rem] font-extrabold uppercase tracking-[0.2em] text-[#bd6f3c]">
-                    Convenio institucional
-                  </p>
-                  <p className="mt-3 text-[0.88rem] leading-[1.75] text-[#55574f]">
+                  <h3 className="text-[1rem] font-semibold text-[#171713]">Convenio institucional</h3>
+                  <p className="mt-2 text-[1rem] leading-[1.65] text-[#55574f]">
                     Desde tres personas de la misma institución, 15% de descuento para cada una y factura.
                   </p>
-                  <p className="mt-3 text-[0.88rem] leading-[1.75] text-[#55574f]">
+                  <p className="mt-2 text-[1rem] leading-[1.65] text-[#55574f]">
                     ¿Son un equipo de 8 o más? Dictamos el seminario en formato cerrado para una sola institución, con
                     fechas propias y factura.{" "}
                     <Link
                       href="/instituciones"
-                      className="border-b border-[#bd6f3c] font-semibold text-[#171713] transition hover:text-[#9f5528]"
+                      className={`font-semibold text-[#9f5528] underline decoration-[#bd6f3c]/45 underline-offset-4 transition-colors hover:text-[#171713] ${FOCO}`}
                     >
                       Escríbenos y armamos la propuesta
                     </Link>
@@ -822,8 +807,8 @@ export default async function SeminarioDesproteccionInfancia() {
                 </div>
               </div>
 
-              <p className="mt-10 border-l-2 border-[#bd6f3c] pl-6 text-[0.9rem] leading-[1.8] text-[#3a3a33]">
-                <span className="font-bold text-[#171713]">
+              <p className={`mt-8 border-t ${FILETE} pt-6 text-[1rem] leading-[1.65] text-[#55574f]`}>
+                <span className="font-semibold text-[#171713]">
                   La matrícula cierra el martes 13 de octubre a las 23:59
                 </span>
                 , o antes si se completan los quince cupos. No reabrimos: la cohorte 2 se abre en marzo de 2027.
@@ -834,53 +819,49 @@ export default async function SeminarioDesproteccionInfancia() {
       </section>
 
       {/* ═══ POSTULACIÓN ════════════════════════════════════ */}
-      <section id="postular" className="scroll-mt-24 bg-[#15120e]">
-        <div className="mx-auto max-w-[1640px] px-5 py-20 sm:px-8 lg:px-14 lg:py-28 xl:px-20">
-          <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_520px] lg:gap-20">
+      <section id="postular" className="scroll-mt-24">
+        <div className={SECCION}>
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_500px] lg:gap-16">
             <div>
-              <Eyebrow tone="light">Postulación</Eyebrow>
-              <h2 className="crc-serif mt-5 max-w-[16ch] text-[clamp(1.9rem,3vw,3rem)] font-medium leading-[1.05] text-[#fbf7ee]">
-                Quince personas, <span className="italic text-[#bd6f3c]">una cohorte</span>.
-              </h2>
-              <Rule />
-              <p className="max-w-[54ch] text-[0.95rem] leading-[1.8] text-[#ede7dc]/80">
+              <p className={ETIQUETA}>Postulación</p>
+              <h2 className={`${H2} mt-3 max-w-[20ch]`}>Quince personas, una cohorte.</h2>
+              <p className="mt-5 max-w-[56ch] text-[1.0625rem] leading-[1.7] text-[#171713]">
                 Revisamos cada postulación. Si tu perfil calza con la cohorte, te escribimos para una conversación
                 breve de quince minutos y confirmamos tu cupo con el valor del tramo vigente. Postular no compromete
                 pago.
               </p>
 
-              <dl className="mt-12 border-t border-[#f1ede4]/18">
+              <dl className={`mt-8 max-w-[520px] border-t ${FILETE}`}>
                 {[
                   ["Inicio", "Jueves 15 de octubre, 19:00"],
                   ["Cierre de matrícula", "Martes 13 de octubre, 23:59"],
                   ["Grabaciones", "Disponibles 60 días"],
                   ["Certificación", "CRC + Editorial Hammurabi"],
                 ].map(([k, v]) => (
-                  <div
-                    key={k}
-                    className="flex items-baseline justify-between gap-6 border-b border-[#f1ede4]/12 py-4"
-                  >
-                    <dt className="text-[0.66rem] font-extrabold uppercase tracking-[0.18em] text-[#bd6f3c]">{k}</dt>
-                    <dd className="crc-serif text-right text-[1.15rem] font-medium text-[#fbf7ee]">{v}</dd>
+                  <div key={k} className={`flex items-baseline justify-between gap-6 border-b ${FILETE_SUAVE} py-3.5`}>
+                    <dt className="text-[0.9375rem] text-[#55574f]">{k}</dt>
+                    <dd className="text-right text-[1rem] font-semibold tabular-nums text-[#171713]">{v}</dd>
                   </div>
                 ))}
               </dl>
             </div>
 
-            <div className="border border-[#f1ede4]/14 bg-[#1c1710]/60 p-6 sm:p-8">
-              <SeminarioPostulacionForm variant="dark" />
+            <div className="rounded-[6px] border border-[#ded5c7] bg-[#fffdf8] p-5 sm:p-8">
+              <h3 className="crc-serif text-[1.35rem] font-medium leading-[1.2] text-[#171713]">
+                Formulario de postulación
+              </h3>
+              <p className="mb-6 mt-1.5 text-[0.9375rem] leading-[1.55] text-[#55574f]">
+                Todos los campos son obligatorios.
+              </p>
+              <SeminarioPostulacionForm variant="light" />
 
               {vigente ? (
-                <div className="mt-7 border-t border-[#f1ede4]/12 pt-6">
-                  <p className="text-[0.78rem] leading-[1.6] text-[#ede7dc]/65">
+                <div className={`mt-7 border-t ${FILETE_SUAVE} pt-6`}>
+                  <p className="text-[0.9375rem] leading-[1.6] text-[#55574f]">
                     ¿Ya lo tienes decidido? Puedes reservar tu cupo pagando ahora, sin pasar por la postulación.
                   </p>
                   <div className="mt-4">
-                    <SeminarioPagoButton
-                      precioLabel={formatoCLP(vigente.precio)}
-                      tramoNombre={vigente.nombre}
-                      variant="dark"
-                    />
+                    <SeminarioPagoButton precioLabel={formatoCLP(vigente.precio)} tramoNombre={vigente.nombre} />
                   </div>
                 </div>
               ) : null}
@@ -890,35 +871,37 @@ export default async function SeminarioDesproteccionInfancia() {
       </section>
 
       {/* ═══ FAQ ════════════════════════════════════════════ */}
-      <section id="preguntas" className="scroll-mt-24">
-        <div className="mx-auto max-w-[1640px] px-5 py-20 sm:px-8 lg:px-14 lg:py-28 xl:px-20">
-          <div className="grid gap-10 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-16">
-            <div>
-              <Eyebrow>Preguntas</Eyebrow>
-            </div>
-            <div className="border-t border-[rgba(101,91,74,0.23)]">
+      <section id="preguntas" className={`scroll-mt-24 border-t ${FILETE} bg-[#fffdf8]`}>
+        <div className={SECCION}>
+          <div className="grid gap-8 lg:grid-cols-[200px_minmax(0,1fr)] lg:gap-14">
+            <Encabezado etiqueta="Preguntas frecuentes" />
+            <div className={`border-t ${FILETE}`}>
               {FAQ.map((item) => (
                 <details
                   key={item.q}
-                  className="group border-b border-[rgba(101,91,74,0.16)] py-5 [&_summary::-webkit-details-marker]:hidden"
+                  className={`group border-b ${FILETE_SUAVE} [&_summary::-webkit-details-marker]:hidden`}
                 >
-                  <summary className="flex cursor-pointer list-none items-baseline justify-between gap-8">
-                    <span className="crc-serif text-[1.25rem] font-medium leading-[1.35] text-[#171713] transition-colors group-open:text-[#9f5528]">
+                  <summary
+                    className={`flex cursor-pointer list-none items-baseline justify-between gap-6 rounded-[6px] py-5 ${FOCO}`}
+                  >
+                    <span className="crc-serif text-[1.2rem] font-medium leading-[1.35] text-[#171713] transition-colors group-open:text-[#9f5528] sm:text-[1.3rem]">
                       {item.q}
                     </span>
-                    <span className="mt-1 shrink-0 text-[1.1rem] leading-none text-[#bd6f3c] transition-transform duration-200 group-open:rotate-45">
+                    <span
+                      aria-hidden="true"
+                      className="shrink-0 text-[1.25rem] leading-none text-[#9f5528] motion-safe:transition-transform group-open:rotate-45"
+                    >
                       +
                     </span>
                   </summary>
-                  <p className="mt-4 max-w-[62ch] text-[0.9rem] leading-[1.8] text-[#55574f]">{item.a}</p>
-                  {item.link ? (
-                    <Link
-                      href={item.link.href}
-                      className="mt-4 inline-flex items-center gap-2 border-b border-[#bd6f3c] pb-1 text-[0.66rem] font-extrabold uppercase tracking-[0.13em] text-[#171713] transition hover:text-[#9f5528]"
-                    >
-                      {item.link.label} <ArrowRight className="h-3.5 w-3.5" />
-                    </Link>
-                  ) : null}
+                  <div className="pb-6">
+                    <p className="max-w-[62ch] text-[1rem] leading-[1.7] text-[#55574f]">{item.a}</p>
+                    {item.link ? (
+                      <Link href={item.link.href} className={`mt-3 ${ENLACE}`}>
+                        {item.link.label} <ArrowRight aria-hidden="true" className="h-4 w-4" />
+                      </Link>
+                    ) : null}
+                  </div>
                 </details>
               ))}
             </div>
@@ -927,30 +910,21 @@ export default async function SeminarioDesproteccionInfancia() {
       </section>
 
       {/* ═══ CIERRE ═════════════════════════════════════════ */}
-      <section className="border-t border-[rgba(101,91,74,0.23)] bg-[#eee8dc]">
-        <div className="mx-auto max-w-[1640px] px-5 py-20 sm:px-8 lg:px-14 lg:py-24 xl:px-20">
-          <div className="grid gap-10 lg:grid-cols-[220px_minmax(0,1fr)_auto] lg:items-end lg:gap-16">
-            <div className="lg:self-start lg:pt-2">
-              <Eyebrow>Cohorte 1</Eyebrow>
-            </div>
-            <div className="max-w-[46ch]">
-              <h2 className="crc-serif text-[clamp(1.8rem,2.8vw,2.8rem)] font-medium leading-[1.08] text-[#171713]">
-                Es la primera vez que el autor dicta este{" "}
-                <span className="italic text-[#bd6f3c]">seminario</span>.
-              </h2>
-              <div className="my-6 h-px w-14 bg-[#bd6f3c]" />
-              <p className="text-[0.95rem] leading-[1.8] text-[#55574f]">
+      <section className={`border-t ${FILETE} bg-[#eee8dc]`}>
+        <div className={`${CONTENEDOR} py-14 lg:py-20`}>
+          <div className="grid gap-8 lg:grid-cols-[200px_minmax(0,1fr)_auto] lg:items-end lg:gap-14">
+            <p className={`${ETIQUETA} lg:self-start lg:pt-2`}>Cohorte 1</p>
+            <div className="max-w-[48ch]">
+              <h2 className={H2}>Es la primera vez que el autor dicta este seminario.</h2>
+              <p className="mt-4 text-[1.0625rem] leading-[1.7] text-[#55574f]">
                 La cohorte 1 se cierra el martes 13 de octubre a las 23:59, o antes si se completan los quince cupos.
                 {mostrarCuposRestantes(venta.disponibles)
                   ? ` ${venta.disponibles === 1 ? "Queda 1 cupo" : `Quedan ${venta.disponibles} cupos`}.`
                   : null}
               </p>
             </div>
-            <Link
-              href="#inversion"
-              className="inline-flex h-11 shrink-0 items-center gap-3 rounded-[5px] bg-[#bd6f3c] px-6 text-[0.66rem] font-extrabold uppercase tracking-[0.13em] text-white transition duration-200 hover:bg-[#a85f31]"
-            >
-              {vigente ? "Matricularme" : "Lista cohorte 2"} <ArrowRight className="h-4 w-4" />
+            <Link href={vigente ? "#inversion" : "#postular"} className={`${BOTON_PRIMARIO} shrink-0`}>
+              {vigente ? "Matricularme" : "Lista cohorte 2"} <ArrowRight aria-hidden="true" className="h-4 w-4" />
             </Link>
           </div>
         </div>

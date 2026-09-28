@@ -72,7 +72,7 @@ export function ComplianceSchoolForm() {
             id="name"
             name="name"
             required
-            className="mt-2.5 block w-full rounded-md border-0 bg-white px-3.5 py-2 text-[#171713] shadow-sm ring-1 ring-inset ring-[#cfc4b4] placeholder:text-[#8a8276] focus:ring-2 focus:ring-inset focus:ring-[#bd6f3c] sm:text-sm sm:leading-6"
+            className="mt-2.5 block w-full rounded-[6px] border-0 bg-white px-3.5 py-2.5 text-base text-[#171713] shadow-sm ring-1 ring-inset ring-[#cfc4b4] placeholder:text-[#8a8276] focus:ring-2 focus:ring-inset focus:ring-[#bd6f3c] sm:text-sm sm:leading-6"
           />
         </div>
         <div>
@@ -84,7 +84,7 @@ export function ComplianceSchoolForm() {
             id="email"
             name="email"
             required
-            className="mt-2.5 block w-full rounded-md border-0 bg-white px-3.5 py-2 text-[#171713] shadow-sm ring-1 ring-inset ring-[#cfc4b4] placeholder:text-[#8a8276] focus:ring-2 focus:ring-inset focus:ring-[#bd6f3c] sm:text-sm sm:leading-6"
+            className="mt-2.5 block w-full rounded-[6px] border-0 bg-white px-3.5 py-2.5 text-base text-[#171713] shadow-sm ring-1 ring-inset ring-[#cfc4b4] placeholder:text-[#8a8276] focus:ring-2 focus:ring-inset focus:ring-[#bd6f3c] sm:text-sm sm:leading-6"
           />
         </div>
       </div>
@@ -99,7 +99,7 @@ export function ComplianceSchoolForm() {
             id="institution"
             name="institution"
             required
-            className="mt-2.5 block w-full rounded-md border-0 bg-white px-3.5 py-2 text-[#171713] shadow-sm ring-1 ring-inset ring-[#cfc4b4] placeholder:text-[#8a8276] focus:ring-2 focus:ring-inset focus:ring-[#bd6f3c] sm:text-sm sm:leading-6"
+            className="mt-2.5 block w-full rounded-[6px] border-0 bg-white px-3.5 py-2.5 text-base text-[#171713] shadow-sm ring-1 ring-inset ring-[#cfc4b4] placeholder:text-[#8a8276] focus:ring-2 focus:ring-inset focus:ring-[#bd6f3c] sm:text-sm sm:leading-6"
           />
         </div>
         <div>
@@ -110,7 +110,7 @@ export function ComplianceSchoolForm() {
             type="text"
             id="role"
             name="role"
-            className="mt-2.5 block w-full rounded-md border-0 bg-white px-3.5 py-2 text-[#171713] shadow-sm ring-1 ring-inset ring-[#cfc4b4] placeholder:text-[#8a8276] focus:ring-2 focus:ring-inset focus:ring-[#bd6f3c] sm:text-sm sm:leading-6"
+            className="mt-2.5 block w-full rounded-[6px] border-0 bg-white px-3.5 py-2.5 text-base text-[#171713] shadow-sm ring-1 ring-inset ring-[#cfc4b4] placeholder:text-[#8a8276] focus:ring-2 focus:ring-inset focus:ring-[#bd6f3c] sm:text-sm sm:leading-6"
           />
         </div>
       </div>
@@ -123,7 +123,7 @@ export function ComplianceSchoolForm() {
           type="tel"
           id="phone"
           name="phone"
-          className="mt-2.5 block w-full rounded-md border-0 bg-white px-3.5 py-2 text-[#171713] shadow-sm ring-1 ring-inset ring-[#cfc4b4] placeholder:text-[#8a8276] focus:ring-2 focus:ring-inset focus:ring-[#bd6f3c] sm:text-sm sm:leading-6"
+          className="mt-2.5 block w-full rounded-[6px] border-0 bg-white px-3.5 py-2.5 text-base text-[#171713] shadow-sm ring-1 ring-inset ring-[#cfc4b4] placeholder:text-[#8a8276] focus:ring-2 focus:ring-inset focus:ring-[#bd6f3c] sm:text-sm sm:leading-6"
         />
       </div>
 
@@ -136,17 +136,17 @@ export function ComplianceSchoolForm() {
           name="message"
           rows={4}
           required
-          className="mt-2.5 block w-full rounded-md border-0 bg-white px-3.5 py-2 text-[#171713] shadow-sm ring-1 ring-inset ring-[#cfc4b4] placeholder:text-[#8a8276] focus:ring-2 focus:ring-inset focus:ring-[#bd6f3c] sm:text-sm sm:leading-6"
+          className="mt-2.5 block w-full rounded-[6px] border-0 bg-white px-3.5 py-2.5 text-base text-[#171713] shadow-sm ring-1 ring-inset ring-[#cfc4b4] placeholder:text-[#8a8276] focus:ring-2 focus:ring-inset focus:ring-[#bd6f3c] sm:text-sm sm:leading-6"
         />
       </div>
 
       {result ? (
-        <div className="rounded-[6px] border border-[#ded5c7] bg-[#f8f5ee] px-4 py-3 text-sm text-[#3f423a]">
+        <div role="status" className="rounded-[6px] border border-[#d8cfc0] bg-[#f8f5ee] px-4 py-3 text-sm text-[#171713]">
           {result}
         </div>
       ) : null}
 
-      <Button type="submit" size="lg" className="w-full gap-2 bg-[#bd6f3c] hover:bg-[#9f5528]" disabled={busy}>
+      <Button type="submit" size="lg" className="h-auto min-h-11 w-full gap-2 rounded-[6px] bg-[#bd6f3c] py-2.5 text-[0.9375rem] hover:bg-[#a85f31]" disabled={busy}>
         <Send className="h-4 w-4" />
         {busy ? "Enviando..." : "Solicitar diagnóstico"}
       </Button>

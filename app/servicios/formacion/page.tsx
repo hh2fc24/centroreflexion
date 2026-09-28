@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, BookOpen, Check, GraduationCap, Mail, MessageSquareText, Users } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { pageMetadata } from "@/lib/seo";
+import { EngagementList, PersonInCharge, SectionHead, ServiceHero } from "../_components/Blocks";
+import { FORMACION_PROGRAMA, FORMACION_SEMINARIO, VALUE_NOTE } from "../_components/engagements";
+import { JUAN_CARLOS } from "../_components/people";
+import { Reveal } from "../_components/Reveal";
+import { btnPrimary, container, labelMuted, textLink } from "../_components/ui";
 
 export const metadata: Metadata = pageMetadata({
     title: "Formación y Capacitación | Intervención en Crisis y Equipos",
@@ -12,7 +17,9 @@ export const metadata: Metadata = pageMetadata({
     ogDescription: "Programas de capacitación con fundamento técnico y transferencia a casos y protocolos reales.",
 });
 
-const juanTraining = [
+type Activity = { name: string; detail: string; price: string };
+
+const juanTraining: Activity[] = [
     { name: "Capacitación en intervención de crisis", detail: "Modalidad presencial u online. Programas de 4 a 8 horas.", price: "Desde 5 UF" },
     { name: "Supervisión clínica de casos", detail: "Para equipos de protección infantil, infancia, familia y programas sociales.", price: "2.5 UF / sesión" },
     { name: "Formación en gestión de programas sociales", detail: "Diseño, implementación, evaluación y criterios de mejora.", price: "Desde 8 UF" },
@@ -20,12 +27,18 @@ const juanTraining = [
     { name: "Asesoría estratégica institucional", detail: "Diseño de modelos de intervención y criterios de decisión.", price: "A cotizar" },
 ];
 
-const rocioTraining = [
+const rocioTraining: Activity[] = [
     { name: "Charlas en salud mental y género", detail: "Instancias presenciales u online de 60 a 90 minutos.", price: "Consultar" },
     { name: "Formación de equipos en VIF", detail: "Actualización conceptual, abordaje situado y criterios de cuidado.", price: "Consultar" },
     { name: "Asesorías PIE", detail: "Supervisión reflexiva para Programas de Integración Escolar.", price: "Plan" },
     { name: "Taller de terapia ocupacional comunitaria", detail: "Enfoque de derechos humanos, participación y territorio.", price: "Consultar" },
     { name: "Acompañamiento en terreno", detail: "Capacitación para equipos de salud mental comunitaria.", price: "Consultar" },
+];
+
+const principles = [
+    { title: "Contenido con fundamento", text: "Marco conceptual, casos, discusión técnica y herramientas aplicables al trabajo cotidiano." },
+    { title: "Diseño para equipos", text: "Ajustamos duración, modalidad y profundidad según el contexto institucional." },
+    { title: "Aplicación práctica", text: "No solo exposición: buscamos transferencia a casos, protocolos y decisiones reales." },
 ];
 
 const advisory = [
@@ -37,172 +50,160 @@ const advisory = [
     "Trabajo interdisciplinario con equipos de salud y educación",
 ];
 
-function TrainingCard({ item }: { item: { name: string; detail: string; price: string } }) {
+function ActivityTable({ who, title, items }: { who: string; title: string; items: Activity[] }) {
     return (
-        <article className="rounded-[8px] border border-[#eee8dc] bg-[#fffdf8] p-5">
-            <h3 className="text-lg font-bold text-[#171713]">{item.name}</h3>
-            <p className="mt-2 text-sm leading-7 text-[#70695f]">{item.detail}</p>
-            <span className="mt-4 inline-flex rounded-[5px] border border-[#dec0a8] bg-[#f8f5ee] px-3 py-1 text-sm font-bold text-[#9f5528]">{item.price}</span>
-        </article>
+        <Reveal>
+            <p className="text-[0.8125rem] font-semibold text-[#9f5528]">{who}</p>
+            <h3 className="crc-serif mt-1 text-[1.35rem] font-medium leading-[1.25] text-[#171713]">{title}</h3>
+            <ul className="mt-5 border-t border-[#d8cfc0]">
+                {items.map((item) => (
+                    <li key={item.name} className="grid grid-cols-[minmax(0,1fr)_auto] gap-4 border-b border-[#d8cfc0] py-4">
+                        <span>
+                            <span className="block text-[1rem] font-semibold leading-[1.4] text-[#171713]">{item.name}</span>
+                            <span className="mt-1 block text-[0.9375rem] leading-[1.6] text-[#55574f]">{item.detail}</span>
+                        </span>
+                        <span className="whitespace-nowrap text-right text-[0.9375rem] font-semibold tabular-nums text-[#9f5528]">{item.price}</span>
+                    </li>
+                ))}
+            </ul>
+        </Reveal>
     );
 }
 
 export default function FormacionPage() {
     return (
         <main className="bg-[#fffdf8] text-[#171713]">
-            <section className="relative overflow-hidden border-b border-[#eee8dc] bg-[#171713] py-20 sm:py-28">
-                <video className="absolute inset-0 h-full w-full object-cover opacity-25" src="/333.mp4" autoPlay muted loop playsInline preload="metadata" />
-                <div className="absolute inset-0 bg-gradient-to-r from-[#171713] via-[#171713]/90 to-[#171713]/55" />
-                <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <Link href="/servicios" className="inline-flex items-center gap-2 text-sm font-bold text-[#d8d0c4] hover:text-white">
-                        <ArrowLeft className="h-4 w-4" />
-                        Volver a servicios
-                    </Link>
-                    <div className="mt-8 max-w-4xl">
-                        <span className="inline-flex items-center rounded-[5px] bg-white/5 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.2em] text-[#d8d0c4]">Formación y supervisión</span>
-                        <h1 className="mt-7 text-4xl font-bold leading-tight text-white sm:text-5xl font-serif">
-                            Formación aplicada, supervisión y asesoría para equipos.
-                        </h1>
-                        <p className="mt-6 max-w-3xl text-lg leading-8 text-[#d8d0c4]">
-                            Capacitaciones, jornadas clínicas, supervisión de casos y actualización técnica para profesionales, instituciones, comunidades educativas y equipos de intervención.
-                        </p>
-                    </div>
+            <ServiceHero
+                area="Formación"
+                title="Formación aplicada, supervisión y asesoría para equipos"
+                intro={
+                    <p>
+                        Capacitaciones, jornadas clínicas, supervisión de casos y actualización técnica para profesionales,
+                        instituciones, comunidades educativas y equipos de intervención.
+                    </p>
+                }
+                actions={
+                    <>
+                        <Link href="/instituciones?servicio=formacion#agenda" className={btnPrimary}>
+                            Agenda 20 minutos con Hugo
+                            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                        </Link>
+                        <a href="#compromisos" className={textLink}>
+                            Ver los compromisos
+                        </a>
+                    </>
+                }
+                facts={[
+                    { term: "Para quién", detail: "Programas de protección, colegios, fundaciones y equipos de salud o intervención social." },
+                    { term: "Compromisos", detail: "Programa de formación para equipos · Seminario en formato cerrado" },
+                    { term: "Modalidad", detail: "Presencial · Online" },
+                    { term: "A cargo", detail: JUAN_CARLOS.name },
+                    { term: "Valor", detail: VALUE_NOTE },
+                ]}
+            />
+
+            {/* Principios */}
+            <section aria-labelledby="principios-title" className="bg-[#fffdf8]">
+                <div className={`${container} py-16 sm:py-24`}>
+                    <Reveal>
+                        <SectionHead eyebrow="Cómo formamos" title="Aprendizaje situado, supervisión reflexiva y trabajo con comunidad." id="principios-title" />
+                    </Reveal>
+                    <ol className="mt-12 grid border-t border-[#d8cfc0] md:grid-cols-3">
+                        {principles.map((item, index) => (
+                            <li key={item.title} className="border-b border-[#d8cfc0] py-8 md:border-b-0 md:border-l md:px-6 md:first:border-l-0 md:first:pl-0">
+                                <Reveal delay={index * 0.06}>
+                                    <p className="text-[0.8125rem] font-semibold tabular-nums text-[#9f5528]">{String(index + 1).padStart(2, "0")}</p>
+                                    <h3 className="crc-serif mt-2 text-[1.35rem] font-medium leading-[1.2] text-[#171713]">{item.title}</h3>
+                                    <p className="mt-3 text-[1rem] leading-[1.7] text-[#55574f]">{item.text}</p>
+                                </Reveal>
+                            </li>
+                        ))}
+                    </ol>
                 </div>
             </section>
 
-            <section className="border-b border-[#eee8dc] bg-[#fffdf8] py-12">
-                <div className="mx-auto grid max-w-7xl gap-4 px-4 sm:px-6 md:grid-cols-3 lg:px-8">
-                    {[
-                        { video: "/111.mp4", title: "Aprendizaje situado", text: "Formación conectada con casos, equipos y contextos reales." },
-                        { video: "/222.mp4", title: "Supervisión reflexiva", text: "Espacios para pensar decisiones, límites y buenas prácticas." },
-                        { video: "/44.mp4", title: "Trabajo con comunidad", text: "Salud mental, inclusión, género y enfoque territorial." },
-                    ].map((item) => (
-                        <article key={item.title} className="overflow-hidden rounded-[8px] border border-[#eee8dc] bg-[#fffdf8] shadow-sm">
-                            <div className="h-56 overflow-hidden bg-[#171713]">
-                                <video className="h-full w-full object-cover opacity-90" src={item.video} autoPlay muted loop playsInline preload="metadata" />
-                            </div>
-                            <div className="p-5">
-                                <h2 className="text-xl font-bold font-serif">{item.title}</h2>
-                                <p className="mt-2 text-sm leading-7 text-[#70695f]">{item.text}</p>
-                            </div>
-                        </article>
-                    ))}
-                </div>
-            </section>
+            <EngagementList
+                engagements={[FORMACION_PROGRAMA, FORMACION_SEMINARIO]}
+                className="border-t border-[#d8cfc0] bg-[#f8f5ee]"
+                title="Dos compromisos para equipos que trabajan con infancia"
+                intro={
+                    <p>
+                        El programa se arma con los temas del catálogo según lo que necesite el equipo. El seminario en formato cerrado es
+                        el mismo seminario abierto de Juan Carlos Rauld, dictado solo para una institución.{" "}
+                        <Link href="/seminarios/desproteccion-infancia" className="font-semibold text-[#9f5528] underline decoration-[#d8cfc0] underline-offset-4 hover:text-[#171713]">
+                            Ver el programa del seminario
+                        </Link>
+                        .
+                    </p>
+                }
+            />
 
-            <section className="border-b border-[#eee8dc] py-14 sm:py-20">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="mb-9 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-                        <div>
-                            <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#bd6f3c]">Juan Carlos Rauld</span>
-                            <h2 className="mt-3 text-3xl font-bold text-[#171713] font-serif">Crisis, infancia, evaluación y programas sociales</h2>
-                            <p className="mt-3 max-w-3xl text-sm leading-7 text-[#70695f]">
-                                Formación para equipos que trabajan con infancia, familia, protección, intervención social y toma de decisiones complejas.
+            {/* Catálogo */}
+            <section aria-labelledby="catalogo-title" className="border-t border-[#d8cfc0] bg-[#fffdf8]">
+                <div className={`${container} py-16 sm:py-24`}>
+                    <Reveal>
+                        <SectionHead eyebrow="Catálogo" title="Temas y valores de referencia por actividad" id="catalogo-title">
+                            <p>
+                                Actividades sueltas que también se pueden contratar por separado. Los valores son de referencia para una
+                                actividad; un programa completo se cotiza según su alcance.
                             </p>
-                        </div>
-                    </div>
-                    <div className="grid gap-4 md:grid-cols-2">
-                        {juanTraining.map((item) => <TrainingCard key={item.name} item={item} />)}
+                        </SectionHead>
+                    </Reveal>
+                    <div className="mt-12 grid gap-12 lg:grid-cols-2 lg:gap-16">
+                        <ActivityTable who="Juan Carlos Rauld" title="Crisis, infancia, evaluación y programas sociales" items={juanTraining} />
+                        <ActivityTable who="Rocío Solar" title="Salud mental, género, VIF, PIE y terapia ocupacional comunitaria" items={rocioTraining} />
                     </div>
                 </div>
             </section>
 
-            <section id="seminario-cerrado" className="scroll-mt-24 border-b border-[#2d3029] bg-[#171713] py-14 sm:py-16">
-                <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-12 lg:items-center lg:px-8">
-                    <div className="lg:col-span-7">
-                        <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#d3976d]">Seminario en formato cerrado</span>
-                        <h2 className="mt-3 text-3xl font-bold leading-tight text-white font-serif">
-                            Desprotección de la infancia, dictado solo para tu institución.
-                        </h2>
-                        <p className="mt-4 max-w-2xl text-base leading-8 text-[#d8d0c4]">
-                            El seminario de Juan Carlos Rauld sobre el sistema de protección, para un solo equipo: programas, escuelas, fundaciones u oficinas locales de niñez que quieren leer sus propios casos con el mismo marco.
-                        </p>
-                    </div>
-                    <div className="lg:col-span-5">
-                        <ul className="divide-y divide-white/10 border-y border-white/10">
-                            {["Desde 8 personas de la misma institución", "Fechas y horario propios", "Factura a nombre de la institución"].map((item) => (
-                                <li key={item} className="flex items-start gap-3 py-3">
-                                    <Check className="mt-1 h-4 w-4 shrink-0 text-[#d3976d]" />
-                                    <span className="text-sm font-semibold leading-7 text-[#eee8dc]">{item}</span>
+            {/* Supervisión y asesorías */}
+            <section aria-labelledby="supervision-title" className="border-t border-[#d8cfc0] bg-[#f8f5ee]">
+                <div className={`${container} grid gap-10 py-16 sm:py-24 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16`}>
+                    <Reveal>
+                        <SectionHead eyebrow="Supervisión y asesorías" title="Para colegas y equipos que necesitan pensar sus casos." id="supervision-title">
+                            <p>
+                                Reflexión técnica, bienestar profesional, cuidado de la práctica y revisión de casos. La supervisión de casos
+                                complejos en salud mental la dirige Rocío Solar.
+                            </p>
+                        </SectionHead>
+                        <Link href="/servicios/clinica#supervision" className={`${textLink} mt-6`}>
+                            Ver supervisión clínica de casos complejos
+                            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                        </Link>
+                    </Reveal>
+                    <Reveal>
+                        <p className={labelMuted}>Qué se puede trabajar</p>
+                        <ul className="mt-3 grid border-t border-[#d8cfc0] sm:grid-cols-2 sm:gap-x-8">
+                            {advisory.map((item) => (
+                                <li key={item} className="border-b border-[#d8cfc0] py-4 text-[1rem] leading-[1.55] text-[#171713]">
+                                    {item}
                                 </li>
                             ))}
                         </ul>
-                        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                            <Link href="/instituciones?servicio=formacion#agenda" className="inline-flex items-center justify-center gap-2 rounded-[5px] bg-[#bd6f3c] px-5 py-3 text-sm font-bold text-white hover:bg-[#9f5528]">
-                                Agenda 20 minutos con Hugo
-                                <ArrowRight className="h-4 w-4" />
-                            </Link>
-                            <Link href="/seminarios/desproteccion-infancia" className="inline-flex items-center justify-center gap-2 rounded-[5px] border border-white/15 bg-white/5 px-5 py-3 text-sm font-bold text-white hover:bg-white/10">
-                                Ver el programa
-                            </Link>
-                        </div>
-                    </div>
+                    </Reveal>
                 </div>
             </section>
 
-            <section className="border-b border-[#eee8dc] bg-[#f8f5ee] py-14 sm:py-20">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="mb-9">
-                        <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#bd6f3c]">Rocío Solar</span>
-                        <h2 className="mt-3 text-3xl font-bold text-[#171713] font-serif">Salud mental, género, VIF, PIE y terapia ocupacional comunitaria</h2>
-                        <p className="mt-3 max-w-3xl text-sm leading-7 text-[#70695f]">
-                            Formación situada para equipos de salud, educación e intervención comunitaria, con foco en bienestar, derechos y buenas prácticas.
-                        </p>
-                    </div>
-                    <div className="grid gap-4 md:grid-cols-2">
-                        {rocioTraining.map((item) => <TrainingCard key={item.name} item={item} />)}
-                    </div>
-                </div>
-            </section>
-
-            <section className="border-b border-[#eee8dc] py-14 sm:py-20">
-                <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-12 lg:px-8">
-                    <div className="lg:col-span-4">
-                        <MessageSquareText className="h-10 w-10 text-[#bd6f3c]" />
-                        <h2 className="mt-5 text-3xl font-bold text-[#171713] font-serif">Supervisión y asesorías</h2>
-                        <p className="mt-4 text-base leading-8 text-[#70695f]">
-                            Instancias para colegas y equipos que requieren reflexión técnica, bienestar profesional, cuidado de la práctica y revisión de casos.
-                        </p>
-                    </div>
-                    <div className="grid gap-3 lg:col-span-8">
-                        {advisory.map((item) => (
-                            <div key={item} className="flex items-start gap-3 rounded-[6px] border border-[#eee8dc] bg-[#f8f5ee] px-4 py-4">
-                                <Check className="mt-1 h-4 w-4 shrink-0 text-[#bd6f3c]" />
-                                <span className="text-sm font-semibold leading-7 text-[#3f423a]">{item}</span>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            <section className="bg-[#f8f5ee] py-14">
-                <div className="mx-auto grid max-w-7xl gap-4 px-4 sm:px-6 md:grid-cols-3 lg:px-8">
-                    {[
-                        { icon: BookOpen, title: "Contenido con fundamento", text: "Marco conceptual, casos, discusión técnica y herramientas aplicables al trabajo cotidiano." },
-                        { icon: Users, title: "Diseño para equipos", text: "Ajustamos duración, modalidad y profundidad según el contexto institucional." },
-                        { icon: GraduationCap, title: "Aplicación práctica", text: "No solo exposición: buscamos transferencia a casos, protocolos y decisiones reales." },
-                    ].map((card) => {
-                        const Icon = card.icon;
-                        return (
-                            <div key={card.title} className="rounded-[8px] border border-[#eee8dc] bg-[#fffdf8] p-6">
-                                <Icon className="h-7 w-7 text-[#bd6f3c]" />
-                                <h3 className="mt-4 text-xl font-bold font-serif">{card.title}</h3>
-                                <p className="mt-3 text-sm leading-7 text-[#70695f]">{card.text}</p>
-                            </div>
-                        );
-                    })}
-                </div>
-                <div className="mx-auto mt-8 flex max-w-7xl flex-col gap-3 px-4 sm:flex-row sm:px-6 lg:px-8">
-                    <Link href="/instituciones?servicio=formacion#agenda" className="inline-flex items-center justify-center gap-2 rounded-[5px] bg-[#171713] px-6 py-3 text-sm font-bold text-white hover:bg-[#34362f]">
-                        <Mail className="h-4 w-4" />
-                        Agenda 20 minutos con Hugo
+            <PersonInCharge
+                person={JUAN_CARLOS}
+                className="bg-[#fffdf8]"
+                cta={{ href: "/instituciones?servicio=formacion#agenda", label: "Coordinar una formación" }}
+                secondary={
+                    <Link href="/seminarios/desproteccion-infancia" className={textLink}>
+                        Ver el seminario abierto
                     </Link>
-                    <Link href="/servicios" className="inline-flex items-center justify-center gap-2 rounded-[5px] border border-[#ded5c7] bg-[#fffdf8] px-6 py-3 text-sm font-bold text-[#171713] hover:border-[#bd6f3c]/50">
-                        Ver otros servicios
-                        <ArrowRight className="h-4 w-4" />
-                    </Link>
-                </div>
-            </section>
+                }
+            >
+                <p>
+                    Juan Carlos dirige el CRC y el área de formación. Es trabajador social, magíster en Pensamiento Contemporáneo (UDP) y
+                    doctorando en Trabajo Social en la Universitat Rovira i Virgili. Su trabajo cruza programas de infancia, salud mental,
+                    protección de derechos y análisis institucional.
+                </p>
+                <p>
+                    Dicta él mismo los programas y el seminario Desprotección de la infancia, basado en su libro con Editorial Hammurabi.
+                    La coordinación de fechas, alcance y convenio la lleva Hugo Felipe Hormazábal.
+                </p>
+            </PersonInCharge>
         </main>
     );
 }

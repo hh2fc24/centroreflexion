@@ -34,9 +34,9 @@ export function InstitucionesWhatsAppLink() {
             href={whatsAppUrl(WA_MESSAGE_INSTITUTIONAL)}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex w-full items-center justify-center gap-2 rounded-[6px] border border-[#ded5c7] bg-[#fffdf8] px-4 py-3 text-sm font-bold text-[#171713] transition hover:border-[#25D366] hover:text-[#128c4a] sm:w-auto"
+            className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-[6px] border border-[#171713] bg-transparent px-5 py-2.5 text-[0.9375rem] font-semibold text-[#171713] transition-colors hover:border-[#9f5528] hover:text-[#9f5528] sm:w-auto"
         >
-            <WaGlyph className="h-4 w-4 text-[#25D366]" />
+            <WaGlyph className="h-4 w-4" />
             Escribir por WhatsApp
         </a>
     );
@@ -170,7 +170,7 @@ export function InstitucionesContactForm() {
                     role="status"
                     className={`rounded-[6px] border px-4 py-3 text-sm ${
                         result.ok
-                            ? "border-[#a8c99a] bg-[#f0f7ed] text-[#2e5e25]"
+                            ? "border-[#d8cfc0] bg-[#fffdf8] text-[#171713]"
                             : "border-[#e4a8a8] bg-[#fdf0f0] text-[#7a2525]"
                     }`}
                 >
@@ -178,7 +178,7 @@ export function InstitucionesContactForm() {
                 </div>
             ) : null}
 
-            <Button type="submit" size="lg" className="w-full gap-2 bg-[#bd6f3c] hover:bg-[#9f5528]" disabled={busy}>
+            <Button type="submit" size="lg" className="h-auto min-h-11 w-full gap-2 rounded-[6px] bg-[#bd6f3c] py-2.5 text-[0.9375rem] hover:bg-[#a85f31]" disabled={busy}>
                 <Send className="h-4 w-4" />
                 {busy ? "Enviando…" : "Pedir la reunión de 20 minutos"}
             </Button>

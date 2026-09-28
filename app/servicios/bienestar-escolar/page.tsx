@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, Check, FileWarning, Mail, ShieldCheck } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { pageMetadata } from "@/lib/seo";
+import { EngagementList, PersonInCharge, SectionHead, ServiceHero } from "../_components/Blocks";
+import { BIENESTAR_CONVIVENCIA, VALUE_NOTE } from "../_components/engagements";
+import { HUGO, ROCIO } from "../_components/people";
+import { Reveal } from "../_components/Reveal";
+import { btnPrimary, container, labelMuted, textLink } from "../_components/ui";
 
 export const metadata: Metadata = pageMetadata({
     title: "Bienestar Escolar | Convivencia, Protección y Cumplimiento Ley 21.809",
@@ -13,29 +18,17 @@ export const metadata: Metadata = pageMetadata({
 });
 
 const system = [
-    {
-        title: "Bienestar",
-        text: "Prevención socioemocional, trabajo con familias y lectura temprana de señales.",
-    },
-    {
-        title: "Convivencia",
-        text: "Clima escolar, mediación, conflictos, seguimiento y coordinación interna.",
-    },
-    {
-        title: "Protección",
-        text: "Salud mental, riesgo suicida, derivación y contención inicial responsable.",
-    },
-    {
-        title: "Cumplimiento",
-        text: "Protocolos aplicables, registros, responsables y preparación frente a fiscalización.",
-    },
+    { title: "Bienestar", text: "Prevención socioemocional, trabajo con familias y lectura temprana de señales." },
+    { title: "Convivencia", text: "Clima escolar, mediación, conflictos, seguimiento y coordinación interna." },
+    { title: "Protección", text: "Salud mental, riesgo suicida, derivación y contención inicial responsable." },
+    { title: "Cumplimiento", text: "Protocolos aplicables, registros, responsables y preparación frente a fiscalización." },
 ];
 
 const method = [
-    "Diagnóstico institucional",
-    "Diseño de criterios y rutas",
-    "Entrenamiento del equipo",
-    "Seguimiento con evidencia",
+    { title: "Diagnóstico institucional", text: "Levantamos brechas, capacidades internas, exposición normativa y casos sensibles." },
+    { title: "Diseño de criterios y rutas", text: "Definimos roles, rutas de actuación, criterios de escalamiento y registro." },
+    { title: "Entrenamiento del equipo", text: "Entrenamos al equipo para reconocer señales, coordinar decisiones y actuar bajo presión." },
+    { title: "Seguimiento con evidencia", text: "Medimos, revisamos casos y dejamos aprendizaje institucional acumulado." },
 ];
 
 const questions = [
@@ -66,229 +59,216 @@ const evidence = [
     },
 ];
 
+const outcomes = [
+    "Criterios comunes para detectar y priorizar.",
+    "Rutas entendibles para equipos directivos, convivencia y apoyo.",
+    "Registro de decisiones, responsables y seguimiento.",
+    "Un colegio enfocado en educar, con soporte experto para lo complejo.",
+];
+
 export default function BienestarEscolarPage() {
     return (
         <main className="bg-[#fffdf8] text-[#171713]">
-            <section className="relative overflow-hidden border-b border-[#eee8dc] bg-[#171713]">
-                <div className="absolute inset-0">
-                    <img src="/images/bienestar-escolar/hero-proteccion-institucional.png" alt="" className="h-full w-full object-cover" />
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-r from-[#171713] via-[#171713]/90 to-[#171713]/20" />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#171713] via-transparent to-transparent" />
-
-                <div className="relative z-10 mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
-                    <Link href="/servicios" className="inline-flex items-center gap-2 text-sm font-bold text-[#d8d0c4] hover:text-white">
-                        <ArrowLeft className="h-4 w-4" />
-                        Volver a servicios
-                    </Link>
-
-                    <div className="mt-10 grid gap-12 lg:grid-cols-12 lg:items-end">
-                        <div className="lg:col-span-8">
-                            <span className="inline-flex items-center rounded-[5px] border border-white/10 bg-white/5 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.2em] text-[#d8d0c4]">
-                                Bienestar escolar y protección institucional
-                            </span>
-                            <h1 className="mt-7 max-w-5xl text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl font-serif">
-                                Gestión experta para colegios que no pueden improvisar frente a una crisis.
-                            </h1>
-                            <p className="mt-6 max-w-3xl text-lg leading-8 text-[#d8d0c4]">
-                                Acompañamiento interdisciplinario para ordenar convivencia, salud mental, protección y cumplimiento, dejando capacidades instaladas en el establecimiento.
-                            </p>
-                        </div>
-
-                        <div className="lg:col-span-4">
-                            <div className="border-y border-white/15 py-6">
-                                <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#d3976d]">Idea central</p>
-                                <p className="mt-4 text-2xl font-bold leading-snug text-white font-serif">
-                                    El estándar ya no es tener protocolos: es demostrar que la institución supo actuar.
-                                </p>
-                            </div>
-                            <div className="mt-7 flex flex-col gap-3">
-                                <Link href="/instituciones?servicio=bienestar-escolar#agenda" className="inline-flex items-center justify-center gap-2 rounded-[5px] bg-[#bd6f3c] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#9f5528]">
-                                    <Mail className="h-4 w-4" />
-                                    Agenda 20 minutos con Hugo
-                                </Link>
-                                <a href="#sistema" className="inline-flex items-center justify-center gap-2 rounded-[5px] border border-white/15 bg-white/5 px-6 py-3 text-sm font-bold text-white transition hover:bg-white/10">
-                                    Ver sistema de trabajo
-                                    <ArrowRight className="h-4 w-4" />
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section className="border-b border-[#eee8dc] bg-[#fffdf8] py-16 sm:py-24">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
-                        <div className="lg:col-span-7">
-                            <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#bd6f3c]">Contexto del desafío</span>
-                            <h2 className="mt-4 max-w-4xl text-3xl font-bold leading-tight text-[#171713] sm:text-5xl font-serif">
-                                La gestión escolar quedó en el cruce de salud mental, convivencia, familias y cumplimiento.
-                            </h2>
-                        </div>
-                        <div className="space-y-4 text-base leading-8 text-[#55574f] lg:col-span-5">
-                            <p>
-                                Los colegios enfrentan casos sensibles con equipos exigidos, marcos normativos en movimiento y comunidades que demandan respuestas rápidas.
-                            </p>
-                            <p>
-                                CRC convierte esa presión en un sistema de actuación: lectura del riesgo, coordinación de roles, criterios compartidos y evidencia para sostener decisiones.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="sistema" className="border-b border-[#eee8dc] bg-[#f8f5ee] py-16 sm:py-24">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="mb-12 max-w-4xl">
-                        <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#bd6f3c]">Sistema de trabajo</span>
-                        <h2 className="mt-4 text-3xl font-bold leading-tight text-[#171713] sm:text-4xl font-serif">
-                            No son módulos sueltos. Es una misma gobernanza para responder mejor.
-                        </h2>
-                    </div>
-
-                    <div className="border-y border-[#ded5c7]">
-                        <div className="grid lg:grid-cols-4">
-                            {system.map((item, index) => (
-                                <article key={item.title} className="relative border-b border-[#ded5c7] py-8 lg:border-b-0 lg:border-r lg:px-6 lg:last:border-r-0">
-                                    <span className="text-sm font-bold text-[#bd6f3c]">0{index + 1}</span>
-                                    <h3 className="mt-5 text-2xl font-bold leading-tight text-[#171713] font-serif">{item.title}</h3>
-                                    <p className="mt-4 text-sm leading-7 text-[#70695f]">{item.text}</p>
-                                </article>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section className="relative overflow-hidden border-b border-[#34362f] bg-[#171713] py-16 sm:py-24">
-                <div className="relative mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-12 lg:px-8">
-                    <div className="lg:col-span-5">
-                        <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#d3976d]">Preguntas críticas</span>
-                        <h2 className="mt-4 text-3xl font-bold leading-tight text-white sm:text-4xl font-serif">
-                            El servicio empieza donde la respuesta habitual se vuelve insuficiente.
-                        </h2>
-                    </div>
-                    <div className="lg:col-span-7">
-                        <div className="divide-y divide-white/10 border-y border-white/10">
-                            {questions.map((question) => (
-                                <p key={question} className="py-6 text-xl font-bold leading-snug text-[#eee8dc] sm:text-2xl font-serif">
-                                    {question}
-                                </p>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section className="border-b border-[#eee8dc] bg-[#fffdf8] py-16 sm:py-24">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="grid gap-12 lg:grid-cols-12 lg:items-start">
-                        <div className="lg:col-span-5">
-                            <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#bd6f3c]">Enfoque de intervención</span>
-                            <h2 className="mt-4 text-3xl font-bold leading-tight text-[#171713] sm:text-4xl font-serif">
-                                Del diagnóstico al aprendizaje institucional.
-                            </h2>
-                            <div className="mt-8 overflow-hidden rounded-[8px] border border-[#eee8dc] shadow-sm">
-                                <img
-                                    src="/images/bienestar-escolar/metodo-trazabilidad.png"
-                                    alt=""
-                                    className="aspect-[16/10] w-full object-cover"
-                                />
-                            </div>
-                        </div>
-                        <div className="lg:col-span-7">
-                            <div className="relative border-l border-[#bd6f3c] pl-6 sm:pl-10">
-                                {method.map((step, index) => (
-                                    <div key={step} className="relative pb-10 last:pb-0">
-                                        <div className="absolute -left-[34px] top-0 flex h-12 w-12 items-center justify-center rounded-full border border-[#dec0a8] bg-[#fffdf8] text-sm font-bold text-[#bd6f3c] sm:-left-[58px]">
-                                            0{index + 1}
-                                        </div>
-                                        <h3 className="text-2xl font-bold leading-tight text-[#171713] font-serif">{step}</h3>
-                                        <p className="mt-3 max-w-2xl text-sm leading-7 text-[#70695f]">
-                                            {index === 0 && "Levantamos brechas, capacidades internas, exposición normativa y casos sensibles."}
-                                            {index === 1 && "Definimos roles, rutas de actuación, criterios de escalamiento y registro."}
-                                            {index === 2 && "Entrenamos al equipo para reconocer señales, coordinar decisiones y actuar bajo presión."}
-                                            {index === 3 && "Medimos, revisamos casos y dejamos aprendizaje institucional acumulado."}
-                                        </p>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section className="border-b border-[#eee8dc] bg-[#f8f5ee] py-16 sm:py-24">
-                <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-12 lg:px-8">
-                    <div className="lg:col-span-4">
-                        <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[#bd6f3c]">
-                            <FileWarning className="h-4 w-4" />
-                            Evidencia pública
-                        </span>
-                        <h2 className="mt-4 text-3xl font-bold leading-tight text-[#171713] sm:text-4xl font-serif">
-                            La exigencia de trazabilidad ya aparece en fallos y prensa.
-                        </h2>
-                    </div>
-                    <div className="lg:col-span-8">
-                        <div className="grid gap-4">
-                            {evidence.map((item, index) => (
-                                <a
-                                    key={item.title}
-                                    href={item.href}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className={index === 0 ? "group border-y border-[#bd6f3c] bg-[#fffdf8] px-6 py-7 transition hover:bg-white" : "group border-b border-[#ded5c7] bg-[#fffdf8] px-6 py-6 transition hover:bg-white"}
-                                >
-                                    <div className="grid gap-4 md:grid-cols-[150px_1fr_160px] md:items-center">
-                                        <span className="text-2xl font-bold text-[#9f5528] font-serif">{item.stat}</span>
-                                        <div>
-                                            <h3 className="text-xl font-bold leading-tight text-[#171713] font-serif">{item.title}</h3>
-                                            <p className="mt-2 text-xs font-bold uppercase tracking-[0.14em] text-[#8a8276]">{item.source}</p>
-                                        </div>
-                                        <p className="flex items-center text-xs font-bold uppercase tracking-[0.14em] text-[#bd6f3c] md:justify-end">
-                                            Ver fuente <ArrowRight className="ml-1 h-3 w-3 transition group-hover:translate-x-1" />
-                                        </p>
-                                    </div>
-                                </a>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section className="bg-[#fffdf8] py-16 sm:py-24">
-                <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-12 lg:px-8">
-                    <div className="lg:col-span-5">
-                        <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[#bd6f3c]">
-                            <ShieldCheck className="h-4 w-4" />
-                            Resultado esperado
-                        </span>
-                        <h2 className="mt-4 text-3xl font-bold leading-tight text-[#171713] sm:text-4xl font-serif">
-                            Capacidad institucional para responder sin improvisar.
-                        </h2>
-                    </div>
-                    <div className="lg:col-span-7">
-                        <div className="grid gap-0 border-y border-[#ded5c7]">
-                            {[
-                                "Criterios comunes para detectar y priorizar.",
-                                "Rutas entendibles para equipos directivos, convivencia y apoyo.",
-                                "Registro de decisiones, responsables y seguimiento.",
-                                "Un colegio enfocado en educar, con soporte experto para lo complejo.",
-                            ].map((item) => (
-                                <div key={item} className="flex items-start gap-3 border-b border-[#ded5c7] py-5 last:border-b-0">
-                                    <Check className="mt-1 h-4 w-4 shrink-0 text-[#bd6f3c]" />
-                                    <p className="text-base font-semibold leading-7 text-[#3f423a]">{item}</p>
-                                </div>
-                            ))}
-                        </div>
-                        <Link href="/instituciones?servicio=bienestar-escolar#agenda" className="mt-8 inline-flex items-center justify-center gap-2 rounded-[5px] bg-[#171713] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#34362f]">
+            <ServiceHero
+                area="Bienestar escolar"
+                title="Gestión experta para colegios que no pueden improvisar frente a una crisis"
+                intro={
+                    <p>
+                        Acompañamiento interdisciplinario para ordenar convivencia, salud mental, protección y cumplimiento, dejando
+                        capacidades instaladas en el establecimiento.
+                    </p>
+                }
+                actions={
+                    <>
+                        <Link href="/instituciones?servicio=bienestar-escolar#agenda" className={btnPrimary}>
                             Agenda 20 minutos con Hugo
-                            <ArrowRight className="h-4 w-4" />
+                            <ArrowRight className="h-4 w-4" aria-hidden="true" />
                         </Link>
-                    </div>
+                        <a href="#sistema" className={textLink}>
+                            Ver el sistema de trabajo
+                        </a>
+                    </>
+                }
+                facts={[
+                    { term: "Para quién", detail: "Colegios y comunidades educativas que necesitan ordenar su gestión preventiva." },
+                    { term: "Compromiso", detail: "Bienestar y convivencia escolar" },
+                    { term: "Marco", detail: "Ley 21.809 de Convivencia, Buen Trato y Bienestar" },
+                    { term: "A cargo", detail: `${HUGO.name}, con la dirección clínica de ${ROCIO.name}` },
+                    { term: "Valor", detail: VALUE_NOTE },
+                ]}
+            />
+
+            {/* Contexto */}
+            <section aria-labelledby="contexto-title" className="bg-[#fffdf8]">
+                <div className={`${container} grid gap-10 py-16 sm:py-24 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-16`}>
+                    <Reveal>
+                        <SectionHead
+                            eyebrow="Contexto del desafío"
+                            title="La gestión escolar quedó en el cruce de salud mental, convivencia, familias y cumplimiento."
+                            id="contexto-title"
+                        >
+                            <p>
+                                Los colegios enfrentan casos sensibles con equipos exigidos, marcos normativos en movimiento y comunidades
+                                que demandan respuestas rápidas. El CRC convierte esa presión en un sistema de actuación: lectura del riesgo,
+                                coordinación de roles, criterios compartidos y evidencia para sostener decisiones.
+                            </p>
+                        </SectionHead>
+                    </Reveal>
+                    <Reveal className="self-end border-l-2 border-[#bd6f3c] pl-6">
+                        <p className={labelMuted}>Idea central</p>
+                        <p className="crc-serif mt-3 text-[1.5rem] font-medium leading-[1.3] text-[#171713]">
+                            El estándar ya no es tener protocolos: es demostrar que la institución supo actuar.
+                        </p>
+                    </Reveal>
                 </div>
             </section>
+
+            {/* Sistema */}
+            <section id="sistema" aria-labelledby="sistema-title" className="scroll-mt-24 border-t border-[#d8cfc0] bg-[#f8f5ee]">
+                <div className={`${container} py-16 sm:py-24`}>
+                    <Reveal>
+                        <SectionHead eyebrow="Sistema de trabajo" title="No son módulos sueltos. Es una misma gobernanza para responder mejor." id="sistema-title" />
+                    </Reveal>
+                    <ol className="mt-12 grid border-y border-[#d8cfc0] sm:grid-cols-2 lg:grid-cols-4">
+                        {system.map((item, index) => (
+                            <li key={item.title} className="border-b border-[#d8cfc0] py-8 last:border-b-0 sm:pr-6 lg:border-b-0 lg:border-l lg:px-6 lg:first:border-l-0 lg:first:pl-0">
+                                <Reveal delay={index * 0.05}>
+                                    <p className="text-[0.8125rem] font-semibold tabular-nums text-[#9f5528]">{String(index + 1).padStart(2, "0")}</p>
+                                    <h3 className="crc-serif mt-2 text-[1.35rem] font-medium leading-[1.2] text-[#171713]">{item.title}</h3>
+                                    <p className="mt-3 text-[1rem] leading-[1.7] text-[#55574f]">{item.text}</p>
+                                </Reveal>
+                            </li>
+                        ))}
+                    </ol>
+                </div>
+            </section>
+
+            {/* Preguntas críticas */}
+            <section aria-labelledby="preguntas-title" className="bg-[#15120e] text-[#fbf7ee]">
+                <div className={`${container} grid gap-10 py-16 sm:py-24 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-16`}>
+                    <Reveal>
+                        <SectionHead
+                            eyebrow="Preguntas críticas"
+                            title="El servicio empieza donde la respuesta habitual se vuelve insuficiente."
+                            id="preguntas-title"
+                            dark
+                        />
+                    </Reveal>
+                    <Reveal>
+                        <ul className="border-t border-white/15">
+                            {questions.map((question) => (
+                                <li key={question} className="crc-serif border-b border-white/15 py-5 text-[1.25rem] leading-[1.35] text-[#fbf7ee]">
+                                    {question}
+                                </li>
+                            ))}
+                        </ul>
+                    </Reveal>
+                </div>
+            </section>
+
+            {/* Enfoque */}
+            <section aria-labelledby="enfoque-title" className="bg-[#fffdf8]">
+                <div className={`${container} grid gap-10 py-16 sm:py-24 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16`}>
+                    <Reveal>
+                        <SectionHead eyebrow="Enfoque de intervención" title="Del diagnóstico al aprendizaje institucional." id="enfoque-title" />
+                    </Reveal>
+                    <ol className="border-t border-[#d8cfc0]">
+                        {method.map((step, index) => (
+                            <li key={step.title} className="grid grid-cols-[3rem_minmax(0,1fr)] gap-4 border-b border-[#d8cfc0] py-6">
+                                <span className="text-[0.9375rem] font-semibold tabular-nums text-[#9f5528]">{String(index + 1).padStart(2, "0")}</span>
+                                <Reveal delay={index * 0.05}>
+                                    <h3 className="crc-serif text-[1.35rem] font-medium leading-[1.2] text-[#171713]">{step.title}</h3>
+                                    <p className="mt-2 text-[1rem] leading-[1.7] text-[#55574f]">{step.text}</p>
+                                </Reveal>
+                            </li>
+                        ))}
+                    </ol>
+                </div>
+            </section>
+
+            {/* Evidencia pública */}
+            <section aria-labelledby="evidencia-title" className="border-t border-[#d8cfc0] bg-[#f8f5ee]">
+                <div className={`${container} grid gap-10 py-16 sm:py-24 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16`}>
+                    <Reveal>
+                        <SectionHead eyebrow="Evidencia pública" title="La exigencia de trazabilidad ya aparece en fallos y prensa." id="evidencia-title" />
+                        <Link href="/servicios/compliance-escolar#evidencia" className={`${textLink} mt-6`}>
+                            Ver más fallos recientes
+                            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                        </Link>
+                    </Reveal>
+                    <Reveal>
+                        <ul className="border-t border-[#d8cfc0]">
+                            {evidence.map((item) => (
+                                <li key={item.title} className="border-b border-[#d8cfc0]">
+                                    <a
+                                        href={item.href}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="group grid gap-2 py-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#171713] sm:grid-cols-[9.5rem_minmax(0,1fr)] sm:gap-6"
+                                    >
+                                        <span className="crc-serif text-[1.5rem] font-medium leading-none tabular-nums text-[#9f5528]">{item.stat}</span>
+                                        <span>
+                                            <span className="crc-serif block text-[1.2rem] font-medium leading-[1.3] text-[#171713] transition-colors group-hover:text-[#9f5528]">
+                                                {item.title}
+                                            </span>
+                                            <span className="mt-2 inline-flex items-center gap-1 text-[0.875rem] font-semibold text-[#6f675d]">
+                                                Fuente: {item.source}
+                                                <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+                                            </span>
+                                        </span>
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                    </Reveal>
+                </div>
+            </section>
+
+            <EngagementList
+                engagements={[BIENESTAR_CONVIVENCIA]}
+                className="border-t border-[#d8cfc0] bg-[#fffdf8]"
+                eyebrow="Compromiso"
+                title="Un compromiso para que el colegio responda sin improvisar"
+                intro={
+                    <p>
+                        Si el foco es el cumplimiento de la Ley 21.809 (protocolos, registros y fiscalización), conviene partir por el{" "}
+                        <Link href="/servicios/compliance-escolar#compromisos" className="font-semibold text-[#9f5528] underline decoration-[#d8cfc0] underline-offset-4 hover:text-[#171713]">
+                            diagnóstico de cumplimiento
+                        </Link>
+                        .
+                    </p>
+                }
+            />
+
+            {/* Resultado esperado */}
+            <section aria-labelledby="resultado-title" className="border-t border-[#d8cfc0] bg-[#f8f5ee]">
+                <div className={`${container} grid gap-10 py-16 sm:py-24 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16`}>
+                    <Reveal>
+                        <SectionHead eyebrow="Resultado esperado" title="Capacidad institucional para responder sin improvisar." id="resultado-title" />
+                    </Reveal>
+                    <Reveal>
+                        <ul className="border-t border-[#d8cfc0]">
+                            {outcomes.map((item) => (
+                                <li key={item} className="border-b border-[#d8cfc0] py-4 text-[1rem] leading-[1.6] text-[#171713]">
+                                    {item}
+                                </li>
+                            ))}
+                        </ul>
+                    </Reveal>
+                </div>
+            </section>
+
+            <PersonInCharge
+                person={HUGO}
+                className="bg-[#fffdf8]"
+                cta={{ href: "/instituciones?servicio=bienestar-escolar#agenda", label: "Agenda 20 minutos con Hugo" }}
+            >
+                <p>
+                    Hugo coordina el trabajo con cada colegio: diagnóstico, propuesta, convenio y medición de lo acordado. La parte
+                    clínica del acompañamiento (salud mental, riesgo suicida y supervisión de casos) la dirige Rocío Solar, Directora
+                    Clínica del CRC.
+                </p>
+            </PersonInCharge>
         </main>
     );
 }

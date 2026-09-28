@@ -30,33 +30,30 @@ export default async function OpenGraphImage() {
         <div style={{ display: "flex", flexDirection: "column", maxWidth: 660 }}>
           <span
             style={{
-              color: "#d3976d",
+              color: "#e4935d",
               fontFamily: "sans-serif",
-              fontSize: 22,
-              fontWeight: 700,
-              letterSpacing: 4,
-              textTransform: "uppercase",
+              fontSize: 26,
+              fontWeight: 600,
             }}
           >
             Seminario en vivo · Cohorte 1
           </span>
-          <span style={{ marginTop: 22, fontSize: 76, fontWeight: 700, lineHeight: 1.02 }}>
+          <span style={{ marginTop: 22, fontSize: 72, fontWeight: 600, lineHeight: 1.08, letterSpacing: -0.7 }}>
             Desprotección de la infancia
           </span>
-          <div style={{ display: "flex", marginTop: 28, width: 70, height: 2, background: "#bd6f3c" }} />
           <span
-            style={{ marginTop: 28, color: "#d8d0c4", fontFamily: "sans-serif", fontSize: 28, lineHeight: 1.35 }}
+            style={{ marginTop: 30, color: "#ede7dc", fontFamily: "sans-serif", fontSize: 28, lineHeight: 1.4 }}
           >
             Ocho jueves con Juan Carlos Rauld, autor del libro. Desde el 15 de octubre, 19:00 a 21:00.
           </span>
           <span
             style={{
-              marginTop: 30,
-              color: "#a9a294",
+              marginTop: 34,
+              color: "#ede7dc",
+              opacity: 0.7,
               fontFamily: "sans-serif",
-              fontSize: 20,
-              letterSpacing: 3,
-              textTransform: "uppercase",
+              fontSize: 22,
+              fontWeight: 600,
             }}
           >
             Centro de Reflexiones Críticas

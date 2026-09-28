@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { usePathname } from "next/navigation";
+import { AlertCircle } from "lucide-react";
 import { getAttribution } from "@/lib/attribution";
 
 export const SEMINARIO_SOURCE = "seminario-desproteccion-infancia";
@@ -38,21 +39,22 @@ export function SeminarioPostulacionForm({ variant = "dark" }: { variant?: "dark
       <div
         className={
           dark
-            ? "rounded-[5px] border border-[#bd6f3c]/40 bg-[#bd6f3c]/10 px-6 py-7"
-            : "rounded-[5px] border border-[#bd6f3c]/40 bg-[#bd6f3c]/8 px-6 py-7"
+            ? "rounded-[6px] border border-[#e4935d]/50 px-6 py-7"
+            : "rounded-[6px] border border-[#bd6f3c] bg-[#fffdf8] px-6 py-7"
         }
+        role="status"
       >
-        <p className="text-[0.6rem] font-extrabold uppercase tracking-[0.2em] text-[#bd6f3c]">
+        <p className={`text-[0.8125rem] font-semibold ${dark ? "text-[#e4935d]" : "text-[#9f5528]"}`}>
           Postulación recibida
         </p>
         <p
-          className={`crc-serif mt-3 text-[1.35rem] font-medium leading-[1.25] ${
+          className={`crc-serif mt-2 text-[1.35rem] font-medium leading-[1.25] ${
             dark ? "text-[#fbf7ee]" : "text-[#171713]"
           }`}
         >
           Gracias. Ya la tenemos.
         </p>
-        <p className={`mt-3 text-[0.88rem] leading-[1.75] ${dark ? "text-[#ede7dc]/75" : "text-[#55574f]"}`}>
+        <p className={`mt-3 text-[0.9375rem] leading-[1.7] ${dark ? "text-[#ede7dc]/80" : "text-[#55574f]"}`}>
           Te vamos a escribir dentro de las próximas 24 horas hábiles para coordinar una conversación breve de 15
           minutos y confirmar tu cupo. Revisa también tu carpeta de spam.
         </p>
@@ -62,7 +64,7 @@ export function SeminarioPostulacionForm({ variant = "dark" }: { variant?: "dark
 
   return (
     <form
-      className="space-y-4"
+      className="space-y-5"
       onSubmit={async (event) => {
         event.preventDefault();
         if (state === "submitting") return;
@@ -124,7 +126,7 @@ export function SeminarioPostulacionForm({ variant = "dark" }: { variant?: "dark
       }}
     >
       <Field id="sem-name" label="Nombre completo" name="name" type="text" placeholder="Tu nombre" dark={dark} />
-      <Field id="sem-email" label="Email" name="email" type="email" placeholder="nombre@correo.cl" dark={dark} />
+      <Field id="sem-email" label="Correo electrónico" name="email" type="email" placeholder="nombre@correo.cl" dark={dark} />
       <Field id="sem-phone" label="WhatsApp" name="phone" type="tel" placeholder="+56 9 1234 5678" dark={dark} />
       <Field
         id="sem-institucion"
@@ -144,7 +146,7 @@ export function SeminarioPostulacionForm({ variant = "dark" }: { variant?: "dark
             Selecciona una opción
           </option>
           {POBLACIONES.map((p) => (
-            <option key={p} value={p} className="text-slate-900">
+            <option key={p} value={p} className="text-[#171713]">
               {p}
             </option>
           ))}
@@ -161,62 +163,69 @@ export function SeminarioPostulacionForm({ variant = "dark" }: { variant?: "dark
           rows={3}
           required
           placeholder="Un par de líneas bastan."
-          className={`${inputClass(dark)} h-auto py-3 leading-[1.65]`}
+          className={`${inputClass(dark)} h-auto py-3 leading-[1.6]`}
         />
       </div>
 
       <label
-        className={`flex items-start gap-2.5 text-[0.78rem] leading-[1.6] ${
-          dark ? "text-[#ede7dc]/70" : "text-[#55574f]"
+        className={`flex cursor-pointer items-start gap-3 text-[0.9375rem] leading-[1.55] ${
+          dark ? "text-[#ede7dc]/80" : "text-[#55574f]"
         }`}
       >
         <input
           type="checkbox"
           name="convenio"
-          className="mt-0.5 h-3.5 w-3.5 shrink-0 rounded-[2px] accent-[#bd6f3c]"
+          className="mt-1 h-4 w-4 shrink-0 accent-[#bd6f3c] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#bd6f3c]"
         />
         <span>Postulo junto a más personas de mi institución (3 o más, 15% de descuento c/u).</span>
       </label>
 
       {state === "error" && errorText ? (
         <div
-          className={
+          role="alert"
+          className={`flex items-start gap-3 rounded-[6px] border px-4 py-3 text-[0.9375rem] leading-[1.55] ${
             dark
-              ? "rounded-[4px] border border-[#c0553d]/40 bg-[#c0553d]/12 px-4 py-3 text-[0.82rem] leading-[1.6] text-[#f0c9bd]"
-              : "rounded-[4px] border border-[#c0553d]/35 bg-[#c0553d]/8 px-4 py-3 text-[0.82rem] leading-[1.6] text-[#9f3a24]"
-          }
+              ? "border-[#e4935d] text-[#fbf7ee]"
+              : "border-[#9f5528] bg-[#fffdf8] text-[#171713]"
+          }`}
         >
-          {errorText}
+          <AlertCircle
+            aria-hidden="true"
+            className={`mt-0.5 h-4 w-4 shrink-0 ${dark ? "text-[#e4935d]" : "text-[#9f5528]"}`}
+          />
+          <span>
+            <span className="font-semibold">No se envió la postulación.</span> {errorText}
+          </span>
         </div>
       ) : null}
 
       <button
         type="submit"
         disabled={state === "submitting"}
-        className="mt-2 inline-flex h-11 w-full items-center justify-center rounded-[5px] bg-[#bd6f3c] text-[0.66rem] font-extrabold uppercase tracking-[0.13em] text-white transition duration-200 hover:bg-[#a85f31] disabled:opacity-55"
+        className="inline-flex h-12 w-full items-center justify-center rounded-[6px] bg-[#bd6f3c] px-5 text-[0.9375rem] font-semibold text-white transition-colors hover:bg-[#a85f31] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#bd6f3c] disabled:cursor-wait disabled:opacity-60"
       >
         {state === "submitting" ? "Enviando postulación…" : "Postular al seminario"}
       </button>
 
-      <p className={`text-[0.72rem] leading-[1.6] ${dark ? "text-[#ede7dc]/50" : "text-[#8a8276]"}`}>
+      <p className={`text-[0.875rem] leading-[1.6] ${dark ? "text-[#ede7dc]/70" : "text-[#6f675d]"}`}>
         Postular no compromete pago. Revisamos cada postulación y te contactamos para confirmar el cupo.
       </p>
     </form>
   );
 }
 
-// Versalitas para las etiquetas y campos de esquina casi recta: es la misma
-// familia de formas que usan los botones y las tarjetas del resto del sitio.
+// Etiquetas en tipo oración sobre el campo; borde de la paleta y foco cobre
+// visible. `user-invalid` marca el campo solo después de que la persona lo tocó.
 function labelClass(dark: boolean) {
-  return `mb-2 block text-[0.6rem] font-extrabold uppercase tracking-[0.18em] ${
-    dark ? "text-[#bd6f3c]" : "text-[#bd6f3c]"
-  }`;
+  return `mb-1.5 block text-[0.875rem] font-semibold ${dark ? "text-[#fbf7ee]" : "text-[#171713]"}`;
 }
 
 function inputClass(dark: boolean) {
+  const base =
+    "block h-12 w-full rounded-[6px] border px-3.5 text-[1rem] outline-none transition-colors focus:border-[#bd6f3c] focus:ring-1 focus:ring-[#bd6f3c] user-invalid:border-[#9f5528]";
   return dark
-    ? "block h-11 w-full rounded-[4px] border border-[#f1ede4]/18 bg-[#f1ede4]/[0.05] px-3.5 text-[0.88rem] text-[#fbf7ee] outline-none transition placeholder:text-[#ede7dc]/35 focus:border-[#bd6f3c] focus:bg-[#f1ede4]/[0.08]"
-    : "block h-11 w-full rounded-[4px] border border-[rgba(101,91,74,0.28)] bg-[#fffdf8] px-3.5 text-[0.88rem] text-[#171713] outline-none transition placeholder:text-[#a9a294] focus:border-[#bd6f3c]";
+    ? `${base} border-[#f1ede4]/25 bg-transparent text-[#fbf7ee] placeholder:text-[#ede7dc]/45`
+    : `${base} border-[#ded5c7] bg-[#fffdf8] text-[#171713] placeholder:text-[#6f675d]/70`;
 }
 
 function Field({

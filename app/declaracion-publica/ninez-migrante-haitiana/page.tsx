@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, FileText, Scale, ShieldAlert } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { getSiteUrl } from "@/lib/site";
 
 const siteUrl = getSiteUrl();
@@ -29,116 +29,123 @@ const axes = [
   "Responsabilidad ética, jurídica y política frente a todas las infancias.",
 ];
 
+const FOCO = "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#bd6f3c]";
+const ETIQUETA = "text-[0.8125rem] font-semibold text-[#9f5528]";
+const CONTENEDOR = "mx-auto max-w-[1240px] px-4 sm:px-8 lg:px-12";
+
 export default function DeclaracionNinezMigranteHaitianaPage() {
   return (
-    <main className="bg-[#fffdf8] text-[#171713]">
-      <section className="relative overflow-hidden border-b border-[#2a2c27] bg-[#171713]">
-        <div className="absolute inset-0 opacity-15">
-          <img src="/images/infancia_olvidada_adopcion.png" alt="" className="h-full w-full object-cover mix-blend-luminosity" />
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-r from-[#171713] via-[#171713]/94 to-[#171713]/65" />
-        <div className="relative z-10 mx-auto grid max-w-7xl gap-12 px-4 py-14 sm:px-6 sm:py-20 lg:grid-cols-12 lg:px-8">
-          <div className="lg:col-span-7">
-            <Link href="/" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.14em] text-[#b0a898] transition hover:text-white">
-              <ArrowLeft className="h-3.5 w-3.5" />
+    <div className="bg-[#f8f5ee] text-[#171713]">
+      <section className="border-b border-[#d8cfc0]">
+        <div className={`${CONTENEDOR} grid gap-10 py-10 sm:py-14 lg:grid-cols-[minmax(0,1fr)_340px] lg:items-center lg:gap-16 lg:py-20`}>
+          <div className="max-w-[680px]">
+            <Link
+              href="/"
+              className={`inline-flex items-center gap-2 rounded-[6px] text-[0.9375rem] font-semibold text-[#55574f] transition-colors hover:text-[#9f5528] ${FOCO}`}
+            >
+              <ArrowLeft aria-hidden="true" className="h-4 w-4" />
               Volver al inicio
             </Link>
-            <div className="mt-10">
-              <span className="inline-flex items-center gap-2 rounded-[5px] border border-white/10 bg-white/5 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.2em] text-[#d3976d]">
-                <ShieldAlert className="h-3.5 w-3.5" />
-                Declaración pública
-              </span>
-              <h1 className="mt-6 max-w-4xl text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl font-serif">
-                Los derechos de la niñez no son negociables.
-              </h1>
-              <p className="mt-6 max-w-3xl text-lg leading-8 text-[#d8d0c4]">
-                Juan Carlos Rauld, director del Centro de Reflexiones Críticas, se pronuncia ante la vulneración de derechos que afecta a niños, niñas y adolescentes en Chile, con especial preocupación por la situación de la niñez migrante haitiana.
-              </p>
-            </div>
+            <p className={`mt-8 ${ETIQUETA}`}>Declaración pública · Centro de Reflexiones Críticas</p>
+            <h1 className="crc-serif mt-4 text-balance text-[clamp(2rem,3.2vw,3.25rem)] font-semibold leading-[1.1] tracking-[-0.01em]">
+              Los derechos de la niñez no son negociables.
+            </h1>
+            <p className="mt-6 max-w-[60ch] text-[1.0625rem] leading-[1.7] text-[#55574f]">
+              Juan Carlos Rauld, director del Centro de Reflexiones Críticas, se pronuncia ante la vulneración de
+              derechos que afecta a niños, niñas y adolescentes en Chile, con especial preocupación por la situación
+              de la niñez migrante haitiana.
+            </p>
           </div>
 
-          <div className="lg:col-span-5">
-            <div className="mx-auto max-w-[360px] overflow-hidden rounded-[8px] border border-white/15 bg-[#0f100d] shadow-2xl">
+          <figure className="mx-auto w-full max-w-[340px]">
+            <div className="overflow-hidden rounded-[6px] border border-[#d8cfc0] bg-[#15120e]">
               <video
                 controls
                 preload="metadata"
                 playsInline
-                className="aspect-[9/16] w-full bg-black object-cover"
+                className="aspect-[9/16] w-full bg-[#15120e] object-cover"
                 src="/videos/declaraciones/declaracion-ninez-migrante-haitiana.mp4"
               />
             </div>
-          </div>
+            <figcaption className="mt-3 text-[0.8125rem] text-[#6f675d]">
+              Declaración en video de Juan Carlos Rauld.
+            </figcaption>
+          </figure>
         </div>
       </section>
 
-      <section className="border-b border-[#eee8dc] bg-[#fffdf8] py-14 sm:py-20">
-        <div className="mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-12 lg:px-8">
-          <aside className="lg:col-span-4">
-            <div className="sticky top-28 border-y border-[#ded5c7] py-6">
-              <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#bd6f3c]">Ejes de la declaración</p>
-              <div className="mt-6 space-y-5">
+      <section className="bg-[#fffdf8]">
+        <div className={`${CONTENEDOR} grid gap-10 py-14 sm:py-20 lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-16`}>
+          <aside>
+            <div className="border-t border-[#d8cfc0] pt-5 lg:sticky lg:top-28">
+              <h2 className="text-[1rem] font-semibold">Ejes de la declaración</h2>
+              <ol className="mt-4">
                 {axes.map((axis, index) => (
-                  <div key={axis} className="grid grid-cols-[36px_1fr] gap-4">
-                    <span className="flex h-9 w-9 items-center justify-center rounded-[5px] border border-[#dec0a8] bg-[#f8f5ee] text-sm font-bold text-[#9f5528]">
-                      0{index + 1}
-                    </span>
-                    <p className="text-sm leading-6 text-[#55574f]">{axis}</p>
-                  </div>
+                  <li
+                    key={axis}
+                    className="grid grid-cols-[28px_minmax(0,1fr)] gap-3 border-b border-[#eee8dc] py-3.5"
+                  >
+                    <span className="text-[0.9375rem] font-semibold tabular-nums text-[#9f5528]">{index + 1}.</span>
+                    <p className="text-[0.9375rem] leading-[1.6] text-[#55574f]">{axis}</p>
+                  </li>
                 ))}
-              </div>
+              </ol>
             </div>
           </aside>
 
-          <article className="lg:col-span-8">
-            <div className="mb-8 flex items-center gap-3 border-b border-[#ded5c7] pb-5">
-              <FileText className="h-5 w-5 text-[#bd6f3c]" />
-              <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#70695f]">Texto institucional</p>
-            </div>
+          <article className="max-w-[65ch]">
+            <p className={`border-b border-[#d8cfc0] pb-4 ${ETIQUETA}`}>Texto institucional</p>
 
-            <div className="max-w-3xl space-y-7 text-lg leading-9 text-[#3f423a]">
-              <p className="text-2xl font-bold leading-9 text-[#171713] font-serif">
-                La defensa de los derechos de la niñez no puede depender de coyunturas políticas, intereses electorales ni cálculos presupuestarios.
+            <div className="mt-8 space-y-6 text-[1.0625rem] leading-[1.7] text-[#171713]">
+              <p className="crc-serif text-[1.35rem] font-medium leading-[1.4] sm:text-[1.5rem]">
+                La defensa de los derechos de la niñez no puede depender de coyunturas políticas, intereses electorales
+                ni cálculos presupuestarios.
               </p>
               <p>
-                Desde el Centro de Reflexiones Críticas emitimos esta declaración pública para denunciar la vulneración de derechos que afecta a niños, niñas y adolescentes en Chile, con especial preocupación por la situación que enfrenta la niñez migrante haitiana.
+                Desde el Centro de Reflexiones Críticas emitimos esta declaración pública para denunciar la vulneración
+                de derechos que afecta a niños, niñas y adolescentes en Chile, con especial preocupación por la
+                situación que enfrenta la niñez migrante haitiana.
               </p>
               <p>
-                Sin embargo, este pronunciamiento trasciende un caso particular: interpela a un modelo institucional que continúa reproduciendo exclusiones, omisiones y prácticas que contradicen el marco de derechos vigente.
+                Sin embargo, este pronunciamiento trasciende un caso particular: interpela a un modelo institucional
+                que continúa reproduciendo exclusiones, omisiones y prácticas que contradicen el marco de derechos
+                vigente.
               </p>
               <p>
-                A cuatro años de la promulgación de la Ley 21.430, resulta indispensable preguntarnos cuánto hemos avanzado realmente en garantizar el derecho a la protección, la vivienda, la salud mental, la participación y el acceso efectivo a la justicia para todas las infancias.
+                A cuatro años de la promulgación de la Ley 21.430, resulta indispensable preguntarnos cuánto hemos
+                avanzado realmente en garantizar el derecho a la protección, la vivienda, la salud mental, la
+                participación y el acceso efectivo a la justicia para todas las infancias.
               </p>
               <p>
-                Ningún niño, niña o adolescente debe ser invisibilizado por su origen, condición social, nacionalidad o situación administrativa.
+                Ningún niño, niña o adolescente debe ser invisibilizado por su origen, condición social, nacionalidad o
+                situación administrativa.
               </p>
-              <p className="border-l-2 border-[#bd6f3c] pl-6 text-2xl font-bold leading-9 text-[#171713] font-serif">
-                Los derechos de la niñez no son negociables. Son una obligación ética, jurídica y política para toda la sociedad.
+              <p className="crc-serif border-l-2 border-[#bd6f3c] pl-5 text-[1.35rem] font-medium leading-[1.4] sm:text-[1.5rem]">
+                Los derechos de la niñez no son negociables. Son una obligación ética, jurídica y política para toda la
+                sociedad.
               </p>
             </div>
           </article>
         </div>
       </section>
 
-      <section className="bg-[#171713] px-4 py-12 sm:px-6 lg:px-8">
-        <div className="mx-auto flex max-w-7xl flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+      <section className="bg-[#15120e]">
+        <div className={`${CONTENEDOR} flex flex-col gap-6 py-12 sm:flex-row sm:items-center sm:justify-between lg:py-16`}>
           <div>
-            <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[#d3976d]">
-              <Scale className="h-4 w-4" />
-              Posición CRC
-            </span>
-            <h2 className="mt-3 text-2xl font-bold leading-tight text-white font-serif sm:text-3xl">
+            <p className="text-[0.8125rem] font-semibold text-[#e4935d]">Posición CRC</p>
+            <h2 className="crc-serif mt-2 text-balance text-[clamp(1.6rem,2.3vw,2.4rem)] font-medium leading-[1.1] tracking-[-0.01em] text-[#fbf7ee]">
               Infancia, derechos y responsabilidad institucional.
             </h2>
           </div>
           <Link
             href="/conocenos#equipo"
-            className="inline-flex shrink-0 items-center justify-center gap-2 rounded-[5px] bg-[#fffdf8] px-5 py-3 text-sm font-bold text-[#171713] transition hover:bg-[#eee8dc]"
+            className="inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-[6px] bg-[#bd6f3c] px-5 text-[0.9375rem] font-semibold text-white transition-colors hover:bg-[#a85f31] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#e4935d]"
           >
             Conocer al equipo
-            <ArrowRight className="h-4 w-4" />
+            <ArrowRight aria-hidden="true" className="h-4 w-4" />
           </Link>
         </div>
       </section>
-    </main>
+    </div>
   );
 }

@@ -97,8 +97,8 @@
     "subtitle": "\"La niñez pobre siempre ha sido, tanto por izquierdas como por derechas, administrada bajo la lógica del encierro\""
   },
   "homeTestimonials": {
-    "title": "Opiniones",
-    "subtitle": "Lo que cambia cuando el acompañamiento es claro y humano."
+    "title": "Lo que dicen quienes han trabajado con nosotros",
+    "subtitle": "Equipos de programas, municipios, fundaciones, docentes y personas que han consultado en el CRC."
   },
   "homeFounders": {
     "title": "Tres socios, tres trabajos",
@@ -276,7 +276,7 @@
           },
           {
             "id": "lnk-compliance",
-            "label": "Compliance Escolar",
+            "label": "Compliance escolar",
             "href": "/servicios/compliance-escolar",
             "visible": true
           },
@@ -294,13 +294,13 @@
           },
           {
             "id": "lnk-acompanamiento-familiar",
-            "label": "Acompañamiento Familiar",
+            "label": "Acompañamiento familiar",
             "href": "/servicios/acompanamiento-familiar",
             "visible": true
           },
           {
             "id": "lnk-pc",
-            "label": "Pensamiento Crítico",
+            "label": "Ideas",
             "href": "/pensamiento-critico",
             "visible": true
           },
@@ -312,13 +312,13 @@
           },
           {
             "id": "lnk-bienestar-escolar",
-            "label": "Bienestar Escolar",
+            "label": "Bienestar escolar",
             "href": "/servicios/bienestar-escolar",
             "visible": true
           },
           {
             "id": "lnk-clinica",
-            "label": "Atención Clínica",
+            "label": "Atención clínica",
             "href": "/servicios/clinica",
             "visible": true
           },
@@ -343,13 +343,13 @@
         "links": [
           {
             "id": "lnk-conocenos",
-            "label": "Quiénes Somos",
+            "label": "Equipo",
             "href": "/conocenos",
             "visible": true
           },
           {
             "id": "lnk-envia",
-            "label": "Envía tu Texto",
+            "label": "Envía tu texto",
             "href": "/envia-tu-texto",
             "visible": true
           },

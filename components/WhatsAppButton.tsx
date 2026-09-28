@@ -37,12 +37,12 @@ function sectionMessage(pathname: string) {
 }
 
 const SERVICIOS = [
-    { id: "acompanamiento-familiar", label: "Acompañamiento familiar", emoji: "🤝" },
-    { id: "clinica", label: "Atención clínica", emoji: "🩺" },
-    { id: "consultoria", label: "Consultoría institucional", emoji: "🏛️" },
-    { id: "compliance", label: "Compliance escolar", emoji: "⚖️" },
-    { id: "bienestar", label: "Bienestar escolar", emoji: "🏫" },
-    { id: "otra", label: "Otra consulta", emoji: "💬" },
+    { id: "acompanamiento-familiar", label: "Acompañamiento familiar" },
+    { id: "clinica", label: "Atención clínica" },
+    { id: "consultoria", label: "Consultoría institucional" },
+    { id: "compliance", label: "Compliance escolar" },
+    { id: "bienestar", label: "Bienestar escolar" },
+    { id: "otra", label: "Otra consulta" },
 ];
 
 type Step = "idle" | "servicios" | "mensaje";
@@ -204,7 +204,7 @@ export function WhatsAppButton() {
                 rel="noopener noreferrer"
                 aria-label="Escribir al CRC por WhatsApp"
                 className={
-                    "fixed bottom-[calc(env(safe-area-inset-bottom)+0.75rem)] right-[calc(env(safe-area-inset-right)+0.75rem)] z-[120] flex touch-manipulation items-center justify-center rounded-full bg-[#25D366] shadow-lg transition hover:scale-105 hover:shadow-xl sm:bottom-6 sm:right-6 sm:h-14 sm:w-14 " +
+                    "fixed bottom-[calc(env(safe-area-inset-bottom)+0.75rem)] right-[calc(env(safe-area-inset-right)+0.75rem)] z-[120] flex touch-manipulation items-center justify-center rounded-full bg-[#25D366] shadow-[0_2px_8px_rgba(0,0,0,0.18)] transition-transform hover:-translate-y-px sm:bottom-6 sm:right-6 sm:h-14 sm:w-14 " +
                     (compactOnMobile ? "h-11 w-11 [&>svg]:h-5 [&>svg]:w-5 sm:[&>svg]:h-6 sm:[&>svg]:w-6" : "h-12 w-12")
                 }
             >
@@ -217,7 +217,7 @@ export function WhatsAppButton() {
         <>
         <div ref={criticalPanelRef} className="pointer-events-none fixed bottom-[calc(env(safe-area-inset-bottom)+1.25rem)] left-4 z-[120] flex max-w-[calc(100vw-2rem)] flex-col items-start gap-3 sm:bottom-6 sm:left-6">
             <div
-                className="pointer-events-auto overflow-y-auto overflow-x-hidden rounded-[12px] shadow-2xl transition-all duration-300"
+                className="pointer-events-auto overflow-y-auto overflow-x-hidden rounded-[6px] shadow-[0_8px_24px_rgba(31,27,22,0.16)] transition-all duration-200"
                 style={{
                     width: "min(340px, calc(100vw - 2rem))",
                     maxHeight: criticalOpen ? "calc(100vh - 132px)" : "0px",
@@ -229,19 +229,19 @@ export function WhatsAppButton() {
                     transform: criticalOpen ? "scale(1)" : "scale(0.95)",
                 }}
             >
-                <div className="flex items-start justify-between border-b border-[#2d3029] bg-[#171713] px-5 py-4">
+                <div className="flex items-start justify-between border-b border-[#171713] bg-[#171713] px-5 py-4">
                     <div className="flex gap-3">
-                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[6px] border border-[#d3976d]/40 bg-[#d3976d]/12 text-[#d3976d]">
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[6px] border border-[#e4935d]/40 text-[#e4935d]">
                             <ShieldAlert className="h-5 w-5" />
                         </div>
                         <div>
-                            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#d3976d]">Canal crítico CRC</p>
-                            <h2 className="mt-1 text-lg font-bold leading-tight text-white font-serif">Orientación inmediata</h2>
+                            <p className="text-[0.8125rem] font-semibold text-[#e4935d]">Canal crítico CRC</p>
+                            <h2 className="crc-serif mt-0.5 text-[1.25rem] font-semibold leading-tight text-white">Orientación inmediata</h2>
                         </div>
                     </div>
                     <button
                         onClick={handleClose}
-                        className="flex h-8 w-8 items-center justify-center rounded-[5px] text-[#b0a898] transition hover:bg-white/10 hover:text-white"
+                        className="flex h-8 w-8 items-center justify-center rounded-[6px] text-[#b0a898] transition-colors hover:bg-white/10 hover:text-white"
                         aria-label="Cerrar canal crítico"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
@@ -249,19 +249,19 @@ export function WhatsAppButton() {
                 </div>
 
                 <div className="px-5 py-5">
-                    <p className="text-sm leading-6 text-[#3f423a]">
+                    <p className="text-[0.9375rem] leading-6 text-[#55574f]">
                         Consulta prioritaria para riesgo suicida, desregulación grave o episodios críticos con niños, niñas, adolescentes, familias o comunidades educativas.
                     </p>
                     <a
                         href="tel:*4141"
-                        className="mt-4 flex items-start gap-2.5 rounded-[6px] border border-[#d9a066]/50 bg-[#f6ead9] px-3 py-2.5 text-sm leading-5 text-[#8a4f20]"
+                        className="mt-4 flex items-start gap-2.5 rounded-[6px] border border-[#d8cfc0] bg-[#f8f5ee] px-3 py-2.5 text-sm leading-5 text-[#9f5528]"
                     >
                         <Phone className="mt-0.5 h-4 w-4 shrink-0" />
                         <span>
                             <strong>Si hay riesgo inmediato, llama gratis al *4141.</strong> Línea de prevención del suicidio de Salud Responde, 24 horas.
                         </span>
                     </a>
-                    <div className="mt-4 space-y-2.5 border-y border-[#ded5c7] py-4 text-sm leading-5 text-[#70695f]">
+                    <div className="mt-4 space-y-2.5 border-y border-[#ded5c7] py-4 text-sm leading-5 text-[#6f675d]">
                         <p><strong className="text-[#171713]">Modalidad:</strong> llamada, videollamada o asistencia presencial si se requiere.</p>
                         <p><strong className="text-[#171713]">Duración:</strong> 40 a 60 minutos.</p>
                         <p><strong className="text-[#171713]">Valor:</strong> 2 UF {ufAmount ? `(${formattedUfAmount})` : "(valor UF del día)"}.</p>
@@ -271,17 +271,17 @@ export function WhatsAppButton() {
                         type="button"
                         onClick={handleMercadoPagoPayment}
                         disabled={paymentLoading}
-                        className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-[6px] bg-[#171713] px-4 py-3 text-sm font-bold text-white shadow-[0_12px_24px_rgba(23,23,19,0.18)] transition hover:bg-[#2d3029] disabled:cursor-not-allowed disabled:opacity-70"
+                        className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-[6px] bg-[#bd6f3c] px-4 py-3 text-[0.9375rem] font-semibold text-white transition-colors hover:bg-[#a85f31] disabled:cursor-not-allowed disabled:opacity-70"
                     >
                         <CreditCard className="h-4 w-4" />
                         {paymentLoading ? "Preparando pago..." : "Pagar online"}
                     </button>
-                    <p className="mt-2 text-xs leading-5 text-[#8a8276]">
+                    <p className="mt-2 text-[0.8125rem] leading-5 text-[#6f675d]">
                         El checkout se abre con el monto cargado automáticamente: <strong className="text-[#171713]">{formattedUfAmount}</strong>.
                         {ufFallback ? " Valor de respaldo si la UF diaria no está disponible." : ""}
                     </p>
                     {paymentError && (
-                        <div className="mt-3 rounded-[6px] border border-[#e2c4a8] bg-[#fff8ef] px-3 py-2 text-xs leading-5 text-[#7a4a23]">
+                        <div className="mt-3 rounded-[6px] border border-[#d8cfc0] bg-[#f8f5ee] px-3 py-2 text-[0.8125rem] leading-5 text-[#9f5528]">
                             {paymentError}
                         </div>
                     )}
@@ -303,18 +303,18 @@ export function WhatsAppButton() {
                     handleCriticalPress();
                 }}
                 aria-label="Abrir canal crítico CRC"
-                className="group pointer-events-auto inline-flex min-h-14 touch-manipulation items-center gap-3 rounded-[8px] border border-[#d3976d]/35 bg-[#171713] px-4 py-2.5 text-left text-[#fffdf8] shadow-[0_14px_30px_rgba(23,23,19,0.2)] transition hover:-translate-y-0.5 hover:border-[#d3976d]/70 hover:bg-[#22251f] sm:px-5"
+                className="group pointer-events-auto inline-flex min-h-12 touch-manipulation items-center gap-3 rounded-[6px] border border-[#e4935d]/35 bg-[#171713] px-4 py-2 text-left text-[#fffdf8] shadow-[0_2px_8px_rgba(0,0,0,0.18)] transition-colors hover:border-[#e4935d]/70 sm:px-5"
                 style={{ flexShrink: 0 }}
             >
-                <ShieldAlert className="h-4 w-4 text-[#d3976d]" />
+                <ShieldAlert className="h-4 w-4 text-[#e4935d]" />
                 <span className="flex flex-col leading-none">
-                    <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#d3976d]">Canal crítico CRC</span>
-                    <span className="mt-1.5 text-[12px] font-extrabold uppercase tracking-[0.12em] text-white sm:text-[13px]">¿Necesitas ayuda ahora?</span>
+                    <span className="text-[0.75rem] font-semibold text-[#e4935d]">Canal crítico CRC</span>
+                    <span className="mt-1 text-[0.9375rem] font-semibold text-white">¿Necesitas ayuda ahora?</span>
                 </span>
             </button>
             <a
                 href="tel:*4141"
-                className="pointer-events-auto -mt-1.5 inline-flex items-center gap-1.5 rounded-[6px] border border-[#d9a066]/50 bg-[#f6ead9] px-2.5 py-1 text-[11px] font-semibold text-[#8a4f20] shadow-sm"
+                className="pointer-events-auto -mt-1.5 inline-flex items-center gap-1.5 rounded-[6px] border border-[#d8cfc0] bg-[#fffdf8] px-2.5 py-1 text-[0.75rem] font-semibold text-[#9f5528]"
             >
                 <Phone className="h-3 w-3" />
                 Riesgo inmediato: *4141 gratis, 24 h
@@ -325,7 +325,7 @@ export function WhatsAppButton() {
 
             {/* Panel del chat */}
             <div
-                className="pointer-events-auto overflow-hidden rounded-[12px] shadow-2xl transition-all duration-300"
+                className="pointer-events-auto overflow-hidden rounded-[6px] shadow-[0_8px_24px_rgba(31,27,22,0.16)] transition-all duration-200"
                 style={{
                     width: "min(320px, calc(100vw - 2rem))",
                     maxHeight: open ? "520px" : "0px",
@@ -350,7 +350,7 @@ export function WhatsAppButton() {
                     </div>
                     <button
                         onClick={handleClose}
-                        className="flex h-7 w-7 items-center justify-center rounded-full text-[#b0a898] transition hover:bg-white/10 hover:text-white"
+                        className="flex h-7 w-7 items-center justify-center rounded-[6px] text-[#b0a898] transition-colors hover:bg-white/10 hover:text-white"
                         aria-label="Cerrar"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
@@ -359,9 +359,9 @@ export function WhatsAppButton() {
 
                 {/* Burbuja de bienvenida */}
                 <div className="px-4 pt-4 pb-2">
-                    <div className="inline-block rounded-[10px] rounded-tl-none bg-[#f0ece4] px-3.5 py-2.5 text-sm leading-relaxed text-[#171713]">
+                    <div className="inline-block rounded-[6px] rounded-tl-none bg-[#eee8dc] px-3.5 py-2.5 text-sm leading-relaxed text-[#171713]">
                         {step === "servicios" && (
-                            <>Hola 👋 ¿Sobre qué te podemos orientar?</>
+                            <>Hola. ¿Sobre qué te podemos orientar?</>
                         )}
                         {step === "mensaje" && (
                             <>Entendido — <strong>{servicio?.label}</strong>.<br />
@@ -377,9 +377,8 @@ export function WhatsAppButton() {
                             <button
                                 key={s.id}
                                 onClick={() => handleSelectServicio(s)}
-                                className="flex items-center gap-2.5 rounded-[8px] border border-[#ded5c7] bg-[#fffdf8] px-3.5 py-2.5 text-left text-sm font-semibold text-[#171713] transition hover:border-[#bd6f3c]/50 hover:bg-[#f8f5ee]"
+                                className="flex items-center gap-2.5 rounded-[6px] border border-[#ded5c7] bg-[#fffdf8] px-3.5 py-2.5 text-left text-[0.9375rem] font-semibold text-[#171713] transition-colors hover:border-[#bd6f3c]/50 hover:bg-[#f8f5ee]"
                             >
-                                <span className="text-base">{s.emoji}</span>
                                 {s.label}
                             </button>
                         ))}
@@ -391,7 +390,7 @@ export function WhatsAppButton() {
                     <div className="flex flex-col gap-3 px-4 pb-4 pt-2">
                         <button
                             onClick={() => setStep("servicios")}
-                            className="self-start text-[11px] font-bold uppercase tracking-wide text-[#bd6f3c] hover:underline"
+                            className="self-start text-[0.8125rem] font-semibold text-[#9f5528] hover:underline"
                         >
                             ← Cambiar servicio
                         </button>
@@ -404,11 +403,11 @@ export function WhatsAppButton() {
                             }}
                             placeholder="Ej: Tengo un hijo de 8 años y..."
                             rows={3}
-                            className="w-full resize-none rounded-[8px] border border-[#ded5c7] bg-white px-3 py-2.5 text-sm text-[#171713] placeholder:text-[#b0a898] focus:border-[#bd6f3c]/50 focus:outline-none"
+                            className="w-full resize-none rounded-[6px] border border-[#ded5c7] bg-[#fffdf8] px-3 py-2.5 text-[0.9375rem] text-[#171713] placeholder:text-[#8a8276] focus:border-[#bd6f3c]/60 focus:outline-none"
                         />
                         <button
                             onClick={handleEnviar}
-                            className="flex items-center justify-center gap-2 rounded-[8px] bg-[#25D366] px-4 py-2.5 text-sm font-bold text-white transition hover:bg-[#1ebc5a]"
+                            className="flex items-center justify-center gap-2 rounded-[6px] bg-[#25D366] px-4 py-2.5 text-[0.9375rem] font-semibold text-white transition-colors hover:bg-[#1ebc5a]"
                         >
                             <WaIcon />
                             Abrir en WhatsApp
@@ -423,7 +422,7 @@ export function WhatsAppButton() {
                     type="button"
                     onClick={open ? handleClose : handleOpen}
                     aria-label="Contactar por WhatsApp"
-                    className="pointer-events-auto flex h-14 w-14 touch-manipulation items-center justify-center rounded-full bg-[#25D366] shadow-lg transition hover:scale-110 hover:shadow-xl"
+                    className="pointer-events-auto flex h-14 w-14 touch-manipulation items-center justify-center rounded-full bg-[#25D366] shadow-[0_2px_8px_rgba(0,0,0,0.18)] transition-transform hover:-translate-y-px"
                     style={{ flexShrink: 0 }}
                 >
                     {open ? (

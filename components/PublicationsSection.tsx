@@ -1,210 +1,121 @@
-"use client";
-
-import { MotionDiv } from "@/components/ui/Motion";
-import { ArrowRight, BookOpen, ExternalLink, LibraryBig, PlayCircle } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
+import { ExternalLink } from "lucide-react";
 import { books } from "@/lib/books";
 
-
-
+/**
+ * Catálogo de libros con portadas reales (docs/design-system-crc.md §4).
+ * Sin animación ni decoración: portada, ficha y enlace a Editorial Hammurabi.
+ */
 export function PublicationsSection() {
     return (
         <>
-            <section className="bg-[#171713] text-white">
-                <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 sm:py-20 lg:grid-cols-[0.95fr_1.05fr] lg:items-end lg:px-8">
-                    <MotionDiv
-                        initial={{ opacity: 0, y: 18 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.55 }}
-                        className="max-w-3xl"
-                    >
-                        <div className="inline-flex items-center gap-2 rounded-[6px] border border-white/12 bg-white/[0.06] px-3 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-[#f1ded0]">
-                            <BookOpen className="h-3.5 w-3.5 text-[#d3976d]" />
-                            Publicaciones CRC
-                        </div>
-                        <h1 className="mt-6 font-serif text-4xl font-bold leading-[1.04] text-white sm:text-5xl lg:text-6xl">
-                            Libros, lanzamientos y debate público.
-                        </h1>
-                        <p className="mt-5 max-w-2xl text-base leading-8 text-[#d8d0c4]">
-                            Una selección editorial sobre infancia, salud mental, instituciones y políticas públicas,
-                            organizada para leer rápido y actuar sin rodeos.
-                        </p>
-                        <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                            <a
-                                href="#catalogo-editorial"
-                                className="group inline-flex items-center justify-center gap-2 rounded-[7px] bg-[#bd6f3c] px-5 py-3 text-sm font-bold text-white transition duration-200 hover:bg-[#9f5528]"
-                            >
-                                Ver catálogo
-                                <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
-                            </a>
-                            <Link
-                                href="/contacto"
-                                className="inline-flex items-center justify-center rounded-[7px] border border-white/14 bg-white/[0.06] px-5 py-3 text-sm font-bold text-white transition duration-200 hover:bg-white/[0.1]"
-                            >
-                                Agenda de atención
-                            </Link>
-                        </div>
-                    </MotionDiv>
-
-                    <MotionDiv
-                        initial={{ opacity: 0, y: 18 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.55, delay: 0.08 }}
-                        className="grid gap-3 sm:grid-cols-3 lg:justify-self-end"
-                    >
-                        {[
-                            ["3", "libros"],
-                            ["1", "lanzamiento"],
-                            ["8+", "medios"],
-                        ].map(([value, label]) => (
-                            <div key={label} className="min-w-[150px] rounded-[8px] border border-white/10 bg-white/[0.045] p-4">
-                                <p className="font-serif text-3xl font-bold text-white">{value}</p>
-                                <p className="mt-1 text-xs font-bold uppercase tracking-[0.16em] text-[#c9b9aa]">{label}</p>
-                            </div>
-                        ))}
-                    </MotionDiv>
+            <header className="border-b border-[#d8cfc0] bg-[#fffdf8]">
+                <div className="mx-auto max-w-6xl px-4 py-14 sm:px-8 sm:py-20">
+                    <p className="text-[0.8125rem] font-semibold text-[#9f5528]">Publicaciones del CRC</p>
+                    <h1 className="crc-serif mt-3 max-w-[22ch] text-balance text-[clamp(2rem,3.2vw,3.25rem)] font-semibold leading-[1.1] tracking-[-0.01em] text-[#171713]">
+                        Libros y presencia en medios
+                    </h1>
+                    <p className="mt-5 max-w-[62ch] text-[1.0625rem] leading-[1.7] text-[#55574f]">
+                        Los libros de Juan Carlos Rauld con Editorial Hammurabi sobre infancia, salud mental e
+                        instituciones, y sus entrevistas y apariciones en medios.
+                    </p>
+                    <nav aria-label="En esta página" className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-[0.9375rem] font-semibold">
+                        <a href="#catalogo-editorial" className="text-[#171713] underline decoration-[#bd6f3c] underline-offset-4 hover:text-[#9f5528]">
+                            Libros
+                        </a>
+                        <a href="#medios-publicaciones" className="text-[#171713] underline decoration-[#bd6f3c] underline-offset-4 hover:text-[#9f5528]">
+                            En los medios
+                        </a>
+                    </nav>
                 </div>
-            </section>
+            </header>
 
-            <section className="border-b border-[#eee8dc] bg-[#fffdf8]">
-                <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-4 sm:px-6 md:flex-row lg:px-8">
-                    {[
-                        ["Catálogo", "#catalogo-editorial", LibraryBig],
-                        ["Lanzamiento", "#catalogo-editorial", BookOpen],
-                        ["Medios", "#medios-publicaciones", PlayCircle],
-                    ].map(([label, href, Icon]) => {
-                        const NavIcon = Icon as typeof LibraryBig;
-                        return (
-                            <a
-                                key={label as string}
-                                href={href as string}
-                                className="group inline-flex items-center justify-between gap-4 rounded-[7px] border border-[#ded5c7] bg-[#fffdf8] px-4 py-3 text-sm font-bold text-[#171713] transition duration-200 hover:border-[#bd6f3c]/50 hover:bg-[#f8f5ee]"
-                            >
-                                <span className="inline-flex items-center gap-2">
-                                    <NavIcon className="h-4 w-4 text-[#bd6f3c]" />
-                                    {label as string}
-                                </span>
-                                <ArrowRight className="h-4 w-4 text-[#bd6f3c] transition-transform duration-200 group-hover:translate-x-0.5" />
-                            </a>
-                        );
-                    })}
-                </div>
-            </section>
+            <section id="catalogo-editorial" aria-labelledby="libros-titulo" className="scroll-mt-20 bg-[#f8f5ee] py-14 sm:py-20">
+                <div className="mx-auto max-w-6xl px-4 sm:px-8">
+                    <h2
+                        id="libros-titulo"
+                        className="crc-serif border-b border-[#d8cfc0] pb-4 text-[clamp(1.6rem,2.3vw,2.4rem)] font-semibold leading-[1.1] tracking-[-0.01em] text-[#171713]"
+                    >
+                        Libros
+                    </h2>
 
-            <section id="catalogo-editorial" className="bg-[#f8f5ee] py-12 sm:py-16">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="flex flex-col gap-4 border-b border-[#ded5c7] pb-6 md:flex-row md:items-end md:justify-between">
-                        <div>
-                            <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#bd6f3c]">
-                                Catálogo editorial
-                            </span>
-                            <h2 className="mt-3 font-serif text-3xl font-bold leading-tight text-[#171713] sm:text-4xl">
-                                Obras centrales
-                            </h2>
-                        </div>
-                        <p className="max-w-2xl text-sm leading-7 text-[#70695f]">
-                            Títulos publicados y piezas de lanzamiento. Menos vitrina ornamental, más información útil.
-                        </p>
-                    </div>
-
-                    <div className="mt-8 grid gap-5 lg:grid-cols-3">
-                        {books.map((book, index) => (
-                            <MotionDiv
-                                key={book.title}
-                                initial={{ opacity: 0, y: 18 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.5, delay: index * 0.08 }}
-                                className="flex h-full flex-col rounded-[8px] border border-[#ded5c7] bg-[#fffdf8] p-5 shadow-sm transition duration-200 hover:border-[#bd6f3c]/45 hover:shadow-[0_12px_26px_rgba(31,27,22,0.08)]"
-                            >
-                                <div className="rounded-[7px] bg-[#171713] p-3">
-                                    <div className="relative mx-auto aspect-[4/5] w-full max-w-[190px] overflow-hidden rounded-[6px] bg-[#0f0d0a]">
-                                        <Image
-                                            src={book.image}
-                                            alt={`Portada o afiche de ${book.title}`}
-                                            fill
-                                            sizes="220px"
-                                            className="object-contain"
-                                        />
-                                    </div>
-                                </div>
-
-                                <div className="mt-5 flex flex-wrap items-center gap-2">
-                                    <span className="rounded-[5px] bg-[#ecd8c7] px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-[#9f5528]">
-                                        {book.tag}
-                                    </span>
-                                    <span className="text-xs font-bold uppercase tracking-[0.14em] text-[#8a8175]">
-                                        {book.author} · {book.year}
-                                    </span>
-                                </div>
-                                <h3 className="mt-4 font-serif text-2xl font-bold leading-tight text-[#171713]">
-                                    {book.title}
-                                </h3>
-                                <p className="mt-2 min-h-12 text-base font-semibold leading-6 text-[#bd6f3c]">{book.subtitle}</p>
-                                <p className="mt-4 text-sm leading-7 text-[#70695f]">{book.summary}</p>
-
-                                <div className="mt-4 flex flex-wrap gap-1.5">
-                                    {book.points.map((point) => (
-                                        <span
-                                            key={point}
-                                            className="rounded-[5px] border border-[#ded5c7] bg-[#f8f5ee] px-2 py-0.5 text-[11px] font-semibold text-[#625c52]"
+                    <ol>
+                        {books.map((book, index) => {
+                            const isTecnocratas = book.title === "Tecnócratas de la Infancia";
+                            return (
+                                <li key={book.title} className="border-b border-[#d8cfc0] py-10">
+                                    <article className="grid gap-6 sm:grid-cols-[10rem_1fr] sm:gap-10 lg:grid-cols-[12rem_1fr_16rem]">
+                                        <a
+                                            href={book.href}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            tabIndex={-1}
+                                            aria-hidden="true"
+                                            className="block w-36 sm:w-auto"
                                         >
-                                            {point}
-                                        </span>
-                                    ))}
-                                </div>
+                                            <div className="relative aspect-[2/3] overflow-hidden rounded-[6px] border border-[#d8cfc0] bg-[#fffdf8]">
+                                                <Image
+                                                    src={book.image}
+                                                    alt=""
+                                                    fill
+                                                    priority={index === 0}
+                                                    sizes="(min-width: 1024px) 192px, 160px"
+                                                    className="object-cover"
+                                                />
+                                            </div>
+                                        </a>
 
-                                {book.title === "Tecnócratas de la Infancia" ? (
-                                    <div className="mt-4 grid gap-1.5 text-[11px] font-semibold text-[#625c52]">
-                                        <span className="rounded-[5px] border border-[#ded5c7] bg-[#f8f5ee] px-2.5 py-1">
-                                            Editorial Hammurabi
-                                        </span>
-                                        <span className="rounded-[5px] border border-[#ded5c7] bg-[#f8f5ee] px-2.5 py-1">
-                                            Lanzamiento UAH · registro audiovisual
-                                        </span>
-                                    </div>
-                                ) : null}
+                                        <div>
+                                            <p className="text-[0.8125rem] font-semibold text-[#9f5528]">
+                                                {book.tag} · <span className="tabular-nums">{book.year}</span>
+                                            </p>
+                                            <h3 className="crc-serif mt-2 text-balance text-[1.5rem] font-semibold leading-[1.15] tracking-[-0.01em] text-[#171713] sm:text-[1.6rem]">
+                                                {book.title}
+                                            </h3>
+                                            <p className="mt-1 text-[1.0625rem] text-[#55574f]">{book.subtitle}</p>
+                                            <p className="mt-4 max-w-[62ch] text-[1rem] leading-[1.7] text-[#55574f]">{book.summary}</p>
+                                            <p className="mt-3 text-[0.9375rem] text-[#6f675d]">
+                                                {book.author} · Editorial Hammurabi · {book.points.join(", ")}
+                                            </p>
+                                            <a
+                                                href={book.href}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-[6px] bg-[#bd6f3c] px-5 py-3 text-[0.9375rem] font-semibold text-white transition-colors hover:bg-[#a85f31] sm:w-auto"
+                                            >
+                                                Ver en Editorial Hammurabi
+                                                <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                                            </a>
+                                        </div>
 
-                                <details className="mt-4 text-sm text-[#70695f]">
-                                    <summary className="cursor-pointer list-none font-bold text-[#171713] marker:hidden">
-                                        Ver cita
-                                    </summary>
-                                    <p className="mt-2 border-l-2 border-[#bd6f3c] pl-3 italic leading-6">
-                                        {book.quote}
-                                    </p>
-                                </details>
-
-                                {book.title === "Tecnócratas de la Infancia" ? (
-                                    <details className="mt-3 rounded-[7px] border border-[#ded5c7] bg-[#fffdf8] px-3 py-2 text-sm text-[#70695f]">
-                                        <summary className="cursor-pointer list-none font-bold text-[#171713] marker:hidden">
-                                            Ver registro audiovisual
-                                        </summary>
-                                        <video
-                                            className="mt-3 aspect-[9/16] w-full max-w-[140px] rounded-[6px] bg-black object-cover"
-                                            controls
-                                            preload="metadata"
-                                            poster="/images/tecnocratas_abstract_1771965880554.png"
-                                            aria-label="Presentación audiovisual del libro Tecnócratas de la Infancia"
-                                        >
-                                            <source src="/videos/tecnocratas-lanzamiento.mp4" type="video/mp4" />
-                                            Tu navegador no soporta el elemento de video.
-                                        </video>
-                                    </details>
-                                ) : null}
-
-                                <a
-                                    href={book.href}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="mt-auto inline-flex items-center gap-2 pt-5 text-sm font-bold text-[#171713] transition hover:text-[#bd6f3c]"
-                                >
-                                    Comprar
-                                    <ExternalLink className="h-3.5 w-3.5" />
-                                </a>
-                            </MotionDiv>
-                        ))}
-                    </div>
+                                        <div className="sm:col-span-2 lg:col-span-1">
+                                            <blockquote className="border-l-2 border-[#bd6f3c] pl-4 crc-serif text-[1.0625rem] leading-[1.5] text-[#171713]">
+                                                {book.quote}
+                                            </blockquote>
+                                            {isTecnocratas ? (
+                                                <details className="mt-6 rounded-[6px] border border-[#d8cfc0] bg-[#fffdf8] px-4 py-3">
+                                                    <summary className="cursor-pointer text-[0.9375rem] font-semibold text-[#171713]">
+                                                        Lanzamiento en la UAH (video)
+                                                    </summary>
+                                                    <video
+                                                        className="mt-3 aspect-[9/16] w-full max-w-[180px] rounded-[6px] bg-[#15120e] object-cover"
+                                                        controls
+                                                        preload="none"
+                                                        playsInline
+                                                        poster="/images/tecnocratas-evento-uah.jpeg"
+                                                        aria-label="Registro del lanzamiento de Tecnócratas de la Infancia en la Universidad Alberto Hurtado"
+                                                    >
+                                                        <source src="/videos/tecnocratas-lanzamiento.mp4" type="video/mp4" />
+                                                        Tu navegador no reproduce este video.
+                                                    </video>
+                                                </details>
+                                            ) : null}
+                                        </div>
+                                    </article>
+                                </li>
+                            );
+                        })}
+                    </ol>
                 </div>
             </section>
         </>

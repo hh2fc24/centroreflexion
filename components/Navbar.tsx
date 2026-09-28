@@ -105,10 +105,8 @@ export function Navbar({ initialNavigation }: { initialNavigation?: NavigationCo
 
     return (
         <nav data-main-nav="" className={cn(
-            "sticky top-0 z-50 w-full border-b transition-all duration-300",
-            scrolled
-                ? "border-[#d8cfc0]/70 bg-[#f8f5ee]/94 shadow-[0_10px_34px_rgba(31,27,22,0.08)] backdrop-blur-xl"
-                : "border-[#d8cfc0]/45 bg-[#f8f5ee]/98"
+            "sticky top-0 z-50 w-full border-b transition-colors duration-200",
+            scrolled ? "border-[#d8cfc0] bg-[#f8f5ee]" : "border-[#d8cfc0]/60 bg-[#f8f5ee]"
         )}>
             <div className="mx-auto flex h-[72px] max-w-[1680px] items-center justify-between gap-4 px-5 sm:h-[82px] sm:px-8 lg:px-12">
 
@@ -122,8 +120,8 @@ export function Navbar({ initialNavigation }: { initialNavigation?: NavigationCo
                         className="h-12 w-12 object-contain sm:h-14 sm:w-14"
                     />
                     <span className="hidden min-w-0 text-[#171713] sm:block">
-                        <span className="block font-serif text-xl font-semibold leading-none min-[1500px]:hidden">CRC</span>
-                        <span className="hidden font-serif text-[1.05rem] font-semibold leading-tight min-[1500px]:block">
+                        <span className="block crc-serif text-[1.25rem] font-semibold leading-none min-[1500px]:hidden">CRC</span>
+                        <span className="hidden crc-serif text-[1.0625rem] font-semibold leading-tight min-[1500px]:block">
                             Centro de Reflexiones Críticas
                         </span>
                     </span>
@@ -140,10 +138,10 @@ export function Navbar({ initialNavigation }: { initialNavigation?: NavigationCo
                                     href={item.href}
                                     onClick={maybePrevent}
                                     className={cn(
-                                        "inline-flex h-10 items-center whitespace-nowrap rounded-[7px] px-3 text-sm font-semibold text-[#414038] transition duration-150 xl:px-3.5",
+                                        "inline-flex h-10 items-center whitespace-nowrap rounded-[6px] px-3 text-[0.9375rem] font-medium text-[#414038] transition-colors duration-150 xl:px-3.5",
                                         active
-                                            ? "bg-[#ede6d9] text-[#171713]"
-                                            : "hover:bg-[#efe9df] hover:text-[#171713]"
+                                            ? "bg-[#eee8dc] text-[#171713]"
+                                            : "hover:bg-[#eee8dc] hover:text-[#171713]"
                                     )}
                                 >
                                     {item.label}
@@ -153,7 +151,7 @@ export function Navbar({ initialNavigation }: { initialNavigation?: NavigationCo
                                 </Link>
                                 {hasChildren ? (
                                     <div className="pointer-events-none absolute left-0 top-full pt-3 opacity-0 transition duration-150 group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100">
-                                        <div className="w-[21rem] rounded-[8px] border border-[#d8cfc0]/80 bg-[#fffdf8] p-1.5 shadow-[0_18px_46px_rgba(31,27,22,0.15)]">
+                                        <div className="w-[21rem] rounded-[6px] border border-[#d8cfc0] bg-[#fffdf8] p-1.5 shadow-[0_8px_24px_rgba(31,27,22,0.10)]">
                                             {(item.children ?? [])
                                                 .filter((c) => c.visible !== false)
                                                 .map((c) => (
@@ -163,9 +161,9 @@ export function Navbar({ initialNavigation }: { initialNavigation?: NavigationCo
                                                         onClick={(e) => { maybePrevent(e); }}
                                                         className="block rounded-[6px] px-3.5 py-2.5 transition-colors hover:bg-[#eee8dc]"
                                                     >
-                                                        <span className="block text-sm font-semibold text-[#2b2d27]">{c.label}</span>
+                                                        <span className="block text-[0.9375rem] font-semibold text-[#171713]">{c.label}</span>
                                                         {c.description ? (
-                                                            <span className="mt-0.5 block text-xs leading-5 text-[#77716a]">{c.description}</span>
+                                                            <span className="mt-0.5 block text-[0.8125rem] leading-5 text-[#6f675d]">{c.description}</span>
                                                         ) : null}
                                                     </Link>
                                             ))}
@@ -179,7 +177,7 @@ export function Navbar({ initialNavigation }: { initialNavigation?: NavigationCo
 
                     <Link
                         href={cta.href}
-                        className="group inline-flex h-11 shrink-0 items-center gap-2 rounded-[8px] bg-[#172017] px-5 text-sm font-semibold text-[#fffdf8] shadow-[0_14px_34px_rgba(23,32,23,0.18)] transition duration-200 hover:bg-[#243323] hover:shadow-[0_18px_44px_rgba(23,32,23,0.22)] xl:px-6"
+                        className="group inline-flex h-11 shrink-0 items-center gap-2 rounded-[6px] bg-[#171713] px-5 text-[0.9375rem] font-semibold text-[#fffdf8] transition-colors duration-200 hover:bg-[#bd6f3c] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#bd6f3c] focus-visible:ring-offset-2"
                     >
                         {cta.label}
                         <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
@@ -187,7 +185,7 @@ export function Navbar({ initialNavigation }: { initialNavigation?: NavigationCo
                 </div>
 
                 <button
-                    className="inline-flex h-11 w-11 items-center justify-center rounded-[8px] border border-[#d8cfc0] bg-[#fffdf8]/70 text-[#363832] transition-colors hover:text-[#171713] min-[1240px]:hidden"
+                    className="inline-flex h-11 w-11 items-center justify-center rounded-[6px] border border-[#d8cfc0] bg-[#fffdf8] text-[#363832] transition-colors hover:text-[#171713] min-[1240px]:hidden"
                     onClick={() => setIsOpen(!isOpen)}
                     aria-label={isOpen ? "Cerrar menú" : "Abrir menú"}
                     aria-expanded={isOpen}
@@ -197,12 +195,12 @@ export function Navbar({ initialNavigation }: { initialNavigation?: NavigationCo
             </div>
 
             {isOpen && (
-                <div className="border-t border-[#d8cfc0]/70 bg-[#f8f5ee] min-[1240px]:hidden">
+                <div className="border-t border-[#d8cfc0] bg-[#f8f5ee] min-[1240px]:hidden">
                     <div className="px-5 py-4">
                         <Link
                             href={cta.href}
                             onClick={() => setIsOpen(false)}
-                            className="inline-flex w-full items-center justify-center gap-2 rounded-[8px] bg-[#172017] px-4 py-3.5 text-center text-sm font-semibold text-white transition-colors hover:bg-[#233122]"
+                            className="inline-flex w-full items-center justify-center gap-2 rounded-[6px] bg-[#171713] px-4 py-3.5 text-center text-[0.9375rem] font-semibold text-white transition-colors hover:bg-[#bd6f3c]"
                         >
                             {cta.label}
                             <ArrowRight className="h-4 w-4" />
@@ -210,7 +208,7 @@ export function Navbar({ initialNavigation }: { initialNavigation?: NavigationCo
                         <a
                             href="tel:*4141"
                             onClick={() => setIsOpen(false)}
-                            className="mt-2 flex items-center justify-center gap-2 rounded-[8px] border border-[#d9a066]/50 bg-[#f6ead9] px-4 py-3 text-sm font-semibold text-[#8a4f20]"
+                            className="mt-2 flex items-center justify-center gap-2 rounded-[6px] border border-[#d8cfc0] bg-[#fffdf8] px-4 py-3 text-[0.9375rem] font-semibold text-[#9f5528]"
                         >
                             <Phone className="h-4 w-4" />
                             ¿En crisis ahora? Llama al *4141
@@ -229,7 +227,7 @@ export function Navbar({ initialNavigation }: { initialNavigation?: NavigationCo
                                             setIsOpen(false);
                                         }}
                                         className={cn(
-                                            "block border-b border-[#d8cfc0]/65 py-3 text-base font-semibold transition-colors hover:text-[#bd6f3c]",
+                                            "block border-b border-[#d8cfc0] py-3 text-[1rem] font-semibold transition-colors hover:text-[#9f5528]",
                                             active ? "text-[#171713]" : "text-[#363832]"
                                         )}
                                     >
@@ -245,11 +243,11 @@ export function Navbar({ initialNavigation }: { initialNavigation?: NavigationCo
                                                         if (adminEnabled) { maybePrevent(e); return; }
                                                         setIsOpen(false);
                                                     }}
-                                                    className="block border-b border-[#d8cfc0]/50 py-2.5 transition-colors hover:text-[#bd6f3c]"
+                                                    className="block border-b border-[#eee8dc] py-2.5 transition-colors hover:text-[#9f5528]"
                                                 >
-                                                    <span className="block text-sm font-medium text-[#6d665a]">{c.label}</span>
+                                                    <span className="block text-[0.9375rem] font-medium text-[#55574f]">{c.label}</span>
                                                     {c.description ? (
-                                                        <span className="mt-0.5 block text-xs leading-5 text-[#918a80]">{c.description}</span>
+                                                        <span className="mt-0.5 block text-[0.8125rem] leading-5 text-[#6f675d]">{c.description}</span>
                                                     ) : null}
                                                 </Link>
                                             ))}

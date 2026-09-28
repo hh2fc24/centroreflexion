@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useSyncExternalStore } from "react";
-import { ArrowRight, Loader2, X } from "lucide-react";
+import { useId, useState, useSyncExternalStore } from "react";
+import { AlertCircle, ArrowRight, Loader2, X } from "lucide-react";
 import { getAttribution } from "@/lib/attribution";
 
 /**
@@ -66,57 +66,54 @@ export function SeminarioPagoButton({
       <button
         type="button"
         onClick={() => setAbierto(true)}
-        className={`inline-flex h-11 w-full items-center justify-center gap-3 rounded-[5px] px-6 text-[0.66rem] font-extrabold uppercase tracking-[0.13em] transition duration-200 ${
-          dark
-            ? "bg-[#bd6f3c] text-white hover:bg-[#a85f31]"
-            : "bg-[#bd6f3c] text-white shadow-[0_18px_40px_rgba(90,45,18,0.22)] hover:bg-[#a85f31]"
-        }`}
+        className={BOTON}
       >
-        Pagar {precioLabel} <ArrowRight className="h-4 w-4" />
+        <span className="tabular-nums">{`Pagar ${precioLabel}`}</span> <ArrowRight aria-hidden="true" className="h-4 w-4" />
       </button>
     );
   }
 
   return (
-    <form onSubmit={iniciarPago} className="space-y-3">
-      <p className={`text-[0.6rem] font-extrabold uppercase tracking-[0.18em] text-[#bd6f3c]`}>
-        Matrícula {tramoNombre} · {precioLabel}
+    <form onSubmit={iniciarPago} className="space-y-4">
+      <p className={`text-[0.875rem] font-semibold ${dark ? "text-[#e4935d]" : "text-[#9f5528]"}`}>
+        Matrícula {tramoNombre} · <span className="tabular-nums">{precioLabel}</span>
       </p>
 
-      <Campo name="nombre" placeholder="Nombre completo" type="text" dark={dark} required />
-      <Campo name="email" placeholder="Correo electrónico" type="email" dark={dark} required />
-      <Campo name="telefono" placeholder="WhatsApp (opcional)" type="tel" dark={dark} />
-      <Campo name="institucion" placeholder="Dónde trabajas (opcional)" type="text" dark={dark} />
+      <Campo name="nombre" label="Nombre completo" type="text" dark={dark} required />
+      <Campo name="email" label="Correo electrónico" type="email" dark={dark} required />
+      <Campo name="telefono" label="WhatsApp (opcional)" type="tel" dark={dark} />
+      <Campo name="institucion" label="Dónde trabajas (opcional)" type="text" dark={dark} />
 
       {error ? (
         <p
-          className={`rounded-[4px] border px-3 py-2 text-[0.78rem] leading-[1.6] ${
-            dark
-              ? "border-[#c0553d]/40 bg-[#c0553d]/12 text-[#f0c9bd]"
-              : "border-[#c0553d]/35 bg-[#c0553d]/8 text-[#9f3a24]"
+          role="alert"
+          className={`flex items-start gap-2.5 rounded-[6px] border px-3.5 py-2.5 text-[0.9375rem] leading-[1.55] ${
+            dark ? "border-[#e4935d] text-[#fbf7ee]" : "border-[#9f5528] bg-[#fffdf8] text-[#171713]"
           }`}
         >
-          {error}
+          <AlertCircle
+            aria-hidden="true"
+            className={`mt-0.5 h-4 w-4 shrink-0 ${dark ? "text-[#e4935d]" : "text-[#9f5528]"}`}
+          />
+          <span>
+            <span className="font-semibold">No se pudo abrir el pago.</span> {error}
+          </span>
         </p>
       ) : null}
 
-      <button
-        type="submit"
-        disabled={loading}
-        className="inline-flex h-11 w-full items-center justify-center gap-3 rounded-[5px] bg-[#bd6f3c] px-6 text-[0.66rem] font-extrabold uppercase tracking-[0.13em] text-white transition duration-200 hover:bg-[#a85f31] disabled:opacity-55"
-      >
+      <button type="submit" disabled={loading} className={`${BOTON} disabled:cursor-wait disabled:opacity-60`}>
         {loading ? (
           <>
-            <Loader2 className="h-4 w-4 animate-spin" /> Abriendo Mercado Pago
+            <Loader2 aria-hidden="true" className="h-4 w-4 motion-safe:animate-spin" /> Abriendo Mercado Pago
           </>
         ) : (
           <>
-            Ir a pagar <ArrowRight className="h-4 w-4" />
+            Ir a pagar <ArrowRight aria-hidden="true" className="h-4 w-4" />
           </>
         )}
       </button>
 
-      <p className={`text-[0.7rem] leading-[1.55] ${dark ? "text-[#ede7dc]/50" : "text-[#8a8276]"}`}>
+      <p className={`text-[0.875rem] leading-[1.6] ${dark ? "text-[#ede7dc]/70" : "text-[#6f675d]"}`}>
         Pago seguro con Mercado Pago. Puedes usar las cuotas de tu tarjeta. Si prefieres transferencia en tres cuotas,
         postula y lo coordinamos.
       </p>
@@ -124,32 +121,45 @@ export function SeminarioPagoButton({
   );
 }
 
+const BOTON =
+  "inline-flex h-12 w-full items-center justify-center gap-2 rounded-[6px] bg-[#bd6f3c] px-5 text-[0.9375rem] font-semibold text-white transition-colors hover:bg-[#a85f31] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#bd6f3c]";
+
 function Campo({
   name,
-  placeholder,
+  label,
   type,
   dark,
   required = false,
 }: {
   name: string;
-  placeholder: string;
+  label: string;
   type: string;
   dark: boolean;
   required?: boolean;
 }) {
+  const id = useId();
+  const base =
+    "block h-12 w-full rounded-[6px] border px-3.5 text-[1rem] outline-none transition-colors focus:border-[#bd6f3c] focus:ring-1 focus:ring-[#bd6f3c] user-invalid:border-[#9f5528]";
   return (
-    <input
-      name={name}
-      type={type}
-      required={required}
-      placeholder={placeholder}
-      aria-label={placeholder}
-      className={
-        dark
-          ? "block h-11 w-full rounded-[4px] border border-[#f1ede4]/18 bg-[#f1ede4]/[0.05] px-3.5 text-[0.88rem] text-[#fbf7ee] outline-none transition placeholder:text-[#ede7dc]/35 focus:border-[#bd6f3c]"
-          : "block h-11 w-full rounded-[4px] border border-[rgba(101,91,74,0.28)] bg-[#fffdf8] px-3.5 text-[0.88rem] text-[#171713] outline-none transition placeholder:text-[#a9a294] focus:border-[#bd6f3c]"
-      }
-    />
+    <div>
+      <label
+        htmlFor={id}
+        className={`mb-1.5 block text-[0.875rem] font-semibold ${dark ? "text-[#fbf7ee]" : "text-[#171713]"}`}
+      >
+        {label}
+      </label>
+      <input
+        id={id}
+        name={name}
+        type={type}
+        required={required}
+        className={
+          dark
+            ? `${base} border-[#f1ede4]/25 bg-transparent text-[#fbf7ee]`
+            : `${base} border-[#ded5c7] bg-[#fffdf8] text-[#171713]`
+        }
+      />
+    </div>
   );
 }
 
@@ -239,25 +249,23 @@ export function SeminarioPagoAviso() {
     <div
       role={error ? "alert" : "status"}
       aria-live="polite"
-      className="fixed inset-x-4 bottom-4 z-50 mx-auto max-w-md rounded-[5px] border border-[#bd6f3c]/40 bg-[#171713] px-5 py-5 text-[#fbf7ee] shadow-[0_24px_60px_rgba(0,0,0,0.35)]"
+      className="fixed inset-x-4 bottom-4 z-50 mx-auto max-w-md rounded-[6px] border border-[#bd6f3c] bg-[#171713] px-5 py-5 text-[#fbf7ee] shadow-[0_12px_32px_rgba(0,0,0,0.3)]"
     >
       <button
         type="button"
         onClick={cerrar}
         aria-label="Cerrar aviso"
-        className="absolute right-3 top-3 inline-flex h-8 w-8 items-center justify-center rounded-[4px] text-[#ede7dc]/60 transition hover:bg-[#f1ede4]/10 hover:text-[#fbf7ee]"
+        className="absolute right-3 top-3 inline-flex h-9 w-9 items-center justify-center rounded-[6px] text-[#ede7dc]/70 transition-colors hover:bg-[#f1ede4]/10 hover:text-[#fbf7ee] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#e4935d]"
       >
         <X className="h-4 w-4" />
       </button>
       <p
-        className={`text-[0.6rem] font-extrabold uppercase tracking-[0.2em] ${
-          error ? "text-[#f0a58f]" : "text-[#bd6f3c]"
-        }`}
+        className="text-[0.8125rem] font-semibold text-[#e4935d]"
       >
         {texto.etiqueta}
       </p>
       <p className="crc-serif mt-2 pr-8 text-[1.2rem] font-medium leading-[1.25]">{texto.titulo}</p>
-      <p className="mt-2 text-[0.84rem] leading-[1.7] text-[#ede7dc]/75">{texto.cuerpo}</p>
+      <p className="mt-2 text-[0.9375rem] leading-[1.65] text-[#ede7dc]/85">{texto.cuerpo}</p>
     </div>
   );
 }

@@ -19,7 +19,7 @@ const HORARIOS = [
 ];
 
 const inputClass =
-    "mt-2.5 block w-full rounded-[6px] border-0 px-3.5 py-2 text-[#171713] shadow-sm ring-1 ring-inset ring-[#cfc4b4] placeholder:text-[#b0a898] focus:ring-2 focus:ring-inset focus:ring-[#bd6f3c] sm:text-sm sm:leading-6";
+    "mt-2 block w-full rounded-[6px] border-0 bg-white px-3.5 py-2.5 text-base text-[#171713] ring-1 ring-inset ring-[#d8cfc0] placeholder:text-[#8a8276] focus:ring-2 focus:ring-inset focus:ring-[#bd6f3c] sm:text-[0.9375rem] sm:leading-6";
 
 const labelClass = "block text-sm font-semibold leading-6 text-[#171713]";
 
@@ -117,16 +117,16 @@ export function ContactForm({ servicio }: { servicio?: string }) {
             {/* ¿Cómo prefieres que te contactemos? */}
             <div>
                 <p className={labelClass}>¿Cómo prefieres que te contactemos?</p>
-                <div className="mt-2.5 grid grid-cols-3 gap-2">
+                <div className="mt-2 grid grid-cols-3 gap-2">
                     {CONTACT_METHODS.map((m) => (
                         <button
                             key={m.value}
                             type="button"
                             onClick={() => setContactMethod(m.value)}
-                            className={`rounded-[6px] border px-3 py-2 text-sm font-semibold transition ${
+                            className={`min-h-11 rounded-[6px] border px-3 py-2 text-[0.875rem] font-semibold transition-colors ${
                                 contactMethod === m.value
-                                    ? "border-[#bd6f3c] bg-[#bd6f3c]/10 text-[#9f5528]"
-                                    : "border-[#cfc4b4] bg-white text-[#55574f] hover:border-[#bd6f3c]/50"
+                                    ? "border-[#9f5528] bg-[#fffdf8] text-[#9f5528] ring-1 ring-inset ring-[#9f5528]"
+                                    : "border-[#d8cfc0] bg-white text-[#55574f] hover:border-[#9f5528]"
                             }`}
                         >
                             {m.label}
@@ -138,16 +138,16 @@ export function ContactForm({ servicio }: { servicio?: string }) {
             {/* Horario preferido */}
             <div>
                 <p className={labelClass}>Horario preferido</p>
-                <div className="mt-2.5 grid grid-cols-2 gap-2">
+                <div className="mt-2 grid grid-cols-2 gap-2">
                     {HORARIOS.map((h) => (
                         <button
                             key={h.value}
                             type="button"
                             onClick={() => setHorario(h.value)}
-                            className={`rounded-[6px] border px-3 py-2 text-sm font-semibold transition ${
+                            className={`min-h-11 rounded-[6px] border px-3 py-2 text-[0.875rem] font-semibold transition-colors ${
                                 horario === h.value
-                                    ? "border-[#bd6f3c] bg-[#bd6f3c]/10 text-[#9f5528]"
-                                    : "border-[#cfc4b4] bg-white text-[#55574f] hover:border-[#bd6f3c]/50"
+                                    ? "border-[#9f5528] bg-[#fffdf8] text-[#9f5528] ring-1 ring-inset ring-[#9f5528]"
+                                    : "border-[#d8cfc0] bg-white text-[#55574f] hover:border-[#9f5528]"
                             }`}
                         >
                             {h.label}
@@ -172,9 +172,9 @@ export function ContactForm({ servicio }: { servicio?: string }) {
 
             {result && (
                 <div
-                    className={`rounded-[6px] border px-4 py-3 text-sm ${
+                    className={`rounded-[6px] border px-4 py-3 text-[0.9375rem] ${
                         result.ok
-                            ? "border-[#a8c99a] bg-[#f0f7ed] text-[#2e5e25]"
+                            ? "border-[#d8cfc0] bg-[#fffdf8] text-[#171713]"
                             : "border-[#e4a8a8] bg-[#fdf0f0] text-[#7a2525]"
                     }`}
                 >
@@ -182,7 +182,7 @@ export function ContactForm({ servicio }: { servicio?: string }) {
                 </div>
             )}
 
-            <Button type="submit" className="w-full" disabled={busy}>
+            <Button type="submit" className="h-auto min-h-11 w-full rounded-[6px] bg-[#bd6f3c] py-2.5 text-[0.9375rem] text-white hover:bg-[#a85f31]" disabled={busy}>
                 {busy ? "Enviando…" : "Enviar mensaje"}
             </Button>
         </form>

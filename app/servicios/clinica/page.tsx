@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowLeft, Check, ClipboardCheck, HeartPulse, Home, Mail, MapPin, ShieldCheck, Stethoscope, Users } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { pageMetadata } from "@/lib/seo";
+import { EngagementList, PersonInCharge, SectionHead, ServiceHero } from "../_components/Blocks";
+import { SUPERVISION_CLINICA } from "../_components/engagements";
+import { ROCIO } from "../_components/people";
+import { Reveal } from "../_components/Reveal";
+import { btnPrimary, container, labelMuted, labelOnDark, textLink } from "../_components/ui";
 
 export const metadata: Metadata = pageMetadata({
     title: "Atención Clínica | Salud Mental, Infancia y Familia",
@@ -74,183 +79,231 @@ const addictionAreas = [
     "Tabaquismo",
 ];
 
+const modalities = [
+    { title: "Informes socioocupacionales", text: "Documentos técnicos con respaldo clínico, social y ocupacional para contextos educativos, judiciales, laborales o institucionales." },
+    { title: "Análisis del entorno", text: "Visitas, observación y lectura de condiciones reales de vida, autonomía, redes y desempeño cotidiano." },
+    { title: "Modalidad flexible", text: "Atención presencial, online, domiciliaria o en terreno, según pertinencia clínica y contexto." },
+];
+
 export default function ClinicaPage() {
     return (
         <main className="bg-[#fffdf8] text-[#171713]">
-            <section className="relative overflow-hidden border-b border-[#eee8dc] bg-[#171713] py-20 sm:py-28">
-                <video className="absolute inset-0 h-full w-full object-cover opacity-30" src="/22.mp4" autoPlay muted loop playsInline preload="metadata" />
-                <div className="absolute inset-0 bg-gradient-to-r from-[#171713] via-[#171713]/88 to-[#171713]/35" />
-                <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="grid items-end gap-10 lg:grid-cols-12">
-                        <div className="lg:col-span-7">
-                            <Link href="/servicios" className="inline-flex items-center gap-2 text-sm font-bold text-[#d8d0c4] hover:text-white">
-                                <ArrowLeft className="h-4 w-4" />
-                                Volver a servicios
-                            </Link>
-                            <div className="mt-8 max-w-4xl">
-                                <span className="inline-flex items-center rounded-[5px] bg-white/5 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.2em] text-[#d8d0c4]">Atención clínica</span>
-                                <h1 className="mt-7 text-4xl font-bold leading-tight text-white sm:text-5xl font-serif">
-                                    Evaluación, intervención y acompañamiento clínico integral.
-                                </h1>
-                                <p className="mt-6 max-w-3xl text-lg leading-8 text-[#d8d0c4]">
-                                    Reunimos trabajo social clínico, terapia ocupacional, salud mental, infancia, familia y análisis del entorno para orientar decisiones con criterio técnico y calidez.
-                                </p>
-                            </div>
-                        </div>
-                        <div className="hidden lg:col-span-5 lg:block">
-                            <div className="relative h-[420px] overflow-hidden rounded-[8px] border border-white/10 shadow-2xl">
-                                <video className="h-full w-full object-cover" src="/44.mp4" autoPlay muted loop playsInline preload="metadata" />
-                                <div className="absolute inset-0 bg-gradient-to-t from-[#171713]/40 to-transparent" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section className="border-b border-[#eee8dc] py-14 sm:py-20">
-                <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-12 lg:px-8">
-                    <div className="lg:col-span-4">
-                        <Stethoscope className="h-10 w-10 text-[#bd6f3c]" />
-                        <h2 className="mt-5 text-3xl font-bold text-[#171713] font-serif">Evaluación psicosocial</h2>
-                        <p className="mt-4 text-base leading-8 text-[#70695f]">
-                            Servicios especializados en infancia, trauma psicosocial, familia, protección de derechos y casos que requieren respaldo documental.
-                        </p>
-                    </div>
-                    <div className="grid gap-4 lg:col-span-8">
-                        {juanServices.map((item) => (
-                            <article key={item.name} className="rounded-[8px] border border-[#eee8dc] bg-[#f8f5ee] p-5 sm:grid sm:grid-cols-[1fr_auto] sm:gap-6">
-                                <div>
-                                    <h3 className="font-bold text-[#171713]">{item.name}</h3>
-                                    <p className="mt-2 text-sm leading-7 text-[#70695f]">{item.detail}</p>
-                                </div>
-                                <span className="mt-4 inline-flex h-max rounded-[5px] border border-[#dec0a8] bg-[#fffdf8] px-3 py-1 text-sm font-bold text-[#9f5528] sm:mt-0">
-                                    {item.price}
-                                </span>
-                            </article>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            <section className="border-b border-[#eee8dc] bg-[#fffdf8] py-14 sm:py-20">
-                <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
-                    <div className="relative overflow-hidden rounded-[8px] border border-[#eee8dc] shadow-sm">
-                        <img src="/images/informes_socioocupacionales.png" alt="Informes socioocupacionales" className="h-full min-h-[320px] w-full object-cover" />
-                        <div className="absolute bottom-4 left-4 rounded-[5px] border border-[#eee8dc] bg-[#fffdf8]/90 px-4 py-2 text-xs font-bold text-[#23241f] shadow-sm backdrop-blur">
-                            Servicio destacado · presencial y online
-                        </div>
-                    </div>
-                    <div>
-                        <span className="inline-flex rounded-[5px] bg-[#bd6f3c] px-3 py-1 text-xs font-bold uppercase tracking-widest text-white">
-                            Informes socioocupacionales
-                        </span>
-                        <h2 className="mt-5 text-3xl font-bold leading-tight text-[#171713] font-serif">
-                            El documento que cambia el rumbo.
-                        </h2>
-                        <p className="mt-4 text-base leading-8 text-[#55574f]">
-                            Cuando una decisión depende de evidencia técnica, la calidad del informe importa. Elaboramos documentos con respaldo clínico, social y ocupacional para contextos educativos, judiciales, laborales e institucionales.
-                        </p>
-                        <div className="mt-6 grid gap-3 sm:grid-cols-2">
-                            {["Niños y adolescentes", "Personas adultas", "Familias y cuidadores", "Organizaciones"].map((item) => (
-                                <div key={item} className="rounded-[6px] border border-[#eee8dc] bg-[#f8f5ee] px-4 py-3 text-sm font-semibold text-[#3f423a]">{item}</div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section className="border-b border-[#eee8dc] bg-[#f8f5ee] py-14 sm:py-20">
-                <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-12 lg:px-8">
-                    <div className="lg:col-span-4">
-                        <HeartPulse className="h-10 w-10 text-[#bd6f3c]" />
-                        <h2 className="mt-5 text-3xl font-bold text-[#171713] font-serif">Terapia ocupacional y salud mental</h2>
-                        <p className="mt-4 text-base leading-8 text-[#70695f]">
-                            Acompañamiento individual, familiar, educativo y comunitario, considerando singularidad, funcionamiento cotidiano y contexto.
-                        </p>
-                    </div>
-                    <div className="grid gap-3 lg:col-span-8">
-                        {rocioServices.map((service) => (
-                            <div key={service} className="flex items-start gap-3 rounded-[6px] border border-[#eee8dc] bg-[#fffdf8] px-4 py-4">
-                                <Check className="mt-1 h-4 w-4 shrink-0 text-[#bd6f3c]" />
-                                <span className="text-sm font-semibold leading-7 text-[#3f423a]">{service}</span>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            <section className="border-b border-[#eee8dc] py-14 sm:py-20">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="mb-8 max-w-3xl">
-                        <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#bd6f3c]">Alcance clínico</span>
-                        <h2 className="mt-4 text-3xl font-bold text-[#171713] font-serif">Condiciones que abordamos</h2>
-                        <p className="mt-4 text-base leading-7 text-[#70695f]">
-                            Si todavía no sabes si lo que ocurre en tu familia amerita consultar,{" "}
-                            <Link href="/servicios/acompanamiento-familiar" className="font-semibold text-[#9f5528] underline underline-offset-4 hover:text-[#bd6f3c]">
-                                parte por acompañamiento familiar
-                            </Link>
-                            : ahí se ordena la necesidad antes de definir un proceso clínico.
-                        </p>
-                    </div>
-                    <div className="grid gap-3 md:grid-cols-2">
-                        {conditions.map((item) => (
-                            <div key={item} className="flex items-start gap-3 rounded-[6px] border border-[#eee8dc] bg-[#fffdf8] p-4">
-                                <ShieldCheck className="mt-1 h-4 w-4 shrink-0 text-[#bd6f3c]" />
-                                <p className="text-sm leading-7 text-[#55574f]">{item}</p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            <section className="border-b border-[#eee8dc] bg-[#171713] py-14 sm:py-20">
-                <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-12 lg:px-8">
-                    <div className="lg:col-span-5">
-                        <span className="inline-flex rounded-[5px] border border-[#737d69]/30 bg-[#737d69]/10 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-[#b8c2ad]">
-                            Psicología clínica y adicciones
-                        </span>
-                        <h2 className="mt-5 text-3xl font-bold leading-tight text-white font-serif">Recuperar control, sin juicio y con método.</h2>
-                        <p className="mt-4 text-base leading-8 text-[#d8d0c4]">
-                            Abordaje de consumo problemático, adicciones conductuales y comorbilidades asociadas desde una intervención compasiva, sostenida y libre de estigma.
-                        </p>
-                    </div>
-                    <div className="grid gap-3 sm:grid-cols-2 lg:col-span-7">
-                        {addictionAreas.map((area) => (
-                            <div key={area} className="rounded-[6px] border border-white/10 bg-white/5 px-4 py-3 text-sm font-semibold text-[#d8d0c4]">{area}</div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            <section className="bg-[#f8f5ee] py-14">
-                <div className="mx-auto grid max-w-7xl gap-4 px-4 sm:px-6 md:grid-cols-3 lg:px-8">
-                    {[
-                        { icon: ClipboardCheck, title: "Informes socioocupacionales", text: "Documentos técnicos con respaldo clínico, social y ocupacional para contextos educativos, judiciales, laborales o institucionales." },
-                        { icon: Home, title: "Análisis del entorno", text: "Visitas, observación y lectura de condiciones reales de vida, autonomía, redes y desempeño cotidiano." },
-                        { icon: MapPin, title: "Modalidad flexible", text: "Atención presencial, online, domiciliaria o en terreno, según pertinencia clínica y contexto." },
-                    ].map((card) => {
-                        const Icon = card.icon;
-                        return (
-                            <div key={card.title} className="rounded-[8px] border border-[#eee8dc] bg-[#fffdf8] p-6">
-                                <Icon className="h-7 w-7 text-[#bd6f3c]" />
-                                <h3 className="mt-4 text-xl font-bold font-serif">{card.title}</h3>
-                                <p className="mt-3 text-sm leading-7 text-[#70695f]">{card.text}</p>
-                            </div>
-                        );
-                    })}
-                </div>
-                <div className="mx-auto mt-8 max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <Link href="/contacto?servicio=clinica" className="inline-flex items-center gap-2 rounded-[5px] bg-[#171713] px-6 py-3 text-sm font-bold text-white hover:bg-[#34362f]">
-                        <Mail className="h-4 w-4" />
-                        Solicitar orientación clínica
-                    </Link>
-                </div>
-            </section>
-
-            <TestimonialsSection
-                testimonios={testimoniosClinica}
-                titulo="Lo que dicen quienes trabajaron con Rocío Solar"
+            <ServiceHero
+                area="Atención clínica"
+                title="Evaluación, intervención y acompañamiento clínico"
+                intro={
+                    <p>
+                        Reunimos trabajo social clínico, terapia ocupacional, salud mental, infancia, familia y análisis del entorno para
+                        orientar decisiones con criterio técnico y calidez.
+                    </p>
+                }
+                actions={
+                    <>
+                        <Link href="/contacto?servicio=clinica" className={btnPrimary}>
+                            Solicitar orientación clínica
+                            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                        </Link>
+                        <a href="#supervision" className={textLink}>
+                            Supervisión para equipos
+                        </a>
+                    </>
+                }
+                facts={[
+                    { term: "Para quién", detail: "Personas y familias que necesitan un proceso clínico o un documento con validez técnica." },
+                    { term: "Modalidad", detail: "Presencial · Online · Domiciliaria" },
+                    { term: "Dirección clínica", detail: `${ROCIO.name}, ${ROCIO.role.split(" · ")[1]}` },
+                    { term: "Para equipos", detail: "Supervisión clínica de casos complejos" },
+                ]}
             />
+
+            {/* Evaluación psicosocial */}
+            <section aria-labelledby="evaluacion-title" className="bg-[#fffdf8]">
+                <div className={`${container} grid gap-10 py-16 sm:py-24 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16`}>
+                    <Reveal>
+                        <SectionHead eyebrow="Juan Carlos Rauld · Trabajo social clínico" title="Evaluación psicosocial" id="evaluacion-title">
+                            <p>
+                                Servicios especializados en infancia, trauma psicosocial, familia, protección de derechos y casos que
+                                requieren respaldo documental.
+                            </p>
+                        </SectionHead>
+                    </Reveal>
+                    <Reveal>
+                        <ul className="border-t border-[#d8cfc0]">
+                            {juanServices.map((item) => (
+                                <li key={item.name} className="grid grid-cols-[minmax(0,1fr)_auto] gap-4 border-b border-[#d8cfc0] py-4">
+                                    <span>
+                                        <span className="block text-[1rem] font-semibold leading-[1.4] text-[#171713]">{item.name}</span>
+                                        <span className="mt-1 block text-[0.9375rem] leading-[1.6] text-[#55574f]">{item.detail}</span>
+                                    </span>
+                                    <span className="whitespace-nowrap text-right text-[0.9375rem] font-semibold tabular-nums text-[#9f5528]">{item.price}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    </Reveal>
+                </div>
+            </section>
+
+            {/* Informes socioocupacionales: composición tipográfica */}
+            <section aria-labelledby="informes-title" className="border-t border-[#d8cfc0] bg-[#f8f5ee]">
+                <div className={`${container} grid gap-10 py-16 sm:py-24 lg:grid-cols-2 lg:items-center lg:gap-16`}>
+                    <Reveal className="rounded-[6px] bg-[#15120e] p-7 text-[#fbf7ee] sm:p-10">
+                        <p className={labelOnDark}>Informes socioocupacionales</p>
+                        <p className="crc-serif mt-4 max-w-[22ch] text-[clamp(1.5rem,2.2vw,2rem)] font-medium leading-[1.2]">
+                            Cuando una decisión depende de evidencia técnica, la calidad del informe importa.
+                        </p>
+                        <p className="mt-8 border-t border-white/15 pt-5 text-[0.9375rem] leading-[1.6] text-[#ede7dc]/75">
+                            Contextos educativos, judiciales, laborales e institucionales · Presencial y online
+                        </p>
+                    </Reveal>
+                    <Reveal>
+                        <SectionHead eyebrow="Servicio destacado" title="El documento que cambia el rumbo." id="informes-title">
+                            <p>
+                                Elaboramos documentos con respaldo clínico, social y ocupacional para contextos educativos, judiciales,
+                                laborales e institucionales.
+                            </p>
+                        </SectionHead>
+                        <p className={`${labelMuted} mt-8`}>Para quién</p>
+                        <ul className="mt-2 grid border-t border-[#d8cfc0] sm:grid-cols-2 sm:gap-x-8">
+                            {["Niños y adolescentes", "Personas adultas", "Familias y cuidadores", "Organizaciones"].map((item) => (
+                                <li key={item} className="border-b border-[#d8cfc0] py-3 text-[1rem] text-[#171713]">
+                                    {item}
+                                </li>
+                            ))}
+                        </ul>
+                    </Reveal>
+                </div>
+            </section>
+
+            {/* Terapia ocupacional */}
+            <section aria-labelledby="to-title" className="border-t border-[#d8cfc0] bg-[#fffdf8]">
+                <div className={`${container} grid gap-10 py-16 sm:py-24 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16`}>
+                    <Reveal>
+                        <SectionHead eyebrow="Rocío Solar · Terapia ocupacional" title="Terapia ocupacional y salud mental" id="to-title">
+                            <p>
+                                Acompañamiento individual, familiar, educativo y comunitario, considerando singularidad, funcionamiento
+                                cotidiano y contexto.
+                            </p>
+                        </SectionHead>
+                    </Reveal>
+                    <Reveal>
+                        <ul className="border-t border-[#d8cfc0]">
+                            {rocioServices.map((service) => (
+                                <li key={service} className="border-b border-[#d8cfc0] py-4 text-[1rem] leading-[1.55] text-[#171713]">
+                                    {service}
+                                </li>
+                            ))}
+                        </ul>
+                    </Reveal>
+                </div>
+            </section>
+
+            {/* Condiciones */}
+            <section aria-labelledby="condiciones-title" className="border-t border-[#d8cfc0] bg-[#f8f5ee]">
+                <div className={`${container} py-16 sm:py-24`}>
+                    <Reveal>
+                        <SectionHead eyebrow="Alcance clínico" title="Condiciones que abordamos" id="condiciones-title">
+                            <p>
+                                Si todavía no sabes si lo que ocurre en tu familia amerita consultar,{" "}
+                                <Link href="/servicios/acompanamiento-familiar" className="font-semibold text-[#9f5528] underline decoration-[#d8cfc0] underline-offset-4 hover:text-[#171713]">
+                                    parte por acompañamiento familiar
+                                </Link>
+                                : ahí se ordena la necesidad antes de definir un proceso clínico.
+                            </p>
+                        </SectionHead>
+                    </Reveal>
+                    <Reveal className="mt-10">
+                        <ul className="grid border-t border-[#d8cfc0] md:grid-cols-2 md:gap-x-10">
+                            {conditions.map((item) => (
+                                <li key={item} className="border-b border-[#d8cfc0] py-4 text-[1rem] leading-[1.55] text-[#171713]">
+                                    {item}
+                                </li>
+                            ))}
+                        </ul>
+                    </Reveal>
+                </div>
+            </section>
+
+            {/* Adicciones */}
+            <section aria-labelledby="adicciones-title" className="bg-[#15120e] text-[#fbf7ee]">
+                <div className={`${container} grid gap-10 py-16 sm:py-24 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16`}>
+                    <Reveal>
+                        <SectionHead eyebrow="Psicología clínica y adicciones" title="Recuperar control, sin juicio y con método." id="adicciones-title" dark>
+                            <p>
+                                Abordaje de consumo problemático, adicciones conductuales y comorbilidades asociadas desde una intervención
+                                compasiva, sostenida y libre de estigma.
+                            </p>
+                        </SectionHead>
+                    </Reveal>
+                    <Reveal>
+                        <ul className="grid border-t border-white/15 sm:grid-cols-2 sm:gap-x-8">
+                            {addictionAreas.map((area) => (
+                                <li key={area} className="border-b border-white/15 py-4 text-[1rem] text-[#fbf7ee]">
+                                    {area}
+                                </li>
+                            ))}
+                        </ul>
+                    </Reveal>
+                </div>
+            </section>
+
+            {/* Modalidades */}
+            <section aria-label="Modalidades de trabajo" className="bg-[#fffdf8]">
+                <div className={`${container} py-16 sm:py-20`}>
+                    <ol className="grid border-y border-[#d8cfc0] md:grid-cols-3">
+                        {modalities.map((item, index) => (
+                            <li key={item.title} className="border-b border-[#d8cfc0] py-8 last:border-b-0 md:border-b-0 md:border-l md:px-6 md:first:border-l-0 md:first:pl-0">
+                                <Reveal delay={index * 0.06}>
+                                    <h3 className="crc-serif text-[1.35rem] font-medium leading-[1.2] text-[#171713]">{item.title}</h3>
+                                    <p className="mt-3 text-[1rem] leading-[1.7] text-[#55574f]">{item.text}</p>
+                                </Reveal>
+                            </li>
+                        ))}
+                    </ol>
+                    <Reveal className="mt-10">
+                        <Link href="/contacto?servicio=clinica" className={btnPrimary}>
+                            Solicitar orientación clínica
+                            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                        </Link>
+                    </Reveal>
+                </div>
+            </section>
+
+            <EngagementList
+                id="supervision"
+                engagements={[SUPERVISION_CLINICA]}
+                className="border-t border-[#d8cfc0] bg-[#f8f5ee]"
+                eyebrow="Para equipos e instituciones"
+                title="Supervisión clínica con la Directora Clínica del CRC"
+                intro={
+                    <p>
+                        Para equipos que sostienen casos de salud mental infanto-juvenil que superan la respuesta habitual. Se coordina
+                        con Hugo Felipe Hormazábal, que prepara la propuesta y el convenio con la institución.
+                    </p>
+                }
+            />
+
+            <PersonInCharge
+                person={ROCIO}
+                className="bg-[#fffdf8]"
+                cta={{ href: "/contacto?servicio=clinica", label: "Solicitar orientación clínica" }}
+                secondary={
+                    <Link href="/instituciones?servicio=supervision-clinica#agenda" className={textLink}>
+                        Supervisión para un equipo
+                    </Link>
+                }
+            >
+                <p>
+                    Rocío es terapeuta ocupacional, académica y cofundadora del CRC, con 9 años de experiencia clínica y psicosocial en
+                    salud mental infanto-juvenil. Como Directora Clínica define los criterios de evaluación e intervención del área y
+                    supervisa los casos de mayor complejidad.
+                </p>
+                <p>
+                    Ha trabajado en dispositivos de salud pública, atención clínica particular y programas especializados de salud mental,
+                    con procesos individuales, familiares y grupales, y en acompañamiento a establecimientos educacionales.
+                </p>
+            </PersonInCharge>
+
+            <TestimonialsSection testimonios={testimoniosClinica} titulo="Lo que dicen quienes trabajaron con Rocío Solar" />
         </main>
     );
 }

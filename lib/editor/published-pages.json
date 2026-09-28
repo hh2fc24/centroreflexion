@@ -111,7 +111,7 @@
         {
           "id": "blk-testimonials",
           "type": "legacy.testimonials",
-          "visible": false,
+          "visible": true,
           "locked": false,
           "preset": "bold",
           "data": { "sectionId": "sec-testimonials" },

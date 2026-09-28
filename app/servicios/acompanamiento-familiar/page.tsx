@@ -1,18 +1,11 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
-import {
-    ArrowLeft,
-    ArrowRight,
-    FileText,
-    HeartHandshake,
-    LifeBuoy,
-    Mail,
-    MessageCircle,
-    Monitor,
-    Phone,
-} from "lucide-react";
+import { ArrowRight, Mail, MessageCircle, Monitor, Phone } from "lucide-react";
 import { pageMetadata } from "@/lib/seo";
+import { PersonInCharge, SectionHead, ServiceHero } from "../_components/Blocks";
+import { JUAN_CARLOS, ROCIO, type Person } from "../_components/people";
+import { Reveal } from "../_components/Reveal";
+import { btnPrimary, btnPrimaryOnDark, btnSecondary, container, labelMuted, labelOnDark, textLink } from "../_components/ui";
 
 export const metadata: Metadata = pageMetadata({
     title: "Acompañamiento Familiar | Apoyo Profesional en Momentos Difíciles",
@@ -24,6 +17,8 @@ export const metadata: Metadata = pageMetadata({
         "Pedir ayuda no es exagerar. Orientación y acompañamiento para familias con niños, niñas, adolescentes y jóvenes.",
 });
 
+const WHATSAPP_FAMILIAS = "https://wa.me/56949186447?text=Hola%2C%20quisiera%20orientaci%C3%B3n%20para%20mi%20familia.";
+
 const signals = [
     "Notas cambios importantes en el ánimo o la conducta de niños, niñas, adolescentes o jóvenes",
     "Los conflictos en casa se repiten y ya no saben cómo salir de ellos",
@@ -33,19 +28,16 @@ const signals = [
 
 const paths = [
     {
-        icon: HeartHandshake,
         title: "Acompañamiento familiar",
         text: "Orientación e intervención cuando la familia atraviesa conflictos, crisis o preocupación por niños, niñas, adolescentes o jóvenes.",
         outcome: "Entender qué está pasando y acordar un plan de cuidado posible para esta familia, no para una familia ideal.",
     },
     {
-        icon: LifeBuoy,
         title: "Contención en crisis emocionales",
         text: "Apoyo terapéutico para personas y familias que viven pensamientos de muerte o han pasado por un intento.",
         outcome: "Un espacio seguro para hablar de lo que cuesta nombrar, con resguardos claros y seguimiento cercano.",
     },
     {
-        icon: FileText,
         title: "Informe social de discapacidad",
         text: "Evaluación social profesional para trámites y apoyos.",
         outcome: "El documento que respalda la solicitud de credencial, beneficios y ajustes en el colegio o el trabajo.",
@@ -67,117 +59,98 @@ const steps = [
     },
 ];
 
+// Retrato de Juan Carlos en el sitio: acá se presenta desde su práctica clínica.
+const JC_CLINICO: Person = {
+    ...JUAN_CARLOS,
+    name: "Juan Carlos Rauld Farías",
+    role: "Trabajador social clínico en salud mental infantil y familiar",
+    image: "/images/juan-carlos-rauld-retrato.jpg",
+    imageAlt: "Juan Carlos Rauld Farías",
+    credentials: "Doctorando en Trabajo Social, Universitat Rovira i Virgili (España) · Director del CRC",
+};
+
 export default function AcompanamientoFamiliarPage() {
     return (
         <main className="bg-[#fffdf8] text-[#171713]">
-            <section className="relative overflow-hidden border-b border-[#eee8dc] bg-[#f3f7f4]">
-                <div className="pointer-events-none absolute -right-24 -top-24 h-[420px] w-[420px] rounded-full bg-[#cfe3d6]/55 blur-[2px]" aria-hidden="true" />
-                <div className="pointer-events-none absolute -bottom-40 right-40 h-[320px] w-[320px] rounded-full bg-[#dcebe0]/60" aria-hidden="true" />
-                <div className="relative z-10 mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
-                    <Link href="/servicios" className="inline-flex items-center gap-2 text-sm font-bold text-[#4b6b56] hover:text-[#1d3d2b]">
-                        <ArrowLeft className="h-4 w-4" />
-                        Volver a servicios
-                    </Link>
-                    <div className="mt-10 max-w-4xl">
-                        <span className="inline-flex items-center rounded-[5px] border border-[#1d3d2b]/12 bg-white/70 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.2em] text-[#2f5641]">
-                            Familias
-                        </span>
-                        <h1 className="mt-7 font-serif text-4xl font-bold leading-[1.08] tracking-tight text-[#14392a] sm:text-5xl lg:text-6xl">
-                            Acompañamiento profesional para familias en momentos difíciles.
-                        </h1>
-                        <p className="mt-6 max-w-2xl text-lg leading-8 text-[#46614f]">
-                            Consultar a tiempo también es cuidar a los tuyos.
-                        </p>
-                        <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-                            <Link
-                                href="/contacto?servicio=acompanamiento-familiar"
-                                className="group inline-flex items-center justify-center gap-2 rounded-[7px] bg-[#1d3d2b] px-6 py-3.5 text-sm font-bold text-white transition duration-200 hover:bg-[#2b5740]"
-                            >
-                                Da el primer paso
-                                <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
-                            </Link>
-                            <a
-                                href="https://wa.me/56949186447?text=Hola%2C%20quisiera%20orientaci%C3%B3n%20para%20mi%20familia."
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center justify-center gap-2 rounded-[7px] border border-[#1d3d2b]/20 bg-white/80 px-6 py-3.5 text-sm font-bold text-[#1d3d2b] transition hover:border-[#1d3d2b]/45"
-                            >
-                                <MessageCircle className="h-4 w-4" />
-                                Escribir por WhatsApp
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <ServiceHero
+                area="Acompañamiento familiar"
+                title="Acompañamiento profesional para familias en momentos difíciles"
+                intro={<p>Consultar a tiempo también es cuidar a los tuyos.</p>}
+                actions={
+                    <>
+                        <Link href="/contacto?servicio=acompanamiento-familiar" className={btnPrimary}>
+                            Da el primer paso
+                            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                        </Link>
+                        <a href={WHATSAPP_FAMILIAS} target="_blank" rel="noopener noreferrer" className={btnSecondary}>
+                            <MessageCircle className="h-4 w-4" aria-hidden="true" />
+                            Escribir por WhatsApp
+                        </a>
+                    </>
+                }
+                factsTitle="En corto"
+                facts={[
+                    { term: "Para quién", detail: "Familias y cuidadores preocupados por niños, niñas, adolescentes o jóvenes." },
+                    { term: "Modalidad", detail: "Online, y presencial cuando la situación lo requiere" },
+                    { term: "Te acompaña", detail: JC_CLINICO.name },
+                    { term: "Dirección clínica", detail: `${ROCIO.name}, Directora Clínica del CRC` },
+                ]}
+            />
 
-            <section className="border-b border-[#eee8dc] py-14 sm:py-20">
-                <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-12 lg:px-8">
-                    <div className="lg:col-span-5">
-                        <h2 className="font-serif text-3xl font-bold leading-tight text-[#171713] sm:text-4xl">
-                            Pedir ayuda no es exagerar.
-                        </h2>
-                        <p className="mt-5 text-base leading-8 text-[#70695f]">
-                            Muchas familias llegan pidiendo disculpas por consultar, convencidas de que lo suyo no es
-                            suficientemente grave. Casi siempre llevaban meses sosteniendo solas una situación que ya
-                            pesaba demasiado.
-                        </p>
-                        <p className="mt-5 font-serif text-xl italic leading-8 text-[#2f5641]">
+            {/* Señales */}
+            <section aria-labelledby="senales-title" className="bg-[#fffdf8]">
+                <div className={`${container} grid gap-10 py-16 sm:py-24 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16`}>
+                    <Reveal>
+                        <SectionHead eyebrow="Antes de consultar" title="Pedir ayuda no es exagerar." id="senales-title">
+                            <p>
+                                Muchas familias llegan pidiendo disculpas por consultar, convencidas de que lo suyo no es suficientemente
+                                grave. Casi siempre llevaban meses sosteniendo solas una situación que ya pesaba demasiado.
+                            </p>
+                        </SectionHead>
+                        <p className="crc-serif mt-6 border-l-2 border-[#bd6f3c] pl-5 text-[1.25rem] leading-[1.45] text-[#171713]">
                             No tienes que esperar a que la situación empeore.
                         </p>
-                    </div>
-                    <div className="lg:col-span-7">
-                        <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#bd6f3c]">
-                            Es momento de consultar cuando
-                        </p>
-                        <ul className="mt-5 space-y-3">
+                    </Reveal>
+                    <Reveal>
+                        <p className={labelMuted}>Es momento de consultar cuando</p>
+                        <ul className="mt-3 border-t border-[#d8cfc0]">
                             {signals.map((signal) => (
-                                <li
-                                    key={signal}
-                                    className="flex items-start gap-4 rounded-[8px] border border-[#eee8dc] bg-[#f8f5ee] px-5 py-4"
-                                >
-                                    <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-[#2f5641]" aria-hidden="true" />
-                                    <span className="text-base leading-7 text-[#3f423a]">{signal}</span>
+                                <li key={signal} className="border-b border-[#d8cfc0] py-4 text-[1.0625rem] leading-[1.55] text-[#171713]">
+                                    {signal}
                                 </li>
                             ))}
                         </ul>
-                    </div>
+                    </Reveal>
                 </div>
             </section>
 
-            <section className="border-b border-[#eee8dc] bg-[#f8f5ee] py-14 sm:py-20">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="max-w-3xl">
-                        <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#bd6f3c]">Cómo te puedo ayudar</span>
-                        <h2 className="mt-4 font-serif text-3xl font-bold leading-tight text-[#171713] sm:text-4xl">
-                            Tres formas de acompañar, según lo que estés viviendo.
-                        </h2>
-                    </div>
-                    <div className="mt-10 grid gap-5 md:grid-cols-3">
-                        {paths.map((path) => {
-                            const Icon = path.icon;
-                            return (
-                                <article
-                                    key={path.title}
-                                    className="flex h-full flex-col rounded-[8px] border border-[#ded5c7] bg-[#fffdf8] p-6"
-                                >
-                                    <span className="flex h-11 w-11 items-center justify-center rounded-[8px] bg-[#e7efe9] text-[#2f5641]">
-                                        <Icon className="h-5 w-5" />
-                                    </span>
-                                    <h3 className="mt-6 font-serif text-2xl font-bold leading-tight text-[#171713]">
-                                        {path.title}
-                                    </h3>
-                                    <p className="mt-4 text-base leading-7 text-[#625c52]">{path.text}</p>
-                                    <p className="mt-auto border-t border-[#eee8dc] pt-5 text-sm leading-7 text-[#70695f]">
-                                        <strong className="font-semibold text-[#3f423a]">Con qué te vas:</strong> {path.outcome}
+            {/* Tres formas */}
+            <section aria-labelledby="formas-title" className="border-t border-[#d8cfc0] bg-[#f8f5ee]">
+                <div className={`${container} py-16 sm:py-24`}>
+                    <Reveal>
+                        <SectionHead eyebrow="Cómo te puedo ayudar" title="Tres formas de acompañar, según lo que estés viviendo." id="formas-title" />
+                    </Reveal>
+                    <ol className="mt-12 border-b border-[#d8cfc0]">
+                        {paths.map((path, index) => (
+                            <li key={path.title} className="border-t border-[#d8cfc0]">
+                                <Reveal className="grid gap-4 py-8 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1fr)_minmax(0,1fr)] lg:gap-10">
+                                    <div>
+                                        <p className="text-[0.8125rem] font-semibold tabular-nums text-[#9f5528]">{String(index + 1).padStart(2, "0")}</p>
+                                        <h3 className="crc-serif mt-2 text-[1.4rem] font-medium leading-[1.2] text-[#171713]">{path.title}</h3>
+                                    </div>
+                                    <p className="text-[1rem] leading-[1.7] text-[#55574f]">{path.text}</p>
+                                    <p className="text-[1rem] leading-[1.7] text-[#171713] lg:border-l lg:border-[#d8cfc0] lg:pl-8">
+                                        <span className="block text-[0.8125rem] font-semibold text-[#6f675d]">Con qué te vas</span>
+                                        {path.outcome}
                                     </p>
-                                </article>
-                            );
-                        })}
-                    </div>
-                    <p className="mt-8 max-w-3xl text-sm leading-7 text-[#70695f]">
-                        ¿Buscas evaluaciones de competencias parentales, informes periciales, terapia ocupacional o un
-                        proceso clínico sostenido?{" "}
-                        <Link href="/servicios/clinica" className="font-semibold text-[#9f5528] underline underline-offset-4 hover:text-[#bd6f3c]">
+                                </Reveal>
+                            </li>
+                        ))}
+                    </ol>
+                    <p className="mt-8 max-w-[62ch] text-[1rem] leading-[1.7] text-[#55574f]">
+                        ¿Buscas evaluaciones de competencias parentales, informes periciales, terapia ocupacional o un proceso clínico
+                        sostenido?{" "}
+                        <Link href="/servicios/clinica" className="font-semibold text-[#9f5528] underline decoration-[#d8cfc0] underline-offset-4 hover:text-[#171713]">
                             Eso se trabaja en atención clínica
                         </Link>
                         , con el equipo completo del CRC.
@@ -185,142 +158,106 @@ export default function AcompanamientoFamiliarPage() {
                 </div>
             </section>
 
-            <section className="border-b border-[#eee8dc] py-14 sm:py-20">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="max-w-3xl">
-                        <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#bd6f3c]">Cómo es el primer paso</span>
-                        <h2 className="mt-4 font-serif text-3xl font-bold leading-tight text-[#171713] sm:text-4xl">
-                            Nadie llega con todo claro. Esa es exactamente la idea.
-                        </h2>
-                    </div>
-                    <div className="mt-10 grid gap-5 md:grid-cols-3">
+            {/* Primer paso */}
+            <section aria-labelledby="primer-paso-title" className="border-t border-[#d8cfc0] bg-[#fffdf8]">
+                <div className={`${container} py-16 sm:py-24`}>
+                    <Reveal>
+                        <SectionHead eyebrow="Cómo es el primer paso" title="Nadie llega con todo claro. Esa es exactamente la idea." id="primer-paso-title" />
+                    </Reveal>
+                    <ol className="mt-12 grid border-t border-[#d8cfc0] md:grid-cols-3">
                         {steps.map((step, index) => (
-                            <div key={step.title} className="rounded-[8px] border border-[#eee8dc] bg-[#fffdf8] p-6">
-                                <span className="font-serif text-4xl font-bold leading-none text-[#171713]/12">0{index + 1}</span>
-                                <h3 className="mt-5 font-serif text-xl font-bold text-[#171713]">{step.title}</h3>
-                                <p className="mt-3 text-sm leading-7 text-[#70695f]">{step.text}</p>
-                            </div>
+                            <li key={step.title} className="border-b border-[#d8cfc0] py-8 md:border-b-0 md:border-l md:px-6 md:first:border-l-0 md:first:pl-0">
+                                <Reveal delay={index * 0.06}>
+                                    <p className="text-[0.8125rem] font-semibold tabular-nums text-[#9f5528]">Paso {index + 1}</p>
+                                    <h3 className="crc-serif mt-2 text-[1.35rem] font-medium leading-[1.2] text-[#171713]">{step.title}</h3>
+                                    <p className="mt-3 text-[1rem] leading-[1.7] text-[#55574f]">{step.text}</p>
+                                </Reveal>
+                            </li>
                         ))}
-                    </div>
+                    </ol>
                 </div>
             </section>
 
-            <section className="border-b border-[#eee8dc] bg-[#f3f7f4] py-14 sm:py-20">
-                <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 sm:px-6 lg:grid-cols-12 lg:px-8">
-                    <div className="lg:col-span-4">
-                        <div className="relative mx-auto aspect-[4/5] w-full max-w-[320px] overflow-hidden rounded-[8px] border border-white/60 bg-[#e7efe9] shadow-sm">
-                            <Image
-                                src="/images/juan-carlos-rauld-retrato.jpg"
-                                alt="Juan Carlos Rauld Farías"
-                                fill
-                                sizes="(min-width: 1024px) 320px, 100vw"
-                                className="object-cover object-center"
-                            />
-                        </div>
-                    </div>
-                    <div className="lg:col-span-8">
-                        <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#bd6f3c]">Quién te acompaña</span>
-                        <h2 className="mt-4 font-serif text-3xl font-bold leading-tight text-[#14392a] sm:text-4xl">
-                            Juan Carlos Rauld Farías
-                        </h2>
-                        <p className="mt-3 text-lg font-semibold leading-8 text-[#46614f]">
-                            Trabajador social clínico en salud mental infantil y familiar
-                        </p>
-                        <ul className="mt-7 space-y-3">
-                            {[
-                                <>
-                                    <strong className="font-semibold text-[#14392a]">Más de 15 años</strong> acompañando a niños y familias
-                                </>,
-                                <>Especialización en trauma infantil y casos complejos</>,
-                                <>Doctorando en Trabajo Social, Universitat Rovira i Virgili (España)</>,
-                                <>Experiencia docente universitaria en trabajo social clínico</>,
-                            ].map((item, index) => (
-                                <li key={index} className="flex items-start gap-4">
-                                    <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#2f5641]" aria-hidden="true" />
-                                    <span className="text-base leading-7 text-[#3f423a]">{item}</span>
-                                </li>
-                            ))}
-                        </ul>
-                        <p className="mt-7 font-serif text-xl italic leading-8 text-[#2f5641]">
-                            Atención con mirada respetuosa y sin juicios.
-                        </p>
-                        <Link
-                            href="/conocenos"
-                            className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-[#1d3d2b] underline underline-offset-4 hover:text-[#2b5740]"
-                        >
-                            Conoce al equipo del CRC
-                            <ArrowRight className="h-4 w-4" />
-                        </Link>
-                    </div>
-                </div>
-            </section>
+            <PersonInCharge
+                person={JC_CLINICO}
+                eyebrow="Quién te acompaña"
+                cta={{ href: "/contacto?servicio=acompanamiento-familiar", label: "Solicitar una hora" }}
+                secondary={
+                    <Link href="/conocenos" className={textLink}>
+                        Conoce al equipo del CRC
+                    </Link>
+                }
+            >
+                <ul className="space-y-2">
+                    <li>
+                        <span className="font-semibold text-[#171713]">Más de 15 años</span> acompañando a niños y familias
+                    </li>
+                    <li>Especialización en trauma infantil y casos complejos</li>
+                    <li>Experiencia docente universitaria en trabajo social clínico</li>
+                </ul>
+                <p className="crc-serif text-[1.2rem] text-[#171713]">Atención con mirada respetuosa y sin juicios.</p>
+            </PersonInCharge>
 
-            <section className="bg-[#14392a] py-14 sm:py-20">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="grid gap-10 lg:grid-cols-12">
-                        <div className="lg:col-span-5">
-                            <h2 className="font-serif text-3xl font-bold leading-tight text-white sm:text-4xl">
-                                Da el primer paso
-                            </h2>
-                            <p className="mt-5 text-lg leading-8 text-[#c3d6c9]">
-                                La primera conversación es para escucharte y orientarte.
-                            </p>
-                            <Link
-                                href="/contacto?servicio=acompanamiento-familiar"
-                                className="group mt-8 inline-flex items-center justify-center gap-2 rounded-[7px] bg-[#fffdf8] px-6 py-3.5 text-sm font-bold text-[#14392a] transition hover:bg-white"
-                            >
+            <PersonInCharge person={ROCIO} eyebrow="Directora Clínica a cargo del área" className="bg-[#fffdf8]">
+                <p>
+                    Rocío Solar es terapeuta ocupacional, cofundadora y Directora Clínica del CRC, con 9 años de experiencia clínica y
+                    psicosocial en salud mental infanto-juvenil. Define los criterios clínicos del área y revisa con el equipo los casos
+                    que requieren más resguardo, como las crisis emocionales.
+                </p>
+            </PersonInCharge>
+
+            {/* Cierre */}
+            <section aria-labelledby="cierre-title" className="bg-[#15120e] text-[#fbf7ee]">
+                <div className={`${container} py-16 sm:py-24`}>
+                    <div className="grid gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16">
+                        <Reveal>
+                            <SectionHead eyebrow="Contacto" title="Da el primer paso" id="cierre-title" dark>
+                                <p>La primera conversación es para escucharte y orientarte.</p>
+                            </SectionHead>
+                            <Link href="/contacto?servicio=acompanamiento-familiar" className={`${btnPrimaryOnDark} mt-8`}>
                                 Solicitar una hora
-                                <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+                                <ArrowRight className="h-4 w-4" aria-hidden="true" />
                             </Link>
-                        </div>
-                        <div className="grid gap-3 lg:col-span-7">
-                            <a
-                                href="https://wa.me/56949186447?text=Hola%2C%20quisiera%20orientaci%C3%B3n%20para%20mi%20familia."
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex items-start gap-4 rounded-[8px] border border-white/10 bg-white/5 px-5 py-4 transition hover:border-white/25 hover:bg-white/10"
-                            >
-                                <MessageCircle className="mt-0.5 h-5 w-5 shrink-0 text-[#a9c6b3]" />
-                                <span>
-                                    <span className="block text-xs font-bold uppercase tracking-[0.16em] text-[#a9c6b3]">WhatsApp</span>
-                                    <span className="mt-1 block text-base font-semibold text-white">+56 9 4918 6447</span>
-                                </span>
-                            </a>
-                            <a
-                                href="mailto:rauldjuancarlos@gmail.com"
-                                className="flex items-start gap-4 rounded-[8px] border border-white/10 bg-white/5 px-5 py-4 transition hover:border-white/25 hover:bg-white/10"
-                            >
-                                <Mail className="mt-0.5 h-5 w-5 shrink-0 text-[#a9c6b3]" />
-                                <span>
-                                    <span className="block text-xs font-bold uppercase tracking-[0.16em] text-[#a9c6b3]">Correo</span>
-                                    <span className="mt-1 block break-all text-base font-semibold text-white">rauldjuancarlos@gmail.com</span>
-                                </span>
-                            </a>
-                            <div className="flex items-start gap-4 rounded-[8px] border border-white/10 bg-white/5 px-5 py-4">
-                                <Monitor className="mt-0.5 h-5 w-5 shrink-0 text-[#a9c6b3]" />
-                                <span>
-                                    <span className="block text-xs font-bold uppercase tracking-[0.16em] text-[#a9c6b3]">Modalidad</span>
-                                    <span className="mt-1 block text-base font-semibold text-white">
-                                        Online, y presencial cuando la situación lo requiere
+                        </Reveal>
+                        <Reveal>
+                            <ul className="border-t border-white/15">
+                                <li className="border-b border-white/15">
+                                    <a href={WHATSAPP_FAMILIAS} target="_blank" rel="noopener noreferrer" className="group flex items-start gap-4 py-5">
+                                        <MessageCircle className="mt-1 h-5 w-5 shrink-0 text-[#e4935d]" aria-hidden="true" />
+                                        <span>
+                                            <span className={`${labelOnDark} block`}>WhatsApp</span>
+                                            <span className="mt-1 block text-[1.0625rem] font-semibold tabular-nums text-white group-hover:text-[#e4935d]">+56 9 4918 6447</span>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li className="border-b border-white/15">
+                                    <a href="mailto:rauldjuancarlos@gmail.com" className="group flex items-start gap-4 py-5">
+                                        <Mail className="mt-1 h-5 w-5 shrink-0 text-[#e4935d]" aria-hidden="true" />
+                                        <span className="min-w-0">
+                                            <span className={`${labelOnDark} block`}>Correo</span>
+                                            <span className="mt-1 block break-all text-[1.0625rem] font-semibold text-white group-hover:text-[#e4935d]">rauldjuancarlos@gmail.com</span>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li className="flex items-start gap-4 border-b border-white/15 py-5">
+                                    <Monitor className="mt-1 h-5 w-5 shrink-0 text-[#e4935d]" aria-hidden="true" />
+                                    <span>
+                                        <span className={`${labelOnDark} block`}>Modalidad</span>
+                                        <span className="mt-1 block text-[1.0625rem] font-semibold text-white">Online, y presencial cuando la situación lo requiere</span>
                                     </span>
-                                </span>
-                            </div>
-                        </div>
+                                </li>
+                            </ul>
+                        </Reveal>
                     </div>
 
-                    <div
-                        id="ayuda-inmediata"
-                        className="mt-10 flex scroll-mt-28 flex-col gap-4 rounded-[8px] border border-[#d9a066]/30 bg-[#d9a066]/10 px-5 py-5 sm:flex-row sm:items-center sm:justify-between"
-                    >
-                        <div className="flex items-start gap-4">
-                            <Phone className="mt-0.5 h-5 w-5 shrink-0 text-[#e5b782]" />
-                            <p className="text-base leading-7 text-[#f0e4d4]">
-                                Si estás en crisis ahora, llama gratis al{" "}
-                                <a href="tel:*4141" className="font-bold text-white underline underline-offset-4">*4141</a>, disponible 24 horas.
-                                Si es una emergencia, llama al{" "}
-                                <a href="tel:131" className="font-bold text-white underline underline-offset-4">131</a>.
-                            </p>
-                        </div>
+                    <div id="ayuda-inmediata" className="mt-12 flex scroll-mt-28 items-start gap-4 rounded-[6px] border border-[#e4935d]/50 px-5 py-5">
+                        <Phone className="mt-1 h-5 w-5 shrink-0 text-[#e4935d]" aria-hidden="true" />
+                        <p className="text-[1rem] leading-[1.7] text-[#fbf7ee]">
+                            Si estás en crisis ahora, llama gratis al{" "}
+                            <a href="tel:*4141" className="font-semibold text-white underline underline-offset-4">*4141</a>, disponible 24 horas. Si
+                            es una emergencia, llama al{" "}
+                            <a href="tel:131" className="font-semibold text-white underline underline-offset-4">131</a>.
+                        </p>
                     </div>
                 </div>
             </section>

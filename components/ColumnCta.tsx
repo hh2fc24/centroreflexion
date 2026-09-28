@@ -115,21 +115,22 @@ export function ColumnCta({ category, title, tags, className }: ColumnCtaProps) 
             aria-label={cta.eyebrow}
             data-column-cta={kind}
             className={cn(
-                "mt-12 rounded-[8px] border border-[#2d3029] bg-[#171713] p-6 text-[#fffdf8] sm:mt-16 sm:p-8",
+                "mt-12 rounded-[6px] bg-[#15120e] p-6 text-[#f8f5ee] sm:mt-16 sm:p-8",
                 className,
             )}
         >
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#d3976d]">{cta.eyebrow}</p>
-            <h2 className="mt-3 font-serif text-2xl font-bold leading-snug text-white sm:text-[1.7rem]">
+            <p className="text-[0.8125rem] font-semibold text-[#e4935d]">{cta.eyebrow}</p>
+            <span aria-hidden="true" className="mt-4 block h-[2px] w-10 bg-[#e4935d]" />
+            <h2 className="crc-serif mt-4 max-w-[30ch] text-balance text-[1.35rem] font-semibold leading-[1.2] tracking-[-0.01em] text-[#fffdf8] sm:text-[1.6rem]">
                 {cta.title}
             </h2>
-            <p className="mt-3 text-sm leading-7 text-[#d8d0c4]">{cta.detail}</p>
+            <p className="mt-3 max-w-[60ch] text-[0.9375rem] leading-[1.7] text-[#d8cfc0]">{cta.detail}</p>
             <Link
                 href={cta.href}
-                className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-[6px] bg-[#bd6f3c] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#9f5528] sm:w-auto"
+                className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-[6px] bg-[#bd6f3c] px-5 py-3 text-[0.9375rem] font-semibold text-white transition-colors hover:bg-[#a85f31] sm:w-auto"
             >
                 {cta.label}
-                <ArrowRight className="h-4 w-4" />
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
         </aside>
     );

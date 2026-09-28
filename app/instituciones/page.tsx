@@ -22,8 +22,9 @@ export const metadata: Metadata = pageMetadata({
 
 /**
  * /instituciones: la puerta comercial para colegios, programas de protección,
- * fundaciones y municipios. Las secciones (con movimiento GSAP) viven en
- * InstitucionesSections; el formulario y el WhatsApp, en InstitucionesContact.
+ * fundaciones y municipios. Las secciones viven en InstitucionesSections (la
+ * oferta sale de app/servicios/_components/engagements.ts); el formulario y el
+ * WhatsApp, en InstitucionesContact.
  */
 export default function InstitucionesPage() {
     return (

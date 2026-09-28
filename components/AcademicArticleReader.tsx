@@ -4,9 +4,9 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeft, FileText } from 'lucide-react';
-import { MotionDiv } from '@/components/ui/Motion';
 import { Article, ArticleAuthor } from '@/lib/data';
 import { JsonLd } from '@/components/JsonLd';
+import { TypographicCover, displayTitle, isRealPhoto, toSentenceCase } from '@/components/TypographicCover';
 
 interface ParsedBlock {
   type: 'heading' | 'paragraph' | 'blockquote' | 'reference' | 'intro-paragraph';
@@ -108,162 +108,134 @@ export default function AcademicArticleReader({ article }: { article: Article })
     return part;
   });
 
+  // Solo fotos reales (docs/design-system-crc.md §4); las ilustraciones no se muestran.
   const renderImage = () => {
-    if (!article.image) return null;
+    if (!isRealPhoto(article.image)) return null;
     return (
-      <figure className="my-10 mx-auto w-full max-w-4xl">
-        <div className="relative aspect-video w-full overflow-hidden rounded-sm border border-[#ded5c7]">
+      <figure className="mb-12">
+        <div className="relative aspect-[3/2] w-full overflow-hidden rounded-[6px] bg-[#eee8dc]">
           <Image
             src={article.image}
             alt={article.imageAlt || article.title}
             fill
-            sizes="(min-width: 1024px) 850px, 100vw"
+            sizes="(min-width: 1024px) 720px, 100vw"
             className="object-cover"
             priority
           />
         </div>
-        {article.imageCaption && <figcaption className="mt-3 text-sm text-[#70695f] text-center font-serif italic">
+        {article.imageCaption && <figcaption className="mt-3 text-[0.875rem] text-[#6f675d]">
           {article.imageCaption}
         </figcaption>}
       </figure>
     );
   };
 
-  return (
-    <div className="min-h-screen bg-[#fffdf8] text-[#171713] font-serif selection:bg-[#d3976d]/30">
-      {/* Top Bar */}
-      <div className="border-b border-[#ded5c7] bg-[#fffdf8]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between text-xs tracking-widest text-[#70695f] uppercase">
-          <Link href="/trabajos-intelectuales" className="flex items-center hover:text-[#bd6f3c] transition-colors">
-            <ArrowLeft className="w-3 h-3 mr-2" />
-            Volver
-          </Link>
-          <span>Trabajo Intelectual · Centro de Reflexiones Críticas</span>
-          <span className="hidden sm:inline-block">CRC</span>
-        </div>
-      </div>
+  // Los títulos en mayúsculas del original pasan a tipo oración; el resto se respeta.
+  const headingCase = displayTitle;
 
-      {/* Article Header */}
-      <header className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12 text-center">
-        <h1 className="text-3xl md:text-5xl font-serif text-[#171713] leading-tight md:leading-[1.15] mb-8 max-w-3xl mx-auto">
-          {article.title}
-        </h1>
-        
-        <div className="flex flex-col items-center justify-center space-y-2 text-[#70695f]">
-          <div className="text-lg">
-            <span className="text-[#171713]">{authors.length > 1 ? 'Autores:' : 'Autor:'}</span> {authors.map(author => author.name).join(' · ')}{article.footnotes?.some(note => note.id === 1) && renderText('[1]')}
-          </div>
-          <div className="flex items-center space-x-4 text-sm">
-            <span>{article.date}</span>
-            <span className="w-1 h-1 rounded-full bg-[#bd6f3c]"></span>
-            <span className="uppercase tracking-wider">{article.category}</span>
-          </div>
-        </div>
+  const authorNames = authors.map(author => author.name).join(' · ');
+  const labelClass = 'text-[0.8125rem] font-semibold text-[#9f5528]';
+
+  return (
+    <div className="min-h-screen bg-[#fffdf8] text-[#171713] selection:bg-[#e4935d]/30">
+      {/* Cabecera: portada tipográfica con el h1 */}
+      <TypographicCover
+        size="hero"
+        titleAs="h1"
+        tone="ink"
+        containerClassName="max-w-6xl"
+        category={article.category}
+        title={article.title}
+        date={article.date}
+      >
+        <p className="mt-6 text-[0.9375rem] font-semibold text-[#f8f5ee]">
+          {authorNames}{article.footnotes?.some(note => note.id === 1) && renderText('[1]')}
+        </p>
         {article.publication && (
-          <div className="mt-6 space-y-3 text-sm leading-6 text-[#70695f]">
-            <p><cite>{article.publication.journal}</cite>, {article.publication.volume} ({article.publication.year}), pp. {article.publication.pages}.</p>
+          <div className="mt-4 space-y-1 text-[0.9375rem] leading-[1.6] text-[#d8cfc0]">
+            <p><cite className="not-italic">{article.publication.journal}</cite>, {article.publication.volume} ({article.publication.year}), pp. {article.publication.pages}.</p>
             <p>Recibido: {article.publication.received} · Aceptado: {article.publication.accepted}</p>
-            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
-              <a href={`https://doi.org/${article.publication.doi}`} target="_blank" rel="noopener noreferrer" className="text-[#9f5528] underline underline-offset-4">DOI: {article.publication.doi}</a>
-              <a href={article.publication.pdf} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded border border-[#ded5c7] px-4 py-2 text-[#171713] hover:border-[#bd6f3c]"><FileText className="h-4 w-4" />Leer PDF original</a>
-            </div>
           </div>
         )}
-      </header>
+        <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 text-[0.9375rem] font-semibold">
+          <Link href="/trabajos-intelectuales" className="inline-flex items-center gap-2 underline-offset-4 hover:underline">
+            <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+            Volver a Trabajos intelectuales
+          </Link>
+          {article.publication && (
+            <>
+              <a href={`https://doi.org/${article.publication.doi}`} target="_blank" rel="noopener noreferrer" className="text-[#e4935d] underline underline-offset-4">DOI: {article.publication.doi}</a>
+              <a href={article.publication.pdf} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-[6px] border border-[#f8f5ee]/40 px-4 py-2 transition-colors hover:border-[#e4935d] hover:text-[#e4935d]"><FileText className="h-4 w-4" aria-hidden="true" />Leer PDF original</a>
+            </>
+          )}
+        </div>
+      </TypographicCover>
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <hr className="border-[#ded5c7]" />
-      </div>
+      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-8 lg:py-16">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,1fr)_16rem] lg:gap-16">
 
-      {/* Main Content Layout */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_18rem] gap-12 lg:gap-16">
-          
-          {/* Main Column */}
           <article className="min-w-0">
-            
-            {/* Abstract Section */}
+
             {(abstract || keywords.length > 0) && (
-              <MotionDiv 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="bg-[#f8f5ee] border-l-4 border-[#bd6f3c] p-6 md:p-8 mb-12 shadow-sm"
-              >
-                <h3 className="text-[#bd6f3c] font-bold uppercase tracking-widest text-sm mb-4">Resumen</h3>
+              <section aria-labelledby="resumen" className="mb-12 max-w-[65ch] border-l-2 border-[#bd6f3c] pl-5 sm:pl-6">
+                <h2 id="resumen" className={labelClass}>Resumen</h2>
                 {abstract && (
-                  <p className="font-serif italic text-lg leading-relaxed text-[#171713] mb-6">
+                  <p className="crc-serif mt-3 text-[1.0625rem] leading-[1.7] text-[#171713] sm:text-[1.125rem]">
                     {abstract}
                   </p>
                 )}
                 {keywords.length > 0 && (
-                  <div>
-                    <h4 className="text-xs uppercase tracking-widest text-[#70695f] mb-2">Palabras Clave</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {keywords.map((kw, i) => (
-                        <span key={i} className="px-3 py-1 bg-white border border-[#ded5c7] text-[#171713] text-xs uppercase tracking-wider rounded-full">
-                          {kw}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
+                  <p className="mt-5 text-[0.9375rem] leading-[1.6] text-[#55574f]">
+                    <span className="font-semibold text-[#171713]">Palabras clave: </span>
+                    {keywords.map(headingCase).join(' · ')}
+                  </p>
                 )}
-              </MotionDiv>
+              </section>
             )}
 
             {renderImage()}
 
-            {toc.length > 0 && <details className="mb-10 border border-[#ded5c7] p-5 lg:hidden">
-              <summary className="cursor-pointer font-bold">Contenido del artículo</summary>
-              <nav aria-label="Contenido del artículo" className="mt-4 flex flex-col gap-3 text-sm">
-                {toc.map(item => <a key={item.id} href={`#${item.id}`} className="text-[#70695f] hover:text-[#9f5528]">{item.title}</a>)}
+            {toc.length > 0 && <details className="mb-10 max-w-[65ch] rounded-[6px] border border-[#d8cfc0] px-4 py-3 lg:hidden">
+              <summary className="cursor-pointer text-[0.9375rem] font-semibold">Contenido del artículo</summary>
+              <nav aria-label="Contenido del artículo" className="mt-3 flex flex-col gap-2.5 text-[0.9375rem]">
+                {toc.map(item => <a key={item.id} href={`#${item.id}`} className="text-[#55574f] hover:text-[#9f5528]">{headingCase(item.title)}</a>)}
               </nav>
             </details>}
 
-            {/* Content Body */}
-            <div className="article-body font-serif text-lg md:text-xl leading-8 md:leading-9 text-[#171713] space-y-8 break-words">
+            {/* Cuerpo: Source Serif 4, ~65 caracteres, interlineado 1.7 */}
+            <div className="article-body crc-serif max-w-[65ch] break-words text-[1.0625rem] leading-[1.7] text-[#171713] sm:text-[1.125rem]">
               {parsedContent.map((block, idx) => {
                 switch (block.type) {
-                  case 'heading':
+                  case 'heading': {
                     const match = block.text.match(/^(\d+(?:\.\d+)*\.)\s+(.*)$/);
-                    if (match) {
-                      return (
-                        <h2 key={idx} id={block.id} className="text-2xl md:text-3xl font-bold mt-16 mb-8 text-[#171713] flex items-baseline border-l-4 border-[#d3976d] pl-4 scroll-mt-24">
-                          <span className="text-[#bd6f3c] mr-3">{match[1]}</span>
-                          {match[2]}
-                        </h2>
-                      );
-                    }
+                    const text = match ? match[2] : block.text;
                     return (
-                      <h2 key={idx} id={block.id} className="text-2xl md:text-3xl font-bold mt-16 mb-8 text-[#171713] border-l-4 border-[#bd6f3c] pl-4 scroll-mt-24">
-                        {block.text}
+                      <h2 key={idx} id={block.id} className="mb-5 mt-14 scroll-mt-24 text-balance text-[clamp(1.4rem,2vw,1.75rem)] font-semibold leading-[1.2] tracking-[-0.01em] text-[#171713]">
+                        {match && <span className="mr-2 text-[#9f5528] tabular-nums">{match[1]}</span>}
+                        {headingCase(text)}
                       </h2>
                     );
-                    
-                  case 'intro-paragraph':
-                    return (
-                      <p key={idx} className="text-left sm:text-justify">
-                        {renderText(block.text)}
-                      </p>
-                    );
-                    
+                  }
+
                   case 'blockquote':
                     return (
-                      <blockquote key={idx} className="ml-4 md:ml-12 pl-6 border-l-2 border-[#d3976d] font-serif italic text-[#70695f] text-base md:text-lg leading-relaxed py-2">
+                      <blockquote key={idx} className="my-8 border-l-2 border-[#d8cfc0] pl-5 font-sans text-[1rem] leading-[1.7] text-[#55574f]">
                         {renderText(block.text)}
                       </blockquote>
                     );
-                    
+
                   case 'reference':
                     return (
-                      <p key={idx} className="pl-8 -indent-8 text-base text-[#70695f] mb-4 leading-relaxed">
+                      <p key={idx} className="mb-3 pl-8 -indent-8 font-sans text-[0.9375rem] leading-[1.6] text-[#55574f]">
                         {renderText(block.text)}
                       </p>
                     );
-                    
+
+                  case 'intro-paragraph':
                   case 'paragraph':
                   default:
                     return (
-                      <p key={idx} className="text-left sm:text-justify">
+                      <p key={idx} className="mb-6">
                         {renderText(block.text)}
                       </p>
                     );
@@ -271,121 +243,77 @@ export default function AcademicArticleReader({ article }: { article: Article })
               })}
             </div>
 
-            {!!article.footnotes?.length && <section id="notas" className="mt-16 border-t border-[#ded5c7] pt-8 scroll-mt-24">
-              <h2 className="mb-6 text-2xl font-bold">Notas</h2>
-              <ol className="space-y-5 text-base leading-7 text-[#70695f]">
-                {article.footnotes.map(note => <li key={note.id} id={`nota-${note.id}`} className="flex gap-3 scroll-mt-24">
-                  <span className="font-bold text-[#9f5528]">{note.id}.</span><p>{note.text}</p>
+            {!!article.footnotes?.length && <section id="notas" className="mt-16 max-w-[65ch] scroll-mt-24 border-t border-[#d8cfc0] pt-8">
+              <h2 className="crc-serif mb-6 text-[1.5rem] font-semibold">Notas</h2>
+              <ol className="space-y-4 text-[0.9375rem] leading-[1.6] text-[#55574f]">
+                {article.footnotes.map(note => <li key={note.id} id={`nota-${note.id}`} className="flex scroll-mt-24 gap-3">
+                  <span className="font-semibold tabular-nums text-[#9f5528]">{note.id}.</span><p>{note.text}</p>
                 </li>)}
               </ol>
             </section>}
 
-            {/* Author Footer */}
-            <div className="mt-20 pt-10 border-t border-[#eee8dc]">
-              <div className="bg-[#f8f5ee] p-8 rounded-sm">
-                <h3 className="text-lg font-bold text-[#171713] mb-4">{authors.length > 1 ? 'Sobre los autores' : 'Sobre el autor'}</h3>
-                <div className="space-y-5 text-[#70695f] font-serif">
-                  {authors.map((author) => (
-                    <div key={author.name}>
-                      <p><strong className="text-[#171713]">{author.name}</strong>{author.bio ? ` — ${author.bio}` : ''}</p>
-                      {(author.orcid || author.emails?.length) && (
-                        <p className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-sm">
-                          {author.orcid && <a href={author.orcid} target="_blank" rel="noopener noreferrer" className="text-[#9f5528] underline underline-offset-2">ORCID</a>}
-                          {author.emails?.map(email => <a key={email} href={`mailto:${email}`} className="break-all text-[#9f5528] underline underline-offset-2">{email}</a>)}
-                        </p>
-                      )}
-                    </div>
-                  ))}
-                  <p>Este artículo fue publicado el {article.date} en la categoría {article.category}.</p>
-                </div>
+            {/* Autores */}
+            <section className="mt-16 max-w-[65ch] border-t border-[#d8cfc0] pt-8">
+              <h2 className="crc-serif text-[1.35rem] font-semibold text-[#171713]">{authors.length > 1 ? 'Sobre los autores' : 'Sobre el autor'}</h2>
+              <div className="mt-4 space-y-4 text-[0.9375rem] leading-[1.7] text-[#55574f]">
+                {authors.map((author) => (
+                  <div key={author.name}>
+                    <p><strong className="font-semibold text-[#171713]">{author.name}</strong>{author.bio ? ` — ${author.bio}` : ''}</p>
+                    {(author.orcid || author.emails?.length) && (
+                      <p className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-[0.875rem]">
+                        {author.orcid && <a href={author.orcid} target="_blank" rel="noopener noreferrer" className="text-[#9f5528] underline underline-offset-2">ORCID</a>}
+                        {author.emails?.map(email => <a key={email} href={`mailto:${email}`} className="break-all text-[#9f5528] underline underline-offset-2">{email}</a>)}
+                      </p>
+                    )}
+                  </div>
+                ))}
               </div>
-              <div className="mt-8 text-center">
-                <Link 
-                  href="/trabajos-intelectuales"
-                  className="inline-flex items-center px-6 py-3 border border-[#bd6f3c] text-[#bd6f3c] hover:bg-[#bd6f3c] hover:text-white transition-colors duration-300 font-serif uppercase tracking-widest text-sm"
-                >
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  Explorar más trabajos
-                </Link>
-              </div>
-            </div>
-            
+              <Link
+                href="/trabajos-intelectuales"
+                className="mt-8 inline-flex items-center gap-2 rounded-[6px] border border-[#171713] px-5 py-3 text-[0.9375rem] font-semibold text-[#171713] transition-colors hover:border-[#9f5528] hover:text-[#9f5528]"
+              >
+                <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+                Ver más trabajos
+              </Link>
+            </section>
+
           </article>
 
-          {/* Sidebar */}
+          {/* Barra lateral */}
           <aside className="hidden lg:block">
-            <div className="sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto space-y-10 pr-2">
-              
-              {/* Metadata Card */}
-              <div className="p-6 border border-[#eee8dc] bg-white rounded-sm shadow-sm">
-                <h4 className="text-xs uppercase tracking-widest text-[#70695f] mb-4 border-b border-[#eee8dc] pb-2">Metadatos del Artículo</h4>
-                <dl className="space-y-4 text-sm font-serif">
-                  <div>
-                    <dt className="text-[#70695f] uppercase text-[10px] tracking-wider">{authors.length > 1 ? 'Autores' : 'Autor'}</dt>
-                    <dd className="text-[#171713]">{authors.map(author => author.name).join(' · ')}</dd>
-                  </div>
-                  <div>
-                    <dt className="text-[#70695f] uppercase text-[10px] tracking-wider">Fecha de Publicación</dt>
-                    <dd className="text-[#171713]">{article.date}</dd>
-                  </div>
-                  <div>
-                    <dt className="text-[#70695f] uppercase text-[10px] tracking-wider">Categoría</dt>
-                    <dd className="text-[#171713]">{article.category}</dd>
-                  </div>
-                  {keywords.length > 0 && (
-                    <div>
-                      <dt className="text-[#70695f] uppercase text-[10px] tracking-wider mb-1">Palabras Clave</dt>
-                      <dd className="flex flex-wrap gap-1">
-                        {keywords.map((kw, i) => (
-                          <span key={i} className="text-[#171713] after:content-[','] last:after:content-['']">
-                            {kw}
-                          </span>
-                        ))}
-                      </dd>
-                    </div>
-                  )}
-                </dl>
-              </div>
+            <div className="sticky top-24 max-h-[calc(100vh-7rem)] space-y-10 overflow-y-auto pr-2">
+              <dl className="space-y-4 border-t border-[#d8cfc0] pt-5 text-[0.9375rem]">
+                <div>
+                  <dt className={labelClass}>{authors.length > 1 ? 'Autores' : 'Autor'}</dt>
+                  <dd className="mt-0.5 text-[#171713]">{authorNames}</dd>
+                </div>
+                <div>
+                  <dt className={labelClass}>Fecha de publicación</dt>
+                  <dd className="mt-0.5 tabular-nums text-[#171713]">{article.date}</dd>
+                </div>
+                <div>
+                  <dt className={labelClass}>Categoría</dt>
+                  <dd className="mt-0.5 text-[#171713]">{toSentenceCase(article.category)}</dd>
+                </div>
+              </dl>
 
-              {/* Table of Contents */}
               {toc.length > 0 && (
-                <div className="p-6 bg-[#f8f5ee] rounded-sm">
-                  <h4 className="text-xs uppercase tracking-widest text-[#70695f] mb-4 border-b border-[#ded5c7] pb-2">Contenido</h4>
-                  <ul className="space-y-3 text-sm font-serif">
+                <nav aria-label="Contenido del artículo" className="border-t border-[#d8cfc0] pt-5">
+                  <p className={labelClass}>Contenido</p>
+                  <ul className="mt-3 space-y-2.5 text-[0.9375rem]">
                     {toc.map((item, i) => (
                       <li key={i}>
-                        <a 
-                          href={`#${item.id}`} 
-                          className="text-[#171713] hover:text-[#bd6f3c] transition-colors line-clamp-2 leading-relaxed"
-                        >
-                          {item.title}
+                        <a href={`#${item.id}`} className="line-clamp-2 leading-[1.4] text-[#55574f] transition-colors hover:text-[#9f5528]">
+                          {headingCase(item.title.replace(/^\d+(?:\.\d+)*\.\s+/, ''))}
                         </a>
                       </li>
                     ))}
                   </ul>
-                </div>
+                </nav>
               )}
-              
-              {/* Thumbnail */}
-              {article.image && (
-                <div className="relative aspect-[3/4] w-full overflow-hidden rounded-sm border border-[#ded5c7] opacity-80 hover:opacity-100 transition-opacity">
-                  <Image
-                    src={article.image}
-                    alt={article.imageAlt || article.title}
-                    fill
-                    sizes="288px"
-                    className="object-cover grayscale hover:grayscale-0 transition-all duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                  <div className="absolute bottom-4 left-4 right-4 text-white text-xs font-serif italic line-clamp-3">
-                    {article.title}
-                  </div>
-                </div>
-              )}
-              
             </div>
           </aside>
-          
+
         </div>
       </div>
       <JsonLd article={article} />

@@ -14,32 +14,33 @@ export function CookieConsentBanner() {
 
   if (!hydrated || status !== "pending") return null;
 
+  // Abajo y compacto para no tapar la navegación. En móvil deja libre la
+  // esquina inferior derecha, donde vive el botón de WhatsApp.
   return (
     <div
       role="dialog"
       aria-label="Consentimiento de cookies"
-      className="fixed left-1/2 top-[calc(env(safe-area-inset-top)+0.75rem)] z-[110] w-[min(calc(100vw-1.5rem),760px)] -translate-x-1/2 rounded-[8px] border border-[rgba(193,127,62,0.28)] bg-[#171713]/95 px-3 py-2.5 shadow-[0_10px_28px_rgba(0,0,0,0.26)] backdrop-blur-md sm:px-4"
+      className="fixed bottom-[calc(env(safe-area-inset-bottom)+0.75rem)] left-3 right-[4.75rem] z-[110] rounded-[6px] border border-white/15 bg-[#15120e] px-3.5 py-3 sm:bottom-6 sm:left-1/2 sm:right-auto sm:w-[min(calc(100vw-12rem),600px)] sm:-translate-x-1/2 sm:px-4"
     >
-      <div className="flex flex-col items-center gap-2.5 sm:flex-row sm:justify-between">
-        <p className="text-center text-[11px] leading-5 text-[#cfc6b8] sm:text-left sm:text-xs">
+      <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+        <p className="text-[0.8125rem] leading-5 text-[#ede7dc]/85">
           Usamos cookies para medir tráfico y mejorar la experiencia. El sitio funciona igual si las rechazas.{" "}
-          <Link href="/contacto" className="underline hover:text-white">
+          <Link href="/contacto" className="underline underline-offset-2 hover:text-white">
             Más información
           </Link>
-          .
         </p>
         <div className="flex shrink-0 gap-2">
           <button
             type="button"
             onClick={reject}
-            className="rounded-[5px] border border-[rgba(193,127,62,0.35)] px-3 py-1.5 text-[11px] font-medium text-[#a99f91] transition-colors hover:border-[#bd6f3c] hover:text-white"
+            className="rounded-[6px] border border-white/25 px-3 py-1.5 text-[0.8125rem] font-semibold text-[#ede7dc] transition-colors hover:border-white/60 hover:text-white"
           >
             Rechazar
           </button>
           <button
             type="button"
             onClick={accept}
-            className="rounded-[5px] bg-[#bd6f3c] px-3 py-1.5 text-[11px] font-semibold text-[#171713] transition-opacity hover:opacity-90"
+            className="rounded-[6px] bg-[#bd6f3c] px-3 py-1.5 text-[0.8125rem] font-semibold text-white transition-colors hover:bg-[#a85f31]"
           >
             Aceptar
           </button>

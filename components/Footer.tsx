@@ -23,12 +23,12 @@ export function Footer({ initialFooter }: { initialFooter?: FooterContent }) {
     const hasHref = (href: string) => Boolean(href) && href !== "#";
 
     return (
-        <footer style={{ background: "#171713" }} className="border-t border-[rgba(176,145,100,0.18)]">
+        <footer className="border-t border-white/10 bg-[#15120e]">
             {/* ── Top section ──────────────────────────────────────── */}
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-16 pb-12">
-                <div className="mb-10 flex flex-col gap-6 border-b border-[rgba(193,127,62,0.22)] pb-8 sm:flex-row sm:items-center sm:justify-between">
+            <div className="mx-auto max-w-[1640px] px-5 pb-12 pt-16 sm:px-8 lg:px-14 xl:px-20">
+                <div className="mb-10 flex flex-col gap-6 border-b border-white/12 pb-8 sm:flex-row sm:items-center sm:justify-between">
                     <div className="flex min-w-fit items-center gap-3">
-                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#f8f5ee] p-1 opacity-95">
+                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[6px] bg-[#f8f5ee] p-1">
                             <Image
                                 src="/logo-crc.png"
                                 alt="CRC"
@@ -37,15 +37,9 @@ export function Footer({ initialFooter }: { initialFooter?: FooterContent }) {
                                 className="h-11 w-11 object-contain"
                             />
                         </div>
-                        <div className="flex min-w-fit flex-col">
-                            <span className="text-[9px] font-semibold tracking-[0.2em] uppercase text-[#a99f91] leading-none">Centro de</span>
-                            <span
-                                className="whitespace-nowrap text-[13px] font-bold tracking-[0.08em] text-white leading-snug"
-                                style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
-                            >
-                                Reflexiones Críticas
-                            </span>
-                        </div>
+                        <span className="crc-serif text-[1.125rem] font-semibold leading-tight text-white">
+                            Centro de Reflexiones Críticas
+                        </span>
                     </div>
 
                     <a
@@ -57,10 +51,10 @@ export function Footer({ initialFooter }: { initialFooter?: FooterContent }) {
                         onClick={(e) => { if (adminEnabled) { e.preventDefault(); e.stopPropagation(); } }}
                     >
                         <span className="block">
-                            <span className="mb-1 block text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-[#bd6f3c]">
+                            <span className="mb-1 block text-[0.8125rem] font-semibold text-[#e4935d]">
                                 Respaldo editorial
                             </span>
-                            <span className="block text-xs leading-relaxed text-[#a99f91]">
+                            <span className="block text-[0.875rem] leading-relaxed text-[#a99f91]">
                                 Cursos y talleres CRC cuentan con respaldo de Editorial Hammurabi.
                             </span>
                         </span>
@@ -74,14 +68,11 @@ export function Footer({ initialFooter }: { initialFooter?: FooterContent }) {
                     </a>
                 </div>
 
-                <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4">
+                <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1.3fr)]">
 
                     {/* Brand / Logo column */}
                     <div className="lg:col-span-1">
-                        {/* Gold rule */}
-                        <div className="w-8 h-[1px] bg-[#bd6f3c] mb-5" />
-
-                        <p className="text-[#a99f91] text-sm leading-relaxed mb-7">
+                        <p className="mb-7 max-w-[40ch] text-[0.9375rem] leading-[1.7] text-[#a99f91]">
                             <EditableText path="footer.description" ariaLabel="Footer descripción" multiline />
                         </p>
 
@@ -91,7 +82,7 @@ export function Footer({ initialFooter }: { initialFooter?: FooterContent }) {
                                 href={instagramHref}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="w-8 h-8 border border-[rgba(193,127,62,0.35)] flex items-center justify-center text-[#a99f91] hover:text-white hover:border-[#bd6f3c] transition-all duration-200"
+                                className="flex h-9 w-9 items-center justify-center rounded-[6px] border border-white/15 text-[#a99f91] transition-colors duration-200 hover:border-[#e4935d] hover:text-white"
                                 onClick={(e) => { if (adminEnabled) { e.preventDefault(); e.stopPropagation(); } }}
                             >
                                 <Instagram className="h-4 w-4" />
@@ -102,7 +93,7 @@ export function Footer({ initialFooter }: { initialFooter?: FooterContent }) {
                                     href={linkedinHref}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="w-8 h-8 border border-[rgba(193,127,62,0.35)] flex items-center justify-center text-[#a99f91] hover:text-white hover:border-[#bd6f3c] transition-all duration-200"
+                                    className="flex h-9 w-9 items-center justify-center rounded-[6px] border border-white/15 text-[#a99f91] transition-colors duration-200 hover:border-[#e4935d] hover:text-white"
                                     onClick={(e) => { if (adminEnabled) { e.preventDefault(); e.stopPropagation(); } }}
                                 >
                                     <Linkedin className="h-4 w-4" />
@@ -113,7 +104,7 @@ export function Footer({ initialFooter }: { initialFooter?: FooterContent }) {
                                 href={whatsappHref}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="w-8 h-8 border border-[rgba(193,127,62,0.35)] flex items-center justify-center text-[#a99f91] hover:text-white hover:border-[#bd6f3c] transition-all duration-200"
+                                className="flex h-9 w-9 items-center justify-center rounded-[6px] border border-white/15 text-[#a99f91] transition-colors duration-200 hover:border-[#e4935d] hover:text-white"
                                 onClick={(e) => { if (adminEnabled) { e.preventDefault(); e.stopPropagation(); } }}
                             >
                                 <MessageCircle className="h-4 w-4" />
@@ -123,7 +114,7 @@ export function Footer({ initialFooter }: { initialFooter?: FooterContent }) {
                                 href={youtubeHref}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="w-8 h-8 border border-[rgba(193,127,62,0.35)] flex items-center justify-center text-[#a99f91] hover:text-white hover:border-[#bd6f3c] transition-all duration-200"
+                                className="flex h-9 w-9 items-center justify-center rounded-[6px] border border-white/15 text-[#a99f91] transition-colors duration-200 hover:border-[#e4935d] hover:text-white"
                                 onClick={(e) => { if (adminEnabled) { e.preventDefault(); e.stopPropagation(); } }}
                             >
                                 <Youtube className="h-4 w-4" />
@@ -137,7 +128,7 @@ export function Footer({ initialFooter }: { initialFooter?: FooterContent }) {
                         .filter((c) => c?.visible !== false)
                         .map((col, colIdx) => (
                             <div key={col.id || colIdx}>
-                                <h4 className="text-[0.65rem] font-semibold tracking-[0.18em] uppercase text-[#bd6f3c] mb-5">
+                                <h4 className="mb-4 text-[0.8125rem] font-semibold text-[#e4935d]">
                                     <EditableText path={`footer.columns.${colIdx}.title`} ariaLabel="Footer columna" />
                                 </h4>
                                 <ul className="space-y-3">
@@ -148,7 +139,7 @@ export function Footer({ initialFooter }: { initialFooter?: FooterContent }) {
                                                 <Link
                                                     href={l.href || "#"}
                                                     onClick={(e) => { if (adminEnabled) { e.preventDefault(); e.stopPropagation(); } }}
-                                                    className="text-sm text-[#a99f91] hover:text-white transition-colors duration-200"
+                                                    className="text-[0.9375rem] text-[#a99f91] transition-colors duration-200 hover:text-white"
                                                 >
                                                     <EditableText
                                                         path={`footer.columns.${colIdx}.links.${linkIdx}.label`}
@@ -163,8 +154,8 @@ export function Footer({ initialFooter }: { initialFooter?: FooterContent }) {
 
                     {/* Contact */}
                     <div>
-                        <h4 className="text-[0.65rem] font-semibold tracking-[0.18em] uppercase text-[#bd6f3c] mb-5">Contacto</h4>
-                        <ul className="space-y-5 text-sm text-[#a99f91]">
+                        <h4 className="mb-4 text-[0.8125rem] font-semibold text-[#e4935d]">Contacto</h4>
+                        <ul className="space-y-4 text-[0.9375rem] text-[#a99f91]">
                             <li className="flex items-start gap-3">
                                 <Mail className="h-4 w-4 mt-0.5 text-[#bd6f3c] flex-shrink-0" />
                                 <span className="break-all sm:break-normal">
@@ -184,19 +175,14 @@ export function Footer({ initialFooter }: { initialFooter?: FooterContent }) {
                 </div>
             </div>
 
-            {/* ── Gold divider ────────────────────────────────────── */}
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-[rgba(193,127,62,0.4)] to-transparent" />
-            </div>
-
             {/* ── Bottom bar ──────────────────────────────────────── */}
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-7 flex flex-col sm:flex-row items-center justify-between gap-3">
-                <p className="text-[0.72rem] text-[#7a6f61] tracking-wide text-center sm:text-left">
+            <div className="mx-auto flex max-w-[1640px] flex-col items-start justify-between gap-2 border-t border-white/12 px-5 py-6 sm:flex-row sm:items-center sm:px-8 lg:px-14 xl:px-20">
+                <p className="text-[0.8125rem] text-[#8a8276]">
                     © {new Date().getFullYear()}{" "}
                     <EditableText path="footer.copyrightName" ariaLabel="Footer copyright" />.{" "}
                     Todos los derechos reservados.
                 </p>
-                <p className="text-[0.65rem] text-[#6f6254] tracking-[0.12em] uppercase">
+                <p className="text-[0.8125rem] text-[#8a8276]">
                     Infancia · Salud mental · Instituciones
                 </p>
             </div>

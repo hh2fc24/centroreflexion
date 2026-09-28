@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import { Button } from "@/components/ui/Button";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/Card";
-import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
@@ -15,64 +13,90 @@ export const metadata: Metadata = pageMetadata({
 
 const OFFICIAL_EMAIL = "centrodereflexionescriticas@gmail.com";
 
+const FOCO = "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#bd6f3c]";
+const CONTENEDOR = "mx-auto max-w-[1240px] px-4 sm:px-8 lg:px-12";
+
+const LINEAMIENTOS = [
+    { titulo: "Originalidad", texto: "Aceptamos textos inéditos que aporten una perspectiva propia." },
+    { titulo: "Extensión", texto: "Recomendamos entre 800 y 1.500 palabras para artículos de fondo." },
+    { titulo: "Estilo", texto: "Buscamos rigor intelectual con un lenguaje accesible y claro." },
+    { titulo: "Formato", texto: "Archivo Word (.docx), interlineado 1,5. No se aceptan PDF ni otros formatos." },
+    { titulo: "Referencias y citas", texto: "Todas las referencias bibliográficas y citas se ajustan a la norma APA 7.ª edición." },
+];
+
 export default function SubmitText() {
     return (
-        <div className="bg-[#fffdf8] py-24 sm:py-32">
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div className="mx-auto max-w-2xl text-center">
-                    <h2 className="text-3xl font-bold tracking-tight text-[#171713] sm:text-4xl">
-                        Envía tu Texto
-                    </h2>
-                    <p className="mt-4 text-lg leading-8 text-[#55574f]">
-                        ¿Tienes una opinión crítica, un ensayo literario o un análisis social que quieres compartir? ¡Queremos leerte!
-                    </p>
-                </div>
-
-                <div className="mt-16 mx-auto max-w-3xl">
-                    <div className="space-y-8">
-                        <section>
-                            <h3 className="text-xl font-bold text-[#171713] mb-4">Lineamientos Editoriales</h3>
-                            <ul className="list-disc list-inside space-y-3 text-[#55574f]">
-                                <li><strong>Originalidad:</strong> Aceptamos textos inéditos que aporten una perspectiva fresca.</li>
-                                <li><strong>Extensión:</strong> Recomendamos entre 800 y 1,500 palabras para artículos de fondo.</li>
-                                <li><strong>Estilo:</strong> Buscamos rigor intelectual pero con un lenguaje accesible y claro.</li>
-                                <li><strong>Formato:</strong> Envía tu archivo exclusivamente en formato <strong>Word (.docx)</strong>, interlineado 1.5.</li>
-                                <li><strong>Referencias y citas:</strong> Todas las referencias bibliográficas y citas deben ajustarse a la norma <strong>APA 7.ª edición</strong>.</li>
-                            </ul>
-                        </section>
-
-                        <section>
-                            <h3 className="text-xl font-bold text-[#171713] mb-4">Envío de Columnas de Opinión</h3>
-                            <p className="text-[#55574f] mb-4">
-                                Las columnas de opinión deben enviarse únicamente en formato <strong className="text-[#171713]">Word (.docx)</strong>. No se aceptan archivos en PDF ni en otros formatos. Las referencias bibliográficas y citas textuales deben estar formateadas según la norma <strong className="text-[#171713]">APA 7.ª edición</strong>.
-                            </p>
-                        </section>
-
-                        <section>
-                            <h3 className="text-xl font-bold text-[#171713] mb-4">Proceso de Selección</h3>
-                            <p className="text-[#55574f] mb-4">
-                                Nuestro comité editorial revisa todas las propuestas. El tiempo de respuesta estimado es de 2 semanas.
-                            </p>
-                        </section>
-
-                        <Card className="bg-[#f4eadf] border-[#ead8c7]">
-                            <CardHeader>
-                                <CardTitle className="text-[#172017]">¿Listo para enviar?</CardTitle>
-                                <CardDescription className="text-[#9f5528]">Envía tu propuesta a nuestro correo editorial.</CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="flex flex-col sm:flex-row gap-4 items-center">
-                                    <Link href={`mailto:${OFFICIAL_EMAIL}`} className="w-full sm:w-auto">
-                                        <Button className="w-full">Enviar por Email</Button>
-                                    </Link>
-                                    <span className="text-sm text-[#70695f]">o escríbenos a: {OFFICIAL_EMAIL}</span>
-                                </div>
-                            </CardContent>
-                        </Card>
+        <div className="bg-[#f8f5ee] text-[#171713]">
+            <section className="border-b border-[#d8cfc0]">
+                <div className={`${CONTENEDOR} py-12 sm:py-16 lg:py-20`}>
+                    <div className="max-w-[680px]">
+                        <p className="text-[0.8125rem] font-semibold text-[#9f5528]">Convocatoria abierta · Columnas y ensayos</p>
+                        <h1 className="crc-serif mt-4 text-balance text-[clamp(2rem,3.2vw,3.25rem)] font-semibold leading-[1.1] tracking-[-0.01em]">
+                            Envía tu texto
+                        </h1>
+                        <p className="mt-5 max-w-[60ch] text-[1.0625rem] leading-[1.7] text-[#55574f]">
+                            Publicamos columnas de opinión, crítica cultural y artículos de ciencias sociales. Si tienes un
+                            análisis o un ensayo que quieres compartir, envíalo al comité editorial del CRC.
+                        </p>
                     </div>
                 </div>
+            </section>
 
-            </div>
+            <section className="bg-[#fffdf8]">
+                <div className={`${CONTENEDOR} grid gap-10 py-14 sm:py-20 lg:grid-cols-[200px_minmax(0,1fr)] lg:gap-14`}>
+                    <p className="text-[0.8125rem] font-semibold text-[#9f5528]">Lineamientos editoriales</p>
+
+                    <div className="max-w-[720px]">
+                        <h2 className="crc-serif text-balance text-[clamp(1.6rem,2.3vw,2.4rem)] font-medium leading-[1.1] tracking-[-0.01em]">
+                            Qué debe cumplir tu propuesta
+                        </h2>
+                        <dl className="mt-8 border-t border-[#d8cfc0]">
+                            {LINEAMIENTOS.map((item) => (
+                                <div
+                                    key={item.titulo}
+                                    className="grid gap-1 border-b border-[#eee8dc] py-4 sm:grid-cols-[190px_minmax(0,1fr)] sm:gap-6"
+                                >
+                                    <dt className="text-[1rem] font-semibold">{item.titulo}</dt>
+                                    <dd className="text-[1rem] leading-[1.65] text-[#55574f]">{item.texto}</dd>
+                                </div>
+                            ))}
+                        </dl>
+
+                        <div className="mt-12 grid gap-8 sm:grid-cols-2 sm:gap-12">
+                            <div>
+                                <h3 className="text-[1rem] font-semibold">Columnas de opinión</h3>
+                                <p className="mt-2 text-[1rem] leading-[1.65] text-[#55574f]">
+                                    Se envían únicamente en formato Word (.docx). Las referencias bibliográficas y citas
+                                    textuales se formatean según la norma APA 7.ª edición.
+                                </p>
+                            </div>
+                            <div>
+                                <h3 className="text-[1rem] font-semibold">Proceso de selección</h3>
+                                <p className="mt-2 text-[1rem] leading-[1.65] text-[#55574f]">
+                                    El comité editorial revisa todas las propuestas. El tiempo de respuesta estimado es de
+                                    dos semanas.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="mt-12 rounded-[6px] border border-[#d8cfc0] bg-[#f8f5ee] p-5 sm:p-7">
+                            <h2 className="crc-serif text-[1.35rem] font-medium leading-[1.2]">¿Listo para enviar?</h2>
+                            <p className="mt-2 text-[1rem] leading-[1.65] text-[#55574f]">
+                                Envía tu propuesta, con el archivo adjunto, a nuestro correo editorial.
+                            </p>
+                            <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-5">
+                                <a
+                                    href={`mailto:${OFFICIAL_EMAIL}`}
+                                    className={`inline-flex h-12 items-center justify-center gap-2 rounded-[6px] bg-[#bd6f3c] px-5 text-[0.9375rem] font-semibold text-white transition-colors hover:bg-[#a85f31] ${FOCO}`}
+                                >
+                                    Enviar por correo <ArrowRight aria-hidden="true" className="h-4 w-4" />
+                                </a>
+                                <span className="break-all text-[0.9375rem] text-[#55574f]">{OFFICIAL_EMAIL}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
     );
 }

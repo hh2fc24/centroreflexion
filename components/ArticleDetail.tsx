@@ -1,16 +1,14 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, User, Calendar, Share2, Bookmark, Check, Link as LinkIcon, MessageCircle, Facebook, Twitter, Instagram } from "lucide-react";
-import { Button } from "@/components/ui/Button";
-import { MotionDiv } from "@/components/ui/Motion";
-import { motion, AnimatePresence } from "framer-motion";
+import { ArrowLeft, Check, Link as LinkIcon, Instagram } from "lucide-react";
 import { Article } from "@/lib/data";
 import { JsonLd } from "@/components/JsonLd";
 import { NewsletterBlock } from "@/components/NewsletterBlock";
 import { ColumnCta } from "@/components/ColumnCta";
+import { TypographicCover, isRealPhoto, toSentenceCase } from "@/components/TypographicCover";
 
 function WhatsAppIcon({ className }: { className?: string }) {
     return (
@@ -26,6 +24,7 @@ type AuthorProfile = { match: string; image: string | null; role: string };
  * Ficha de autor. La firma vive aquí y no dentro del cuerpo de la columna:
  * el bloque "Escrito por" es la única atribución de la página.
  * El orden importa — las coautorías van antes que los nombres individuales.
+ * Solo se usan retratos reales (docs/design-system-crc.md §4).
  */
 const AUTHOR_DIRECTORY: AuthorProfile[] = [
     {
@@ -45,7 +44,7 @@ const AUTHOR_DIRECTORY: AuthorProfile[] = [
     },
     {
         match: "Hormazábal",
-        image: "/images/hugo_hormazabal_real_white.png",
+        image: "/images/hugo-hormazabal-crc-2026-large.png",
         role: "Socio · Director Comercial y de Desarrollo Institucional del CRC. Ingeniero Comercial, especialista en uso aplicado de inteligencia artificial.",
     },
     {
@@ -53,778 +52,490 @@ const AUTHOR_DIRECTORY: AuthorProfile[] = [
         image: null,
         role: "Doctor en Sociología. Académico del Departamento de Trabajo Social, Universidad Alberto Hurtado.",
     },
-    {
-        match: "Camilo Gallyas",
-        image: null,
-        role: "Psicólogo clínico.",
-    },
-    {
-        match: "Isaac Francisco Ruiz Muñoz",
-        image: null,
-        role: "Profesional del Trabajo Social.",
-    },
-    {
-        match: "Mónica Monje",
-        image: null,
-        role: "Psicóloga clínica.",
-    },
-    {
-        match: "Maximiliano Yáñez",
-        image: null,
-        role: "Departamento de Formación Integral, Universidad San Sebastián.",
-    },
-    {
-        match: "Camila Belmar",
-        image: null,
-        role: "Periodista, Universidad de Las Américas.",
-    },
-    {
-        match: "Georgette Palominos",
-        image: null,
-        role: "Pediatra de NANEAS.",
-    },
+    { match: "Camilo Gallyas", image: null, role: "Psicólogo clínico." },
+    { match: "Isaac Francisco Ruiz Muñoz", image: null, role: "Profesional del Trabajo Social." },
+    { match: "Mónica Monje", image: null, role: "Psicóloga clínica." },
+    { match: "Maximiliano Yáñez", image: null, role: "Departamento de Formación Integral, Universidad San Sebastián." },
+    { match: "Camila Belmar", image: null, role: "Periodista, Universidad de Las Américas." },
+    { match: "Georgette Palominos", image: null, role: "Pediatra de NANEAS." },
 ];
 
 const getAuthorDetails = (author: string) => {
     return AUTHOR_DIRECTORY.find((profile) => author.includes(profile.match)) ?? null;
 };
 
-interface ArticleDetailProps {
-    article: Article;
-    backHref?: string;
-    backLabel?: string;
+/* ------------------------------------------------------------------ */
+/*  Imagen para compartir (Estado / Historia)                          */
+/* ------------------------------------------------------------------ */
+
+function wrapLines(ctx: CanvasRenderingContext2D, text: string, maxWidth: number, maxLines: number) {
+    const words = text.split(" ");
+    let lines: string[] = [];
+    let line = "";
+    for (const word of words) {
+        const test = line ? `${line} ${word}` : word;
+        if (ctx.measureText(test).width > maxWidth && line) {
+            lines.push(line);
+            line = word;
+        } else {
+            line = test;
+        }
+    }
+    lines.push(line);
+    if (lines.length > maxLines) lines = [...lines.slice(0, maxLines - 1), `${lines[maxLines - 1]}…`];
+    return lines;
 }
+
+/**
+ * Genera la imagen que se comparte en WhatsApp o Instagram. Si la columna tiene
+ * una foto real se usa esa foto con el título; si no, una portada tipográfica
+ * (tinta, filete cobre, título en Source Serif), igual que en la web.
+ */
+async function buildShareImage(article: Article): Promise<File> {
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    if (!ctx) throw new Error("No canvas context");
+
+    const serifVar = getComputedStyle(document.body).getPropertyValue("--font-source-serif").trim();
+    const serif = serifVar ? `${serifVar}, Georgia, serif` : "Georgia, serif";
+    const sans = "-apple-system, BlinkMacSystemFont, sans-serif";
+
+    if (isRealPhoto(article.image)) {
+        const img = new window.Image();
+        img.crossOrigin = "anonymous";
+        img.src = `${window.location.origin}${article.image}`;
+        await new Promise<void>((resolve, reject) => {
+            img.onload = () => resolve();
+            img.onerror = () => reject();
+        });
+        canvas.width = img.naturalWidth;
+        canvas.height = img.naturalHeight;
+        ctx.drawImage(img, 0, 0);
+        const stripH = Math.max(180, canvas.height * 0.3);
+        ctx.fillStyle = "rgba(21,18,14,0.88)";
+        ctx.fillRect(0, canvas.height - stripH, canvas.width, stripH);
+        const size = Math.max(20, Math.round(canvas.width * 0.04));
+        ctx.font = `600 ${size}px ${serif}`;
+        ctx.fillStyle = "#f8f5ee";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        const lines = wrapLines(ctx, article.title, canvas.width * 0.85, 3);
+        const lh = size * 1.25;
+        const startY = canvas.height - lines.length * lh - 35;
+        lines.forEach((l, i) => ctx.fillText(l, canvas.width / 2, startY + i * lh));
+        ctx.font = `600 ${Math.max(13, Math.round(canvas.width * 0.025))}px ${sans}`;
+        ctx.fillStyle = "#e4935d";
+        ctx.fillText("centroreflexionescriticas.com", canvas.width / 2, canvas.height - 20);
+    } else {
+        canvas.width = 1080;
+        canvas.height = 1350;
+        const pad = 96;
+        ctx.fillStyle = "#15120e";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.textBaseline = "alphabetic";
+        ctx.textAlign = "left";
+        ctx.fillStyle = "#e4935d";
+        ctx.font = `600 34px ${sans}`;
+        ctx.fillText(toSentenceCase(article.category), pad, pad + 34);
+        ctx.fillStyle = "#d8cfc0";
+        ctx.font = `400 30px ${sans}`;
+        ctx.fillText(article.date, pad, pad + 84);
+
+        ctx.font = `600 76px ${serif}`;
+        const lines = wrapLines(ctx, article.title, canvas.width - pad * 2, 7);
+        const lh = 76 * 1.15;
+        const blockBottom = canvas.height - 250;
+        const startY = blockBottom - (lines.length - 1) * lh;
+        ctx.fillStyle = "#e4935d";
+        ctx.fillRect(pad, startY - 76 - 40, 96, 4);
+        ctx.fillStyle = "#f8f5ee";
+        lines.forEach((l, i) => ctx.fillText(l, pad, startY + i * lh));
+
+        ctx.fillStyle = "#d8cfc0";
+        ctx.font = `400 32px ${sans}`;
+        ctx.fillText(article.author, pad, canvas.height - 170);
+        ctx.fillStyle = "#e4935d";
+        ctx.font = `600 30px ${sans}`;
+        ctx.fillText("centroreflexionescriticas.com", pad, canvas.height - pad);
+    }
+
+    const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, "image/jpeg", 0.92));
+    if (!blob) throw new Error("Canvas toBlob failed");
+    return new File([blob], "columna-crc.jpg", { type: "image/jpeg" });
+}
+
+/* ------------------------------------------------------------------ */
+/*  Barra para compartir                                               */
+/* ------------------------------------------------------------------ */
+
+type ShareLocation = "upper" | "lower";
+
+const iconButton =
+    "inline-flex h-10 w-10 items-center justify-center rounded-[6px] border transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#bd6f3c]";
+const iconIdle = "border-[#d8cfc0] text-[#55574f] hover:border-[#9f5528] hover:text-[#9f5528]";
+const iconActive = "border-[#9f5528] text-[#9f5528]";
+const menuClass =
+    "absolute bottom-full right-0 z-50 mb-2 min-w-[168px] overflow-hidden rounded-[6px] border border-[#d8cfc0] bg-[#fffdf8] shadow-[0_8px_24px_rgba(21,18,14,0.12)]";
+const menuItem =
+    "block w-full px-4 py-3 text-left text-[0.875rem] font-semibold text-[#171713] transition-colors hover:bg-[#f8f5ee] hover:text-[#9f5528]";
 
 export default function ArticleDetail({
     article,
     backHref = "/pensamiento-critico",
     backLabel = "Volver a Pensamiento Crítico",
-}: ArticleDetailProps) {
-    const [copiedUpper, setCopiedUpper] = useState(false);
-    const [copiedLower, setCopiedLower] = useState(false);
+}: {
+    article: Article;
+    backHref?: string;
+    backLabel?: string;
+}) {
+    const [copied, setCopied] = useState<ShareLocation | null>(null);
+    const [openMenu, setOpenMenu] = useState<{ kind: "wa" | "ig"; at: ShareLocation } | null>(null);
 
-    // Instagram mini-menu
-    const [igMenu, setIgMenu] = useState<'upper' | 'lower' | null>(null);
-    const igMenuRef = useRef<HTMLDivElement>(null);
-
-    // WhatsApp mini-menu
-    const [waMenu, setWaMenu] = useState<'upper' | 'lower' | null>(null);
-    const waMenuRef = useRef<HTMLDivElement>(null);
-
-    // Close menus on outside click
     useEffect(() => {
         const handler = (e: MouseEvent) => {
-            if (igMenuRef.current && !igMenuRef.current.contains(e.target as Node)) {
-                setIgMenu(null);
-            }
-            if (waMenuRef.current && !waMenuRef.current.contains(e.target as Node)) {
-                setWaMenu(null);
-            }
+            const target = e.target as HTMLElement;
+            if (!target.closest("[data-share-menu]")) setOpenMenu(null);
         };
-        document.addEventListener('mousedown', handler);
-        return () => document.removeEventListener('mousedown', handler);
+        document.addEventListener("mousedown", handler);
+        return () => document.removeEventListener("mousedown", handler);
     }, []);
 
-    const handleCopy = async (e: React.MouseEvent, location: 'upper' | 'lower') => {
-        e.preventDefault();
-        e.stopPropagation();
-        const url = typeof window !== "undefined" ? window.location.href : "";
+    const pageUrl = () => (typeof window !== "undefined" ? window.location.href : "");
+
+    const handleCopy = async (at: ShareLocation) => {
         try {
-            await navigator.clipboard.writeText(url);
-            if (location === 'upper') {
-                setCopiedUpper(true);
-                setTimeout(() => setCopiedUpper(false), 2000);
-            } else {
-                setCopiedLower(true);
-                setTimeout(() => setCopiedLower(false), 2000);
-            }
+            await navigator.clipboard.writeText(pageUrl());
+            setCopied(at);
+            setTimeout(() => setCopied(null), 2000);
         } catch (err) {
             console.error("Failed to copy:", err);
         }
     };
 
-    // WhatsApp: share article image WITH URL burned in via Canvas → user picks WhatsApp Estado
-    const handleWhatsAppStatus = async () => {
-        setWaMenu(null);
-        if (typeof window === 'undefined') return;
-        const pageUrl = window.location.href;
-        const imageUrl = `${window.location.origin}${article.image}`;
+    /** Estado de WhatsApp / Historia de Instagram: comparte la imagen generada. */
+    const shareImage = async (fallback: "whatsapp" | "none") => {
+        setOpenMenu(null);
+        if (typeof window === "undefined") return;
+        const url = pageUrl();
         try {
-            // Load image
-            const img = new window.Image();
-            img.crossOrigin = "anonymous";
-            img.src = imageUrl;
-            await new Promise<void>((resolve, reject) => {
-                img.onload = () => resolve();
-                img.onerror = () => reject();
-            });
-
-            // Draw on canvas with URL overlay
-            const canvas = document.createElement("canvas");
-            canvas.width = img.naturalWidth;
-            canvas.height = img.naturalHeight;
-            const ctx = canvas.getContext("2d");
-            if (!ctx) throw new Error("No canvas context");
-
-            ctx.drawImage(img, 0, 0);
-
-            // Smooth gradient at the bottom for readability
-            const stripH = Math.max(180, canvas.height * 0.3);
-            const grad = ctx.createLinearGradient(0, canvas.height - stripH, 0, canvas.height);
-            grad.addColorStop(0, "rgba(0,0,0,0)");
-            grad.addColorStop(0.4, "rgba(0,0,0,0.6)");
-            grad.addColorStop(1, "rgba(0,0,0,0.95)");
-            ctx.fillStyle = grad;
-            ctx.fillRect(0, canvas.height - stripH, canvas.width, stripH);
-
-            // Title text with wrapping
-            const titleFontSize = Math.max(20, Math.round(canvas.width * 0.04));
-            ctx.font = `bold ${titleFontSize}px -apple-system, BlinkMacSystemFont, sans-serif`;
-            ctx.fillStyle = "#ffffff";
-            ctx.textAlign = "center";
-            ctx.textBaseline = "middle";
-
-            const words = article.title.split(' ');
-            let line = '';
-            let lines = [];
-            const maxWidth = canvas.width * 0.85;
-            for (let i = 0; i < words.length; i++) {
-                const testLine = line + words[i] + ' ';
-                const metrics = ctx.measureText(testLine);
-                if (metrics.width > maxWidth && i > 0) {
-                    lines.push(line);
-                    line = words[i] + ' ';
-                } else {
-                    line = testLine;
-                }
-            }
-            lines.push(line);
-
-            // Limit to 3 lines
-            if (lines.length > 3) {
-                lines = [lines[0], lines[1], lines[2] + '...'];
-            }
-
-            const lineHeight = titleFontSize * 1.3;
-            // Calculate startY so the block of text + domain is vertically balanced at the bottom
-            const startY = canvas.height - (lines.length * lineHeight) - 35;
-
-            lines.forEach((l, i) => {
-                ctx.fillText(l.trim(), canvas.width / 2, startY + (i * lineHeight));
-            });
-
-            // Domain text (Watermark)
-            const urlFontSize = Math.max(13, Math.round(canvas.width * 0.025));
-            ctx.font = `600 ${urlFontSize}px -apple-system, BlinkMacSystemFont, sans-serif`;
-            ctx.fillStyle = "#d3976d"; // Brand accent color
-            ctx.fillText("centroreflexionescriticas.com", canvas.width / 2, canvas.height - 20);
-
-            // Convert canvas to file
-            const blob = await new Promise<Blob | null>((resolve) =>
-                canvas.toBlob(resolve, "image/jpeg", 0.92)
-            );
-            if (!blob) throw new Error("Canvas toBlob failed");
-            const file = new File([blob], "articulo.jpg", { type: "image/jpeg" });
-
+            await navigator.clipboard.writeText(url);
+        } catch {}
+        try {
+            const file = await buildShareImage(article);
             if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
-                await navigator.share({
-                    files: [file],
-                    title: article.title,
-                    text: pageUrl,
-                });
+                await navigator.share({ files: [file], title: article.title, text: url });
                 return;
             }
-        } catch (_) {}
-        // Fallback: regular Web Share or open WhatsApp
+        } catch {}
         if (navigator.share) {
-            try { await navigator.share({ title: article.title, text: article.excerpt, url: pageUrl }); } catch (_) {}
-        } else {
-            window.open(`https://wa.me/?text=${encodeURIComponent(`${article.title} - ${pageUrl}`)}`, '_blank');
+            try {
+                await navigator.share({ title: article.title, text: article.excerpt, url });
+            } catch {}
+        } else if (fallback === "whatsapp") {
+            window.open(`https://wa.me/?text=${encodeURIComponent(`${article.title} - ${url}`)}`, "_blank");
         }
     };
 
-    // WhatsApp: classic text message link
     const handleWhatsAppMessage = () => {
-        setWaMenu(null);
-        if (typeof window === 'undefined') return;
-        const pageUrl = window.location.href;
-        window.open(`https://wa.me/?text=${encodeURIComponent(`${article.title} - ${pageUrl}`)}`, '_blank');
+        setOpenMenu(null);
+        window.open(`https://wa.me/?text=${encodeURIComponent(`${article.title} - ${pageUrl()}`)}`, "_blank");
     };
 
-    // Instagram: share article image WITH URL burned into the image via Canvas
-    const handleInstagramStory = async () => {
-        setIgMenu(null);
-        if (typeof window === "undefined") return;
-        const pageUrl = window.location.href;
-        const imageUrl = `${window.location.origin}${article.image}`;
-        // Also copy URL to clipboard as backup
-        try { await navigator.clipboard.writeText(pageUrl); } catch (_) {}
-        try {
-            // Load the original image
-            const img = new window.Image();
-            img.crossOrigin = "anonymous";
-            img.src = imageUrl;
-            await new Promise<void>((resolve, reject) => {
-                img.onload = () => resolve();
-                img.onerror = () => reject();
-            });
-
-            // Draw on canvas with URL overlay
-            const canvas = document.createElement("canvas");
-            canvas.width = img.naturalWidth;
-            canvas.height = img.naturalHeight;
-            const ctx = canvas.getContext("2d");
-            if (!ctx) throw new Error("No canvas context");
-
-            ctx.drawImage(img, 0, 0);
-
-            // Smooth gradient at the bottom for readability
-            const stripH = Math.max(180, canvas.height * 0.3);
-            const grad = ctx.createLinearGradient(0, canvas.height - stripH, 0, canvas.height);
-            grad.addColorStop(0, "rgba(0,0,0,0)");
-            grad.addColorStop(0.4, "rgba(0,0,0,0.6)");
-            grad.addColorStop(1, "rgba(0,0,0,0.95)");
-            ctx.fillStyle = grad;
-            ctx.fillRect(0, canvas.height - stripH, canvas.width, stripH);
-
-            // Title text with wrapping
-            const titleFontSize = Math.max(20, Math.round(canvas.width * 0.04));
-            ctx.font = `bold ${titleFontSize}px -apple-system, BlinkMacSystemFont, sans-serif`;
-            ctx.fillStyle = "#ffffff";
-            ctx.textAlign = "center";
-            ctx.textBaseline = "middle";
-
-            const words = article.title.split(' ');
-            let line = '';
-            let lines = [];
-            const maxWidth = canvas.width * 0.85;
-            for (let i = 0; i < words.length; i++) {
-                const testLine = line + words[i] + ' ';
-                const metrics = ctx.measureText(testLine);
-                if (metrics.width > maxWidth && i > 0) {
-                    lines.push(line);
-                    line = words[i] + ' ';
-                } else {
-                    line = testLine;
-                }
-            }
-            lines.push(line);
-
-            // Limit to 3 lines
-            if (lines.length > 3) {
-                lines = [lines[0], lines[1], lines[2] + '...'];
-            }
-
-            const lineHeight = titleFontSize * 1.3;
-            // Calculate startY so the block of text + domain is vertically balanced at the bottom
-            const startY = canvas.height - (lines.length * lineHeight) - 35;
-
-            lines.forEach((l, i) => {
-                ctx.fillText(l.trim(), canvas.width / 2, startY + (i * lineHeight));
-            });
-
-            // Domain text (Watermark)
-            const urlFontSize = Math.max(13, Math.round(canvas.width * 0.025));
-            ctx.font = `600 ${urlFontSize}px -apple-system, BlinkMacSystemFont, sans-serif`;
-            ctx.fillStyle = "#d3976d"; // Brand accent color
-            ctx.fillText("centroreflexionescriticas.com", canvas.width / 2, canvas.height - 20);
-
-            // Convert canvas to file
-            const blob = await new Promise<Blob | null>((resolve) =>
-                canvas.toBlob(resolve, "image/jpeg", 0.92)
-            );
-            if (!blob) throw new Error("Canvas toBlob failed");
-            const file = new File([blob], "articulo.jpg", { type: "image/jpeg" });
-
-            if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
-                await navigator.share({
-                    files: [file],
-                    title: article.title,
-                    text: pageUrl,
-                });
-                return;
-            }
-        } catch (_) {}
-        // Fallback: share without image
-        if (navigator.share) {
-            try { await navigator.share({ title: article.title, text: article.excerpt, url: pageUrl }); } catch (_) {}
-        }
-    };
-
-    // Instagram: share link as text (for DM / Feed post caption)
     const handleInstagramShare = async () => {
-        setIgMenu(null);
-        if (typeof window === "undefined") return;
-        const url = window.location.href;
+        setOpenMenu(null);
+        const url = pageUrl();
         if (navigator.share) {
-            try { await navigator.share({ title: article.title, text: `${article.excerpt}\n\n${url}`, url }); } catch (_) {}
+            try {
+                await navigator.share({ title: article.title, text: `${article.excerpt}\n\n${url}`, url });
+            } catch {}
         } else {
-            try { await navigator.clipboard.writeText(url); } catch (_) {}
+            try {
+                await navigator.clipboard.writeText(url);
+            } catch {}
         }
     };
 
+    const toggleMenu = (kind: "wa" | "ig", at: ShareLocation) =>
+        setOpenMenu((current) => (current?.kind === kind && current.at === at ? null : { kind, at }));
+
+    const renderShare = (at: ShareLocation) => {
+        const waOpen = openMenu?.kind === "wa" && openMenu.at === at;
+        const igOpen = openMenu?.kind === "ig" && openMenu.at === at;
+        return (
+            <div className="flex items-center gap-2">
+                <div className="relative" data-share-menu>
+                    <button
+                        type="button"
+                        aria-label="Compartir por WhatsApp"
+                        aria-expanded={waOpen}
+                        onClick={() => toggleMenu("wa", at)}
+                        className={`${iconButton} ${waOpen ? iconActive : iconIdle}`}
+                    >
+                        <WhatsAppIcon className="h-[18px] w-[18px]" />
+                    </button>
+                    {waOpen ? (
+                        <div className={menuClass}>
+                            <button type="button" onClick={() => shareImage("whatsapp")} className={menuItem}>
+                                Estado
+                            </button>
+                            <div className="h-px bg-[#eee8dc]" />
+                            <button type="button" onClick={handleWhatsAppMessage} className={menuItem}>
+                                Mensaje
+                            </button>
+                        </div>
+                    ) : null}
+                </div>
+
+                <div className="relative" data-share-menu>
+                    <button
+                        type="button"
+                        aria-label="Compartir en Instagram"
+                        aria-expanded={igOpen}
+                        onClick={() => toggleMenu("ig", at)}
+                        className={`${iconButton} ${igOpen ? iconActive : iconIdle}`}
+                    >
+                        <Instagram className="h-[18px] w-[18px]" />
+                    </button>
+                    {igOpen ? (
+                        <div className={menuClass}>
+                            <button type="button" onClick={() => shareImage("none")} className={menuItem}>
+                                Historia
+                            </button>
+                            <div className="h-px bg-[#eee8dc]" />
+                            <button type="button" onClick={handleInstagramShare} className={menuItem}>
+                                Mensaje o publicación
+                            </button>
+                        </div>
+                    ) : null}
+                </div>
+
+                <div className="relative">
+                    <button
+                        type="button"
+                        onClick={() => handleCopy(at)}
+                        aria-label="Copiar enlace"
+                        className={`${iconButton} ${iconIdle}`}
+                    >
+                        {copied === at ? <Check className="h-[18px] w-[18px]" /> : <LinkIcon className="h-[18px] w-[18px]" />}
+                    </button>
+                    {copied === at ? (
+                        <span
+                            role="status"
+                            className="absolute bottom-full left-1/2 z-50 mb-2 -translate-x-1/2 whitespace-nowrap rounded-[6px] bg-[#15120e] px-3 py-1.5 text-[0.8125rem] font-semibold text-[#f8f5ee]"
+                        >
+                            Enlace copiado
+                        </span>
+                    ) : null}
+                </div>
+            </div>
+        );
+    };
+
+    const details = getAuthorDetails(article.author);
+    const showPhoto = isRealPhoto(article.image);
+
+    const normalize = (value: string) => value.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+    const lower = article.content.map((p) => p.toLowerCase());
+    const refHeaderIndex = lower.findIndex(
+        (p) => p.startsWith("referencias integradas") || p.startsWith("referencias bibliográficas"),
+    );
+    const noteHeaderIndex = lower.findIndex(
+        (p) =>
+            p.startsWith("nota:") ||
+            p.startsWith("nota de la redacción:") ||
+            p.startsWith("columna publicada originalmente") ||
+            p.startsWith("publicado originalmente"),
+    );
+    const authorTokens = normalize(article.author).split(/\s+/).filter((token) => token.length > 3);
 
     return (
         <article className="min-h-screen bg-[#fffdf8] pb-16 sm:pb-24">
-            {/* Hero Image */}
-            <div className="relative h-[42vh] min-h-[320px] w-full sm:h-[50vh] sm:min-h-[400px]">
-                <Image
-                    src={article.image}
-                    alt={article.imageAlt || article.title}
-                    fill
-                    sizes="100vw"
-                    className="object-cover"
-                    priority
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+            {/* Cabecera: portada tipográfica con el h1 */}
+            <TypographicCover
+                size="hero"
+                titleAs="h1"
+                category={article.category}
+                title={article.title}
+                date={article.date}
+                dek={article.excerpt}
+                containerClassName="max-w-[44rem] sm:px-6"
+            >
+                <Link
+                    href={backHref}
+                    className="mt-10 inline-flex items-center gap-2 text-[0.9375rem] font-semibold underline-offset-4 opacity-90 hover:underline hover:opacity-100"
+                >
+                    <ArrowLeft className="h-4 w-4" aria-hidden="true" /> {backLabel}
+                </Link>
+            </TypographicCover>
 
-                <div className="absolute bottom-0 left-0 w-full p-4 sm:p-10 lg:p-20">
-                    <MotionDiv className="max-w-4xl mx-auto text-white">
-                        <Link
-                            href={backHref}
-                            className="inline-flex items-center text-sm font-medium text-[#d8d0c4] hover:text-white mb-6 transition-colors"
-                        >
-                            <ArrowLeft className="mr-2 h-4 w-4" /> {backLabel}
-                        </Link>
-                        <div className="flex items-center gap-4 mb-4">
-                            <span className="px-3 py-1 rounded-full bg-[#bd6f3c]/90 text-xs font-bold uppercase tracking-wider">
-                                {article.category}
-                            </span>
-                        </div>
-                        <h1 className="mb-4 text-3xl font-bold leading-tight sm:mb-6 sm:text-4xl lg:text-4xl font-serif">
-                            {article.title}
-                        </h1>
-                        <div className="flex flex-wrap items-center gap-6 text-sm sm:text-base text-[#eee8dc]">
-                            <div className="flex items-center gap-2">
-                                {(() => {
-                                    const details = getAuthorDetails(article.author);
-                                    return (
-                                        <>
-                                            {details?.image ? (
-                                                <Image src={details.image} alt={article.author} width={24} height={24} className="h-6 w-6 rounded-full object-cover ring-1 ring-white/50" />
-                                            ) : (
-                                                <User className="h-4 w-4" />
-                                            )}
-                                            <span className="font-semibold">{article.author}</span>
-                                        </>
-                                    );
-                                })()}
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <Calendar className="h-4 w-4" />
-                                <span>{article.date}</span>
-                            </div>
-                        </div>
-                    </MotionDiv>
-                </div>
-            </div>
-
-            {/* Content */}
-            <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 sm:py-20">
-
-                {/* Social Share & Actions */}
-                <div className="mb-10 flex flex-col gap-6 border-b border-[#eee8dc] pb-8 sm:mb-12 sm:flex-row sm:items-center sm:justify-between">
-                    <p className="text-lg font-serif italic leading-relaxed text-[#70695f] sm:text-xl">
-                        {article.excerpt}
-                    </p>
-                    <div className="flex flex-wrap items-center gap-2 shrink-0">
-                        {/* Guardar */}
-                        <button
-                            aria-label="Guardar"
-                            className="p-2.5 rounded-full border border-[#ded5c7] bg-transparent text-[#70695f] hover:text-[#171713] hover:bg-[#f8f5ee] hover:border-[#8a8276] transition-all duration-200"
-                        >
-                            <Bookmark className="h-4 w-4" />
-                        </button>
-
-                        <div className="h-6 w-[1px] bg-[#eee8dc] mx-1" />
-
-                        {/* WhatsApp */}
-                        <div className="relative" ref={waMenuRef}>
-                            <button
-                                type="button"
-                                aria-label="Compartir por WhatsApp"
-                                onClick={() => setWaMenu(waMenu === 'upper' ? null : 'upper')}
-                                className={`inline-flex items-center justify-center p-2.5 rounded-full border transition-all duration-200 ${
-                                    waMenu === 'upper'
-                                        ? 'border-[#bd6f3c] bg-[#f8f5ee] text-[#bd6f3c]'
-                                        : 'border-[#ded5c7] bg-transparent text-[#70695f] hover:text-[#bd6f3c] hover:border-[#bd6f3c] hover:bg-[#f8f5ee]'
-                                }`}
-                            >
-                                <WhatsAppIcon className="h-[18px] w-[18px]" />
-                            </button>
-                            <AnimatePresence>
-                                {waMenu === 'upper' && (
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 6, scale: 0.95 }}
-                                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                                        exit={{ opacity: 0, y: 6, scale: 0.95 }}
-                                        transition={{ duration: 0.15, ease: 'easeOut' }}
-                                        className="absolute bottom-full right-0 mb-2.5 z-50 bg-[#171713] rounded-[8px] shadow-xl border border-white/10 overflow-hidden min-w-[168px]"
-                                    >
-                                        <div className="absolute bottom-0 right-3 translate-y-full border-4 border-transparent border-t-[#171713]" />
-                                        <button
-                                            type="button"
-                                            onClick={handleWhatsAppStatus}
-                                            className="w-full flex items-center gap-2.5 px-4 py-3 text-left text-[11px] font-sans font-semibold uppercase tracking-wider text-[#d8d0c4] hover:bg-white/10 hover:text-white transition-colors"
-                                        >
-                                            <svg className="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l2 2"/></svg>
-                                            Estado
-                                        </button>
-                                        <div className="h-[1px] bg-white/10 mx-3" />
-                                        <button
-                                            type="button"
-                                            onClick={handleWhatsAppMessage}
-                                            className="w-full flex items-center gap-2.5 px-4 py-3 text-left text-[11px] font-sans font-semibold uppercase tracking-wider text-[#d8d0c4] hover:bg-white/10 hover:text-white transition-colors"
-                                        >
-                                            <svg className="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                                            Mensaje
-                                        </button>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-                        </div>
-
-                        {/* Instagram */}
-                        <div className="relative" ref={igMenuRef}>
-                            <button
-                                type="button"
-                                aria-label="Compartir en Instagram"
-                                onClick={() => setIgMenu(igMenu === 'upper' ? null : 'upper')}
-                                className={`inline-flex items-center justify-center p-2.5 rounded-full border transition-all duration-200 ${
-                                    igMenu === 'upper'
-                                        ? 'border-[#bd6f3c] bg-[#f8f5ee] text-[#bd6f3c]'
-                                        : 'border-[#ded5c7] bg-transparent text-[#70695f] hover:text-[#bd6f3c] hover:border-[#bd6f3c] hover:bg-[#f8f5ee]'
-                                }`}
-                            >
-                                <Instagram className="h-[18px] w-[18px]" />
-                            </button>
-                            <AnimatePresence>
-                                {igMenu === 'upper' && (
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 6, scale: 0.95 }}
-                                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                                        exit={{ opacity: 0, y: 6, scale: 0.95 }}
-                                        transition={{ duration: 0.15, ease: 'easeOut' }}
-                                        className="absolute bottom-full right-0 mb-2.5 z-50 bg-[#171713] rounded-[8px] shadow-xl border border-white/10 overflow-hidden min-w-[168px]"
-                                    >
-                                        <div className="absolute bottom-0 right-3 translate-y-full border-4 border-transparent border-t-[#171713]" />
-                                        <button
-                                            type="button"
-                                            onClick={handleInstagramStory}
-                                            className="w-full flex items-center gap-2.5 px-4 py-3 text-left text-[11px] font-sans font-semibold uppercase tracking-wider text-[#d8d0c4] hover:bg-white/10 hover:text-white transition-colors"
-                                        >
-                                            <svg className="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l2 2"/></svg>
-                                            Historia
-                                        </button>
-                                        <div className="h-[1px] bg-white/10 mx-3" />
-                                        <button
-                                            type="button"
-                                            onClick={handleInstagramShare}
-                                            className="w-full flex items-center gap-2.5 px-4 py-3 text-left text-[11px] font-sans font-semibold uppercase tracking-wider text-[#d8d0c4] hover:bg-white/10 hover:text-white transition-colors"
-                                        >
-                                            <svg className="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                                            DM / Feed
-                                        </button>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-                        </div>
-
-                        {/* Copiar enlace */}
-                        <div className="relative">
-                            <button
-                                onClick={(e) => handleCopy(e, 'upper')}
-                                aria-label="Copiar enlace"
-                                className="inline-flex items-center justify-center p-2.5 rounded-full border border-[#ded5c7] bg-transparent text-[#70695f] hover:text-[#bd6f3c] hover:border-[#bd6f3c] hover:bg-[#f8f5ee] transition-all duration-200"
-                            >
-                                {copiedUpper ? <Check className="h-[18px] w-[18px] text-emerald-600" /> : <LinkIcon className="h-[18px] w-[18px]" />}
-                            </button>
-                            <AnimatePresence>
-                                {copiedUpper && (
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 5, scale: 0.95 }}
-                                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                                        exit={{ opacity: 0, y: 5, scale: 0.95 }}
-                                        transition={{ duration: 0.15 }}
-                                        className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-50 whitespace-nowrap bg-[#171713] text-white text-[10px] font-sans font-semibold py-1.5 px-3 rounded-[4px] shadow-lg border border-white/10"
-                                    >
-                                        ¡Enlace copiado!
-                                        <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-[4px] border-4 border-transparent border-t-[#171713]" />
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
+            <div className="mx-auto max-w-[44rem] px-4 sm:px-6">
+                {/* Firma y compartir */}
+                <div className="flex flex-col gap-5 border-b border-[#d8cfc0] py-6 sm:flex-row sm:items-center sm:justify-between">
+                    <div className="flex items-center gap-3">
+                        {details?.image ? (
+                            <Image
+                                src={details.image}
+                                alt=""
+                                width={44}
+                                height={44}
+                                className="h-11 w-11 rounded-full bg-[#eee8dc] object-cover"
+                            />
+                        ) : null}
+                        <div>
+                            <p className="text-[0.9375rem] font-semibold text-[#171713]">{article.author}</p>
+                            <p className="text-[0.875rem] tabular-nums text-[#6f675d]">{article.date}</p>
                         </div>
                     </div>
+                    {renderShare("upper")}
                 </div>
 
-                <MotionDiv transition={{ delay: 0.2 }}>
-                    <div className="prose prose-stone max-w-none font-serif leading-8 text-[#23241f] prose-headings:font-serif prose-a:text-[#bd6f3c] hover:prose-a:text-[#bd6f3c] sm:prose-lg">
-                        {article.content.map((paragraph, index, arr) => {
-                            const isReferenceHeader = paragraph.toLowerCase().startsWith("referencias integradas") || paragraph.toLowerCase().startsWith("referencias bibliográficas");
-                            const refHeaderIndex = arr.findIndex(p => p.toLowerCase().startsWith("referencias integradas") || p.toLowerCase().startsWith("referencias bibliográficas"));
-                            
-                            const isReference = refHeaderIndex !== -1 && index > refHeaderIndex;
+                {showPhoto ? (
+                    <figure className="mt-10">
+                        <div className="relative aspect-[3/2] w-full overflow-hidden rounded-[6px] bg-[#eee8dc]">
+                            <Image
+                                src={article.image}
+                                alt={article.imageAlt || article.title}
+                                fill
+                                sizes="(min-width: 768px) 704px, 100vw"
+                                className="object-cover"
+                                priority
+                            />
+                        </div>
+                        {article.imageCaption ? (
+                            <figcaption className="mt-3 text-[0.875rem] text-[#6f675d]">{article.imageCaption}</figcaption>
+                        ) : null}
+                    </figure>
+                ) : null}
 
-                            const noteHeaderIndex = arr.findIndex(p => 
-                                p.toLowerCase().startsWith("nota:") || 
-                                p.toLowerCase().startsWith("nota de la redacción:") ||
-                                p.toLowerCase().startsWith("columna publicada originalmente") ||
-                                p.toLowerCase().startsWith("publicado originalmente")
-                            );
-                            
-                            const isNote = noteHeaderIndex !== -1 && index >= noteHeaderIndex && !isReferenceHeader && !isReference;
+                {/* Cuerpo: Source Serif 4, ~65 caracteres, interlineado 1.7 */}
+                <div className="crc-serif mt-10 max-w-[65ch] text-[1.0625rem] leading-[1.7] text-[#171713] sm:text-[1.125rem]">
+                    {article.content.map((paragraph, index, arr) => {
+                        const isReferenceHeader = index === refHeaderIndex;
+                        const isReference = refHeaderIndex !== -1 && index > refHeaderIndex;
+                        const isNote =
+                            noteHeaderIndex !== -1 && index >= noteHeaderIndex && !isReferenceHeader && !isReference;
 
-                            // Firma de cierre: última línea con el nombre y las credenciales del autor
-                            const normalize = (value: string) =>
-                                value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-                            const plainParagraph = normalize(paragraph);
-                            const authorTokens = normalize(article.author).split(/\s+/).filter((token) => token.length > 3);
-                            const isSignature =
-                                index === arr.length - 1 &&
-                                !isReferenceHeader &&
-                                !isReference &&
-                                !isNote &&
-                                paragraph.length < 400 &&
-                                (plainParagraph.startsWith("por ") ||
-                                    authorTokens.some((token) => plainParagraph.startsWith(token)) ||
-                                    /^(psicolog|trabajador|abogad|sociolog|ingenier|docente|profesor|magister|doctor|licenciad|terapeuta|antropolog|periodista)/.test(plainParagraph));
+                        // Firma de cierre: última línea con el nombre y las credenciales del autor
+                        const plain = normalize(paragraph);
+                        const isSignature =
+                            index === arr.length - 1 &&
+                            !isReferenceHeader &&
+                            !isReference &&
+                            !isNote &&
+                            paragraph.length < 400 &&
+                            (plain.startsWith("por ") ||
+                                authorTokens.some((token) => plain.startsWith(token)) ||
+                                /^(psicolog|trabajador|abogad|sociolog|ingenier|docente|profesor|magister|doctor|licenciad|terapeuta|antropolog|periodista)/.test(plain));
 
-                            if (isReferenceHeader) {
-                                return (
-                                    <h3 key={index} className="text-lg font-bold mt-12 mb-6 text-[#171713] border-b pb-2">
-                                        Referencias
-                                    </h3>
-                                );
-                            }
-
-                            if (isReference) {
-                                // Clean up bullet points if they exist
-                                const cleanRef = paragraph.replace(/^•\s*/, '');
-                                const linkedRef = cleanRef.split(/(https?:\/\/\S+)/g).map((part, partIndex) =>
-                                    part.startsWith("http") ? (
-                                        <a
-                                            key={partIndex}
-                                            href={part}
-                                            target="_blank"
-                                            rel="noreferrer"
-                                            className="break-all"
-                                        >
-                                            {part}
-                                        </a>
-                                    ) : part
-                                );
-                                return (
-                                    <p key={index} className="pl-6 -indent-6 mb-3 text-sm text-[#70695f] leading-relaxed font-serif italic">
-                                        {linkedRef}
-                                    </p>
-                                );
-                            }
-
-                            if (isNote) {
-                                const isFirstNote = index === noteHeaderIndex;
-                                return (
-                                    <p 
-                                        key={index} 
-                                        className={`text-sm text-[#70695f] font-serif italic leading-relaxed mb-4${isFirstNote ? " border-t border-[#eee8dc]/70 pt-6 mt-8" : ""}`}
-                                    >
-                                        {paragraph}
-                                    </p>
-                                );
-                            }
-
-                            if (isSignature) {
-                                return (
-                                    <p
-                                        key={index}
-                                        className="mt-12 border-t border-[#eee8dc] pt-6 text-sm font-serif italic leading-relaxed text-[#70695f]"
-                                    >
-                                        {paragraph}
-                                    </p>
-                                );
-                            }
-
-                            if (index === 0) {
-                                return (
-                                    <p key={index} className="mb-6 first-letter:text-4xl first-letter:font-bold first-letter:text-[#171713] first-letter:mr-3 first-letter:float-left">
-                                        {paragraph}
-                                    </p>
-                                );
-                            }
-
-                            if (paragraph.startsWith("• ")) {
-                                return (
-                                    <p key={index} className="mb-3 pl-6 -indent-5">
-                                        {paragraph}
-                                    </p>
-                                );
-                            }
-
+                        if (isReferenceHeader) {
                             return (
-                                <p key={index} className="mb-6">
+                                <h2
+                                    key={index}
+                                    className="mb-5 mt-14 border-b border-[#d8cfc0] pb-3 font-sans text-[1.125rem] font-semibold text-[#171713]"
+                                >
+                                    Referencias
+                                </h2>
+                            );
+                        }
+
+                        if (isReference) {
+                            const cleanRef = paragraph.replace(/^•\s*/, "");
+                            return (
+                                <p key={index} className="mb-3 break-words pl-6 -indent-6 font-sans text-[0.9375rem] leading-[1.6] text-[#55574f]">
+                                    {cleanRef.split(/(https?:\/\/\S+)/g).map((part, partIndex) =>
+                                        part.startsWith("http") ? (
+                                            <a
+                                                key={partIndex}
+                                                href={part}
+                                                target="_blank"
+                                                rel="noreferrer"
+                                                className="break-all text-[#9f5528] underline underline-offset-2"
+                                            >
+                                                {part}
+                                            </a>
+                                        ) : (
+                                            part
+                                        ),
+                                    )}
+                                </p>
+                            );
+                        }
+
+                        if (isNote) {
+                            return (
+                                <p
+                                    key={index}
+                                    className={`mb-4 font-sans text-[0.9375rem] leading-[1.6] text-[#55574f]${
+                                        index === noteHeaderIndex ? " mt-10 border-t border-[#d8cfc0] pt-6" : ""
+                                    }`}
+                                >
                                     {paragraph}
                                 </p>
                             );
-                        })}
-                    </div>
-                </MotionDiv>
+                        }
 
-                {/* Share Section at the bottom */}
-                <div className="my-12 py-6 border-t border-b border-[#eee8dc] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                    <span className="text-sm font-serif font-bold text-[#70695f]">¿Te pareció interesante? Comparte esta columna:</span>
-                    <div className="flex flex-wrap items-center gap-2">
-                        {/* WhatsApp */}
-                        <div className="relative">
-                            <button
-                                type="button"
-                                aria-label="Compartir por WhatsApp"
-                                onClick={() => setWaMenu(waMenu === 'lower' ? null : 'lower')}
-                                className={`inline-flex items-center justify-center p-2.5 rounded-full border transition-all duration-200 ${
-                                    waMenu === 'lower'
-                                        ? 'border-[#bd6f3c] bg-[#f8f5ee] text-[#bd6f3c]'
-                                        : 'border-[#ded5c7] bg-transparent text-[#70695f] hover:text-[#bd6f3c] hover:border-[#bd6f3c] hover:bg-[#f8f5ee]'
-                                }`}
-                            >
-                                <WhatsAppIcon className="h-[18px] w-[18px]" />
-                            </button>
-                            <AnimatePresence>
-                                {waMenu === 'lower' && (
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 6, scale: 0.95 }}
-                                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                                        exit={{ opacity: 0, y: 6, scale: 0.95 }}
-                                        transition={{ duration: 0.15, ease: 'easeOut' }}
-                                        className="absolute bottom-full right-0 mb-2.5 z-50 bg-[#171713] rounded-[8px] shadow-xl border border-white/10 overflow-hidden min-w-[168px]"
-                                    >
-                                        <div className="absolute bottom-0 right-3 translate-y-full border-4 border-transparent border-t-[#171713]" />
-                                        <button
-                                            type="button"
-                                            onClick={handleWhatsAppStatus}
-                                            className="w-full flex items-center gap-2.5 px-4 py-3 text-left text-[11px] font-sans font-semibold uppercase tracking-wider text-[#d8d0c4] hover:bg-white/10 hover:text-white transition-colors"
-                                        >
-                                            <svg className="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l2 2"/></svg>
-                                            Estado
-                                        </button>
-                                        <div className="h-[1px] bg-white/10 mx-3" />
-                                        <button
-                                            type="button"
-                                            onClick={handleWhatsAppMessage}
-                                            className="w-full flex items-center gap-2.5 px-4 py-3 text-left text-[11px] font-sans font-semibold uppercase tracking-wider text-[#d8d0c4] hover:bg-white/10 hover:text-white transition-colors"
-                                        >
-                                            <svg className="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                                            Mensaje
-                                        </button>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-                        </div>
+                        if (isSignature) {
+                            return (
+                                <p
+                                    key={index}
+                                    className="mt-12 border-t border-[#d8cfc0] pt-6 font-sans text-[0.9375rem] leading-[1.6] text-[#55574f]"
+                                >
+                                    {paragraph}
+                                </p>
+                            );
+                        }
 
-                        {/* Instagram */}
-                        <div className="relative">
-                            <button
-                                type="button"
-                                aria-label="Compartir en Instagram"
-                                onClick={() => setIgMenu(igMenu === 'lower' ? null : 'lower')}
-                                className={`inline-flex items-center justify-center p-2.5 rounded-full border transition-all duration-200 ${
-                                    igMenu === 'lower'
-                                        ? 'border-[#bd6f3c] bg-[#f8f5ee] text-[#bd6f3c]'
-                                        : 'border-[#ded5c7] bg-transparent text-[#70695f] hover:text-[#bd6f3c] hover:border-[#bd6f3c] hover:bg-[#f8f5ee]'
-                                }`}
-                            >
-                                <Instagram className="h-[18px] w-[18px]" />
-                            </button>
-                            <AnimatePresence>
-                                {igMenu === 'lower' && (
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 6, scale: 0.95 }}
-                                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                                        exit={{ opacity: 0, y: 6, scale: 0.95 }}
-                                        transition={{ duration: 0.15, ease: 'easeOut' }}
-                                        className="absolute bottom-full right-0 mb-2.5 z-50 bg-[#171713] rounded-[8px] shadow-xl border border-white/10 overflow-hidden min-w-[168px]"
-                                    >
-                                        <div className="absolute bottom-0 right-3 translate-y-full border-4 border-transparent border-t-[#171713]" />
-                                        <button
-                                            type="button"
-                                            onClick={handleInstagramStory}
-                                            className="w-full flex items-center gap-2.5 px-4 py-3 text-left text-[11px] font-sans font-semibold uppercase tracking-wider text-[#d8d0c4] hover:bg-white/10 hover:text-white transition-colors"
-                                        >
-                                            <svg className="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l2 2"/></svg>
-                                            Historia
-                                        </button>
-                                        <div className="h-[1px] bg-white/10 mx-3" />
-                                        <button
-                                            type="button"
-                                            onClick={handleInstagramShare}
-                                            className="w-full flex items-center gap-2.5 px-4 py-3 text-left text-[11px] font-sans font-semibold uppercase tracking-wider text-[#d8d0c4] hover:bg-white/10 hover:text-white transition-colors"
-                                        >
-                                            <svg className="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                                            DM / Feed
-                                        </button>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-                        </div>
+                        if (paragraph.startsWith("• ")) {
+                            return (
+                                <p key={index} className="mb-3 pl-6 -indent-5">
+                                    {paragraph}
+                                </p>
+                            );
+                        }
 
-                        {/* Copiar enlace */}
-                        <div className="relative">
-                            <button
-                                onClick={(e) => handleCopy(e, 'lower')}
-                                aria-label="Copiar enlace"
-                                className="inline-flex items-center justify-center p-2.5 rounded-full border border-[#ded5c7] bg-transparent text-[#70695f] hover:text-[#bd6f3c] hover:border-[#bd6f3c] hover:bg-[#f8f5ee] transition-all duration-200"
-                            >
-                                {copiedLower ? <Check className="h-[18px] w-[18px] text-emerald-600" /> : <LinkIcon className="h-[18px] w-[18px]" />}
-                            </button>
-                            <AnimatePresence>
-                                {copiedLower && (
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 5, scale: 0.95 }}
-                                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                                        exit={{ opacity: 0, y: 5, scale: 0.95 }}
-                                        transition={{ duration: 0.15 }}
-                                        className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-50 whitespace-nowrap bg-[#171713] text-white text-[10px] font-sans font-semibold py-1.5 px-3 rounded-[4px] shadow-lg border border-white/10"
-                                    >
-                                        ¡Enlace copiado!
-                                        <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-[4px] border-4 border-transparent border-t-[#171713]" />
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-                        </div>
+                        return (
+                            <p key={index} className="mb-6">
+                                {paragraph}
+                            </p>
+                        );
+                    })}
+                </div>
+
+                {/* Compartir al final */}
+                <div className="mt-12 flex flex-col gap-4 border-y border-[#d8cfc0] py-6 sm:flex-row sm:items-center sm:justify-between">
+                    <span className="text-[0.9375rem] font-semibold text-[#171713]">Compartir este texto</span>
+                    {renderShare("lower")}
+                </div>
+
+                {/* Autor */}
+                <div className="mt-12 flex items-start gap-4">
+                    {details?.image ? (
+                        <Image
+                            src={details.image}
+                            alt=""
+                            width={64}
+                            height={64}
+                            className="h-16 w-16 shrink-0 rounded-full bg-[#eee8dc] object-cover"
+                        />
+                    ) : null}
+                    <div>
+                        <p className="text-[0.8125rem] font-semibold text-[#9f5528]">Escrito por</p>
+                        <h2 className="crc-serif mt-1 text-[1.35rem] font-semibold leading-[1.2] text-[#171713]">
+                            {article.author}
+                        </h2>
+                        {details?.role ? (
+                            <p className="mt-2 max-w-[60ch] text-[0.9375rem] leading-[1.6] text-[#55574f]">{details.role}</p>
+                        ) : null}
                     </div>
                 </div>
 
                 {/* Oferta ligada al tema de la columna, antes de la suscripción */}
                 <ColumnCta category={article.category} title={article.title} />
 
-                {/* Newsletter capture */}
+                {/* Suscripción */}
                 <NewsletterBlock origen={article.category} />
 
-                {/* Author Bio / Footer */}
-                <div className="mt-16 pt-10 border-t border-[#eee8dc]">
-                    <div className="flex flex-col items-start gap-4 rounded-[6px] bg-[#f8f5ee] p-5 sm:flex-row sm:items-center sm:p-6">
-                        {(() => {
-                            const details = getAuthorDetails(article.author);
-                            return (
-                                <>
-                                    {details?.image ? (
-                                        <Image src={details.image} alt={article.author} width={64} height={64} className="h-16 w-16 rounded-full object-cover ring-2 ring-[#ded5c7]" />
-                                    ) : (
-                                        <div className="h-16 w-16 rounded-full bg-[#ded5c7] flex items-center justify-center text-xl font-bold text-[#70695f]">
-                                            {article.author.charAt(0)}
-                                        </div>
-                                    )}
-                                    <div>
-                                        <h3 className="font-bold text-[#171713]">Escrito por {article.author}</h3>
-                                        {details?.role ? (
-                                            <p className="text-sm text-[#70695f]">{details.role}</p>
-                                        ) : null}
-                                    </div>
-                                </>
-                            );
-                        })()}
-                    </div>
-                </div>
-
                 <JsonLd article={article} />
-
             </div>
         </article>
     );

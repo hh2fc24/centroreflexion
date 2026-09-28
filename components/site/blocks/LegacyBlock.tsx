@@ -6,10 +6,9 @@ import { Hero } from "@/components/Hero";
 import { FoundersSection } from "@/components/site/FoundersSection";
 import { PublicationsSection } from "@/components/PublicationsSection";
 import { InterviewsSection } from "@/components/InterviewsSection";
-import { AnimatePresence, motion } from "framer-motion";
-import Image from "next/image";
-import { ArrowRight, Star } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { ArrowRight } from "lucide-react";
+import { TypographicCover } from "@/components/TypographicCover";
+import { useMemo, useState } from "react";
 import { MotionDiv, MotionItem, MotionList } from "@/components/ui/Motion";
 import { EditorLink } from "@/components/editor/EditorLink";
 import { EditableText } from "@/components/editor/EditableText";
@@ -55,25 +54,11 @@ export function LegacyBlock({ block }: { pageId: string; block: SiteBlock; edita
       return wrapLegacySection("testimonials", <LegacyTestimonials />);
     default:
       return (
-        <div className="mx-auto max-w-4xl px-4 py-10 text-sm text-slate-500">
+        <div className="mx-auto max-w-4xl px-4 py-10 text-sm text-[#6f675d]">
           Bloque legacy no disponible en esta página.
         </div>
       );
   }
-}
-
-function isDefined<T>(value: T | undefined): value is T {
-  return value !== undefined;
-}
-
-function normalizeVisibleIds(ids: string[], current: string[], maxVisible: number): string[] {
-  if (ids.length <= maxVisible) return ids;
-  const next = current.filter((id) => ids.includes(id));
-  for (const id of ids) {
-    if (next.length >= maxVisible) break;
-    if (!next.includes(id)) next.push(id);
-  }
-  return next;
 }
 
 function LegacyServicesPreview() {
@@ -81,72 +66,37 @@ function LegacyServicesPreview() {
   const cards = content.homeServices.cards;
 
   return (
-    <section
-      className="relative z-20 border-b border-[#ded5c7] px-5 py-0 sm:px-8 lg:px-14"
-      style={{ background: "#f8f5ee" }}
-    >
-      <MotionDiv
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.15 }}
-        className="mx-auto max-w-[1640px]"
-      >
-        <div className="grid grid-cols-1 gap-0 md:grid-cols-3">
+    <section className="border-b border-[#d8cfc0] bg-[#f8f5ee] px-5 sm:px-8 lg:px-14 xl:px-20">
+      <MotionDiv className="mx-auto max-w-[1640px]">
+        <div className="grid grid-cols-1 md:grid-cols-3">
           {cards.map((card, cardPos) => {
             const idx = cards.findIndex((c) => c.id === card.id);
             return (
-              <EditorLink key={card.id} href={card.href} className="group relative">
-                <div
-                  className="relative grid h-full grid-cols-[84px_1fr] items-center gap-6 border-b border-[#ded5c7] py-8 transition-all duration-300 hover:bg-[#f1eadf] md:border-b-0 md:border-r md:px-8 lg:grid-cols-[104px_1fr] lg:px-12"
-                  style={cardPos === cards.length - 1 ? { borderRight: "none" } : {}}
-                >
-                  <div className="absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 bg-[#bd6f3c] transition-transform duration-300 group-hover:scale-x-100" />
-
-                  <div className="flex h-20 w-20 items-center justify-center lg:h-24 lg:w-24">
-                    {cardPos === 0 && (
-                      <svg viewBox="0 0 84 84" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-full w-full">
-                        <path d="M21 72V35C21 20.64 30.16 11 42 11C53.84 11 63 20.64 63 35V72H21Z" stroke="#737d69" strokeWidth="1.8"/>
-                        <path d="M42 68V30" stroke="#172017" strokeWidth="1.6" strokeLinecap="round"/>
-                        <path d="M42 55C31 51 29 43 30 36C38 37 42 44 42 55Z" fill="#737d69"/>
-                        <path d="M42 48C53 44 55 35 54 29C46 30 42 38 42 48Z" fill="#9aa58f"/>
-                        <path d="M33 72H51" stroke="#737d69" strokeWidth="1.8" strokeLinecap="round"/>
-                      </svg>
-                    )}
-                    {cardPos === 1 && (
-                      <svg viewBox="0 0 84 84" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-full w-full">
-                        <path d="M14 21C14 15.5 18.5 11 24 11H47C52.5 11 57 15.5 57 21V41C57 46.5 52.5 51 47 51H34L23 61V51C18 50.5 14 46.2 14 41V21Z" fill="#737d69"/>
-                        <path d="M33 31C33 25.5 37.5 21 43 21H61C66.5 21 71 25.5 71 31V48C71 53.5 66.5 58 61 58H54L45 68V58H43C37.5 58 33 53.5 33 48V31Z" fill="#bd6f3c"/>
-                      </svg>
-                    )}
-                    {cardPos >= 2 && (
-                      <svg viewBox="0 0 84 84" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-full w-full">
-                        <circle cx="42" cy="24" r="9" fill="#bd6f3c"/>
-                        <circle cx="23" cy="31" r="7" fill="#172017"/>
-                        <circle cx="61" cy="31" r="7" fill="#5c665b"/>
-                        <path d="M25 70V56C25 46.6 32.6 39 42 39C51.4 39 59 46.6 59 56V70H25Z" fill="#172017"/>
-                        <path d="M8 70V58C8 50.2 14.2 44 22 44C25.9 44 29.4 45.6 32 48.2C27.7 52 25 57.6 25 64V70H8Z" fill="#7d836f"/>
-                        <path d="M59 70V64C59 57.6 56.3 52 52 48.2C54.6 45.6 58.1 44 62 44C69.8 44 76 50.2 76 58V70H59Z" fill="#5c665b"/>
-                      </svg>
-                    )}
-                  </div>
-
-                  <div>
-                    <h3 className="mb-3 text-[0.92rem] font-extrabold uppercase tracking-[0.18em] text-[#2b2d28]">
-                      <EditableText path={`homeServices.cards.${idx}.title`} ariaLabel="Servicio título" />
-                    </h3>
-                    <p className="mb-5 max-w-[34ch] text-[0.92rem] font-semibold leading-relaxed text-[#4f5149]">
-                      <EditableText
-                        path={`homeServices.cards.${idx}.description`}
-                        ariaLabel="Servicio descripción"
-                        multiline
-                      />
-                    </p>
-                    <div className="flex items-center gap-2 text-[0.72rem] font-extrabold uppercase tracking-[0.13em] text-[#bd6f3c] transition-all duration-200 group-hover:gap-3">
-                      <EditableText path={`homeServices.cards.${idx}.ctaLabel`} ariaLabel="Servicio CTA" />
-                      <ArrowRight className="h-3.5 w-3.5" />
-                    </div>
-                  </div>
-                </div>
+              <EditorLink
+                key={card.id}
+                href={card.href}
+                className={
+                  "group block border-b border-[#d8cfc0] py-8 transition-colors md:border-b-0 md:px-8 md:first:pl-0 " +
+                  (cardPos === cards.length - 1 ? "" : "md:border-r")
+                }
+              >
+                <p className="text-[0.875rem] font-semibold tabular-nums text-[#6f675d]">
+                  {String(cardPos + 1).padStart(2, "0")}
+                </p>
+                <h3 className="crc-serif mt-2 text-[1.35rem] font-medium leading-[1.15] text-[#171713] transition-colors group-hover:text-[#9f5528]">
+                  <EditableText path={`homeServices.cards.${idx}.title`} ariaLabel="Servicio título" />
+                </h3>
+                <p className="mt-3 max-w-[40ch] text-[1rem] leading-[1.7] text-[#55574f]">
+                  <EditableText
+                    path={`homeServices.cards.${idx}.description`}
+                    ariaLabel="Servicio descripción"
+                    multiline
+                  />
+                </p>
+                <span className="mt-5 inline-flex items-center gap-2 text-[0.9375rem] font-semibold text-[#9f5528]">
+                  <EditableText path={`homeServices.cards.${idx}.ctaLabel`} ariaLabel="Servicio CTA" />
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+                </span>
               </EditorLink>
             );
           })}
@@ -177,62 +127,44 @@ function LegacyLatestArticles() {
   );
 
   return (
-    <section className="py-16 sm:py-20" style={{ background: "#fbfaf6" }}>
-      <div className="mx-auto max-w-[1640px] px-5 sm:px-8 lg:px-14">
-        <MotionDiv className="mb-7 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+    <section className="border-b border-[#d8cfc0] bg-[#fffdf8] py-16 sm:py-20">
+      <div className="mx-auto max-w-[1640px] px-5 sm:px-8 lg:px-14 xl:px-20">
+        <MotionDiv className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <h2 className="text-[1.05rem] font-extrabold uppercase tracking-[0.14em] text-[#343631]">
+            <p className="text-[0.8125rem] font-semibold text-[#9f5528]">Columnas y crítica</p>
+            <h2 className="crc-serif mt-3 text-[clamp(1.6rem,2.3vw,2.4rem)] font-medium leading-[1.1] tracking-[-0.01em] text-[#171713] text-balance">
               <EditableText path="homeLatest.title" ariaLabel="Últimos artículos título" />
             </h2>
           </div>
           <EditorLink
             href={content.homeLatest.linkHref}
-            className="group flex items-center gap-3 self-start text-[0.72rem] font-extrabold uppercase tracking-[0.14em] text-[#bd6f3c] transition-colors hover:text-[#9f5528] sm:self-end"
+            className="group inline-flex items-center gap-2 self-start border-b border-[#bd6f3c] py-1 text-[0.9375rem] font-semibold text-[#171713] transition-colors hover:text-[#9f5528] sm:self-end"
           >
             <EditableText path="homeLatest.linkLabel" ariaLabel="Últimos artículos link" />
-            <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
           </EditorLink>
         </MotionDiv>
 
-        <MotionList className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
+        <MotionList className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
           {latestArticles.map((post) => (
-            <MotionItem
-              key={post.id}
-              className="group relative flex min-h-[360px] flex-col overflow-hidden border border-[#ded5c7] bg-[#fffdf8] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_16px_44px_rgba(31,27,22,0.10)]"
-            >
-              <div className="absolute left-0 right-0 top-0 z-10 h-0.5 origin-left scale-x-0 bg-[#bd6f3c] transition-transform duration-300 group-hover:scale-x-100" />
-
+            <MotionItem key={post.id}>
               <EditorLink
                 href={post.link}
-                className="relative block aspect-[16/10] w-full overflow-hidden bg-[#eee8dc]"
+                className="group flex h-full flex-col rounded-[6px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#171713] focus-visible:ring-offset-4 focus-visible:ring-offset-[#fffdf8]"
               >
-                <Image
-                  src={post.image}
-                  alt={post.title}
-                  fill
-                  className="object-cover saturate-[0.82] transition-transform duration-700 group-hover:scale-105"
+                <TypographicCover
+                  category={post.category}
+                  title={post.title}
+                  date={post.date}
+                  titleAs="h3"
+                  className="transition-transform duration-200 group-hover:-translate-y-px"
                 />
+                <p className="mt-4 line-clamp-3 text-[0.9375rem] leading-[1.7] text-[#55574f]">{post.excerpt}</p>
+                <span className="mt-3 inline-flex items-center gap-1.5 text-[0.9375rem] font-semibold text-[#9f5528]">
+                  {post.kind === "review" ? "Leer reseña" : "Leer columna"}
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+                </span>
               </EditorLink>
-
-              <div className="flex flex-grow flex-col p-6">
-                <div className="mb-4 text-[0.68rem] font-extrabold uppercase tracking-[0.16em] text-[#bd6f3c]">
-                  {post.category}
-                </div>
-                <div className="group/inner relative flex-grow">
-                  <h3
-                    className="crc-serif mb-3 text-[1.35rem] font-semibold leading-snug text-[#23241f] transition-colors group-hover:text-[#9f5528]"
-                  >
-                    <EditorLink href={post.link}>
-                      <span className="absolute inset-0" />
-                      {post.title}
-                    </EditorLink>
-                  </h3>
-                  <p className="line-clamp-3 text-[0.9rem] leading-relaxed text-[#55574f]">{post.excerpt}</p>
-                </div>
-                <time dateTime={post.date} className="mt-5 text-[0.68rem] font-bold uppercase tracking-[0.12em] text-[#80786b]">
-                  {post.date}
-                </time>
-              </div>
             </MotionItem>
           ))}
         </MotionList>
@@ -241,129 +173,103 @@ function LegacyLatestArticles() {
   );
 }
 
+// Categorías de testimonios que vienen de atención directa a personas. Se
+// muestran aparte de los institucionales y con el nombre abreviado.
+const CLINICAL_CATEGORIES = /cl[ií]nic|terapia|psicoterapia|orientaci[oó]n/i;
+
 function LegacyTestimonials() {
-  const MAX_VISIBLE = 3;
-  const ROTATE_EVERY_MS = 9000;
+  const INITIAL_PER_GROUP = 3;
   const { content, updateTestimonial, deleteTestimonial } = useContent();
   const { adminEnabled } = useEditor();
-  const [visibleIds, setVisibleIds] = useState<string[]>(() => content.testimonials.slice(0, MAX_VISIBLE).map((t) => t.id));
-  const testimonialIds = useMemo(() => content.testimonials.map((t) => t.id), [content.testimonials]);
-  const normalizedVisibleIds = useMemo(
-    () => normalizeVisibleIds(testimonialIds, visibleIds, MAX_VISIBLE),
-    [testimonialIds, visibleIds]
+  const [expanded, setExpanded] = useState(false);
+
+  const groups = useMemo(() => {
+    const personas = content.testimonials.filter((t) => CLINICAL_CATEGORIES.test(t.category));
+    const instituciones = content.testimonials.filter((t) => !CLINICAL_CATEGORIES.test(t.category));
+    return [
+      { id: "instituciones", title: "Instituciones y equipos", items: instituciones },
+      { id: "personas", title: "Personas y familias", items: personas },
+    ].filter((g) => g.items.length > 0);
+  }, [content.testimonials]);
+
+  const hiddenCount = groups.reduce((n, g) => n + Math.max(0, g.items.length - INITIAL_PER_GROUP), 0);
+
+  const renderQuote = (t: typeof content.testimonials[number]) => (
+    <figure key={t.id} className="border-t border-[#d8cfc0] pt-5">
+      <blockquote className="crc-serif text-[1.125rem] leading-[1.55] text-[#171713]">
+        <EditableAtom value={t.text} ariaLabel="Testimonio texto" multiline onCommit={(next) => updateTestimonial(t.id, { text: next })} />
+      </blockquote>
+      <figcaption className="mt-4 flex items-baseline justify-between gap-4 text-[0.875rem]">
+        <span>
+          <span className="font-semibold text-[#171713]">
+            <EditableAtom value={t.name} ariaLabel="Testimonio nombre" onCommit={(next) => updateTestimonial(t.id, { name: next })} />
+          </span>
+          <span className="text-[#6f675d]"> · </span>
+          <span className="text-[#9f5528]">
+            <EditableAtom value={t.category} ariaLabel="Testimonio categoría" onCommit={(next) => updateTestimonial(t.id, { category: next })} />
+          </span>
+        </span>
+        {adminEnabled ? (
+          <button
+            type="button"
+            className="text-[#6f675d] transition-colors hover:text-[#9f5528]"
+            aria-label="Eliminar testimonio"
+            onClick={() => {
+              const ok = window.confirm("¿Eliminar este testimonio?");
+              if (!ok) return;
+              deleteTestimonial(t.id);
+            }}
+          >
+            ×
+          </button>
+        ) : null}
+      </figcaption>
+    </figure>
   );
 
-  useEffect(() => {
-    if (testimonialIds.length <= MAX_VISIBLE) return undefined;
-    const timer = window.setInterval(() => {
-      setVisibleIds((current) => {
-        const base = normalizeVisibleIds(testimonialIds, current, MAX_VISIBLE);
-        const hidden = testimonialIds.filter((id) => !base.includes(id));
-        if (base.length === 0 || hidden.length === 0) return base;
-
-        const next = [...base];
-        const replaceIndex = Math.floor(Math.random() * next.length);
-        const replacement = hidden[Math.floor(Math.random() * hidden.length)];
-        next[replaceIndex] = replacement;
-        return next;
-      });
-    }, ROTATE_EVERY_MS);
-    return () => window.clearInterval(timer);
-  }, [testimonialIds]);
-
-  const visibleTestimonials = useMemo(() => {
-    if (content.testimonials.length <= MAX_VISIBLE) return content.testimonials;
-    const byId = new Map(content.testimonials.map((t) => [t.id, t]));
-    return normalizedVisibleIds.map((id) => byId.get(id)).filter(isDefined);
-  }, [content.testimonials, normalizedVisibleIds]);
-
-  const renderCard = (t: typeof content.testimonials[number]) => {
-    return (
-      <div
-        className="group relative h-full overflow-hidden rounded-2xl border border-white/10 bg-black/40 backdrop-blur-md p-6 shadow-2xl hover:bg-black/60 hover:-translate-y-1 transition-all duration-300 w-full flex flex-col justify-between"
-      >
-        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none bg-gradient-to-br from-white/5 via-transparent to-white/5" />
-
-        <div className="relative flex flex-col h-full">
-          <div className="flex items-start justify-between gap-4 mb-4">
-            <div>
-              <div className="text-sm font-bold text-white mb-1">
-                <EditableAtom value={t.name} ariaLabel="Testimonio nombre" onCommit={(next) => updateTestimonial(t.id, { name: next })} />
-              </div>
-              <div className="inline-flex items-center rounded-full bg-white/10 px-2.5 py-1 text-xs font-medium text-gray-300 border border-white/5">
-                <EditableAtom value={t.category} ariaLabel="Testimonio categoría" onCommit={(next) => updateTestimonial(t.id, { category: next })} />
-              </div>
-            </div>
-            {adminEnabled ? (
-              <button
-                type="button"
-                className="opacity-0 group-hover:opacity-100 transition-opacity text-gray-400 hover:text-red-400"
-                aria-label="Eliminar testimonio"
-                onClick={() => {
-                  const ok = window.confirm("¿Eliminar este testimonio?");
-                  if (!ok) return;
-                  deleteTestimonial(t.id);
-                }}
-              >
-                ×
-              </button>
-            ) : null}
-          </div>
-
-          <div className="text-gray-200 leading-relaxed text-sm flex-grow">
-            <EditableAtom value={t.text} ariaLabel="Testimonio texto" multiline onCommit={(next) => updateTestimonial(t.id, { text: next })} />
-          </div>
-        </div>
-      </div>
-    );
-  };
-
   return (
-    <section className="relative py-24 overflow-hidden isolate border-t border-[rgba(176,145,100,0.2)]" style={{ background: "#1C1208" }}>
-      <div className="absolute inset-0 -z-10">
-        <Image src="/images/consulting_hero.png" alt="Background" fill className="object-cover opacity-20 mix-blend-overlay" />
-        <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, #1C1208 0%, rgba(28,18,8,0.7) 50%, #1C1208 100%)" }} />
-      </div>
-
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10 mb-16">
-        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between text-center md:text-left">
-          <div className="max-w-2xl mx-auto md:mx-0">
-            <h2 className="text-3xl font-bold tracking-tight text-white"
-              style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
-            >
+    <section aria-labelledby="home-testimonios-title" className="border-t border-[#d8cfc0] bg-[#fffdf8] py-16 text-[#171713] sm:py-24">
+      <div className="mx-auto max-w-[1640px] px-5 sm:px-8 lg:px-14 xl:px-20">
+        <div className="grid gap-6 lg:grid-cols-2 lg:items-end">
+          <div>
+            <p className="text-[0.8125rem] font-semibold text-[#9f5528]">Testimonios</p>
+            <h2 id="home-testimonios-title" className="crc-serif mt-3 text-[clamp(1.6rem,2.3vw,2.4rem)] font-medium leading-[1.1] tracking-[-0.01em] text-balance">
               <EditableText path="homeTestimonials.title" ariaLabel="Opiniones título" />
             </h2>
-            <p className="mt-4 text-lg text-[rgba(250,247,242,0.7)]">
+            <p className="mt-4 max-w-[60ch] text-[1.0625rem] leading-[1.7] text-[#55574f]">
               <EditableText path="homeTestimonials.subtitle" ariaLabel="Opiniones subtítulo" multiline />
             </p>
           </div>
-          {adminEnabled ? (
-            <div className="hidden md:flex items-center gap-2 text-sm text-gray-400">
-              <Star className="h-4 w-4 text-amber-500" />
-              <span>Editable en vivo</span>
-            </div>
-          ) : null}
+          <p className="max-w-[52ch] text-[0.875rem] leading-[1.6] text-[#6f675d] lg:justify-self-end">
+            Los nombres de las personas que consultan van abreviados para proteger su privacidad. Las instituciones aparecen por su tipo de organización.
+          </p>
         </div>
-      </div>
 
-      <div className="relative z-10 py-4">
-        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 px-4 sm:px-6 lg:grid-cols-3 lg:px-8">
-          <AnimatePresence mode="popLayout" initial={false}>
-            {visibleTestimonials.map((t) => (
-              <motion.div
-                key={t.id}
-                layout
-                className="h-full"
-                initial={{ opacity: 0, y: 16, scale: 0.98 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -16, scale: 0.98 }}
-                transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-              >
-                {renderCard(t)}
-              </motion.div>
-            ))}
-          </AnimatePresence>
+        <div className="mt-12 grid gap-12 lg:grid-cols-2 lg:gap-16">
+          {groups.map((group) => (
+            <div key={group.id}>
+              <h3 className="text-[0.9375rem] font-semibold text-[#171713]">
+                {group.title} <span className="font-normal text-[#6f675d]">({group.items.length})</span>
+              </h3>
+              <div className="mt-5 grid gap-8">
+                {(expanded || adminEnabled ? group.items : group.items.slice(0, INITIAL_PER_GROUP)).map(renderQuote)}
+              </div>
+            </div>
+          ))}
         </div>
+
+        {hiddenCount > 0 && !adminEnabled ? (
+          <div className="mt-12">
+            <button
+              type="button"
+              onClick={() => setExpanded((v) => !v)}
+              aria-expanded={expanded}
+              className="inline-flex items-center rounded-[6px] border border-[#171713] px-5 py-2.5 text-[0.9375rem] font-semibold text-[#171713] transition-colors hover:bg-[#171713] hover:text-[#fffdf8] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#bd6f3c] focus-visible:ring-offset-2"
+            >
+              {expanded ? "Ver menos" : `Ver los ${content.testimonials.length} testimonios`}
+            </button>
+          </div>
+        ) : null}
       </div>
     </section>
   );
