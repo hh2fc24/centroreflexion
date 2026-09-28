@@ -130,11 +130,10 @@ export default async function AcademiaPage() {
             </h3>
             <p className="mt-2.5 max-w-xl text-sm leading-6" style={{ color: "var(--ac-text-2)" }}>
               Ocho sesiones en vivo con Juan Carlos Rauld, autor del libro y Director del CRC. Jueves 19:00, del 15
-              de octubre al 3 de diciembre. Cohorte cerrada de 15 personas, con certificación CRC + Editorial
-              Hammurabi.
+              de octubre al 3 de diciembre. Cohorte en vivo, con certificación CRC + Editorial Hammurabi.
             </p>
             <p className="mt-2 text-xs" style={{ color: "var(--ac-text-3)" }}>
-              Formato distinto al de los cursos del catálogo: en vivo, con cupo limitado y ensayo final.
+              Formato distinto al de los cursos del catálogo: en vivo, con discusión de casos y ensayo final.
             </p>
           </div>
           <span

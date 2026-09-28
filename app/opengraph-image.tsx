@@ -5,7 +5,7 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 const TITLE = "Centro de Reflexiones Críticas";
-const SUBTITLE = "Pensamiento crítico, formación, consultoría y clínica en infancia, salud mental e instituciones.";
+const SUBTITLE = "Pensamiento crítico, salud mental de la niñez y juventud, consultoría y capacitación.";
 const LABEL = "Chile · CRC";
 const DOMAIN = "centrodereflexionescriticas.com";
 

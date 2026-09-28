@@ -34,7 +34,7 @@ function Hero() {
                 <div>
                     <p className={label}>Para instituciones</p>
                     <h1 id="inst-hero-title" className={`${h1} mt-4 max-w-[20ch] text-[#171713]`}>
-                        Criterio experto para decisiones difíciles sobre infancia
+                        Pensamiento crítico para decisiones difíciles sobre niñez y juventud
                     </h1>
                     <p className={`${lead} mt-6 max-w-[58ch]`}>
                         Hay decisiones en que la ley, el caso y la institución empujan hacia lados distintos. Ayudamos a colegios,

@@ -63,7 +63,7 @@ const outcomes = [
     "Criterios comunes para detectar y priorizar.",
     "Rutas entendibles para equipos directivos, convivencia y apoyo.",
     "Registro de decisiones, responsables y seguimiento.",
-    "Un colegio enfocado en educar, con soporte experto para lo complejo.",
+    "Un colegio enfocado en educar, con soporte especializado para lo complejo.",
 ];
 
 export default function BienestarEscolarPage() {

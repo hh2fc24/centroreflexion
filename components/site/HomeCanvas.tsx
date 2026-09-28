@@ -81,13 +81,13 @@ function HomeSeminarioBanner() {
 
             <p className="mt-5 max-w-[60ch] text-[1rem] leading-[1.7] text-[#55574f]">
               Ocho sesiones en vivo con Juan Carlos Rauld para recorrer a Foucault, el poder disciplinario y el Chile del
-              SENAME. Una cohorte cerrada de quince personas, con certificación CRC y Editorial Hammurabi.
+              SENAME. Una cohorte en vivo, con ensayo final y certificación CRC y Editorial Hammurabi.
             </p>
 
             <dl className="mt-7 grid max-w-[560px] grid-cols-3 border-y border-[#d8cfc0]">
               {[
                 ["8", "sesiones en vivo"],
-                ["15", "cupos totales"],
+                ["60", "días de grabaciones"],
                 ["16", "horas de seminario"],
               ].map(([value, label], index) => (
                 <div key={label} className={index === 0 ? "py-4 pr-4" : "border-l border-[#d8cfc0] px-4 py-4 sm:px-5"}>

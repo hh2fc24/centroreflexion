@@ -5,9 +5,9 @@ import { normalizePagesForStore } from "@/lib/editor/pagesStore";
 import type { SitePage } from "@/lib/editor/types";
 import { pageMetadata } from "@/lib/seo";
 
-const DEFAULT_TITLE = "Centro de Reflexiones Críticas | Salud Mental, Infancia y Consultoría Institucional";
+const DEFAULT_TITLE = "Centro de Reflexiones Críticas | Pensamiento crítico y salud mental de la niñez y juventud";
 const DEFAULT_DESCRIPTION =
-  "Centro de Reflexiones Críticas (CRC): atención clínica en salud mental e infancia, consultoría institucional, formación y compliance escolar en Chile. Columnas de opinión y crítica social.";
+  "Centro de Reflexiones Críticas (CRC): pensamiento crítico y salud mental de la niñez y juventud. Consultoría y capacitación para instituciones y profesionales, compliance escolar y atención clínica en Chile.";
 
 async function findHomePage() {
   const { state } = await readPublishedDiskState();

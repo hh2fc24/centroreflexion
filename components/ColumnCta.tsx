@@ -37,7 +37,7 @@ const CTA_BY_KIND: Record<ColumnCtaTopic | "formacion", CtaContent> = {
     seminario: {
         eyebrow: "Seminario en vivo",
         title: "Ocho jueves para leer el sistema de protección por dentro, con Juan Carlos Rauld.",
-        detail: "Seminario Desprotección de la infancia · cohorte cerrada de 15 · cierra el 13 de octubre",
+        detail: "Seminario Desprotección de la infancia · 8 sesiones en vivo · cierra el 13 de octubre",
         label: "Ver el programa",
         href: `${SEMINAR_PATH}?utm_source=web&utm_medium=columna&utm_campaign=seminario-c1`,
     },
@@ -50,14 +50,14 @@ const CTA_BY_KIND: Record<ColumnCtaTopic | "formacion", CtaContent> = {
     },
     "salud-mental": {
         eyebrow: "Formación para equipos",
-        title: "Salud mental infantil para equipos que trabajan con niños, niñas y adolescentes.",
+        title: "Salud mental de la niñez y juventud para equipos que trabajan con niños, niñas y adolescentes.",
         detail: "Jornadas y supervisión para escuelas, programas y fundaciones, a partir de los casos del propio equipo.",
         label: "Ver formación para instituciones",
         href: "/instituciones",
     },
     formacion: {
         eyebrow: "Formación para equipos",
-        title: "Formación y supervisión para equipos que trabajan con infancia.",
+        title: "Formación y supervisión para equipos que trabajan con niñez y juventud.",
         detail: "Programas cerrados para una institución, con fechas propias y casos del propio equipo.",
         label: "Ver formación",
         href: "/servicios/formacion",

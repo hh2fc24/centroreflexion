@@ -6,7 +6,6 @@ import { SeminarioPostulacionForm } from "@/components/SeminarioPostulacionForm"
 import { SeminarioPagoAviso, SeminarioPagoButton } from "@/components/SeminarioPagoButton";
 import { leerEstadoVenta } from "@/lib/server/seminarioPagosStore";
 import {
-  SEMINARIO_CUPOS_TOTALES,
   TRAMOS,
   estadoDeTramo,
   fechaCierreLegible,
@@ -18,7 +17,7 @@ import { pageMetadata } from "@/lib/seo";
 
 const TITLE = "Seminario · Desprotección de la Infancia";
 const DESCRIPTION =
-  "Seminario en vivo de 8 sesiones con Juan Carlos Rauld, autor del libro y Director del CRC. Jueves 19:00, del 15 de octubre al 3 de diciembre de 2026. Cohorte cerrada de 15 personas. Certificación CRC + Editorial Hammurabi.";
+  "Seminario en vivo de 8 sesiones con Juan Carlos Rauld, autor del libro y Director del CRC. Jueves 19:00, del 15 de octubre al 3 de diciembre de 2026. Cohorte en vivo con ensayo final. Certificación CRC + Editorial Hammurabi.";
 const IMAGE_PATH = "/images/book_desproteccion.png";
 // Imagen editorial de la campaña: corredor institucional vacío con una silla de
 // escuela y un libro encima ("institución + infancia ausente"). Es la línea
@@ -79,7 +78,7 @@ export const metadata: Metadata = {
 const DATOS = [
   { valor: "8", label: "sesiones en vivo" },
   { valor: "16", label: "horas de seminario" },
-  { valor: "15", label: "cupos, cohorte cerrada" },
+  { valor: "1", label: "ensayo final con devolución" },
   { valor: "60", label: "días de grabaciones" },
 ];
 
@@ -166,7 +165,7 @@ const FAQ = [
   },
   {
     q: "¿Por qué cuesta más que los cursos del catálogo?",
-    a: "Los cursos de la Academia CRC son asincrónicos y de acceso abierto. Esto es distinto: 16 horas en vivo, cohorte cerrada de 15 personas, con el autor del libro en sala, discusión de casos reales y un ensayo final con retroalimentación individual. No es el mismo producto.",
+    a: "Los cursos de la Academia CRC son asincrónicos y de acceso abierto. Esto es distinto: 16 horas en vivo, en cohorte, con el autor del libro en sala, discusión de casos reales y un ensayo final con retroalimentación individual. No es el mismo producto.",
   },
   {
     q: "¿Puedo pagar en cuotas?",
@@ -218,10 +217,10 @@ function textoCupos(venta: EstadoVenta) {
   if (venta.disponibles === 0) return "Cohorte 1 completa";
   if (mostrarCuposRestantes(venta.disponibles)) {
     return venta.disponibles === 1
-      ? `Queda 1 de ${SEMINARIO_CUPOS_TOTALES} cupos`
-      : `Quedan ${venta.disponibles} de ${SEMINARIO_CUPOS_TOTALES} cupos`;
+      ? "Queda 1 cupo"
+      : `Quedan ${venta.disponibles} cupos`;
   }
-  return `Cohorte cerrada de ${SEMINARIO_CUPOS_TOTALES} personas`;
+  return "Matrícula abierta";
 }
 
 /** Valor del tramo vigente y hasta cuándo rige. */
@@ -331,7 +330,7 @@ export default async function SeminarioDesproteccionInfancia() {
 
             {/* El contador sale de los pagos aprobados, no de una frase fija. Solo
                 se muestra la cifra cuando quedan pocos cupos (ver
-                UMBRAL_CUPOS_VISIBLES); antes, el tamaño de la cohorte. */}
+                UMBRAL_CUPOS_VISIBLES). El tamaño total de la cohorte no se publica. */}
             <p className="mt-4 max-w-[60ch] text-[0.9375rem] leading-[1.6] text-[#55574f]">
               <span className="font-semibold text-[#171713]">{textoCupos(venta)}.</span>{" "}
               {vigente ? plazoTramo(vigente) : null}
@@ -431,8 +430,8 @@ export default async function SeminarioDesproteccionInfancia() {
           <aside className={`border-t ${FILETE} pt-6 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0`}>
             <p className={ETIQUETA}>En qué se diferencia del catálogo</p>
             <p className="mt-3 text-[0.9375rem] leading-[1.7] text-[#55574f]">
-              Los cursos de la Academia CRC son asincrónicos y de acceso abierto. Este seminario es en vivo, con una
-              cohorte cerrada de quince personas, discusión de casos reales, ensayo final con retroalimentación
+              Los cursos de la Academia CRC son asincrónicos y de acceso abierto. Este seminario es en vivo, en
+              cohorte, con discusión de casos reales, ensayo final con retroalimentación
               individual y el autor del libro conduciendo cada sesión.
             </p>
             <p className="mt-3 text-[0.9375rem] leading-[1.7] text-[#55574f]">
@@ -442,7 +441,7 @@ export default async function SeminarioDesproteccionInfancia() {
             <dl className={`mt-6 border-t ${FILETE}`}>
               {[
                 ["Formato", "En vivo, por Zoom"],
-                ["Cohorte", "15 personas"],
+                ["Duración", "8 sesiones · 16 horas"],
                 ["Evaluación", "Ensayo final con devolución"],
               ].map(([k, v]) => (
                 <div key={k} className={`flex items-baseline justify-between gap-4 border-b ${FILETE_SUAVE} py-3`}>
@@ -673,10 +672,10 @@ export default async function SeminarioDesproteccionInfancia() {
                 <h2 className={H2}>Valor y matrícula</h2>
                 <p className="text-[0.9375rem] font-semibold tabular-nums text-[#55574f]">
                   {mostrarCuposRestantes(venta.disponibles)
-                    ? `${venta.disponibles} ${venta.disponibles === 1 ? "cupo disponible" : "cupos disponibles"} de ${SEMINARIO_CUPOS_TOTALES}`
+                    ? `${venta.disponibles} ${venta.disponibles === 1 ? "cupo disponible" : "cupos disponibles"}`
                     : venta.disponibles === 0
                       ? "Cohorte 1 completa"
-                      : `Cohorte cerrada de ${SEMINARIO_CUPOS_TOTALES} personas`}
+                      : "Matrícula abierta"}
                 </p>
               </div>
 
@@ -830,7 +829,7 @@ export default async function SeminarioDesproteccionInfancia() {
                 <span className="font-semibold text-[#171713]">
                   La matrícula cierra el martes 13 de octubre a las 23:59
                 </span>
-                , o antes si se completan los quince cupos. No reabrimos: la cohorte 2 se abre en marzo de 2027.
+                , o antes si se completan los cupos. No reabrimos: la cohorte 2 se abre en marzo de 2027.
               </p>
             </div>
           </div>
@@ -843,7 +842,7 @@ export default async function SeminarioDesproteccionInfancia() {
           <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_500px] lg:gap-16">
             <div>
               <p className={ETIQUETA}>Postulación</p>
-              <h2 className={`${H2} mt-3 max-w-[20ch]`}>Quince personas, una cohorte.</h2>
+              <h2 className={`${H2} mt-3 max-w-[20ch]`}>Postula a la cohorte 1.</h2>
               <p className="mt-5 max-w-[56ch] text-[1.0625rem] leading-[1.7] text-[#171713]">
                 Revisamos cada postulación. Si tu perfil calza con la cohorte, te escribimos para una conversación
                 breve de quince minutos y confirmamos tu cupo con el valor del tramo vigente. Postular no compromete
@@ -936,7 +935,7 @@ export default async function SeminarioDesproteccionInfancia() {
             <div className="max-w-[48ch]">
               <h2 className={H2}>Es la primera vez que el autor dicta este seminario.</h2>
               <p className="mt-4 text-[1.0625rem] leading-[1.7] text-[#55574f]">
-                La cohorte 1 se cierra el martes 13 de octubre a las 23:59, o antes si se completan los quince cupos.
+                La cohorte 1 se cierra el martes 13 de octubre a las 23:59, o antes si se completan los cupos.
                 {mostrarCuposRestantes(venta.disponibles)
                   ? ` ${venta.disponibles === 1 ? "Queda 1 cupo" : `Quedan ${venta.disponibles} cupos`}.`
                   : null}

@@ -11,7 +11,7 @@ const features = [
     n: "01",
     icon: Video,
     title: "Clases en video HD",
-    desc: "Accede a clases grabadas por expertos cuando y donde quieras. Sin horarios fijos — avanza según tu tiempo y retoma donde lo dejaste.",
+    desc: "Accede a clases grabadas por el equipo del CRC cuando y donde quieras. Sin horarios fijos — avanza según tu tiempo y retoma donde lo dejaste.",
     tag: "Asíncrono",
     cols: 4,
   },
@@ -20,7 +20,7 @@ const features = [
     icon: Users,
     title: "Profesores del mundo real",
     desc: "Todos los cursos son impartidos por académicos e investigadores activos del CRC. Sin intermediarios.",
-    tag: "Expertos",
+    tag: "Equipo CRC",
     cols: 2,
   },
   {

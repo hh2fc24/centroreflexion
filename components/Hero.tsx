@@ -81,7 +81,7 @@ export function Hero() {
                         3 libros · Editorial Hammurabi
                     </EditorLink>
                     <span aria-hidden="true" className="hidden text-[#e4935d] sm:inline">·</span>
-                    <span>16 años en programas de infancia</span>
+                    <span>16 años en programas de niñez y juventud</span>
                     <span aria-hidden="true" className="hidden text-[#e4935d] sm:inline">·</span>
                     <span>Docencia universitaria</span>
                 </p>

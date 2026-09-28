@@ -51,8 +51,8 @@ export const metadata: Metadata = {
     default: "Centro de Reflexiones Críticas",
     template: "%s | Centro de Reflexiones Críticas",
   },
-  description: "Centro de Reflexiones Críticas (CRC): salud mental, infancia, consultoría institucional, formación y pensamiento crítico en Chile.",
-  keywords: ["salud mental", "infancia", "consultoría institucional", "compliance escolar", "formación", "pensamiento crítico", "Chile"],
+  description: "Centro de Reflexiones Críticas (CRC): pensamiento crítico, salud mental de la niñez y juventud, consultoría y capacitación en Chile.",
+  keywords: ["pensamiento crítico", "salud mental infanto-juvenil", "niñez y juventud", "consultoría institucional", "capacitación", "compliance escolar", "Chile"],
   authors: [{ name: SITE_NAME }],
   creator: SITE_NAME,
   alternates: {
@@ -63,7 +63,7 @@ export const metadata: Metadata = {
     locale: "es_CL",
     url: siteUrl,
     title: SITE_NAME,
-    description: "Salud mental, infancia, consultoría institucional, formación y pensamiento crítico en Chile.",
+    description: "Pensamiento crítico, salud mental de la niñez y juventud, consultoría y capacitación en Chile.",
     siteName: "CRC",
     images: [
       {
@@ -77,7 +77,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: SITE_NAME,
-    description: "Salud mental, infancia, consultoría institucional, formación y pensamiento crítico en Chile.",
+    description: "Pensamiento crítico, salud mental de la niñez y juventud, consultoría y capacitación en Chile.",
     images: [DEFAULT_OG_IMAGE],
   },
   robots: {

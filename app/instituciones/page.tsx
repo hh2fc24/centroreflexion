@@ -3,7 +3,7 @@ import { pageMetadata } from "@/lib/seo";
 import { InstitucionesSections } from "./InstitucionesSections";
 
 export const metadata: Metadata = pageMetadata({
-    title: "Instituciones | Criterio experto en infancia para colegios y programas",
+    title: "Instituciones | Consultoría y capacitación en niñez y juventud para colegios y programas",
     description:
         "Compliance escolar, formación de equipos y consultoría para colegios, programas de protección, fundaciones y municipios que deben tomar decisiones difíciles sobre niños, niñas y adolescentes.",
     path: "/instituciones",
@@ -11,11 +11,11 @@ export const metadata: Metadata = pageMetadata({
         "compliance escolar",
         "Ley 21.809",
         "capacitación programas de protección",
-        "consultoría infancia",
+        "consultoría niñez y juventud",
         "formación equipos PRM PPF DAM OPD",
         "oficinas locales de niñez",
     ],
-    ogTitle: "Criterio experto para decisiones difíciles sobre infancia",
+    ogTitle: "Pensamiento crítico para decisiones difíciles sobre niñez y juventud",
     ogDescription:
         "El CRC trabaja con colegios, programas de protección, fundaciones y municipios. Agenda 20 minutos con Hugo Hormazábal.",
 });

@@ -42,12 +42,12 @@
     }
   },
   "hero": {
-    "badgePrefix": "Pensamiento crítico",
-    "badgeHighlight": "Infancia · Salud mental · Instituciones",
-    "titleBefore": "Criterio experto para decidir sobre",
-    "titleHighlight": "infancia",
+    "badgePrefix": "Salud mental de la niñez y juventud",
+    "badgeHighlight": "Consultoría · Capacitación",
+    "titleBefore": "Pensamiento crítico para decidir sobre",
+    "titleHighlight": "niñez y juventud",
     "titleAfter": "cuando la ley, el caso y la institución tiran para lados distintos.",
-    "subtitle": "Pensamiento crítico aplicado: formación, consultoría y compliance con respaldo de libros publicados, docencia universitaria y práctica clínica.",
+    "subtitle": "Consultoría y capacitación para instituciones y profesionales, con el respaldo de libros publicados, docencia universitaria y práctica clínica.",
     "primaryCtaLabel": "Soy profesional · Ver el seminario",
     "primaryCtaHref": "/seminarios/desproteccion-infancia",
     "secondaryCtaLabel": "Represento a una institución",
@@ -254,7 +254,7 @@
   "footer": {
     "brandTitle": "Centro de Reflexiones",
     "brandHighlight": "Críticas",
-    "description": "Pensamiento crítico sobre infancia y salud mental para profesionales, familias e instituciones. Formación, consultoría, compliance escolar y atención clínica.",
+    "description": "Pensamiento crítico sobre la salud mental de la niñez y juventud para profesionales, familias e instituciones. Consultoría, capacitación, compliance escolar y atención clínica.",
     "instagramHref": "https://www.instagram.com/centrodereflexionescriticas/",
     "linkedinHref": "#",
     "whatsappHref": "https://wa.me/56949186447?text=Hola,%20quisiera%20m%C3%A1s%20informaci%C3%B3n%20sobre%20el%20CRC.",

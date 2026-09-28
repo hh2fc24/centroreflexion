@@ -166,8 +166,8 @@ export default function About() {
                             <div className="grid gap-2 border-b border-[#d8cfc0] py-6 sm:grid-cols-[7rem_minmax(0,1fr)] sm:gap-6">
                                 <dt className={labelMuted}>Misión</dt>
                                 <dd className="text-[1.0625rem] leading-[1.7] text-[#171713]">
-                                    Cultivar un espacio de pensamiento crítico aplicado, formación y práctica profesional orientado a la salud
-                                    mental, la infancia, la educación y las instituciones que sostienen la vida común.
+                                    Cultivar un espacio de pensamiento crítico, formación y práctica profesional orientado a la salud mental de
+                                    la niñez y juventud, la educación y las instituciones que sostienen la vida común.
                                 </dd>
                             </div>
                             <div className="grid gap-2 border-b border-[#d8cfc0] py-6 sm:grid-cols-[7rem_minmax(0,1fr)] sm:gap-6">
