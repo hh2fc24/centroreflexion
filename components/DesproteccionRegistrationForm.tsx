@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { usePathname } from "next/navigation";
+import { getAttribution } from "@/lib/attribution";
 import { Button } from "@/components/ui/Button";
 
 const EVENT_SOURCE = "evento-desproteccion-infancia";
@@ -69,6 +70,7 @@ export function DesproteccionRegistrationForm({
               date: "Martes 30 de junio, 20:30 hrs. (Chile)",
               attendanceMode: "streaming",
             },
+            attribution: getAttribution(),
           };
 
           const response = await fetch("/api/leads", {

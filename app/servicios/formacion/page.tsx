@@ -107,6 +107,39 @@ export default function FormacionPage() {
                 </div>
             </section>
 
+            <section id="seminario-cerrado" className="scroll-mt-24 border-b border-[#2d3029] bg-[#171713] py-14 sm:py-16">
+                <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-12 lg:items-center lg:px-8">
+                    <div className="lg:col-span-7">
+                        <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#d3976d]">Seminario en formato cerrado</span>
+                        <h2 className="mt-3 text-3xl font-bold leading-tight text-white font-serif">
+                            Desprotección de la infancia, dictado solo para tu institución.
+                        </h2>
+                        <p className="mt-4 max-w-2xl text-base leading-8 text-[#d8d0c4]">
+                            El seminario de Juan Carlos Rauld sobre el sistema de protección, para un solo equipo: programas, escuelas, fundaciones u oficinas locales de niñez que quieren leer sus propios casos con el mismo marco.
+                        </p>
+                    </div>
+                    <div className="lg:col-span-5">
+                        <ul className="divide-y divide-white/10 border-y border-white/10">
+                            {["Desde 8 personas de la misma institución", "Fechas y horario propios", "Factura a nombre de la institución"].map((item) => (
+                                <li key={item} className="flex items-start gap-3 py-3">
+                                    <Check className="mt-1 h-4 w-4 shrink-0 text-[#d3976d]" />
+                                    <span className="text-sm font-semibold leading-7 text-[#eee8dc]">{item}</span>
+                                </li>
+                            ))}
+                        </ul>
+                        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+                            <Link href="/instituciones?servicio=formacion#agenda" className="inline-flex items-center justify-center gap-2 rounded-[5px] bg-[#bd6f3c] px-5 py-3 text-sm font-bold text-white hover:bg-[#9f5528]">
+                                Agenda 20 minutos con Hugo
+                                <ArrowRight className="h-4 w-4" />
+                            </Link>
+                            <Link href="/seminarios/desproteccion-infancia" className="inline-flex items-center justify-center gap-2 rounded-[5px] border border-white/15 bg-white/5 px-5 py-3 text-sm font-bold text-white hover:bg-white/10">
+                                Ver el programa
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <section className="border-b border-[#eee8dc] bg-[#f8f5ee] py-14 sm:py-20">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="mb-9">
@@ -160,9 +193,9 @@ export default function FormacionPage() {
                     })}
                 </div>
                 <div className="mx-auto mt-8 flex max-w-7xl flex-col gap-3 px-4 sm:flex-row sm:px-6 lg:px-8">
-                    <Link href="/contacto" className="inline-flex items-center justify-center gap-2 rounded-[5px] bg-[#171713] px-6 py-3 text-sm font-bold text-white hover:bg-[#34362f]">
+                    <Link href="/instituciones?servicio=formacion#agenda" className="inline-flex items-center justify-center gap-2 rounded-[5px] bg-[#171713] px-6 py-3 text-sm font-bold text-white hover:bg-[#34362f]">
                         <Mail className="h-4 w-4" />
-                        Solicitar propuesta formativa
+                        Agenda 20 minutos con Hugo
                     </Link>
                     <Link href="/servicios" className="inline-flex items-center justify-center gap-2 rounded-[5px] border border-[#ded5c7] bg-[#fffdf8] px-6 py-3 text-sm font-bold text-[#171713] hover:border-[#bd6f3c]/50">
                         Ver otros servicios

@@ -2,7 +2,14 @@ import { NextResponse } from "next/server";
 import { checkRateLimit, getClientIp } from "@/lib/server/rateLimit";
 import { requireTrustedOrigin } from "@/lib/server/requestSecurity";
 import { sanitizePlainText } from "@/lib/server/sanitize";
-import { getGeo, recordPageview } from "@/lib/server/siteAnalytics";
+import {
+  CAMPAIGN_LANDING_EVENT,
+  detectBot,
+  getGeo,
+  recordConversionEvent,
+  recordPageview,
+  sanitizeAttribution,
+} from "@/lib/server/siteAnalytics";
 
 export const runtime = "nodejs";
 
@@ -22,6 +29,7 @@ export async function POST(req: Request) {
     utmCampaign?: string;
     language?: string;
     viewportWidth?: number;
+    touch?: unknown;
   };
   try {
     body = await req.json();
@@ -58,6 +66,24 @@ export async function POST(req: Request) {
     });
   } catch {
     // No bloquear la navegación del visitante si falla el registro.
+  }
+
+  // Llegada con campaña (UTM, clic de anuncio o referrer externo al inicio de
+  // la sesión): se guarda completa en analytics_events.metadata porque
+  // analytics_pageviews no tiene columnas para utm_content / utm_term.
+  const touch = sanitizeAttribution({ last: body.touch });
+  if (touch && !detectBot(userAgent)) {
+    try {
+      await recordConversionEvent({
+        eventName: CAMPAIGN_LANDING_EVENT,
+        path,
+        ip,
+        country,
+        metadata: { attribution: touch },
+      });
+    } catch {
+      // Igual que el pageview: best-effort.
+    }
   }
 
   return NextResponse.json({ ok: true });

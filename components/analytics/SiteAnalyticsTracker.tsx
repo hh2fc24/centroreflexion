@@ -2,11 +2,16 @@
 
 import { useEffect, useRef } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
+import { captureAttribution } from "@/lib/attribution";
 
-// Analítica propia (server-side, sin cookies ni localStorage en el navegador):
-// registra cada vista de página en Supabase para tener tráfico, países y
-// referrers propios, independiente de si el visitante acepta o no las cookies
-// de GA/Meta (que solo aplican a esos scripts de terceros).
+// Analítica propia: registra cada vista de página en Supabase para tener
+// tráfico, países y referrers propios, independiente de si el visitante acepta
+// o no las cookies de GA/Meta (que solo aplican a esos scripts de terceros).
+//
+// Además captura la atribución de marketing (primer y último contacto) en
+// almacenamiento propio del sitio —localStorage y la cookie `crc_attr`, solo
+// con datos de campaña— para poder adjuntarla a postulaciones, pagos y
+// suscripciones. Ver lib/attribution.ts.
 export function SiteAnalyticsTracker() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -20,14 +25,20 @@ export function SiteAnalyticsTracker() {
     if (lastSent.current === fullPath) return;
     lastSent.current = fullPath;
 
+    const { sessionReferrer, newTouch } = captureAttribution();
+
     const payload = JSON.stringify({
       path: fullPath,
-      referrer: document.referrer || "",
+      // Solo en la primera página de la sesión: en navegación SPA
+      // document.referrer sigue apuntando al sitio externo de origen y lo
+      // contaría en cada página.
+      referrer: sessionReferrer,
       utmSource: searchParams?.get("utm_source") || "",
       utmMedium: searchParams?.get("utm_medium") || "",
       utmCampaign: searchParams?.get("utm_campaign") || "",
       language: navigator.language || "",
       viewportWidth: window.innerWidth || undefined,
+      ...(newTouch ? { touch: newTouch } : {}),
     });
 
     try {

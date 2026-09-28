@@ -12,11 +12,7 @@ export function FoundersSection() {
     const founders = content.homeFounders?.profiles || [];
 
     return (
-        <section className="py-24 bg-white relative overflow-hidden">
-            {/* Background elements */}
-            <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-gray-50 to-white pointer-events-none" />
-            <div className="absolute -left-40 top-20 w-96 h-96 bg-blue-50/50 rounded-full blur-3xl opacity-50 pointer-events-none" />
-            <div className="absolute -right-40 bottom-20 w-96 h-96 bg-red-50/50 rounded-full blur-3xl opacity-50 pointer-events-none" />
+        <section className="relative overflow-hidden border-t border-[#d8cfc0] bg-[#f8f5ee] py-16 sm:py-24">
 
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
                 <MotionDiv
@@ -24,9 +20,10 @@ export function FoundersSection() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.8 }}
-                    className="text-center mb-16"
+                    className="mb-10 sm:mb-14"
                 >
-                    <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl font-serif">
+                    <p className="text-[0.64rem] font-extrabold uppercase tracking-[0.22em] text-[#9f5528]">Quiénes somos</p>
+                    <h2 className="crc-serif mt-3 text-[clamp(1.8rem,3vw,2.8rem)] font-medium leading-[1.05] text-[#171713]">
                         <EditableText path="homeFounders.title" ariaLabel="Título de fundadores" />
                     </h2>
                 </MotionDiv>
@@ -42,10 +39,10 @@ export function FoundersSection() {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.8, delay: idx * 0.2 }}
-                                className="flex h-full flex-col rounded-[8px] border border-gray-100 bg-white p-6 shadow-lg shadow-gray-200/40 transition-transform duration-300 hover:-translate-y-1"
+                                className="flex h-full flex-col rounded-[8px] border border-[#d8cfc0] bg-[#fffdf8] p-6"
                             >
                             <div className="mb-6">
-                                <div className="relative h-64 w-full overflow-hidden rounded-[8px] bg-white shadow-inner ring-1 ring-gray-100">
+                                <div className="relative h-64 w-full overflow-hidden rounded-[6px] bg-white ring-1 ring-[#eee8dc]">
                                     {imageSrc === "placeholder:hugo" ? (
                                         <div className="flex h-full w-full flex-col items-center justify-center bg-[#f4eadf] text-center">
                                             <div className="mb-3 flex h-20 w-20 items-center justify-center rounded-full bg-[#171713] text-2xl font-bold text-white">
@@ -74,7 +71,7 @@ export function FoundersSection() {
                             </div>
 
                             <div className="mb-5">
-                                <h3 className="text-2xl font-bold leading-tight text-gray-900 font-serif">
+                                <h3 className="crc-serif text-[1.7rem] font-medium leading-tight text-[#171713]">
                                     <EditableText path={`homeFounders.profiles.${idx}.name`} ariaLabel="Nombre fundador" />
                                 </h3>
                                 <p className="mt-3 text-sm font-semibold leading-6 text-[#bd6f3c]">
@@ -82,16 +79,16 @@ export function FoundersSection() {
                                 </p>
                             </div>
 
-                            <p className="mb-8 flex-grow text-sm leading-7 text-gray-600">
+                            <p className="mb-8 flex-grow text-sm leading-7 text-[#55574f]">
                                 <EditableText path={`homeFounders.profiles.${idx}.description`} ariaLabel="Descripción fundador" multiline />
                             </p>
 
                             <div className="mt-auto">
                                 <EditorLink
-                                    href={`${founder.href}#equipo`}
-                                    className="group inline-flex items-center text-sm font-semibold text-gray-900 transition-colors hover:text-[#bd6f3c]"
+                                    href={founder.id === "hugo" ? "/instituciones#agenda" : `${founder.href}#equipo`}
+                                    className="group inline-flex items-center text-sm font-semibold text-[#171713] transition-colors hover:text-[#bd6f3c]"
                                 >
-                                    Conocer más
+                                    {founder.id === "hugo" ? "Agenda 20 minutos con Hugo" : "Conocer más"}
                                     <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                                 </EditorLink>
                             </div>

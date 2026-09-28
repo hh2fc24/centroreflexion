@@ -12,6 +12,20 @@
 
 export const SEMINARIO_CUPOS_TOTALES = 15;
 
+/**
+ * Cupos restantes a partir de los cuales la landing muestra la cifra.
+ *
+ * Con la cohorte recién abierta, "quedan 15 de 15" le dice a cada visitante que
+ * nadie se ha inscrito todavía. Sobre este umbral se muestra el tamaño de la
+ * cohorte ("cohorte cerrada de 15 personas"); bajo él, la cifra real.
+ */
+export const UMBRAL_CUPOS_VISIBLES = 8;
+
+/** true cuando conviene mostrar cuántos cupos quedan (hay, y son pocos). */
+export function mostrarCuposRestantes(disponibles: number) {
+  return disponibles > 0 && disponibles <= UMBRAL_CUPOS_VISIBLES;
+}
+
 export type TramoId = "fundadores" | "anticipada" | "general";
 
 export interface Tramo {
@@ -36,7 +50,7 @@ export const TRAMOS: Tramo[] = [
     precio: 225_000,
     ahorro: "Ahorras $75.000",
     vence: "2026-10-01T23:59:59-03:00",
-    nota: "Hasta el miércoles 1 de octubre, o hasta agotar los cinco cupos.",
+    nota: "Hasta el jueves 1 de octubre, o hasta agotar los cinco cupos.",
   },
   {
     id: "anticipada",
@@ -73,6 +87,22 @@ export interface EstadoVenta {
 
 export function formatoCLP(n: number) {
   return "$" + n.toLocaleString("es-CL");
+}
+
+/**
+ * Fecha de cierre de un tramo para mostrar en texto corrido, en hora de Chile:
+ * "jueves 1 de octubre". Se calcula desde `vence` para que el día de la semana
+ * nunca quede desalineado con la fecha real.
+ */
+export function fechaCierreLegible(tramo: Tramo) {
+  const partes = new Intl.DateTimeFormat("es-CL", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    timeZone: "America/Santiago",
+  }).formatToParts(new Date(tramo.vence));
+  const parte = (tipo: Intl.DateTimeFormatPartTypes) => partes.find((p) => p.type === tipo)?.value ?? "";
+  return `${parte("weekday")} ${parte("day")} de ${parte("month")}`;
 }
 
 /**

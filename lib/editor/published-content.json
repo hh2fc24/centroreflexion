@@ -42,16 +42,16 @@
     }
   },
   "hero": {
-    "badgePrefix": "Pensamiento crítico",
-    "badgeHighlight": "Evidencia · Diálogo",
-    "titleBefore": "Pensamiento crítico para transformar la",
-    "titleHighlight": "salud mental",
-    "titleAfter": "y las instituciones.",
-    "subtitle": "Clínica, consultoría y formación interdisciplinaria, basada en la evidencia y comprometida con las personas y las comunidades.",
-    "primaryCtaLabel": "Conocer Servicios",
-    "primaryCtaHref": "/servicios",
-    "secondaryCtaLabel": "Pensamiento Crítico",
-    "secondaryCtaHref": "/pensamiento-critico"
+    "badgePrefix": "Infancia · Salud mental",
+    "badgeHighlight": "Instituciones",
+    "titleBefore": "Criterio experto para decidir sobre",
+    "titleHighlight": "infancia",
+    "titleAfter": "cuando la ley, el caso y la institución tiran para lados distintos.",
+    "subtitle": "Formación, consultoría y compliance con respaldo de libros publicados, docencia universitaria y práctica clínica.",
+    "primaryCtaLabel": "Soy profesional · Ver el seminario",
+    "primaryCtaHref": "/seminarios/desproteccion-infancia",
+    "secondaryCtaLabel": "Represento a una institución",
+    "secondaryCtaHref": "/instituciones"
   },
   "homeServices": {
     "cards": [
@@ -67,7 +67,7 @@
         "id": "svc-clinica",
         "tone": "success",
         "title": "Compliance escolar",
-        "description": "Especialistas en Compliance Escolar y Ley 21.809. Protegemos a su comunidad y blindamos su institución.",
+        "description": "Especialistas en Compliance Escolar y Ley 21.809. Protocolos, formación y trazabilidad para que su colegio pueda responder y demostrar cómo respondió.",
         "ctaLabel": "Ver más",
         "href": "/servicios/compliance-escolar"
       },
@@ -101,31 +101,31 @@
     "subtitle": "Lo que cambia cuando el acompañamiento es claro y humano."
   },
   "homeFounders": {
-    "title": "Equipo Interdisciplinario",
+    "title": "Tres socios, tres trabajos",
     "profiles": [
       {
         "id": "jc",
         "name": "Juan Carlos Rauld",
-        "role": "Director CRC · Ciencias sociales, infancia y salud mental",
-        "description": "Trabajador social, investigador y doctorando, con trayectoria en infancia, salud mental, protección de derechos y análisis institucional.",
+        "role": "Director · El autor",
+        "description": "Trabajador social, magíster en Filosofía Política (UDP) y doctorando en Trabajo Social. Autor de tres libros con Editorial Hammurabi y 16 años dirigiendo programas de infancia.",
         "imageSrc": "/images/juan_carlos_real_white.png",
         "href": "/conocenos"
       },
       {
         "id": "rocio",
         "name": "Rocío Solar",
-        "role": "Terapeuta ocupacional · Académica · Cofundadora CRC",
-        "description": "Terapeuta ocupacional con 9 años de experiencia clínica y psicosocial en salud mental infanto-juvenil, evaluación e intervención terapéutica con niños, niñas, adolescentes y familias.",
+        "role": "Cofundadora · La práctica clínica",
+        "description": "Terapeuta ocupacional con 9 años de experiencia clínica y psicosocial en salud mental infanto-juvenil, con niños, niñas, adolescentes y sus familias. Académica.",
         "imageSrc": "/images/rocio-solar-crc-2026.png",
         "href": "/conocenos"
       },
       {
         "id": "hugo",
         "name": "Hugo Felipe Hormazábal",
-        "role": "Estrategia tecnológica, ingeniería de servicios e inteligencia aplicada · Ingeniero Comercial",
-        "description": "Fundador de Altius Ignite y responsable de la capa tecnológica del CRC: datos, IA, automatización y sistemas.",
+        "role": "Socio · Director Comercial y de Desarrollo Institucional",
+        "description": "Ingeniero Comercial. Es con quien conversan colegios, programas y fundaciones: diagnóstico, propuesta, implementación y medición. Fundador de Altius Ignite.",
         "imageSrc": "/images/hugo-hormazabal-crc-2026-large.png",
-        "href": "/conocenos"
+        "href": "/instituciones"
       }
     ]
   },
@@ -254,10 +254,10 @@
   "footer": {
     "brandTitle": "Centro de Reflexiones",
     "brandHighlight": "Críticas",
-    "description": "Plataforma de pensamiento crítico, servicios clínicos y consultoría estratégica. Articulando academia, intervención y políticas públicas.",
+    "description": "Criterio experto sobre infancia y salud mental para profesionales, familias e instituciones. Formación, consultoría, compliance escolar y atención clínica.",
     "instagramHref": "https://www.instagram.com/centrodereflexionescriticas/",
     "linkedinHref": "#",
-    "whatsappHref": "https://wa.me/56949186447?text=Hola,%20quisiera%20m%C3%A1s%20informaci%C3%B3n%20sobre%20la%20consultor%C3%ADa%20estrat%C3%A9gica.",
+    "whatsappHref": "https://wa.me/56949186447?text=Hola,%20quisiera%20m%C3%A1s%20informaci%C3%B3n%20sobre%20el%20CRC.",
     "youtubeHref": "https://www.youtube.com/@CentrodeReflexionesCr%C3%ADticas",
     "contactEmail": "centrodereflexionescriticas@gmail.com",
     "contactLocation": "Providencia, Santiago de Chile",
@@ -268,6 +268,30 @@
         "title": "Explorar",
         "visible": true,
         "links": [
+          {
+            "id": "lnk-instituciones",
+            "label": "Instituciones",
+            "href": "/instituciones",
+            "visible": true
+          },
+          {
+            "id": "lnk-compliance",
+            "label": "Compliance Escolar",
+            "href": "/servicios/compliance-escolar",
+            "visible": true
+          },
+          {
+            "id": "lnk-seminario",
+            "label": "Seminario",
+            "href": "/seminarios/desproteccion-infancia",
+            "visible": true
+          },
+          {
+            "id": "lnk-academia",
+            "label": "Academia",
+            "href": "/academia",
+            "visible": true
+          },
           {
             "id": "lnk-acompanamiento-familiar",
             "label": "Acompañamiento Familiar",
@@ -282,7 +306,7 @@
           },
           {
             "id": "lnk-consultoria",
-            "label": "Consultoría Estratégica",
+            "label": "Consultoría",
             "href": "/servicios/consultoria",
             "visible": true
           },
@@ -302,6 +326,12 @@
             "id": "lnk-formacion",
             "label": "Formación",
             "href": "/servicios/formacion",
+            "visible": true
+          },
+          {
+            "id": "lnk-publicaciones",
+            "label": "Libros y publicaciones",
+            "href": "/publicaciones",
             "visible": true
           }
         ]
@@ -371,10 +401,18 @@
       {
         "id": "nav-instituciones",
         "label": "Instituciones",
-        "href": "/servicios",
+        "href": "/instituciones",
         "visible": true,
         "description": "Colegios, programas y organizaciones.",
         "children": [
+          {
+            "id": "nav-inst-hub",
+            "label": "Trabajar con el CRC",
+            "href": "/instituciones",
+            "visible": true,
+            "description": "Cómo trabajamos y agenda de 20 minutos con Hugo.",
+            "children": []
+          },
           {
             "id": "nav-inst-compliance",
             "label": "Compliance escolar",
@@ -435,7 +473,7 @@
           {
             "id": "nav-academia-docentes",
             "label": "Equipo docente",
-            "href": "/academia/profesores",
+            "href": "/conocenos#equipo",
             "visible": true,
             "description": "Quiénes dictan cada curso y desde dónde lo hacen.",
             "children": []

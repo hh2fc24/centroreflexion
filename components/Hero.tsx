@@ -1,20 +1,46 @@
 "use client";
 
-import Image from "next/image";
+import { useRef } from "react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { ArrowRight } from "lucide-react";
 import { EditableText } from "@/components/editor/EditableText";
 import { EditorLink } from "@/components/editor/EditorLink";
 import { useContent } from "@/lib/editor/hooks";
 
+gsap.registerPlugin(useGSAP);
+
 export function Hero() {
     const { get } = useContent();
-    const primaryHref   = get<string>("hero.primaryCtaHref")   ?? "/servicios";
-    const secondaryHref = get<string>("hero.secondaryCtaHref") ?? "/pensamiento-critico";
+    const root = useRef<HTMLElement>(null);
+
+    // Entrada del hero en una sola secuencia. Solo corre si la persona no pidió
+    // reducir el movimiento; si lo pidió, el hero aparece completo y quieto.
+    useGSAP(
+        () => {
+            const mm = gsap.matchMedia();
+            mm.add("(prefers-reduced-motion: no-preference)", () => {
+                const tl = gsap.timeline({ defaults: { ease: "expo.out" } });
+                tl.from("[data-hero-video]", { scale: 1.08, duration: 2.4, ease: "power2.out" }, 0)
+                    .from("[data-hero-in]", { y: 34, opacity: 0, duration: 1.1, stagger: 0.09 }, 0.15)
+                    .from("[data-hero-rule]", { scaleX: 0, duration: 0.9 }, 0.45);
+                // Si el navegador congela los cuadros (pestaña en segundo plano,
+                // ahorro de batería), el hero no puede quedarse invisible.
+                const failSafe = window.setTimeout(() => tl.progress(1), 2600);
+                return () => window.clearTimeout(failSafe);
+            });
+            return () => mm.revert();
+        },
+        { scope: root }
+    );
+    const primaryHref   = get<string>("hero.primaryCtaHref")   ?? "/seminarios/desproteccion-infancia";
+    const secondaryHref = get<string>("hero.secondaryCtaHref") ?? "/instituciones";
 
     return (
         <section
+            ref={root}
             className="relative w-full overflow-hidden bg-[#15120e]"
-            style={{ minHeight: "clamp(500px, calc(100svh - 190px), 620px)" }}
+            style={{ minHeight: "clamp(440px, calc(100svh - 220px), 620px)" }}
         >
             <div className="absolute inset-0 z-0 bg-black">
                 {/* 
@@ -22,7 +48,7 @@ export function Hero() {
                   Por ahora, pondremos 3 videos de prueba (placeholders). 
                   Cuando tengas los definitivos, se reemplazarán las URLs aquí.
                 */}
-                <div className="absolute inset-0 transition-opacity duration-1000 opacity-100">
+                <div data-hero-video="" className="absolute inset-0 transition-opacity duration-1000 opacity-100">
                     <video
                         src="https://cdn.pixabay.com/video/2021/08/24/86047-592652150_large.mp4" 
                         autoPlay
@@ -49,16 +75,14 @@ export function Hero() {
             </div>
 
             <div className="relative z-10 mx-auto flex min-h-[inherit] max-w-[1640px] items-center px-5 py-10 sm:px-8 lg:px-14 xl:px-20">
-                <div className="max-w-[560px] pt-2">
-                    <p className="mb-5 text-[0.66rem] font-extrabold uppercase tracking-[0.22em] text-[#f1ede4]">
+                <div className="max-w-[980px] pt-2">
+                    <p data-hero-in="" className="mb-5 text-[0.66rem] font-extrabold uppercase tracking-[0.22em] text-[#f1ede4]">
                         <EditableText path="hero.badgePrefix" ariaLabel="Hero badge" />
                         <span className="mx-2 text-[#bd6f3c]">·</span>
                         <EditableText path="hero.badgeHighlight" ariaLabel="Hero badge highlight" />
-                        <span className="mx-2 text-[#bd6f3c]">·</span>
-                        Transformación
                     </p>
 
-                    <h1 className="crc-serif text-[clamp(2.2rem,3.35vw,3.8rem)] font-medium leading-[0.98] tracking-normal text-[#fbf7ee] drop-shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
+                    <h1 data-hero-in="" className="crc-serif max-w-[30ch] text-[clamp(2.1rem,4vw,4.2rem)] font-medium leading-[1] tracking-[-0.018em] text-[#fbf7ee] text-balance drop-shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
                         <EditableText path="hero.titleBefore" ariaLabel="Hero título (inicio)" />
                         {" "}
                         <span className="italic text-[#bd6f3c]">
@@ -68,15 +92,15 @@ export function Hero() {
                         <EditableText path="hero.titleAfter" ariaLabel="Hero título (final)" />
                     </h1>
 
-                    <div className="my-5 h-px w-14 origin-left bg-[#bd6f3c]" />
+                    <div data-hero-rule="" className="my-6 h-px w-14 origin-left bg-[#bd6f3c]" />
 
-                    <p className="max-w-[520px] text-[0.9rem] font-semibold leading-[1.6] text-[#ede7dc]/86">
+                    <p data-hero-in="" className="max-w-[56ch] text-[0.95rem] font-medium leading-[1.65] text-[#ede7dc]/86">
                         <EditableText path="hero.subtitle" ariaLabel="Hero subtítulo" multiline />
                     </p>
 
-                    <div className="mt-6 flex flex-wrap items-center gap-3">
+                    <div data-hero-in="" className="mt-7 flex flex-wrap items-center gap-3">
                         <EditorLink href={primaryHref}>
-                            <button className="inline-flex h-11 items-center gap-3 rounded-[5px] bg-[#bd6f3c] px-6 text-[0.66rem] font-extrabold uppercase tracking-[0.13em] text-white shadow-[0_18px_40px_rgba(90,45,18,0.32)] transition duration-200 hover:bg-[#a85f31]">
+                            <button className="inline-flex h-11 items-center gap-3 rounded-[5px] bg-[#bd6f3c] px-6 text-[0.66rem] font-extrabold uppercase tracking-[0.13em] text-white shadow-[0_18px_40px_rgba(90,45,18,0.32)] transition duration-200 hover:-translate-y-0.5 hover:bg-[#a85f31] active:translate-y-0">
                                 <EditableText path="hero.primaryCtaLabel" ariaLabel="Hero CTA principal" />
                                 <ArrowRight className="h-4 w-4" />
                             </button>
@@ -88,24 +112,19 @@ export function Hero() {
                             </button>
                         </EditorLink>
 
-                        <EditorLink href="/publicaciones">
-                            <button className="inline-flex h-11 items-center border-b border-[#bd6f3c] px-1 text-[0.66rem] font-extrabold uppercase tracking-[0.13em] text-[#f1ede4]/90 transition-colors hover:text-white">
-                                Ver Publicaciones
-                            </button>
-                        </EditorLink>
                     </div>
+
+                    {/* Prueba de autoridad bajo los botones: lo que respalda la promesa del título. */}
+                    <p data-hero-in="" className="mt-8 flex flex-wrap gap-x-4 gap-y-1 border-t border-[#f1ede4]/18 pt-4 text-[0.62rem] font-bold uppercase tracking-[0.16em] text-[#f1ede4]/78">
+                        <EditorLink href="/publicaciones" className="transition-colors hover:text-white">3 libros · Editorial Hammurabi</EditorLink>
+                        <span aria-hidden="true" className="text-[#bd6f3c]">·</span>
+                        <span>16 años en programas de infancia</span>
+                        <span aria-hidden="true" className="text-[#bd6f3c]">·</span>
+                        <span>Docencia universitaria</span>
+                    </p>
                 </div>
             </div>
 
-            <div className="absolute right-[5vw] top-[45%] z-10 hidden h-[clamp(110px,10vw,170px)] w-[clamp(110px,10vw,170px)] -translate-y-1/2 rounded-full bg-[#f8f5ee]/72 p-3 shadow-[0_16px_42px_rgba(0,0,0,0.22)] backdrop-blur-[1px] lg:block">
-                <Image
-                    src="/logo-crc.png"
-                    alt=""
-                    fill
-                    sizes="170px"
-                    className="pointer-events-none select-none object-contain opacity-90"
-                />
-            </div>
         </section>
     );
 }

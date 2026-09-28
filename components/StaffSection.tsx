@@ -52,14 +52,14 @@ const teamMembers = [
     },
     {
         name: "Hugo Felipe Hormazábal",
-        role: "Estrategia Tecnológica, Ingeniería de Servicios e Inteligencia Aplicada",
+        role: "Socio · Director Comercial y de Desarrollo Institucional",
         shortRole: "Ingeniero Comercial",
-        desc: "Estrategia tecnológica y servicios.",
+        desc: "Instituciones, convenios y medición.",
         img: "/images/hugo-hormazabal-crc-2026-large.png",
         degree: "Ingeniero Comercial · Diplomado en Marketing & Analytics, UAI",
         bio: [
             "Hugo Felipe Hormazábal es Ingeniero Comercial y fundador de Altius Ignite, empresa de transformación digital desde la cual desarrolla soluciones de automatización, inteligencia artificial, datos y arquitectura tecnológica aplicada.",
-            "En el CRC lidera la visión tecnológica y la ingeniería de servicios: traduce necesidades clínicas, sociales e institucionales en sistemas, datos, flujos y herramientas digitales que permiten sostener intervenciones con mayor trazabilidad, continuidad y capacidad de aprendizaje.",
+            "En el CRC es socio y dirige el área comercial y de desarrollo institucional: es con quien conversan colegios, programas, fundaciones y municipios. Arma el diagnóstico, la propuesta y los convenios, y se asegura de que lo acordado se implemente y se mida.",
             "Cuenta con más de 15 años de experiencia articulando operaciones, crecimiento, experiencia de cliente, inteligencia de negocio y transformación digital en industrias exigentes como contact center/BPO, banca, fintech, tecnología, retail, servicios, educación y consultoría.",
         ],
         sections: [

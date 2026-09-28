@@ -6,7 +6,13 @@ import { requireTrustedOrigin } from "@/lib/server/requestSecurity";
 import { sanitizePlainText } from "@/lib/server/sanitize";
 import { appendStoredLead, readStoredLeads, type StoredLead } from "@/lib/server/leadsStore";
 import { getGoogleAppsScriptUrl } from "@/lib/site";
-import { getGeo, recordConversionEvent } from "@/lib/server/siteAnalytics";
+import {
+  attributionSummary,
+  getGeo,
+  recordConversionEvent,
+  resolveAttribution,
+  type AttributionData,
+} from "@/lib/server/siteAnalytics";
 import { DESPROTECCION_EVENT_SOURCE } from "@/lib/server/eventRegistrations";
 import { insertDesproteccionRegistration } from "@/lib/server/desproteccionRegistrationsStore";
 import { insertSeminarioPostulacion, SEMINARIO_SOURCE } from "@/lib/server/seminarioPostulacionesStore";
@@ -16,6 +22,8 @@ export const runtime = "nodejs";
 type LeadInput = Partial<StoredLead> & {
   contactMethod?: unknown;
   horario?: unknown;
+  servicio?: unknown;
+  attribution?: unknown;
 };
 
 function newId(prefix: string) {
@@ -68,6 +76,16 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "invalid_json" }, { status: 400 });
   }
 
+  // Atribución de marketing: del cuerpo o, si el formulario no la manda, de la
+  // cookie propia `crc_attr`. Nunca debe impedir que el lead se guarde.
+  let attribution: AttributionData | null = null;
+  try {
+    attribution = resolveAttribution(req, body.attribution);
+  } catch {
+    attribution = null;
+  }
+  const canal = attributionSummary(attribution);
+
   const lead: StoredLead = {
     id: normalizeLeadId(body.id) || newId("lead"),
     createdAt: Date.now(),
@@ -82,6 +100,12 @@ export async function POST(req: Request) {
       ...(body.fields && typeof body.fields === "object" ? (body.fields as Record<string, unknown>) : {}),
       ...(body.contactMethod ? { contactMethod: sanitizePlainText(body.contactMethod, { maxLen: 40 }) } : {}),
       ...(body.horario ? { horario: sanitizePlainText(body.horario, { maxLen: 40 }) } : {}),
+      ...(body.servicio ? { servicio: sanitizePlainText(body.servicio, { maxLen: 80 }) } : {}),
+      // Va dentro de `fields` porque es la única columna jsonb existente en
+      // seminario_postulaciones / desproteccion_inscripciones, y es lo que el
+      // Apps Script y el espejo local ya reciben. `canal` es el resumen en una
+      // línea, legible en la planilla.
+      ...(attribution ? { attribution, canal } : {}),
     },
   };
 
@@ -144,7 +168,13 @@ export async function POST(req: Request) {
       path: lead.page,
       ip,
       country,
-      metadata: { source: lead.source, formId: lead.formId },
+      metadata: {
+        source: lead.source,
+        formId: lead.formId,
+        leadId: lead.id,
+        ...(lead.fields?.servicio ? { servicio: lead.fields.servicio } : {}),
+        ...(attribution ? { attribution } : {}),
+      },
     });
   } catch {
     // No bloquear la respuesta al usuario si falla el registro de analítica.

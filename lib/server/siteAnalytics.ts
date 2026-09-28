@@ -148,6 +148,153 @@ export async function recordConversionEvent(input: ConversionInput) {
   await table.insert([row]);
 }
 
+// ────────────────────────────────────────────
+// Atribución de marketing (primer / último contacto)
+// ────────────────────────────────────────────
+//
+// El navegador la manda en el cuerpo de cada conversión (ver lib/attribution.ts)
+// y además la deja en la cookie `crc_attr`, que sirve de respaldo para
+// formularios que no la adjuntan. Todo lo que llega del cliente se trata como
+// no confiable: solo claves conocidas, solo strings cortos.
+
+const ATTRIBUTION_COOKIE_NAME = "crc_attr";
+const TOUCH_STRING_KEYS = ["source", "medium", "campaign", "content", "term", "referrer", "landing"] as const;
+const CLICK_ID_VALUES = new Set(["fbclid", "gclid", "msclkid", "ttclid"]);
+
+export type AttributionTouchData = Partial<Record<(typeof TOUCH_STRING_KEYS)[number], string>> & {
+  clickId?: string;
+  ts?: number;
+};
+
+export type AttributionData = {
+  first?: AttributionTouchData;
+  last?: AttributionTouchData;
+};
+
+function sanitizeTouch(input: unknown): AttributionTouchData | undefined {
+  if (!input || typeof input !== "object" || Array.isArray(input)) return undefined;
+  const raw = input as Record<string, unknown>;
+  const out: AttributionTouchData = {};
+  for (const key of TOUCH_STRING_KEYS) {
+    const value = raw[key];
+    if (typeof value !== "string") continue;
+    const cleaned = value.replace(/[\u0000-\u001F\u007F<>]/g, "").trim().slice(0, key === "landing" ? 120 : 80);
+    if (cleaned) out[key] = cleaned;
+  }
+  if (typeof raw.clickId === "string" && CLICK_ID_VALUES.has(raw.clickId)) out.clickId = raw.clickId;
+  if (typeof raw.ts === "number" && Number.isFinite(raw.ts) && raw.ts > 0) out.ts = Math.round(raw.ts);
+  return Object.keys(out).length ? out : undefined;
+}
+
+/** Normaliza una atribución recibida del cliente. Devuelve null si no hay nada útil. */
+export function sanitizeAttribution(input: unknown): AttributionData | null {
+  try {
+    if (!input || typeof input !== "object" || Array.isArray(input)) return null;
+    const raw = input as Record<string, unknown>;
+    const first = sanitizeTouch(raw.first);
+    const last = sanitizeTouch(raw.last);
+    if (!first && !last) return null;
+    return { ...(first ? { first } : {}), ...(last ? { last } : {}) };
+  } catch {
+    return null;
+  }
+}
+
+function readAttributionCookie(req: Request): unknown {
+  const header = req.headers.get("cookie");
+  if (!header) return null;
+  const match = header
+    .split(";")
+    .map((c) => c.trim())
+    .find((c) => c.startsWith(`${ATTRIBUTION_COOKIE_NAME}=`));
+  if (!match) return null;
+  const value = match.slice(ATTRIBUTION_COOKIE_NAME.length + 1);
+  if (value.length > 4000) return null;
+  try {
+    return JSON.parse(decodeURIComponent(value));
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Atribución de una conversión: la del cuerpo si viene, si no la de la cookie
+ * propia. Nunca lanza: una atribución rota no puede romper un envío.
+ */
+export function resolveAttribution(req: Request, bodyValue?: unknown): AttributionData | null {
+  try {
+    return sanitizeAttribution(bodyValue) ?? sanitizeAttribution(readAttributionCookie(req));
+  } catch {
+    return null;
+  }
+}
+
+function touchLabel(touch: AttributionTouchData | undefined): string {
+  if (!touch) return "";
+  const parts = [touch.source, touch.medium, touch.campaign, touch.content].filter(Boolean);
+  return parts.length ? parts.join(" / ") : touch.referrer ?? "";
+}
+
+/**
+ * Resumen legible en una línea, para planillas o columnas de texto:
+ * "instagram / bio / seminario-c1 / crc (primer contacto: google / organic)".
+ */
+export function attributionSummary(attribution: AttributionData | null): string {
+  if (!attribution) return "";
+  const last = touchLabel(attribution.last);
+  const first = touchLabel(attribution.first);
+  if (last && first && last !== first) return `${last} (primer contacto: ${first})`.slice(0, 300);
+  return (last || first).slice(0, 300);
+}
+
+/**
+ * Versión plana para el `metadata` de Mercado Pago (que convierte las claves a
+ * snake_case y conviene mantener en strings simples). Último contacto como
+ * utm_*, primer contacto como first_utm_*.
+ */
+export function attributionToFlatMetadata(attribution: AttributionData | null): Record<string, string> {
+  const out: Record<string, string> = {};
+  if (!attribution) return out;
+  const add = (prefix: string, touch: AttributionTouchData | undefined) => {
+    if (!touch) return;
+    if (touch.source) out[`${prefix}utm_source`] = touch.source;
+    if (touch.medium) out[`${prefix}utm_medium`] = touch.medium;
+    if (touch.campaign) out[`${prefix}utm_campaign`] = touch.campaign;
+    if (touch.content) out[`${prefix}utm_content`] = touch.content;
+    if (touch.referrer) out[`${prefix}referrer`] = touch.referrer;
+    if (touch.landing) out[`${prefix}landing`] = touch.landing;
+  };
+  add("", attribution.last ?? attribution.first);
+  add("first_", attribution.first);
+  return out;
+}
+
+/**
+ * Inverso de `attributionToFlatMetadata`: reconstruye la atribución desde el
+ * `metadata` que Mercado Pago devuelve en el pago (webhook).
+ */
+export function attributionFromFlatMetadata(metadata: unknown): AttributionData | null {
+  if (!metadata || typeof metadata !== "object" || Array.isArray(metadata)) return null;
+  const m = metadata as Record<string, unknown>;
+  const touch = (prefix: string) => ({
+    source: m[`${prefix}utm_source`],
+    medium: m[`${prefix}utm_medium`],
+    campaign: m[`${prefix}utm_campaign`],
+    content: m[`${prefix}utm_content`],
+    referrer: m[`${prefix}referrer`],
+    landing: m[`${prefix}landing`],
+  });
+  return sanitizeAttribution({ last: touch(""), first: touch("first_") });
+}
+
+/**
+ * Evento que marca la llegada de un contacto con campaña (UTM, clic de anuncio
+ * o referrer externo al inicio de sesión). No es una conversión: sirve para
+ * contar llegadas por utm_content (qué cuenta de Instagram trajo a quién),
+ * que analytics_pageviews no tiene como columna propia.
+ */
+export const CAMPAIGN_LANDING_EVENT = "campaign_landing";
+
 type PageviewRow = {
   id: string;
   created_at: string;
@@ -266,7 +413,7 @@ export async function getAnalyticsSummary(sinceIso: string, rangeMs: number) {
       .limit(5000),
     client
       .from("analytics_events")
-      .select("event_name, created_at")
+      .select("event_name, created_at, metadata")
       .gte("created_at", sinceIso)
       .limit(5000),
   ]);
@@ -275,7 +422,19 @@ export async function getAnalyticsSummary(sinceIso: string, rangeMs: number) {
   const consentRows = (consentRes.data ?? []) as { choice: string; created_at: string }[];
   const prevRows = (prevPageviewsRes.data ?? []) as { is_bot: boolean }[];
   const prevConsentRows = (prevConsentRes.data ?? []) as { choice: string }[];
-  const eventRows = (eventsRes.data ?? []) as { event_name: string; created_at: string }[];
+  const allEventRows = (eventsRes.data ?? []) as {
+    event_name: string;
+    created_at: string;
+    metadata: Record<string, unknown> | null;
+  }[];
+  // Las llegadas por campaña no son conversiones: se reportan aparte para no
+  // inflar el total de conversiones.
+  const landingRows = allEventRows.filter((e) => e.event_name === CAMPAIGN_LANDING_EVENT);
+  const eventRows = allEventRows.filter((e) => e.event_name !== CAMPAIGN_LANDING_EVENT);
+  const attributedLabel = (e: { metadata: Record<string, unknown> | null }) => {
+    const attribution = sanitizeAttribution(e.metadata?.attribution);
+    return touchLabel(attribution?.last ?? attribution?.first) || "(sin atribución)";
+  };
 
   const humanRows = rows.filter((r) => !r.is_bot);
   const botRows = rows.filter((r) => r.is_bot);
@@ -376,6 +535,9 @@ export async function getAnalyticsSummary(sinceIso: string, rangeMs: number) {
   ).size;
 
   const conversionsByEvent = topCounts(eventRows.map((e) => e.event_name), 20);
+  // Atribución (último contacto con campaña; si no hay, primer contacto).
+  const conversionsBySource = topCounts(eventRows.map((e) => `${e.event_name} · ${attributedLabel(e)}`), 30);
+  const campaignLandings = topCounts(landingRows.map(attributedLabel), 20);
 
   return {
     range: { since: sinceIso },
@@ -415,6 +577,8 @@ export async function getAnalyticsSummary(sinceIso: string, rangeMs: number) {
     topUtmSources: topCounts(humanRows.filter((r) => r.utm_source).map((r) => r.utm_source), 10),
     topUtmCampaigns: topCounts(humanRows.filter((r) => r.utm_campaign).map((r) => r.utm_campaign), 10),
     conversionsByEvent,
+    conversionsBySource,
+    campaignLandings,
     suspiciousNonChileCountries: nonChileHumanCountries,
     dailySeries,
     hourlySeries,

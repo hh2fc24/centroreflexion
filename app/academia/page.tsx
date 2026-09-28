@@ -17,8 +17,8 @@ import { pageMetadata } from "@/lib/seo";
 import { DEMO_SLUG_LIKE } from "@/lib/academia/catalogo";
 
 export const metadata: Metadata = pageMetadata({
-  title: "Academia CRC | Próximamente",
-  description: "La academia para mentes críticas abre pronto sus puertas.",
+  title: "Academia CRC | Cursos para profesionales de infancia y salud mental",
+  description: "Cursos y seminarios del Centro de Reflexiones Críticas para profesionales que trabajan con infancia, salud mental y protección de derechos.",
   path: "/academia",
 });
 

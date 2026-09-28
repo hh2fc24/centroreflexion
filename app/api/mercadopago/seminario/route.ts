@@ -14,6 +14,13 @@ import { requireTrustedOrigin } from "@/lib/server/requestSecurity";
 import { sanitizePlainText } from "@/lib/server/sanitize";
 import { leerEstadoVenta, registrarPagoPendiente } from "@/lib/server/seminarioPagosStore";
 import { formatoCLP } from "@/lib/seminario/tramos";
+import {
+  attributionToFlatMetadata,
+  getGeo,
+  recordConversionEvent,
+  resolveAttribution,
+  type AttributionData,
+} from "@/lib/server/siteAnalytics";
 
 export const runtime = "nodejs";
 
@@ -28,6 +35,7 @@ type Body = {
   email?: unknown;
   telefono?: unknown;
   institucion?: unknown;
+  attribution?: unknown;
 };
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -75,6 +83,17 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  // Atribución de marketing. seminario_pagos no tiene columna para esto: viaja
+  // en el `metadata` de la preferencia (Mercado Pago lo devuelve en el pago y
+  // el webhook lo copia al evento payment_approved) y en el evento
+  // seminario_checkout_started, que se une al pago por external_reference.
+  let attribution: AttributionData | null = null;
+  try {
+    attribution = resolveAttribution(request, body.attribution);
+  } catch {
+    attribution = null;
+  }
+
   const id = `sem-${Date.now()}-${Math.random().toString(16).slice(2, 10)}`;
   const externalReference = `crc-seminario:${id}:${Date.now()}`;
 
@@ -118,6 +137,7 @@ export async function POST(request: NextRequest) {
         cupo: estado.vendidos + 1,
         institucion: institucion || null,
         telefono: telefono || null,
+        ...attributionToFlatMetadata(attribution),
       },
       back_urls: {
         success: `${back}?payment=success`,
@@ -144,6 +164,24 @@ export async function POST(request: NextRequest) {
         { ok: false, error: data.message ?? "No se pudo crear el pago" },
         { status: 502 }
       );
+    }
+
+    try {
+      const { country } = getGeo(request);
+      await recordConversionEvent({
+        eventName: "seminario_checkout_started",
+        path: "/seminarios/desproteccion-infancia",
+        ip,
+        country,
+        metadata: {
+          externalReference,
+          tramo: tramo.id,
+          amount: tramo.precio,
+          ...(attribution ? { attribution } : {}),
+        },
+      });
+    } catch {
+      // Analítica best-effort: no bloquear el paso a Mercado Pago.
     }
 
     return NextResponse.json({

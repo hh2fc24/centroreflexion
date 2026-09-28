@@ -6,8 +6,8 @@
       "title": "Inicio",
       "visible": true,
       "seo": {
-        "title": "Centro de Reflexiones Críticas",
-        "description": "Columnas de opinión, crítica literaria y cultural, y artículos sobre ciencias sociales.",
+        "title": "Centro de Reflexiones Críticas | Infancia, salud mental e instituciones",
+        "description": "Criterio experto sobre infancia y salud mental: formación para profesionales, consultoría y compliance escolar (Ley 21.809) para instituciones, y atención clínica para familias en Chile.",
         "ogImage": "/opengraph-image",
         "noIndex": false,
         "canonical": "/"
@@ -35,7 +35,7 @@
         {
           "id": "blk-services",
           "type": "legacy.servicesPreview",
-          "visible": true,
+          "visible": false,
           "locked": false,
           "preset": "premium",
           "data": { "sectionId": "sec-services-preview" },
@@ -111,7 +111,7 @@
         {
           "id": "blk-testimonials",
           "type": "legacy.testimonials",
-          "visible": true,
+          "visible": false,
           "locked": false,
           "preset": "bold",
           "data": { "sectionId": "sec-testimonials" },

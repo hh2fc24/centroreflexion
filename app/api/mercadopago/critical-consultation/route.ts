@@ -4,6 +4,7 @@ import {
   CRITICAL_CONSULTATION_UF_QUANTITY,
   getCriticalConsultationUfQuote,
 } from "@/lib/server/uf";
+import { attributionToFlatMetadata, resolveAttribution } from "@/lib/server/siteAnalytics";
 
 type MercadoPagoPreferenceResponse = {
   id?: string;
@@ -11,7 +12,7 @@ type MercadoPagoPreferenceResponse = {
   message?: string;
 };
 
-export async function POST() {
+export async function POST(request: Request) {
   const accessToken = process.env.MERCADOPAGO_ACCESS_TOKEN;
   if (!accessToken) {
     return NextResponse.json(
@@ -45,6 +46,8 @@ export async function POST() {
         uf_source: quote.source,
         uf_fallback: quote.fallback,
         amount_clp: quote.amount,
+        // Atribución desde la cookie propia `crc_attr` (el botón no la manda).
+        ...attributionToFlatMetadata(resolveAttribution(request)),
       },
       back_urls: {
         success: `${siteUrl}/contacto?servicio=canal-critico&payment=success`,

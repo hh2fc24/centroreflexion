@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { ArrowRight, Loader2 } from "lucide-react";
+import { useState, useSyncExternalStore } from "react";
+import { ArrowRight, Loader2, X } from "lucide-react";
+import { getAttribution } from "@/lib/attribution";
 
 /**
  * Botón de pago del seminario.
@@ -42,6 +43,8 @@ export function SeminarioPagoButton({
           email: String(form.get("email") ?? ""),
           telefono: String(form.get("telefono") ?? ""),
           institucion: String(form.get("institucion") ?? ""),
+          // Viaja al metadata de Mercado Pago para saber qué canal trajo el pago.
+          attribution: getAttribution(),
         }),
       });
 
@@ -147,5 +150,114 @@ function Campo({
           : "block h-11 w-full rounded-[4px] border border-[rgba(101,91,74,0.28)] bg-[#fffdf8] px-3.5 text-[0.88rem] text-[#171713] outline-none transition placeholder:text-[#a9a294] focus:border-[#bd6f3c]"
       }
     />
+  );
+}
+
+// ─────────────────────────────────────────────
+// Aviso al volver de Mercado Pago
+// ─────────────────────────────────────────────
+
+type RetornoPago = "success" | "pending" | "failure";
+
+// Parámetros que Mercado Pago agrega a la back_url; se limpian al cerrar el
+// aviso para que recargar la página no lo vuelva a mostrar.
+const PARAMS_RETORNO_MP = [
+  "payment",
+  "collection_id",
+  "collection_status",
+  "payment_id",
+  "status",
+  "external_reference",
+  "payment_type",
+  "merchant_order_id",
+  "preference_id",
+  "site_id",
+  "processing_mode",
+  "merchant_account_id",
+];
+
+function leerRetornoPago(): RetornoPago | null {
+  try {
+    const value = new URLSearchParams(window.location.search).get("payment");
+    return value === "success" || value === "pending" || value === "failure" ? value : null;
+  } catch {
+    return null;
+  }
+}
+
+const sinSuscripcion = () => () => {};
+
+const TEXTOS_RETORNO: Record<RetornoPago, { etiqueta: string; titulo: string; cuerpo: string }> = {
+  success: {
+    etiqueta: "Pago aprobado",
+    titulo: "Tu matrícula quedó registrada.",
+    cuerpo:
+      "Te escribimos dentro de las próximas 24 horas hábiles al correo que dejaste, con los pasos para la primera sesión. Revisa también tu carpeta de spam.",
+  },
+  pending: {
+    etiqueta: "Pago pendiente",
+    titulo: "Mercado Pago todavía no confirma el pago.",
+    cuerpo:
+      "Si pagaste en efectivo o por transferencia puede tardar hasta dos días hábiles. El cupo queda tuyo cuando se acredite, y te avisamos por correo.",
+  },
+  failure: {
+    etiqueta: "Pago no completado",
+    titulo: "El pago no se pudo completar.",
+    cuerpo:
+      "Puedes intentarlo de nuevo con otro medio de pago. Si prefieres transferencia en cuotas, postula y lo coordinamos contigo.",
+  },
+};
+
+/**
+ * Aviso de confirmación, pendiente o error cuando Mercado Pago devuelve a la
+ * persona a la landing (`?payment=success|pending|failure`). Va fijo abajo en
+ * la pantalla, así que se puede montar en cualquier parte de la página, una
+ * sola vez.
+ */
+export function SeminarioPagoAviso() {
+  // Se lee la URL solo en el cliente (el servidor devuelve null) para no
+  // depender de useSearchParams ni de un límite de Suspense.
+  const retorno = useSyncExternalStore(sinSuscripcion, leerRetornoPago, () => null);
+  const [cerrado, setCerrado] = useState(false);
+
+  if (!retorno || cerrado) return null;
+  const texto = TEXTOS_RETORNO[retorno];
+  const error = retorno === "failure";
+
+  function cerrar() {
+    setCerrado(true);
+    try {
+      const url = new URL(window.location.href);
+      for (const param of PARAMS_RETORNO_MP) url.searchParams.delete(param);
+      window.history.replaceState(window.history.state, "", `${url.pathname}${url.search}${url.hash}`);
+    } catch {
+      // Si no se puede limpiar la URL, el aviso igual se cierra.
+    }
+  }
+
+  return (
+    <div
+      role={error ? "alert" : "status"}
+      aria-live="polite"
+      className="fixed inset-x-4 bottom-4 z-50 mx-auto max-w-md rounded-[5px] border border-[#bd6f3c]/40 bg-[#171713] px-5 py-5 text-[#fbf7ee] shadow-[0_24px_60px_rgba(0,0,0,0.35)]"
+    >
+      <button
+        type="button"
+        onClick={cerrar}
+        aria-label="Cerrar aviso"
+        className="absolute right-3 top-3 inline-flex h-8 w-8 items-center justify-center rounded-[4px] text-[#ede7dc]/60 transition hover:bg-[#f1ede4]/10 hover:text-[#fbf7ee]"
+      >
+        <X className="h-4 w-4" />
+      </button>
+      <p
+        className={`text-[0.6rem] font-extrabold uppercase tracking-[0.2em] ${
+          error ? "text-[#f0a58f]" : "text-[#bd6f3c]"
+        }`}
+      >
+        {texto.etiqueta}
+      </p>
+      <p className="crc-serif mt-2 pr-8 text-[1.2rem] font-medium leading-[1.25]">{texto.titulo}</p>
+      <p className="mt-2 text-[0.84rem] leading-[1.7] text-[#ede7dc]/75">{texto.cuerpo}</p>
+    </div>
   );
 }

@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/Button";
+import { getAttribution } from "@/lib/attribution";
 
 const CONTACT_METHODS = [
     { value: "whatsapp", label: "WhatsApp" },
@@ -21,7 +23,19 @@ const inputClass =
 
 const labelClass = "block text-sm font-semibold leading-6 text-[#171713]";
 
+// Servicio de origen: el prop si la página lo pasa; si no, `?servicio=` de la URL.
+function resolveServicio(prop?: string) {
+    if (prop) return prop;
+    if (typeof window === "undefined") return "";
+    try {
+        return new URLSearchParams(window.location.search).get("servicio") ?? "";
+    } catch {
+        return "";
+    }
+}
+
 export function ContactForm({ servicio }: { servicio?: string }) {
+    const pathname = usePathname();
     const [busy, setBusy] = useState(false);
     const [result, setResult] = useState<{ ok: boolean; msg: string } | null>(null);
     const [contactMethod, setContactMethod] = useState("whatsapp");
@@ -31,8 +45,12 @@ export function ContactForm({ servicio }: { servicio?: string }) {
         e.preventDefault();
         setResult(null);
         setBusy(true);
+        // Guardar la referencia antes del await: React deja currentTarget en null
+        // después del despacho y el reset() fallaba tras un envío exitoso.
+        const formElement = e.currentTarget;
         try {
-            const form = new FormData(e.currentTarget);
+            const form = new FormData(formElement);
+            const servicioFinal = resolveServicio(servicio);
             const payload = {
                 source: "contact",
                 name: String(form.get("name") ?? ""),
@@ -41,8 +59,9 @@ export function ContactForm({ servicio }: { servicio?: string }) {
                 contactMethod,
                 horario,
                 message: String(form.get("message") ?? ""),
-                page: "/contacto",
-                ...(servicio ? { servicio } : {}),
+                page: pathname || "/contacto",
+                ...(servicioFinal ? { servicio: servicioFinal } : {}),
+                attribution: getAttribution(),
             };
             const r = await fetch("/api/leads", {
                 method: "POST",
@@ -55,7 +74,7 @@ export function ContactForm({ servicio }: { servicio?: string }) {
                 return;
             }
             setResult({ ok: true, msg: "¡Gracias! Recibimos tu mensaje y te contactaremos pronto." });
-            (e.currentTarget as HTMLFormElement).reset();
+            formElement.reset();
             setContactMethod("whatsapp");
             setHorario("cualquiera");
         } catch (err: unknown) {

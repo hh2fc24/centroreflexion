@@ -21,13 +21,13 @@ export default function About() {
                 </div>
 
                 <div className="relative z-10 mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-                    <motion.h2
+                    <motion.h1
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         className="text-4xl font-bold tracking-tight text-white drop-shadow-sm sm:text-4xl lg:text-4xl font-serif"
                     >
                         Quiénes Somos
-                    </motion.h2>
+                    </motion.h1>
                     <motion.p
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -253,11 +253,17 @@ export default function About() {
                             </div>
                             <h3 className="text-3xl font-bold text-[#171713] font-serif">Hugo Felipe Hormazábal</h3>
                             <p className="text-[#bd6f3c] font-bold text-sm tracking-wide mt-2 uppercase">
-                                Estrategia Tecnológica, Ingeniería de Servicios e Inteligencia Aplicada
+                                Socio · Director Comercial y de Desarrollo Institucional
                             </p>
                             <p className="text-[#70695f] text-xs mt-2 font-medium leading-snug">
-                                Ingeniero Comercial
+                                Ingeniero Comercial · Fundador de Altius Ignite
                             </p>
+                            <Link
+                                href="/instituciones#agenda"
+                                className="mt-5 inline-flex items-center rounded-[5px] bg-[#bd6f3c] px-5 py-2.5 text-sm font-bold text-white transition hover:bg-[#a85f31]"
+                            >
+                                Agenda 20 minutos con Hugo
+                            </Link>
 
                             <div className="mt-6 flex gap-4">
                                 <a href="https://www.linkedin.com/in/hugo-felipe-hormazabal-561005332/" target="_blank" rel="noopener noreferrer" aria-label="Perfil de LinkedIn de Hugo Felipe Hormazábal" className="text-[#8a8276] hover:text-[#bd6f3c] transition-colors"><Linkedin className="h-6 w-6" /></a>
@@ -269,19 +275,19 @@ export default function About() {
                             <div>
                                 <h4 className="text-xl font-semibold text-[#171713] mb-4 border-b border-[#ded5c7] pb-2">Trayectoria Profesional</h4>
                                 <p className="text-[#55574f] leading-relaxed">
-                                    Hugo Felipe Hormazábal es Ingeniero Comercial y fundador de <a href="https://www.altiusignite.com" target="_blank" rel="noopener noreferrer" className="font-semibold text-[#9f5528] underline decoration-[#dec0a8] underline-offset-4 hover:text-[#bd6f3c]">Altius Ignite</a>, empresa de transformación digital desde la cual desarrolla soluciones de automatización, inteligencia artificial, datos y arquitectura tecnológica aplicada. En el CRC lidera la visión tecnológica y la ingeniería de servicios: traduce necesidades clínicas, sociales e institucionales en sistemas, datos, flujos y herramientas digitales que permiten sostener intervenciones con mayor trazabilidad, continuidad y capacidad de aprendizaje.
+                                    Hugo Felipe Hormazábal es Ingeniero Comercial y fundador de <a href="https://www.altiusignite.com" target="_blank" rel="noopener noreferrer" className="font-semibold text-[#9f5528] underline decoration-[#dec0a8] underline-offset-4 hover:text-[#bd6f3c]">Altius Ignite</a>. En el CRC es socio y dirige el área comercial y de desarrollo institucional: es la persona con quien conversan colegios, programas de infancia, fundaciones y municipios. Arma el diagnóstico, la propuesta y los convenios, y se asegura de que lo acordado se implemente y se mida. Desde Altius aporta la capa de datos, automatización e inteligencia artificial que permite sostener cada intervención con trazabilidad y seguimiento.
                                 </p>
                                 <p className="mt-4 text-[#55574f] leading-relaxed">
                                     Cuenta con más de 15 años de experiencia articulando operaciones, crecimiento, experiencia de cliente, inteligencia de negocio y transformación digital en industrias exigentes como contact center/BPO, banca, fintech, tecnología, retail, servicios, educación y consultoría. Complementa su formación con un Diplomado en Marketing & Analytics por la Universidad Adolfo Ibáñez (UAI). Ha implementado y escalado operaciones y líneas de negocio en Chile, Colombia, Argentina, Perú y Bolivia, liderando equipos multiculturales de hasta 700 FTE, procesos de mejora continua, automatización intensiva, implementación de CRM, reportería ejecutiva, arquitecturas digitales y soluciones basadas en inteligencia artificial aplicada a productividad, control operativo y toma de decisiones.
                                 </p>
                             </div>
                             <div>
-                                <h4 className="text-xl font-semibold text-[#171713] mb-4 border-b border-[#ded5c7] pb-2">Formación, Tecnología y Experiencia Aplicada</h4>
+                                <h4 className="text-xl font-semibold text-[#171713] mb-4 border-b border-[#ded5c7] pb-2">Qué aporta a las instituciones</h4>
                                 <div className="grid gap-3 sm:grid-cols-3">
                                     {[
-                                        { icon: Workflow, title: "Ingeniería de servicios", text: "Procesos, flujos, seguimiento y arquitectura de gestión." },
-                                        { icon: BarChart3, title: "Inteligencia aplicada", text: "Datos, indicadores, reporting ejecutivo y analítica institucional." },
-                                        { icon: ShieldCheck, title: "Automatización e IA", text: "Herramientas digitales para productividad, control y decisión." },
+                                        { icon: Workflow, title: "Propuesta y convenio", text: "Diagnóstico, alcance, plazos y precio claros antes de empezar." },
+                                        { icon: BarChart3, title: "Medición", text: "Indicadores y reportes para mostrar qué cambió en la institución." },
+                                        { icon: ShieldCheck, title: "Trazabilidad", text: "Registros, protocolos y seguimiento con datos, automatización e IA." },
                                     ].map((item) => {
                                         const Icon = item.icon;
                                         return (

@@ -9,8 +9,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Article } from "@/lib/data";
 import { JsonLd } from "@/components/JsonLd";
 import { NewsletterBlock } from "@/components/NewsletterBlock";
+import { ColumnCta } from "@/components/ColumnCta";
 
-// Include WhatsAppIcon, getServiceCTA, getAuthorDetails from original ArticleDetail.tsx...
+// Include WhatsAppIcon, getAuthorDetails from original ArticleDetail.tsx...
 function WhatsAppIcon({ className }: { className?: string }) {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" className={className} fill="currentColor" aria-hidden="true">
@@ -18,14 +19,6 @@ function WhatsAppIcon({ className }: { className?: string }) {
         </svg>
     );
 }
-
-const getServiceCTA = (category: string) => {
-    return {
-        label: "Servicios CRC",
-        description: "Atención clínica, consultoría institucional y bienestar escolar con criterio técnico y pensamiento crítico.",
-        href: "/servicios",
-    };
-};
 
 const getAuthorDetails = (author: string) => {
     if (author.includes("Rocío Solar")) return { image: "/images/rocio_solar_real_white.png", role: "Cofundadora & Terapeuta Ocupacional" };
@@ -276,6 +269,9 @@ export default function FoucaultEditorialDetail({ article }: { article: Article 
                                 </div>
                             </div>
                         </div>
+
+                        {/* Oferta ligada al tema, antes de la suscripción */}
+                        <ColumnCta category={article.category} title={article.title} />
 
                         {/* Newsletter */}
                         <div className="mt-16">

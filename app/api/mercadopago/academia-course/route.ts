@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getSiteUrl } from "@/lib/site";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/server";
 import type { Curso, Inscripcion } from "@/lib/supabase/database.types";
+import { attributionToFlatMetadata, resolveAttribution } from "@/lib/server/siteAnalytics";
 
 type MercadoPagoPreferenceResponse = {
   id?: string;
@@ -164,6 +165,8 @@ export async function POST(request: NextRequest) {
         course_slug: curso.slug,
         enrollment_id: inscripcionId,
         amount_clp: amount,
+        // Atribución desde la cookie propia `crc_attr` (el botón no la manda).
+        ...attributionToFlatMetadata(resolveAttribution(request)),
       },
       back_urls: {
         success: `${siteUrl}/academia/cursos/${curso.slug}/inscripcion?payment=success`,

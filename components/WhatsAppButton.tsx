@@ -2,10 +2,39 @@
 
 import { useState, useRef, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { CreditCard, ShieldAlert } from "lucide-react";
+import { CreditCard, Phone, ShieldAlert } from "lucide-react";
 
-const WA_NUMBER = "56949186447";
+export const WA_NUMBER = "56949186447";
 const UF_QUANTITY = 2;
+
+export function whatsAppUrl(text: string) {
+    return `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`;
+}
+
+export const WA_MESSAGE_INSTITUTIONAL =
+    "Hola Hugo, les escribo por una consulta institucional. Me gustaría conversar 20 minutos sobre nuestro equipo.";
+const WA_MESSAGE_SEMINAR = "Hola CRC, quiero hacer una consulta sobre el seminario Desprotección de la infancia.";
+const WA_MESSAGE_GENERIC = "Hola CRC, quisiera hacer una consulta.";
+
+const startsWithAny = (pathname: string, prefixes: string[]) =>
+    prefixes.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
+
+// El canal crítico (pagado) solo aparece donde llegan familias o personas en
+// crisis. En el resto del sitio se muestra solo el botón redondo de WhatsApp.
+const CRISIS_SECTIONS = ["/servicios/acompanamiento-familiar", "/servicios/clinica", "/contacto"];
+const INSTITUTIONAL_SECTIONS = [
+    "/instituciones",
+    "/servicios/compliance-escolar",
+    "/servicios/formacion",
+    "/servicios/consultoria",
+    "/servicios/bienestar-escolar",
+];
+
+function sectionMessage(pathname: string) {
+    if (pathname.startsWith("/seminarios")) return WA_MESSAGE_SEMINAR;
+    if (startsWithAny(pathname, INSTITUTIONAL_SECTIONS)) return WA_MESSAGE_INSTITUTIONAL;
+    return WA_MESSAGE_GENERIC;
+}
 
 const SERVICIOS = [
     { id: "acompanamiento-familiar", label: "Acompañamiento familiar", emoji: "🤝" },
@@ -27,7 +56,8 @@ function WaIcon() {
 }
 
 export function WhatsAppButton() {
-    const pathname = usePathname();
+    const pathname = usePathname() ?? "/";
+    const showCrisis = startsWithAny(pathname, CRISIS_SECTIONS);
     const [open, setOpen] = useState(false);
     const [criticalOpen, setCriticalOpen] = useState(false);
     const [ufAmount, setUfAmount] = useState<number | null>(null);
@@ -65,6 +95,8 @@ export function WhatsAppButton() {
     }, [step]);
 
     useEffect(() => {
+        // La UF solo se usa en el canal crítico.
+        if (!showCrisis) return;
         let cancelled = false;
         async function fetchUf() {
             try {
@@ -85,7 +117,7 @@ export function WhatsAppButton() {
         return () => {
             cancelled = true;
         };
-    }, []);
+    }, [showCrisis]);
 
     function handleOpen() {
         setOpen(true);
@@ -129,7 +161,7 @@ export function WhatsAppButton() {
         const waText = texto
             ? `Hola CRC 👋 Consulto sobre *${servLabel}*: ${texto}`
             : `Hola CRC 👋 Quisiera información sobre *${servLabel}*.`;
-        const url = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(waText)}`;
+        const url = whatsAppUrl(waText);
         window.open(url, "_blank", "noopener,noreferrer");
         handleClose();
     }
@@ -149,7 +181,7 @@ export function WhatsAppButton() {
             window.location.href = data.initPoint;
         } catch (error) {
             const message = error instanceof Error ? error.message : "No se pudo preparar el pago";
-            setPaymentError(`${message}. El pago automatico requiere la configuracion activa de Mercado Pago.`);
+            setPaymentError(`${message}. El pago automático requiere la configuración activa de Mercado Pago.`);
         } finally {
             setPaymentLoading(false);
         }
@@ -160,7 +192,26 @@ export function WhatsAppButton() {
         : "2 UF";
 
     // En la Academia CRC no se muestran los canales de ayuda/WhatsApp del sitio.
-    if (pathname?.startsWith("/academia")) return null;
+    if (pathname.startsWith("/academia")) return null;
+
+    if (!showCrisis) {
+        // En /seminarios el botón es más chico en móvil para no tapar fechas y precios.
+        const compactOnMobile = pathname.startsWith("/seminarios");
+        return (
+            <a
+                href={whatsAppUrl(sectionMessage(pathname))}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Escribir al CRC por WhatsApp"
+                className={
+                    "fixed bottom-[calc(env(safe-area-inset-bottom)+0.75rem)] right-[calc(env(safe-area-inset-right)+0.75rem)] z-[120] flex touch-manipulation items-center justify-center rounded-full bg-[#25D366] shadow-lg transition hover:scale-105 hover:shadow-xl sm:bottom-6 sm:right-6 sm:h-14 sm:w-14 " +
+                    (compactOnMobile ? "h-11 w-11 [&>svg]:h-5 [&>svg]:w-5 sm:[&>svg]:h-6 sm:[&>svg]:w-6" : "h-12 w-12")
+                }
+            >
+                <WaIcon />
+            </a>
+        );
+    }
 
     return (
         <>
@@ -199,13 +250,22 @@ export function WhatsAppButton() {
 
                 <div className="px-5 py-5">
                     <p className="text-sm leading-6 text-[#3f423a]">
-                        Consulta prioritaria para riesgo suicida, desregulacion grave o episodios criticos con ninos, ninas, adolescentes, familias o comunidades educativas.
+                        Consulta prioritaria para riesgo suicida, desregulación grave o episodios críticos con niños, niñas, adolescentes, familias o comunidades educativas.
                     </p>
+                    <a
+                        href="tel:*4141"
+                        className="mt-4 flex items-start gap-2.5 rounded-[6px] border border-[#d9a066]/50 bg-[#f6ead9] px-3 py-2.5 text-sm leading-5 text-[#8a4f20]"
+                    >
+                        <Phone className="mt-0.5 h-4 w-4 shrink-0" />
+                        <span>
+                            <strong>Si hay riesgo inmediato, llama gratis al *4141.</strong> Línea de prevención del suicidio de Salud Responde, 24 horas.
+                        </span>
+                    </a>
                     <div className="mt-4 space-y-2.5 border-y border-[#ded5c7] py-4 text-sm leading-5 text-[#70695f]">
                         <p><strong className="text-[#171713]">Modalidad:</strong> llamada, videollamada o asistencia presencial si se requiere.</p>
-                        <p><strong className="text-[#171713]">Duracion:</strong> 40 a 60 minutos.</p>
-                        <p><strong className="text-[#171713]">Valor:</strong> 2 UF {ufAmount ? `(${formattedUfAmount})` : "(valor UF del dia)"}.</p>
-                        <p><strong className="text-[#171713]">Alcance:</strong> diagnostico inicial, contencion, intervencion critica y plan de trabajo.</p>
+                        <p><strong className="text-[#171713]">Duración:</strong> 40 a 60 minutos.</p>
+                        <p><strong className="text-[#171713]">Valor:</strong> 2 UF {ufAmount ? `(${formattedUfAmount})` : "(valor UF del día)"}.</p>
+                        <p><strong className="text-[#171713]">Alcance:</strong> diagnóstico inicial, contención, intervención crítica y plan de trabajo.</p>
                     </div>
                     <button
                         type="button"
@@ -217,8 +277,8 @@ export function WhatsAppButton() {
                         {paymentLoading ? "Preparando pago..." : "Pagar online"}
                     </button>
                     <p className="mt-2 text-xs leading-5 text-[#8a8276]">
-                        El checkout se abre con el monto cargado automaticamente: <strong className="text-[#171713]">{formattedUfAmount}</strong>.
-                        {ufFallback ? " Valor de respaldo si la UF diaria no esta disponible." : ""}
+                        El checkout se abre con el monto cargado automáticamente: <strong className="text-[#171713]">{formattedUfAmount}</strong>.
+                        {ufFallback ? " Valor de respaldo si la UF diaria no está disponible." : ""}
                     </p>
                     {paymentError && (
                         <div className="mt-3 rounded-[6px] border border-[#e2c4a8] bg-[#fff8ef] px-3 py-2 text-xs leading-5 text-[#7a4a23]">
@@ -252,6 +312,13 @@ export function WhatsAppButton() {
                     <span className="mt-1.5 text-[12px] font-extrabold uppercase tracking-[0.12em] text-white sm:text-[13px]">¿Necesitas ayuda ahora?</span>
                 </span>
             </button>
+            <a
+                href="tel:*4141"
+                className="pointer-events-auto -mt-1.5 inline-flex items-center gap-1.5 rounded-[6px] border border-[#d9a066]/50 bg-[#f6ead9] px-2.5 py-1 text-[11px] font-semibold text-[#8a4f20] shadow-sm"
+            >
+                <Phone className="h-3 w-3" />
+                Riesgo inmediato: *4141 gratis, 24 h
+            </a>
         </div>
 
         <div ref={panelRef} className="pointer-events-none fixed bottom-[calc(env(safe-area-inset-bottom)+1.25rem)] right-4 z-[120] flex max-w-[calc(100vw-2rem)] flex-col items-end gap-3 sm:bottom-6 sm:right-6">

@@ -197,7 +197,7 @@ export function Footer({ initialFooter }: { initialFooter?: FooterContent }) {
                     Todos los derechos reservados.
                 </p>
                 <p className="text-[0.65rem] text-[#6f6254] tracking-[0.12em] uppercase">
-                    Pensamiento · Evidencia · Diálogo · Transformación
+                    Infancia · Salud mental · Instituciones
                 </p>
             </div>
         </footer>

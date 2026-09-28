@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { usePathname } from "next/navigation";
+import { getAttribution } from "@/lib/attribution";
 
 export const SEMINARIO_SOURCE = "seminario-desproteccion-infancia";
 export const SEMINARIO_FORM_ID = "seminario-desproteccion-postulacion";
@@ -87,6 +88,8 @@ export function SeminarioPostulacionForm({ variant = "dark" }: { variant?: "dark
               poblacion: String(form.get("poblacion") ?? ""),
               convenioInstitucional: form.get("convenio") ? "sí" : "no",
             },
+            // Primer y último contacto (qué cuenta o canal trajo a la persona).
+            attribution: getAttribution(),
           };
 
           const response = await fetch("/api/leads", {

@@ -30,6 +30,7 @@ export const metadata: Metadata = {
     description: DESCRIPTION,
     path: "/eventos/desproteccion-infancia",
     ogTitle: `${TITLE} | Centro de Reflexiones Críticas`,
+    noIndex: true,
   }),
   openGraph: {
     title: `${TITLE} | Centro de Reflexiones Críticas`,
@@ -61,6 +62,20 @@ const IDEAS_CLAVE = [
 export default async function DesproteccionInfanciaEvent() {
   return (
     <div className="bg-[#fffdf8]">
+      {/* El conversatorio ya pasó: quien llegue acá tiene que encontrar el seminario. */}
+      <div className="border-b border-[#d8cfc0] bg-[#f1eadf] px-5 py-4 sm:px-8">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3">
+          <p className="text-sm font-semibold text-[#171713]">
+            Este conversatorio ya se realizó. Ahora Juan Carlos Rauld dicta el seminario en vivo Desprotección de la infancia.
+          </p>
+          <Link
+            href="/seminarios/desproteccion-infancia?utm_source=web&utm_medium=evento-pasado&utm_campaign=seminario-c1"
+            className="inline-flex items-center rounded-[5px] bg-[#a95d31] px-4 py-2 text-xs font-extrabold uppercase tracking-[0.12em] text-white hover:bg-[#8f4925]"
+          >
+            Ver el seminario
+          </Link>
+        </div>
+      </div>
       {/* Hero en dos columnas: texto a la izquierda, afiche completo a la derecha (sin superposiciones) */}
       <div className="relative w-full overflow-hidden bg-slate-950">
         <div className="mx-auto grid max-w-7xl grid-cols-1 lg:grid-cols-[1.05fr_1fr]">

@@ -2,7 +2,7 @@ import crypto from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { appendMercadoPagoPaymentEvent } from "@/lib/server/mercadoPagoPayments";
-import { recordConversionEvent } from "@/lib/server/siteAnalytics";
+import { attributionFromFlatMetadata, recordConversionEvent } from "@/lib/server/siteAnalytics";
 import { marcarPagoAprobado } from "@/lib/server/seminarioPagosStore";
 
 type MercadoPagoWebhookPayload = {
@@ -19,6 +19,7 @@ type MercadoPagoPayment = {
   status_detail?: string;
   external_reference?: string;
   transaction_amount?: number;
+  metadata?: Record<string, unknown>;
 };
 
 function getAcademiaEnrollmentId(externalReference?: string) {
@@ -100,11 +101,17 @@ export async function POST(request: NextRequest) {
 
   if (payment?.status === "approved") {
     try {
+      // La atribución viaja en el metadata de la preferencia (ver
+      // app/api/mercadopago/seminario) y Mercado Pago la devuelve en el pago.
+      const attribution = attributionFromFlatMetadata(payment.metadata);
+      const service = typeof payment.metadata?.service === "string" ? payment.metadata.service : undefined;
       await recordConversionEvent({
         eventName: "payment_approved",
         metadata: {
           externalReference: payment.external_reference,
           amount: payment.transaction_amount,
+          ...(service ? { service } : {}),
+          ...(attribution ? { attribution } : {}),
         },
       });
     } catch {

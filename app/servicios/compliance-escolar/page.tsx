@@ -458,6 +458,18 @@ export default function ComplianceEscolarPage() {
                 Mapa inicial de riesgos, prioridades de acción y ruta de trabajo para cumplimiento, formación y soporte clínico.
               </p>
             </div>
+            <div className="mt-5 border-t border-[#ded5c7] pt-5">
+              <p className="text-sm leading-7 text-[#55574f]">
+                ¿Prefiere conversarlo antes de completar el formulario? Hugo Hormazábal coordina el trabajo con colegios y sostenedores.
+              </p>
+              <Link
+                href="/instituciones?servicio=compliance-escolar#agenda"
+                className="mt-3 inline-flex w-full items-center justify-center gap-1.5 rounded-[4px] bg-[#171713] px-4 py-3 text-xs font-bold uppercase tracking-[0.1em] text-white transition hover:bg-[#34362f] sm:w-auto"
+              >
+                Agenda 20 minutos con Hugo
+                <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+            </div>
           </div>
           <div className="lg:col-span-7">
             <div className="rounded-[6px] border border-[#ded5c7] bg-[#f8f5ee] p-5 shadow-sm sm:p-6">

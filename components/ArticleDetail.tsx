@@ -3,13 +3,14 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, User, Calendar, Share2, Bookmark, Check, Link as LinkIcon, MessageCircle, Facebook, Twitter, Instagram } from "lucide-react";
+import { ArrowLeft, User, Calendar, Share2, Bookmark, Check, Link as LinkIcon, MessageCircle, Facebook, Twitter, Instagram } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { MotionDiv, MotionItem } from "@/components/ui/Motion";
+import { MotionDiv } from "@/components/ui/Motion";
 import { motion, AnimatePresence } from "framer-motion";
 import { Article } from "@/lib/data";
 import { JsonLd } from "@/components/JsonLd";
 import { NewsletterBlock } from "@/components/NewsletterBlock";
+import { ColumnCta } from "@/components/ColumnCta";
 
 function WhatsAppIcon({ className }: { className?: string }) {
     return (
@@ -18,36 +19,6 @@ function WhatsAppIcon({ className }: { className?: string }) {
         </svg>
     );
 }
-
-const getServiceCTA = (category: string): { label: string; description: string; href: string } => {
-    const cat = category.toLowerCase();
-    if (cat.includes("salud mental") || cat.includes("infancia") || cat.includes("niñez") || cat.includes("adiccion") || cat.includes("adicción")) {
-        return {
-            label: "Atención clínica",
-            description: "Evaluación, intervención y acompañamiento especializado en salud mental e infancia.",
-            href: "/servicios/clinica",
-        };
-    }
-    if (cat.includes("escuela") || cat.includes("educacion") || cat.includes("educación") || cat.includes("escolar") || cat.includes("colegio")) {
-        return {
-            label: "Bienestar escolar",
-            description: "Soporte interdisciplinario para convivencia, salud mental y protección institucional.",
-            href: "/servicios/bienestar-escolar",
-        };
-    }
-    if (cat.includes("institucion") || cat.includes("institución") || cat.includes("política") || cat.includes("politica") || cat.includes("sociedad")) {
-        return {
-            label: "Consultoría institucional",
-            description: "Diseño y mejora de modelos de intervención para organizaciones que trabajan con problemas complejos.",
-            href: "/servicios/consultoria",
-        };
-    }
-    return {
-        label: "Servicios CRC",
-        description: "Atención clínica, consultoría institucional y bienestar escolar con criterio técnico y pensamiento crítico.",
-        href: "/servicios",
-    };
-};
 
 type AuthorProfile = { match: string; image: string | null; role: string };
 
@@ -75,7 +46,7 @@ const AUTHOR_DIRECTORY: AuthorProfile[] = [
     {
         match: "Hormazábal",
         image: "/images/hugo_hormazabal_real_white.png",
-        role: "Ingeniero Comercial. Miembro del equipo fundador del CRC y especialista en uso aplicado de inteligencia artificial en los negocios.",
+        role: "Socio · Director Comercial y de Desarrollo Institucional del CRC. Ingeniero Comercial, especialista en uso aplicado de inteligencia artificial.",
     },
     {
         match: "Alejandro Castro",
@@ -820,6 +791,9 @@ export default function ArticleDetail({
                     </div>
                 </div>
 
+                {/* Oferta ligada al tema de la columna, antes de la suscripción */}
+                <ColumnCta category={article.category} title={article.title} />
+
                 {/* Newsletter capture */}
                 <NewsletterBlock origen={article.category} />
 
@@ -848,22 +822,6 @@ export default function ArticleDetail({
                         })()}
                     </div>
                 </div>
-
-                {/* CTA contextual */}
-                {(() => {
-                    const cta = getServiceCTA(article.category);
-                    return (
-                        <MotionItem className="mt-16 rounded-[8px] bg-[#171713] p-6 text-white shadow-md sm:mt-20 sm:p-10">
-                            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#d3976d]">Servicio relacionado</span>
-                            <h3 className="mt-3 text-2xl font-bold font-serif">{cta.label}</h3>
-                            <p className="mt-3 text-sm leading-7 text-[#d8d0c4]">{cta.description}</p>
-                            <Link href={cta.href} className="mt-6 inline-flex items-center gap-2 rounded-[5px] bg-[#bd6f3c] px-5 py-3 text-sm font-bold text-white hover:bg-[#9f5528]">
-                                Conocer servicio
-                                <ArrowRight className="h-4 w-4" />
-                            </Link>
-                        </MotionItem>
-                    );
-                })()}
 
                 <JsonLd article={article} />
 

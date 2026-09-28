@@ -67,7 +67,7 @@ export default function OpenGraphImage() {
           </div>
           <div style={{ display: "flex", flexDirection: "column", maxWidth: 950 }}>
             <span style={{ color: "#d3976d", fontFamily: "sans-serif", fontSize: 23, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase" }}>
-              Pensamiento · evidencia · diálogo
+              Infancia · salud mental · instituciones
             </span>
             <span style={{ marginTop: 18, fontSize: 78, fontWeight: 700, lineHeight: 1.02 }}>
               Centro de Reflexiones Críticas

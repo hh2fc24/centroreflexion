@@ -23,6 +23,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/servicios/bienestar-escolar",
     "/servicios/formacion",
     "/servicios/compliance-escolar",
+    "/instituciones",
     "/contacto",
     "/conocenos",
     "/publicaciones",

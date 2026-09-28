@@ -13,6 +13,15 @@ export const metadata: Metadata = pageMetadata({
     ogDescription: "Acompañamiento familiar, atención clínica, consultoría institucional, compliance escolar y formación profesional con enfoque técnico y humano.",
 });
 
+// Servicios que compra una institución: su siguiente paso es la conversación
+// con Hugo, no pedir una hora clínica.
+const INSTITUTIONAL = new Set([
+    "/servicios/consultoria",
+    "/servicios/compliance-escolar",
+    "/servicios/bienestar-escolar",
+    "/servicios/formacion",
+]);
+
 const serviceRoutes = [
     {
         icon: HeartHandshake,
@@ -64,7 +73,7 @@ const serviceRoutes = [
         focus: "Ley 21.809, convivencia escolar y exposición institucional.",
         details: [
             ["Qué resuelve", "Auditoría de protocolos, Ley 21.809, convivencia escolar, trazabilidad y exposición civil o administrativa."],
-            ["Para quién", "Sostenedores, equipos directivos y encargados de convivencia que necesitan blindar su respuesta institucional."],
+            ["Para quién", "Sostenedores, equipos directivos y encargados de convivencia que necesitan responder a tiempo y poder demostrar cómo respondieron."],
             ["Qué obtienes", "Brechas claras, equipos entrenados y una ruta de cumplimiento verificable."],
         ],
         modality: "Presencial · Online",
@@ -179,8 +188,8 @@ export default function ServicesHub() {
                                     </details>
 
                                     <div className="mt-auto flex flex-col gap-3 pt-7 sm:flex-row">
-                                        <Link href={`/contacto?servicio=${service.href.split("/").pop()}`} className="group/cta inline-flex flex-1 items-center justify-center gap-2 rounded-[7px] bg-[#171713] px-5 py-3 text-sm font-bold text-white transition duration-200 hover:bg-[#34362f]">
-                                            Solicitar hora
+                                        <Link href={INSTITUTIONAL.has(service.href) ? "/instituciones#agenda" : `/contacto?servicio=${service.href.split("/").pop()}`} className="group/cta inline-flex flex-1 items-center justify-center gap-2 rounded-[7px] bg-[#171713] px-5 py-3 text-sm font-bold text-white transition duration-200 hover:bg-[#34362f]">
+                                            {INSTITUTIONAL.has(service.href) ? "Agendar con Hugo" : "Solicitar hora"}
                                             <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover/cta:translate-x-0.5" />
                                         </Link>
                                         <Link href={service.href} className="inline-flex items-center justify-center gap-2 rounded-[7px] border border-[#ded5c7] bg-[#fffdf8] px-5 py-3 text-sm font-bold text-[#171713] transition hover:border-[#bd6f3c]/50">

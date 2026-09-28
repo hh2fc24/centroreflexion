@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Mail } from "lucide-react";
+import { getAttribution } from "@/lib/attribution";
 
 interface Props {
     origen?: string;
@@ -21,12 +22,12 @@ export function NewsletterBlock({ origen = "articulo" }: Props) {
             const res = await fetch("/api/suscribir", {
                 method: "POST",
                 headers: { "content-type": "application/json" },
-                body: JSON.stringify({ email, origen }),
+                body: JSON.stringify({ email, origen, attribution: getAttribution() }),
             });
             const data = await res.json();
             if (!res.ok) throw new Error(data.error || "Error");
             setStatus("ok");
-            setMsg(data.existing ? "Ya estabas suscrito/a — te tenemos en cuenta." : "¡Listo! Te avisamos cuando publiquemos.");
+            setMsg(data.existing ? "Ya estabas suscrito/a — te tenemos en cuenta." : "¡Listo! Te escribimos con la próxima columna.");
         } catch {
             setStatus("error");
             setMsg("Algo salió mal. Intenta de nuevo.");
@@ -40,9 +41,9 @@ export function NewsletterBlock({ origen = "articulo" }: Props) {
                     <Mail className="h-4 w-4 text-[#bd6f3c]" />
                 </div>
                 <div className="flex-1">
-                    <p className="font-bold text-[#171713]">¿Te gustó este artículo?</p>
+                    <p className="font-bold text-[#171713]">Una columna al mes, y aviso cuando abre una cohorte</p>
                     <p className="mt-0.5 text-sm leading-relaxed text-[#55574f]">
-                        Recibe nuevas publicaciones de CRC directamente en tu correo. Sin spam.
+                        Ideas del CRC sobre infancia, salud mental e instituciones. Sin spam, te das de baja cuando quieras.
                     </p>
 
                     {status === "ok" ? (

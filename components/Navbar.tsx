@@ -8,13 +8,51 @@ import { ArrowRight, Menu, Phone, X } from "lucide-react";
 import { useContent, useEditor } from "@/lib/editor/hooks";
 import type { NavigationContent } from "@/lib/editor/types";
 import { cn } from "@/lib/utils";
+import { SEMINAR_PATH, isSeminarCampaignActive } from "@/components/ColumnCta";
 
 type NavNode = { id: string; label: string; href: string; visible: boolean; description?: string; children: NavNode[] };
+
+type NavCta = { label: string; href: string };
+
+const matchesSection = (pathname: string, prefixes: string[]) =>
+    prefixes.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
+
+// Lectores de columnas, crítica, academia y seminario: el paso natural es el seminario.
+const EDITORIAL_SECTIONS = ["/seminarios", "/academia", "/pensamiento-critico", "/critica", "/trabajos-intelectuales", "/publicaciones"];
+const INSTITUTIONAL_SECTIONS = [
+    "/instituciones",
+    "/servicios/compliance-escolar",
+    "/servicios/bienestar-escolar",
+    "/servicios/consultoria",
+    "/servicios/formacion",
+];
+const FAMILY_SECTIONS = ["/servicios/acompanamiento-familiar", "/servicios/clinica"];
+
+/** CTA fijo de la navbar según la audiencia de la sección. */
+export function getNavCta(pathname: string, now: Date = new Date()): NavCta {
+    if (EDITORIAL_SECTIONS.some((prefix) => pathname.startsWith(prefix))) {
+        return isSeminarCampaignActive(now)
+            ? {
+                label: "Postular al seminario",
+                // En la propia página del seminario, baja directo al formulario.
+                href: pathname.startsWith(SEMINAR_PATH) ? `${SEMINAR_PATH}#postular` : SEMINAR_PATH,
+            }
+            : { label: "Ver formación", href: "/academia" };
+    }
+    if (matchesSection(pathname, INSTITUTIONAL_SECTIONS)) {
+        return { label: "Agenda con Hugo", href: "/instituciones#agenda" };
+    }
+    if (matchesSection(pathname, FAMILY_SECTIONS)) {
+        return { label: "Pedir orientación", href: "/contacto" };
+    }
+    return { label: "Hablar con el equipo", href: "/contacto" };
+}
 
 export function Navbar({ initialNavigation }: { initialNavigation?: NavigationContent }) {
     const [isOpen, setIsOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
-    const pathname = usePathname();
+    const pathname = usePathname() ?? "/";
+    const cta = getNavCta(pathname);
     const { content } = useContent();
     const { adminEnabled } = useEditor();
 
@@ -140,10 +178,10 @@ export function Navbar({ initialNavigation }: { initialNavigation?: NavigationCo
                     </div>
 
                     <Link
-                        href="/contacto"
+                        href={cta.href}
                         className="group inline-flex h-11 shrink-0 items-center gap-2 rounded-[8px] bg-[#172017] px-5 text-sm font-semibold text-[#fffdf8] shadow-[0_14px_34px_rgba(23,32,23,0.18)] transition duration-200 hover:bg-[#243323] hover:shadow-[0_18px_44px_rgba(23,32,23,0.22)] xl:px-6"
                     >
-                        Da el primer paso
+                        {cta.label}
                         <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
                     </Link>
                 </div>
@@ -162,11 +200,11 @@ export function Navbar({ initialNavigation }: { initialNavigation?: NavigationCo
                 <div className="border-t border-[#d8cfc0]/70 bg-[#f8f5ee] min-[1240px]:hidden">
                     <div className="px-5 py-4">
                         <Link
-                            href="/contacto"
+                            href={cta.href}
                             onClick={() => setIsOpen(false)}
                             className="inline-flex w-full items-center justify-center gap-2 rounded-[8px] bg-[#172017] px-4 py-3.5 text-center text-sm font-semibold text-white transition-colors hover:bg-[#233122]"
                         >
-                            Da el primer paso
+                            {cta.label}
                             <ArrowRight className="h-4 w-4" />
                         </Link>
                         <a

@@ -3,15 +3,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { SeminarioPostulacionForm } from "@/components/SeminarioPostulacionForm";
-import { SeminarioPagoButton } from "@/components/SeminarioPagoButton";
+import { SeminarioPagoAviso, SeminarioPagoButton } from "@/components/SeminarioPagoButton";
 import { leerEstadoVenta } from "@/lib/server/seminarioPagosStore";
 import {
   SEMINARIO_CUPOS_TOTALES,
   TRAMOS,
   estadoDeTramo,
+  fechaCierreLegible,
   formatoCLP,
+  mostrarCuposRestantes,
+  type EstadoVenta,
 } from "@/lib/seminario/tramos";
-import { getSiteUrl } from "@/lib/site";
 import { pageMetadata } from "@/lib/seo";
 
 const TITLE = "Seminario · Desprotección de la Infancia";
@@ -31,32 +33,40 @@ export const dynamic = "force-dynamic";
 /** Valor de lista, para el tachado cuando el tramo vigente trae descuento. */
 const PRECIO_LISTA = TRAMOS[TRAMOS.length - 1].precio;
 
+const PATH = "/seminarios/desproteccion-infancia";
+// Imagen 1200×630 generada por ./opengraph-image.tsx (la portada del libro es
+// cuadrada y las redes la recortaban).
+const OG_IMAGE = `${PATH}/opengraph-image`;
+
+// `title` va sin sufijo: el template de app/layout.tsx ya agrega
+// "| Centro de Reflexiones Críticas". El título social sí lo lleva, porque
+// Open Graph no pasa por el template.
+const baseMetadata = pageMetadata({
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH,
+  ogTitle: `${TITLE} | Centro de Reflexiones Críticas`,
+  keywords: [
+    "seminario infancia Chile",
+    "biopolítica infancia",
+    "Foucault infancia",
+    "desprotección infantil",
+    "formación protección infancia",
+    "Juan Carlos Rauld",
+    "SENAME Mejor Niñez formación",
+  ],
+});
+
 export const metadata: Metadata = {
-  ...pageMetadata({
-    title: `${TITLE} | Centro de Reflexiones Críticas`,
-    description: DESCRIPTION,
-    path: "/seminarios/desproteccion-infancia",
-    keywords: [
-      "seminario infancia Chile",
-      "biopolítica infancia",
-      "Foucault infancia",
-      "desprotección infantil",
-      "formación protección infancia",
-      "Juan Carlos Rauld",
-      "SENAME Mejor Niñez formación",
-    ],
-  }),
+  ...baseMetadata,
+  // Se conservan url, siteName y locale de pageMetadata; solo cambia la imagen.
   openGraph: {
-    title: `${TITLE} | Centro de Reflexiones Críticas`,
-    description: DESCRIPTION,
-    type: "article",
-    images: [{ url: `${getSiteUrl()}${IMAGE_PATH}`, width: 1200, height: 630, alt: TITLE }],
+    ...baseMetadata.openGraph,
+    images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: TITLE }],
   },
   twitter: {
-    card: "summary_large_image",
-    title: TITLE,
-    description: DESCRIPTION,
-    images: [`${getSiteUrl()}${IMAGE_PATH}`],
+    ...baseMetadata.twitter,
+    images: [OG_IMAGE],
   },
 };
 
@@ -70,7 +80,6 @@ const DATOS = [
   { valor: "16", label: "horas de seminario" },
   { valor: "15", label: "cupos, cohorte cerrada" },
   { valor: "60", label: "días de grabaciones" },
-  { valor: "2", label: "meses, un jueves por semana" },
 ];
 
 const SESIONES = [
@@ -160,11 +169,12 @@ const FAQ = [
   },
   {
     q: "¿Puedo pagar en cuotas?",
-    a: "Sí. Tres transferencias sin interés: una antes de comenzar y dos durante el seminario. También aceptamos Webpay con las cuotas de tu emisor.",
+    a: "Sí. Tres transferencias sin interés: una antes de comenzar y dos durante el seminario. También puedes pagar con Mercado Pago, usando las cuotas de tu tarjeta.",
   },
   {
     q: "Mi institución quiere inscribir a varias personas.",
-    a: "Desde 3 personas de la misma institución, 15% de descuento para cada una. Emitimos factura. Reservamos un máximo de 5 cupos institucionales por cohorte para mantener la diversidad del grupo.",
+    a: "Desde 3 personas de la misma institución, 15% de descuento para cada una, con factura. Si son un equipo de 8 o más, dictamos el seminario en formato cerrado para una sola institución, con fechas propias y factura: escríbenos desde la página de instituciones y armamos la propuesta.",
+    link: { href: "/instituciones", label: "Formación para instituciones" },
   },
   {
     q: "¿Qué certificado recibo?",
@@ -199,12 +209,75 @@ function Rule({ tone = "gold" }: { tone?: "gold" | "light" }) {
   return <div className={`my-5 h-px w-14 ${tone === "gold" ? "bg-[#bd6f3c]" : "bg-[#bd6f3c]"}`} />;
 }
 
+/* ────────────────────────────────────────────────────────────
+   Textos que dependen del estado de la venta.
+   ──────────────────────────────────────────────────────────── */
+
+type Vigente = EstadoVenta["vigente"];
+
+/** Pill del hero: la cifra solo cuando quedan pocos cupos. */
+function textoCupos(venta: EstadoVenta) {
+  if (venta.disponibles === 0) return "Cohorte 1 completa";
+  if (mostrarCuposRestantes(venta.disponibles)) {
+    return venta.disponibles === 1
+      ? `Queda 1 de ${SEMINARIO_CUPOS_TOTALES} cupos`
+      : `Quedan ${venta.disponibles} de ${SEMINARIO_CUPOS_TOTALES} cupos`;
+  }
+  return `Cohorte cerrada de ${SEMINARIO_CUPOS_TOTALES} personas`;
+}
+
+/** Línea bajo el CTA del hero: valor del tramo vigente y hasta cuándo rige. */
+function plazoTramo(tramo: NonNullable<Vigente>) {
+  const esUltimo = tramo.id === TRAMOS[TRAMOS.length - 1].id;
+  if (esUltimo) {
+    return `Matrícula abierta hasta el ${fechaCierreLegible(tramo)} a las 23:59.`;
+  }
+  return `Valor ${tramo.nombre} ${formatoCLP(tramo.precio)} hasta el ${fechaCierreLegible(tramo)}, o hasta agotar sus cupos.`;
+}
+
+function ResumenHero({ vigente, className }: { vigente: Vigente; className: string }) {
+  return (
+    <dl className={`max-w-[560px] gap-y-5 border-t border-[#f1ede4]/18 ${className}`}>
+      <div>
+        <dt className="text-[0.6rem] font-extrabold uppercase tracking-[0.2em] text-[#bd6f3c]">Inicio</dt>
+        <dd className="mt-1.5 text-[0.8rem] font-semibold leading-[1.4] text-[#f1ede4] sm:text-[0.85rem]">
+          Jueves 15 de octubre
+        </dd>
+      </div>
+      <div>
+        <dt className="text-[0.6rem] font-extrabold uppercase tracking-[0.2em] text-[#bd6f3c]">Horario</dt>
+        <dd className="mt-1.5 text-[0.8rem] font-semibold leading-[1.4] text-[#f1ede4] sm:text-[0.85rem]">
+          Jueves, 19:00 a 21:00
+        </dd>
+      </div>
+      <div>
+        <dt className="text-[0.6rem] font-extrabold uppercase tracking-[0.2em] text-[#bd6f3c]">Valor</dt>
+        <dd className="mt-1.5 text-[0.8rem] font-semibold leading-[1.4] text-[#f1ede4] sm:text-[0.85rem]">
+          {vigente ? (
+            <>
+              {formatoCLP(vigente.precio)}{" "}
+              {vigente.precio < PRECIO_LISTA ? (
+                <span className="whitespace-nowrap font-normal text-[#ede7dc]/50 line-through">
+                  {formatoCLP(PRECIO_LISTA)}
+                </span>
+              ) : null}
+            </>
+          ) : (
+            "Matrícula cerrada"
+          )}
+        </dd>
+      </div>
+    </dl>
+  );
+}
+
 export default async function SeminarioDesproteccionInfancia() {
   const venta = await leerEstadoVenta();
   const vigente = venta.vigente;
 
   return (
     <div className="bg-[#f8f5ee] text-[#171713]">
+      <SeminarioPagoAviso />
       {/* ═══ HERO ═══════════════════════════════════════════ */}
       <section
         className="relative w-full overflow-hidden bg-[#15120e]"
@@ -225,7 +298,7 @@ export default async function SeminarioDesproteccionInfancia() {
           <div className="absolute inset-0 bg-[#7c4a26]/20 mix-blend-multiply" />
         </div>
 
-        <div className="relative z-10 mx-auto flex min-h-[inherit] max-w-[1640px] items-center px-5 py-16 sm:px-8 sm:py-20 lg:px-14 xl:px-20">
+        <div className="relative z-10 mx-auto flex min-h-[inherit] max-w-[1640px] items-center px-5 pb-14 pt-10 sm:px-8 sm:py-20 lg:px-14 xl:px-20">
           <div className="max-w-[680px]">
             <Eyebrow tone="light">
               Seminario en vivo
@@ -247,63 +320,44 @@ export default async function SeminarioDesproteccionInfancia() {
               Dominación, biopolítica y gobierno de la infancia en Chile.
             </p>
 
+            {/* En móvil el resumen sube antes del párrafo: si queda al final del
+                hero, cae bajo el pliegue y nadie ve fecha ni valor. */}
+            <ResumenHero vigente={vigente} className="mt-6 grid grid-cols-3 gap-x-4 pt-5 sm:hidden" />
+
             <p className="mt-6 max-w-[540px] text-[0.9rem] font-semibold leading-[1.65] text-[#ede7dc]/85">
               Ocho sesiones en vivo con Juan Carlos Rauld, autor del libro y Director del CRC. Un recorrido desde
               Foucault hasta el Chile del SENAME para entender por qué la desprotección no es la ausencia del Estado,
               sino una forma específica de gobernar.
             </p>
 
-            {/* El contador sale de los pagos aprobados, no de una frase fija:
-                si dice "quedan 8" es porque quedan 8. */}
+            {/* El contador sale de los pagos aprobados, no de una frase fija. Solo
+                se muestra la cifra cuando quedan pocos cupos (ver
+                UMBRAL_CUPOS_VISIBLES); antes, el tamaño de la cohorte. */}
             <p className="mt-7 inline-flex w-fit items-center rounded-[5px] border border-[#f1ede4]/20 bg-[#f1ede4]/[0.06] px-3 py-1.5 text-[0.6rem] font-extrabold uppercase tracking-[0.16em] text-[#ede7dc]/85">
-              {venta.disponibles > 0
-                ? `Quedan ${venta.disponibles} de ${SEMINARIO_CUPOS_TOTALES} cupos`
-                : "Cohorte 1 completa"}
+              {textoCupos(venta)}
             </p>
 
             <div className="mt-6 flex flex-wrap items-center gap-3">
               <Link
                 href="#inversion"
-                className="inline-flex h-11 items-center gap-3 rounded-[5px] bg-[#bd6f3c] px-6 text-[0.66rem] font-extrabold uppercase tracking-[0.13em] text-white shadow-[0_18px_40px_rgba(90,45,18,0.32)] transition duration-200 hover:bg-[#a85f31]"
+                className="inline-flex h-11 items-center gap-3 rounded-[5px] bg-[#bd6f3c] px-4 sm:px-6 text-[0.66rem] font-extrabold uppercase tracking-[0.13em] text-white shadow-[0_18px_40px_rgba(90,45,18,0.32)] transition duration-200 hover:bg-[#a85f31]"
               >
                 {vigente ? "Matricularme" : "Lista cohorte 2"} <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 href="#programa"
-                className="inline-flex h-11 items-center rounded-[5px] border border-[#f1ede4]/42 bg-[#15120e]/18 px-6 text-[0.66rem] font-extrabold uppercase tracking-[0.13em] text-white backdrop-blur-[2px] transition duration-200 hover:border-[#f1ede4]/72 hover:bg-white/10"
+                className="inline-flex h-11 items-center rounded-[5px] border border-[#f1ede4]/42 bg-[#15120e]/18 px-4 sm:px-6 text-[0.66rem] font-extrabold uppercase tracking-[0.13em] text-white backdrop-blur-[2px] transition duration-200 hover:border-[#f1ede4]/72 hover:bg-white/10"
               >
                 Ver el programa
               </Link>
             </div>
 
+            {vigente ? (
+              <p className="mt-4 text-[0.8rem] leading-[1.55] text-[#ede7dc]/75">{plazoTramo(vigente)}</p>
+            ) : null}
+
             {/* Meta + precio, en una sola franja de versalitas */}
-            <dl className="mt-10 grid max-w-[560px] grid-cols-2 gap-x-8 gap-y-5 border-t border-[#f1ede4]/18 pt-6 sm:grid-cols-3">
-              <div>
-                <dt className="text-[0.6rem] font-extrabold uppercase tracking-[0.2em] text-[#bd6f3c]">Inicio</dt>
-                <dd className="mt-1.5 text-[0.85rem] font-semibold text-[#f1ede4]">Jueves 15 de octubre</dd>
-              </div>
-              <div>
-                <dt className="text-[0.6rem] font-extrabold uppercase tracking-[0.2em] text-[#bd6f3c]">Horario</dt>
-                <dd className="mt-1.5 text-[0.85rem] font-semibold text-[#f1ede4]">Jueves, 19:00 a 21:00</dd>
-              </div>
-              <div>
-                <dt className="text-[0.6rem] font-extrabold uppercase tracking-[0.2em] text-[#bd6f3c]">Valor</dt>
-                <dd className="mt-1.5 text-[0.85rem] font-semibold text-[#f1ede4]">
-                  {vigente ? (
-                    <>
-                      {formatoCLP(vigente.precio)}{" "}
-                      {vigente.precio < PRECIO_LISTA ? (
-                        <span className="font-normal text-[#ede7dc]/50 line-through">
-                          {formatoCLP(PRECIO_LISTA)}
-                        </span>
-                      ) : null}
-                    </>
-                  ) : (
-                    "Matrícula cerrada"
-                  )}
-                </dd>
-              </div>
-            </dl>
+            <ResumenHero vigente={vigente} className="mt-10 hidden grid-cols-3 gap-x-8 pt-6 sm:grid" />
 
             <div className="mt-8 flex items-center gap-4">
               <div className="relative h-10 w-10 shrink-0">
@@ -342,11 +396,15 @@ export default async function SeminarioDesproteccionInfancia() {
 
       {/* ═══ FRANJA DE DATOS ════════════════════════════════ */}
       <section className="border-b border-[rgba(101,91,74,0.23)] bg-[#fffdf8]">
-        <div className="mx-auto grid max-w-[1640px] grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
-          {DATOS.map((d) => (
+        {/* Cuatro datos: 2×2 hasta lg y una fila desde lg. Con cinco quedaba
+            uno huérfano en móvil. */}
+        <div className="mx-auto grid max-w-[1640px] grid-cols-2 lg:grid-cols-4">
+          {DATOS.map((d, i) => (
             <div
               key={d.label}
-              className="border-b border-[rgba(101,91,74,0.16)] px-5 py-7 sm:px-7 lg:border-b-0 lg:border-r lg:border-[rgba(101,91,74,0.16)] lg:px-8 lg:py-9 lg:last:border-r-0"
+              className={`border-[rgba(101,91,74,0.16)] px-5 py-7 sm:px-7 lg:px-8 lg:py-9 ${
+                i < 2 ? "border-b lg:border-b-0" : ""
+              } ${i % 2 === 0 ? "border-r" : i < DATOS.length - 1 ? "lg:border-r" : ""}`}
             >
               <p className="crc-serif text-[2.4rem] font-medium leading-none text-[#171713]">{d.valor}</p>
               <p className="mt-2 text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-[#55574f]">
@@ -377,14 +435,17 @@ export default async function SeminarioDesproteccionInfancia() {
             </p>
             <p className="mt-5 text-[0.97rem] leading-[1.85] text-[#3a3a33]">
               Se basa en la investigación publicada en{" "}
-              <Link
-                href="/publicaciones"
-                className="border-b border-[#bd6f3c] font-semibold text-[#171713] transition hover:text-[#9f5528]"
-              >
+              <cite className="font-semibold not-italic text-[#171713]">
                 Desprotección de la infancia: Dominación, Biopolítica y Gobierno
-              </Link>{" "}
+              </cite>{" "}
               (Editorial Hammurabi). Es la primera vez que el autor lo dicta.
             </p>
+            <Link
+              href="/publicaciones"
+              className="mt-6 inline-flex items-center gap-2 border-b border-[#bd6f3c] pb-1 text-[0.66rem] font-extrabold uppercase tracking-[0.13em] text-[#171713] transition hover:text-[#9f5528]"
+            >
+              Ver los libros de Juan Carlos <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
 
           </div>
 
@@ -601,7 +662,7 @@ export default async function SeminarioDesproteccionInfancia() {
 
               <Link
                 href="/publicaciones"
-                className="mt-6 flex gap-4 border-t border-[rgba(101,91,74,0.23)] pt-6 transition"
+                className="group mt-6 flex gap-4 border-t border-[rgba(101,91,74,0.23)] pt-6 transition"
               >
                 <div className="relative h-24 w-[68px] shrink-0 overflow-hidden rounded-[3px] bg-[#eee8dc]">
                   <Image src={IMAGE_PATH} alt="Portada del libro" fill className="object-cover" sizes="68px" />
@@ -614,6 +675,9 @@ export default async function SeminarioDesproteccionInfancia() {
                     Desprotección de la infancia
                   </p>
                   <p className="mt-1.5 text-[0.75rem] text-[#8a8276]">Editorial Hammurabi</p>
+                  <p className="mt-3 inline-flex items-center gap-1.5 text-[0.62rem] font-extrabold uppercase tracking-[0.13em] text-[#171713] transition group-hover:text-[#9f5528]">
+                    Ver los libros de Juan Carlos <ArrowRight className="h-3 w-3" />
+                  </p>
                 </div>
               </Link>
             </div>
@@ -641,12 +705,23 @@ export default async function SeminarioDesproteccionInfancia() {
 
             <div>
               <div className="mb-8 flex flex-wrap items-baseline gap-x-3 gap-y-1 border-b border-[rgba(101,91,74,0.16)] pb-6">
-                <span className="crc-serif text-[2rem] font-medium leading-none text-[#171713]">
-                  {venta.disponibles}
-                </span>
-                <span className="text-[0.72rem] font-extrabold uppercase tracking-[0.16em] text-[#55574f]">
-                  {venta.disponibles === 1 ? "cupo disponible" : "cupos disponibles"} de {SEMINARIO_CUPOS_TOTALES}
-                </span>
+                {mostrarCuposRestantes(venta.disponibles) ? (
+                  <>
+                    <span className="crc-serif text-[2rem] font-medium leading-none text-[#171713]">
+                      {venta.disponibles}
+                    </span>
+                    <span className="text-[0.72rem] font-extrabold uppercase tracking-[0.16em] text-[#55574f]">
+                      {venta.disponibles === 1 ? "cupo disponible" : "cupos disponibles"} de{" "}
+                      {SEMINARIO_CUPOS_TOTALES}
+                    </span>
+                  </>
+                ) : (
+                  <span className="text-[0.72rem] font-extrabold uppercase tracking-[0.16em] text-[#55574f]">
+                    {venta.disponibles === 0
+                      ? "Cohorte 1 completa"
+                      : `Cohorte cerrada de ${SEMINARIO_CUPOS_TOTALES} personas`}
+                  </span>
+                )}
               </div>
 
               <div className="grid border-t border-[rgba(101,91,74,0.23)] sm:grid-cols-3">
@@ -722,8 +797,8 @@ export default async function SeminarioDesproteccionInfancia() {
                     Puedes pagar en tres cuotas
                   </p>
                   <p className="mt-3 text-[0.88rem] leading-[1.75] text-[#55574f]">
-                    Tres transferencias sin interés: una antes de comenzar y dos durante el seminario. También Webpay
-                    con las cuotas de tu emisor.
+                    Tres transferencias sin interés: una antes de comenzar y dos durante el seminario. También Mercado
+                    Pago, con las cuotas de tu tarjeta.
                   </p>
                 </div>
                 <div>
@@ -731,8 +806,18 @@ export default async function SeminarioDesproteccionInfancia() {
                     Convenio institucional
                   </p>
                   <p className="mt-3 text-[0.88rem] leading-[1.75] text-[#55574f]">
-                    Desde tres personas de la misma institución, 15% de descuento para cada una y factura. Máximo cinco
-                    cupos institucionales por cohorte.
+                    Desde tres personas de la misma institución, 15% de descuento para cada una y factura.
+                  </p>
+                  <p className="mt-3 text-[0.88rem] leading-[1.75] text-[#55574f]">
+                    ¿Son un equipo de 8 o más? Dictamos el seminario en formato cerrado para una sola institución, con
+                    fechas propias y factura.{" "}
+                    <Link
+                      href="/instituciones"
+                      className="border-b border-[#bd6f3c] font-semibold text-[#171713] transition hover:text-[#9f5528]"
+                    >
+                      Escríbenos y armamos la propuesta
+                    </Link>
+                    .
                   </p>
                 </div>
               </div>
@@ -826,6 +911,14 @@ export default async function SeminarioDesproteccionInfancia() {
                     </span>
                   </summary>
                   <p className="mt-4 max-w-[62ch] text-[0.9rem] leading-[1.8] text-[#55574f]">{item.a}</p>
+                  {item.link ? (
+                    <Link
+                      href={item.link.href}
+                      className="mt-4 inline-flex items-center gap-2 border-b border-[#bd6f3c] pb-1 text-[0.66rem] font-extrabold uppercase tracking-[0.13em] text-[#171713] transition hover:text-[#9f5528]"
+                    >
+                      {item.link.label} <ArrowRight className="h-3.5 w-3.5" />
+                    </Link>
+                  ) : null}
                 </details>
               ))}
             </div>
@@ -848,13 +941,16 @@ export default async function SeminarioDesproteccionInfancia() {
               <div className="my-6 h-px w-14 bg-[#bd6f3c]" />
               <p className="text-[0.95rem] leading-[1.8] text-[#55574f]">
                 La cohorte 1 se cierra el martes 13 de octubre a las 23:59, o antes si se completan los quince cupos.
+                {mostrarCuposRestantes(venta.disponibles)
+                  ? ` ${venta.disponibles === 1 ? "Queda 1 cupo" : `Quedan ${venta.disponibles} cupos`}.`
+                  : null}
               </p>
             </div>
             <Link
               href="#inversion"
               className="inline-flex h-11 shrink-0 items-center gap-3 rounded-[5px] bg-[#bd6f3c] px-6 text-[0.66rem] font-extrabold uppercase tracking-[0.13em] text-white transition duration-200 hover:bg-[#a85f31]"
             >
-              Matricularme <ArrowRight className="h-4 w-4" />
+              {vigente ? "Matricularme" : "Lista cohorte 2"} <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
         </div>

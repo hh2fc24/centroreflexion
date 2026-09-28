@@ -103,9 +103,9 @@ export default function BienestarEscolarPage() {
                                 </p>
                             </div>
                             <div className="mt-7 flex flex-col gap-3">
-                                <Link href="/contacto?servicio=bienestar-escolar" className="inline-flex items-center justify-center gap-2 rounded-[5px] bg-[#bd6f3c] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#9f5528]">
+                                <Link href="/instituciones?servicio=bienestar-escolar#agenda" className="inline-flex items-center justify-center gap-2 rounded-[5px] bg-[#bd6f3c] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#9f5528]">
                                     <Mail className="h-4 w-4" />
-                                    Solicitar reunión institucional
+                                    Agenda 20 minutos con Hugo
                                 </Link>
                                 <a href="#sistema" className="inline-flex items-center justify-center gap-2 rounded-[5px] border border-white/15 bg-white/5 px-6 py-3 text-sm font-bold text-white transition hover:bg-white/10">
                                     Ver sistema de trabajo
@@ -282,8 +282,8 @@ export default function BienestarEscolarPage() {
                                 </div>
                             ))}
                         </div>
-                        <Link href="/contacto?servicio=bienestar-escolar" className="mt-8 inline-flex items-center justify-center gap-2 rounded-[5px] bg-[#171713] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#34362f]">
-                            Contactar al equipo
+                        <Link href="/instituciones?servicio=bienestar-escolar#agenda" className="mt-8 inline-flex items-center justify-center gap-2 rounded-[5px] bg-[#171713] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#34362f]">
+                            Agenda 20 minutos con Hugo
                             <ArrowRight className="h-4 w-4" />
                         </Link>
                     </div>
