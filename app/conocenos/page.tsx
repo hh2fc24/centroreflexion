@@ -196,7 +196,7 @@ export default function About() {
                             </div>
                             <h3 className="text-3xl font-bold text-[#171713] font-serif">Rocío Solar</h3>
                             <p className="text-[#bd6f3c] font-bold text-sm tracking-wide mt-2 uppercase">
-                                Terapeuta Ocupacional · Académica · Cofundadora CRC
+                                Cofundadora · Directora Clínica
                             </p>
                             <p className="text-[#bd6f3c] text-sm font-semibold mt-1">Salud mental infanto-juvenil</p>
                             <p className="text-[#70695f] text-xs mt-1 font-medium leading-snug">Magíster (c) en Ocupación y Terapia Ocupacional<br />Facultad de Medicina, Universidad de Chile</p>
@@ -210,7 +210,7 @@ export default function About() {
                             <div>
                                 <h4 className="text-xl font-semibold text-[#171713] mb-4 border-b border-[#ded5c7] pb-2 lg:ml-auto lg:w-fit">Trayectoria Profesional</h4>
                                 <p className="text-[#55574f] leading-relaxed">
-                                    Rocío Solar es terapeuta ocupacional, académica y cofundadora del CRC, con 9 años de experiencia clínica y psicosocial en salud mental infanto-juvenil. Su trayectoria se ha desarrollado principalmente en evaluación e intervención terapéutica con niños, niñas, adolescentes y sus familias, abordando procesos asociados a regulación emocional, participación ocupacional, crisis en salud mental y acompañamiento en contextos de alta complejidad.
+                                    Rocío Solar es terapeuta ocupacional, académica, cofundadora y Directora Clínica del CRC, con 9 años de experiencia clínica y psicosocial en salud mental infanto-juvenil. Su trayectoria se ha desarrollado principalmente en evaluación e intervención terapéutica con niños, niñas, adolescentes y sus familias, abordando procesos asociados a regulación emocional, participación ocupacional, crisis en salud mental y acompañamiento en contextos de alta complejidad.
                                 </p>
                                 <p className="mt-4 text-[#55574f] leading-relaxed">
                                     Ha trabajado en dispositivos de salud pública, atención clínica particular y programas especializados de salud mental, desarrollando procesos terapéuticos individuales, familiares y grupales desde un enfoque integral y centrado en la singularidad de cada persona. Su experiencia incluye trabajo interdisciplinario, elaboración de estrategias de intervención clínica, acompañamiento a establecimientos educacionales y coordinación con redes de apoyo para favorecer la continuidad de cuidados y la participación en la vida cotidiana.

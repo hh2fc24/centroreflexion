@@ -8,7 +8,7 @@ export const books = [
         subtitle: "Desprotección y neoliberalismo en Chile",
         author: "Juan Carlos Rauld",
         year: "2026",
-        image: "/images/tecnocratas-evento-uah.jpeg",
+        image: "/images/tecnocratas-portada.jpg",
         href: "https://www.editorialhammurabi.com/shop/colecciones-hammurabi/tecnocratas-de-la-infancia/",
         tag: "Último lanzamiento",
         summary:

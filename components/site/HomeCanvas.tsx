@@ -7,8 +7,8 @@ import { ArrowRight, CalendarDays, Play, Scale } from "lucide-react";
 import {
   HomeAudienceDoors,
   HomeBooksBand,
-  HomeInstitutionalClose,
   HomeManifesto,
+  HomeTeamClose,
 } from "@/components/site/home/HomeSections";
 import { useEditor, usePages } from "@/lib/editor/hooks";
 import { BlockCanvas } from "@/components/site/blocks/BlockCanvas";
@@ -44,7 +44,7 @@ export function HomeCanvas({ initialPage }: { initialPage?: SitePage | null }) {
       />
       <HomeBooksBand />
       <HomePublicDeclaration />
-      <HomeInstitutionalClose />
+      <HomeTeamClose />
     </>
   );
 }

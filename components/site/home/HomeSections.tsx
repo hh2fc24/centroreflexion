@@ -238,11 +238,6 @@ export function HomeManifesto() {
 /* Libros                                                              */
 /* ------------------------------------------------------------------ */
 
-const BOOK_ART: Record<string, string> = {
-    "Tecnócratas de la Infancia": "/images/tecnocratas_abstract_1771965880554.png",
-    "Desprotección de la Infancia": "/images/book_desproteccion.png",
-    "Perspectivas Críticas de la Salud Mental Infantil": "/images/book_perspectivas.png",
-};
 
 export function HomeBooksBand() {
     const root = useRef<HTMLElement>(null);
@@ -310,14 +305,14 @@ export function HomeBooksBand() {
                             >
                                 <div
                                     data-book-art=""
-                                    className="relative aspect-[4/5] overflow-hidden rounded-[6px] bg-[#eee8dc] shadow-[0_40px_80px_-40px_rgba(60,36,18,0.45)]"
+                                    className="relative aspect-[4/5] overflow-hidden rounded-[6px] bg-[#eee8dc]"
                                 >
                                     <Image
-                                        src={BOOK_ART[book.title] ?? book.image}
+                                        src={book.image}
                                         alt={`${book.title}, de ${book.author}`}
                                         fill
                                         sizes="(max-width: 768px) 100vw, 30vw"
-                                        className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+                                        className="object-contain p-8 drop-shadow-[0_24px_30px_rgba(60,36,18,0.28)] transition-transform duration-700 ease-out group-hover:scale-105 sm:p-10"
                                     />
                                     <span className="absolute left-4 top-4 bg-[#15120e]/80 px-2.5 py-1.5 text-[0.6rem] font-extrabold uppercase tracking-[0.16em] text-[#fffaf0] backdrop-blur">
                                         {book.year}
@@ -342,31 +337,71 @@ export function HomeBooksBand() {
 }
 
 /* ------------------------------------------------------------------ */
-/* Cierre institucional                                                */
+/* Cierre: los tres directores, cada uno a cargo de una puerta          */
 /* ------------------------------------------------------------------ */
 
-export function HomeInstitutionalClose() {
+const TEAM = [
+    {
+        name: "Juan Carlos Rauld",
+        role: "Director",
+        area: "Formación y pensamiento",
+        text: "Seminarios, cursos y supervisión de equipos. Autor de tres libros con Editorial Hammurabi.",
+        image: "/images/juan_carlos_real_white.png",
+        cta: "Ver el seminario",
+        href: "/seminarios/desproteccion-infancia",
+    },
+    {
+        name: "Rocío Solar",
+        role: "Cofundadora · Directora Clínica",
+        area: "Clínica y familias",
+        text: "Atención clínica en salud mental infanto-juvenil, acompañamiento a familias y supervisión de casos complejos.",
+        image: "/images/rocio-solar-crc-2026.png",
+        cta: "Pedir orientación",
+        href: "/servicios/clinica",
+    },
+    {
+        name: "Hugo Felipe Hormazábal",
+        role: "Socio · Director Comercial y de Desarrollo Institucional",
+        area: "Instituciones",
+        text: "Colegios, programas y fundaciones: diagnóstico, propuesta, convenio y medición de resultados.",
+        image: "/images/hugo-hormazabal-crc-2026-large.png",
+        cta: "Agenda 20 minutos",
+        href: "/instituciones#agenda",
+    },
+];
+
+export function HomeTeamClose() {
     const root = useRef<HTMLElement>(null);
 
     useGSAP(
         () => {
             const mm = gsap.matchMedia();
             mm.add(MOTION_OK, () => {
-                gsap.from("[data-close-item]", {
-                    y: 40,
+                gsap.from("[data-team-head]", {
+                    y: 32,
                     opacity: 0,
                     duration: 1,
-                    stagger: 0.1,
+                    stagger: 0.08,
                     ease: "expo.out",
-                    scrollTrigger: { trigger: root.current, start: "top 75%", once: true },
+                    scrollTrigger: { trigger: root.current, start: "top 78%", once: true },
+                });
+                gsap.utils.toArray<HTMLElement>("[data-team-card]").forEach((card, i) => {
+                    gsap.from(card, {
+                        y: 60,
+                        opacity: 0,
+                        duration: 1.1,
+                        delay: i * 0.12,
+                        ease: "expo.out",
+                        scrollTrigger: { trigger: "[data-team-grid]", start: "top 82%", once: true },
+                    });
                 });
                 gsap.fromTo(
-                    "[data-close-portrait]",
-                    { clipPath: "inset(18% 18% 18% 18% round 12px)" },
+                    "[data-team-portrait]",
+                    { clipPath: "inset(14% 10% 0% 10% round 10px)" },
                     {
-                        clipPath: "inset(0% 0% 0% 0% round 12px)",
+                        clipPath: "inset(0% 0% 0% 0% round 10px)",
                         ease: "none",
-                        scrollTrigger: { trigger: root.current, start: "top 85%", end: "top 35%", scrub: 0.8 },
+                        scrollTrigger: { trigger: "[data-team-grid]", start: "top 90%", end: "top 40%", scrub: 0.8 },
                     }
                 );
             });
@@ -376,58 +411,61 @@ export function HomeInstitutionalClose() {
     );
 
     return (
-        <section ref={root} aria-labelledby="home-cierre-title" className="relative overflow-hidden bg-[#15120e] text-white">
+        <section ref={root} aria-labelledby="home-equipo-title" className="relative overflow-hidden bg-[#15120e] text-white">
             <Grain className="opacity-[0.09] mix-blend-screen" />
             <div
                 aria-hidden="true"
-                className="pointer-events-none absolute -right-32 bottom-0 h-[460px] w-[460px] rounded-full bg-[#bd6f3c]/20 blur-[140px]"
+                className="pointer-events-none absolute left-1/2 top-0 h-[420px] w-[720px] -translate-x-1/2 rounded-full bg-[#bd6f3c]/14 blur-[150px]"
             />
-            <div className="relative mx-auto grid max-w-[1640px] items-center gap-12 px-5 py-24 sm:px-8 sm:py-32 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,0.75fr)] lg:gap-20 lg:px-14 xl:px-20">
-                <div>
-                    <p data-close-item="" className="text-[0.68rem] font-extrabold uppercase tracking-[0.2em] text-[#e4935d]">
-                        Colegios · Programas de infancia · Fundaciones
-                    </p>
-                    <h2
-                        id="home-cierre-title"
-                        data-close-item=""
-                        className="crc-serif mt-5 max-w-[20ch] text-[clamp(2.3rem,4.4vw,4.6rem)] font-medium leading-[0.98] tracking-[-0.02em] text-balance"
-                    >
-                        ¿Tu equipo enfrenta un caso difícil o tiene que ponerse al día con la <span className="italic text-[#e4935d]">Ley 21.809</span>?
-                    </h2>
-                    <p data-close-item="" className="mt-6 max-w-[56ch] text-[1rem] leading-[1.7] text-[#ede7dc]/78">
-                        Conversa 20 minutos con Hugo Felipe Hormazábal, socio y director comercial del CRC. Sales con una primera lectura del caso y los pasos siguientes claros.
-                    </p>
-                    <div data-close-item="" className="mt-9 flex flex-wrap items-center gap-4">
-                        <Link
-                            href="/instituciones#agenda"
-                            className="group inline-flex min-h-12 items-center gap-3 rounded-[5px] bg-[#bd6f3c] px-7 py-3 text-[0.72rem] font-extrabold uppercase tracking-[0.14em] text-white shadow-[0_24px_50px_-20px_rgba(189,111,60,0.7)] transition duration-300 hover:-translate-y-0.5 hover:bg-[#a85f31] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#15120e] active:translate-y-0"
-                        >
-                            Agenda 20 minutos con Hugo
-                            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
-                        </Link>
-                        <Link
-                            href="/servicios/compliance-escolar"
-                            className="inline-flex min-h-12 items-center border-b border-white/35 px-1 py-3 text-[0.72rem] font-extrabold uppercase tracking-[0.14em] text-white/90 transition-colors hover:border-white hover:text-white"
-                        >
-                            Compliance escolar
-                        </Link>
-                    </div>
-                </div>
-                <div data-close-portrait="" className="relative mx-auto aspect-[4/5] w-full max-w-[380px] overflow-hidden rounded-[12px] bg-[#f8f5ee]">
-                    <Image
-                        src="/images/hugo-hormazabal-crc-2026-large.png"
-                        alt="Hugo Felipe Hormazábal, socio y director comercial del CRC"
-                        fill
-                        sizes="(max-width: 1024px) 80vw, 380px"
-                        className="object-contain object-bottom"
-                    />
-                    <div className="absolute inset-x-0 bottom-0 bg-[linear-gradient(180deg,transparent,rgba(21,18,14,0.85))] p-5 pt-16">
-                        <p className="crc-serif text-[1.35rem] font-medium leading-tight text-white">Hugo Felipe Hormazábal</p>
-                        <p className="mt-1 text-[0.62rem] font-bold uppercase tracking-[0.16em] text-[#e4935d]">
-                            Socio · Director Comercial y de Desarrollo Institucional
+            <div className="relative mx-auto max-w-[1640px] px-5 py-24 sm:px-8 sm:py-32 lg:px-14 xl:px-20">
+                <div className="flex flex-wrap items-end justify-between gap-6">
+                    <div>
+                        <p data-team-head="" className="text-[0.68rem] font-extrabold uppercase tracking-[0.2em] text-[#e4935d]">
+                            Quiénes dirigen el CRC
                         </p>
+                        <h2
+                            id="home-equipo-title"
+                            data-team-head=""
+                            className="crc-serif mt-5 max-w-[22ch] text-[clamp(2.3rem,4.4vw,4.6rem)] font-medium leading-[0.98] tracking-[-0.02em] text-balance"
+                        >
+                            Detrás de cada puerta hay una persona <span className="italic text-[#e4935d]">a cargo</span>
+                        </h2>
                     </div>
+                    <p data-team-head="" className="max-w-[42ch] text-[1rem] leading-[1.7] text-[#ede7dc]/75">
+                        Tres directores, tres áreas. Escribes a quien corresponde y te responde esa misma persona.
+                    </p>
                 </div>
+
+                <ul data-team-grid="" className="mt-14 grid gap-6 md:grid-cols-3 lg:gap-8">
+                    {TEAM.map((person) => (
+                        <li key={person.name} data-team-card="" className="flex">
+                            <Link
+                                href={person.href}
+                                className="group flex w-full flex-col overflow-hidden rounded-[12px] border border-white/10 bg-white/[0.035] transition duration-500 ease-out hover:-translate-y-1 hover:border-[#e4935d]/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#15120e] active:translate-y-0"
+                            >
+                                <div data-team-portrait="" className="relative aspect-[4/5] w-full overflow-hidden bg-white">
+                                    <Image
+                                        src={person.image}
+                                        alt={`${person.name}, ${person.role} del CRC`}
+                                        fill
+                                        sizes="(max-width: 768px) 100vw, 30vw"
+                                        className="object-contain object-bottom transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                                    />
+                                </div>
+                                <div className="flex flex-1 flex-col p-6 sm:p-7">
+                                    <p className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#e4935d]">{person.area}</p>
+                                    <p className="crc-serif mt-3 text-[1.9rem] font-medium leading-none">{person.name}</p>
+                                    <p className="mt-2 text-[0.8rem] font-semibold leading-snug text-[#ede7dc]/85">{person.role}</p>
+                                    <p className="mt-4 flex-1 text-[0.92rem] leading-[1.65] text-[#ede7dc]/70">{person.text}</p>
+                                    <span className="mt-6 inline-flex items-center gap-2 text-[0.7rem] font-extrabold uppercase tracking-[0.14em] text-white">
+                                        {person.cta}
+                                        <ArrowRight className="h-4 w-4 text-[#e4935d] transition-transform duration-300 group-hover:translate-x-1.5" aria-hidden="true" />
+                                    </span>
+                                </div>
+                            </Link>
+                        </li>
+                    ))}
+                </ul>
             </div>
         </section>
     );

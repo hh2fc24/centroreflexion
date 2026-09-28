@@ -18,7 +18,7 @@ export const metadata: Metadata = pageMetadata({
 
 const getAuthorDetails = (author: string) => {
     if (author.includes("Rocío Solar")) {
-        return { image: "/images/rocio_solar_real_white.png", role: "Cofundadora CRC · Terapeuta Ocupacional, Magíster (c) en Ocupación y TO, U. de Chile" };
+        return { image: "/images/rocio_solar_real_white.png", role: "Cofundadora y Directora Clínica del CRC · Terapeuta Ocupacional, Magíster (c) en Ocupación y TO, U. de Chile" };
     }
     if (author.includes("Juan Carlos Rauld")) {
         return { image: "/images/juan_carlos_real_white.png", role: "Director CRC · Doctorando en Trabajo Social, Universidad Rovira i Virgili, España" };

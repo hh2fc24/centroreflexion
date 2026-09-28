@@ -73,7 +73,7 @@
         {
           "id": "blk-founders",
           "type": "legacy.founders",
-          "visible": true,
+          "visible": false,
           "locked": false,
           "preset": "corporate",
           "data": { "sectionId": "sec-founders" },

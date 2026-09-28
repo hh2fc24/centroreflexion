@@ -31,13 +31,13 @@ const teamMembers = [
     },
     {
         name: "Rocío Solar",
-        role: "Terapeuta Ocupacional · Académica · Cofundadora CRC",
-        shortRole: "Terapeuta Ocupacional · Cofundadora",
+        role: "Cofundadora · Directora Clínica",
+        shortRole: "Terapeuta Ocupacional · Académica",
         desc: "Salud mental infanto-juvenil y regulación.",
         img: "/images/rocio_solar_real_white.png",
         degree: "Magíster (c) en Ocupación y Terapia Ocupacional · Facultad de Medicina, Universidad de Chile",
         bio: [
-            "Rocío Solar es terapeuta ocupacional, académica y cofundadora del CRC, con 9 años de experiencia clínica y psicosocial en salud mental infanto-juvenil. Su trayectoria se ha desarrollado principalmente en evaluación e intervención terapéutica con niños, niñas, adolescentes y sus familias, abordando procesos asociados a regulación emocional, participación ocupacional, crisis en salud mental y acompañamiento en contextos de alta complejidad.",
+            "Rocío Solar es terapeuta ocupacional, académica, cofundadora y Directora Clínica del CRC, con 9 años de experiencia clínica y psicosocial en salud mental infanto-juvenil. Su trayectoria se ha desarrollado principalmente en evaluación e intervención terapéutica con niños, niñas, adolescentes y sus familias, abordando procesos asociados a regulación emocional, participación ocupacional, crisis en salud mental y acompañamiento en contextos de alta complejidad.",
             "Ha trabajado en dispositivos de salud pública, atención clínica particular y programas especializados de salud mental, desarrollando procesos terapéuticos individuales, familiares y grupales desde un enfoque integral y centrado en la singularidad de cada persona.",
         ],
         sections: [

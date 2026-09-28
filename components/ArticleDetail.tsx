@@ -31,12 +31,12 @@ const AUTHOR_DIRECTORY: AuthorProfile[] = [
     {
         match: "Rocío Solar y Juan Carlos Rauld",
         image: "/images/rocio_solar_real_white.png",
-        role: "Cofundadora y Terapeuta Ocupacional del CRC · Director Editorial y Consultor en Ciencias Sociales.",
+        role: "Directora Clínica del CRC · Director del CRC.",
     },
     {
         match: "Rocío Solar",
         image: "/images/rocio_solar_real_white.png",
-        role: "Cofundadora y Terapeuta Ocupacional del CRC.",
+        role: "Cofundadora y Directora Clínica del CRC · Terapeuta Ocupacional.",
     },
     {
         match: "Juan Carlos Rauld",
