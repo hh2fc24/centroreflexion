@@ -1,12 +1,20 @@
 "use client";
 
-import { useMemo } from "react";
+import { Fragment, useMemo, type ReactNode } from "react";
 import type { SitePage } from "@/lib/editor/types";
 import { BlockRenderer } from "@/components/site/blocks/BlockRenderer";
 import { ResponsiveStyles } from "@/components/site/blocks/ResponsiveStyles";
 import type { CSSProperties } from "react";
 
-export function BlockCanvas({ page, editable }: { page: SitePage; editable: boolean }) {
+export function BlockCanvas({
+  page,
+  editable,
+  afterFirstBlock,
+}: {
+  page: SitePage;
+  editable: boolean;
+  afterFirstBlock?: ReactNode;
+}) {
   const blocks = useMemo(() => page.blocks.filter((b) => b.visible !== false), [page.blocks]);
   return (
     <div
@@ -17,8 +25,11 @@ export function BlockCanvas({ page, editable }: { page: SitePage; editable: bool
       } as unknown as CSSProperties}
     >
       <ResponsiveStyles blocks={page.blocks} />
-      {blocks.map((block) => (
-        <BlockRenderer key={block.id} pageId={page.id} block={block} editable={editable} />
+      {blocks.map((block, index) => (
+        <Fragment key={block.id}>
+          <BlockRenderer pageId={page.id} block={block} editable={editable} />
+          {index === 0 ? afterFirstBlock : null}
+        </Fragment>
       ))}
     </div>
   );

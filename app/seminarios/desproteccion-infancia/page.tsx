@@ -263,10 +263,10 @@ export default async function SeminarioDesproteccionInfancia() {
 
             <div className="mt-6 flex flex-wrap items-center gap-3">
               <Link
-                href="#postular"
+                href="#inversion"
                 className="inline-flex h-11 items-center gap-3 rounded-[5px] bg-[#bd6f3c] px-6 text-[0.66rem] font-extrabold uppercase tracking-[0.13em] text-white shadow-[0_18px_40px_rgba(90,45,18,0.32)] transition duration-200 hover:bg-[#a85f31]"
               >
-                {vigente ? "Postular al seminario" : "Lista cohorte 2"} <ArrowRight className="h-4 w-4" />
+                {vigente ? "Matricularme" : "Lista cohorte 2"} <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 href="#programa"
@@ -851,10 +851,10 @@ export default async function SeminarioDesproteccionInfancia() {
               </p>
             </div>
             <Link
-              href="#postular"
+              href="#inversion"
               className="inline-flex h-11 shrink-0 items-center gap-3 rounded-[5px] bg-[#bd6f3c] px-6 text-[0.66rem] font-extrabold uppercase tracking-[0.13em] text-white transition duration-200 hover:bg-[#a85f31]"
             >
-              Postular al seminario <ArrowRight className="h-4 w-4" />
+              Matricularme <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
         </div>
