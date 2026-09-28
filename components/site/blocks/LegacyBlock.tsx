@@ -7,7 +7,8 @@ import { FoundersSection } from "@/components/site/FoundersSection";
 import { PublicationsSection } from "@/components/PublicationsSection";
 import { InterviewsSection } from "@/components/InterviewsSection";
 import { ArrowRight } from "lucide-react";
-import { TypographicCover } from "@/components/TypographicCover";
+import Image from "next/image";
+import { TypographicCover, displayTitle, toSentenceCase } from "@/components/TypographicCover";
 import { useMemo, useState } from "react";
 import { MotionDiv, MotionItem, MotionList } from "@/components/ui/Motion";
 import { EditorLink } from "@/components/editor/EditorLink";
@@ -152,14 +153,35 @@ function LegacyLatestArticles() {
                 href={post.link}
                 className="group flex h-full flex-col rounded-[6px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#171713] focus-visible:ring-offset-4 focus-visible:ring-offset-[#fffdf8]"
               >
-                <TypographicCover
-                  category={post.category}
-                  title={post.title}
-                  date={post.date}
-                  titleAs="h3"
-                  className="transition-transform duration-200 group-hover:-translate-y-px"
-                />
-                <p className="mt-4 line-clamp-3 text-[0.9375rem] leading-[1.7] text-[#55574f]">{post.excerpt}</p>
+                {post.image ? (
+                  <>
+                    <span className="relative block aspect-[3/2] overflow-hidden rounded-[6px] bg-[#eee8dc]">
+                      <Image
+                        src={post.image}
+                        alt=""
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 25vw"
+                        className="object-cover object-center"
+                      />
+                    </span>
+                    <span className="mt-4 flex items-baseline justify-between gap-3 text-[0.8125rem] font-semibold">
+                      <span className="truncate text-[#9f5528]">{toSentenceCase(post.category)}</span>
+                      <span className="shrink-0 font-normal tabular-nums text-[#6f675d]">{post.date}</span>
+                    </span>
+                    <h3 className="crc-serif mt-2 text-balance text-[1.3rem] font-semibold leading-[1.2] tracking-[-0.01em] text-[#171713] transition-colors group-hover:text-[#9f5528]">
+                      {displayTitle(post.title)}
+                    </h3>
+                  </>
+                ) : (
+                  <TypographicCover
+                    category={post.category}
+                    title={post.title}
+                    date={post.date}
+                    titleAs="h3"
+                    className="transition-transform duration-200 group-hover:-translate-y-px"
+                  />
+                )}
+                <p className="mt-3 line-clamp-3 text-[0.9375rem] leading-[1.7] text-[#55574f]">{post.excerpt}</p>
                 <span className="mt-3 inline-flex items-center gap-1.5 text-[0.9375rem] font-semibold text-[#9f5528]">
                   {post.kind === "review" ? "Leer reseña" : "Leer columna"}
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />

@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { getSiteUrl } from "@/lib/site";
-import { EngagementList, PersonInCharge, SectionHead, ServiceHero } from "../_components/Blocks";
+import { EditorialImage, EngagementList, PersonInCharge, SectionHead, ServiceHero } from "../_components/Blocks";
 import { COMPLIANCE_DIAGNOSTICO, COMPLIANCE_IMPLEMENTACION, VALUE_NOTE } from "../_components/engagements";
 import { HUGO } from "../_components/people";
 import { Reveal } from "../_components/Reveal";
@@ -46,6 +47,8 @@ const pressItems = [
     court: "26° Juzgado Civil de Santiago",
     detail: "No activación oportuna del protocolo ante denuncia de acoso escolar.",
     href: "https://www.cooperativa.cl/noticias/pais/judicial/alianza-francesa-debera-indemnizar-a-los-padres-de-un-alumno-funado/2026-05-20/161721.html",
+    image: "/images/press/cooperativa-alianza-francesa.jpg",
+    imageAlt: "Captura de pantalla del artículo de Cooperativa.cl sobre el caso Alianza Francesa",
   },
   {
     source: "La Batalla de Maipú",
@@ -55,6 +58,8 @@ const pressItems = [
     court: "17° Juzgado Civil",
     detail: "Protocolo existente, pero aplicado de forma deficiente según el fallo.",
     href: "https://www.labatalla.cl/tribunal-condena-a-sostenedora-de-colegio-de-maipu-a-pagar-55-millones-por-negligencia-en-caso-de-acoso-escolar/",
+    image: "/images/press/labatalla-maipu.jpg",
+    imageAlt: "Captura de pantalla del artículo de La Batalla de Maipú sobre el caso de acoso escolar",
   },
   {
     source: "Corte Suprema / BioBioChile",
@@ -64,6 +69,8 @@ const pressItems = [
     court: "Corte Suprema (Primera Sala)",
     detail: 'El máximo tribunal dictaminó que la simple existencia de protocolos no basta si las medidas son "tardías e ineficaces".',
     href: "https://www.biobiochile.cl/noticias/nacional/region-metropolitana/2025/12/16/condenan-a-scuola-italiana-deberan-indemnizar-con-25-millones-a-mama-de-alumna-victima-de-bullying.shtml",
+    image: "/images/press/scuola-italiana-press.png",
+    imageAlt: "Fotografía de la Corte Suprema publicada por BioBioChile sobre el caso Scuola Italiana",
   },
   {
     source: "Cooperativa.cl / Corte Suprema",
@@ -73,6 +80,8 @@ const pressItems = [
     court: "Corte Suprema",
     detail: "El tribunal declaró improcedente la cancelación de matrícula como sanción o represalia aplicada a los estudiantes por conductas de su apoderada.",
     href: "https://www.cooperativa.cl/noticias/pais/educacion/colegios/colegio-fue-condenado-por-sancionar-a-alumnos-por-conducta-de-su-apoderada/2026-05-19/174553.html",
+    image: "/images/press/lincoln-academy-press.jpg",
+    imageAlt: "Fotografía del Lincoln International Academy publicada por Cooperativa.cl",
   },
 ];
 
@@ -171,6 +180,15 @@ export default function ComplianceEscolarPage() {
           { term: "A cargo", detail: HUGO.name },
           { term: "Valor", detail: VALUE_NOTE },
         ]}
+        media={
+          <EditorialImage
+            src="/images/bienestar-escolar/hero-proteccion-institucional.png"
+            alt="Equipo directivo de un colegio revisando protocolos de convivencia"
+            sizes="(min-width: 1200px) 1136px, 100vw"
+            aspect="aspect-[16/10] sm:aspect-[21/9]"
+            priority
+          />
+        }
       />
 
       {/* Evidencia */}
@@ -215,21 +233,31 @@ export default function ComplianceEscolarPage() {
                     href={item.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group grid gap-3 py-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#171713] md:grid-cols-[10rem_minmax(0,1fr)_9rem] md:gap-8"
+                    className="group grid grid-cols-[6.5rem_minmax(0,1fr)] gap-x-4 gap-y-3 py-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#171713] sm:grid-cols-[10rem_minmax(0,1fr)] sm:gap-x-6 md:grid-cols-[12rem_minmax(0,1fr)_9rem] md:gap-8"
                   >
-                    <span className="text-[0.875rem] leading-[1.5] text-[#6f675d]">
-                      <span className="block font-semibold tabular-nums text-[#171713]">{item.date}</span>
-                      <span className="block">{item.source}</span>
+                    <span className="relative block aspect-[16/10] w-full overflow-hidden rounded-[6px] bg-[#eee8dc] ring-1 ring-[#d8cfc0]">
+                      <Image
+                        src={item.image}
+                        alt={item.imageAlt}
+                        fill
+                        sizes="(min-width: 768px) 192px, (min-width: 640px) 160px, 104px"
+                        className="object-cover object-top"
+                      />
                     </span>
                     <span>
-                      <span className="crc-serif block text-[1.2rem] font-medium leading-[1.3] text-[#171713] transition-colors group-hover:text-[#9f5528]">
+                      <span className="block text-[0.875rem] leading-[1.5] text-[#6f675d]">
+                        <span className="font-semibold tabular-nums text-[#171713]">{item.date}</span>
+                        <span aria-hidden="true"> · </span>
+                        {item.source}
+                      </span>
+                      <span className="crc-serif mt-1.5 block text-[1.2rem] font-medium leading-[1.3] text-[#171713] transition-colors group-hover:text-[#9f5528]">
                         {item.title}
                       </span>
                       <span className="mt-2 block text-[0.9375rem] leading-[1.6] text-[#55574f]">
                         <span className="font-semibold text-[#171713]">{item.court}.</span> {item.detail}
                       </span>
                     </span>
-                    <span className="flex items-start justify-between gap-3 md:flex-col md:items-end">
+                    <span className="col-span-2 flex items-start justify-between gap-3 md:col-span-1 md:flex-col md:items-end">
                       <span className="crc-serif text-[1.3rem] font-medium tabular-nums text-[#9f5528] md:text-right">{item.amount}</span>
                       <span className="inline-flex items-center gap-1 text-[0.875rem] font-semibold text-[#9f5528]">
                         Ver noticia

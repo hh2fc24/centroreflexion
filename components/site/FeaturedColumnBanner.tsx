@@ -1,13 +1,24 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { TypographicCover } from "@/components/TypographicCover";
+import { useArticles } from "@/lib/editor/hooks";
 
-const COLUMN_HREF = "/pensamiento-critico/foucault-infancia-filosofia-olvido";
+const COLUMN_ID = "foucault-infancia-filosofia-olvido";
+const COLUMN_HREF = `/pensamiento-critico/${COLUMN_ID}`;
+/** Imagen editorial de la columna, por si el store aún no cargó. */
+const COLUMN_IMAGE = "/images/foucault_infancia_biopolitica.jpg";
 
 export function FeaturedColumnBanner() {
+  const { columns, reviews } = useArticles();
+  const article = columns.find((a) => a.id === COLUMN_ID) ?? reviews.find((a) => a.id === COLUMN_ID);
+  // La imagen del artículo es la línea editorial (guía §4); la portada
+  // tipográfica solo entra si la columna quedó sin imagen.
+  const image = article ? article.image : COLUMN_IMAGE;
+
   return (
     <section className="border-b border-[#d8cfc0] bg-[#f8f5ee] px-5 py-14 sm:px-8 sm:py-20 lg:px-14 xl:px-20">
       <motion.div
@@ -51,13 +62,25 @@ export function FeaturedColumnBanner() {
           aria-label="Leer la columna Foucault y la infancia que la filosofía olvidó"
           className="block rounded-[6px] transition-transform duration-200 hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#171713] focus-visible:ring-offset-4 lg:col-span-6"
         >
-          <TypographicCover
-            category="Filosofía"
-            title="«Nunca teorizó la infancia como población específica.»"
-            date="23 Jul 2026"
-            tone="ink"
-            className="sm:aspect-[16/10] sm:p-10"
-          />
+          {image ? (
+            <span className="relative block aspect-[4/3] overflow-hidden rounded-[6px] bg-[#eee8dc] sm:aspect-[16/10]">
+              <Image
+                src={image}
+                alt="Foucault, infancia y biopolítica"
+                fill
+                sizes="(max-width: 1024px) 100vw, 46vw"
+                className="object-cover object-center"
+              />
+            </span>
+          ) : (
+            <TypographicCover
+              category="Filosofía"
+              title="«Nunca teorizó la infancia como población específica.»"
+              date="23 Jul 2026"
+              tone="ink"
+              className="sm:aspect-[16/10] sm:p-10"
+            />
+          )}
         </Link>
       </motion.div>
     </section>

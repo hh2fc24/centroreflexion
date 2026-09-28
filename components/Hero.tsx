@@ -6,9 +6,10 @@ import { EditorLink } from "@/components/editor/EditorLink";
 import { useContent } from "@/lib/editor/hooks";
 
 /**
- * Hero de portada: tipográfico sobre tinta, sin video ni animación de
- * entrada. Los textos vienen del CMS (EditableText) para que el equipo los
- * edite desde el panel.
+ * Hero de portada sobre tinta, con un loop de las imágenes editoriales del
+ * CRC detrás (public/videos/crc-hero-loop.mp4, 25 s, sin salto al reiniciar).
+ * El velo de tinta mantiene el texto legible. Con "reducir movimiento" se
+ * muestra solo el póster fijo. Los textos vienen del CMS (EditableText).
  */
 export function Hero() {
     const { get } = useContent();
@@ -16,7 +17,22 @@ export function Hero() {
     const secondaryHref = get<string>("hero.secondaryCtaHref") ?? "/instituciones";
 
     return (
-        <section className="relative w-full bg-[#15120e] text-[#fbf7ee]">
+        <section className="relative isolate w-full overflow-hidden bg-[#15120e] text-[#fbf7ee]">
+            <div aria-hidden="true" className="absolute inset-0 -z-10">
+                <video
+                    className="h-full w-full object-cover motion-reduce:hidden"
+                    src="/videos/crc-hero-loop.mp4"
+                    poster="/images/crc-hero-poster.jpg"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="metadata"
+                />
+                <img src="/images/crc-hero-poster.jpg" alt="" className="hidden h-full w-full object-cover motion-reduce:block" />
+                <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(21,18,14,0.94)_0%,rgba(21,18,14,0.86)_45%,rgba(21,18,14,0.62)_100%)]" />
+                <div className="absolute inset-x-0 bottom-0 h-1/3 bg-[linear-gradient(180deg,transparent,rgba(21,18,14,0.9))]" />
+            </div>
             <div className="mx-auto max-w-[1640px] px-5 pb-10 pt-14 sm:px-8 sm:pb-12 sm:pt-20 lg:px-14 lg:pt-24 xl:px-20">
                 <div className="grid gap-8 lg:grid-cols-12 lg:items-end lg:gap-14">
                     <div className="lg:col-span-7">

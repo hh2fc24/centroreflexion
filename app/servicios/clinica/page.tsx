@@ -3,11 +3,11 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { pageMetadata } from "@/lib/seo";
-import { EngagementList, PersonInCharge, SectionHead, ServiceHero } from "../_components/Blocks";
+import { EditorialImage, EditorialVideo, EngagementList, PersonInCharge, SectionHead, ServiceHero } from "../_components/Blocks";
 import { SUPERVISION_CLINICA } from "../_components/engagements";
 import { ROCIO } from "../_components/people";
 import { Reveal } from "../_components/Reveal";
-import { btnPrimary, container, labelMuted, labelOnDark, textLink } from "../_components/ui";
+import { btnPrimary, container, labelMuted, textLink } from "../_components/ui";
 
 export const metadata: Metadata = pageMetadata({
     title: "Atención Clínica | Salud Mental, Infancia y Familia",
@@ -114,6 +114,12 @@ export default function ClinicaPage() {
                     { term: "Dirección clínica", detail: `${ROCIO.name}, ${ROCIO.role.split(" · ")[1]}` },
                     { term: "Para equipos", detail: "Supervisión clínica de casos complejos" },
                 ]}
+                media={
+                    <div className="grid gap-4 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] lg:gap-6">
+                        <EditorialVideo src="/22.mp4" autoPlay aspect="aspect-[16/9] lg:aspect-auto lg:h-[360px]" />
+                        <EditorialVideo src="/44.mp4" autoPlay aspect="lg:h-[360px]" className="hidden lg:block" />
+                    </div>
+                }
             />
 
             {/* Evaluación psicosocial */}
@@ -143,15 +149,17 @@ export default function ClinicaPage() {
                 </div>
             </section>
 
-            {/* Informes socioocupacionales: composición tipográfica */}
+            {/* Informes socioocupacionales */}
             <section aria-labelledby="informes-title" className="border-t border-[#d8cfc0] bg-[#f8f5ee]">
                 <div className={`${container} grid gap-10 py-16 sm:py-24 lg:grid-cols-2 lg:items-center lg:gap-16`}>
-                    <Reveal className="rounded-[6px] bg-[#15120e] p-7 text-[#fbf7ee] sm:p-10">
-                        <p className={labelOnDark}>Informes socioocupacionales</p>
-                        <p className="crc-serif mt-4 max-w-[22ch] text-[clamp(1.5rem,2.2vw,2rem)] font-medium leading-[1.2]">
-                            Cuando una decisión depende de evidencia técnica, la calidad del informe importa.
-                        </p>
-                        <p className="mt-8 border-t border-white/15 pt-5 text-[0.9375rem] leading-[1.6] text-[#ede7dc]/75">
+                    <Reveal>
+                        <EditorialImage
+                            src="/images/informes_socioocupacionales.png"
+                            alt="Informes socioocupacionales"
+                            sizes="(min-width: 1024px) 560px, 100vw"
+                            aspect="aspect-[4/3]"
+                        />
+                        <p className="mt-3 text-[0.875rem] leading-[1.6] text-[#6f675d]">
                             Contextos educativos, judiciales, laborales e institucionales · Presencial y online
                         </p>
                     </Reveal>

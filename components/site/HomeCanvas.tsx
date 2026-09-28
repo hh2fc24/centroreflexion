@@ -118,25 +118,38 @@ function HomeSeminarioBanner() {
             </div>
           </div>
 
-          <figure className="lg:col-span-6">
+          <div className="lg:col-span-6">
             <Link
               href="/seminarios/desproteccion-infancia"
               aria-label="Ver el seminario Desprotección de la infancia"
-              className="relative block aspect-[4/3] overflow-hidden rounded-[6px] bg-[#eee8dc] sm:aspect-[1400/1264]"
+              className="relative block aspect-[4/3] overflow-hidden rounded-[6px] bg-[#eee8dc] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#171713] focus-visible:ring-offset-2 focus-visible:ring-offset-[#fffdf8] sm:aspect-[16/10]"
             >
               <Image
-                src="/images/juan-carlos-rauld-furia-del-libro.jpg"
-                alt="Juan Carlos Rauld exponiendo en La Furia del Libro"
+                src="/images/desproteccion-institucionalizacion-editorial.png"
+                alt="Pasillo institucional con una silla y un libro, imagen del seminario Desprotección de la infancia"
                 fill
                 loading="eager"
                 sizes="(max-width: 1024px) 100vw, 46vw"
-                className="object-cover object-[60%_25%]"
+                className="object-cover object-center"
               />
             </Link>
-            <figcaption className="mt-3 text-[0.875rem] leading-[1.5] text-[#6f675d]">
-              Juan Carlos Rauld, a cargo del seminario, en La Furia del Libro.
-            </figcaption>
-          </figure>
+
+            <figure className="mt-4 flex items-center gap-4 border-t border-[#d8cfc0] pt-4">
+              <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-[6px] bg-[#eee8dc] sm:h-[72px] sm:w-[72px]">
+                <Image
+                  src="/images/juan-carlos-rauld-furia-del-libro.jpg"
+                  alt="Juan Carlos Rauld exponiendo en La Furia del Libro"
+                  fill
+                  sizes="72px"
+                  className="object-cover object-[60%_25%]"
+                />
+              </div>
+              <figcaption className="text-[0.875rem] leading-[1.5] text-[#6f675d]">
+                <span className="font-semibold text-[#171713]">Juan Carlos Rauld</span>, a cargo del seminario, en La
+                Furia del Libro.
+              </figcaption>
+            </figure>
+          </div>
         </div>
       </div>
     </section>

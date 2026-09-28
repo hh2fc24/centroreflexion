@@ -2,7 +2,7 @@ import { readPublishedArticleCollections } from "@/lib/server/publicArticles";
 import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { TypographicCover, displayTitle, toSentenceCase } from "@/components/TypographicCover";
+import { ACADEMIC_FALLBACK_IMAGE, CoverImage, displayTitle, toSentenceCase } from "@/components/TypographicCover";
 
 export const metadata = pageMetadata({
     title: "Trabajos Intelectuales",
@@ -34,7 +34,7 @@ export default async function TrabajosIntelectualesPage() {
                     <p className="text-[1rem] text-[#55574f]">No hay trabajos intelectuales publicados aún.</p>
                 ) : (
                     <ol className="border-t border-[#d8cfc0]">
-                        {academic.map((article) => {
+                        {academic.map((article, index) => {
                             const wordCount = article.content.join(" ").trim().split(/\s+/).filter(Boolean).length;
                             const readingMins = Math.max(5, Math.ceil(wordCount / 200));
                             const href = `/trabajos-intelectuales/${article.id}`;
@@ -46,14 +46,13 @@ export default async function TrabajosIntelectualesPage() {
                                             href={href}
                                             tabIndex={-1}
                                             aria-hidden="true"
-                                            className="group hidden rounded-[6px] md:block"
+                                            className="group block rounded-[6px]"
                                         >
-                                            <TypographicCover
-                                                category={article.category}
-                                                title={article.title}
-                                                date={article.date}
-                                                tone="ink"
-                                                className="transition-transform duration-200 group-hover:-translate-y-px"
+                                            <CoverImage
+                                                src={article.image || ACADEMIC_FALLBACK_IMAGE}
+                                                alt=""
+                                                priority={index === 0}
+                                                sizes="(min-width: 768px) 320px, 100vw"
                                             />
                                         </Link>
 

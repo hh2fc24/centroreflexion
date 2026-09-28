@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import StaffSection from "@/components/StaffSection";
 import { pageMetadata } from "@/lib/seo";
-import { ClosingBand, EngagementIndex, SectionHead } from "./_components/Blocks";
+import { ClosingBand, EditorialImage, EngagementIndex, SectionHead } from "./_components/Blocks";
 import { INSTITUTIONAL_ENGAGEMENTS, VALUE_NOTE } from "./_components/engagements";
 import { Reveal } from "./_components/Reveal";
 import { container, h1, label, lead, textLink } from "./_components/ui";
@@ -189,22 +189,32 @@ export default function ServicesHub() {
                             propia página con enfoque, alcance y próximos pasos.
                         </p>
                     </div>
-                    <nav aria-label="Rutas de servicio" className="border-t border-[#d8cfc0] lg:border-l lg:border-t-0 lg:pl-8">
-                        <a href="#personas" className="group flex items-center justify-between gap-4 border-b border-[#d8cfc0] py-4">
-                            <span>
-                                <span className="block text-[0.8125rem] font-semibold text-[#6f675d]">Para personas y familias</span>
-                                <span className="crc-serif block text-[1.2rem] font-medium text-[#171713] group-hover:text-[#9f5528]">Familia y clínica</span>
-                            </span>
-                            <ArrowRight className="h-4 w-4 text-[#9f5528]" aria-hidden="true" />
-                        </a>
-                        <a href="#instituciones" className="group flex items-center justify-between gap-4 py-4">
-                            <span>
-                                <span className="block text-[0.8125rem] font-semibold text-[#6f675d]">Para colegios, programas y fundaciones</span>
-                                <span className="crc-serif block text-[1.2rem] font-medium text-[#171713] group-hover:text-[#9f5528]">Instituciones</span>
-                            </span>
-                            <ArrowRight className="h-4 w-4 text-[#9f5528]" aria-hidden="true" />
-                        </a>
-                    </nav>
+                    <div className="lg:border-l lg:border-[#d8cfc0] lg:pl-8">
+                        <EditorialImage
+                            src="/images/consulting_hero.png"
+                            alt=""
+                            sizes="(min-width: 1024px) 400px, 100vw"
+                            aspect="aspect-[16/9] lg:aspect-[4/3]"
+                            priority
+                            className="mb-6"
+                        />
+                        <nav aria-label="Rutas de servicio" className="border-t border-[#d8cfc0]">
+                            <a href="#personas" className="group flex items-center justify-between gap-4 border-b border-[#d8cfc0] py-4">
+                                <span>
+                                    <span className="block text-[0.8125rem] font-semibold text-[#6f675d]">Para personas y familias</span>
+                                    <span className="crc-serif block text-[1.2rem] font-medium text-[#171713] group-hover:text-[#9f5528]">Familia y clínica</span>
+                                </span>
+                                <ArrowRight className="h-4 w-4 text-[#9f5528]" aria-hidden="true" />
+                            </a>
+                            <a href="#instituciones" className="group flex items-center justify-between gap-4 py-4">
+                                <span>
+                                    <span className="block text-[0.8125rem] font-semibold text-[#6f675d]">Para colegios, programas y fundaciones</span>
+                                    <span className="crc-serif block text-[1.2rem] font-medium text-[#171713] group-hover:text-[#9f5528]">Instituciones</span>
+                                </span>
+                                <ArrowRight className="h-4 w-4 text-[#9f5528]" aria-hidden="true" />
+                            </a>
+                        </nav>
+                    </div>
                 </div>
             </section>
 

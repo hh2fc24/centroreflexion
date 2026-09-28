@@ -120,6 +120,23 @@ export function MediaAppearancesSection() {
                 {/* Prensa escrita */}
                 <div className="mt-10 grid gap-px overflow-hidden rounded-[6px] border border-[#f8f5ee]/12 bg-[#f8f5ee]/12 lg:grid-cols-2">
                     <article className="flex flex-col bg-[#15120e] p-6 sm:p-8">
+                        {/* Captura de prensa: se conserva (guía §4), limpia y sin filtros */}
+                        <a
+                            href={featuredArticle.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            tabIndex={-1}
+                            aria-hidden="true"
+                            className="mb-6 block overflow-hidden rounded-[6px] bg-[#0f0d0a]"
+                        >
+                            {/* eslint-disable-next-line @next/next/no-img-element -- imagen remota del medio */}
+                            <img
+                                src={featuredArticle.image}
+                                alt=""
+                                loading="lazy"
+                                className="aspect-[2/1] w-full object-cover"
+                            />
+                        </a>
                         <p className="text-[0.8125rem] font-semibold text-[#e4935d]">
                             Entrevista · {featuredArticle.channel}
                             <span className="font-normal text-[#d8cfc0]"> · {featuredArticle.date}</span>

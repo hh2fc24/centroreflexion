@@ -1,46 +1,49 @@
 import type { ReactNode } from "react";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 /**
- * Portada tipográfica para columnas, reseñas y trabajos académicos.
+ * Imagen editorial y portada tipográfica para columnas, reseñas y trabajos.
  *
- * Reemplaza las ilustraciones generadas: bloque de color de la paleta según
- * la categoría, la categoría en tipo oración, un filete cobre y el título en
- * Source Serif. Sin imágenes, sin degradados, sin animación.
+ * Las imágenes editoriales del CRC son la línea del centro: cada contenido
+ * muestra la suya con `CoverImage`. La portada tipográfica (bloque de color
+ * según la categoría, filete cobre y título en Source Serif) queda solo como
+ * respaldo cuando un contenido no tiene imagen.
  * Ver docs/design-system-crc.md (§4 Imágenes).
  */
 
 /* ------------------------------------------------------------------ */
-/*  Imágenes reales permitidas                                         */
+/*  Imagen editorial                                                   */
 /* ------------------------------------------------------------------ */
 
-/** Archivos de /public que son fotos o portadas reales (guía §4). */
-const REAL_PHOTO_FILES = new Set([
-    // Retratos del equipo
-    "juan_carlos_real_white.png",
-    "juan-carlos-rauld-retrato.jpg",
-    "juan-carlos-rauld-furia-del-libro.jpg",
-    "rocio-solar-crc-2026.png",
-    "rocio_solar_real_white.png",
-    "hugo-hormazabal-crc-2026-large.png",
-    "fernanda-gumucio.jpg",
-    // Portadas de libros y afiche real
-    "book_desproteccion.png",
-    "book_perspectivas.png",
-    "tecnocratas-portada.jpg",
-    "tecnocratas-evento-uah.jpeg",
-]);
+/** true si el contenido tiene imagen editorial propia (guía §4). */
+export function hasCoverImage(src?: string | null): src is string {
+    return typeof src === "string" && src.trim().length > 0;
+}
+
+/** Imagen de respaldo de los trabajos intelectuales sin imagen propia. */
+export const ACADEMIC_FALLBACK_IMAGE = "/images/infancia_estado_hero.jpg";
+
+export type CoverImageProps = {
+    src: string;
+    alt: string;
+    /** Atributo `sizes` de next/image. */
+    sizes?: string;
+    priority?: boolean;
+    /** Clases del marco (proporción, ancho). Por defecto 3:2 en móvil y 4:3 desde sm. */
+    className?: string;
+};
 
 /**
- * true solo si `src` apunta a una foto real permitida. Todo lo demás
- * (archivos con _abstract_, timestamps, -editorial, *_real.*, hero_*, etc.)
- * se trata como ilustración y se reemplaza por la portada tipográfica.
+ * Imagen editorial con el tratamiento sobrio de la guía: encuadre limpio,
+ * `rounded-[6px]`, `object-cover`, sin filtros, sin grano y sin degradados.
  */
-export function isRealPhoto(src?: string | null): boolean {
-    if (!src) return false;
-    const clean = src.split(/[?#]/)[0];
-    const file = clean.slice(clean.lastIndexOf("/") + 1).toLowerCase();
-    return REAL_PHOTO_FILES.has(file);
+export function CoverImage({ src, alt, sizes = "100vw", priority, className }: CoverImageProps) {
+    return (
+        <div className={cn("relative aspect-[3/2] w-full overflow-hidden rounded-[6px] bg-[#eee8dc] sm:aspect-[4/3]", className)}>
+            <Image src={src} alt={alt} fill sizes={sizes} priority={priority} className="object-cover" />
+        </div>
+    );
 }
 
 /* ------------------------------------------------------------------ */
@@ -227,5 +230,89 @@ export function TypographicCover({
                 ) : null}
             </div>
         </div>
+    );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Cabecera de detalle con imagen editorial                           */
+/* ------------------------------------------------------------------ */
+
+export type EditorialHeroProps = Omit<TypographicCoverProps, "size"> & {
+    image?: string | null;
+    imageAlt?: string;
+    imageCaption?: string;
+    /** Ancho del bloque de la imagen. */
+    imageContainerClassName?: string;
+};
+
+/**
+ * Cabecera de columnas, reseñas y artículos. Con imagen: texto sobre papel
+ * (categoría, filete cobre, h1, bajada) y la imagen editorial debajo, limpia,
+ * sin texto encima. Sin imagen: portada tipográfica como respaldo.
+ */
+export function EditorialHero({
+    image,
+    imageAlt,
+    imageCaption,
+    imageContainerClassName,
+    category,
+    title,
+    date,
+    author,
+    titleAs = "h1",
+    dek,
+    tone,
+    children,
+    className,
+    containerClassName,
+}: EditorialHeroProps) {
+    if (!hasCoverImage(image)) {
+        return (
+            <TypographicCover
+                size="hero"
+                category={category}
+                title={title}
+                date={date}
+                author={author}
+                titleAs={titleAs}
+                dek={dek}
+                tone={tone}
+                className={className}
+                containerClassName={containerClassName}
+            >
+                {children}
+            </TypographicCover>
+        );
+    }
+
+    const Title = titleAs;
+    return (
+        <header className={cn("w-full border-b border-[#d8cfc0] bg-[#fffdf8] text-[#171713]", className)}>
+            <div className={cn("mx-auto max-w-5xl px-4 pb-8 pt-12 sm:px-8 sm:pb-10 sm:pt-16", containerClassName)}>
+                <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 text-[0.8125rem] font-semibold">
+                    <span className="text-[#9f5528]">{toSentenceCase(category)}</span>
+                    {date ? <span className="font-normal tabular-nums text-[#6f675d]">{date}</span> : null}
+                </div>
+                <span aria-hidden="true" className="mt-5 block h-[2px] w-12 bg-[#bd6f3c]" />
+                <Title className="crc-serif mt-5 max-w-[24ch] text-balance text-[clamp(2rem,3.2vw,3.25rem)] font-semibold leading-[1.1] tracking-[-0.01em] text-[#171713]">
+                    {displayTitle(title)}
+                </Title>
+                {dek ? <p className="mt-6 max-w-[60ch] text-[1.0625rem] leading-[1.7] text-[#55574f]">{dek}</p> : null}
+                {author ? <p className="mt-6 text-[0.9375rem] font-semibold text-[#171713]">{author}</p> : null}
+                {children}
+            </div>
+            <figure className={cn("mx-auto max-w-5xl px-4 pb-10 sm:px-8 sm:pb-14", imageContainerClassName)}>
+                <CoverImage
+                    src={image}
+                    alt={imageAlt || title}
+                    priority
+                    sizes="(min-width: 1024px) 960px, 100vw"
+                    className="aspect-[3/2] sm:aspect-[16/9]"
+                />
+                {imageCaption ? (
+                    <figcaption className="mt-3 text-[0.875rem] text-[#6f675d]">{imageCaption}</figcaption>
+                ) : null}
+            </figure>
+        </header>
     );
 }

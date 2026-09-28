@@ -8,7 +8,7 @@ import { Article } from "@/lib/data";
 import { JsonLd } from "@/components/JsonLd";
 import { NewsletterBlock } from "@/components/NewsletterBlock";
 import { ColumnCta } from "@/components/ColumnCta";
-import { TypographicCover, isRealPhoto, toSentenceCase } from "@/components/TypographicCover";
+import { EditorialHero, hasCoverImage, toSentenceCase } from "@/components/TypographicCover";
 
 function WhatsAppIcon({ className }: { className?: string }) {
     return (
@@ -86,10 +86,26 @@ function wrapLines(ctx: CanvasRenderingContext2D, text: string, maxWidth: number
     return lines;
 }
 
+/** Carga la imagen de la columna; null si no se puede (la portada tipográfica la reemplaza). */
+async function loadImage(src: string): Promise<HTMLImageElement | null> {
+    const img = new window.Image();
+    img.crossOrigin = "anonymous";
+    img.src = /^https?:\/\//.test(src) ? src : `${window.location.origin}${src}`;
+    try {
+        await new Promise<void>((resolve, reject) => {
+            img.onload = () => resolve();
+            img.onerror = () => reject(new Error("image load failed"));
+        });
+        return img;
+    } catch {
+        return null;
+    }
+}
+
 /**
- * Genera la imagen que se comparte en WhatsApp o Instagram. Si la columna tiene
- * una foto real se usa esa foto con el título; si no, una portada tipográfica
- * (tinta, filete cobre, título en Source Serif), igual que en la web.
+ * Genera la imagen que se comparte en WhatsApp o Instagram: la imagen editorial
+ * de la columna con el título y la dirección del sitio. Si la columna no tiene
+ * imagen, una portada tipográfica (tinta, filete cobre, título en Source Serif).
  */
 async function buildShareImage(article: Article): Promise<File> {
     const canvas = document.createElement("canvas");
@@ -100,14 +116,9 @@ async function buildShareImage(article: Article): Promise<File> {
     const serif = serifVar ? `${serifVar}, Georgia, serif` : "Georgia, serif";
     const sans = "-apple-system, BlinkMacSystemFont, sans-serif";
 
-    if (isRealPhoto(article.image)) {
-        const img = new window.Image();
-        img.crossOrigin = "anonymous";
-        img.src = `${window.location.origin}${article.image}`;
-        await new Promise<void>((resolve, reject) => {
-            img.onload = () => resolve();
-            img.onerror = () => reject();
-        });
+    const img = hasCoverImage(article.image) ? await loadImage(article.image) : null;
+
+    if (img) {
         canvas.width = img.naturalWidth;
         canvas.height = img.naturalHeight;
         ctx.drawImage(img, 0, 0);
@@ -332,7 +343,6 @@ export default function ArticleDetail({
     };
 
     const details = getAuthorDetails(article.author);
-    const showPhoto = isRealPhoto(article.image);
 
     const normalize = (value: string) => value.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
     const lower = article.content.map((p) => p.toLowerCase());
@@ -350,15 +360,18 @@ export default function ArticleDetail({
 
     return (
         <article className="min-h-screen bg-[#fffdf8] pb-16 sm:pb-24">
-            {/* Cabecera: portada tipográfica con el h1 */}
-            <TypographicCover
-                size="hero"
+            {/* Cabecera: h1 e imagen editorial (portada tipográfica si no hay imagen) */}
+            <EditorialHero
                 titleAs="h1"
                 category={article.category}
                 title={article.title}
                 date={article.date}
                 dek={article.excerpt}
+                image={article.image}
+                imageAlt={article.imageAlt}
+                imageCaption={article.imageCaption}
                 containerClassName="max-w-[44rem] sm:px-6"
+                imageContainerClassName="max-w-[56rem] sm:px-6"
             >
                 <Link
                     href={backHref}
@@ -366,7 +379,7 @@ export default function ArticleDetail({
                 >
                     <ArrowLeft className="h-4 w-4" aria-hidden="true" /> {backLabel}
                 </Link>
-            </TypographicCover>
+            </EditorialHero>
 
             <div className="mx-auto max-w-[44rem] px-4 sm:px-6">
                 {/* Firma y compartir */}
@@ -388,24 +401,6 @@ export default function ArticleDetail({
                     </div>
                     {renderShare("upper")}
                 </div>
-
-                {showPhoto ? (
-                    <figure className="mt-10">
-                        <div className="relative aspect-[3/2] w-full overflow-hidden rounded-[6px] bg-[#eee8dc]">
-                            <Image
-                                src={article.image}
-                                alt={article.imageAlt || article.title}
-                                fill
-                                sizes="(min-width: 768px) 704px, 100vw"
-                                className="object-cover"
-                                priority
-                            />
-                        </div>
-                        {article.imageCaption ? (
-                            <figcaption className="mt-3 text-[0.875rem] text-[#6f675d]">{article.imageCaption}</figcaption>
-                        ) : null}
-                    </figure>
-                ) : null}
 
                 {/* Cuerpo: Source Serif 4, ~65 caracteres, interlineado 1.7 */}
                 <div className="crc-serif mt-10 max-w-[65ch] text-[1.0625rem] leading-[1.7] text-[#171713] sm:text-[1.125rem]">

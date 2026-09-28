@@ -20,9 +20,12 @@ const TITLE = "Seminario · Desprotección de la Infancia";
 const DESCRIPTION =
   "Seminario en vivo de 8 sesiones con Juan Carlos Rauld, autor del libro y Director del CRC. Jueves 19:00, del 15 de octubre al 3 de diciembre de 2026. Cohorte cerrada de 15 personas. Certificación CRC + Editorial Hammurabi.";
 const IMAGE_PATH = "/images/book_desproteccion.png";
-// Foto real del relator exponiendo en La Furia del Libro. El sistema de diseño
-// no admite ilustraciones generadas: el hero muestra a quien dicta el seminario.
-const HERO_IMAGE = "/images/juan-carlos-rauld-furia-del-libro.jpg";
+// Imagen editorial de la campaña: corredor institucional vacío con una silla de
+// escuela y un libro encima ("institución + infancia ausente"). Es la línea
+// editorial del CRC (docs/design-system-crc.md §4) y va limpia, sin texto encima.
+const HERO_IMAGE = "/images/desproteccion-institucionalizacion-editorial.png";
+// Foto real del relator exponiendo en La Furia del Libro, para "Quién lo dicta".
+const RELATOR_IMAGE = "/images/juan-carlos-rauld-furia-del-libro.jpg";
 
 // El tramo vigente y los cupos disponibles se cuentan en cada visita: si la
 // página quedara cacheada, seguiría ofreciendo un tramo ya agotado.
@@ -355,15 +358,28 @@ export default async function SeminarioDesproteccionInfancia() {
             <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[6px] bg-[#eee8dc] lg:aspect-[4/5]">
               <Image
                 src={HERO_IMAGE}
-                alt="Juan Carlos Rauld exponiendo con micrófono en La Furia del Libro"
+                alt="Corredor institucional vacío con una silla de escuela y un libro sobre el asiento"
                 fill
                 priority
                 sizes="(min-width: 1024px) 440px, 100vw"
-                className="object-cover object-[68%_30%]"
+                className="object-cover object-[46%_center]"
               />
             </div>
-            <figcaption className="mt-3 text-[0.8125rem] leading-[1.5] text-[#6f675d]">
-              Juan Carlos Rauld, relator del seminario, en La Furia del Libro.
+            <figcaption className={`mt-4 flex items-center gap-4 border-t ${FILETE_SUAVE} pt-4`}>
+              <Link href="/publicaciones" className={`relative h-16 w-16 shrink-0 overflow-hidden rounded-[6px] bg-[#eee8dc] ${FOCO}`}>
+                <Image
+                  src={IMAGE_PATH}
+                  alt="Portada del libro Desprotección de la infancia: Dominación, Biopolítica y Gobierno"
+                  fill
+                  sizes="64px"
+                  className="object-cover"
+                />
+              </Link>
+              <span className="text-[0.875rem] leading-[1.5] text-[#55574f]">
+                Basado en el libro{" "}
+                <cite className="font-semibold not-italic text-[#171713]">Desprotección de la infancia</cite>{" "}
+                (Editorial Hammurabi).
+              </span>
             </figcaption>
           </figure>
         </div>
@@ -601,13 +617,16 @@ export default async function SeminarioDesproteccionInfancia() {
             <div>
               <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[6px] bg-[#eee8dc]">
                 <Image
-                  src="/images/juan-carlos-rauld-retrato.jpg"
-                  alt="Retrato de Juan Carlos Rauld Farías, relator del seminario"
+                  src={RELATOR_IMAGE}
+                  alt="Juan Carlos Rauld exponiendo con micrófono en La Furia del Libro"
                   fill
                   sizes="(min-width: 768px) 280px, 100vw"
-                  className="object-cover object-center"
+                  className="object-cover object-[68%_30%]"
                 />
               </div>
+              <p className="mt-3 text-[0.8125rem] leading-[1.5] text-[#6f675d]">
+                Juan Carlos Rauld, relator del seminario, en La Furia del Libro.
+              </p>
 
               <Link href="/publicaciones" className={`group mt-6 flex gap-4 border-t ${FILETE} pt-5 ${FOCO}`}>
                 <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-[6px] bg-[#eee8dc]">

@@ -52,6 +52,7 @@ const AUDIENCE_DOORS = [
         text: "Compliance escolar ante la Ley 21.809, formación para equipos y consultoría de programas. Diagnóstico, propuesta, implementación y medición, con una persona a cargo.",
         cta: "Trabajar con el CRC",
         href: "/instituciones",
+        image: "/images/interes-superior-tecnocracia-juridica-editorial.jpg",
     },
     {
         who: "Duplas, equipos y docentes",
@@ -59,6 +60,7 @@ const AUDIENCE_DOORS = [
         text: "Seminario en vivo con Juan Carlos Rauld, cursos de la Academia y supervisión para leer los casos con otro marco.",
         cta: "Ver el seminario",
         href: "/seminarios/desproteccion-infancia",
+        image: "/images/desproteccion-institucionalizacion-editorial.png",
     },
     {
         who: "Cuando algo en casa no está bien",
@@ -66,6 +68,7 @@ const AUDIENCE_DOORS = [
         text: "Acompañamiento familiar y atención clínica en salud mental infanto-juvenil, con respaldo técnico y trato cercano.",
         cta: "Pedir orientación",
         href: "/servicios/acompanamiento-familiar",
+        image: "/images/escuchar_infancia_real.png",
     },
 ];
 
@@ -91,9 +94,9 @@ export function HomeAudienceDoors() {
                         <li key={door.title} data-reveal="" className="border-t border-[#d8cfc0]">
                             <Link
                                 href={door.href}
-                                className="group grid gap-x-8 gap-y-3 py-7 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#171713] focus-visible:ring-offset-4 focus-visible:ring-offset-[#f8f5ee] sm:grid-cols-[3rem_minmax(0,1fr)_auto] sm:py-9"
+                                className="group grid gap-x-8 gap-y-4 py-7 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#171713] focus-visible:ring-offset-4 focus-visible:ring-offset-[#f8f5ee] sm:grid-cols-[2.5rem_minmax(0,1fr)_200px] sm:items-start sm:py-9 xl:grid-cols-[3rem_minmax(0,1fr)_240px]"
                             >
-                                <span className="text-[0.875rem] font-semibold tabular-nums text-[#6f675d]">
+                                <span className="text-[0.875rem] font-semibold tabular-nums text-[#6f675d] sm:pt-0.5">
                                     {String(i + 1).padStart(2, "0")}
                                 </span>
                                 <span className="block">
@@ -102,10 +105,19 @@ export function HomeAudienceDoors() {
                                         {door.title}
                                     </span>
                                     <span className="mt-3 block max-w-[60ch] text-[1rem] leading-[1.7] text-[#55574f]">{door.text}</span>
+                                    <span className="mt-5 inline-flex items-center gap-2 text-[0.9375rem] font-semibold text-[#9f5528]">
+                                        {door.cta}
+                                        <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true" />
+                                    </span>
                                 </span>
-                                <span className="inline-flex items-center gap-2 self-end text-[0.9375rem] font-semibold text-[#9f5528] sm:self-center">
-                                    {door.cta}
-                                    <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true" />
+                                <span className="relative order-first block aspect-[16/9] overflow-hidden rounded-[6px] bg-[#eee8dc] sm:order-none sm:aspect-[4/3]">
+                                    <Image
+                                        src={door.image}
+                                        alt=""
+                                        fill
+                                        sizes="(max-width: 640px) 100vw, 240px"
+                                        className="object-cover object-center"
+                                    />
                                 </span>
                             </Link>
                         </li>

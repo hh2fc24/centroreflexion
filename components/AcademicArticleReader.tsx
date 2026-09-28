@@ -1,12 +1,11 @@
 'use client';
 
 import React from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeft, FileText } from 'lucide-react';
 import { Article, ArticleAuthor } from '@/lib/data';
 import { JsonLd } from '@/components/JsonLd';
-import { TypographicCover, displayTitle, isRealPhoto, toSentenceCase } from '@/components/TypographicCover';
+import { EditorialHero, displayTitle, hasCoverImage, toSentenceCase } from '@/components/TypographicCover';
 
 interface ParsedBlock {
   type: 'heading' | 'paragraph' | 'blockquote' | 'reference' | 'intro-paragraph';
@@ -108,27 +107,8 @@ export default function AcademicArticleReader({ article }: { article: Article })
     return part;
   });
 
-  // Solo fotos reales (docs/design-system-crc.md §4); las ilustraciones no se muestran.
-  const renderImage = () => {
-    if (!isRealPhoto(article.image)) return null;
-    return (
-      <figure className="mb-12">
-        <div className="relative aspect-[3/2] w-full overflow-hidden rounded-[6px] bg-[#eee8dc]">
-          <Image
-            src={article.image}
-            alt={article.imageAlt || article.title}
-            fill
-            sizes="(min-width: 1024px) 720px, 100vw"
-            className="object-cover"
-            priority
-          />
-        </div>
-        {article.imageCaption && <figcaption className="mt-3 text-[0.875rem] text-[#6f675d]">
-          {article.imageCaption}
-        </figcaption>}
-      </figure>
-    );
-  };
+  // Con imagen editorial la cabecera va sobre papel; sin imagen, sobre la portada tipográfica (tinta).
+  const onInk = !hasCoverImage(article.image);
 
   // Los títulos en mayúsculas del original pasan a tipo oración; el resto se respeta.
   const headingCase = displayTitle;
@@ -138,21 +118,24 @@ export default function AcademicArticleReader({ article }: { article: Article })
 
   return (
     <div className="min-h-screen bg-[#fffdf8] text-[#171713] selection:bg-[#e4935d]/30">
-      {/* Cabecera: portada tipográfica con el h1 */}
-      <TypographicCover
-        size="hero"
+      {/* Cabecera: h1 e imagen editorial (portada tipográfica si no hay imagen) */}
+      <EditorialHero
         titleAs="h1"
         tone="ink"
         containerClassName="max-w-6xl"
+        imageContainerClassName="max-w-6xl"
+        image={article.image}
+        imageAlt={article.imageAlt}
+        imageCaption={article.imageCaption}
         category={article.category}
         title={article.title}
         date={article.date}
       >
-        <p className="mt-6 text-[0.9375rem] font-semibold text-[#f8f5ee]">
+        <p className={`mt-6 text-[0.9375rem] font-semibold ${onInk ? 'text-[#f8f5ee]' : 'text-[#171713]'}`}>
           {authorNames}{article.footnotes?.some(note => note.id === 1) && renderText('[1]')}
         </p>
         {article.publication && (
-          <div className="mt-4 space-y-1 text-[0.9375rem] leading-[1.6] text-[#d8cfc0]">
+          <div className={`mt-4 space-y-1 text-[0.9375rem] leading-[1.6] ${onInk ? 'text-[#d8cfc0]' : 'text-[#55574f]'}`}>
             <p><cite className="not-italic">{article.publication.journal}</cite>, {article.publication.volume} ({article.publication.year}), pp. {article.publication.pages}.</p>
             <p>Recibido: {article.publication.received} · Aceptado: {article.publication.accepted}</p>
           </div>
@@ -164,12 +147,12 @@ export default function AcademicArticleReader({ article }: { article: Article })
           </Link>
           {article.publication && (
             <>
-              <a href={`https://doi.org/${article.publication.doi}`} target="_blank" rel="noopener noreferrer" className="text-[#e4935d] underline underline-offset-4">DOI: {article.publication.doi}</a>
-              <a href={article.publication.pdf} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-[6px] border border-[#f8f5ee]/40 px-4 py-2 transition-colors hover:border-[#e4935d] hover:text-[#e4935d]"><FileText className="h-4 w-4" aria-hidden="true" />Leer PDF original</a>
+              <a href={`https://doi.org/${article.publication.doi}`} target="_blank" rel="noopener noreferrer" className={`${onInk ? 'text-[#e4935d]' : 'text-[#9f5528]'} underline underline-offset-4`}>DOI: {article.publication.doi}</a>
+              <a href={article.publication.pdf} target="_blank" rel="noopener noreferrer" className={`inline-flex items-center gap-2 rounded-[6px] border px-4 py-2 transition-colors ${onInk ? 'border-[#f8f5ee]/40 hover:border-[#e4935d] hover:text-[#e4935d]' : 'border-[#171713]/30 hover:border-[#9f5528] hover:text-[#9f5528]'}`}><FileText className="h-4 w-4" aria-hidden="true" />Leer PDF original</a>
             </>
           )}
         </div>
-      </TypographicCover>
+      </EditorialHero>
 
       <div className="mx-auto max-w-6xl px-4 py-12 sm:px-8 lg:py-16">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,1fr)_16rem] lg:gap-16">
@@ -192,8 +175,6 @@ export default function AcademicArticleReader({ article }: { article: Article })
                 )}
               </section>
             )}
-
-            {renderImage()}
 
             {toc.length > 0 && <details className="mb-10 max-w-[65ch] rounded-[6px] border border-[#d8cfc0] px-4 py-3 lg:hidden">
               <summary className="cursor-pointer text-[0.9375rem] font-semibold">Contenido del artículo</summary>

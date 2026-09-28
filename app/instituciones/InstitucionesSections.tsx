@@ -74,6 +74,33 @@ function Hero() {
 /* Oferta: compromisos con nombre                                      */
 /* ------------------------------------------------------------------ */
 
+const OFFERS = [
+    {
+        who: "Colegios y sostenedores",
+        title: "Compliance escolar · Ley 21.809",
+        text: "Protocolos, registros y rutas de decisión frente a acoso, violencia y discriminación, para que el colegio pueda demostrar que actuó a tiempo.",
+        href: "/servicios/compliance-escolar",
+        cta: "Ver compliance escolar",
+        image: "/images/bienestar-escolar/hero-proteccion-institucional.png",
+    },
+    {
+        who: "Equipos de intervención y educación",
+        title: "Formación para equipos",
+        text: "Capacitación en crisis, supervisión de casos y el seminario Desprotección de la infancia en formato cerrado para un solo equipo.",
+        href: "/servicios/formacion",
+        cta: "Ver formación",
+        image: "/images/desproteccion-institucionalizacion-editorial.png",
+    },
+    {
+        who: "Programas, fundaciones y municipios",
+        title: "Consultoría de programas",
+        text: "Diagnóstico y mejora de modelos de intervención: criterios de decisión, procesos, registros e indicadores que el equipo pueda sostener.",
+        href: "/servicios/consultoria",
+        cta: "Ver consultoría",
+        image: "/images/consultoria_arquitectura_editorial.png",
+    },
+];
+
 function Offers() {
     return (
         <section id="oferta" aria-labelledby="inst-oferta-title" className="scroll-mt-24 bg-[#fffdf8]">
@@ -86,7 +113,41 @@ function Offers() {
                         alcance acordado.
                     </p>
                 </Reveal>
-                <Reveal className="mt-12">
+
+                <ul className="mt-12 grid gap-10 md:grid-cols-3 md:gap-8">
+                    {OFFERS.map((offer, index) => (
+                        <li key={offer.href}>
+                            <Reveal delay={index * 0.06}>
+                                <Link
+                                    href={offer.href}
+                                    className="group block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#171713] focus-visible:ring-offset-4 focus-visible:ring-offset-[#fffdf8]"
+                                >
+                                    <span className="relative block aspect-[16/10] overflow-hidden rounded-[6px] bg-[#eee8dc]">
+                                        <Image
+                                            src={offer.image}
+                                            alt=""
+                                            fill
+                                            sizes="(min-width: 768px) 32vw, 100vw"
+                                            className="object-cover object-center"
+                                        />
+                                    </span>
+                                    <span className="mt-5 block text-[0.8125rem] font-semibold text-[#6f675d]">{offer.who}</span>
+                                    <span className="crc-serif mt-1 block text-[1.4rem] font-medium leading-[1.2] text-[#171713] transition-colors group-hover:text-[#9f5528]">
+                                        {offer.title}
+                                    </span>
+                                    <span className="mt-2 block text-[0.9375rem] leading-[1.65] text-[#55574f]">{offer.text}</span>
+                                    <span className="mt-4 inline-flex items-center gap-1.5 text-[0.9375rem] font-semibold text-[#9f5528] underline decoration-[#d8cfc0] underline-offset-4 group-hover:decoration-[#9f5528]">
+                                        {offer.cta}
+                                        <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                                    </span>
+                                </Link>
+                            </Reveal>
+                        </li>
+                    ))}
+                </ul>
+
+                <Reveal className="mt-16">
+                    <p className={`${labelMuted} mb-4`}>Compromisos institucionales</p>
                     <EngagementIndex engagements={INSTITUTIONAL_ENGAGEMENTS} />
                 </Reveal>
             </div>

@@ -8,7 +8,7 @@ import { Article } from "@/lib/data";
 import { JsonLd } from "@/components/JsonLd";
 import { NewsletterBlock } from "@/components/NewsletterBlock";
 import { ColumnCta } from "@/components/ColumnCta";
-import { TypographicCover } from "@/components/TypographicCover";
+import { EditorialHero } from "@/components/TypographicCover";
 
 const slugify = (text: string) => text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
 
@@ -121,9 +121,12 @@ export default function FoucaultEditorialDetail({ article }: { article: Article 
 
     return (
         <article className="min-h-screen bg-[#fffdf8] pb-16 sm:pb-24">
-            <TypographicCover
-                size="hero"
+            <EditorialHero
                 titleAs="h1"
+                image={article.image}
+                imageAlt={article.imageAlt}
+                imageCaption={article.imageCaption}
+                imageContainerClassName="max-w-6xl"
                 category={article.category}
                 title={article.title}
                 date={article.date}
@@ -137,7 +140,7 @@ export default function FoucaultEditorialDetail({ article }: { article: Article 
                 >
                     <ArrowLeft className="h-4 w-4" aria-hidden="true" /> Volver a Pensamiento Crítico
                 </Link>
-            </TypographicCover>
+            </EditorialHero>
 
             <div className="mx-auto max-w-6xl px-4 py-10 sm:px-8 lg:py-14">
                 <div className="flex flex-col gap-10 lg:flex-row lg:gap-16">

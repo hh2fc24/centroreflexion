@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { getSiteUrl } from "@/lib/site";
@@ -36,21 +37,31 @@ const CONTENEDOR = "mx-auto max-w-[1240px] px-4 sm:px-8 lg:px-12";
 export default function DeclaracionNinezMigranteHaitianaPage() {
   return (
     <div className="bg-[#f8f5ee] text-[#171713]">
-      <section className="border-b border-[#d8cfc0]">
+      <section className="relative isolate overflow-hidden border-b border-[#d8cfc0] bg-[#15120e] text-[#f8f5ee]">
+        {/* Imagen editorial con velo de tinta suave para que el texto se lea */}
+        <Image
+          src="/images/infancia_olvidada_adopcion.png"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="-z-10 object-cover"
+        />
+        <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[#15120e]/70" />
         <div className={`${CONTENEDOR} grid gap-10 py-10 sm:py-14 lg:grid-cols-[minmax(0,1fr)_340px] lg:items-center lg:gap-16 lg:py-20`}>
           <div className="max-w-[680px]">
             <Link
               href="/"
-              className={`inline-flex items-center gap-2 rounded-[6px] text-[0.9375rem] font-semibold text-[#55574f] transition-colors hover:text-[#9f5528] ${FOCO}`}
+              className={`inline-flex items-center gap-2 rounded-[6px] text-[0.9375rem] font-semibold text-[#d8cfc0] transition-colors hover:text-[#f8f5ee] ${FOCO}`}
             >
               <ArrowLeft aria-hidden="true" className="h-4 w-4" />
               Volver al inicio
             </Link>
-            <p className={`mt-8 ${ETIQUETA}`}>Declaración pública · Centro de Reflexiones Críticas</p>
+            <p className="mt-8 text-[0.8125rem] font-semibold text-[#e4935d]">Declaración pública · Centro de Reflexiones Críticas</p>
             <h1 className="crc-serif mt-4 text-balance text-[clamp(2rem,3.2vw,3.25rem)] font-semibold leading-[1.1] tracking-[-0.01em]">
               Los derechos de la niñez no son negociables.
             </h1>
-            <p className="mt-6 max-w-[60ch] text-[1.0625rem] leading-[1.7] text-[#55574f]">
+            <p className="mt-6 max-w-[60ch] text-[1.0625rem] leading-[1.7] text-[#eee8dc]">
               Juan Carlos Rauld, director del Centro de Reflexiones Críticas, se pronuncia ante la vulneración de
               derechos que afecta a niños, niñas y adolescentes en Chile, con especial preocupación por la situación
               de la niñez migrante haitiana.
@@ -58,7 +69,7 @@ export default function DeclaracionNinezMigranteHaitianaPage() {
           </div>
 
           <figure className="mx-auto w-full max-w-[340px]">
-            <div className="overflow-hidden rounded-[6px] border border-[#d8cfc0] bg-[#15120e]">
+            <div className="overflow-hidden rounded-[6px] border border-[#f8f5ee]/20 bg-[#15120e]">
               <video
                 controls
                 preload="metadata"
@@ -67,7 +78,7 @@ export default function DeclaracionNinezMigranteHaitianaPage() {
                 src="/videos/declaraciones/declaracion-ninez-migrante-haitiana.mp4"
               />
             </div>
-            <figcaption className="mt-3 text-[0.8125rem] text-[#6f675d]">
+            <figcaption className="mt-3 text-[0.8125rem] text-[#d8cfc0]">
               Declaración en video de Juan Carlos Rauld.
             </figcaption>
           </figure>

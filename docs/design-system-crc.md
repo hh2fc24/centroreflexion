@@ -54,21 +54,20 @@ etiquetas. No se agregan colores nuevos (nada de slate, gray-*, blue-*, verdes).
 
 ## 4. Imágenes
 
-Permitidas solo imágenes reales:
-- Retratos del equipo: `juan_carlos_real_white.png`, `juan-carlos-rauld-retrato.jpg`,
-  `juan-carlos-rauld-furia-del-libro.jpg` (JC hablando en La Furia del Libro),
-  `rocio-solar-crc-2026.png`, `rocio_solar_real_white.png`,
-  `hugo-hormazabal-crc-2026-large.png`, `fernanda-gumucio.jpg`.
-- Portadas de libros: `book_desproteccion.png`, `book_perspectivas.png`,
-  `tecnocratas-portada.jpg`. Afiche real: `tecnocratas-evento-uah.jpeg`.
-- Logos (CRC, Hammurabi, Altius) y videos de eventos reales en `/public`.
+Las imágenes editoriales del CRC (fotografía de estilo documental, generada o
+real, en `/public/images`) son la **línea editorial del centro y se conservan**.
+Cada columna, artículo, servicio y sección que tenía imagen la mantiene. Lo
+mismo para los videos de formación y clínica y las capturas de prensa.
 
-Todo lo demás en `/public/images` se trata como ilustración generada o stock
-(archivos con `_abstract_`, timestamps de 13 dígitos, `-editorial`, `hero_*`,
-`pillar_*`, `*_real.*`, etc.) y **no se usa como imagen decorativa**. Donde hoy
-hay una, se reemplaza por una composición tipográfica: bloque de color de la
-paleta con la categoría, el título en Source Serif y un dato o cita. No se
-usan videos de stock (Pixabay).
+Cómo se tratan en el diseño sobrio:
+- Encuadre limpio, `rounded-[6px]`, `object-cover`, sin marcos decorativos.
+- Sin `mix-blend-luminosity`, sin grano encima y sin degradados fuertes. Solo
+  un velo suave de tinta cuando hay texto sobre la imagen, para que se lea.
+- Pie de foto breve cuando la imagen es una persona o un evento real.
+- La portada tipográfica (`TypographicCover`) queda solo como respaldo cuando
+  un contenido no tiene imagen.
+- Videos: `muted`, `playsInline`, `preload="metadata"`; en autoplay solo si ya
+  lo estaban.
 
 ## 5. Movimiento
 

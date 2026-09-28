@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { pageMetadata } from "@/lib/seo";
-import { EngagementList, PersonInCharge, SectionHead, ServiceHero } from "../_components/Blocks";
+import { EditorialImage, EngagementList, PersonInCharge, SectionHead, ServiceHero } from "../_components/Blocks";
 import { BIENESTAR_CONVIVENCIA, VALUE_NOTE } from "../_components/engagements";
 import { HUGO, ROCIO } from "../_components/people";
 import { Reveal } from "../_components/Reveal";
@@ -96,6 +96,15 @@ export default function BienestarEscolarPage() {
                     { term: "A cargo", detail: `${HUGO.name}, con la dirección clínica de ${ROCIO.name}` },
                     { term: "Valor", detail: VALUE_NOTE },
                 ]}
+                media={
+                    <EditorialImage
+                        src="/images/bienestar-escolar/hero-proteccion-institucional.png"
+                        alt="Equipo directivo de un colegio revisando rutas de protección institucional"
+                        sizes="(min-width: 1200px) 1136px, 100vw"
+                        aspect="aspect-[16/10] sm:aspect-[21/9]"
+                        priority
+                    />
+                }
             />
 
             {/* Contexto */}
@@ -171,6 +180,13 @@ export default function BienestarEscolarPage() {
                 <div className={`${container} grid gap-10 py-16 sm:py-24 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16`}>
                     <Reveal>
                         <SectionHead eyebrow="Enfoque de intervención" title="Del diagnóstico al aprendizaje institucional." id="enfoque-title" />
+                        <EditorialImage
+                            src="/images/bienestar-escolar/metodo-trazabilidad.png"
+                            alt="Registro y trazabilidad de decisiones en la gestión de casos escolares"
+                            sizes="(min-width: 1024px) 460px, 100vw"
+                            aspect="aspect-[16/10]"
+                            className="mt-8"
+                        />
                     </Reveal>
                     <ol className="border-t border-[#d8cfc0]">
                         {method.map((step, index) => (

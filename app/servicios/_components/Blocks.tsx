@@ -33,6 +33,8 @@ export function ServiceHero({
     actions,
     facts,
     factsTitle = "Ficha del servicio",
+    media,
+    mediaPlacement = "band",
 }: {
     area: string;
     title: ReactNode;
@@ -40,6 +42,10 @@ export function ServiceHero({
     actions?: ReactNode;
     facts: Fact[];
     factsTitle?: string;
+    /** Imagen o video editorial del servicio (EditorialImage / EditorialVideo). */
+    media?: ReactNode;
+    /** "band": franja ancha bajo el hero. "aside": sobre la ficha, en la columna derecha. */
+    mediaPlacement?: "band" | "aside";
 }) {
     return (
         <section aria-labelledby="service-title" className="border-b border-[#d8cfc0] bg-[#f8f5ee]">
@@ -62,6 +68,7 @@ export function ServiceHero({
                     </div>
 
                     <div className="lg:border-l lg:border-[#d8cfc0] lg:pl-10">
+                        {media && mediaPlacement === "aside" ? <div className="mb-8">{media}</div> : null}
                         <p className={labelMuted}>{factsTitle}</p>
                         <dl className="mt-3">
                             {facts.map((fact) => (
@@ -73,8 +80,97 @@ export function ServiceHero({
                         </dl>
                     </div>
                 </div>
+
+                {media && mediaPlacement === "band" ? <div className="mt-12 sm:mt-16">{media}</div> : null}
             </div>
         </section>
+    );
+}
+
+/* ------------------------------------------------------------------ */
+/* Imágenes y videos editoriales (docs/design-system-crc.md, sección 4) */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Imagen editorial del CRC: encuadre limpio, radio de 6px, object-cover.
+ * Sin mix-blend ni grano. `caption` solo cuando la imagen es una persona o un evento real.
+ */
+export function EditorialImage({
+    src,
+    alt,
+    sizes,
+    aspect = "aspect-[16/9]",
+    caption,
+    priority = false,
+    position = "object-center",
+    className = "",
+}: {
+    src: string;
+    alt: string;
+    sizes: string;
+    aspect?: string;
+    caption?: ReactNode;
+    priority?: boolean;
+    position?: string;
+    className?: string;
+}) {
+    return (
+        <figure className={className}>
+            <div className={`relative ${aspect} w-full overflow-hidden rounded-[6px] bg-[#eee8dc]`}>
+                <Image src={src} alt={alt} fill sizes={sizes} priority={priority} className={`object-cover ${position}`} />
+            </div>
+            {caption ? <figcaption className="mt-3 text-[0.8125rem] leading-[1.5] text-[#6f675d]">{caption}</figcaption> : null}
+        </figure>
+    );
+}
+
+/**
+ * Video editorial: siempre muted, playsInline y preload="metadata".
+ * `autoPlay` (con loop) solo donde el video ya estaba en autoplay; si no, lleva controles.
+ * `overlay` pone texto sobre el video con un velo suave de tinta para que se lea.
+ */
+export function EditorialVideo({
+    src,
+    label: videoLabel,
+    autoPlay = false,
+    aspect = "aspect-[16/9]",
+    caption,
+    overlay,
+    className = "",
+}: {
+    src: string;
+    /** Descripción breve; si se omite, el video se trata como decorativo. */
+    label?: string;
+    autoPlay?: boolean;
+    aspect?: string;
+    caption?: ReactNode;
+    overlay?: ReactNode;
+    className?: string;
+}) {
+    return (
+        <figure className={className}>
+            <div className={`relative ${aspect} w-full overflow-hidden rounded-[6px] bg-[#15120e]`}>
+                <video
+                    className="absolute inset-0 h-full w-full object-cover"
+                    src={src}
+                    muted
+                    playsInline
+                    preload="metadata"
+                    autoPlay={autoPlay}
+                    loop={autoPlay}
+                    controls={!autoPlay}
+                    aria-label={videoLabel}
+                    aria-hidden={videoLabel ? undefined : true}
+                />
+                {overlay ? (
+                    <>
+                        <div aria-hidden="true" className="absolute inset-0 bg-[#15120e]/45" />
+                        <div className="absolute inset-x-0 bottom-0 p-5 text-[#fbf7ee] sm:p-6">{overlay}</div>
+                    </>
+                ) : null}
+            </div>
+            {caption ? <figcaption className="mt-3 text-[0.8125rem] leading-[1.5] text-[#6f675d]">{caption}</figcaption> : null}
+        </figure>
     );
 }
 

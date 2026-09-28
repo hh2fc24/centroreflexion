@@ -42,7 +42,7 @@ const DIRECTORS: Director[] = [
         role: "Cofundadora · Directora Clínica",
         area: "Clínica y salud mental infanto-juvenil",
         degree: "Magíster (c) en Ocupación y Terapia Ocupacional, Facultad de Medicina, Universidad de Chile",
-        image: "/images/rocio-solar-crc-2026.png",
+        image: "/images/rocio_solar_real_white.png",
         summary: "Evaluación e intervención terapéutica con niños, niñas, adolescentes y sus familias, y supervisión de casos complejos.",
         links: [
             { href: "https://www.linkedin.com/in/roc%C3%ADo-solar-guerra-168693138/", label: "LinkedIn", icon: <Linkedin className="h-4 w-4" aria-hidden="true" />, external: true },
@@ -134,15 +134,20 @@ export default function About() {
         <main className="bg-[#fffdf8] text-[#171713]">
             {/* Hero */}
             <section aria-labelledby="conocenos-title" className="border-b border-[#d8cfc0] bg-[#f8f5ee]">
-                <div className={`${container} pb-14 pt-14 sm:pb-20 sm:pt-20`}>
-                    <p className={label}>Conócenos</p>
-                    <h1 id="conocenos-title" className={`${h1} mt-4 max-w-[22ch] text-[#171713]`}>
-                        Un equipo interdisciplinario para pensar, cuidar e intervenir con rigor
-                    </h1>
-                    <p className={`${lead} mt-6 max-w-[60ch]`}>
-                        El CRC reúne trayectorias distintas para leer problemas complejos con rigor, sensibilidad institucional y
-                        responsabilidad ética. Lo dirigen tres personas, cada una a cargo de un área.
-                    </p>
+                <div className={`${container} grid gap-10 pb-14 pt-14 sm:pb-20 sm:pt-20 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,0.75fr)] lg:items-end lg:gap-16`}>
+                    <div>
+                        <p className={label}>Conócenos</p>
+                        <h1 id="conocenos-title" className={`${h1} mt-4 max-w-[22ch] text-[#171713]`}>
+                            Un equipo interdisciplinario para pensar, cuidar e intervenir con rigor
+                        </h1>
+                        <p className={`${lead} mt-6 max-w-[60ch]`}>
+                            El CRC reúne trayectorias distintas para leer problemas complejos con rigor, sensibilidad institucional y
+                            responsabilidad ética. Lo dirigen tres personas, cada una a cargo de un área.
+                        </p>
+                    </div>
+                    <div className="relative aspect-[16/9] w-full overflow-hidden rounded-[6px] bg-[#eee8dc] lg:aspect-[4/3]">
+                        <Image src="/images/consulting_hero.png" alt="" fill priority sizes="(min-width: 1024px) 420px, 100vw" className="object-cover" />
+                    </div>
                 </div>
             </section>
 

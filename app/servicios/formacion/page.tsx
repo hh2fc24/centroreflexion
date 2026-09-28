@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { pageMetadata } from "@/lib/seo";
-import { EngagementList, PersonInCharge, SectionHead, ServiceHero } from "../_components/Blocks";
+import { EditorialVideo, EngagementList, PersonInCharge, SectionHead, ServiceHero } from "../_components/Blocks";
 import { FORMACION_PROGRAMA, FORMACION_SEMINARIO, VALUE_NOTE } from "../_components/engagements";
 import { JUAN_CARLOS } from "../_components/people";
 import { Reveal } from "../_components/Reveal";
@@ -39,6 +39,12 @@ const principles = [
     { title: "Contenido con fundamento", text: "Marco conceptual, casos, discusión técnica y herramientas aplicables al trabajo cotidiano." },
     { title: "Diseño para equipos", text: "Ajustamos duración, modalidad y profundidad según el contexto institucional." },
     { title: "Aplicación práctica", text: "No solo exposición: buscamos transferencia a casos, protocolos y decisiones reales." },
+];
+
+const practices = [
+    { video: "/111.mp4", title: "Aprendizaje situado", text: "Formación conectada con casos, equipos y contextos reales." },
+    { video: "/222.mp4", title: "Supervisión reflexiva", text: "Espacios para pensar decisiones, límites y buenas prácticas." },
+    { video: "/44.mp4", title: "Trabajo con comunidad", text: "Salud mental, inclusión, género y enfoque territorial." },
 ];
 
 const advisory = [
@@ -100,6 +106,7 @@ export default function FormacionPage() {
                     { term: "A cargo", detail: JUAN_CARLOS.name },
                     { term: "Valor", detail: VALUE_NOTE },
                 ]}
+                media={<EditorialVideo src="/333.mp4" autoPlay aspect="aspect-[16/10] sm:aspect-[21/9]" />}
             />
 
             {/* Principios */}
@@ -108,6 +115,17 @@ export default function FormacionPage() {
                     <Reveal>
                         <SectionHead eyebrow="Cómo formamos" title="Aprendizaje situado, supervisión reflexiva y trabajo con comunidad." id="principios-title" />
                     </Reveal>
+                    <ul className="mt-12 grid gap-10 md:grid-cols-3 md:gap-6">
+                        {practices.map((item, index) => (
+                            <li key={item.title}>
+                                <Reveal delay={index * 0.06}>
+                                    <EditorialVideo src={item.video} autoPlay aspect="aspect-[4/3]" />
+                                    <h3 className="crc-serif mt-4 text-[1.35rem] font-medium leading-[1.2] text-[#171713]">{item.title}</h3>
+                                    <p className="mt-2 text-[1rem] leading-[1.7] text-[#55574f]">{item.text}</p>
+                                </Reveal>
+                            </li>
+                        ))}
+                    </ul>
                     <ol className="mt-12 grid border-t border-[#d8cfc0] md:grid-cols-3">
                         {principles.map((item, index) => (
                             <li key={item.title} className="border-b border-[#d8cfc0] py-8 md:border-b-0 md:border-l md:px-6 md:first:border-l-0 md:first:pl-0">

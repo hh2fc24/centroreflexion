@@ -1,7 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import type { Article } from "@/lib/data";
-import { TypographicCover, displayTitle } from "@/components/TypographicCover";
+import { ACADEMIC_FALLBACK_IMAGE, CoverImage, displayTitle } from "@/components/TypographicCover";
 
 export function AcademicPublicationsSection({ academic }: { academic: Article[] }) {
     if (!academic || academic.length === 0) return null;
@@ -29,12 +29,11 @@ export function AcademicPublicationsSection({ academic }: { academic: Article[] 
 
                 <div className="mt-10 grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
                     <Link href={href} tabIndex={-1} aria-hidden="true" className="group block rounded-[6px]">
-                        <TypographicCover
-                            category={featuredArticle.category}
-                            title={featuredArticle.title}
-                            date={featuredArticle.date}
-                            tone="ink"
-                            className="transition-transform duration-200 group-hover:-translate-y-px"
+                        <CoverImage
+                            src={featuredArticle.image || ACADEMIC_FALLBACK_IMAGE}
+                            alt=""
+                            sizes="(min-width: 1024px) 50vw, 100vw"
+                            className="sm:aspect-[4/3]"
                         />
                     </Link>
 

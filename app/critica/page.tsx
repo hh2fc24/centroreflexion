@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { readPublishedArticleCollections } from "@/lib/server/publicArticles";
 import { pageMetadata } from "@/lib/seo";
-import { TypographicCover, isRealPhoto } from "@/components/TypographicCover";
+import { CoverImage, TypographicCover, hasCoverImage, toSentenceCase } from "@/components/TypographicCover";
 
 export const dynamic = "force-dynamic";
 
@@ -57,10 +57,21 @@ export default async function Criticism() {
                                         href={`/critica/${post.id}`}
                                         className="group block rounded-[6px] outline-none focus-visible:ring-2 focus-visible:ring-[#bd6f3c] focus-visible:ring-offset-2"
                                     >
-                                        {isRealPhoto(post.image) ? (
-                                            <div className="relative aspect-[4/3] overflow-hidden rounded-[6px] bg-[#eee8dc]">
-                                                <Image src={post.image} alt={post.imageAlt || post.title} fill sizes="(min-width: 1024px) 360px, 100vw" className="object-cover" />
-                                            </div>
+                                        {hasCoverImage(post.image) ? (
+                                            <>
+                                                <CoverImage
+                                                    src={post.image}
+                                                    alt={post.imageAlt || post.title}
+                                                    sizes="(min-width: 1024px) 360px, (min-width: 640px) 50vw, 100vw"
+                                                />
+                                                <p className="mt-4 flex flex-wrap items-baseline gap-x-3 text-[0.8125rem] font-semibold text-[#9f5528]">
+                                                    {toSentenceCase(post.category)}
+                                                    <span className="font-normal tabular-nums text-[#6f675d]">{post.date}</span>
+                                                </p>
+                                                <h2 className="crc-serif mt-2 text-[1.35rem] font-semibold leading-[1.2] text-[#171713] group-hover:underline group-hover:decoration-[#bd6f3c] group-hover:underline-offset-4">
+                                                    {post.title}
+                                                </h2>
+                                            </>
                                         ) : (
                                             <TypographicCover
                                                 category={post.category}
@@ -70,11 +81,6 @@ export default async function Criticism() {
                                                 className="transition-transform duration-200 group-hover:-translate-y-px"
                                             />
                                         )}
-                                        {isRealPhoto(post.image) ? (
-                                            <h2 className="crc-serif mt-4 text-[1.35rem] font-semibold leading-[1.2] text-[#171713] group-hover:underline group-hover:underline-offset-4">
-                                                {post.title}
-                                            </h2>
-                                        ) : null}
                                         <p className="mt-4 line-clamp-3 text-[0.9375rem] leading-[1.7] text-[#55574f]">{post.excerpt}</p>
                                     </Link>
                                     <div className="mt-5 flex items-center gap-3 border-t border-[#d8cfc0] pt-4">

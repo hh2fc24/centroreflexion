@@ -221,13 +221,14 @@ export default async function DesproteccionInfanciaEvent() {
             <div>
               <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[6px] bg-[#eee8dc]">
                 <Image
-                  src="/images/juan-carlos-rauld-retrato.jpg"
-                  alt="Retrato de Juan Carlos Rauld"
+                  src="/JC.jpeg"
+                  alt="Juan Carlos Rauld"
                   fill
                   sizes="(min-width: 768px) 260px, 100vw"
                   className="object-cover"
                 />
               </div>
+              <p className="mt-3 text-[0.8125rem] text-[#6f675d]">Juan Carlos Rauld, director del CRC.</p>
               <Link href="/publicaciones" className={`group mt-6 flex gap-4 border-t border-[#d8cfc0] pt-5 ${FOCO}`}>
                 <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-[6px] bg-[#eee8dc]">
                   <Image

@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { pageMetadata } from "@/lib/seo";
-import { EngagementList, PersonInCharge, SectionHead, ServiceHero } from "../_components/Blocks";
+import { EditorialImage, EngagementList, PersonInCharge, SectionHead, ServiceHero } from "../_components/Blocks";
 import { CONSULTORIA_MODELO, VALUE_NOTE } from "../_components/engagements";
 import { HUGO } from "../_components/people";
 import { Reveal } from "../_components/Reveal";
@@ -85,6 +85,16 @@ export default function ConsultoriaPage() {
                     { term: "A cargo", detail: HUGO.name },
                     { term: "Valor", detail: VALUE_NOTE },
                 ]}
+                mediaPlacement="aside"
+                media={
+                    <EditorialImage
+                        src="/images/consulting_hero.png"
+                        alt=""
+                        sizes="(min-width: 1024px) 400px, 100vw"
+                        aspect="aspect-[16/9] lg:aspect-[4/3]"
+                        priority
+                    />
+                }
             />
 
             {/* Tres capas */}
@@ -107,24 +117,34 @@ export default function ConsultoriaPage() {
                 </div>
             </section>
 
-            {/* Arquitectura estratégica: composición tipográfica */}
+            {/* Arquitectura estratégica */}
             <section aria-labelledby="arquitectura-title" className="border-t border-[#d8cfc0] bg-[#f8f5ee]">
-                <div className={`${container} grid gap-10 py-16 sm:py-24 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16`}>
-                    <Reveal>
-                        <SectionHead eyebrow="Arquitectura estratégica" title="Convertimos problemas difusos en sistemas de trabajo." id="arquitectura-title">
-                            <p>
-                                Rutas, roles, indicadores, gobernanza y herramientas para que la institución pueda sostener el cambio cuando
-                                el CRC ya no está en la sala.
-                            </p>
-                        </SectionHead>
-                    </Reveal>
-                    <Reveal className="rounded-[6px] bg-[#15120e] p-6 text-[#fbf7ee] sm:p-10">
+                <div className={`${container} py-16 sm:py-24`}>
+                    <div className="grid gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center lg:gap-16">
+                        <Reveal>
+                            <SectionHead eyebrow="Arquitectura estratégica" title="Convertimos problemas difusos en sistemas de trabajo." id="arquitectura-title">
+                                <p>
+                                    Rutas, roles, indicadores, gobernanza y herramientas para que la institución pueda sostener el cambio cuando
+                                    el CRC ya no está en la sala.
+                                </p>
+                            </SectionHead>
+                        </Reveal>
+                        <Reveal>
+                            <EditorialImage
+                                src="/images/consultoria_arquitectura_editorial.png"
+                                alt="Arquitectura estratégica: rutas, roles e indicadores de un programa"
+                                sizes="(min-width: 1024px) 620px, 100vw"
+                                aspect="aspect-[16/10]"
+                            />
+                        </Reveal>
+                    </div>
+                    <Reveal className="mt-12 rounded-[6px] bg-[#15120e] p-6 text-[#fbf7ee] sm:p-10">
                         <p className="text-[0.8125rem] font-semibold text-[#e4935d]">Lo que queda instalado</p>
-                        <dl className="mt-4">
+                        <dl className="mt-4 grid md:grid-cols-3 md:gap-8">
                             {outcomes.map((item) => (
-                                <div key={item.title} className="grid gap-1 border-t border-white/15 py-5 sm:grid-cols-[10rem_minmax(0,1fr)] sm:gap-6">
+                                <div key={item.title} className="border-t border-white/15 py-5">
                                     <dt className="crc-serif text-[1.25rem] font-medium leading-[1.25]">{item.title}</dt>
-                                    <dd className="text-[0.9375rem] leading-[1.65] text-[#ede7dc]/80">{item.text}</dd>
+                                    <dd className="mt-2 text-[0.9375rem] leading-[1.65] text-[#ede7dc]/80">{item.text}</dd>
                                 </div>
                             ))}
                         </dl>
@@ -188,6 +208,13 @@ export default function ConsultoriaPage() {
                         </a>
                     </Reveal>
                     <Reveal>
+                        <EditorialImage
+                            src="/images/pillar_tecnologia.png"
+                            alt=""
+                            sizes="(min-width: 1024px) 620px, 100vw"
+                            aspect="aspect-[16/9]"
+                            className="mb-10"
+                        />
                         <p className="text-[0.8125rem] font-semibold text-[#ede7dc]/60">Qué aporta a un programa</p>
                         <ul className="mt-3 border-t border-white/15">
                             {altius.map((item) => (

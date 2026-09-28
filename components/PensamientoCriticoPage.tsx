@@ -1,11 +1,12 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { parseDisplayDate } from "@/lib/articles/date";
 import type { Article } from "@/lib/data";
-import { TypographicCover, toSentenceCase } from "@/components/TypographicCover";
+import { CoverImage, TypographicCover, hasCoverImage, toSentenceCase } from "@/components/TypographicCover";
 
 /* ------------------------------------------------------------------ */
 /*  Secciones editoriales — clasificación por article.category         */
@@ -47,23 +48,55 @@ const href = (article: Article) => `${BASE_PATH}/${article.id}`;
 /*  Piezas                                                             */
 /* ------------------------------------------------------------------ */
 
+function ArticleMeta({ article }: { article: Article }) {
+  return (
+    <p className="flex flex-wrap items-baseline gap-x-3 text-[0.8125rem] font-semibold text-[#9f5528]">
+      {toSentenceCase(article.category)}
+      <span className="font-normal tabular-nums text-[#6f675d]">{article.date}</span>
+    </p>
+  );
+}
+
 function FeaturedArticle({ article }: { article: Article }) {
+  const withImage = hasCoverImage(article.image);
   return (
     <article className="grid gap-6 lg:grid-cols-[1.15fr_1fr] lg:gap-12">
       <Link
         href={href(article)}
         className="group block rounded-[6px] outline-none focus-visible:ring-2 focus-visible:ring-[#bd6f3c] focus-visible:ring-offset-2"
       >
-        <TypographicCover
-          category={article.category}
-          title={article.title}
-          date={article.date}
-          titleAs="h2"
-          className="aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/3] sm:[&_h2]:text-[1.9rem] lg:[&_h2]:text-[2.15rem]"
-        />
+        {withImage ? (
+          <CoverImage
+            src={article.image}
+            alt={article.imageAlt || article.title}
+            sizes="(min-width: 1024px) 600px, 100vw"
+            priority
+            className="aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/3]"
+          />
+        ) : (
+          <TypographicCover
+            category={article.category}
+            title={article.title}
+            date={article.date}
+            titleAs="h2"
+            className="aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/3] sm:[&_h2]:text-[1.9rem] lg:[&_h2]:text-[2.15rem]"
+          />
+        )}
       </Link>
       <div className="flex flex-col justify-center">
         <p className="text-[0.8125rem] font-semibold text-[#9f5528]">Última publicación</p>
+        {withImage ? (
+          <>
+            <p className="mt-2 text-[0.875rem] tabular-nums text-[#6f675d]">
+              {toSentenceCase(article.category)} · {article.date}
+            </p>
+            <h2 className="crc-serif mt-4 max-w-[24ch] text-balance text-[clamp(1.6rem,2.4vw,2.25rem)] font-semibold leading-[1.15] tracking-[-0.01em] text-[#171713]">
+              <Link href={href(article)} className="hover:underline hover:decoration-[#bd6f3c] hover:underline-offset-4">
+                {article.title}
+              </Link>
+            </h2>
+          </>
+        ) : null}
         <p className="mt-4 max-w-[60ch] text-[1.0625rem] leading-[1.7] text-[#55574f]">{article.excerpt}</p>
         <p className="mt-6 text-[0.9375rem] text-[#171713]">
           <span className="font-semibold">{article.author}</span>
@@ -82,25 +115,39 @@ function FeaturedArticle({ article }: { article: Article }) {
 }
 
 function ArticleCard({ article }: { article: Article }) {
+  const withImage = hasCoverImage(article.image);
   return (
     <article>
       <Link
         href={href(article)}
         className="group block rounded-[6px] outline-none focus-visible:ring-2 focus-visible:ring-[#bd6f3c] focus-visible:ring-offset-2"
       >
-        <TypographicCover
-          category={article.category}
-          title={article.title}
-          date={article.date}
-          titleAs="h3"
-          className="transition-transform duration-200 group-hover:-translate-y-px"
-        />
-        <p className="mt-4 line-clamp-3 text-[0.9375rem] leading-[1.7] text-[#55574f]">{article.excerpt}</p>
+        {withImage ? (
+          <>
+            <CoverImage
+              src={article.image}
+              alt={article.imageAlt || article.title}
+              sizes="(min-width: 1024px) 360px, (min-width: 640px) 50vw, 100vw"
+            />
+            <div className="mt-4">
+              <ArticleMeta article={article} />
+            </div>
+            <h3 className="crc-serif mt-2 text-[1.3rem] font-semibold leading-[1.2] text-[#171713] group-hover:underline group-hover:decoration-[#bd6f3c] group-hover:underline-offset-4">
+              {article.title}
+            </h3>
+          </>
+        ) : (
+          <TypographicCover
+            category={article.category}
+            title={article.title}
+            date={article.date}
+            titleAs="h3"
+            className="transition-transform duration-200 group-hover:-translate-y-px"
+          />
+        )}
+        <p className="mt-3 line-clamp-3 text-[0.9375rem] leading-[1.7] text-[#55574f]">{article.excerpt}</p>
         <p className="mt-3 text-[0.875rem] text-[#6f675d]">
-          <span className="font-semibold text-[#171713] group-hover:underline group-hover:underline-offset-4">
-            {article.author}
-          </span>{" "}
-          · {getReadingMinutes(article)} min
+          <span className="font-semibold text-[#171713]">{article.author}</span> · {getReadingMinutes(article)} min
         </p>
       </Link>
     </article>
@@ -120,18 +167,22 @@ function ArticleIndex({ articles }: { articles: Article[] }) {
       <ol>
         {articles.map((article) => (
           <li key={article.id} className="border-b border-[#ded5c7]">
-            <Link
-              href={href(article)}
-              className="group grid gap-1 py-5 sm:grid-cols-[10rem_1fr_auto] sm:items-baseline sm:gap-6"
-            >
-              <span className="text-[0.8125rem] font-semibold text-[#9f5528]">
-                {toSentenceCase(article.category)}
-              </span>
-              <span className="crc-serif text-[1.15rem] font-semibold leading-[1.3] text-[#171713] group-hover:underline group-hover:decoration-[#bd6f3c] group-hover:underline-offset-4 sm:text-[1.25rem]">
-                {article.title}
-              </span>
-              <span className="text-[0.875rem] text-[#6f675d] sm:text-right">
-                {article.author} · <span className="tabular-nums">{article.date}</span>
+            <Link href={href(article)} className="group flex items-start gap-4 py-5 sm:gap-6">
+              {hasCoverImage(article.image) ? (
+                <span className="relative h-16 w-16 shrink-0 overflow-hidden rounded-[6px] bg-[#eee8dc] sm:h-20 sm:w-20">
+                  <Image src={article.image} alt="" fill sizes="80px" className="object-cover" />
+                </span>
+              ) : null}
+              <span className="grid min-w-0 flex-1 gap-1 sm:grid-cols-[10rem_1fr_auto] sm:items-baseline sm:gap-6">
+                <span className="text-[0.8125rem] font-semibold text-[#9f5528]">
+                  {toSentenceCase(article.category)}
+                </span>
+                <span className="crc-serif text-[1.15rem] font-semibold leading-[1.3] text-[#171713] group-hover:underline group-hover:decoration-[#bd6f3c] group-hover:underline-offset-4 sm:text-[1.25rem]">
+                  {article.title}
+                </span>
+                <span className="text-[0.875rem] text-[#6f675d] sm:text-right">
+                  {article.author} · <span className="tabular-nums">{article.date}</span>
+                </span>
               </span>
             </Link>
           </li>
