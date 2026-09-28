@@ -366,8 +366,131 @@
   "navigation": {
     "items": [
       {
+        "id": "nav-instituciones",
+        "label": "Qué hacemos",
+        "href": "/instituciones",
+        "visible": true,
+        "description": "Consultoría, compliance y formación para instituciones.",
+        "children": [
+          {
+            "id": "nav-inst-hub",
+            "label": "Trabajar con el CRC",
+            "href": "/instituciones",
+            "visible": true,
+            "description": "Cómo trabajamos y agenda de 20 minutos con Hugo.",
+            "children": []
+          },
+          {
+            "id": "nav-inst-compliance",
+            "label": "Compliance escolar",
+            "href": "/servicios/compliance-escolar",
+            "visible": true,
+            "description": "Ley 21.809, protocolos y trazabilidad.",
+            "children": []
+          },
+          {
+            "id": "nav-inst-formacion",
+            "label": "Formación para equipos",
+            "href": "/servicios/formacion",
+            "visible": true,
+            "description": "Programas y seminario en formato cerrado.",
+            "children": []
+          },
+          {
+            "id": "nav-inst-consultoria",
+            "label": "Consultoría de programas",
+            "href": "/servicios/consultoria",
+            "visible": true,
+            "description": "Evaluación y rediseño de modelos de intervención.",
+            "children": []
+          },
+          {
+            "id": "nav-inst-bienestar",
+            "label": "Bienestar escolar",
+            "href": "/servicios/bienestar-escolar",
+            "visible": true,
+            "description": "Convivencia y salud mental en el colegio.",
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "nav-academia",
+        "label": "Formación",
+        "href": "/seminarios/desproteccion-infancia",
+        "visible": true,
+        "description": "Seminarios y cursos para profesionales.",
+        "children": [
+          {
+            "id": "nav-academia-seminarios",
+            "label": "Seminario Desprotección de la infancia",
+            "href": "/seminarios/desproteccion-infancia",
+            "visible": true,
+            "description": "En vivo con Juan Carlos Rauld.",
+            "children": []
+          },
+          {
+            "id": "nav-academia-cursos",
+            "label": "Academia CRC",
+            "href": "/academia",
+            "visible": true,
+            "description": "Cursos online con certificación.",
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "nav-pc",
+        "label": "Ideas",
+        "href": "/pensamiento-critico",
+        "visible": true,
+        "description": "Investigación, columnas y publicaciones.",
+        "children": [
+          {
+            "id": "nav-pc-columnas",
+            "label": "Columnas",
+            "href": "/pensamiento-critico",
+            "visible": true,
+            "description": "Análisis breve sobre infancia, política y cuidado.",
+            "children": []
+          },
+          {
+            "id": "nav-pc-articulos",
+            "label": "Artículos académicos",
+            "href": "/trabajos-intelectuales",
+            "visible": true,
+            "description": "Trabajos con desarrollo teórico y referencias.",
+            "children": []
+          },
+          {
+            "id": "nav-pc-publicaciones",
+            "label": "Libros y publicaciones",
+            "href": "/publicaciones",
+            "visible": true,
+            "description": "Libros y ediciones del Centro.",
+            "children": []
+          },
+          {
+            "id": "nav-pc-envia",
+            "label": "Envía tu texto",
+            "href": "/envia-tu-texto",
+            "visible": true,
+            "description": "Convocatoria abierta a autoras y autores.",
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "nav-conocenos",
+        "label": "Equipo",
+        "href": "/conocenos",
+        "visible": true,
+        "description": "El equipo y el enfoque del CRC.",
+        "children": []
+      },
+      {
         "id": "nav-ayuda",
-        "label": "Necesito ayuda",
+        "label": "Familias",
         "href": "/servicios/acompanamiento-familiar",
         "visible": true,
         "description": "Apoyo para familias y personas.",
@@ -397,137 +520,6 @@
             "children": []
           }
         ]
-      },
-      {
-        "id": "nav-instituciones",
-        "label": "Instituciones",
-        "href": "/instituciones",
-        "visible": true,
-        "description": "Colegios, programas y organizaciones.",
-        "children": [
-          {
-            "id": "nav-inst-hub",
-            "label": "Trabajar con el CRC",
-            "href": "/instituciones",
-            "visible": true,
-            "description": "Cómo trabajamos y agenda de 20 minutos con Hugo.",
-            "children": []
-          },
-          {
-            "id": "nav-inst-compliance",
-            "label": "Compliance escolar",
-            "href": "/servicios/compliance-escolar",
-            "visible": true,
-            "description": "Ley 21.809, protocolos y trazabilidad institucional.",
-            "children": []
-          },
-          {
-            "id": "nav-inst-bienestar",
-            "label": "Bienestar escolar",
-            "href": "/servicios/bienestar-escolar",
-            "visible": true,
-            "description": "Convivencia, salud mental y prevención dentro del colegio.",
-            "children": []
-          },
-          {
-            "id": "nav-inst-consultoria",
-            "label": "Consultoría",
-            "href": "/servicios/consultoria",
-            "visible": true,
-            "description": "Diseño y mejora de programas y modelos de intervención.",
-            "children": []
-          },
-          {
-            "id": "nav-inst-formacion",
-            "label": "Formación y supervisión",
-            "href": "/servicios/formacion",
-            "visible": true,
-            "description": "Capacitación y supervisión clínica para equipos.",
-            "children": []
-          }
-        ]
-      },
-      {
-        "id": "nav-academia",
-        "label": "Academia",
-        "href": "/academia",
-        "visible": true,
-        "description": "Cursos y seminarios para profesionales.",
-        "children": [
-          {
-            "id": "nav-academia-cursos",
-            "label": "Cursos y programas",
-            "href": "/academia",
-            "visible": true,
-            "description": "Formación online con certificación del CRC.",
-            "children": []
-          },
-          {
-            "id": "nav-academia-seminarios",
-            "label": "Seminarios",
-            "href": "/seminarios/desproteccion-infancia",
-            "visible": true,
-            "description": "Encuentros en vivo sobre infancia y protección.",
-            "children": []
-          },
-          {
-            "id": "nav-academia-docentes",
-            "label": "Equipo docente",
-            "href": "/conocenos#equipo",
-            "visible": true,
-            "description": "Quiénes dictan cada curso y desde dónde lo hacen.",
-            "children": []
-          }
-        ]
-      },
-      {
-        "id": "nav-pc",
-        "label": "Pensamiento crítico",
-        "href": "/pensamiento-critico",
-        "visible": true,
-        "description": "Investigación, columnas y publicaciones.",
-        "children": [
-          {
-            "id": "nav-pc-columnas",
-            "label": "Columnas",
-            "href": "/pensamiento-critico",
-            "visible": true,
-            "description": "Análisis breve sobre infancia, política y cuidado.",
-            "children": []
-          },
-          {
-            "id": "nav-pc-articulos",
-            "label": "Artículos académicos",
-            "href": "/trabajos-intelectuales",
-            "visible": true,
-            "description": "Trabajos con desarrollo teórico y referencias.",
-            "children": []
-          },
-          {
-            "id": "nav-pc-publicaciones",
-            "label": "Publicaciones",
-            "href": "/publicaciones",
-            "visible": true,
-            "description": "Libros y ediciones del Centro.",
-            "children": []
-          },
-          {
-            "id": "nav-pc-envia",
-            "label": "Envía tu texto",
-            "href": "/envia-tu-texto",
-            "visible": true,
-            "description": "Convocatoria abierta a autoras y autores.",
-            "children": []
-          }
-        ]
-      },
-      {
-        "id": "nav-conocenos",
-        "label": "Quiénes somos",
-        "href": "/conocenos",
-        "visible": true,
-        "description": "El equipo y el enfoque del CRC.",
-        "children": []
       }
     ]
   },

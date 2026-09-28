@@ -168,7 +168,7 @@ export function HeroAcademia() {
               animate={{ opacity: 1 }}
               transition={{ delay: 1.1, duration: 0.9 }}
               style={{
-                fontFamily: "var(--font-cormorant, Georgia, serif)",
+                fontFamily: "var(--font-source-serif, Georgia, serif)",
                 fontSize: "0.72rem",
                 fontStyle: "italic",
                 fontWeight: 400,
@@ -276,7 +276,7 @@ export function HeroAcademia() {
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.75, ease, delay: i * 0.1 }}
                 style={{
-                  fontFamily: "var(--font-cormorant, Georgia, serif)",
+                  fontFamily: "var(--font-source-serif, Georgia, serif)",
                   fontSize: "clamp(2.2rem, 4vw, 3.8rem)",
                   fontWeight: 700, lineHeight: 1.0, letterSpacing: "-0.01em",
                   color: "var(--ac-text)",
@@ -291,7 +291,7 @@ export function HeroAcademia() {
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.75, ease, delay: 0.2 }}
               style={{
-                fontFamily: "var(--font-cormorant, Georgia, serif)",
+                fontFamily: "var(--font-source-serif, Georgia, serif)",
                 fontSize: "clamp(2.2rem, 4vw, 3.8rem)",
                 fontWeight: 700, lineHeight: 1.0, letterSpacing: "-0.01em",
                 color: "var(--ac-gold)",

@@ -49,7 +49,7 @@ export default async function ProfesorCursosPage() {
     <div className="mx-auto max-w-5xl px-5 py-16 sm:px-8">
       <h1
         style={{
-          fontFamily: "var(--font-cormorant, Georgia, serif)",
+          fontFamily: "var(--font-source-serif, Georgia, serif)",
           fontSize: "2.5rem",
           fontWeight: 700,
           color: "var(--ac-text)",

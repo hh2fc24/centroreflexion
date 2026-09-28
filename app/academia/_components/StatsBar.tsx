@@ -63,7 +63,7 @@ function StatItem({ stat, active, last }: { stat: Stat; active: boolean; last: b
       <div
         className="leading-none font-bold tabular-nums"
         style={{
-          fontFamily: "var(--font-cormorant, Georgia, serif)",
+          fontFamily: "var(--font-source-serif, Georgia, serif)",
           fontSize: "clamp(2rem, 3.5vw, 2.8rem)",
           color: "var(--ac-text)",
           letterSpacing: "-0.02em",

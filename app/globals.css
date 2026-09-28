@@ -46,15 +46,15 @@
   --color-surface:          var(--surface);
   --color-muted-foreground: var(--muted-foreground);
   --color-border:           var(--border);
-  --font-sans: var(--font-inter);
-  --font-serif: var(--font-merriweather);
+  --font-sans: var(--font-plex);
+  --font-serif: var(--font-source-serif);
 }
 
 /* ─── Base ───────────────────────────────────────────────────── */
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
+  font-family: var(--font-plex), Arial, Helvetica, sans-serif;
   overflow-x: hidden;
   scrollbar-gutter: stable;
 }
@@ -92,7 +92,8 @@ span {
 }
 
 .crc-serif {
-  font-family: var(--font-cormorant), 'Merriweather', Georgia, serif;
+  font-family: var(--font-source-serif), Georgia, 'Times New Roman', serif;
+  letter-spacing: -0.01em;
 }
 
 /* Gold rule divider */

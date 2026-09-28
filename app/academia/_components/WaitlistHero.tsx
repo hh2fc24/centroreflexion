@@ -53,7 +53,7 @@ export function WaitlistHero() {
         <h1 
           className="text-balance mb-6"
           style={{
-            fontFamily: "var(--font-cormorant, Georgia, serif)",
+            fontFamily: "var(--font-source-serif, Georgia, serif)",
             fontSize: "clamp(2.5rem, 6vw, 5rem)",
             fontWeight: 700,
             lineHeight: 0.95,
@@ -75,7 +75,7 @@ export function WaitlistHero() {
           {status === "success" ? (
             <div className="flex flex-col items-center justify-center p-6 border border-[var(--ac-gold-dim)] bg-black/30 backdrop-blur-md rounded-lg animate-in fade-in zoom-in duration-500">
               <CheckCircle2 className="w-10 h-10 text-[var(--ac-gold)] mb-4" />
-              <h3 className="text-lg font-bold text-[var(--ac-text)] mb-2 font-cormorant">Estás en la lista.</h3>
+              <h3 className="text-lg font-bold text-[var(--ac-text)] mb-2 crc-serif">Estás en la lista.</h3>
               <p className="text-sm text-[var(--ac-text-3)] text-center">
                 Te notificaremos cuando el acceso esté habilitado. Prepárate para desaprender.
               </p>

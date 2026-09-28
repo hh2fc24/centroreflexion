@@ -52,7 +52,7 @@ export default async function MisCursosPage() {
     <div className="mx-auto max-w-5xl px-5 py-16 sm:px-8">
       <h1
         style={{
-          fontFamily: "var(--font-cormorant, Georgia, serif)",
+          fontFamily: "var(--font-source-serif, Georgia, serif)",
           fontSize: "clamp(2rem, 5vw, 3rem)",
           fontWeight: 700,
           color: "var(--ac-text)",

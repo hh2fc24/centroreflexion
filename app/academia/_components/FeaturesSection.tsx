@@ -81,7 +81,7 @@ export function FeaturesSection() {
       >
         <h2
           style={{
-            fontFamily: "var(--font-cormorant, Georgia, serif)",
+            fontFamily: "var(--font-source-serif, Georgia, serif)",
             fontSize: "clamp(2rem, 3.5vw, 3.2rem)",
             fontWeight: 700,
             lineHeight: 0.98,
@@ -169,7 +169,7 @@ export function FeaturesSection() {
                 >
                   <span
                     style={{
-                      fontFamily: "var(--font-cormorant, Georgia, serif)",
+                      fontFamily: "var(--font-source-serif, Georgia, serif)",
                       fontSize: isFull ? "clamp(2.8rem, 4vw, 3.8rem)" : "clamp(1.9rem, 2.8vw, 2.6rem)",
                       fontWeight: 700,
                       lineHeight: 1,
@@ -212,7 +212,7 @@ export function FeaturesSection() {
                     <h3
                       className={`transition-colors duration-300 group-hover:!text-[var(--ac-gold)]${isFull ? " ac-feat-full-title" : ""}`}
                       style={{
-                        fontFamily: "var(--font-cormorant, Georgia, serif)",
+                        fontFamily: "var(--font-source-serif, Georgia, serif)",
                         fontSize: isFull ? "clamp(1.3rem, 1.8vw, 1.55rem)" : "clamp(1rem, 1.5vw, 1.18rem)",
                         fontWeight: 600,
                         color: "var(--ac-text)",

@@ -31,7 +31,7 @@ export function PagoInstrucciones({ cursoTitulo, cursoId, cursoSlug, precio, mon
           </div>
           <div>
             <p className="text-[0.65rem] font-bold uppercase tracking-[0.15em]" style={{ color: "var(--ac-gold)" }}>Inscripción reservada</p>
-            <h1 style={{ fontFamily: "var(--font-cormorant, serif)", fontSize: "1.8rem", fontWeight: 700, color: "var(--ac-text)", lineHeight: 1.1 }}>
+            <h1 style={{ fontFamily: "var(--font-source-serif, Georgia, serif)", fontSize: "1.8rem", fontWeight: 700, color: "var(--ac-text)", lineHeight: 1.1 }}>
               Finaliza tu acceso
             </h1>
           </div>

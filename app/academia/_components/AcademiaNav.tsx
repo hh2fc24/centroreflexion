@@ -80,7 +80,7 @@ export function AcademiaNav({ rol = null, authed = false }: { rol?: Rol; authed?
           </div>
           <span
             className="font-bold tracking-tight"
-            style={{ fontFamily: "var(--font-cormorant, Georgia, serif)", fontSize: "1.15rem", color: "var(--ac-text)" }}
+            style={{ fontFamily: "var(--font-source-serif, Georgia, serif)", fontSize: "1.15rem", color: "var(--ac-text)" }}
           >
             Academia <span style={{ color: "var(--ac-gold)" }}>CRC</span>
           </span>

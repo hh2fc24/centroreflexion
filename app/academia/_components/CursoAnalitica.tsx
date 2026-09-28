@@ -85,7 +85,7 @@ export function CursoAnalitica({ cursoTitulo, totalInscritos, kpis, lecciones, a
       </Link>
 
       <span className="crc-eyebrow mt-4 block" style={{ color: "var(--ac-gold)" }}>Analítica de aprendizaje</span>
-      <h1 className="mt-1" style={{ fontFamily: "var(--font-cormorant, Georgia, serif)", fontSize: "clamp(1.8rem,4vw,2.6rem)", fontWeight: 700, color: "var(--ac-text)", lineHeight: 1.05 }}>
+      <h1 className="mt-1" style={{ fontFamily: "var(--font-source-serif, Georgia, serif)", fontSize: "clamp(1.8rem,4vw,2.6rem)", fontWeight: 700, color: "var(--ac-text)", lineHeight: 1.05 }}>
         {cursoTitulo}
       </h1>
 
@@ -205,7 +205,7 @@ function Kpi({ icon: Icon, color, label, value }: { icon: typeof Users; color: s
       <div className="flex h-9 w-9 items-center justify-center rounded-lg" style={{ background: `${color}1f` }}>
         <Icon className="h-4 w-4" style={{ color }} />
       </div>
-      <p className="mt-3" style={{ fontFamily: "var(--font-cormorant, serif)", fontSize: "1.9rem", fontWeight: 700, color: "var(--ac-text)" }}>{value}</p>
+      <p className="mt-3" style={{ fontFamily: "var(--font-source-serif, Georgia, serif)", fontSize: "1.9rem", fontWeight: 700, color: "var(--ac-text)" }}>{value}</p>
       <p className="text-xs" style={{ color: "var(--ac-text-3)" }}>{label}</p>
     </div>
   );

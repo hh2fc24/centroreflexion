@@ -117,7 +117,7 @@ export function CursoPageClient({ curso, profesor, profesorId, modulos, inscrito
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
               style={{
-                fontFamily: "var(--font-cormorant, Georgia, serif)",
+                fontFamily: "var(--font-source-serif, Georgia, serif)",
                 fontSize: "clamp(1.8rem, 3.5vw, 3rem)",
                 fontWeight: 700,
                 color: "var(--ac-text)",
@@ -216,7 +216,7 @@ export function CursoPageClient({ curso, profesor, profesorId, modulos, inscrito
                 <p
                   className="mb-4 font-bold"
                   style={{
-                    fontFamily: "var(--font-cormorant, Georgia, serif)",
+                    fontFamily: "var(--font-source-serif, Georgia, serif)",
                     fontSize: "2rem",
                     color: "var(--ac-text)",
                   }}
@@ -477,7 +477,7 @@ export function CursoPageClient({ curso, profesor, profesorId, modulos, inscrito
                       color: "var(--ac-gold-light)",
                       border: "1px solid rgba(212,168,67,0.3)",
                       borderRadius: "8px",
-                      fontFamily: "var(--font-cormorant, serif)",
+                      fontFamily: "var(--font-source-serif, Georgia, serif)",
                     }}
                   >
                     {profInitials}
@@ -486,7 +486,7 @@ export function CursoPageClient({ curso, profesor, profesorId, modulos, inscrito
                 <div>
                   <h3
                     style={{
-                      fontFamily: "var(--font-cormorant, Georgia, serif)",
+                      fontFamily: "var(--font-source-serif, Georgia, serif)",
                       fontSize: "1.5rem",
                       fontWeight: 700,
                       color: "var(--ac-text)",

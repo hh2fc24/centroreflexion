@@ -49,7 +49,7 @@ export default async function AdminCursosPage() {
       <div className="flex flex-wrap items-end justify-between gap-4">
         <h1
           style={{
-            fontFamily: "var(--font-cormorant, Georgia, serif)",
+            fontFamily: "var(--font-source-serif, Georgia, serif)",
             fontSize: "2.5rem",
             fontWeight: 700,
             color: "var(--ac-text)",

@@ -474,7 +474,7 @@ function TextoMode({ text, titulo, descripcion }: { text: string[]; titulo: stri
   return (
     <article className="mx-auto max-w-2xl py-4">
       <h1
-        style={{ fontFamily: "var(--font-cormorant, Georgia, serif)", fontSize: "clamp(1.6rem,3vw,2.4rem)", fontWeight: 700, color: "var(--ac-text)", lineHeight: 1.15 }}
+        style={{ fontFamily: "var(--font-source-serif, Georgia, serif)", fontSize: "clamp(1.6rem,3vw,2.4rem)", fontWeight: 700, color: "var(--ac-text)", lineHeight: 1.15 }}
       >
         {titulo}
       </h1>

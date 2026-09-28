@@ -120,7 +120,7 @@ export default async function AcademiaPage() {
             <h3
               className="mt-3 leading-tight"
               style={{
-                fontFamily: "var(--font-cormorant, Georgia, serif)",
+                fontFamily: "var(--font-source-serif, Georgia, serif)",
                 fontSize: "clamp(1.6rem, 2.6vw, 2.3rem)",
                 fontWeight: 700,
                 color: "var(--ac-text)",
@@ -151,7 +151,7 @@ export default async function AcademiaPage() {
         <div className="mb-12 grid gap-4 lg:grid-cols-2 lg:items-end">
           <h2
             style={{
-              fontFamily: "var(--font-cormorant, Georgia, serif)",
+              fontFamily: "var(--font-source-serif, Georgia, serif)",
               fontSize: "clamp(2rem, 3.5vw, 3.2rem)",
               fontWeight: 700,
               lineHeight: 0.98,
@@ -223,7 +223,7 @@ export default async function AcademiaPage() {
           <h2
             className="mx-auto mt-4 max-w-2xl leading-tight"
             style={{
-              fontFamily: "var(--font-cormorant, Georgia, serif)",
+              fontFamily: "var(--font-source-serif, Georgia, serif)",
               fontSize: "clamp(2rem, 3.5vw, 3.2rem)",
               fontWeight: 700,
               color: "var(--ac-text)",

@@ -52,8 +52,8 @@ export function ThemeApplier() {
       theme.font === "geist"
         ? "var(--font-geist)"
         : theme.font === "merriweather"
-          ? "var(--font-merriweather)"
-          : "var(--font-inter)"
+          ? "var(--font-source-serif)"
+          : "var(--font-plex)"
     );
 
     const scale = Math.min(1.15, Math.max(0.9, theme.textScale));

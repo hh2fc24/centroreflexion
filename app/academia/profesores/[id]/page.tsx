@@ -75,7 +75,7 @@ export default async function ProfesorPage({ params }: Props) {
             // eslint-disable-next-line @next/next/no-img-element
             <img src={prof.avatar_url} alt={nombre} className="h-full w-full object-cover" />
           ) : (
-            <span style={{ fontFamily: "var(--font-cormorant, serif)", fontSize: "3rem", fontWeight: 700, color: "var(--ac-gold-light)" }}>
+            <span style={{ fontFamily: "var(--font-source-serif, Georgia, serif)", fontSize: "3rem", fontWeight: 700, color: "var(--ac-gold-light)" }}>
               {iniciales}
             </span>
           )}
@@ -85,7 +85,7 @@ export default async function ProfesorPage({ params }: Props) {
           <span className="crc-eyebrow" style={{ color: "var(--ac-gold)" }}>Profesor</span>
           <h1
             className="mt-2"
-            style={{ fontFamily: "var(--font-cormorant, Georgia, serif)", fontSize: "clamp(2.2rem,5vw,3.4rem)", fontWeight: 700, lineHeight: 1, color: "var(--ac-text)" }}
+            style={{ fontFamily: "var(--font-source-serif, Georgia, serif)", fontSize: "clamp(2.2rem,5vw,3.4rem)", fontWeight: 700, lineHeight: 1, color: "var(--ac-text)" }}
           >
             {nombre}
           </h1>
@@ -106,7 +106,7 @@ export default async function ProfesorPage({ params }: Props) {
           style={{ background: "linear-gradient(135deg, var(--ac-surface), var(--ac-surface-2))", border: "1px solid var(--ac-border-md)" }}
         >
           <Quote className="absolute right-6 top-6 h-12 w-12 opacity-10" style={{ color: "var(--ac-gold)" }} />
-          <p style={{ fontFamily: "var(--font-cormorant, serif)", fontSize: "clamp(1.4rem,3vw,2rem)", fontWeight: 600, fontStyle: "italic", color: "var(--ac-text)", lineHeight: 1.3 }}>
+          <p style={{ fontFamily: "var(--font-source-serif, Georgia, serif)", fontSize: "clamp(1.4rem,3vw,2rem)", fontWeight: 600, fontStyle: "italic", color: "var(--ac-text)", lineHeight: 1.3 }}>
             “{extra.fraseDestacada}”
           </p>
         </blockquote>
@@ -142,7 +142,7 @@ export default async function ProfesorPage({ params }: Props) {
           <div className="grid gap-4 sm:grid-cols-2">
             {extra.ideasClave.map((idea, i) => (
               <div key={i} className="rounded-xl p-5" style={{ background: "var(--ac-surface)", border: "1px solid var(--ac-border)" }}>
-                <span style={{ fontFamily: "var(--font-cormorant, serif)", fontSize: "1.6rem", fontWeight: 700, color: "var(--ac-gold)" }}>0{i + 1}</span>
+                <span style={{ fontFamily: "var(--font-source-serif, Georgia, serif)", fontSize: "1.6rem", fontWeight: 700, color: "var(--ac-gold)" }}>0{i + 1}</span>
                 <p className="mt-2 text-sm leading-relaxed" style={{ color: "var(--ac-text-2)" }}>{idea}</p>
               </div>
             ))}

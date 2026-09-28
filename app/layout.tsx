@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import type { CSSProperties } from "react";
 import { Suspense } from "react";
 import { Analytics } from "@vercel/analytics/next";
-import { Cormorant_Garamond, Geist, Inter, Merriweather } from "next/font/google";
+import { Geist, IBM_Plex_Sans, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -18,24 +18,22 @@ import { readPublishedDiskState } from "@/lib/server/publishedDisk";
 import { getSiteUrl } from "@/lib/site";
 import { DEFAULT_OG_IMAGE, SITE_NAME } from "@/lib/seo";
 
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-});
-
-const merriweather = Merriweather({
-  weight: ["300", "400", "700", "900"],
-  subsets: ["latin"],
-  variable: "--font-merriweather",
-  display: "swap",
-});
-
-const cormorant = Cormorant_Garamond({
-  weight: ["300", "400", "500", "600", "700"],
+// Tipografía institucional: una serif de texto sólida para títulos y una sans
+// sobria para lectura e interfaz. Reemplaza a Cormorant (display fina),
+// Merriweather e Inter.
+const plexSans = IBM_Plex_Sans({
+  weight: ["400", "500", "600", "700"],
   style: ["normal", "italic"],
   subsets: ["latin"],
-  variable: "--font-cormorant",
+  variable: "--font-plex",
+  display: "swap",
+});
+
+const sourceSerif = Source_Serif_4({
+  weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  subsets: ["latin"],
+  variable: "--font-source-serif",
   display: "swap",
 });
 
@@ -146,8 +144,8 @@ function toThemeVars(theme: ThemeSettings): CSSProperties {
       theme.font === "geist"
         ? "var(--font-geist)"
         : theme.font === "merriweather"
-          ? "var(--font-merriweather)"
-          : "var(--font-inter)",
+          ? "var(--font-source-serif)"
+          : "var(--font-plex)",
   };
 }
 
@@ -163,7 +161,7 @@ export default async function RootLayout({
   return (
     <html lang="es" data-mode={theme.mode}>
       <body
-        className={`${inter.variable} ${merriweather.variable} ${geist.variable} ${cormorant.variable} antialiased flex flex-col min-h-screen font-sans`}
+        className={`${plexSans.variable} ${sourceSerif.variable} ${geist.variable} antialiased flex flex-col min-h-screen font-sans`}
         style={toThemeVars(theme)}
       >
         <EditorProviders>

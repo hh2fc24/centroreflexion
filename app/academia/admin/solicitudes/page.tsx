@@ -44,7 +44,7 @@ export default async function SolicitudesPage() {
       <div className="flex items-center gap-3">
         <Link href="/academia/admin/cursos" className="text-xs font-semibold" style={{ color: "var(--ac-text-3)" }}>← Admin</Link>
       </div>
-      <h1 className="mt-4" style={{ fontFamily: "var(--font-cormorant, Georgia, serif)", fontSize: "2.5rem", fontWeight: 700, color: "var(--ac-text)" }}>
+      <h1 className="mt-4" style={{ fontFamily: "var(--font-source-serif, Georgia, serif)", fontSize: "2.5rem", fontWeight: 700, color: "var(--ac-text)" }}>
         Solicitudes de inscripción
       </h1>
       <p className="mt-2 text-sm" style={{ color: "var(--ac-text-3)" }}>

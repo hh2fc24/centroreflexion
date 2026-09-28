@@ -79,7 +79,7 @@ function CursoItem({ curso, index }: { curso: CursoCard; index: number }) {
                 <span
                   className="absolute bottom-4 right-4 select-none leading-none tabular-nums"
                   style={{
-                    fontFamily: "var(--font-cormorant, Georgia, serif)",
+                    fontFamily: "var(--font-source-serif, Georgia, serif)",
                     fontSize: "5rem",
                     fontWeight: 700,
                     color: "rgba(212,168,67,0.08)",
@@ -120,7 +120,7 @@ function CursoItem({ curso, index }: { curso: CursoCard; index: number }) {
             <h3
               className="font-semibold leading-snug line-clamp-2 transition-colors duration-200 group-hover:text-[var(--ac-gold)]"
               style={{
-                fontFamily: "var(--font-cormorant, Georgia, serif)",
+                fontFamily: "var(--font-source-serif, Georgia, serif)",
                 fontSize: "1.15rem",
                 fontWeight: 600,
                 color: "var(--ac-text)",

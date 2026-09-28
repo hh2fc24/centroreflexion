@@ -211,7 +211,7 @@ function WelcomeHeader({ user }: { user: DashboardProps["user"] }) {
             style={{
               background: "linear-gradient(135deg, var(--ac-gold-dim), rgba(107,92,231,0.18))",
               border: "1px solid var(--ac-border-gold)", borderRadius: "14px",
-              color: "var(--ac-gold-light)", fontFamily: "var(--font-cormorant, serif)",
+              color: "var(--ac-gold-light)", fontFamily: "var(--font-source-serif, Georgia, serif)",
             }}>
             {user.avatar_initials}
           </div>
@@ -219,7 +219,7 @@ function WelcomeHeader({ user }: { user: DashboardProps["user"] }) {
         <div>
           <p className="text-[0.72rem] uppercase tracking-[0.18em]" style={{ color: "var(--ac-text-3)" }}>{saludo}</p>
           <h1 style={{
-            fontFamily: "var(--font-cormorant, Georgia, serif)",
+            fontFamily: "var(--font-source-serif, Georgia, serif)",
             fontSize: "clamp(1.6rem, 4vw, 2.3rem)", fontWeight: 700,
             color: "var(--ac-text)", lineHeight: 1.05,
           }}>
@@ -264,7 +264,7 @@ function OnboardingState() {
             <Sparkles className="h-3.5 w-3.5" /> Tu biblioteca crítica te espera
           </span>
           <h2 className="mt-3" style={{
-            fontFamily: "var(--font-cormorant, Georgia, serif)",
+            fontFamily: "var(--font-source-serif, Georgia, serif)",
             fontSize: "clamp(1.8rem, 4.5vw, 2.9rem)", fontWeight: 700,
             color: "var(--ac-text)", lineHeight: 1.02,
           }}>
@@ -303,7 +303,7 @@ function OnboardingState() {
             <p className="mt-4 text-[0.72rem] font-bold uppercase tracking-[0.14em]" style={{ color: "var(--ac-text-3)" }}>
               Paso {i + 1}
             </p>
-            <h3 className="mt-1 text-lg font-semibold" style={{ color: "var(--ac-text)", fontFamily: "var(--font-cormorant, serif)" }}>
+            <h3 className="mt-1 text-lg font-semibold" style={{ color: "var(--ac-text)", fontFamily: "var(--font-source-serif, Georgia, serif)" }}>
               {p.titulo}
             </h3>
             <p className="mt-1.5 text-sm leading-relaxed" style={{ color: "var(--ac-text-2)" }}>{p.desc}</p>
@@ -339,7 +339,7 @@ function ActiveState({ cursosActivos, stats }: Pick<DashboardProps, "cursosActiv
             <div className="relative shrink-0">
               <ProgressRing pct={progresoGeneral} size={112} />
               <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <span className="text-2xl font-bold leading-none" style={{ color: "var(--ac-gold-light)", fontFamily: "var(--font-cormorant, serif)" }}>
+                <span className="text-2xl font-bold leading-none" style={{ color: "var(--ac-gold-light)", fontFamily: "var(--font-source-serif, Georgia, serif)" }}>
                   {progresoGeneral}%
                 </span>
               </div>
@@ -347,7 +347,7 @@ function ActiveState({ cursosActivos, stats }: Pick<DashboardProps, "cursosActiv
             <div className="min-w-0 flex-1">
               <p className="text-[0.72rem] uppercase tracking-[0.15em]" style={{ color: "var(--ac-text-3)" }}>Progreso general</p>
               <p className="mt-1.5" style={{
-                fontFamily: "var(--font-cormorant, Georgia, serif)",
+                fontFamily: "var(--font-source-serif, Georgia, serif)",
                 fontSize: "clamp(1.3rem, 3vw, 1.9rem)", fontWeight: 700, color: "var(--ac-text)", lineHeight: 1.05,
               }}>
                 {stats.cursos_completados} de {stats.cursos_inscritos} cursos completados
@@ -371,7 +371,7 @@ function ActiveState({ cursosActivos, stats }: Pick<DashboardProps, "cursosActiv
             <div>
               <p className="text-[0.72rem] uppercase tracking-[0.15em]" style={{ color: "var(--ac-text-3)" }}>Racha</p>
               <p className="mt-1 flex items-baseline gap-1.5">
-                <span style={{ fontFamily: "var(--font-cormorant, serif)", fontSize: "2.4rem", fontWeight: 700, color: "var(--ac-text)", lineHeight: 1 }}>
+                <span style={{ fontFamily: "var(--font-source-serif, Georgia, serif)", fontSize: "2.4rem", fontWeight: 700, color: "var(--ac-text)", lineHeight: 1 }}>
                   {stats.racha_dias}
                 </span>
                 <span className="text-sm" style={{ color: "var(--ac-text-2)" }}>días</span>
@@ -395,7 +395,7 @@ function ActiveState({ cursosActivos, stats }: Pick<DashboardProps, "cursosActiv
       {/* Fila 3: continuar aprendiendo */}
       <div>
         <div className="mb-4 flex items-center justify-between">
-          <h2 style={{ fontFamily: "var(--font-cormorant, Georgia, serif)", fontSize: "1.55rem", fontWeight: 700, color: "var(--ac-text)" }}>
+          <h2 style={{ fontFamily: "var(--font-source-serif, Georgia, serif)", fontSize: "1.55rem", fontWeight: 700, color: "var(--ac-text)" }}>
             Continuar aprendiendo
           </h2>
           <Link href="/academia/mis-cursos"

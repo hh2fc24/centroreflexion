@@ -112,9 +112,9 @@ export function EditableText({
           override.font === "geist"
             ? "var(--font-geist)"
             : override.font === "merriweather"
-              ? "var(--font-merriweather)"
+              ? "var(--font-source-serif)"
               : override.font === "inter"
-                ? "var(--font-inter)"
+                ? "var(--font-plex)"
                 : undefined,
         fontSize: override.fontSizePx ? `${override.fontSizePx}px` : undefined,
         fontWeight: override.fontWeight,

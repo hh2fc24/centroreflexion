@@ -66,7 +66,7 @@ export default async function ExplorarPage() {
           <h1
             className="mt-3"
             style={{
-              fontFamily: "var(--font-cormorant, Georgia, serif)",
+              fontFamily: "var(--font-source-serif, Georgia, serif)",
               fontSize: "clamp(2rem, 4vw, 3rem)",
               fontWeight: 700,
               lineHeight: 1,

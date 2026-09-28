@@ -25,7 +25,7 @@ function DashboardNotConfigured() {
         </div>
         <h2
           style={{
-            fontFamily: "var(--font-cormorant, Georgia, serif)",
+            fontFamily: "var(--font-source-serif, Georgia, serif)",
             fontSize: "1.8rem",
             fontWeight: 700,
             color: "var(--ac-text)",

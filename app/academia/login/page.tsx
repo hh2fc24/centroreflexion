@@ -138,7 +138,7 @@ function AcademiaLoginForm() {
             </div>
             <span
               style={{
-                fontFamily: "var(--font-cormorant, Georgia, serif)",
+                fontFamily: "var(--font-source-serif, Georgia, serif)",
                 fontSize: "1.25rem",
                 fontWeight: 700,
                 color: "var(--ac-text)",
@@ -157,7 +157,7 @@ function AcademiaLoginForm() {
             <blockquote
               className="leading-relaxed"
               style={{
-                fontFamily: "var(--font-cormorant, Georgia, serif)",
+                fontFamily: "var(--font-source-serif, Georgia, serif)",
                 fontSize: "clamp(1.2rem, 2vw, 1.6rem)",
                 fontWeight: 500,
                 fontStyle: "italic",
@@ -193,7 +193,7 @@ function AcademiaLoginForm() {
                 <span className="text-2xl">✉️</span>
               </div>
               <h1
-                style={{ fontFamily: "var(--font-cormorant, Georgia, serif)", fontSize: "2rem", fontWeight: 700, color: "var(--ac-text)" }}
+                style={{ fontFamily: "var(--font-source-serif, Georgia, serif)", fontSize: "2rem", fontWeight: 700, color: "var(--ac-text)" }}
               >
                 Revisa tu email
               </h1>
@@ -221,7 +221,7 @@ function AcademiaLoginForm() {
               >
                 <h1
                   style={{
-                    fontFamily: "var(--font-cormorant, Georgia, serif)",
+                    fontFamily: "var(--font-source-serif, Georgia, serif)",
                     fontSize: "clamp(1.6rem, 3vw, 2rem)",
                     fontWeight: 700,
                     color: "var(--ac-text)",

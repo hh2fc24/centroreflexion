@@ -29,7 +29,7 @@ export function ProfesorDashboard({
       <span className="crc-eyebrow" style={{ color: "var(--ac-gold)" }}>Panel de profesor</span>
       <h1
         className="mt-2"
-        style={{ fontFamily: "var(--font-cormorant, Georgia, serif)", fontSize: "clamp(2rem,5vw,3rem)", fontWeight: 700, color: "var(--ac-text)", lineHeight: 1 }}
+        style={{ fontFamily: "var(--font-source-serif, Georgia, serif)", fontSize: "clamp(2rem,5vw,3rem)", fontWeight: 700, color: "var(--ac-text)", lineHeight: 1 }}
       >
         Hola{nombre ? `, ${nombre}` : ""}.
       </h1>
@@ -101,7 +101,7 @@ function Stat({ icon: Icon, label, value, color }: { icon: typeof BookOpen; labe
       <div className="flex h-10 w-10 items-center justify-center" style={{ background: `${color}1f`, borderRadius: "10px" }}>
         <Icon className="h-[18px] w-[18px]" style={{ color }} />
       </div>
-      <p className="mt-3 tabular-nums" style={{ fontFamily: "var(--font-cormorant, serif)", fontSize: "2.1rem", fontWeight: 700, color: "var(--ac-text)", lineHeight: 1 }}>{value}</p>
+      <p className="mt-3 tabular-nums" style={{ fontFamily: "var(--font-source-serif, Georgia, serif)", fontSize: "2.1rem", fontWeight: 700, color: "var(--ac-text)", lineHeight: 1 }}>{value}</p>
       <p className="mt-1 text-[0.7rem] uppercase tracking-[0.1em]" style={{ color: "var(--ac-text-3)" }}>{label}</p>
     </div>
   );
