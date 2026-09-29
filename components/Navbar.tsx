@@ -195,8 +195,8 @@ export function Navbar({ initialNavigation }: { initialNavigation?: NavigationCo
             </div>
 
             {isOpen && (
-                <div className="border-t border-[#d8cfc0] bg-[#f8f5ee] min-[1240px]:hidden">
-                    <div className="px-5 py-4">
+                <div className="max-h-[calc(100dvh-72px)] touch-pan-y overflow-y-auto overscroll-contain border-t border-[#d8cfc0] bg-[#f8f5ee] [-webkit-overflow-scrolling:touch] min-[1240px]:hidden sm:max-h-[calc(100dvh-82px)]">
+                    <div className="px-5 py-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
                         <Link
                             href={cta.href}
                             onClick={() => setIsOpen(false)}

@@ -63,6 +63,18 @@ html {
   scroll-behavior: smooth;
 }
 
+/* En móviles, el scroll suave global y el gutter estable pueden interferir
+   con la inercia nativa en páginas largas (especialmente en Safari iOS). */
+@media (max-width: 767px) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  body {
+    scrollbar-gutter: auto;
+  }
+}
+
 *,
 *::before,
 *::after {

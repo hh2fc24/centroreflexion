@@ -50,7 +50,13 @@ const AUTHOR_DIRECTORY: AuthorProfile[] = [
     {
         match: "Alejandro Castro",
         image: null,
-        role: "Doctor en Sociología. Académico del Departamento de Trabajo Social, Universidad Alberto Hurtado.",
+        role: "Doctor en Sociología. Departamento de Trabajo Social, Universidad Alberto Hurtado. Miembro de SOSAMCHI.",
+    },
+    { match: "Paulina Lara Riquelme", image: null, role: "Terapeuta Ocupacional." },
+    {
+        match: "Jeremy Nito Rodríguez Barra",
+        image: null,
+        role: "Mountain Train — Carpintería de Autor. Las Montañas de La Colorada, Coquimbo, Chile.",
     },
     { match: "Camilo Gallyas", image: null, role: "Psicólogo clínico." },
     { match: "Isaac Francisco Ruiz Muñoz", image: null, role: "Profesional del Trabajo Social." },
@@ -344,6 +350,23 @@ export default function ArticleDetail({
 
     const details = getAuthorDetails(article.author);
 
+    const renderLinkedText = (text: string) =>
+        text.split(/(https?:\/\/\S+)/g).map((part, partIndex) =>
+            part.startsWith("http") ? (
+                <a
+                    key={partIndex}
+                    href={part}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="break-all text-[#9f5528] underline underline-offset-2"
+                >
+                    {part}
+                </a>
+            ) : (
+                part
+            ),
+        );
+
     const normalize = (value: string) => value.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
     const lower = article.content.map((p) => p.toLowerCase());
     const refHeaderIndex = lower.findIndex(
@@ -437,22 +460,30 @@ export default function ArticleDetail({
                             const cleanRef = paragraph.replace(/^•\s*/, "");
                             return (
                                 <p key={index} className="mb-3 break-words pl-6 -indent-6 font-sans text-[0.9375rem] leading-[1.6] text-[#55574f]">
-                                    {cleanRef.split(/(https?:\/\/\S+)/g).map((part, partIndex) =>
-                                        part.startsWith("http") ? (
-                                            <a
-                                                key={partIndex}
-                                                href={part}
-                                                target="_blank"
-                                                rel="noreferrer"
-                                                className="break-all text-[#9f5528] underline underline-offset-2"
-                                            >
-                                                {part}
-                                            </a>
-                                        ) : (
-                                            part
-                                        ),
-                                    )}
+                                    {renderLinkedText(cleanRef)}
                                 </p>
+                            );
+                        }
+
+                        if (paragraph.startsWith("## ")) {
+                            return (
+                                <h2
+                                    key={index}
+                                    className="mb-5 mt-14 text-balance text-[clamp(1.4rem,2vw,1.75rem)] font-semibold leading-[1.2] tracking-[-0.01em] text-[#171713]"
+                                >
+                                    {paragraph.slice(3)}
+                                </h2>
+                            );
+                        }
+
+                        if (paragraph.startsWith("> ")) {
+                            return (
+                                <blockquote
+                                    key={index}
+                                    className="my-10 border-y border-[#d8cfc0] py-6 text-[1.2rem] italic leading-[1.6] text-[#55574f] sm:text-[1.3rem]"
+                                >
+                                    {paragraph.slice(2)}
+                                </blockquote>
                             );
                         }
 
@@ -464,7 +495,7 @@ export default function ArticleDetail({
                                         index === noteHeaderIndex ? " mt-10 border-t border-[#d8cfc0] pt-6" : ""
                                     }`}
                                 >
-                                    {paragraph}
+                                    {renderLinkedText(paragraph)}
                                 </p>
                             );
                         }
@@ -483,6 +514,14 @@ export default function ArticleDetail({
                         if (paragraph.startsWith("• ")) {
                             return (
                                 <p key={index} className="mb-3 pl-6 -indent-5">
+                                    {paragraph}
+                                </p>
+                            );
+                        }
+
+                        if (/^\d+\.\s/.test(paragraph)) {
+                            return (
+                                <p key={index} className="mb-5 pl-7 -indent-7">
                                     {paragraph}
                                 </p>
                             );
