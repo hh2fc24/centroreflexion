@@ -369,6 +369,7 @@ export default function ArticleDetail({
 
     const normalize = (value: string) => value.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
     const lower = article.content.map((p) => p.toLowerCase());
+    const notesHeaderIndex = lower.findIndex((p) => p.trim() === "## notas");
     const refHeaderIndex = lower.findIndex(
         (p) => p.startsWith("referencias integradas") || p.startsWith("referencias bibliográficas"),
     );
@@ -380,6 +381,20 @@ export default function ArticleDetail({
             p.startsWith("publicado originalmente"),
     );
     const authorTokens = normalize(article.author).split(/\s+/).filter((token) => token.length > 3);
+
+    const renderBodyText = (paragraph: string) => {
+        if (notesHeaderIndex === -1) return paragraph;
+        return paragraph.split(/(\[\d{1,2}\])/g).map((part, partIndex) => {
+            const number = part.match(/^\[(\d{1,2})\]$/)?.[1];
+            return number ? (
+                <sup key={partIndex} id={`referencia-${number}`} className="ml-0.5 font-sans text-[0.7em] leading-none">
+                    <a href={`#nota-${number}`} className="text-[#9f5528] underline underline-offset-2">
+                        {number}
+                    </a>
+                </sup>
+            ) : part;
+        });
+    };
 
     return (
         <article className="min-h-screen bg-[#fffdf8] pb-16 sm:pb-24">
@@ -430,6 +445,11 @@ export default function ArticleDetail({
                     {article.content.map((paragraph, index, arr) => {
                         const isReferenceHeader = index === refHeaderIndex;
                         const isReference = refHeaderIndex !== -1 && index > refHeaderIndex;
+                        const isNotesHeader = index === notesHeaderIndex;
+                        const footnote = notesHeaderIndex !== -1 && index > notesHeaderIndex &&
+                            (noteHeaderIndex === -1 || index < noteHeaderIndex)
+                            ? paragraph.match(/^(\d{1,2})\.\s+(.+)$/)
+                            : null;
                         const isNote =
                             noteHeaderIndex !== -1 && index >= noteHeaderIndex && !isReferenceHeader && !isReference;
 
@@ -461,6 +481,23 @@ export default function ArticleDetail({
                             return (
                                 <p key={index} className="mb-3 break-words pl-6 -indent-6 font-sans text-[0.9375rem] leading-[1.6] text-[#55574f]">
                                     {renderLinkedText(cleanRef)}
+                                </p>
+                            );
+                        }
+
+                        if (isNotesHeader) {
+                            return (
+                                <h2 key={index} className="mb-5 mt-14 border-b border-[#d8cfc0] pb-3 font-sans text-[1.125rem] font-semibold text-[#171713]">
+                                    Notas
+                                </h2>
+                            );
+                        }
+
+                        if (footnote) {
+                            return (
+                                <p key={index} id={`nota-${footnote[1]}`} className="mb-4 scroll-mt-28 break-words pl-6 -indent-6 font-sans text-[0.9375rem] leading-[1.6] text-[#55574f]">
+                                    <a href={`#referencia-${footnote[1]}`} className="text-[#9f5528] underline underline-offset-2">{footnote[1]}.</a>{" "}
+                                    {renderLinkedText(footnote[2])}
                                 </p>
                             );
                         }
@@ -529,7 +566,7 @@ export default function ArticleDetail({
 
                         return (
                             <p key={index} className="mb-6">
-                                {paragraph}
+                                {renderBodyText(paragraph)}
                             </p>
                         );
                     })}
