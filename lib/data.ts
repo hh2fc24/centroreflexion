@@ -6,6 +6,7 @@ export interface Article {
   title: string;
   excerpt: string;
   author: string;
+  authorRole?: string;
   authors?: ArticleAuthor[];
   date: string; // "08 Feb 2026"
   category: string;

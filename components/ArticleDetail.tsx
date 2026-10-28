@@ -377,6 +377,7 @@ export default function ArticleDetail({
         (p) =>
             p.startsWith("nota:") ||
             p.startsWith("nota de la redacción:") ||
+            p.startsWith("ponencia publicada") ||
             p.startsWith("columna publicada originalmente") ||
             p.startsWith("publicado originalmente"),
     );
@@ -594,8 +595,8 @@ export default function ArticleDetail({
                         <h2 className="crc-serif mt-1 text-[1.35rem] font-semibold leading-[1.2] text-[#171713]">
                             {article.author}
                         </h2>
-                        {details?.role ? (
-                            <p className="mt-2 max-w-[60ch] text-[0.9375rem] leading-[1.6] text-[#55574f]">{details.role}</p>
+                        {article.authorRole || details?.role ? (
+                            <p className="mt-2 max-w-[60ch] text-[0.9375rem] leading-[1.6] text-[#55574f]">{article.authorRole || details?.role}</p>
                         ) : null}
                     </div>
                 </div>
