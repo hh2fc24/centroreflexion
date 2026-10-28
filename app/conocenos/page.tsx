@@ -146,7 +146,7 @@ export default function About() {
                         </p>
                     </div>
                     <div className="relative aspect-[16/9] w-full overflow-hidden rounded-[6px] bg-[#eee8dc] lg:aspect-[4/3]">
-                        <Image src="/images/consulting_hero.png" alt="" fill priority sizes="(min-width: 1024px) 420px, 100vw" className="object-cover" />
+                        <Image src="/images/hero_crc_library.jpg" alt="" fill priority sizes="(min-width: 1024px) 420px, 100vw" className="object-cover" />
                     </div>
                 </div>
             </section>
@@ -227,7 +227,7 @@ export default function About() {
                             <h4 className={blockTitle}>Rol editorial y académico</h4>
                             <p className={`${bodyText} mt-4`}>
                                 <strong className="font-semibold text-[#171713]">Juan Carlos Rauld es trabajador social formado en la Universidad Tecnológica Metropolitana (UTEM).</strong>{" "}
-                                Magíster en Pensamiento Contemporáneo en Filosofía y Pensamiento Político del Instituto de Filosofía de la
+                                Magíster en Filosofía Política Contemporánea de la
                                 Universidad Diego Portales. Actualmente es{" "}
                                 <strong className="font-semibold text-[#171713]">
                                     doctorando en Trabajo Social de la Universidad Rovira i Virgili, Facultad de Ciencias Jurídicas y Sociales, España

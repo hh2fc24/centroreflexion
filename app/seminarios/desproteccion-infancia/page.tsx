@@ -215,6 +215,7 @@ type Vigente = EstadoVenta["vigente"];
 /** Línea del hero: la cifra solo cuando quedan pocos cupos. */
 function textoCupos(venta: EstadoVenta) {
   if (venta.disponibles === 0) return "Cohorte 1 completa";
+  if (venta.motivo === "cerrado") return "Cohorte 1 en curso";
   if (mostrarCuposRestantes(venta.disponibles)) {
     return venta.disponibles === 1
       ? "Queda 1 cupo"
@@ -320,7 +321,7 @@ export default async function SeminarioDesproteccionInfancia() {
             </div>
 
             <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-              <Link href="#inversion" className={BOTON_PRIMARIO}>
+              <Link href={vigente ? "#inversion" : "#postular"} className={BOTON_PRIMARIO}>
                 {vigente ? "Matricularme" : "Lista cohorte 2"} <ArrowRight aria-hidden="true" className="h-4 w-4" />
               </Link>
               <Link href="#programa" className={BOTON_SECUNDARIO}>
@@ -333,7 +334,9 @@ export default async function SeminarioDesproteccionInfancia() {
                 UMBRAL_CUPOS_VISIBLES). El tamaño total de la cohorte no se publica. */}
             <p className="mt-4 max-w-[60ch] text-[0.9375rem] leading-[1.6] text-[#55574f]">
               <span className="font-semibold text-[#171713]">{textoCupos(venta)}.</span>{" "}
-              {vigente ? plazoTramo(vigente) : null}
+              {vigente
+                ? plazoTramo(vigente)
+                : "La matrícula de la cohorte 1 cerró. La cohorte 2 abre en marzo de 2027."}
             </p>
 
             <div className={`mt-8 flex items-center gap-4 border-t ${FILETE_SUAVE} pt-6`}>
@@ -671,11 +674,13 @@ export default async function SeminarioDesproteccionInfancia() {
               <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
                 <h2 className={H2}>Valor y matrícula</h2>
                 <p className="text-[0.9375rem] font-semibold tabular-nums text-[#55574f]">
-                  {mostrarCuposRestantes(venta.disponibles)
+                  {vigente && mostrarCuposRestantes(venta.disponibles)
                     ? `${venta.disponibles} ${venta.disponibles === 1 ? "cupo disponible" : "cupos disponibles"}`
                     : venta.disponibles === 0
                       ? "Cohorte 1 completa"
-                      : "Matrícula abierta"}
+                      : vigente
+                        ? "Matrícula abierta"
+                        : "Matrícula cerrada"}
                 </p>
               </div>
 
@@ -826,10 +831,19 @@ export default async function SeminarioDesproteccionInfancia() {
               </div>
 
               <p className={`mt-8 border-t ${FILETE} pt-6 text-[1rem] leading-[1.65] text-[#55574f]`}>
-                <span className="font-semibold text-[#171713]">
-                  La matrícula cierra el martes 13 de octubre a las 23:59
-                </span>
-                , o antes si se completan los cupos. No reabrimos: la cohorte 2 se abre en marzo de 2027.
+                {vigente ? (
+                  <>
+                    <span className="font-semibold text-[#171713]">
+                      La matrícula cierra el martes 13 de octubre a las 23:59
+                    </span>
+                    , o antes si se completan los cupos. No reabrimos: la cohorte 2 se abre en marzo de 2027.
+                  </>
+                ) : (
+                  <>
+                    <span className="font-semibold text-[#171713]">La matrícula de la cohorte 1 cerró.</span> La
+                    cohorte 2 se abre en marzo de 2027.
+                  </>
+                )}
               </p>
             </div>
           </div>
@@ -935,10 +949,16 @@ export default async function SeminarioDesproteccionInfancia() {
             <div className="max-w-[48ch]">
               <h2 className={H2}>Es la primera vez que el autor dicta este seminario.</h2>
               <p className="mt-4 text-[1.0625rem] leading-[1.7] text-[#55574f]">
-                La cohorte 1 se cierra el martes 13 de octubre a las 23:59, o antes si se completan los cupos.
-                {mostrarCuposRestantes(venta.disponibles)
-                  ? ` ${venta.disponibles === 1 ? "Queda 1 cupo" : `Quedan ${venta.disponibles} cupos`}.`
-                  : null}
+                {vigente ? (
+                  <>
+                    La cohorte 1 se cierra el martes 13 de octubre a las 23:59, o antes si se completan los cupos.
+                    {mostrarCuposRestantes(venta.disponibles)
+                      ? ` ${venta.disponibles === 1 ? "Queda 1 cupo" : `Quedan ${venta.disponibles} cupos`}.`
+                      : null}
+                  </>
+                ) : (
+                  "La cohorte 1 está en curso. Postula a la lista y te escribimos primero cuando abra la cohorte 2, en marzo de 2027."
+                )}
               </p>
             </div>
             <Link href={vigente ? "#inversion" : "#postular"} className={`${BOTON_PRIMARIO} shrink-0`}>

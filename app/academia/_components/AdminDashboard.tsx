@@ -84,14 +84,14 @@ function Stat({ icon: Icon, label, value, color, highlight }: { icon: typeof Boo
 function QuickLink({ href, icon: Icon, title, desc, badge }: { href: string; icon: typeof BookOpen; title: string; desc: string; badge?: number }) {
   return (
     <Link href={href} className="group flex items-center gap-4 rounded-xl p-5 transition-all hover:-translate-y-0.5" style={{ background: "var(--ac-card)", border: "1px solid var(--ac-border)" }}>
-      <div className="flex h-11 w-11 items-center justify-center rounded-lg" style={{ background: "var(--ac-gold-dim)", border: "1px solid rgba(212,168,67,0.25)" }}>
+      <div className="flex h-11 w-11 items-center justify-center rounded-lg" style={{ background: "var(--ac-gold-dim)", border: "1px solid rgba(189,111,60,0.25)" }}>
         <Icon className="h-5 w-5" style={{ color: "var(--ac-gold)" }} />
       </div>
       <div className="min-w-0 flex-1">
         <p className="flex items-center gap-2 text-sm font-semibold" style={{ color: "var(--ac-text)" }}>
           {title}
           {badge !== undefined && (
-            <span className="rounded-full px-2 py-0.5 text-[10px] font-bold" style={{ background: "#f97316", color: "#0c0c10" }}>{badge}</span>
+            <span className="rounded-full px-2 py-0.5 text-[10px] font-bold" style={{ background: "#f97316", color: "#ffffff" }}>{badge}</span>
           )}
         </p>
         <p className="mt-0.5 text-xs" style={{ color: "var(--ac-text-3)" }}>{desc}</p>

@@ -244,59 +244,35 @@ span {
 }
 
 /* ══════════════════════════════════════════════════════════════
-   ACADEMIA CRC — Dark & Premium Design System
+   ACADEMIA CRC — mismo sistema que el resto del sitio
+   La Academia usaba un tema propio (fondo negro, dorado, mayúsculas
+   espaciadas) que la hacía ver como otra marca. Los tokens --ac-* se
+   mantienen para no tocar cada componente, pero ahora apuntan a la paleta
+   CRC (docs/design-system-crc.md §1) y hay un solo tema, claro.
    ══════════════════════════════════════════════════════════════ */
 
 [data-academia] {
-  --ac-bg:           #09090f;
-  --ac-bg-soft:      #0f0f18;
-  --ac-surface:      #14141e;
-  --ac-surface-2:    #1a1a28;
-  --ac-card:         #1c1c2a;
-  --ac-card-hover:   #222234;
-  --ac-border:       rgba(255, 255, 255, 0.07);
-  --ac-border-md:    rgba(255, 255, 255, 0.11);
-  --ac-border-gold:  rgba(212, 168, 67, 0.5);
-  --ac-gold:         #d4a843;
-  --ac-gold-light:   #f0c355;
-  --ac-gold-dim:     rgba(212, 168, 67, 0.1);
-  --ac-gold-glow:    rgba(212, 168, 67, 0.18);
-  --ac-text:         #f0ece4;
-  --ac-text-2:       rgba(240, 236, 228, 0.65);
-  --ac-text-3:       rgba(240, 236, 228, 0.35);
-  --ac-purple:       #6b5ce7;
-  --ac-purple-dim:   rgba(107, 92, 231, 0.15);
-  /* Barra de navegación (se adapta al tema) */
-  --ac-nav-bg:       rgba(9, 9, 15, 0.9);
-  --ac-nav-border:   rgba(255, 255, 255, 0.06);
-  --ac-shadow-card:  0 20px 50px rgba(0, 0, 0, 0.4);
-}
-
-/* ─── Tema claro (modo día) ─────────────────────────────────
-   Se activa con data-theme="light" sobre el contenedor [data-academia].
-   Mantiene el acento dorado, invierte fondos y textos.            */
-[data-academia][data-theme="light"] {
-  --ac-bg:           #f6f4ee;
-  --ac-bg-soft:      #efece3;
-  --ac-surface:      #ffffff;
-  --ac-surface-2:    #f2efe7;
-  --ac-card:         #ffffff;
-  --ac-card-hover:   #f4f1e9;
-  --ac-border:       rgba(30, 25, 15, 0.10);
-  --ac-border-md:    rgba(30, 25, 15, 0.16);
-  --ac-border-gold:  rgba(170, 128, 40, 0.55);
-  --ac-gold:         #a97d1c;
-  --ac-gold-light:   #c1912a;
-  --ac-gold-dim:     rgba(169, 125, 28, 0.12);
-  --ac-gold-glow:    rgba(169, 125, 28, 0.20);
-  --ac-text:         #1c1a22;
-  --ac-text-2:       rgba(28, 26, 34, 0.72);
-  --ac-text-3:       rgba(28, 26, 34, 0.48);
-  --ac-purple:       #5a4bd4;
-  --ac-purple-dim:   rgba(90, 75, 212, 0.12);
-  --ac-nav-bg:       rgba(246, 244, 238, 0.85);
-  --ac-nav-border:   rgba(30, 25, 15, 0.10);
-  --ac-shadow-card:  0 20px 50px rgba(40, 30, 10, 0.14);
+  --ac-bg:           #f8f5ee;
+  --ac-bg-soft:      #f3efe6;
+  --ac-surface:      #fffdf8;
+  --ac-surface-2:    #eee8dc;
+  --ac-card:         #fffdf8;
+  --ac-card-hover:   #fbf8f1;
+  --ac-border:       #eee8dc;
+  --ac-border-md:    #d8cfc0;
+  --ac-border-gold:  #bd6f3c;
+  --ac-gold:         #9f5528;
+  --ac-gold-light:   #bd6f3c;
+  --ac-gold-dim:     rgba(189, 111, 60, 0.10);
+  --ac-gold-glow:    transparent;
+  --ac-text:         #171713;
+  --ac-text-2:       #55574f;
+  --ac-text-3:       #6f675d;
+  --ac-purple:       #9f5528;
+  --ac-purple-dim:   rgba(189, 111, 60, 0.10);
+  --ac-nav-bg:       #f8f5ee;
+  --ac-nav-border:   #d8cfc0;
+  --ac-shadow-card:  none;
 }
 
 /* ─── Keyframes ────────────────────────────────────────────── */
@@ -357,19 +333,12 @@ span {
 
 /* ─── Utility classes ──────────────────────────────────────── */
 
-.ac-orb-1 { animation: ac-orb-drift   18s ease-in-out infinite; }
-.ac-orb-2 { animation: ac-orb-drift-2 22s ease-in-out infinite; }
-.ac-float { animation: ac-float 5s ease-in-out infinite; }
-.ac-float-2 { animation: ac-float-2 6s ease-in-out infinite; }
-.ac-scroll-hint { animation: ac-scroll-hint 1.8s ease-in-out infinite; }
+/* Movimiento decorativo desactivado (design-system §5). Las clases quedan
+   para no romper el marcado existente. */
+.ac-orb-1, .ac-orb-2, .ac-float, .ac-float-2, .ac-scroll-hint, .ac-pulse-ring { animation: none; }
 
 .ac-text-gradient {
-  background: linear-gradient(135deg, var(--ac-text) 0%, var(--ac-gold-light) 55%, var(--ac-text) 100%);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: ac-shimmer 5s linear infinite;
+  color: var(--ac-gold-light);
 }
 
 .ac-text-gold {
@@ -378,52 +347,63 @@ span {
 
 .ac-card-glass {
   background: var(--ac-card);
-  border: 1px solid var(--ac-border);
-  backdrop-filter: blur(12px);
-  transition: border-color 0.35s ease, box-shadow 0.35s ease, transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+  border: 1px solid var(--ac-border-md);
+  border-radius: 6px;
+  transition: border-color 0.2s ease, transform 0.2s ease;
 }
 
 .ac-card-glass:hover {
   border-color: var(--ac-border-gold);
-  box-shadow: 0 0 0 1px rgba(212,168,67,0.15), 0 24px 48px rgba(0,0,0,0.5), 0 0 60px rgba(212,168,67,0.06);
-  transform: translateY(-6px);
+  transform: translateY(-1px);
 }
 
 .ac-btn-gold {
-  background: linear-gradient(135deg, #c9963a 0%, #e8b84b 50%, #c9963a 100%);
-  background-size: 200% auto;
-  color: #0c0c10;
-  font-weight: 700;
-  letter-spacing: 0.04em;
+  background: #bd6f3c;
+  color: #ffffff;
   border: none;
   cursor: pointer;
-  transition: background-position 0.4s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
 .ac-btn-gold:hover {
-  background-position: right center;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(212, 168, 67, 0.35);
+  background: #a85f31;
+  transform: translateY(-1px);
 }
 
 .ac-btn-ghost {
   background: transparent;
-  color: var(--ac-text-2);
-  border: 1px solid var(--ac-border-md);
-  font-weight: 600;
+  color: #171713;
+  border: 1px solid #171713;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s;
+  transition: background-color 0.2s, color 0.2s;
 }
 
 .ac-btn-ghost:hover {
-  background: rgba(255,255,255,0.06);
-  color: var(--ac-text);
-  border-color: rgba(255,255,255,0.2);
-  transform: translateY(-1px);
+  background: #171713;
+  color: #fffdf8;
+}
+
+/* Botones en tipo oración, como en el resto del sitio (§2). Pisa las
+   utilidades uppercase/tracking que traen los componentes de la Academia. */
+[data-academia] .ac-btn-gold,
+[data-academia] .ac-btn-ghost {
+  font-size: 0.9375rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  border-radius: 6px !important;
+}
+
+[data-academia] .crc-eyebrow {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #9f5528;
 }
 
 .ac-input {
-  background: rgba(255,255,255,0.04);
+  background: #fffdf8;
   border: 1px solid var(--ac-border-md);
   color: var(--ac-text);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
@@ -433,80 +413,67 @@ span {
 .ac-input::placeholder { color: var(--ac-text-3); }
 
 .ac-input:focus {
-  border-color: var(--ac-gold);
-  box-shadow: 0 0 0 3px rgba(212, 168, 67, 0.15);
+  border-color: #bd6f3c;
+  box-shadow: 0 0 0 3px rgba(189, 111, 60, 0.15);
 }
 
 .ac-progress-bar {
-  background: linear-gradient(90deg, var(--ac-gold) 0%, var(--ac-gold-light) 100%);
+  background: #bd6f3c;
   border-radius: 999px;
   transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .ac-badge {
   background: var(--ac-gold-dim);
-  color: var(--ac-gold-light);
-  border: 1px solid rgba(212,168,67,0.25);
-  font-size: 0.62rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.ac-pulse-ring {
-  animation: ac-pulse-ring 2.5s ease-out infinite;
+  color: #9f5528;
+  border: 1px solid rgba(189, 111, 60, 0.25);
+  font-size: 0.75rem;
+  font-weight: 600;
 }
 
 .ac-glow-gold {
-  box-shadow: 0 0 40px rgba(212, 168, 67, 0.15), 0 0 80px rgba(212, 168, 67, 0.06);
+  box-shadow: none;
 }
 
-/* Scrollbar dark para academia */
-[data-academia] ::-webkit-scrollbar { width: 6px; }
-[data-academia] ::-webkit-scrollbar-track { background: var(--ac-bg); }
-[data-academia] ::-webkit-scrollbar-thumb { background: rgba(212,168,67,0.25); border-radius: 3px; }
-[data-academia] ::-webkit-scrollbar-thumb:hover { background: rgba(212,168,67,0.45); }
-
-/* Ocultar navbar y footer principal en páginas de Academia */
+/* La Academia lleva su propia barra (cuenta, cursos, rol), así que se oculta
+   la navbar principal; el footer del CRC sí se muestra, para que se lea como
+   parte del mismo centro. */
 body:has([data-academia]) [data-main-nav] { display: none !important; }
-body:has([data-academia]) footer { display: none !important; }
 
-/* ──────────────────────────────────────────────
-   Bento grid responsivo (FeaturesSection)
-   Móvil: 1 columna · Tablet: 2 por fila · Desktop: layout bento
-   ────────────────────────────────────────────── */
-.ac-bento {
-  display: grid;
-  gap: 0.75rem;
-  grid-template-columns: 1fr;
-}
-.ac-bento > .ac-bento-card { grid-column: auto; }
-
-@media (min-width: 640px) {
-  .ac-bento { grid-template-columns: repeat(6, minmax(0, 1fr)); }
-  .ac-bento > .ac-bento-card[data-cols="2"] { grid-column: span 3 / span 3; }
-  .ac-bento > .ac-bento-card[data-cols="4"] { grid-column: span 6 / span 6; }
-  .ac-bento > .ac-bento-card[data-cols="6"] { grid-column: span 6 / span 6; }
-}
-
-@media (min-width: 1024px) {
-  .ac-bento > .ac-bento-card[data-cols="2"] { grid-column: span 2 / span 2; }
-  .ac-bento > .ac-bento-card[data-cols="4"] { grid-column: span 4 / span 4; }
-  .ac-bento > .ac-bento-card[data-cols="6"] { grid-column: span 6 / span 6; }
-}
-
-/* Tarjeta full-width: apilar en móvil, fila en desktop */
-.ac-feat-full {
-  display: flex;
-  flex-direction: column;
-  gap: 0.85rem;
-}
-@media (min-width: 1024px) {
-  .ac-feat-full {
-    flex-direction: row;
-    align-items: center;
-    gap: 3rem;
-    flex-wrap: wrap;
+/* ─── Impresión / "Descargar en PDF" de las columnas ────────── */
+/* Deja solo el texto: sin navegación, footer, índice lateral, botones
+   flotantes, compartir ni ofertas. */
+@media print {
+  [data-main-nav],
+  footer,
+  aside,
+  .fixed,
+  [data-print-hide] {
+    display: none !important;
   }
-  .ac-feat-full-title { white-space: nowrap; }
+
+  html,
+  body {
+    background: #ffffff !important;
+  }
+
+  article {
+    min-height: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  a {
+    color: inherit !important;
+    text-decoration: none !important;
+  }
+
+  img {
+    break-inside: avoid;
+  }
+
+  p,
+  blockquote {
+    orphans: 3;
+    widows: 3;
+  }
 }

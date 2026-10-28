@@ -15,6 +15,7 @@ import { FeaturesSection } from "./_components/FeaturesSection";
 import { WaitlistHero } from "./_components/WaitlistHero";
 import { pageMetadata } from "@/lib/seo";
 import { DEMO_SLUG_LIKE } from "@/lib/academia/catalogo";
+import { SEMINAR_PATH, isSeminarCampaignActive } from "@/components/ColumnCta";
 
 export const metadata: Metadata = pageMetadata({
   title: "Academia CRC | Cursos para profesionales de infancia y salud mental",
@@ -88,18 +89,20 @@ export default async function AcademiaPage() {
     return <WaitlistHero />;
   }
 
+  const seminarActive = isSeminarCampaignActive();
+
   return (
     <>
       {/* ── Hero ─────────────────────────────────────────── */}
       <HeroAcademia />
 
       {/* ── Stats ────────────────────────────────────────── */}
-      <div style={{ marginBottom: "8rem" }}>
+      <div className="mb-20">
         <StatsBar stats={stats} />
       </div>
 
       {/* ── Features ─────────────────────────────────────── */}
-      <div style={{ marginBottom: "9rem" }}>
+      <div className="mb-20">
         <FeaturesSection />
       </div>
 
@@ -107,147 +110,73 @@ export default async function AcademiaPage() {
       {/* El seminario no es un curso del catálogo: es en vivo, con cupo cerrado y
           otro precio. Va antes del grid para que no se compare de reojo con los
           cursos asincrónicos, que es de donde salen las dudas de precio. */}
-      <section className="mx-auto mb-24 max-w-7xl px-6 sm:px-10 lg:px-16">
+      <section className="mx-auto mb-20 max-w-[1240px] px-5 sm:px-8 lg:px-12">
         <Link
-          href="/seminarios/desproteccion-infancia"
-          className="group grid gap-6 rounded-[12px] p-7 sm:p-9 lg:grid-cols-[1fr_auto] lg:items-center"
-          style={{ background: "var(--ac-surface)", border: "1px solid var(--ac-border-md)" }}
+          href={seminarActive ? SEMINAR_PATH : `${SEMINAR_PATH}#postular`}
+          className="group grid gap-6 border-y border-[#d8cfc0] py-8 lg:grid-cols-[200px_minmax(0,1fr)_auto] lg:items-center lg:gap-12"
         >
+          <p className="text-[0.8125rem] font-semibold text-[#9f5528]">
+            {seminarActive ? "Seminario en vivo · Cohorte 1" : "Seminario en vivo · Cohorte 2 en marzo de 2027"}
+          </p>
           <div>
-            <span className="crc-eyebrow" style={{ color: "var(--ac-gold)" }}>
-              Seminario en vivo · Cohorte 1
-            </span>
-            <h3
-              className="mt-3 leading-tight"
-              style={{
-                fontFamily: "var(--font-source-serif, Georgia, serif)",
-                fontSize: "clamp(1.6rem, 2.6vw, 2.3rem)",
-                fontWeight: 700,
-                color: "var(--ac-text)",
-              }}
-            >
-              Desprotección de la Infancia
-            </h3>
-            <p className="mt-2.5 max-w-xl text-sm leading-6" style={{ color: "var(--ac-text-2)" }}>
-              Ocho sesiones en vivo con Juan Carlos Rauld, autor del libro y Director del CRC. Jueves 19:00, del 15
-              de octubre al 3 de diciembre. Cohorte en vivo, con certificación CRC + Editorial Hammurabi.
-            </p>
-            <p className="mt-2 text-xs" style={{ color: "var(--ac-text-3)" }}>
-              Formato distinto al de los cursos del catálogo: en vivo, con discusión de casos y ensayo final.
+            <h2 className="crc-serif text-[clamp(1.35rem,2vw,1.75rem)] font-medium leading-[1.15] text-[#171713] group-hover:text-[#9f5528]">
+              Desprotección de la infancia
+            </h2>
+            <p className="mt-2 max-w-[62ch] text-[0.9375rem] leading-[1.6] text-[#55574f]">
+              Ocho sesiones en vivo con Juan Carlos Rauld, autor del libro y Director del CRC, con discusión de casos,
+              ensayo final y certificación CRC + Editorial Hammurabi. Formato distinto al de los cursos del catálogo.
             </p>
           </div>
-          <span
-            className="inline-flex items-center gap-2 px-7 py-3.5 text-[0.66rem] font-extrabold uppercase tracking-[0.13em] ac-btn-gold"
-            style={{ borderRadius: "5px" }}
-          >
-            Ver el seminario <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
+          <span className="inline-flex items-center gap-2 text-[0.9375rem] font-semibold text-[#9f5528]">
+            {seminarActive ? "Ver el seminario" : "Postular a la cohorte 2"}
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
           </span>
         </Link>
       </section>
 
       {/* ── Catálogo de cursos ────────────────────────────── */}
-      <section id="catalogo" className="mx-auto max-w-7xl px-6 sm:px-10 lg:px-16" style={{ marginBottom: "9rem" }}>
+      {/* Sin Supabase (entorno local sin credenciales) no se muestra nada:
+          un aviso técnico no debe llegar nunca a la vista pública. */}
+      {supabase && (
+      <section id="catalogo" className="mx-auto mb-20 max-w-[1240px] scroll-mt-24 px-5 sm:px-8 lg:px-12">
         <div className="mb-12 grid gap-4 lg:grid-cols-2 lg:items-end">
-          <h2
-            style={{
-              fontFamily: "var(--font-source-serif, Georgia, serif)",
-              fontSize: "clamp(2rem, 3.5vw, 3.2rem)",
-              fontWeight: 700,
-              lineHeight: 0.98,
-              letterSpacing: "-0.02em",
-              color: "var(--ac-text)",
-            }}
-          >
-            Cursos
-            <br />
-            <span style={{ color: "var(--ac-gold)", fontStyle: "italic" }}>disponibles.</span>
+          <h2 className="crc-serif text-balance text-[clamp(1.6rem,2.3vw,2.4rem)] font-medium leading-[1.1] tracking-[-0.01em] text-[#171713]">
+            Cursos disponibles
           </h2>
           <p className="max-w-xs text-sm leading-relaxed lg:ml-auto lg:text-right" style={{ color: "var(--ac-text-3)" }}>
             Cada curso es diseñado y revisado por el equipo académico del Centro de Reflexiones Críticas.
           </p>
         </div>
 
-        {!supabase ? (
-          // Estado: Supabase no configurado aún
-          <div
-            className="flex flex-col items-center justify-center py-20 text-center"
-            style={{ border: "1px dashed var(--ac-border-md)", borderRadius: "8px" }}
-          >
-            <div
-              className="mb-4 flex h-14 w-14 items-center justify-center"
-              style={{ background: "var(--ac-gold-dim)", border: "1px solid rgba(212,168,67,0.3)", borderRadius: "8px" }}
-            >
-              <span style={{ fontSize: "1.5rem" }}>🎓</span>
-            </div>
-            <p className="text-base font-semibold" style={{ color: "var(--ac-text-2)" }}>
-              Los cursos están en camino.
-            </p>
-            <p className="mt-2 max-w-xs text-sm" style={{ color: "var(--ac-text-3)" }}>
-              Configura las credenciales de Supabase para ver el catálogo completo.
-            </p>
-            <Link
-              href="/academia/login"
-              className="mt-6 inline-flex items-center gap-2 px-5 py-2.5 text-[0.66rem] font-extrabold uppercase tracking-[0.13em] ac-btn-ghost"
-              style={{ borderRadius: "5px" }}
-            >
-              Ir al login de prueba <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-        ) : (
-          <CatalogoCursos cursos={cursos as Parameters<typeof CatalogoCursos>[0]["cursos"]} />
-        )}
+        <CatalogoCursos cursos={cursos as Parameters<typeof CatalogoCursos>[0]["cursos"]} />
       </section>
+      )}
 
-      {/* ── CTA Final ────────────────────────────────────── */}
-      <section className="relative mx-5 mb-24 overflow-hidden rounded-[12px] px-8 py-20 text-center sm:mx-8">
-        <div
-          className="absolute inset-0"
-          style={{ background: "linear-gradient(135deg, var(--ac-surface) 0%, var(--ac-surface-2) 100%)" }}
-        />
-        <div
-          className="pointer-events-none absolute inset-0"
-          style={{ background: "radial-gradient(ellipse at center, rgba(212,168,67,0.12) 0%, transparent 70%)" }}
-        />
-        <div
-          className="absolute inset-x-0 top-0 h-px"
-          style={{ background: "linear-gradient(90deg, transparent, var(--ac-gold), transparent)" }}
-        />
-        <div
-          className="absolute inset-0 rounded-[12px]"
-          style={{ border: "1px solid var(--ac-border-md)", pointerEvents: "none" }}
-        />
-
-        <div className="relative z-10">
-          <span className="crc-eyebrow" style={{ color: "var(--ac-gold)" }}>Empieza hoy</span>
-          <h2
-            className="mx-auto mt-4 max-w-2xl leading-tight"
-            style={{
-              fontFamily: "var(--font-source-serif, Georgia, serif)",
-              fontSize: "clamp(2rem, 3.5vw, 3.2rem)",
-              fontWeight: 700,
-              color: "var(--ac-text)",
-            }}
-          >
-            Tu aprendizaje comienza con{" "}
-            <span className="ac-text-gradient">un solo paso.</span>
-          </h2>
-          <p className="mx-auto mt-4 max-w-md text-base" style={{ color: "var(--ac-text-2)" }}>
-            Únete a la Academia CRC y accede a contenido que transforma la manera en que piensas y ves el mundo.
-          </p>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+      {/* ── Cierre ───────────────────────────────────────── */}
+      <section className="border-t border-[#d8cfc0] bg-[#eee8dc]">
+        <div className="mx-auto grid max-w-[1240px] gap-8 px-5 py-14 sm:px-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:gap-14 lg:px-12 lg:py-20">
+          <div className="max-w-[52ch]">
+            <p className="text-[0.8125rem] font-semibold text-[#9f5528]">Para equipos</p>
+            <h2 className="crc-serif mt-3 text-balance text-[clamp(1.6rem,2.3vw,2.4rem)] font-medium leading-[1.1] tracking-[-0.01em] text-[#171713]">
+              ¿Necesitas formar a un equipo completo?
+            </h2>
+            <p className="mt-4 text-[1.0625rem] leading-[1.7] text-[#55574f]">
+              Diseñamos programas de formación y supervisión para colegios, programas de protección, fundaciones y
+              municipios, a partir de los casos del propio equipo.
+            </p>
+          </div>
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
             <Link
               href="/academia/login"
-              className="inline-flex items-center gap-2.5 px-8 py-3.5 text-[0.66rem] font-extrabold uppercase tracking-[0.13em] ac-btn-gold ac-glow-gold"
-              style={{ borderRadius: "5px" }}
+              className="inline-flex min-h-11 items-center gap-2 rounded-[6px] bg-[#bd6f3c] px-5 py-2.5 text-[0.9375rem] font-semibold text-white transition-colors hover:bg-[#a85f31]"
             >
-              Crear cuenta gratuita <ArrowRight className="h-4 w-4" />
+              Crear cuenta gratuita <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
             <Link
-              href="#catalogo"
-              className="inline-flex items-center gap-2 px-8 py-3.5 text-[0.66rem] font-extrabold uppercase tracking-[0.13em] ac-btn-ghost"
-              style={{ borderRadius: "5px" }}
+              href="/instituciones"
+              className="inline-flex min-h-11 items-center text-[0.9375rem] font-semibold text-[#171713] underline decoration-[#bd6f3c] underline-offset-[6px] transition-colors hover:text-[#9f5528]"
             >
-              Ver cursos
+              Formación para instituciones
             </Link>
           </div>
         </div>

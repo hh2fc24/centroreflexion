@@ -109,7 +109,7 @@ function AcademiaLoginForm() {
         {/* Orbs */}
         <div
           className="ac-orb-1 pointer-events-none absolute -left-24 -top-24 h-96 w-96 rounded-full"
-          style={{ background: "radial-gradient(circle, rgba(212,168,67,0.18) 0%, transparent 70%)", filter: "blur(40px)" }}
+          style={{ background: "radial-gradient(circle, rgba(189,111,60,0.18) 0%, transparent 70%)", filter: "blur(40px)" }}
         />
         <div
           className="ac-orb-2 pointer-events-none absolute -bottom-24 right-0 h-80 w-80 rounded-full"
@@ -134,7 +134,7 @@ function AcademiaLoginForm() {
           {/* Logo */}
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-[6px] ac-btn-gold">
-              <GraduationCap className="h-5 w-5" style={{ color: "#0c0c10" }} />
+              <GraduationCap className="h-5 w-5" style={{ color: "#ffffff" }} />
             </div>
             <span
               style={{
@@ -188,7 +188,7 @@ function AcademiaLoginForm() {
             >
               <div
                 className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full ac-pulse-ring"
-                style={{ background: "var(--ac-gold-dim)", border: "1px solid rgba(212,168,67,0.4)" }}
+                style={{ background: "var(--ac-gold-dim)", border: "1px solid rgba(189,111,60,0.4)" }}
               >
                 <span className="text-2xl">✉️</span>
               </div>

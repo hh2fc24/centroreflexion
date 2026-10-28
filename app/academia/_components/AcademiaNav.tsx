@@ -3,10 +3,10 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import { Menu, X, GraduationCap, LogOut } from "lucide-react";
+import Image from "next/image";
+import { Menu, X, LogOut } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { createClient } from "@/lib/supabase/client";
-import { ThemeToggle } from "./ThemeToggle";
 
 type Rol = "alumno" | "profesor" | "admin" | null;
 
@@ -66,25 +66,26 @@ export function AcademiaNav({ rol = null, authed = false }: { rol?: Rol; authed?
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       className="sticky top-0 z-50"
       style={{
-        background: scrolled ? "var(--ac-nav-bg)" : "transparent",
-        backdropFilter: scrolled ? "blur(20px)" : "none",
-        borderBottom: scrolled ? "1px solid var(--ac-nav-border)" : "1px solid transparent",
-        transition: "background 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease",
+        background: "var(--ac-nav-bg)",
+        borderBottom: "1px solid var(--ac-nav-border)",
+        boxShadow: scrolled ? "0 1px 0 rgba(23,23,19,0.04)" : "none",
+        transition: "box-shadow 0.2s ease",
       }}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-8">
-        {/* Logo */}
-        <Link href="/academia" className="flex items-center gap-2.5 group">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg ac-btn-gold" style={{ padding: 0 }}>
-            <GraduationCap className="h-4 w-4" style={{ color: "#0c0c10" }} />
-          </div>
-          <span
-            className="font-bold tracking-tight"
-            style={{ fontFamily: "var(--font-source-serif, Georgia, serif)", fontSize: "1.15rem", color: "var(--ac-text)" }}
+        {/* Logo: el sello del CRC lleva al sitio; "Academia" a su portada. */}
+        <div className="flex items-center gap-3">
+          <Link href="/" aria-label="Centro de Reflexiones Críticas, ir al inicio" className="relative block h-10 w-10 shrink-0">
+            <Image src="/logo-crc.png" alt="" fill sizes="40px" className="object-contain" />
+          </Link>
+          <Link
+            href="/academia"
+            className="crc-serif border-l pl-3 text-[1.1rem] font-medium leading-none"
+            style={{ borderColor: "var(--ac-border-md)", color: "var(--ac-text)" }}
           >
-            Academia <span style={{ color: "var(--ac-gold)" }}>CRC</span>
-          </span>
-        </Link>
+            Academia
+          </Link>
+        </div>
 
         {/* Nav links (desktop) */}
         <nav className="hidden items-center gap-1 md:flex">
@@ -108,13 +109,11 @@ export function AcademiaNav({ rol = null, authed = false }: { rol?: Rol; authed?
 
         {/* CTA + mobile toggle */}
         <div className="flex items-center gap-3">
-          {/* Toggle día/noche */}
-          <ThemeToggle />
           {authed ? (
             <div className="hidden items-center gap-3 sm:flex">
               <span
-                className="rounded-full px-2.5 py-1 text-[0.65rem] font-bold uppercase tracking-wider"
-                style={{ background: "var(--ac-gold-dim)", color: "var(--ac-gold)", border: "1px solid rgba(212,168,67,0.3)" }}
+                className="rounded-[6px] px-2.5 py-1 text-[0.8125rem] font-semibold"
+                style={{ background: "var(--ac-gold-dim)", color: "var(--ac-gold)" }}
               >
                 {rolLabel}
               </span>

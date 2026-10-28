@@ -90,7 +90,7 @@ export function CursoPageClient({ curso, profesor, profesorId, modulos, inscrito
         {/* Orb dorado */}
         <div
           className="pointer-events-none absolute right-0 top-0 h-96 w-96"
-          style={{ background: "radial-gradient(circle, rgba(212,168,67,0.12) 0%, transparent 70%)", transform: "translate(30%,-30%)" }}
+          style={{ background: "radial-gradient(circle, rgba(189,111,60,0.12) 0%, transparent 70%)", transform: "translate(30%,-30%)" }}
         />
 
         <div className="relative z-10 mx-auto max-w-6xl px-5 py-16 sm:px-8 lg:grid lg:grid-cols-[1fr_380px] lg:items-center lg:gap-12">
@@ -105,7 +105,7 @@ export function CursoPageClient({ curso, profesor, profesorId, modulos, inscrito
               {curso.nivel && (
                 <span
                   className="rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider"
-                  style={{ background: "rgba(212,168,67,0.15)", color: "var(--ac-gold)", border: "1px solid rgba(212,168,67,0.3)" }}
+                  style={{ background: "rgba(189,111,60,0.15)", color: "var(--ac-gold)", border: "1px solid rgba(189,111,60,0.3)" }}
                 >
                   {curso.nivel}
                 </span>
@@ -151,7 +151,7 @@ export function CursoPageClient({ curso, profesor, profesorId, modulos, inscrito
                 <div className="flex items-center gap-2">
                   <div
                     className="flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold"
-                    style={{ background: "var(--ac-gold-dim)", color: "var(--ac-gold)", border: "1px solid rgba(212,168,67,0.3)" }}
+                    style={{ background: "var(--ac-gold-dim)", color: "var(--ac-gold)", border: "1px solid rgba(189,111,60,0.3)" }}
                   >
                     {profInitials}
                   </div>
@@ -187,7 +187,7 @@ export function CursoPageClient({ curso, profesor, profesorId, modulos, inscrito
               style={{
                 background: "var(--ac-card)",
                 border: "1px solid var(--ac-border-gold)",
-                boxShadow: "0 0 40px rgba(212,168,67,0.1)",
+                boxShadow: "0 0 40px rgba(189,111,60,0.1)",
                 borderRadius: "8px",
               }}
             >
@@ -199,7 +199,7 @@ export function CursoPageClient({ curso, profesor, profesorId, modulos, inscrito
                 ) : (
                   <div
                     className="h-full w-full"
-                    style={{ background: "linear-gradient(135deg, rgba(212,168,67,0.2), rgba(107,92,231,0.2))" }}
+                    style={{ background: "linear-gradient(135deg, rgba(189,111,60,0.2), rgba(107,92,231,0.2))" }}
                   />
                 )}
                 <div className="absolute inset-0 flex items-center justify-center" style={{ background: "rgba(9,9,15,0.4)" }}>
@@ -364,7 +364,7 @@ export function CursoPageClient({ curso, profesor, profesorId, modulos, inscrito
                         <div className="flex items-center gap-3">
                           <span
                             className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-bold"
-                            style={{ background: "var(--ac-gold-dim)", color: "var(--ac-gold)", border: "1px solid rgba(212,168,67,0.3)" }}
+                            style={{ background: "var(--ac-gold-dim)", color: "var(--ac-gold)", border: "1px solid rgba(189,111,60,0.3)" }}
                           >
                             {mi + 1}
                           </span>
@@ -405,7 +405,7 @@ export function CursoPageClient({ curso, profesor, profesorId, modulos, inscrito
                                     {/* Icono tipo lección */}
                                     <div
                                       className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg"
-                                      style={{ background: lec.es_preview ? "rgba(212,168,67,0.1)" : "var(--ac-surface-2)" }}
+                                      style={{ background: lec.es_preview ? "rgba(189,111,60,0.1)" : "var(--ac-surface-2)" }}
                                     >
                                       {lec.tipo === "video"
                                         ? <Play className="h-3 w-3" style={{ color: lec.es_preview ? "var(--ac-gold)" : "var(--ac-text-3)" }} />
@@ -424,7 +424,7 @@ export function CursoPageClient({ curso, profesor, profesorId, modulos, inscrito
                                       {lec.es_preview && !inscrito ? (
                                         <span
                                           className="flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider"
-                                          style={{ background: "rgba(212,168,67,0.12)", color: "var(--ac-gold)" }}
+                                          style={{ background: "rgba(189,111,60,0.12)", color: "var(--ac-gold)" }}
                                         >
                                           <Eye className="h-3 w-3" /> Preview
                                         </span>
@@ -475,7 +475,7 @@ export function CursoPageClient({ curso, profesor, profesorId, modulos, inscrito
                     style={{
                       background: "var(--ac-gold-dim)",
                       color: "var(--ac-gold-light)",
-                      border: "1px solid rgba(212,168,67,0.3)",
+                      border: "1px solid rgba(189,111,60,0.3)",
                       borderRadius: "8px",
                       fontFamily: "var(--font-source-serif, Georgia, serif)",
                     }}

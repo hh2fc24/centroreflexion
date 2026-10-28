@@ -6,6 +6,7 @@ import { Instagram, Linkedin, Mail, MapPin, MessageCircle, Youtube } from "lucid
 import { EditableText } from "@/components/editor/EditableText";
 import { useContent, useEditor } from "@/lib/editor/hooks";
 import type { FooterColumn, FooterContent, FooterLink } from "@/lib/editor/types";
+import { AltiusLogo } from "@/components/altius/AltiusLogo";
 
 export function Footer({ initialFooter }: { initialFooter?: FooterContent }) {
     const { adminEnabled } = useEditor();
@@ -82,7 +83,7 @@ export function Footer({ initialFooter }: { initialFooter?: FooterContent }) {
                                 href={instagramHref}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="flex h-9 w-9 items-center justify-center rounded-[6px] border border-white/15 text-[#a99f91] transition-colors duration-200 hover:border-[#e4935d] hover:text-white"
+                                className="flex h-11 w-11 items-center justify-center rounded-[6px] border border-white/15 text-[#a99f91] transition-colors duration-200 hover:border-[#e4935d] hover:text-white"
                                 onClick={(e) => { if (adminEnabled) { e.preventDefault(); e.stopPropagation(); } }}
                             >
                                 <Instagram className="h-4 w-4" />
@@ -93,7 +94,7 @@ export function Footer({ initialFooter }: { initialFooter?: FooterContent }) {
                                     href={linkedinHref}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="flex h-9 w-9 items-center justify-center rounded-[6px] border border-white/15 text-[#a99f91] transition-colors duration-200 hover:border-[#e4935d] hover:text-white"
+                                    className="flex h-11 w-11 items-center justify-center rounded-[6px] border border-white/15 text-[#a99f91] transition-colors duration-200 hover:border-[#e4935d] hover:text-white"
                                     onClick={(e) => { if (adminEnabled) { e.preventDefault(); e.stopPropagation(); } }}
                                 >
                                     <Linkedin className="h-4 w-4" />
@@ -104,7 +105,7 @@ export function Footer({ initialFooter }: { initialFooter?: FooterContent }) {
                                 href={whatsappHref}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="flex h-9 w-9 items-center justify-center rounded-[6px] border border-white/15 text-[#a99f91] transition-colors duration-200 hover:border-[#e4935d] hover:text-white"
+                                className="flex h-11 w-11 items-center justify-center rounded-[6px] border border-white/15 text-[#a99f91] transition-colors duration-200 hover:border-[#e4935d] hover:text-white"
                                 onClick={(e) => { if (adminEnabled) { e.preventDefault(); e.stopPropagation(); } }}
                             >
                                 <MessageCircle className="h-4 w-4" />
@@ -114,7 +115,7 @@ export function Footer({ initialFooter }: { initialFooter?: FooterContent }) {
                                 href={youtubeHref}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="flex h-9 w-9 items-center justify-center rounded-[6px] border border-white/15 text-[#a99f91] transition-colors duration-200 hover:border-[#e4935d] hover:text-white"
+                                className="flex h-11 w-11 items-center justify-center rounded-[6px] border border-white/15 text-[#a99f91] transition-colors duration-200 hover:border-[#e4935d] hover:text-white"
                                 onClick={(e) => { if (adminEnabled) { e.preventDefault(); e.stopPropagation(); } }}
                             >
                                 <Youtube className="h-4 w-4" />
@@ -176,15 +177,32 @@ export function Footer({ initialFooter }: { initialFooter?: FooterContent }) {
             </div>
 
             {/* ── Bottom bar ──────────────────────────────────────── */}
-            <div className="mx-auto flex max-w-[1640px] flex-col items-start justify-between gap-2 border-t border-white/12 px-5 py-6 sm:flex-row sm:items-center sm:px-8 lg:px-14 xl:px-20">
+            <div className="mx-auto flex max-w-[1640px] flex-col items-start justify-between gap-2 border-t border-white/12 px-5 pb-24 pt-6 sm:flex-row sm:pb-6 sm:items-center sm:px-8 lg:px-14 xl:px-20">
                 <p className="text-[0.8125rem] text-[#8a8276]">
                     © {new Date().getFullYear()}{" "}
                     <EditableText path="footer.copyrightName" ariaLabel="Footer copyright" />.{" "}
                     Todos los derechos reservados.
                 </p>
-                <p className="text-[0.8125rem] text-[#8a8276]">
-                    Pensamiento crítico · Salud mental de la niñez y juventud
-                </p>
+                <div className="flex flex-col gap-3 text-[0.8125rem] text-[#8a8276] sm:flex-row sm:items-center sm:gap-6">
+                    <nav aria-label="Enlaces institucionales" className="flex gap-5">
+                        <Link href="/prensa" className="transition-colors hover:text-white">
+                            Sala de prensa
+                        </Link>
+                        <Link href="/laboratorio" className="transition-colors hover:text-white">
+                            Laboratorio CRC × Altius
+                        </Link>
+                    </nav>
+                    {/* Crédito del partner tecnológico: discreto, como firma, no como banner. */}
+                    <a
+                        href="https://www.altiusignite.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group inline-flex items-center gap-2 transition-colors hover:text-white"
+                    >
+                        <span>Plataforma digital desarrollada por</span>
+                        <AltiusLogo className="text-[0.75rem] text-[#c9c0b2] group-hover:text-white" title="Altius Ignite" />
+                    </a>
+                </div>
             </div>
         </footer>
     );

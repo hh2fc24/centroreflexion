@@ -60,7 +60,7 @@ function ProgressRing({ pct, size = 108 }: { pct: number; size?: number }) {
   const offset = circ - (pct / 100) * circ;
   return (
     <svg width={size} height={size} style={{ transform: "rotate(-90deg)" }}>
-      <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth={stroke} />
+      <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="rgba(23,23,19,0.07)" strokeWidth={stroke} />
       <motion.circle
         cx={size / 2} cy={size / 2} r={r}
         fill="none" stroke="url(#gold-grad)" strokeWidth={stroke} strokeLinecap="round"
@@ -149,7 +149,7 @@ function CursoActivoCard({ curso, index }: { curso: DashboardProps["cursosActivo
               className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]" />
           ) : (
             <div className="h-full w-full"
-              style={{ background: "linear-gradient(135deg, rgba(212,168,67,0.22), rgba(107,92,231,0.22))" }} />
+              style={{ background: "linear-gradient(135deg, rgba(189,111,60,0.22), rgba(107,92,231,0.22))" }} />
           )}
           <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity group-hover:opacity-100"
             style={{ background: "rgba(9,9,15,0.45)" }}>
@@ -364,8 +364,8 @@ function ActiveState({ cursosActivos, stats }: Pick<DashboardProps, "cursosActiv
           transition={{ duration: 0.6, ease, delay: 0.1 }}
           className="flex flex-col justify-between p-6"
           style={{
-            background: "linear-gradient(150deg, rgba(251,146,60,0.14), rgba(212,168,67,0.08))",
-            border: "1px solid rgba(212,168,67,0.24)", borderRadius: "16px",
+            background: "linear-gradient(150deg, rgba(251,146,60,0.14), rgba(189,111,60,0.08))",
+            border: "1px solid rgba(189,111,60,0.24)", borderRadius: "16px",
           }}>
           <div className="flex items-center justify-between">
             <div>

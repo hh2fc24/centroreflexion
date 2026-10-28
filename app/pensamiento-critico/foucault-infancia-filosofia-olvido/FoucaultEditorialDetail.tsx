@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, Check, Link as LinkIcon } from "lucide-react";
@@ -9,6 +9,8 @@ import { JsonLd } from "@/components/JsonLd";
 import { NewsletterBlock } from "@/components/NewsletterBlock";
 import { ColumnCta } from "@/components/ColumnCta";
 import { EditorialHero } from "@/components/TypographicCover";
+import { ReadingProgress } from "@/components/reader/ReadingProgress";
+import { CiteAndSave } from "@/components/reader/CiteAndSave";
 
 const slugify = (text: string) => text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
 
@@ -24,6 +26,7 @@ const TOC_SECTIONS = [
 ];
 
 export default function FoucaultEditorialDetail({ article }: { article: Article }) {
+    const articleRef = useRef<HTMLElement>(null);
     const [copied, setCopied] = useState(false);
     const [activeSection, setActiveSection] = useState("");
 
@@ -120,7 +123,8 @@ export default function FoucaultEditorialDetail({ article }: { article: Article 
     });
 
     return (
-        <article className="min-h-screen bg-[#fffdf8] pb-16 sm:pb-24">
+        <article ref={articleRef} className="min-h-screen bg-[#fffdf8] pb-16 sm:pb-24">
+            <ReadingProgress target={articleRef} />
             <EditorialHero
                 titleAs="h1"
                 image={article.image}
@@ -217,14 +221,23 @@ export default function FoucaultEditorialDetail({ article }: { article: Article 
                                 <div>
                                     <p className="text-[0.8125rem] font-semibold text-[#9f5528]">Escrito por</p>
                                     <h2 className="crc-serif mt-1 text-[1.35rem] font-semibold leading-[1.2] text-[#171713]">{article.author}</h2>
-                                    <p className="mt-2 text-[0.9375rem] leading-[1.6] text-[#55574f]">Doctorando Internacional en Trabajo Social, URV. Magíster en Pensamiento Contemporáneo en Filosofía Política. Director Editorial del CRC.</p>
+                                    <p className="mt-2 text-[0.9375rem] leading-[1.6] text-[#55574f]">Doctorando Internacional en Trabajo Social, URV. Magíster en Filosofía Política Contemporánea, UDP. Director Editorial del CRC.</p>
                                 </div>
                             </div>
 
-                            {/* Oferta ligada al tema, antes de la suscripción */}
-                            <ColumnCta category={article.category} title={article.title} />
+                            <CiteAndSave
+                                author={article.author}
+                                date={article.date}
+                                title={article.title}
+                                path="/pensamiento-critico/foucault-infancia-filosofia-olvido"
+                            />
 
-                            <NewsletterBlock origen={article.category} />
+                            {/* Oferta ligada al tema, antes de la suscripción */}
+                            <div data-print-hide="">
+                                <ColumnCta category={article.category} title={article.title} />
+
+                                <NewsletterBlock origen={article.category} />
+                            </div>
                         </div>
                     </div>
                 </div>

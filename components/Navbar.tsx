@@ -40,7 +40,7 @@ export function getNavCta(pathname: string, now: Date = new Date()): NavCta {
             : { label: "Ver formación", href: "/academia" };
     }
     if (matchesSection(pathname, INSTITUTIONAL_SECTIONS)) {
-        return { label: "Agenda con Hugo", href: "/instituciones#agenda" };
+        return { label: "Agendar reunión", href: "/instituciones#agenda" };
     }
     if (matchesSection(pathname, FAMILY_SECTIONS)) {
         return { label: "Pedir orientación", href: "/contacto" };

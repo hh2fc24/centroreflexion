@@ -191,6 +191,19 @@ export default function ComplianceEscolarPage() {
         }
       />
 
+      {/* Autodiagnóstico: un primer paso sin compromiso antes de agendar */}
+      <section aria-label="Autodiagnóstico" className="border-y border-[#d8cfc0] bg-[#eee8dc]">
+        <div className={`${container} flex flex-col gap-4 py-8 sm:flex-row sm:items-center sm:justify-between sm:gap-10`}>
+          <p className="max-w-[62ch] text-[1rem] leading-[1.6] text-[#171713]">
+            <span className="font-semibold">¿Dónde está hoy tu colegio?</span> Doce preguntas, unos 4 minutos, sin registro:
+            responsables, protocolos, registro y equipo frente a la Ley 21.809.
+          </p>
+          <Link href="/autodiagnostico-convivencia-escolar" className={`${textLink} shrink-0`}>
+            Hacer el autodiagnóstico <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </Link>
+        </div>
+      </section>
+
       {/* Evidencia */}
       <section id="evidencia" aria-labelledby="evidencia-title" className="scroll-mt-24 bg-[#fffdf8]">
         <div className={`${container} py-16 sm:py-24`}>

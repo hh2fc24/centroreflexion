@@ -27,7 +27,7 @@ export function WaitlistHero() {
       <div 
         className="absolute inset-0 z-0 opacity-40 pointer-events-none"
         style={{ 
-          background: "radial-gradient(circle at 50% 50%, rgba(212,168,67,0.15) 0%, transparent 60%)" 
+          background: "radial-gradient(circle at 50% 50%, rgba(189,111,60,0.15) 0%, transparent 60%)" 
         }}
       />
       <div 

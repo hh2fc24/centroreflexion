@@ -94,7 +94,7 @@ export default async function MisCursosPage() {
                       className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                   ) : (
-                    <div className="h-full w-full" style={{ background: "linear-gradient(135deg, rgba(212,168,67,0.2), rgba(107,92,231,0.2))" }} />
+                    <div className="h-full w-full" style={{ background: "linear-gradient(135deg, rgba(189,111,60,0.2), rgba(107,92,231,0.2))" }} />
                   )}
                   <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(9,9,15,0.6) 0%, transparent 60%)" }} />
                 </div>

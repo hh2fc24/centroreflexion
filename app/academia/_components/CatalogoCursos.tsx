@@ -47,7 +47,7 @@ function CursoItem({ curso, index }: { curso: CursoCard; index: number }) {
             borderRadius: "6px",
           }}
           onMouseEnter={(e) => {
-            (e.currentTarget as HTMLElement).style.borderColor = "rgba(212,168,67,0.45)";
+            (e.currentTarget as HTMLElement).style.borderColor = "rgba(189,111,60,0.45)";
             (e.currentTarget as HTMLElement).style.transform = "translateY(-5px)";
             (e.currentTarget as HTMLElement).style.boxShadow = "0 20px 50px rgba(0,0,0,0.4)";
           }}
@@ -82,7 +82,7 @@ function CursoItem({ curso, index }: { curso: CursoCard; index: number }) {
                     fontFamily: "var(--font-source-serif, Georgia, serif)",
                     fontSize: "5rem",
                     fontWeight: 700,
-                    color: "rgba(212,168,67,0.08)",
+                    color: "rgba(189,111,60,0.08)",
                   }}
                 >
                   {String(index + 1).padStart(2, "0")}
@@ -151,7 +151,7 @@ function CursoItem({ curso, index }: { curso: CursoCard; index: number }) {
                   style={{
                     background: "var(--ac-gold-dim)",
                     color: "var(--ac-gold)",
-                    border: "1px solid rgba(212,168,67,0.25)",
+                    border: "1px solid rgba(189,111,60,0.25)",
                     borderRadius: "2px",
                   }}
                 >

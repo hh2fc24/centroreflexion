@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, Check, Link as LinkIcon, Instagram } from "lucide-react";
@@ -8,6 +8,8 @@ import { Article } from "@/lib/data";
 import { JsonLd } from "@/components/JsonLd";
 import { NewsletterBlock } from "@/components/NewsletterBlock";
 import { ColumnCta } from "@/components/ColumnCta";
+import { ReadingProgress } from "@/components/reader/ReadingProgress";
+import { CiteAndSave } from "@/components/reader/CiteAndSave";
 import { EditorialHero, hasCoverImage, toSentenceCase } from "@/components/TypographicCover";
 
 function WhatsAppIcon({ className }: { className?: string }) {
@@ -40,7 +42,7 @@ const AUTHOR_DIRECTORY: AuthorProfile[] = [
     {
         match: "Juan Carlos Rauld",
         image: "/images/juan_carlos_real_white.png",
-        role: "Director Editorial del CRC. Doctorando Internacional en Trabajo Social, Universidad Rovira i Virgili. Magíster en Pensamiento Contemporáneo en Filosofía Política. Trabajador Social, Universidad Tecnológica Metropolitana.",
+        role: "Director Editorial del CRC. Doctorando Internacional en Trabajo Social, Universidad Rovira i Virgili. Magíster en Filosofía Política Contemporánea, Universidad Diego Portales. Trabajador Social, Universidad Tecnológica Metropolitana.",
     },
     {
         match: "Hormazábal",
@@ -205,6 +207,7 @@ export default function ArticleDetail({
     backHref?: string;
     backLabel?: string;
 }) {
+    const articleRef = useRef<HTMLElement>(null);
     const [copied, setCopied] = useState<ShareLocation | null>(null);
     const [openMenu, setOpenMenu] = useState<{ kind: "wa" | "ig"; at: ShareLocation } | null>(null);
 
@@ -279,7 +282,7 @@ export default function ArticleDetail({
         const waOpen = openMenu?.kind === "wa" && openMenu.at === at;
         const igOpen = openMenu?.kind === "ig" && openMenu.at === at;
         return (
-            <div className="flex items-center gap-2">
+            <div data-print-hide="" className="flex items-center gap-2">
                 <div className="relative" data-share-menu>
                     <button
                         type="button"
@@ -398,7 +401,8 @@ export default function ArticleDetail({
     };
 
     return (
-        <article className="min-h-screen bg-[#fffdf8] pb-16 sm:pb-24">
+        <article ref={articleRef} className="min-h-screen bg-[#fffdf8] pb-16 sm:pb-24">
+            <ReadingProgress target={articleRef} />
             {/* Cabecera: h1 e imagen editorial (portada tipográfica si no hay imagen) */}
             <EditorialHero
                 titleAs="h1"
@@ -601,11 +605,15 @@ export default function ArticleDetail({
                     </div>
                 </div>
 
-                {/* Oferta ligada al tema de la columna, antes de la suscripción */}
-                <ColumnCta category={article.category} title={article.title} />
+                <CiteAndSave author={article.author} date={article.date} title={article.title} path={`${backHref}/${article.id}`} />
 
-                {/* Suscripción */}
-                <NewsletterBlock origen={article.category} />
+                {/* Oferta ligada al tema de la columna, antes de la suscripción */}
+                <div data-print-hide="">
+                    <ColumnCta category={article.category} title={article.title} />
+
+                    {/* Suscripción */}
+                    <NewsletterBlock origen={article.category} />
+                </div>
 
                 <JsonLd article={article} />
             </div>

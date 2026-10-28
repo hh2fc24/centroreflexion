@@ -14,12 +14,12 @@ function DashboardNotConfigured() {
   return (
     <div className="flex min-h-[70vh] items-center justify-center px-5">
       <div
-        className="w-full max-w-md rounded-[8px] p-10 text-center"
+        className="w-full max-w-md rounded-[6px] p-10 text-center"
         style={{ background: "var(--ac-surface)", border: "1px solid var(--ac-border-md)" }}
       >
         <div
-          className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-[8px]"
-          style={{ background: "var(--ac-gold-dim)", border: "1px solid rgba(212,168,67,0.3)" }}
+          className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-[6px]"
+          style={{ background: "var(--ac-gold-dim)", border: "1px solid rgba(189,111,60,0.3)" }}
         >
           <span style={{ fontSize: "2rem" }}>🔧</span>
         </div>

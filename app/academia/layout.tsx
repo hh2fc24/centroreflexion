@@ -1,6 +1,7 @@
 /**
- * Academia CRC – Layout dark & premium
- * Envuelve todas las rutas /academia con el tema oscuro.
+ * Academia CRC – Layout
+ * Envuelve las rutas /academia con los tokens --ac-*, que apuntan a la
+ * paleta CRC (ver app/globals.css). Un solo tema, claro.
  */
 import type { ReactNode } from "react";
 import { AcademiaNav } from "./_components/AcademiaNav";
@@ -29,18 +30,10 @@ export default async function AcademiaLayout({ children }: { children: ReactNode
       data-academia=""
       className="min-h-screen"
       style={{
-        background: "var(--ac-bg, #09090f)",
-        color: "var(--ac-text, #f0ece4)",
-        transition: "background 0.3s ease, color 0.3s ease",
+        background: "var(--ac-bg)",
+        color: "var(--ac-text)",
       }}
     >
-      {/* Aplica el tema (día/noche) antes del primer pintado para evitar parpadeo.
-          Prioridad: elección guardada del usuario → preferencia del sistema. */}
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `(function(){try{var el=document.currentScript.parentElement;var t=localStorage.getItem('ac-theme');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';}el.setAttribute('data-theme',t);}catch(e){}})();`,
-        }}
-      />
       <AcademiaNav rol={rol} authed={authed} />
       {children}
     </div>

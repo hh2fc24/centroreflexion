@@ -21,7 +21,9 @@ const startsWithAny = (pathname: string, prefixes: string[]) =>
 
 // El canal crítico (pagado) solo aparece donde llegan familias o personas en
 // crisis. En el resto del sitio se muestra solo el botón redondo de WhatsApp.
-const CRISIS_SECTIONS = ["/servicios/acompanamiento-familiar", "/servicios/clinica", "/contacto"];
+// En /contacto la orientación de crisis va dentro de la página (no flotando
+// junto a WhatsApp y el aviso de cookies), así que aquí no se repite.
+const CRISIS_SECTIONS = ["/servicios/acompanamiento-familiar", "/servicios/clinica"];
 const INSTITUTIONAL_SECTIONS = [
     "/instituciones",
     "/servicios/compliance-escolar",

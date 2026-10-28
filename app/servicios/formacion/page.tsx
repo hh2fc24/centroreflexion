@@ -213,7 +213,7 @@ export default function FormacionPage() {
                 }
             >
                 <p>
-                    Juan Carlos dirige el CRC y el área de formación. Es trabajador social, magíster en Pensamiento Contemporáneo (UDP) y
+                    Juan Carlos dirige el CRC y el área de formación. Es trabajador social, magíster en Filosofía Política Contemporánea (UDP) y
                     doctorando en Trabajo Social en la Universitat Rovira i Virgili. Su trabajo cruza programas de infancia, salud mental,
                     protección de derechos y análisis institucional.
                 </p>

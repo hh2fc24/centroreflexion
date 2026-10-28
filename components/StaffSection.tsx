@@ -14,7 +14,7 @@ const teamMembers = [
         img: "/images/juan_carlos_real_white.png",
         degree: "Doctorando en Trabajo Social · Universidad Rovira i Virgili, España",
         bio: [
-            "Juan Carlos Rauld es trabajador social formado en la Universidad Tecnológica Metropolitana (UTEM). Magíster en Pensamiento Contemporáneo en Filosofía y Pensamiento Político del Instituto de Filosofía de la Universidad Diego Portales. Actualmente es doctorando en Trabajo Social de la Universidad Rovira i Virgili, Facultad de Ciencias Jurídicas y Sociales, España.",
+            "Juan Carlos Rauld es trabajador social formado en la Universidad Tecnológica Metropolitana (UTEM). Magíster en Filosofía Política Contemporánea de la Universidad Diego Portales. Actualmente es doctorando en Trabajo Social de la Universidad Rovira i Virgili, Facultad de Ciencias Jurídicas y Sociales, España.",
             "Investigador del Centro de Reflexiones Críticas, sus áreas de interés son el trauma psíquico infantil, la filosofía social y política contemporánea, especialmente la biopolítica de la infancia pobre en Chile y la filosofía de la infancia.",
             "Posee una doble especialización en salud mental infantil y en filosofía práctica de la niñez, desde el siglo XIX hasta la actualidad. Actualmente, le interesa evaluar metodológicamente la calidad de la intervención clínica especializada con niños, niñas y adolescentes en situaciones de desprotección, así como la fidelidad de implementación de programas y políticas públicas con enfoque basado en evidencia científica.",
         ],

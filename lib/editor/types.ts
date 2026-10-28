@@ -235,6 +235,13 @@ export interface Testimonial {
   name: string;
   category: string;
   text: string;
+  /**
+   * Autorización escrita para publicar el testimonio con nombre completo e
+   * institución. Sin ella el testimonio queda en el CMS pero no se muestra:
+   * el sistema de diseño (docs/design-system-crc.md §6) no admite
+   * testimonios anónimos ni con iniciales.
+   */
+  publishable?: boolean;
 }
 
 export interface FooterContent {

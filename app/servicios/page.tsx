@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import StaffSection from "@/components/StaffSection";
 import { pageMetadata } from "@/lib/seo";
-import { ClosingBand, EditorialImage, EngagementIndex, SectionHead } from "./_components/Blocks";
+import { ClosingBand, EngagementIndex, SectionHead } from "./_components/Blocks";
 import { INSTITUTIONAL_ENGAGEMENTS, VALUE_NOTE } from "./_components/engagements";
 import { Reveal } from "./_components/Reveal";
 import { container, h1, label, lead, textLink } from "./_components/ui";
@@ -190,14 +190,6 @@ export default function ServicesHub() {
                         </p>
                     </div>
                     <div className="lg:border-l lg:border-[#d8cfc0] lg:pl-8">
-                        <EditorialImage
-                            src="/images/consulting_hero.png"
-                            alt=""
-                            sizes="(min-width: 1024px) 400px, 100vw"
-                            aspect="aspect-[16/9] lg:aspect-[4/3]"
-                            priority
-                            className="mb-6"
-                        />
                         <nav aria-label="Rutas de servicio" className="border-t border-[#d8cfc0]">
                             <a href="#personas" className="group flex items-center justify-between gap-4 border-b border-[#d8cfc0] py-4">
                                 <span>

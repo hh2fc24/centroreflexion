@@ -141,7 +141,7 @@ export function StatsBar({ stats }: { stats: AcademiaStats }) {
       {/* Línea gold bottom */}
       <div
         className="absolute inset-x-0 bottom-0 h-px"
-        style={{ background: "linear-gradient(90deg, transparent, rgba(212,168,67,0.2), transparent)" }}
+        style={{ background: "linear-gradient(90deg, transparent, rgba(189,111,60,0.2), transparent)" }}
       />
     </motion.section>
   );

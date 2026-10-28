@@ -196,8 +196,13 @@ function ArticleIndex({ articles }: { articles: Article[] }) {
 /*  Página                                                             */
 /* ------------------------------------------------------------------ */
 
+/** Minúsculas y sin tildes, para que "nino" encuentre "niño". */
+const normalizeSearch = (text: string) =>
+  text.toLocaleLowerCase("es-CL").normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
 export function PensamientoCriticoPage({ articles }: { articles: Article[] }) {
   const [activeSection, setActiveSection] = useState<string>("todo");
+  const [query, setQuery] = useState("");
 
   const allArticles = useMemo(
     () =>
@@ -229,6 +234,26 @@ export function PensamientoCriticoPage({ articles }: { articles: Article[] }) {
     [allArticles, activeSection],
   );
 
+  // Búsqueda en todo el archivo (título, bajada, autor y texto), dentro de la
+  // sección activa. Cada término debe aparecer; el orden no importa.
+  const searchIndex = useMemo(
+    () =>
+      new Map(
+        allArticles.map((a) => [
+          a.id,
+          normalizeSearch([a.title, a.excerpt, a.author, a.category, a.content.join(" ")].join(" ")),
+        ]),
+      ),
+    [allArticles],
+  );
+  const terms = normalizeSearch(query).split(/\s+/).filter(Boolean);
+  const results = terms.length
+    ? visible.filter((a) => {
+        const haystack = searchIndex.get(a.id) ?? "";
+        return terms.every((t) => haystack.includes(t));
+      })
+    : null;
+
   if (allArticles.length === 0) return null;
 
   const [featured, ...rest] = visible;
@@ -251,6 +276,19 @@ export function PensamientoCriticoPage({ articles }: { articles: Article[] }) {
             Columnas, reseñas y análisis del equipo del Centro de Reflexiones Críticas sobre infancia,
             salud mental, escuela, instituciones y debate público en Chile.
           </p>
+        </div>
+        <div className="mx-auto max-w-6xl px-4 pb-6 sm:px-8">
+          <label htmlFor="buscar-columnas" className="text-[0.875rem] font-semibold text-[#171713]">
+            Buscar en el archivo
+          </label>
+          <input
+            id="buscar-columnas"
+            type="search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Tema, autor o palabra: residencias, Foucault, escuela…"
+            className="mt-2 block min-h-11 w-full max-w-[36rem] rounded-[6px] border border-[#d8cfc0] bg-[#fffdf8] px-4 text-[1rem] text-[#171713] placeholder:text-[#8a8276] focus:border-[#bd6f3c] focus:outline-none focus:ring-2 focus:ring-[#bd6f3c]/25"
+          />
         </div>
         <nav aria-label="Secciones editoriales" className="mx-auto max-w-6xl px-4 sm:px-8">
           <ul className="-mb-px flex gap-6 overflow-x-auto" style={{ scrollbarWidth: "none" }}>
@@ -279,9 +317,34 @@ export function PensamientoCriticoPage({ articles }: { articles: Article[] }) {
       </header>
 
       <main className="mx-auto max-w-6xl px-4 py-12 sm:px-8 sm:py-16">
-        {featured ? <FeaturedArticle article={featured} /> : null}
+        {results ? (
+          <section aria-labelledby="resultados-titulo">
+            <h2 id="resultados-titulo" className="border-b border-[#d8cfc0] pb-4 text-[0.9375rem] font-semibold text-[#171713]" aria-live="polite">
+              {results.length === 0
+                ? `Sin resultados para «${query.trim()}»`
+                : `${results.length} ${results.length === 1 ? "texto" : "textos"} para «${query.trim()}»`}
+            </h2>
+            {results.length === 0 ? (
+              <p className="mt-6 max-w-[56ch] text-[1rem] leading-[1.7] text-[#55574f]">
+                Prueba con otra palabra o{" "}
+                <button type="button" onClick={() => setQuery("")} className="font-semibold text-[#9f5528] underline underline-offset-4">
+                  vuelve al archivo completo
+                </button>
+                .
+              </p>
+            ) : (
+              <div className="mt-8 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+                {results.map((article) => (
+                  <ArticleCard key={article.id} article={article} />
+                ))}
+              </div>
+            )}
+          </section>
+        ) : null}
 
-        {grid.length > 0 ? (
+        {!results && featured ? <FeaturedArticle article={featured} /> : null}
+
+        {!results && grid.length > 0 ? (
           <section aria-labelledby="recientes-titulo" className="mt-16">
             <h2 id="recientes-titulo" className="crc-serif border-b border-[#d8cfc0] pb-4 text-[clamp(1.6rem,2.3vw,2.4rem)] font-semibold leading-[1.1] tracking-[-0.01em]">
               Recientes
@@ -294,7 +357,7 @@ export function PensamientoCriticoPage({ articles }: { articles: Article[] }) {
           </section>
         ) : null}
 
-        <ArticleIndex articles={archive} />
+        {!results ? <ArticleIndex articles={archive} /> : null}
       </main>
     </div>
   );

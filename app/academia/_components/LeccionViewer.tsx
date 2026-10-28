@@ -206,7 +206,7 @@ export function LeccionViewer({
                                 style={{
                                   background: activa ? "var(--ac-gold-dim)" : "transparent",
                                   color: activa ? "var(--ac-gold-light)" : "var(--ac-text-2)",
-                                  border: activa ? "1px solid rgba(212,168,67,0.25)" : "1px solid transparent",
+                                  border: activa ? "1px solid rgba(189,111,60,0.25)" : "1px solid transparent",
                                 }}
                               >
                                 <span className="mt-0.5 shrink-0">

@@ -205,14 +205,21 @@ function LegacyTestimonials() {
   const { adminEnabled } = useEditor();
   const [expanded, setExpanded] = useState(false);
 
+  // En público solo se muestran los testimonios autorizados, con nombre e
+  // institución reales. En el editor se ven todos para poder completarlos.
+  const visibleTestimonials = useMemo(
+    () => (adminEnabled ? content.testimonials : content.testimonials.filter((t) => t.publishable === true)),
+    [adminEnabled, content.testimonials]
+  );
+
   const groups = useMemo(() => {
-    const personas = content.testimonials.filter((t) => CLINICAL_CATEGORIES.test(t.category));
-    const instituciones = content.testimonials.filter((t) => !CLINICAL_CATEGORIES.test(t.category));
+    const personas = visibleTestimonials.filter((t) => CLINICAL_CATEGORIES.test(t.category));
+    const instituciones = visibleTestimonials.filter((t) => !CLINICAL_CATEGORIES.test(t.category));
     return [
       { id: "instituciones", title: "Instituciones y equipos", items: instituciones },
       { id: "personas", title: "Personas y familias", items: personas },
     ].filter((g) => g.items.length > 0);
-  }, [content.testimonials]);
+  }, [visibleTestimonials]);
 
   const hiddenCount = groups.reduce((n, g) => n + Math.max(0, g.items.length - INITIAL_PER_GROUP), 0);
 
@@ -232,6 +239,16 @@ function LegacyTestimonials() {
           </span>
         </span>
         {adminEnabled ? (
+          <span className="flex shrink-0 items-center gap-3">
+          <label className="inline-flex items-center gap-1.5 text-[0.8125rem] text-[#6f675d]">
+            <input
+              type="checkbox"
+              checked={t.publishable === true}
+              onChange={(e) => updateTestimonial(t.id, { publishable: e.target.checked })}
+              className="h-4 w-4 accent-[#bd6f3c]"
+            />
+            Autorizado
+          </label>
           <button
             type="button"
             className="text-[#6f675d] transition-colors hover:text-[#9f5528]"
@@ -244,10 +261,13 @@ function LegacyTestimonials() {
           >
             ×
           </button>
+          </span>
         ) : null}
       </figcaption>
     </figure>
   );
+
+  if (groups.length === 0) return null;
 
   return (
     <section aria-labelledby="home-testimonios-title" className="border-t border-[#d8cfc0] bg-[#fffdf8] py-16 text-[#171713] sm:py-24">
@@ -263,7 +283,9 @@ function LegacyTestimonials() {
             </p>
           </div>
           <p className="max-w-[52ch] text-[0.875rem] leading-[1.6] text-[#6f675d] lg:justify-self-end">
-            Los nombres de las personas que consultan van abreviados para proteger su privacidad. Las instituciones aparecen por su tipo de organización.
+            {adminEnabled
+              ? "Solo se publican los testimonios marcados como autorizados, con nombre completo e institución. El resto queda guardado y no se muestra en el sitio."
+              : "Testimonios publicados con autorización de quienes los entregaron."}
           </p>
         </div>
 
@@ -288,7 +310,7 @@ function LegacyTestimonials() {
               aria-expanded={expanded}
               className="inline-flex items-center rounded-[6px] border border-[#171713] px-5 py-2.5 text-[0.9375rem] font-semibold text-[#171713] transition-colors hover:bg-[#171713] hover:text-[#fffdf8] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#bd6f3c] focus-visible:ring-offset-2"
             >
-              {expanded ? "Ver menos" : `Ver los ${content.testimonials.length} testimonios`}
+              {expanded ? "Ver menos" : `Ver los ${visibleTestimonials.length} testimonios`}
             </button>
           </div>
         ) : null}

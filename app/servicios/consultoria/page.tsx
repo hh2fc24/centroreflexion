@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { pageMetadata } from "@/lib/seo";
 import { EditorialImage, EngagementList, PersonInCharge, SectionHead, ServiceHero } from "../_components/Blocks";
 import { CONSULTORIA_MODELO, VALUE_NOTE } from "../_components/engagements";
 import { HUGO } from "../_components/people";
+import { AltiusLogo } from "@/components/altius/AltiusLogo";
+import { CaseTrackingPreview } from "@/components/altius/CaseTrackingPreview";
 import { Reveal } from "../_components/Reveal";
 import { btnPrimary, btnSecondaryOnDark, container, textLink } from "../_components/ui";
 
@@ -193,9 +194,7 @@ export default function ConsultoriaPage() {
             <section aria-labelledby="altius-title" className="bg-[#15120e] text-[#fbf7ee]">
                 <div className={`${container} grid gap-10 py-16 sm:py-24 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16`}>
                     <Reveal>
-                        <div className="relative h-12 w-36">
-                            <Image src="/altius-logo.png" alt="Altius Ignite" fill sizes="144px" className="object-contain object-left" />
-                        </div>
+                        <AltiusLogo className="text-[1.05rem] text-[#fbf7ee]" />
                         <SectionHead eyebrow="Alianza tecnológica" title="Metodologías sociales con soporte tecnológico." id="altius-title" dark className="mt-8">
                             <p>
                                 La alianza con Altius Ignite permite convertir modelos, diagnósticos y programas en flujos que se pueden operar,
@@ -206,15 +205,16 @@ export default function ConsultoriaPage() {
                             Conocer Altius Ignite
                             <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
                         </a>
+                        <Link
+                            href="/laboratorio"
+                            className="mt-4 flex min-h-11 items-center gap-2 text-[0.9375rem] font-semibold text-[#fbf7ee] underline decoration-[#e4935d] underline-offset-[6px] hover:text-[#e4935d]"
+                        >
+                            Ver las herramientas del Laboratorio CRC × Altius
+                            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                        </Link>
                     </Reveal>
                     <Reveal>
-                        <EditorialImage
-                            src="/images/pillar_tecnologia.png"
-                            alt=""
-                            sizes="(min-width: 1024px) 620px, 100vw"
-                            aspect="aspect-[16/9]"
-                            className="mb-10"
-                        />
+                        <CaseTrackingPreview className="mb-10" />
                         <p className="text-[0.8125rem] font-semibold text-[#ede7dc]/60">Qué aporta a un programa</p>
                         <ul className="mt-3 border-t border-white/15">
                             {altius.map((item) => (

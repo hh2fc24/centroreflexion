@@ -19,16 +19,21 @@ export function Hero() {
     return (
         <section className="relative isolate w-full overflow-hidden bg-[#15120e] text-[#fbf7ee]">
             <div aria-hidden="true" className="absolute inset-0 -z-10">
+                {/* Detrás del velo de tinta la resolución casi no se ve: 720p en
+                    escritorio (1,4 MB) y 480p en móvil (0,7 MB) en vez del
+                    1080p original de 4 MB. */}
                 <video
                     className="h-full w-full object-cover motion-reduce:hidden"
-                    src="/videos/crc-hero-loop.mp4"
                     poster="/images/crc-hero-poster.jpg"
                     autoPlay
                     muted
                     loop
                     playsInline
                     preload="metadata"
-                />
+                >
+                    <source src="/videos/crc-hero-loop-480.mp4" type="video/mp4" media="(max-width: 767px)" />
+                    <source src="/videos/crc-hero-loop-720.mp4" type="video/mp4" />
+                </video>
                 <img src="/images/crc-hero-poster.jpg" alt="" className="hidden h-full w-full object-cover motion-reduce:block" />
                 <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(21,18,14,0.94)_0%,rgba(21,18,14,0.86)_45%,rgba(21,18,14,0.62)_100%)]" />
                 <div className="absolute inset-x-0 bottom-0 h-1/3 bg-[linear-gradient(180deg,transparent,rgba(21,18,14,0.9))]" />

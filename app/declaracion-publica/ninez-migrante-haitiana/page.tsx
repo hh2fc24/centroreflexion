@@ -74,6 +74,7 @@ export default function DeclaracionNinezMigranteHaitianaPage() {
                 controls
                 preload="metadata"
                 playsInline
+                poster="/images/declaracion-ninez-migrante-haitiana-poster.jpg"
                 className="aspect-[9/16] w-full bg-[#15120e] object-cover"
                 src="/videos/declaraciones/declaracion-ninez-migrante-haitiana.mp4"
               />

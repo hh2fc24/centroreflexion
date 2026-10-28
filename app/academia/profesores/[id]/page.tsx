@@ -68,7 +68,7 @@ export default async function ProfesorPage({ params }: Props) {
             borderRadius: "14px",
             background: "var(--ac-gold-dim)",
             border: "1px solid var(--ac-border-gold)",
-            boxShadow: "0 0 40px rgba(212,168,67,0.12)",
+            boxShadow: "0 0 40px rgba(189,111,60,0.12)",
           }}
         >
           {prof.avatar_url ? (
@@ -157,7 +157,7 @@ export default async function ProfesorPage({ params }: Props) {
           <div className="flex flex-col gap-4">
             {extra.libros.map((l) => (
               <div key={l.titulo} className="flex gap-4 rounded-xl p-5" style={{ background: "var(--ac-surface)", border: "1px solid var(--ac-border)" }}>
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg" style={{ background: "var(--ac-gold-dim)", border: "1px solid rgba(212,168,67,0.25)" }}>
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg" style={{ background: "var(--ac-gold-dim)", border: "1px solid rgba(189,111,60,0.25)" }}>
                   <BookOpen className="h-5 w-5" style={{ color: "var(--ac-gold)" }} />
                 </div>
                 <div>

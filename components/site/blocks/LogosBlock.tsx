@@ -50,7 +50,7 @@ export function LogosBlock({ pageId, block }: { pageId: string; block: SiteBlock
             )}
           >
             <div className="relative h-12 w-40">
-              <Image src={l.src || "/images/logo_placeholder.png"} alt={l.alt || "Logo"} fill className="object-contain" />
+              <Image src={l.src || "/images/logo_placeholder.png"} alt={l.alt || "Logo"} fill sizes="160px" className="object-contain" />
             </div>
             <button
               type="button"

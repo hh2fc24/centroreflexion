@@ -60,7 +60,7 @@ const AUDIENCE_DOORS = [
         text: "Seminario en vivo con Juan Carlos Rauld, cursos de la Academia y supervisión para leer los casos con otro marco.",
         cta: "Ver el seminario",
         href: "/seminarios/desproteccion-infancia",
-        image: "/images/desproteccion-institucionalizacion-editorial.png",
+        image: "/images/juan-carlos-rauld-furia-del-libro.jpg",
     },
     {
         who: "Cuando algo en casa no está bien",

@@ -33,6 +33,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/academia",
     "/declaracion-publica/ninez-migrante-haitiana",
     "/seminarios/desproteccion-infancia",
+    "/prensa",
+    "/laboratorio",
+    "/autodiagnostico-convivencia-escolar",
   ];
 
   out.push({ url: `${baseUrl}/` });

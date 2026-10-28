@@ -84,7 +84,7 @@ export default async function ProfesorCursosPage() {
                   <span
                     className="rounded-full px-2.5 py-0.5 text-xs capitalize"
                     style={{
-                      background: c.estado === "publicado" ? "rgba(74,222,128,0.12)" : c.estado === "borrador" ? "rgba(212,168,67,0.12)" : "var(--ac-surface-2)",
+                      background: c.estado === "publicado" ? "rgba(74,222,128,0.12)" : c.estado === "borrador" ? "rgba(189,111,60,0.12)" : "var(--ac-surface-2)",
                       color: c.estado === "publicado" ? "#4ade80" : c.estado === "borrador" ? "var(--ac-gold)" : "var(--ac-text-3)",
                     }}
                   >
