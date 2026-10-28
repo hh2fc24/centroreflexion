@@ -48,8 +48,8 @@
     "titleHighlight": "niñez y juventud",
     "titleAfter": "cuando la ley, el caso y la institución tiran para lados distintos.",
     "subtitle": "Consultoría y capacitación para instituciones y profesionales, con el respaldo de libros publicados, docencia universitaria y práctica clínica.",
-    "primaryCtaLabel": "Soy profesional · Ver el seminario",
-    "primaryCtaHref": "/seminarios/desproteccion-infancia",
+    "primaryCtaLabel": "Soy profesional · Ver formación",
+    "primaryCtaHref": "/academia",
     "secondaryCtaLabel": "Represento a una institución",
     "secondaryCtaHref": "/instituciones"
   },
@@ -281,12 +281,6 @@
             "visible": true
           },
           {
-            "id": "lnk-seminario",
-            "label": "Seminario",
-            "href": "/seminarios/desproteccion-infancia",
-            "visible": true
-          },
-          {
             "id": "lnk-academia",
             "label": "Academia",
             "href": "/academia",
@@ -308,6 +302,18 @@
             "id": "lnk-consultoria",
             "label": "Consultoría",
             "href": "/servicios/consultoria",
+            "visible": true
+          },
+          {
+            "id": "footer-laboratorio",
+            "label": "Laboratorio CRC × Altius",
+            "href": "/laboratorio",
+            "visible": true
+          },
+          {
+            "id": "footer-autodiagnostico-convivencia-escolar",
+            "label": "Autodiagnóstico Ley 21.809",
+            "href": "/autodiagnostico-convivencia-escolar",
             "visible": true
           },
           {
@@ -333,6 +339,12 @@
             "label": "Libros y publicaciones",
             "href": "/publicaciones",
             "visible": true
+          },
+          {
+            "id": "lnk-seminario",
+            "label": "Seminario",
+            "href": "/seminarios/desproteccion-infancia",
+            "visible": true
           }
         ]
       },
@@ -345,6 +357,12 @@
             "id": "lnk-conocenos",
             "label": "Equipo",
             "href": "/conocenos",
+            "visible": true
+          },
+          {
+            "id": "footer-prensa",
+            "label": "Sala de prensa",
+            "href": "/prensa",
             "visible": true
           },
           {
@@ -411,30 +429,46 @@
             "visible": true,
             "description": "Convivencia y salud mental en el colegio.",
             "children": []
+          },
+          {
+            "id": "nav-inst-autodiagnostico",
+            "label": "Autodiagnóstico Ley 21.809",
+            "href": "/autodiagnostico-convivencia-escolar",
+            "visible": true,
+            "description": "12 preguntas para ver dónde está tu colegio.",
+            "children": []
+          },
+          {
+            "id": "nav-inst-laboratorio",
+            "label": "Laboratorio CRC × Altius",
+            "href": "/laboratorio",
+            "visible": true,
+            "description": "Herramientas digitales con Altius Ignite.",
+            "children": []
           }
         ]
       },
       {
         "id": "nav-academia",
         "label": "Formación",
-        "href": "/seminarios/desproteccion-infancia",
+        "href": "/academia",
         "visible": true,
         "description": "Seminarios y cursos para profesionales.",
         "children": [
-          {
-            "id": "nav-academia-seminarios",
-            "label": "Seminario Desprotección de la infancia",
-            "href": "/seminarios/desproteccion-infancia",
-            "visible": true,
-            "description": "En vivo con Juan Carlos Rauld.",
-            "children": []
-          },
           {
             "id": "nav-academia-cursos",
             "label": "Academia CRC",
             "href": "/academia",
             "visible": true,
             "description": "Cursos online con certificación.",
+            "children": []
+          },
+          {
+            "id": "nav-academia-seminarios",
+            "label": "Seminario Desprotección de la infancia",
+            "href": "/seminarios/desproteccion-infancia",
+            "visible": true,
+            "description": "En vivo con Juan Carlos Rauld.",
             "children": []
           }
         ]
@@ -486,7 +520,24 @@
         "href": "/conocenos",
         "visible": true,
         "description": "El equipo y el enfoque del CRC.",
-        "children": []
+        "children": [
+          {
+            "id": "nav-conocenos-equipo",
+            "label": "Quiénes somos",
+            "href": "/conocenos",
+            "visible": true,
+            "description": "El equipo y el enfoque del CRC.",
+            "children": []
+          },
+          {
+            "id": "nav-conocenos-prensa",
+            "label": "Sala de prensa",
+            "href": "/prensa",
+            "visible": true,
+            "description": "Voceros, kit de prensa y material para medios.",
+            "children": []
+          }
+        ]
       },
       {
         "id": "nav-ayuda",

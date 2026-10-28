@@ -80,6 +80,43 @@ const TOOLS: Tool[] = [
     },
 ];
 
+/**
+ * CRM de Altius aplicado al trabajo psicosocial. Tono informativo: cómo cambia
+ * el proceso del equipo, no una oferta comercial.
+ */
+const CRM_PROCESSES = [
+    {
+        process: "Ficha del caso",
+        today: "La historia de cada niño o familia está repartida entre carpetas, planillas y correos de distintos profesionales.",
+        withCrm: "Una ficha única por caso, con intervenciones, red de apoyo, documentos y responsables, visible para quien la necesita.",
+    },
+    {
+        process: "Plazos e informes",
+        today: "Informes a tribunales, planes de intervención y audiencias se controlan de memoria o en un calendario personal.",
+        withCrm: "Cada plazo queda asociado al caso y avisa con días de anticipación al profesional y a la coordinación.",
+    },
+    {
+        process: "Derivaciones y red",
+        today: "Se deriva a CESFAM, OPD o al colegio y nadie sabe con certeza si hubo respuesta.",
+        withCrm: "Cada derivación tiene estado y fecha de respuesta; lo que se quedó sin seguimiento aparece solo.",
+    },
+    {
+        process: "Sesiones y visitas",
+        today: "Las notas de entrevistas y visitas domiciliarias se transcriben al final del día, cuando se transcriben.",
+        withCrm: "Registro breve desde el celular al terminar la sesión, con lo justo para dar continuidad al caso.",
+    },
+    {
+        process: "Supervisión y carga",
+        today: "La coordinación pide estados por WhatsApp para saber qué caso está detenido y quién está sobrecargado.",
+        withCrm: "Un tablero muestra casos por profesional, casos sin movimiento y carga del equipo, como insumo para supervisar.",
+    },
+    {
+        process: "Reportes",
+        today: "Cada mes alguien reconstruye a mano las cifras que piden el directorio, el financista o Mejor Niñez.",
+        withCrm: "Los reportes salen de los registros que el equipo ya lleva, sin doble digitación.",
+    },
+] as const;
+
 const PRINCIPLES = [
     ["El criterio va primero", "La herramienta implementa un modelo de intervención definido por el equipo; no lo reemplaza."],
     ["Solo lo necesario", "Se registra lo que sirve para decidir y dar cuenta. Datos de niñez, con el mínimo indispensable."],
@@ -162,6 +199,67 @@ export default function LaboratorioPage() {
                             </li>
                         ))}
                     </ul>
+                </div>
+            </section>
+
+            {/* CRM aplicado al trabajo psicosocial */}
+            <section id="crm" aria-labelledby="crm-title" className="scroll-mt-24 border-t border-[#d8cfc0]">
+                <div className={`${container} py-16 sm:py-24`}>
+                    <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] lg:items-end lg:gap-16">
+                        <div>
+                            <p className={label}>CRM de Altius para equipos psicosociales</p>
+                            <h2 id="crm-title" className={`${h2} mt-3 max-w-[26ch]`}>
+                                Lo que cambia en el día a día de un equipo de ciencias sociales
+                            </h2>
+                        </div>
+                        <p className={`${body} max-w-[56ch]`}>
+                            Trabajadores sociales, psicólogos, terapeutas ocupacionales y duplas psicosociales sostienen casos
+                            largos, con muchos actores y plazos que no dependen de ellos. Un CRM pensado para ese trabajo no
+                            mide personas: ordena el seguimiento para que el criterio profesional no se pierda entre planillas.
+                        </p>
+                    </div>
+
+                    <div className="mt-12 border-t border-[#d8cfc0]">
+                        <div
+                            aria-hidden="true"
+                            className="hidden grid-cols-[minmax(0,0.6fr)_minmax(0,1fr)_minmax(0,1fr)] gap-10 border-b border-[#d8cfc0] py-3 text-[0.8125rem] font-semibold text-[#6f675d] md:grid"
+                        >
+                            <span>Proceso</span>
+                            <span>Hoy, en muchos equipos</span>
+                            <span>Con el CRM</span>
+                        </div>
+                        <dl>
+                            {CRM_PROCESSES.map((row) => (
+                                <div
+                                    key={row.process}
+                                    className="grid gap-3 border-b border-[#d8cfc0] py-6 md:grid-cols-[minmax(0,0.6fr)_minmax(0,1fr)_minmax(0,1fr)] md:gap-10"
+                                >
+                                    <dt className="crc-serif text-[1.2rem] font-medium leading-[1.25] text-[#171713]">{row.process}</dt>
+                                    <dd className="text-[0.9375rem] leading-[1.6] text-[#6f675d]">
+                                        <span className="mb-1 block text-[0.8125rem] font-semibold md:hidden">Hoy</span>
+                                        {row.today}
+                                    </dd>
+                                    <dd className="border-l-2 border-[#bd6f3c] pl-4 text-[0.9375rem] leading-[1.6] text-[#171713]">
+                                        <span className="mb-1 block text-[0.8125rem] font-semibold text-[#9f5528] md:hidden">Con el CRM</span>
+                                        {row.withCrm}
+                                    </dd>
+                                </div>
+                            ))}
+                        </dl>
+                    </div>
+
+                    <p className="mt-8 max-w-[72ch] text-[0.9375rem] leading-[1.65] text-[#55574f]">
+                        El CRM se configura sobre el modelo de intervención del propio programa, con acceso por rol y solo
+                        los datos necesarios. No reemplaza la supervisión ni el juicio clínico: les da a ambos información
+                        a tiempo.{" "}
+                        <Link
+                            href="/instituciones?servicio=consultoria#agenda"
+                            className="font-semibold text-[#9f5528] underline decoration-[#bd6f3c]/45 underline-offset-4 hover:text-[#171713]"
+                        >
+                            Conversar con el equipo
+                        </Link>
+                        .
+                    </p>
                 </div>
             </section>
 

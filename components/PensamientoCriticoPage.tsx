@@ -71,6 +71,7 @@ function FeaturedArticle({ article }: { article: Article }) {
             alt={article.imageAlt || article.title}
             sizes="(min-width: 1024px) 600px, 100vw"
             priority
+            transitionName={`cover-${article.id}`}
             className="aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/3]"
           />
         ) : (
@@ -128,6 +129,7 @@ function ArticleCard({ article }: { article: Article }) {
               src={article.image}
               alt={article.imageAlt || article.title}
               sizes="(min-width: 1024px) 360px, (min-width: 640px) 50vw, 100vw"
+              transitionName={`cover-${article.id}`}
             />
             <div className="mt-4">
               <ArticleMeta article={article} />

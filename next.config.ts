@@ -39,6 +39,12 @@ function shortLinkDestination(link: ShortLink) {
 
 const nextConfig: NextConfig = {
   reactCompiler: true,
+  // Transiciones entre páginas con la View Transitions API (la portada de una
+  // columna pasa del listado al artículo). Sin soporte del navegador, la
+  // navegación funciona igual, sin animar.
+  experimental: {
+    viewTransition: true,
+  },
   allowedDevOrigins: ["192.168.4.164"],
   turbopack: {
     root: process.cwd(),

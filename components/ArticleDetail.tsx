@@ -10,6 +10,7 @@ import { NewsletterBlock } from "@/components/NewsletterBlock";
 import { ColumnCta } from "@/components/ColumnCta";
 import { ReadingProgress } from "@/components/reader/ReadingProgress";
 import { CiteAndSave } from "@/components/reader/CiteAndSave";
+import { ListenToArticle } from "@/components/reader/ListenToArticle";
 import { EditorialHero, hasCoverImage, toSentenceCase } from "@/components/TypographicCover";
 
 function WhatsAppIcon({ className }: { className?: string }) {
@@ -385,6 +386,12 @@ export default function ArticleDetail({
             p.startsWith("publicado originalmente"),
     );
     const authorTokens = normalize(article.author).split(/\s+/).filter((token) => token.length > 3);
+    // Para "Escuchar": solo el cuerpo, hasta las notas, referencias o nota final.
+    const bodyEnd = Math.min(
+        ...[notesHeaderIndex, refHeaderIndex, noteHeaderIndex].filter((i) => i !== -1),
+        article.content.length,
+    );
+    const spokenParagraphs = article.content.slice(0, bodyEnd);
 
     const renderBodyText = (paragraph: string) => {
         if (notesHeaderIndex === -1) return paragraph;
@@ -415,6 +422,7 @@ export default function ArticleDetail({
                 imageCaption={article.imageCaption}
                 containerClassName="max-w-[44rem] sm:px-6"
                 imageContainerClassName="max-w-[56rem] sm:px-6"
+                transitionName={`cover-${article.id}`}
             >
                 <Link
                     href={backHref}
@@ -443,6 +451,10 @@ export default function ArticleDetail({
                         </div>
                     </div>
                     {renderShare("upper")}
+                </div>
+
+                <div className="mt-6">
+                    <ListenToArticle title={article.title} paragraphs={spokenParagraphs} />
                 </div>
 
                 {/* Cuerpo: Source Serif 4, ~65 caracteres, interlineado 1.7 */}

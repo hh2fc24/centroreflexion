@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { ViewTransition, type ReactNode } from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 
@@ -32,17 +32,28 @@ export type CoverImageProps = {
     priority?: boolean;
     /** Clases del marco (proporción, ancho). Por defecto 3:2 en móvil y 4:3 desde sm. */
     className?: string;
+    /** Nombre de la transición compartida entre listado y artículo (`cover-<id>`). */
+    transitionName?: string;
 };
 
 /**
  * Imagen editorial con el tratamiento sobrio de la guía: encuadre limpio,
  * `rounded-[6px]`, `object-cover`, sin filtros, sin grano y sin degradados.
  */
-export function CoverImage({ src, alt, sizes = "100vw", priority, className }: CoverImageProps) {
-    return (
+export function CoverImage({ src, alt, sizes = "100vw", priority, className, transitionName }: CoverImageProps) {
+    const cover = (
         <div className={cn("relative aspect-[3/2] w-full overflow-hidden rounded-[6px] bg-[#eee8dc] sm:aspect-[4/3]", className)}>
             <Image src={src} alt={alt} fill sizes={sizes} priority={priority} className="object-cover" />
         </div>
+    );
+    // Mismo `transitionName` en el listado y en el artículo: la portada se
+    // desplaza de la tarjeta a la cabecera en vez de desaparecer y reaparecer.
+    return transitionName ? (
+        <ViewTransition name={transitionName} share="cover-morph">
+            {cover}
+        </ViewTransition>
+    ) : (
+        cover
     );
 }
 
@@ -243,6 +254,8 @@ export type EditorialHeroProps = Omit<TypographicCoverProps, "size"> & {
     imageCaption?: string;
     /** Ancho del bloque de la imagen. */
     imageContainerClassName?: string;
+    /** Ver `CoverImageProps.transitionName`. */
+    transitionName?: string;
 };
 
 /**
@@ -255,6 +268,7 @@ export function EditorialHero({
     imageAlt,
     imageCaption,
     imageContainerClassName,
+    transitionName,
     category,
     title,
     date,
@@ -308,6 +322,7 @@ export function EditorialHero({
                     priority
                     sizes="(min-width: 1024px) 960px, 100vw"
                     className="aspect-[3/2] sm:aspect-[16/9]"
+                    transitionName={transitionName}
                 />
                 {imageCaption ? (
                     <figcaption className="mt-3 text-[0.875rem] text-[#6f675d]">{imageCaption}</figcaption>

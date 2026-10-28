@@ -57,9 +57,9 @@ const AUDIENCE_DOORS = [
     {
         who: "Duplas, equipos y docentes",
         title: "Profesionales",
-        text: "Seminario en vivo con Juan Carlos Rauld, cursos de la Academia y supervisión para leer los casos con otro marco.",
-        cta: "Ver el seminario",
-        href: "/seminarios/desproteccion-infancia",
+        text: "Cursos de la Academia, supervisión y seminarios con Juan Carlos Rauld para leer los casos con otro marco.",
+        cta: "Ver formación",
+        href: "/academia",
         image: "/images/juan-carlos-rauld-furia-del-libro.jpg",
     },
     {
@@ -242,8 +242,8 @@ const TEAM = [
         area: "Formación y pensamiento",
         text: "Seminarios, cursos y supervisión de equipos. Autor de tres libros con Editorial Hammurabi.",
         image: "/images/juan_carlos_real_white.png",
-        cta: "Ver el seminario",
-        href: "/seminarios/desproteccion-infancia",
+        cta: "Ver formación",
+        href: "/academia",
     },
     {
         name: "Rocío Solar",

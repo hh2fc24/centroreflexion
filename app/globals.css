@@ -477,3 +477,22 @@ body:has([data-academia]) [data-main-nav] { display: none !important; }
     widows: 3;
   }
 }
+
+/* ─── Transiciones entre páginas (View Transitions) ───────────── */
+/* Fundido breve entre páginas y desplazamiento de la portada de una columna
+   del listado al artículo. Sin scroll ni efectos: solo continuidad. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 180ms;
+}
+::view-transition-group(.cover-morph) {
+  animation-duration: 380ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
