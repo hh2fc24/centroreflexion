@@ -28,7 +28,7 @@ type Route = {
 };
 
 // Servicios que compra una institución: su siguiente paso es la conversación
-// con Hugo, no pedir una hora clínica.
+// con el equipo, no pedir una hora clínica.
 const INSTITUTIONAL = new Set([
     "/servicios/consultoria",
     "/servicios/compliance-escolar",
@@ -163,7 +163,7 @@ function RouteList({ routes }: { routes: Route[] }) {
                                     href={institutional ? "/instituciones#agenda" : `/contacto?servicio=${service.href.split("/").pop()}`}
                                     className="text-[0.9375rem] font-semibold text-[#55574f] transition-colors hover:text-[#9f5528]"
                                 >
-                                    {institutional ? "Agendar con Hugo" : "Solicitar hora"}
+                                    {institutional ? "Agendar con el equipo" : "Solicitar hora"}
                                 </Link>
                             </div>
                         </Reveal>
@@ -228,8 +228,8 @@ export default function ServicesHub() {
                     <Reveal>
                         <SectionHead eyebrow="Instituciones" title="Colegios, programas de protección, fundaciones y municipios" id="instituciones-title">
                             <p>
-                                El siguiente paso es una conversación de 20 minutos con Hugo Felipe Hormazábal, que coordina el diagnóstico, la
-                                propuesta y el convenio.
+                                El siguiente paso es una conversación con el equipo del CRC, que coordina el diagnóstico, la propuesta y el
+                                convenio.
                             </p>
                         </SectionHead>
                     </Reveal>

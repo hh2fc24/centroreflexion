@@ -91,7 +91,7 @@ export default function FormacionPage() {
                 actions={
                     <>
                         <Link href="/instituciones?servicio=formacion#agenda" className={btnPrimary}>
-                            Agenda 20 minutos con Hugo
+                            Agenda con el equipo
                             <ArrowRight className="h-4 w-4" aria-hidden="true" />
                         </Link>
                         <a href="#compromisos" className={textLink}>
@@ -219,7 +219,7 @@ export default function FormacionPage() {
                 </p>
                 <p>
                     Dicta él mismo los programas y el seminario Desprotección de la infancia, basado en su libro con Editorial Hammurabi.
-                    La coordinación de fechas, alcance y convenio la lleva Hugo Felipe Hormazábal.
+                    La coordinación de fechas, alcance y convenio la lleva el equipo del CRC.
                 </p>
             </PersonInCharge>
         </main>

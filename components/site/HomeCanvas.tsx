@@ -14,7 +14,7 @@ import { useEditor, usePages } from "@/lib/editor/hooks";
 import { BlockCanvas } from "@/components/site/blocks/BlockCanvas";
 import { FeaturedColumnBanner } from "@/components/site/FeaturedColumnBanner";
 import type { SitePage } from "@/lib/editor/types";
-import { SEMINAR_PATH, isSeminarCampaignActive } from "@/components/ColumnCta";
+import { SEMINAR_PATH } from "@/components/ColumnCta";
 
 export function HomeCanvas({ initialPage }: { initialPage?: SitePage | null }) {
   const { adminEnabled } = useEditor();
@@ -36,7 +36,6 @@ export function HomeCanvas({ initialPage }: { initialPage?: SitePage | null }) {
         editable={adminEnabled}
         afterFirstBlock={
           <>
-            <HomeSeminarioBanner />
             <HomeAudienceDoors />
             <HomeManifesto />
             <FeaturedColumnBanner />
@@ -44,6 +43,7 @@ export function HomeCanvas({ initialPage }: { initialPage?: SitePage | null }) {
         }
       />
       <HomeBooksBand />
+      <HomeSeminarioCierre />
       <HomePublicDeclaration />
       <HomeTeamClose />
     </>
@@ -51,119 +51,44 @@ export function HomeCanvas({ initialPage }: { initialPage?: SitePage | null }) {
 }
 
 /**
- * Banda del seminario en portada. Va sobre la declaración pública porque
- * mientras dure la campaña es la única página del sitio con fecha de cierre:
- * si no está a la vista en el home, el tráfico de Instagram y LinkedIn llega
- * a la portada y no encuentra por dónde entrar.
- *
- * Cerrada la matrícula de la cohorte 1, la banda deja de vender y pasa a
- * llevar a la lista de la cohorte 2: anunciar "matrícula abierta" con la
- * fecha de cierre ya vencida es lo primero que se nota en exposición pública.
+ * Seminario en portada, ya cerrado: la primera versión completó sus cupos y la
+ * próxima está por confirmar. Deja de ser la banda principal y baja a una
+ * franja breve después de los libros (el seminario se basa en uno de ellos),
+ * con un solo paso: dejar los datos para la próxima versión.
  */
-function HomeSeminarioBanner() {
-  const campaignActive = isSeminarCampaignActive();
-  const copy = campaignActive
-    ? {
-        eyebrow: "Matrícula abierta · Cohorte 1 · 15 de octubre al 3 de diciembre de 2026",
-        body: "Ocho sesiones en vivo con Juan Carlos Rauld para recorrer a Foucault, el poder disciplinario y el Chile del SENAME. Una cohorte en vivo, con ensayo final y certificación CRC y Editorial Hammurabi.",
-        note: "Jueves de 19:00 a 21:00 · Cierre de matrícula: martes 13 de octubre, 23:59",
-        primary: { label: "Matricularme", href: `${SEMINAR_PATH}#inversion` },
-      }
-    : {
-        eyebrow: "Cohorte 1 en curso · Cohorte 2 en marzo de 2027",
-        body: "La primera cohorte recorre con Juan Carlos Rauld a Foucault, el poder disciplinario y el Chile del SENAME. La cohorte 2 abre en marzo de 2027: postula ahora y quedas primero en la lista.",
-        note: "Jueves de 19:00 a 21:00 · Cohorte 1: 15 de octubre al 3 de diciembre de 2026",
-        primary: { label: "Postular a la cohorte 2", href: `${SEMINAR_PATH}#postular` },
-      };
-
+function HomeSeminarioCierre() {
   return (
-    <section
-      aria-labelledby="home-seminario-title"
-      className="border-b border-[#d8cfc0] bg-[#fffdf8] text-[#171713]"
-    >
-      <div className="mx-auto max-w-[1640px] px-5 py-14 sm:px-8 sm:py-20 lg:px-14 xl:px-20">
-        <div className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-14">
-          <div className="lg:col-span-6">
-            <p className="text-[0.8125rem] font-semibold text-[#9f5528]">{copy.eyebrow}</p>
-
-            <h2
-              id="home-seminario-title"
-              className="crc-serif mt-3 max-w-[28ch] text-[clamp(1.6rem,2.3vw,2.4rem)] font-medium leading-[1.1] tracking-[-0.01em] text-balance"
-            >
-              Seminario Desprotección de la infancia
-            </h2>
-
-            <p className="crc-serif mt-3 max-w-[40ch] text-[1.25rem] leading-[1.4] text-[#55574f]">
-              Dominación, biopolítica y gobierno de la infancia en Chile.
-            </p>
-
-            <p className="mt-5 max-w-[60ch] text-[1rem] leading-[1.7] text-[#55574f]">{copy.body}</p>
-
-            <dl className="mt-7 grid max-w-[560px] grid-cols-3 border-y border-[#d8cfc0]">
-              {[
-                ["8", "sesiones en vivo"],
-                ["60", "días de grabaciones"],
-                ["16", "horas de seminario"],
-              ].map(([value, label], index) => (
-                <div key={label} className={index === 0 ? "py-4 pr-4" : "border-l border-[#d8cfc0] px-4 py-4 sm:px-5"}>
-                  <dt className="crc-serif text-[1.6rem] font-medium leading-none tabular-nums">{value}</dt>
-                  <dd className="mt-1.5 text-[0.8125rem] leading-snug text-[#6f675d]">{label}</dd>
-                </div>
-              ))}
-            </dl>
-
-            <p className="mt-5 text-[0.875rem] leading-[1.6] text-[#6f675d]">{copy.note}</p>
-
-            <div className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-3">
-              <Link
-                href={copy.primary.href}
-                className="group inline-flex min-h-11 items-center gap-2 rounded-[6px] bg-[#bd6f3c] px-5 py-2.5 text-[0.9375rem] font-semibold text-white transition-colors hover:bg-[#a85f31] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#171713] focus-visible:ring-offset-2 focus-visible:ring-offset-[#fffdf8]"
-              >
-                {copy.primary.label}
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
-              </Link>
-              <Link
-                href={`${SEMINAR_PATH}#programa`}
-                className="inline-flex min-h-11 items-center text-[0.9375rem] font-semibold text-[#171713] underline decoration-[#bd6f3c] underline-offset-[6px] transition-colors hover:text-[#9f5528] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#171713]"
-              >
-                Conocer el programa
-              </Link>
-            </div>
-          </div>
-
-          <div className="lg:col-span-6">
-            <Link
-              href="/seminarios/desproteccion-infancia"
-              aria-label="Ver el seminario Desprotección de la infancia"
-              className="relative block aspect-[4/3] overflow-hidden rounded-[6px] bg-[#eee8dc] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#171713] focus-visible:ring-offset-2 focus-visible:ring-offset-[#fffdf8] sm:aspect-[16/10]"
-            >
-              <Image
-                src="/images/desproteccion-institucionalizacion-editorial.png"
-                alt="Pasillo institucional con una silla y un libro, imagen del seminario Desprotección de la infancia"
-                fill
-                loading="eager"
-                sizes="(max-width: 1024px) 100vw, 46vw"
-                className="object-cover object-center"
-              />
-            </Link>
-
-            <figure className="mt-4 flex items-center gap-4 border-t border-[#d8cfc0] pt-4">
-              <div className="relative h-16 w-12 shrink-0 overflow-hidden rounded-[6px] bg-[#eee8dc] sm:h-[72px] sm:w-[54px]">
-                <Image
-                  src="/images/book_desproteccion.png"
-                  alt="Portada del libro Desprotección de la infancia"
-                  fill
-                  sizes="54px"
-                  className="object-cover"
-                />
-              </div>
-              <figcaption className="text-[0.875rem] leading-[1.5] text-[#6f675d]">
-                Basado en el libro <span className="font-semibold text-[#171713]">Desprotección de la infancia</span>{" "}
-                (Editorial Hammurabi), de Juan Carlos Rauld.
-              </figcaption>
-            </figure>
-          </div>
+    <section aria-labelledby="home-seminario-title" className="border-y border-[#d8cfc0] bg-[#f8f5ee] text-[#171713]">
+      <div className="mx-auto grid max-w-[1640px] gap-6 px-5 py-10 sm:px-8 lg:grid-cols-[72px_minmax(0,1fr)_auto] lg:items-center lg:gap-10 lg:px-14 xl:px-20">
+        <div className="relative hidden h-24 w-[72px] overflow-hidden rounded-[6px] bg-[#eee8dc] lg:block">
+          <Image
+            src="/images/book_desproteccion.png"
+            alt="Portada del libro Desprotección de la infancia"
+            fill
+            sizes="72px"
+            className="object-cover"
+          />
         </div>
+        <div className="max-w-[68ch]">
+          <p className="text-[0.8125rem] font-semibold text-[#9f5528]">Seminario finalizado con éxito</p>
+          <h2
+            id="home-seminario-title"
+            className="crc-serif mt-2 text-balance text-[clamp(1.3rem,1.8vw,1.75rem)] font-medium leading-[1.2]"
+          >
+            Desprotección de la infancia completó sus cupos en tiempo récord
+          </h2>
+          <p className="mt-2 text-[0.9375rem] leading-[1.6] text-[#55574f]">
+            Gracias a cada profesional que se sumó a la primera versión con Juan Carlos Rauld. Se viene una nueva, con
+            fecha por confirmar.
+          </p>
+        </div>
+        <Link
+          href={`${SEMINAR_PATH}#postular`}
+          className="inline-flex min-h-11 shrink-0 items-center gap-2 text-[0.9375rem] font-semibold text-[#171713] underline decoration-[#bd6f3c] underline-offset-[6px] transition-colors hover:text-[#9f5528] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#171713]"
+        >
+          Avísame de la próxima versión
+          <ArrowRight className="h-4 w-4" aria-hidden="true" />
+        </Link>
       </div>
     </section>
   );

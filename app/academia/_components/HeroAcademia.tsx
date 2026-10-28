@@ -21,7 +21,7 @@ export function HeroAcademia() {
                 <div>
                     <p className="text-[0.8125rem] font-semibold text-[#9f5528]">Academia CRC</p>
                     <h1 className="crc-serif mt-4 max-w-[24ch] text-balance text-[clamp(2rem,3.2vw,3.25rem)] font-medium leading-[1.1] tracking-[-0.01em] text-[#171713]">
-                        Cursos para quienes trabajan con niñez, salud mental y protección de derechos.
+                        La academia para mentes <em className="text-[#9f5528]">críticas.</em>
                     </h1>
                     <p className="mt-6 max-w-[60ch] text-[1.0625rem] leading-[1.7] text-[#55574f]">
                         Formación del Centro de Reflexiones Críticas para duplas psicosociales, docentes, equipos de programas y

@@ -12,7 +12,7 @@ export function whatsAppUrl(text: string) {
 }
 
 export const WA_MESSAGE_INSTITUTIONAL =
-    "Hola Hugo, les escribo por una consulta institucional. Me gustaría conversar 20 minutos sobre nuestro equipo.";
+    "Hola, les escribo por una consulta institucional. Me gustaría agendar una conversación con el equipo del CRC.";
 const WA_MESSAGE_SEMINAR = "Hola CRC, quiero hacer una consulta sobre el seminario Desprotección de la infancia.";
 const WA_MESSAGE_GENERIC = "Hola CRC, quisiera hacer una consulta.";
 

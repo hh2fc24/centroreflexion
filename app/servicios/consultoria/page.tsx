@@ -71,7 +71,7 @@ export default function ConsultoriaPage() {
                 actions={
                     <>
                         <Link href="/instituciones?servicio=consultoria#agenda" className={btnPrimary}>
-                            Agenda 20 minutos con Hugo
+                            Agenda con el equipo
                             <ArrowRight className="h-4 w-4" aria-hidden="true" />
                         </Link>
                         <a href="#compromisos" className={textLink}>
@@ -229,7 +229,7 @@ export default function ConsultoriaPage() {
 
             <PersonInCharge
                 person={HUGO}
-                cta={{ href: "/instituciones?servicio=consultoria#agenda", label: "Agenda 20 minutos con Hugo" }}
+                cta={{ href: "/instituciones?servicio=consultoria#agenda", label: "Agenda con el equipo" }}
             >
                 <p>
                     Hugo dirige el área comercial y de desarrollo institucional del CRC: es con quien conversan programas, fundaciones y

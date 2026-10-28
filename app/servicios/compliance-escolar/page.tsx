@@ -368,7 +368,7 @@ export default function ComplianceEscolarPage() {
       <PersonInCharge
         person={HUGO}
         className="bg-[#fffdf8]"
-        cta={{ href: "/instituciones?servicio=compliance-escolar#agenda", label: "Agenda 20 minutos con Hugo" }}
+        cta={{ href: "/instituciones?servicio=compliance-escolar#agenda", label: "Agenda con el equipo" }}
       >
         <p>
           Hugo coordina el trabajo con colegios y sostenedores: arma el diagnóstico, la propuesta y el convenio, y se asegura
@@ -396,7 +396,7 @@ export default function ComplianceEscolarPage() {
             <p className="mt-8 text-[1rem] leading-[1.7] text-[#55574f]">
               ¿Prefiere conversarlo antes de completar el formulario?{" "}
               <Link href="/instituciones?servicio=compliance-escolar#agenda" className="font-semibold text-[#9f5528] underline decoration-[#d8cfc0] underline-offset-4 hover:text-[#171713]">
-                Agende 20 minutos con Hugo
+                Agende una reunión con el equipo
               </Link>
               .
             </p>

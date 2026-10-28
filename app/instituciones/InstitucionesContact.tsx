@@ -102,7 +102,7 @@ export function InstitucionesContactForm() {
                 return;
             }
 
-            setResult({ ok: true, msg: "Gracias. Recibimos tu solicitud y Hugo te escribirá para coordinar la reunión." });
+            setResult({ ok: true, msg: "Gracias. Recibimos tu solicitud y el equipo te escribirá para coordinar la reunión." });
             formEl.reset();
         } catch {
             setResult({ ok: false, msg: "No pudimos enviar la solicitud. Intenta de nuevo o escríbenos por WhatsApp." });
@@ -180,7 +180,7 @@ export function InstitucionesContactForm() {
 
             <Button type="submit" size="lg" className="h-auto min-h-11 w-full gap-2 rounded-[6px] bg-[#bd6f3c] py-2.5 text-[0.9375rem] hover:bg-[#a85f31]" disabled={busy}>
                 <Send className="h-4 w-4" />
-                {busy ? "Enviando…" : "Pedir la reunión de 20 minutos"}
+                {busy ? "Enviando…" : "Pedir la reunión"}
             </Button>
             <p className="text-xs leading-5 text-[#8a8276]">
                 Usamos estos datos solo para coordinar la reunión.

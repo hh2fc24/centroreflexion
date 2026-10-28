@@ -182,7 +182,7 @@ const FAQ = [
   },
   {
     q: "¿Qué pasa si postulo y no quedo?",
-    a: "Postular no compromete pago. Si la cohorte se completa, quedas primero en la lista para la cohorte 2 de marzo de 2027, con el precio de la cohorte 1 congelado.",
+    a: "Postular no compromete pago. Si los cupos se completan, quedas primero en la lista para la próxima versión, cuya fecha está por confirmar.",
   },
 ];
 
@@ -214,8 +214,7 @@ type Vigente = EstadoVenta["vigente"];
 
 /** Línea del hero: la cifra solo cuando quedan pocos cupos. */
 function textoCupos(venta: EstadoVenta) {
-  if (venta.disponibles === 0) return "Cohorte 1 completa";
-  if (venta.motivo === "cerrado") return "Cohorte 1 en curso";
+  if (venta.disponibles === 0 || venta.motivo === "cerrado") return "Cupos completos en tiempo récord";
   if (mostrarCuposRestantes(venta.disponibles)) {
     return venta.disponibles === 1
       ? "Queda 1 cupo"
@@ -256,7 +255,7 @@ function ResumenHero({ vigente }: { vigente: Vigente }) {
           ) : null}
         </>
       ) : (
-        "Matrícula cerrada"
+        "Cupos completos"
       ),
     ],
   ];
@@ -300,7 +299,9 @@ export default async function SeminarioDesproteccionInfancia() {
       <section className={`border-b ${FILETE}`}>
         <div className={`${CONTENEDOR} grid gap-10 py-10 sm:py-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,440px)] lg:items-center lg:gap-16 lg:py-20`}>
           <div className="max-w-[640px]">
-            <p className={ETIQUETA}>Seminario en vivo · Cohorte 1 · Octubre a diciembre de 2026</p>
+            <p className={ETIQUETA}>
+              {vigente ? "Seminario en vivo · Cohorte 1 · Octubre a diciembre de 2026" : "Seminario en vivo · Convocatoria finalizada con éxito"}
+            </p>
 
             <h1 className="crc-serif mt-4 text-balance text-[clamp(2rem,3.2vw,3.25rem)] font-semibold leading-[1.1] tracking-[-0.01em] text-[#171713]">
               Desprotección de la infancia
@@ -322,7 +323,7 @@ export default async function SeminarioDesproteccionInfancia() {
 
             <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Link href={vigente ? "#inversion" : "#postular"} className={BOTON_PRIMARIO}>
-                {vigente ? "Matricularme" : "Lista cohorte 2"} <ArrowRight aria-hidden="true" className="h-4 w-4" />
+                {vigente ? "Matricularme" : "Avísame de la próxima versión"} <ArrowRight aria-hidden="true" className="h-4 w-4" />
               </Link>
               <Link href="#programa" className={BOTON_SECUNDARIO}>
                 Ver el programa
@@ -336,7 +337,7 @@ export default async function SeminarioDesproteccionInfancia() {
               <span className="font-semibold text-[#171713]">{textoCupos(venta)}.</span>{" "}
               {vigente
                 ? plazoTramo(vigente)
-                : "La matrícula de la cohorte 1 cerró. La cohorte 2 abre en marzo de 2027."}
+                : "Gracias a quienes se sumaron a la primera versión. Se viene una nueva, con fecha por confirmar."}
             </p>
 
             <div className={`mt-8 flex items-center gap-4 border-t ${FILETE_SUAVE} pt-6`}>
@@ -676,11 +677,9 @@ export default async function SeminarioDesproteccionInfancia() {
                 <p className="text-[0.9375rem] font-semibold tabular-nums text-[#55574f]">
                   {vigente && mostrarCuposRestantes(venta.disponibles)
                     ? `${venta.disponibles} ${venta.disponibles === 1 ? "cupo disponible" : "cupos disponibles"}`
-                    : venta.disponibles === 0
-                      ? "Cohorte 1 completa"
-                      : vigente
-                        ? "Matrícula abierta"
-                        : "Matrícula cerrada"}
+                    : vigente
+                      ? "Matrícula abierta"
+                      : "Cupos completos"}
                 </p>
               </div>
 
@@ -787,16 +786,15 @@ export default async function SeminarioDesproteccionInfancia() {
                 ) : (
                   <>
                     <div>
-                      <p className={ETIQUETA}>Matrícula cerrada</p>
+                      <p className={ETIQUETA}>Convocatoria finalizada</p>
                       <p className="mt-2 max-w-[48ch] text-[1rem] leading-[1.6] text-[#171713]">
-                        {venta.disponibles === 0
-                          ? "La cohorte 1 está completa. Postula y quedas primero en la lista de la cohorte 2, con el precio de la cohorte 1 congelado."
-                          : "La matrícula de la cohorte 1 ya cerró. Postula y quedas primero en la lista de la cohorte 2."}
+                        Completamos los cupos de la primera versión en tiempo récord. Se viene una nueva, con fecha por
+                        confirmar: deja tus datos y te avisamos primero.
                       </p>
                     </div>
                     <div className="md:pt-1">
                       <Link href="#postular" className={`${BOTON_PRIMARIO} w-full`}>
-                        Lista cohorte 2 <ArrowRight aria-hidden="true" className="h-4 w-4" />
+                        Avísame de la próxima versión <ArrowRight aria-hidden="true" className="h-4 w-4" />
                       </Link>
                     </div>
                   </>
@@ -836,12 +834,12 @@ export default async function SeminarioDesproteccionInfancia() {
                     <span className="font-semibold text-[#171713]">
                       La matrícula cierra el martes 13 de octubre a las 23:59
                     </span>
-                    , o antes si se completan los cupos. No reabrimos: la cohorte 2 se abre en marzo de 2027.
+                    , o antes si se completan los cupos. No reabrimos.
                   </>
                 ) : (
                   <>
-                    <span className="font-semibold text-[#171713]">La matrícula de la cohorte 1 cerró.</span> La
-                    cohorte 2 se abre en marzo de 2027.
+                    <span className="font-semibold text-[#171713]">Cupos completos en tiempo récord.</span> La próxima
+                    versión está por confirmar.
                   </>
                 )}
               </p>
@@ -855,21 +853,31 @@ export default async function SeminarioDesproteccionInfancia() {
         <div className={SECCION}>
           <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_500px] lg:gap-16">
             <div>
-              <p className={ETIQUETA}>Postulación</p>
-              <h2 className={`${H2} mt-3 max-w-[20ch]`}>Postula a la cohorte 1.</h2>
+              <p className={ETIQUETA}>{vigente ? "Postulación" : "Próxima versión"}</p>
+              <h2 className={`${H2} mt-3 max-w-[20ch]`}>
+                {vigente ? "Postula a la cohorte 1." : "Te avisamos cuando abra la próxima versión."}
+              </h2>
               <p className="mt-5 max-w-[56ch] text-[1.0625rem] leading-[1.7] text-[#171713]">
-                Revisamos cada postulación. Si tu perfil calza con la cohorte, te escribimos para una conversación
-                breve de quince minutos y confirmamos tu cupo con el valor del tramo vigente. Postular no compromete
-                pago.
+                {vigente
+                  ? "Revisamos cada postulación. Si tu perfil calza con la cohorte, te escribimos para una conversación breve de quince minutos y confirmamos tu cupo con el valor del tramo vigente. Postular no compromete pago."
+                  : "La primera versión completó sus cupos en tiempo récord. Estamos preparando una nueva, con fecha por confirmar. Deja tus datos y te escribimos primero."}
               </p>
 
               <dl className={`mt-8 max-w-[520px] border-t ${FILETE}`}>
-                {[
-                  ["Inicio", "Jueves 15 de octubre, 19:00"],
-                  ["Cierre de matrícula", "Martes 13 de octubre, 23:59"],
-                  ["Grabaciones", "Disponibles 60 días"],
-                  ["Certificación", "CRC + Editorial Hammurabi"],
-                ].map(([k, v]) => (
+                {(vigente
+                  ? [
+                      ["Inicio", "Jueves 15 de octubre, 19:00"],
+                      ["Cierre de matrícula", "Martes 13 de octubre, 23:59"],
+                      ["Grabaciones", "Disponibles 60 días"],
+                      ["Certificación", "CRC + Editorial Hammurabi"],
+                    ]
+                  : [
+                      ["Primera versión", "Cupos completos"],
+                      ["Próxima versión", "Fecha por confirmar"],
+                      ["Formato", "8 sesiones en vivo"],
+                      ["Certificación", "CRC + Editorial Hammurabi"],
+                    ]
+                ).map(([k, v]) => (
                   <div key={k} className={`flex items-baseline justify-between gap-6 border-b ${FILETE_SUAVE} py-3.5`}>
                     <dt className="text-[0.9375rem] text-[#55574f]">{k}</dt>
                     <dd className="text-right text-[1rem] font-semibold tabular-nums text-[#171713]">{v}</dd>
@@ -880,12 +888,12 @@ export default async function SeminarioDesproteccionInfancia() {
 
             <div className="rounded-[6px] border border-[#ded5c7] bg-[#fffdf8] p-5 sm:p-8">
               <h3 className="crc-serif text-[1.35rem] font-medium leading-[1.2] text-[#171713]">
-                Formulario de postulación
+                {vigente ? "Formulario de postulación" : "Avísame de la próxima versión"}
               </h3>
               <p className="mb-6 mt-1.5 text-[0.9375rem] leading-[1.55] text-[#55574f]">
                 Todos los campos son obligatorios.
               </p>
-              <SeminarioPostulacionForm variant="light" />
+              <SeminarioPostulacionForm variant="light" waitlist={!vigente} />
 
               {vigente ? (
                 <div className={`mt-7 border-t ${FILETE_SUAVE} pt-6`}>
@@ -945,9 +953,13 @@ export default async function SeminarioDesproteccionInfancia() {
       <section className={`border-t ${FILETE} bg-[#eee8dc]`}>
         <div className={`${CONTENEDOR} py-14 lg:py-20`}>
           <div className="grid gap-8 lg:grid-cols-[200px_minmax(0,1fr)_auto] lg:items-end lg:gap-14">
-            <p className={`${ETIQUETA} lg:self-start lg:pt-2`}>Cohorte 1</p>
+            <p className={`${ETIQUETA} lg:self-start lg:pt-2`}>{vigente ? "Cohorte 1" : "Primera versión"}</p>
             <div className="max-w-[48ch]">
-              <h2 className={H2}>Es la primera vez que el autor dicta este seminario.</h2>
+              <h2 className={H2}>
+                {vigente
+                  ? "Es la primera vez que el autor dicta este seminario."
+                  : "La primera versión completó sus cupos en tiempo récord."}
+              </h2>
               <p className="mt-4 text-[1.0625rem] leading-[1.7] text-[#55574f]">
                 {vigente ? (
                   <>
@@ -957,12 +969,12 @@ export default async function SeminarioDesproteccionInfancia() {
                       : null}
                   </>
                 ) : (
-                  "La cohorte 1 está en curso. Postula a la lista y te escribimos primero cuando abra la cohorte 2, en marzo de 2027."
+                  "Gracias a cada profesional que se sumó. Se viene una nueva versión, con fecha por confirmar: deja tus datos y te avisamos primero."
                 )}
               </p>
             </div>
             <Link href={vigente ? "#inversion" : "#postular"} className={`${BOTON_PRIMARIO} shrink-0`}>
-              {vigente ? "Matricularme" : "Lista cohorte 2"} <ArrowRight aria-hidden="true" className="h-4 w-4" />
+              {vigente ? "Matricularme" : "Avísame de la próxima versión"} <ArrowRight aria-hidden="true" className="h-4 w-4" />
             </Link>
           </div>
         </div>

@@ -81,7 +81,7 @@ export default function BienestarEscolarPage() {
                 actions={
                     <>
                         <Link href="/instituciones?servicio=bienestar-escolar#agenda" className={btnPrimary}>
-                            Agenda 20 minutos con Hugo
+                            Agenda con el equipo
                             <ArrowRight className="h-4 w-4" aria-hidden="true" />
                         </Link>
                         <a href="#sistema" className={textLink}>
@@ -277,7 +277,7 @@ export default function BienestarEscolarPage() {
             <PersonInCharge
                 person={HUGO}
                 className="bg-[#fffdf8]"
-                cta={{ href: "/instituciones?servicio=bienestar-escolar#agenda", label: "Agenda 20 minutos con Hugo" }}
+                cta={{ href: "/instituciones?servicio=bienestar-escolar#agenda", label: "Agenda con el equipo" }}
             >
                 <p>
                     Hugo coordina el trabajo con cada colegio: diagnóstico, propuesta, convenio y medición de lo acordado. La parte

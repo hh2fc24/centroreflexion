@@ -65,8 +65,8 @@ export default async function DesproteccionInfanciaEvent() {
       <aside aria-label="Aviso" className="border-b border-[#d8cfc0] bg-[#eee8dc]">
         <div className={`${CONTENEDOR} flex flex-col gap-4 py-5 sm:flex-row sm:items-center sm:justify-between`}>
           <p className="max-w-[70ch] text-[1rem] leading-[1.6] text-[#171713]">
-            <span className="font-semibold">Este conversatorio ya se realizó.</span> Ahora Juan Carlos Rauld dicta el
-            seminario en vivo Desprotección de la infancia, desde el 15 de octubre.
+            <span className="font-semibold">Este conversatorio ya se realizó.</span> El tema siguió en el seminario en
+            vivo Desprotección de la infancia, que completó sus cupos en tiempo récord. Se viene una nueva versión.
           </p>
           <Link href={SEMINARIO_HREF} className={`${BOTON_PRIMARIO} shrink-0`}>
             Ver el seminario <ArrowRight aria-hidden="true" className="h-4 w-4" />
@@ -259,7 +259,8 @@ export default async function DesproteccionInfanciaEvent() {
             <h2 className={H2}>El tema continúa en un seminario de ocho sesiones</h2>
             <p className="mt-4 text-[1.0625rem] leading-[1.7] text-[#55574f]">
               El formulario de este conversatorio ya no está activo. Juan Carlos Rauld desarrolla el argumento completo
-              en el seminario en vivo, los jueves desde el 15 de octubre. Para enterarte de próximas actividades, sigue
+              en el seminario en vivo, cuya primera versión completó sus cupos en tiempo récord; la próxima está por
+              confirmar. Para enterarte de próximas actividades, sigue
               al CRC en{" "}
               <a
                 href="https://www.youtube.com/@CentrodeReflexionesCr%C3%ADticas"

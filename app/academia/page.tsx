@@ -116,7 +116,7 @@ export default async function AcademiaPage() {
           className="group grid gap-6 border-y border-[#d8cfc0] py-8 lg:grid-cols-[200px_minmax(0,1fr)_auto] lg:items-center lg:gap-12"
         >
           <p className="text-[0.8125rem] font-semibold text-[#9f5528]">
-            {seminarActive ? "Seminario en vivo · Cohorte 1" : "Seminario en vivo · Cohorte 2 en marzo de 2027"}
+            {seminarActive ? "Seminario en vivo · Cohorte 1" : "Seminario en vivo · Cupos completos en tiempo récord"}
           </p>
           <div>
             <h2 className="crc-serif text-[clamp(1.35rem,2vw,1.75rem)] font-medium leading-[1.15] text-[#171713] group-hover:text-[#9f5528]">
@@ -124,11 +124,12 @@ export default async function AcademiaPage() {
             </h2>
             <p className="mt-2 max-w-[62ch] text-[0.9375rem] leading-[1.6] text-[#55574f]">
               Ocho sesiones en vivo con Juan Carlos Rauld, autor del libro y Director del CRC, con discusión de casos,
-              ensayo final y certificación CRC + Editorial Hammurabi. Formato distinto al de los cursos del catálogo.
+              ensayo final y certificación CRC + Editorial Hammurabi.{" "}
+              {seminarActive ? "Formato distinto al de los cursos del catálogo." : "Se viene una nueva versión, con fecha por confirmar."}
             </p>
           </div>
           <span className="inline-flex items-center gap-2 text-[0.9375rem] font-semibold text-[#9f5528]">
-            {seminarActive ? "Ver el seminario" : "Postular a la cohorte 2"}
+            {seminarActive ? "Ver el seminario" : "Avísame de la próxima versión"}
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
           </span>
         </Link>

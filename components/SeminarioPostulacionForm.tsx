@@ -28,7 +28,17 @@ const POBLACIONES = [
   "Otro",
 ];
 
-export function SeminarioPostulacionForm({ variant = "dark" }: { variant?: "dark" | "light" }) {
+/**
+ * `waitlist`: con la convocatoria cerrada el mismo formulario sirve para avisar
+ * de la próxima versión; cambia el texto y el programa que llega al lead.
+ */
+export function SeminarioPostulacionForm({
+  variant = "dark",
+  waitlist = false,
+}: {
+  variant?: "dark" | "light";
+  waitlist?: boolean;
+}) {
   const pathname = usePathname();
   const [state, setState] = useState<SubmissionState>("idle");
   const [errorText, setErrorText] = useState<string | null>(null);
@@ -45,7 +55,7 @@ export function SeminarioPostulacionForm({ variant = "dark" }: { variant?: "dark
         role="status"
       >
         <p className={`text-[0.8125rem] font-semibold ${dark ? "text-[#e4935d]" : "text-[#9f5528]"}`}>
-          Postulación recibida
+          {waitlist ? "Registro recibido" : "Postulación recibida"}
         </p>
         <p
           className={`crc-serif mt-2 text-[1.35rem] font-medium leading-[1.25] ${
@@ -55,8 +65,9 @@ export function SeminarioPostulacionForm({ variant = "dark" }: { variant?: "dark
           Gracias. Ya la tenemos.
         </p>
         <p className={`mt-3 text-[0.9375rem] leading-[1.7] ${dark ? "text-[#ede7dc]/80" : "text-[#55574f]"}`}>
-          Te vamos a escribir dentro de las próximas 24 horas hábiles para coordinar una conversación breve de 15
-          minutos y confirmar tu cupo. Revisa también tu carpeta de spam.
+          {waitlist
+            ? "Te escribiremos primero cuando confirmemos la fecha de la próxima versión. Revisa también tu carpeta de spam."
+            : "Te vamos a escribir dentro de las próximas 24 horas hábiles para coordinar una conversación breve de 15 minutos y confirmar tu cupo. Revisa también tu carpeta de spam."}
         </p>
       </div>
     );
@@ -85,7 +96,9 @@ export function SeminarioPostulacionForm({ variant = "dark" }: { variant?: "dark
             phone: String(form.get("phone") ?? ""),
             message: String(form.get("motivacion") ?? ""),
             fields: {
-              programa: "Seminario Desprotección de la Infancia — Cohorte 1 (oct–dic 2026)",
+              programa: waitlist
+                ? "Seminario Desprotección de la Infancia — Próxima versión (por confirmar)"
+                : "Seminario Desprotección de la Infancia — Cohorte 1 (oct–dic 2026)",
               institucion: String(form.get("institucion") ?? ""),
               poblacion: String(form.get("poblacion") ?? ""),
               convenioInstitucional: form.get("convenio") ? "sí" : "no",
@@ -177,7 +190,11 @@ export function SeminarioPostulacionForm({ variant = "dark" }: { variant?: "dark
           name="convenio"
           className="mt-1 h-4 w-4 shrink-0 accent-[#bd6f3c] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#bd6f3c]"
         />
-        <span>Postulo junto a más personas de mi institución (3 o más, 15% de descuento c/u).</span>
+        <span>
+          {waitlist
+            ? "Me interesa junto a más personas de mi institución (3 o más)."
+            : "Postulo junto a más personas de mi institución (3 o más, 15% de descuento c/u)."}
+        </span>
       </label>
 
       {state === "error" && errorText ? (
@@ -194,7 +211,7 @@ export function SeminarioPostulacionForm({ variant = "dark" }: { variant?: "dark
             className={`mt-0.5 h-4 w-4 shrink-0 ${dark ? "text-[#e4935d]" : "text-[#9f5528]"}`}
           />
           <span>
-            <span className="font-semibold">No se envió la postulación.</span> {errorText}
+            <span className="font-semibold">{waitlist ? "No se envió el registro." : "No se envió la postulación."}</span> {errorText}
           </span>
         </div>
       ) : null}
@@ -204,11 +221,13 @@ export function SeminarioPostulacionForm({ variant = "dark" }: { variant?: "dark
         disabled={state === "submitting"}
         className="inline-flex h-12 w-full items-center justify-center rounded-[6px] bg-[#bd6f3c] px-5 text-[0.9375rem] font-semibold text-white transition-colors hover:bg-[#a85f31] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#bd6f3c] disabled:cursor-wait disabled:opacity-60"
       >
-        {state === "submitting" ? "Enviando postulación…" : "Postular al seminario"}
+        {state === "submitting" ? "Enviando…" : waitlist ? "Avísame de la próxima versión" : "Postular al seminario"}
       </button>
 
       <p className={`text-[0.875rem] leading-[1.6] ${dark ? "text-[#ede7dc]/70" : "text-[#6f675d]"}`}>
-        Postular no compromete pago. Revisamos cada postulación y te contactamos para confirmar el cupo.
+        {waitlist
+          ? "No compromete pago. Solo te avisamos cuando haya fecha confirmada."
+          : "Postular no compromete pago. Revisamos cada postulación y te contactamos para confirmar el cupo."}
       </p>
     </form>
   );

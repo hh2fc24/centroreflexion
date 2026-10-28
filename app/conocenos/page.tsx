@@ -353,7 +353,7 @@ export default function About() {
                         director={hugo}
                         aside={
                             <Link href="/instituciones#agenda" className={`${btnPrimary} mt-6`}>
-                                Agenda 20 minutos con Hugo
+                                Agenda con el equipo
                             </Link>
                         }
                     >

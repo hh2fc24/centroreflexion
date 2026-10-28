@@ -88,7 +88,7 @@ export function FoundersSection() {
                                     href={founder.id === "hugo" ? "/instituciones#agenda" : `${founder.href}#equipo`}
                                     className="group inline-flex items-center text-[0.9375rem] font-semibold text-[#171713] transition-colors hover:text-[#9f5528]"
                                 >
-                                    {founder.id === "hugo" ? "Agenda 20 minutos con Hugo" : "Conocer más"}
+                                    {founder.id === "hugo" ? "Agenda con el equipo" : "Conocer más"}
                                     <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                                 </EditorLink>
                             </div>

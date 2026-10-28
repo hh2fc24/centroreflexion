@@ -43,7 +43,7 @@ function Hero() {
                     <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
                         <a href="#agenda" className={btnPrimary}>
                             <CalendarCheck className="h-4 w-4" aria-hidden="true" />
-                            Agenda 20 minutos con Hugo
+                            Agenda con el equipo
                         </a>
                         <a href="#oferta" className={textLink}>
                             Ver la oferta
@@ -346,7 +346,7 @@ function Agenda() {
         <section id="agenda" aria-labelledby="inst-agenda-title" className="scroll-mt-24 bg-[#fffdf8]">
             <div className={`${container} grid gap-12 py-16 sm:py-24 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-16`}>
                 <Reveal>
-                    <SectionHead eyebrow="Agenda" title="20 minutos para ver si podemos ayudar" id="inst-agenda-title" />
+                    <SectionHead eyebrow="Agenda" title="Una conversación para ver si podemos ayudar" id="inst-agenda-title" />
 
                     <div className="mt-10 grid grid-cols-[112px_minmax(0,1fr)] items-end gap-5 sm:grid-cols-[152px_minmax(0,1fr)]">
                         <div className="relative aspect-[4/5] overflow-hidden rounded-[6px] bg-white ring-1 ring-[#d8cfc0]">
@@ -368,8 +368,8 @@ function Agenda() {
                     </div>
 
                     <p className="crc-serif mt-8 max-w-[38ch] text-[1.25rem] leading-[1.45] text-[#171713]">
-                        “Soy quien conversa con las instituciones sobre implementación, medición y contratos. En 20 minutos entiendo qué
-                        necesitan y les digo con franqueza si el CRC es la ayuda correcta.”
+                        “Soy quien conversa con las instituciones sobre implementación, medición y contratos. En la primera reunión, junto
+                        al equipo, entendemos qué necesitan y les decimos con franqueza si el CRC es la ayuda correcta.”
                     </p>
 
                     <div className="mt-8">

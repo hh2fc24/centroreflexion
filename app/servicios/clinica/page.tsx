@@ -285,7 +285,7 @@ export default function ClinicaPage() {
                 intro={
                     <p>
                         Para equipos que sostienen casos de salud mental infanto-juvenil que superan la respuesta habitual. Se coordina
-                        con Hugo Felipe Hormazábal, que prepara la propuesta y el convenio con la institución.
+                        con el equipo del CRC, que prepara la propuesta y el convenio con la institución.
                     </p>
                 }
             />

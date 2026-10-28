@@ -17,7 +17,7 @@ export const metadata: Metadata = pageMetadata({
     ],
     ogTitle: "Pensamiento crítico para decisiones difíciles sobre niñez y juventud",
     ogDescription:
-        "El CRC trabaja con colegios, programas de protección, fundaciones y municipios. Agenda 20 minutos con Hugo Hormazábal.",
+        "El CRC trabaja con colegios, programas de protección, fundaciones y municipios. Agenda una reunión con el equipo.",
 });
 
 /**

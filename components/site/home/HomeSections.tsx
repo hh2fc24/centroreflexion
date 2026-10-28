@@ -260,7 +260,7 @@ const TEAM = [
         area: "Instituciones",
         text: "Colegios, programas y fundaciones: diagnóstico, propuesta, convenio y medición de resultados.",
         image: "/images/hugo-hormazabal-crc-2026-large.png",
-        cta: "Agenda 20 minutos",
+        cta: "Agenda con el equipo",
         href: "/instituciones#agenda",
     },
 ];

@@ -75,8 +75,8 @@ export async function POST(request: NextRequest) {
         ok: false,
         error:
           estado.motivo === "sin_cupos"
-            ? "La cohorte 1 está completa. Escríbenos y quedas primero en la lista de la cohorte 2."
-            : "La matrícula de la cohorte 1 está cerrada.",
+            ? "Completamos los cupos en tiempo récord. Deja tus datos y te avisamos de la próxima versión."
+            : "La convocatoria finalizó. Deja tus datos y te avisamos de la próxima versión.",
         motivo: estado.motivo,
       },
       { status: 409 }
