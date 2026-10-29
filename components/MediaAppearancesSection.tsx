@@ -1,6 +1,7 @@
 "use client";
 
-import { ExternalLink, Play, X } from "lucide-react";
+import { ArrowRight, ExternalLink, Play, X } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 
 const featuredArticle = {
@@ -117,6 +118,22 @@ export function MediaAppearancesSection() {
                     y políticas públicas.
                 </p>
 
+                <article className="mt-10 grid overflow-hidden rounded-[6px] border border-[#f8f5ee]/20 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
+                    <Link href="/prensa/juan-carlos-rauld-radio-pauta-desde-el-jardin-28-octubre-2026" className="group relative block aspect-video bg-[#0f0d0a] lg:aspect-auto">
+                        {/* eslint-disable-next-line @next/next/no-img-element -- miniatura original del medio */}
+                        <img src="https://i.ytimg.com/vi/cyzIgLIOijo/maxresdefault.jpg" alt="Entrevista a Juan Carlos Rauld en Desde el Jardín, Radio PAUTA" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
+                        <span className="absolute bottom-4 left-4 inline-flex items-center gap-2 rounded-[6px] bg-[#15120e]/90 px-3 py-2 text-[0.875rem] font-semibold text-[#fffdf8] group-hover:bg-[#bd6f3c]">
+                            <Play className="h-4 w-4" aria-hidden="true" /> Ver entrevista
+                        </span>
+                    </Link>
+                    <div className="flex flex-col justify-center bg-[#15120e] p-6 sm:p-8 lg:p-10">
+                        <p className="text-[0.8125rem] font-semibold text-[#e4935d]">Entrevista destacada · Radio PAUTA · 28 de octubre de 2026</p>
+                        <h3 className="crc-serif mt-4 max-w-[26ch] text-balance text-[clamp(1.6rem,2.3vw,2.4rem)] font-medium leading-[1.15]">Juan Carlos Rauld en Desde el Jardín: infancia, justicia y responsabilidad del Estado</h3>
+                        <p className="mt-5 max-w-[56ch] text-[0.9375rem] leading-[1.7] text-[#d8cfc0]">Cristián Warnken conversa con el director editorial del CRC sobre la crisis del sistema de protección, la institucionalización y las tensiones entre legalidad y cuidado.</p>
+                        <Link href="/prensa/juan-carlos-rauld-radio-pauta-desde-el-jardin-28-octubre-2026" className="mt-7 inline-flex min-h-11 items-center gap-2 self-start rounded-[6px] bg-[#bd6f3c] px-5 py-2.5 text-[0.9375rem] font-semibold text-white hover:bg-[#a85f31]">Ver entrevista y contexto <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>
+                    </div>
+                </article>
+
                 {/* Prensa escrita */}
                 <div className="mt-10 grid gap-px overflow-hidden rounded-[6px] border border-[#f8f5ee]/12 bg-[#f8f5ee]/12 lg:grid-cols-2">
                     <article className="flex flex-col bg-[#15120e] p-6 sm:p-8">
@@ -230,7 +247,7 @@ export function MediaAppearancesSection() {
 
                 {/* Videos */}
                 <h3 className="mt-14 border-b border-[#f8f5ee]/12 pb-3 text-[1rem] font-semibold text-[#fffdf8]">
-                    Videos
+                    Más videos
                 </h3>
                 <ul className="mt-6 grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
                     {appearances.map((item) => {

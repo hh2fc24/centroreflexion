@@ -13,6 +13,7 @@ import {
 import { useEditor, usePages } from "@/lib/editor/hooks";
 import { BlockCanvas } from "@/components/site/blocks/BlockCanvas";
 import { FeaturedColumnBanner } from "@/components/site/FeaturedColumnBanner";
+import { HomePautaInterview } from "@/components/site/HomePautaInterview";
 import type { SitePage } from "@/lib/editor/types";
 import { SEMINAR_PATH } from "@/components/ColumnCta";
 
@@ -39,6 +40,7 @@ export function HomeCanvas({ initialPage }: { initialPage?: SitePage | null }) {
             <HomeAudienceDoors />
             <HomeManifesto />
             <FeaturedColumnBanner />
+            <HomePautaInterview />
           </>
         }
       />

@@ -93,6 +93,12 @@ const CLOSING =
 
 const FEATURED_COVERAGE = [
     {
+        outlet: "Radio PAUTA · Desde el Jardín",
+        date: "28 de octubre de 2026",
+        title: "Juan Carlos Rauld conversa con Cristián Warnken sobre infancia, justicia y responsabilidad del Estado",
+        href: "/prensa/juan-carlos-rauld-radio-pauta-desde-el-jardin-28-octubre-2026",
+    },
+    {
         outlet: "El Mostrador",
         date: "5 de abril de 2026",
         title: "Juan Carlos Rauld: “El Estado desprotege. Es una intervención cara con malos resultados”",
@@ -259,13 +265,13 @@ export default function PrensaPage() {
                     <ul className="border-t border-[#d8cfc0]">
                         {FEATURED_COVERAGE.map((item) => (
                             <li key={item.href} className="border-b border-[#d8cfc0]">
-                                <a href={item.href} target="_blank" rel="noopener noreferrer" className="group block py-6">
+                                <a href={item.href} target={item.href.startsWith("http") ? "_blank" : undefined} rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined} className="group block py-6">
                                     <p className="text-[0.875rem] text-[#6f675d]">
                                         <span className="font-semibold text-[#171713]">{item.outlet}</span> · {item.date}
                                     </p>
                                     <p className="crc-serif mt-2 text-[1.2rem] leading-[1.35] group-hover:text-[#9f5528]">
                                         {item.title}
-                                        <ExternalLink className="ml-2 inline h-4 w-4 align-[-2px] text-[#9f5528]" aria-label="(abre en otra pestaña)" />
+                                        {item.href.startsWith("http") ? <ExternalLink className="ml-2 inline h-4 w-4 align-[-2px] text-[#9f5528]" aria-label="(abre en otra pestaña)" /> : <ArrowRight className="ml-2 inline h-4 w-4 align-[-2px] text-[#9f5528]" aria-hidden="true" />}
                                     </p>
                                 </a>
                             </li>

@@ -34,6 +34,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/declaracion-publica/ninez-migrante-haitiana",
     "/seminarios/desproteccion-infancia",
     "/prensa",
+    "/prensa/juan-carlos-rauld-radio-pauta-desde-el-jardin-28-octubre-2026",
     "/laboratorio",
     "/autodiagnostico-convivencia-escolar",
   ];
