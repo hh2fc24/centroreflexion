@@ -25,7 +25,7 @@ export function JsonLd({ article }: JsonLdProps) {
 
     const jsonLd = {
         "@context": "https://schema.org",
-        "@type": "Article",
+        "@type": article.publication ? "ScholarlyArticle" : "Article",
         "headline": article.title,
         "image": [
             `${siteUrl}${article.image}`
@@ -35,7 +35,10 @@ export function JsonLd({ article }: JsonLdProps) {
                 "name": author.name,
                 ...(author.orcid ? { "sameAs": author.orcid } : {}),
             })),
-        "publisher": {
+        "publisher": article.publication?.publisher ? {
+            "@type": "Organization",
+            "name": article.publication.publisher,
+        } : {
             "@type": "Organization",
             "name": "Centro de Reflexiones Críticas",
             "logo": {
@@ -44,6 +47,18 @@ export function JsonLd({ article }: JsonLdProps) {
             },
         },
         "datePublished": isoDate,
+        ...(article.sitePublishedDate ? { "dateModified": toIsoDate(article.sitePublishedDate) } : {}),
+        ...(article.publication ? {
+            "identifier": { "@type": "PropertyValue", "propertyID": "DOI", "value": article.publication.doi },
+            ...(article.publication.originalUrl ? { "sameAs": article.publication.originalUrl } : {}),
+            ...(article.publication.licenseUrl ? { "license": article.publication.licenseUrl } : {}),
+            "isPartOf": {
+                "@type": "PublicationIssue",
+                "issueNumber": article.publication.issue,
+                "isPartOf": { "@type": "PublicationVolume", "volumeNumber": article.publication.volume, "isPartOf": { "@type": "Periodical", "name": article.publication.journal } },
+            },
+            "pagination": article.publication.pages,
+        } : {}),
         "description": article.excerpt,
         "mainEntityOfPage": {
             "@type": "WebPage",

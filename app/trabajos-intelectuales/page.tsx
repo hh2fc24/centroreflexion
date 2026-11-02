@@ -74,10 +74,13 @@ export default async function TrabajosIntelectualesPage() {
                                                 </span>
                                                 <span className="tabular-nums"> · {article.date}</span>
                                             </p>
+                                            {article.sitePublishedDate ? (
+                                                <p className="mt-1 text-[0.875rem] text-[#9f5528]">Incorporado al CRC · {article.sitePublishedDate}</p>
+                                            ) : null}
                                             {article.publication ? (
                                                 <p className="mt-1 text-[0.875rem] text-[#6f675d]">
                                                     <cite className="not-italic">{article.publication.journal}</cite>,{" "}
-                                                    {article.publication.volume} ({article.publication.year})
+                                                    {article.publication.volume}{article.publication.issue ? `(${article.publication.issue})` : ""} ({article.publication.year})
                                                 </p>
                                             ) : null}
                                             <p className="mt-4 max-w-[65ch] text-[1rem] leading-[1.7] text-[#55574f] line-clamp-4">

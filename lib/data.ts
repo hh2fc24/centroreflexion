@@ -9,6 +9,7 @@ export interface Article {
   authorRole?: string;
   authors?: ArticleAuthor[];
   date: string; // "08 Feb 2026"
+  sitePublishedDate?: string; // Fecha de incorporación al CRC si difiere de la publicación original.
   category: string;
   image: string;
   imageAlt?: string;
@@ -18,8 +19,12 @@ export interface Article {
   publication?: {
     journal: string;
     volume: string;
+    issue?: string;
     pages: string;
     year: string;
+    publisher?: string;
+    originalUrl?: string;
+    licenseUrl?: string;
     doi: string;
     received: string;
     accepted: string;

@@ -12,12 +12,14 @@ function toArticles(input: unknown): Article[] {
   return Array.isArray(input) ? (input as Article[]) : [];
 }
 
-function sortNewestFirst(items: Article[]): Article[] {
+function sortNewestFirst(items: Article[], useSiteDate = false): Article[] {
   return [...items].sort((a, b) => {
-    const tb = parseDisplayDate(b.date);
-    const ta = parseDisplayDate(a.date);
+    const dateB = useSiteDate ? (b.sitePublishedDate || b.date) : b.date;
+    const dateA = useSiteDate ? (a.sitePublishedDate || a.date) : a.date;
+    const tb = parseDisplayDate(dateB);
+    const ta = parseDisplayDate(dateA);
     if (Number.isFinite(tb) && Number.isFinite(ta)) return tb - ta;
-    return b.date.localeCompare(a.date);
+    return dateB.localeCompare(dateA);
   });
 }
 
@@ -28,7 +30,7 @@ export async function readPublishedArticleCollections(): Promise<{ columns: Arti
   return {
     columns: sortNewestFirst(toArticles(rec.columns)),
     reviews: sortNewestFirst(toArticles(rec.reviews)),
-    academic: sortNewestFirst(toArticles(rec.academic)),
+    academic: sortNewestFirst(toArticles(rec.academic), true),
   };
 }
 

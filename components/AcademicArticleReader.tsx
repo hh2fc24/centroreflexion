@@ -16,8 +16,11 @@ interface ParsedBlock {
 export default function AcademicArticleReader({ article }: { article: Article }) {
   const authors: ArticleAuthor[] = article.authors?.length ? article.authors : [{ name: article.author }];
   // Parse content
-  let abstract = '';
+  const abstractParts: string[] = [];
+  const englishAbstractParts: string[] = [];
   let keywords: string[] = [];
+  let englishKeywords: string[] = [];
+  let abstractMode: 'es' | 'en' | null = null;
   const toc: { id: string; title: string }[] = [];
   const parsedContent: ParsedBlock[] = [];
   
@@ -30,13 +33,29 @@ export default function AcademicArticleReader({ article }: { article: Article })
     if (!line) continue;
     
     if (line === 'Resumen') {
-      abstract = article.content[i + 1]?.trim() || '';
-      i++; // skip abstract text
+      abstractMode = 'es';
       continue;
     }
     
     if (/^PALABRAS CLAVE:/i.test(line)) {
-      keywords = line.replace(/^PALABRAS CLAVE:/i, '').split(/[;,]/).map(k => k.trim());
+      keywords = line.replace(/^PALABRAS CLAVE:/i, '').split(/[;,]/).map(k => k.trim()).filter(Boolean);
+      abstractMode = null;
+      continue;
+    }
+
+    if (line === 'Abstract') {
+      abstractMode = 'en';
+      continue;
+    }
+
+    if (/^KEY WORDS:/i.test(line)) {
+      englishKeywords = line.replace(/^KEY WORDS:/i, '').split(/[;,]/).map(k => k.trim()).filter(Boolean);
+      abstractMode = null;
+      continue;
+    }
+
+    if (abstractMode) {
+      (abstractMode === 'es' ? abstractParts : englishAbstractParts).push(line);
       continue;
     }
     
@@ -60,7 +79,7 @@ export default function AcademicArticleReader({ article }: { article: Article })
     const isAllCapsHeading = line === line.toUpperCase() && line.length > 4 && /[A-ZÁÉÍÓÚÑ]/.test(line);
     const isExplicitHeading = /^#{2,3}\s+/.test(line);
     
-    if ((isNumberedHeading || isAllCapsHeading || isExplicitHeading) && line.length < 150) {
+    if (isExplicitHeading || ((isNumberedHeading || isAllCapsHeading) && line.length < 150)) {
       const heading = line.replace(/^#{2,3}\s+/, '');
       const id = heading.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
       parsedContent.push({ type: 'heading', text: heading, id });
@@ -136,8 +155,11 @@ export default function AcademicArticleReader({ article }: { article: Article })
         </p>
         {article.publication && (
           <div className={`mt-4 space-y-1 text-[0.9375rem] leading-[1.6] ${onInk ? 'text-[#d8cfc0]' : 'text-[#55574f]'}`}>
-            <p><cite className="not-italic">{article.publication.journal}</cite>, {article.publication.volume} ({article.publication.year}), pp. {article.publication.pages}.</p>
+            <p>Publicado originalmente en <cite className="not-italic">{article.publication.journal}</cite>{article.publication.publisher ? `, revista del ${article.publication.publisher}` : ''}, {article.publication.volume}{article.publication.issue ? `(${article.publication.issue})` : ''} ({article.publication.year}), pp. {article.publication.pages}.</p>
             <p>Recibido: {article.publication.received} · Aceptado: {article.publication.accepted}</p>
+            {article.sitePublishedDate ? <p>Incorporado al CRC: {article.sitePublishedDate}</p> : null}
+            {article.sitePublishedDate ? <p>Edición para lectura web: se ajustaron saltos de línea y jerarquía de títulos; el texto y las referencias se conservaron.</p> : null}
+            {article.publication.licenseUrl ? <p><a href={article.publication.licenseUrl} target="_blank" rel="noopener noreferrer" className="underline underline-offset-4 hover:text-[#9f5528]">Licencia de la publicación original: CC BY-NC-ND 4.0</a></p> : null}
           </div>
         )}
         <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 text-[0.9375rem] font-semibold">
@@ -148,6 +170,7 @@ export default function AcademicArticleReader({ article }: { article: Article })
           {article.publication && (
             <>
               <a href={`https://doi.org/${article.publication.doi}`} target="_blank" rel="noopener noreferrer" className={`${onInk ? 'text-[#e4935d]' : 'text-[#9f5528]'} underline underline-offset-4`}>DOI: {article.publication.doi}</a>
+              {article.publication.originalUrl ? <a href={article.publication.originalUrl} target="_blank" rel="noopener noreferrer" className={`${onInk ? 'text-[#e4935d]' : 'text-[#9f5528]'} underline underline-offset-4`}>Ver en la revista</a> : null}
               <a href={article.publication.pdf} target="_blank" rel="noopener noreferrer" className={`inline-flex items-center gap-2 rounded-[6px] border px-4 py-2 transition-colors ${onInk ? 'border-[#f8f5ee]/40 hover:border-[#e4935d] hover:text-[#e4935d]' : 'border-[#171713]/30 hover:border-[#9f5528] hover:text-[#9f5528]'}`}><FileText className="h-4 w-4" aria-hidden="true" />Leer PDF original</a>
             </>
           )}
@@ -159,20 +182,21 @@ export default function AcademicArticleReader({ article }: { article: Article })
 
           <article className="min-w-0">
 
-            {(abstract || keywords.length > 0) && (
+            {(abstractParts.length > 0 || keywords.length > 0 || englishAbstractParts.length > 0) && (
               <section aria-labelledby="resumen" className="mb-12 max-w-[65ch] border-l-2 border-[#bd6f3c] pl-5 sm:pl-6">
                 <h2 id="resumen" className={labelClass}>Resumen</h2>
-                {abstract && (
-                  <p className="crc-serif mt-3 text-[1.0625rem] leading-[1.7] text-[#171713] sm:text-[1.125rem]">
-                    {abstract}
-                  </p>
-                )}
+                {abstractParts.map((paragraph, index) => <p key={index} className="crc-serif mt-3 text-[1.0625rem] leading-[1.7] text-[#171713] sm:text-[1.125rem]">{paragraph}</p>)}
                 {keywords.length > 0 && (
                   <p className="mt-5 text-[0.9375rem] leading-[1.6] text-[#55574f]">
                     <span className="font-semibold text-[#171713]">Palabras clave: </span>
                     {keywords.map(headingCase).join(' · ')}
                   </p>
                 )}
+                {englishAbstractParts.length > 0 ? <div lang="en" className="mt-8 border-t border-[#d8cfc0] pt-6">
+                  <h3 className={labelClass}>Abstract</h3>
+                  {englishAbstractParts.map((paragraph, index) => <p key={index} className="crc-serif mt-3 text-[1.0625rem] leading-[1.7] text-[#171713] sm:text-[1.125rem]">{paragraph}</p>)}
+                  {englishKeywords.length > 0 ? <p className="mt-5 text-[0.9375rem] leading-[1.6] text-[#55574f]"><span className="font-semibold text-[#171713]">Key words: </span>{englishKeywords.join(' · ')}</p> : null}
+                </div> : null}
               </section>
             )}
 
@@ -272,6 +296,10 @@ export default function AcademicArticleReader({ article }: { article: Article })
                   <dt className={labelClass}>Fecha de publicación</dt>
                   <dd className="mt-0.5 tabular-nums text-[#171713]">{article.date}</dd>
                 </div>
+                {article.sitePublishedDate ? <div>
+                  <dt className={labelClass}>Incorporado al CRC</dt>
+                  <dd className="mt-0.5 tabular-nums text-[#171713]">{article.sitePublishedDate}</dd>
+                </div> : null}
                 <div>
                   <dt className={labelClass}>Categoría</dt>
                   <dd className="mt-0.5 text-[#171713]">{toSentenceCase(article.category)}</dd>

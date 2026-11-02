@@ -69,7 +69,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     });
   }
   for (const a of articles.academic ?? []) {
-    const publishedTimestamp = parseDisplayDate(a.date);
+    const publishedTimestamp = parseDisplayDate(a.sitePublishedDate || a.date);
     const publishedAt = Number.isFinite(publishedTimestamp) ? new Date(publishedTimestamp) : undefined;
     out.push({
       url: `${baseUrl}/trabajos-intelectuales/${a.id}`,
