@@ -31,16 +31,6 @@ type AuthorProfile = { match: string; image: string | null; role: string };
  */
 const AUTHOR_DIRECTORY: AuthorProfile[] = [
     {
-        match: "Rocío Solar y Juan Carlos Rauld",
-        image: "/images/rocio_solar_real_white.png",
-        role: "Directora Clínica del CRC · Director del CRC.",
-    },
-    {
-        match: "Rocío Solar",
-        image: "/images/rocio_solar_real_white.png",
-        role: "Cofundadora y Directora Clínica del CRC · Terapeuta Ocupacional.",
-    },
-    {
         match: "Juan Carlos Rauld",
         image: "/images/juan_carlos_real_white.png",
         role: "Director Editorial del CRC. Doctorando Internacional en Trabajo Social, Universidad Rovira i Virgili. Magíster en Filosofía Política Contemporánea, Universidad Diego Portales. Trabajador Social, Universidad Tecnológica Metropolitana.",

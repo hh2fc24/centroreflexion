@@ -1,50 +1,21 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { pageMetadata } from "@/lib/seo";
 import { EditorialImage, EditorialVideo, EngagementList, PersonInCharge, SectionHead, ServiceHero } from "../_components/Blocks";
 import { SUPERVISION_CLINICA } from "../_components/engagements";
-import { ROCIO } from "../_components/people";
+import { JUAN_CARLOS } from "../_components/people";
 import { Reveal } from "../_components/Reveal";
 import { btnPrimary, container, labelMuted, textLink } from "../_components/ui";
 
 export const metadata: Metadata = pageMetadata({
     title: "Atención Clínica | Salud Mental, Infancia y Familia",
     description:
-        "Evaluación, intervención y acompañamiento en salud mental, infancia, familia y terapia ocupacional. Atención presencial, online y domiciliaria con informes socioocupacionales.",
+        "Evaluación, intervención y acompañamiento en salud mental, infancia y familia. Atención presencial, online y domiciliaria con informes técnicos y periciales.",
     path: "/servicios/clinica",
     ogTitle: "Atención clínica CRC: salud mental, infancia y familia",
     ogDescription: "Apoyo profesional para ordenar lo que está pasando y definir un proceso de cuidado en salud mental, infancia y familia.",
 });
-
-const testimoniosClinica = [
-    {
-        texto: "Su dedicación, paciencia, cariño y compromiso fueron fundamentales para nosotros. Gracias por entregar siempre lo mejor, por su gran vocación y por dejar una huella tan positiva en nuestra familia.",
-        autor: "Francisca, 36 años",
-        contexto: "Mamá de hijo con TEA y TDAH",
-    },
-    {
-        texto: "Siempre fuiste muy paciente, amable y preocupada por ayudarlo en su proceso. Estamos muy agradecidos por todo el apoyo y cariño que le entregaste.",
-        autor: "Catherine, 40 años",
-        contexto: "Madre de hijo con TDAH",
-    },
-    {
-        texto: "Logró sacar a mi hijo del mutismo y generó una confianza en él que hizo que avanzara enormemente en su relación con el entorno. Tiene el corazón y el profesionalismo para lograr ese progreso.",
-        autor: "Margarita, 54 años",
-        contexto: "Mamá de joven con autismo severo",
-    },
-    {
-        texto: "Atendió mis problemas y supo identificar qué cosas podía mejorar. Me daba ejercicios y tareas para avanzar. Es de verdad una maravillosa persona.",
-        autor: "Cristian, 20 años",
-        contexto: "Joven con TEA",
-    },
-    {
-        texto: "Ayudó mucho a mi hijo a ser más autónomo en las cosas del hogar. Cuando dejó de atenderlo, Benjamín la extrañó. Muchas gracias por ser tan buena persona y profesional.",
-        autor: "Macarena",
-        contexto: "Mamá de Benjamín, 17 años, autismo",
-    },
-];
 
 const juanServices = [
     { name: "Evaluación de competencias parentales", detail: "Análisis psicosocial, contexto familiar, factores protectores y riesgo.", price: "Desde 3 UF" },
@@ -52,14 +23,6 @@ const juanServices = [
     { name: "Evaluación de riesgo psicosocial", detail: "Lectura situada de vulneración, exposición, redes y trayectorias institucionales.", price: "A cotizar" },
     { name: "Informes sociales periciales", detail: "Documentos técnicos para contextos judiciales, institucionales o familiares.", price: "Desde 4 UF" },
     { name: "Visitas domiciliarias", detail: "Observación de entorno, rutinas, vínculos y condiciones materiales de cuidado.", price: "Desde 3 UF" },
-];
-
-const rocioServices = [
-    "Evaluación e intervención en salud mental infanto-juvenil e integral",
-    "Observación en aula y trabajo colaborativo con comunidad educativa",
-    "Integración sensorial en niñeces, juventudes y personas adultas",
-    "Asesoría ocupacional para autonomía, rutinas, hábitos y regulación emocional",
-    "Análisis del entorno y visitas domiciliarias",
 ];
 
 const conditions = [
@@ -111,7 +74,7 @@ export default function ClinicaPage() {
                 facts={[
                     { term: "Para quién", detail: "Personas y familias que necesitan un proceso clínico o un documento con validez técnica." },
                     { term: "Modalidad", detail: "Presencial · Online · Domiciliaria" },
-                    { term: "Dirección clínica", detail: `${ROCIO.name}, ${ROCIO.role.split(" · ")[1]}` },
+                    { term: "Dirección", detail: `${JUAN_CARLOS.name}, ${JUAN_CARLOS.role}` },
                     { term: "Para equipos", detail: "Supervisión clínica de casos complejos" },
                 ]}
                 media={
@@ -175,29 +138,6 @@ export default function ClinicaPage() {
                             {["Niños y adolescentes", "Personas adultas", "Familias y cuidadores", "Organizaciones"].map((item) => (
                                 <li key={item} className="border-b border-[#d8cfc0] py-3 text-[1rem] text-[#171713]">
                                     {item}
-                                </li>
-                            ))}
-                        </ul>
-                    </Reveal>
-                </div>
-            </section>
-
-            {/* Terapia ocupacional */}
-            <section aria-labelledby="to-title" className="border-t border-[#d8cfc0] bg-[#fffdf8]">
-                <div className={`${container} grid gap-10 py-16 sm:py-24 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16`}>
-                    <Reveal>
-                        <SectionHead eyebrow="Rocío Solar · Terapia ocupacional" title="Terapia ocupacional y salud mental" id="to-title">
-                            <p>
-                                Acompañamiento individual, familiar, educativo y comunitario, considerando singularidad, funcionamiento
-                                cotidiano y contexto.
-                            </p>
-                        </SectionHead>
-                    </Reveal>
-                    <Reveal>
-                        <ul className="border-t border-[#d8cfc0]">
-                            {rocioServices.map((service) => (
-                                <li key={service} className="border-b border-[#d8cfc0] py-4 text-[1rem] leading-[1.55] text-[#171713]">
-                                    {service}
                                 </li>
                             ))}
                         </ul>
@@ -281,7 +221,7 @@ export default function ClinicaPage() {
                 engagements={[SUPERVISION_CLINICA]}
                 className="border-t border-[#d8cfc0] bg-[#f8f5ee]"
                 eyebrow="Para equipos e instituciones"
-                title="Supervisión clínica con la Directora Clínica del CRC"
+                title="Supervisión clínica de casos complejos"
                 intro={
                     <p>
                         Para equipos que sostienen casos de salud mental infanto-juvenil que superan la respuesta habitual. Se coordina
@@ -291,7 +231,7 @@ export default function ClinicaPage() {
             />
 
             <PersonInCharge
-                person={ROCIO}
+                person={JUAN_CARLOS}
                 className="bg-[#fffdf8]"
                 cta={{ href: "/contacto?servicio=clinica", label: "Solicitar orientación clínica" }}
                 secondary={
@@ -301,17 +241,15 @@ export default function ClinicaPage() {
                 }
             >
                 <p>
-                    Rocío es terapeuta ocupacional, académica y cofundadora del CRC, con 9 años de experiencia clínica y psicosocial en
-                    salud mental infanto-juvenil. Como Directora Clínica define los criterios de evaluación e intervención del área y
-                    supervisa los casos de mayor complejidad.
+                    Juan Carlos dirige el CRC y posee doble especialización en salud mental infantil y en filosofía práctica de la niñez.
+                    Cuenta con más de 15 años de trayectoria en intervención clínica especializada, evaluación pericial y supervisión de
+                    casos complejos en protección infantil y salud mental.
                 </p>
                 <p>
-                    Ha trabajado en dispositivos de salud pública, atención clínica particular y programas especializados de salud mental,
-                    con procesos individuales, familiares y grupales, y en acompañamiento a establecimientos educacionales.
+                    Trabaja junto al equipo clínico interdisciplinario del CRC en procesos de evaluación, psicoterapia, acompañamiento
+                    familiar y supervisión de equipos institucionales.
                 </p>
             </PersonInCharge>
-
-            <TestimonialsSection testimonios={testimoniosClinica} titulo="Lo que dicen quienes trabajaron con Rocío Solar" />
         </main>
     );
 }

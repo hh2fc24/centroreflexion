@@ -28,9 +28,9 @@ export function FoundersSection() {
                     </h2>
                 </MotionDiv>
 
-                <div className="grid grid-cols-1 gap-6 md:grid-cols-3 lg:gap-8">
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-8">
                     {founders.map((founder, idx) => {
-                        const imageSrc = founder.id === "rocio" ? "/images/rocio-solar-crc-2026.png" : founder.imageSrc;
+                        const imageSrc = founder.imageSrc;
 
                         return (
                             <MotionDiv

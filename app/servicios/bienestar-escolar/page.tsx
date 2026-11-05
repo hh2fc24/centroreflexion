@@ -4,7 +4,7 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { pageMetadata } from "@/lib/seo";
 import { EditorialImage, EngagementList, PersonInCharge, SectionHead, ServiceHero } from "../_components/Blocks";
 import { BIENESTAR_CONVIVENCIA, VALUE_NOTE } from "../_components/engagements";
-import { HUGO, ROCIO } from "../_components/people";
+import { HUGO } from "../_components/people";
 import { Reveal } from "../_components/Reveal";
 import { btnPrimary, container, labelMuted, textLink } from "../_components/ui";
 
@@ -93,7 +93,7 @@ export default function BienestarEscolarPage() {
                     { term: "Para quién", detail: "Colegios y comunidades educativas que necesitan ordenar su gestión preventiva." },
                     { term: "Compromiso", detail: "Bienestar y convivencia escolar" },
                     { term: "Marco", detail: "Ley 21.809 de Convivencia, Buen Trato y Bienestar" },
-                    { term: "A cargo", detail: `${HUGO.name}, con la dirección clínica de ${ROCIO.name}` },
+                    { term: "A cargo", detail: HUGO.name },
                     { term: "Valor", detail: VALUE_NOTE },
                 ]}
                 media={
@@ -280,9 +280,8 @@ export default function BienestarEscolarPage() {
                 cta={{ href: "/instituciones?servicio=bienestar-escolar#agenda", label: "Agenda con el equipo" }}
             >
                 <p>
-                    Hugo coordina el trabajo con cada colegio: diagnóstico, propuesta, convenio y medición de lo acordado. La parte
-                    clínica del acompañamiento (salud mental, riesgo suicida y supervisión de casos) la dirige Rocío Solar, Directora
-                    Clínica del CRC.
+                    Hugo coordina el trabajo con cada colegio: diagnóstico, propuesta, convenio y medición de lo acordado, articulando al
+                    equipo clínico y psicosocial del CRC según las necesidades de cada establecimiento.
                 </p>
             </PersonInCharge>
         </main>

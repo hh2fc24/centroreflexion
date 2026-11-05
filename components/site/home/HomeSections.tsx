@@ -231,28 +231,18 @@ export function HomeBooksBand() {
 }
 
 /* ------------------------------------------------------------------ */
-/* Cierre: los tres directores, cada uno a cargo de una puerta          */
-/* Orden y peso fijos: tres columnas iguales, Rocío al centro.          */
+/* Cierre: los directores del CRC, cada uno a cargo de su área         */
 /* ------------------------------------------------------------------ */
 
 const TEAM = [
     {
         name: "Juan Carlos Rauld",
         role: "Director",
-        area: "Formación y pensamiento",
-        text: "Seminarios, cursos y supervisión de equipos. Autor de tres libros con Editorial Hammurabi.",
+        area: "Formación, clínica y pensamiento",
+        text: "Seminarios, cursos, atención clínica y supervisión de equipos. Autor de tres libros con Editorial Hammurabi.",
         image: "/images/juan_carlos_real_white.png",
         cta: "Ver formación",
         href: "/academia",
-    },
-    {
-        name: "Rocío Solar",
-        role: "Cofundadora · Directora Clínica",
-        area: "Clínica y familias",
-        text: "Atención clínica en salud mental infanto-juvenil, acompañamiento a familias y supervisión de casos complejos.",
-        image: "/images/rocio-solar-crc-2026.png",
-        cta: "Pedir orientación",
-        href: "/servicios/clinica",
     },
     {
         name: "Hugo Felipe Hormazábal",
@@ -280,11 +270,11 @@ export function HomeTeamClose() {
                         </h2>
                     </div>
                     <p className="max-w-[42ch] text-[1rem] leading-[1.7] text-[#ede7dc]/75">
-                        Tres directores, tres áreas. Escribes a quien corresponde y te responde esa misma persona.
+                        Dos directores a cargo de cada área. Escribes a quien corresponde y te responde esa misma persona.
                     </p>
                 </div>
 
-                <ul className="mt-12 grid gap-6 md:grid-cols-3 lg:gap-8">
+                <ul className="mt-12 grid gap-6 md:grid-cols-2 lg:gap-8">
                     {TEAM.map((person) => (
                         <li key={person.name} data-reveal="" className="flex">
                             <Link

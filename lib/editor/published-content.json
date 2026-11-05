@@ -101,7 +101,7 @@
     "subtitle": "Equipos de programas, municipios, fundaciones, docentes y personas que han consultado en el CRC."
   },
   "homeFounders": {
-    "title": "Tres socios, tres trabajos",
+    "title": "Dos socios, dos áreas",
     "profiles": [
       {
         "id": "jc",
@@ -109,14 +109,6 @@
         "role": "Director · El autor",
         "description": "Trabajador social, magíster en Filosofía Política (UDP) y doctorando en Trabajo Social. Autor de tres libros con Editorial Hammurabi y 16 años dirigiendo programas de infancia.",
         "imageSrc": "/images/juan_carlos_real_white.png",
-        "href": "/conocenos"
-      },
-      {
-        "id": "rocio",
-        "name": "Rocío Solar",
-        "role": "Cofundadora · Directora Clínica",
-        "description": "Terapeuta ocupacional y académica. Dirige el área clínica y de familias del CRC, con 9 años de experiencia en salud mental infanto-juvenil y supervisión de casos de alta complejidad.",
-        "imageSrc": "/images/rocio-solar-crc-2026.png",
         "href": "/conocenos"
       },
       {
@@ -165,12 +157,6 @@
       "name": "Docente Universitario",
       "category": "Pensamiento Crítico",
       "text": "Los textos y el seminario nos abrieron una perspectiva totalmente nueva sobre la biopolítica en nuestra región."
-    },
-    {
-      "id": "t-7",
-      "name": "Camila V.",
-      "category": "Terapia Ocupacional",
-      "text": "Rocío tiene un tacto único con los jóvenes. Los avances en mi hija han sido notables."
     },
     {
       "id": "t-8",

@@ -5,7 +5,7 @@ import { ArrowRight, Download, ExternalLink } from "lucide-react";
 import { pageMetadata } from "@/lib/seo";
 import { books } from "@/lib/books";
 import { CONTACT_EMAIL, CONTACT_PHONE, CONTACT_PHONE_HREF } from "@/lib/contact";
-import { HUGO, JUAN_CARLOS, ROCIO, type Person } from "@/app/servicios/_components/people";
+import { HUGO, JUAN_CARLOS, type Person } from "@/app/servicios/_components/people";
 
 export const metadata: Metadata = pageMetadata({
     title: "Sala de prensa",
@@ -38,15 +38,6 @@ const SPOKESPEOPLE: Spokesperson[] = [
             "Institucionalización y responsabilidad del Estado",
         ],
         bio: "Trabajador social (UTEM), magíster en Filosofía Política Contemporánea (UDP) y doctorando en Trabajo Social en la Universitat Rovira i Virgili, España. Director del CRC, columnista de opinión y autor de tres libros que analizan críticamente cómo el Estado chileno gobierna la infancia pobre bajo una racionalidad neoliberal y tecnocrática.",
-    },
-    {
-        person: ROCIO,
-        topics: [
-            "Salud mental infanto-juvenil",
-            "Crisis y regulación emocional en niñez y adolescencia",
-            "Acompañamiento a familias",
-        ],
-        bio: "Terapeuta ocupacional y académica, con 9 años de experiencia clínica y psicosocial en salud mental infanto-juvenil en dispositivos públicos, atención particular y programas especializados.",
     },
     {
         person: HUGO,

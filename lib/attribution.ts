@@ -2,7 +2,7 @@
  * Atribución de marketing (primer y último contacto) del lado del navegador.
  *
  * Para qué: saber qué cuenta y qué canal (Instagram del CRC, de Juan Carlos,
- * de Rocío, LinkedIn…) trae a la gente que después postula, paga o se suscribe.
+ * LinkedIn…) trae a la gente que después postula, paga o se suscribe.
  * El pageview por sí solo no alcanza: la conversión suele ocurrir varias
  * páginas (o días) después de haber llegado desde el link de la bio.
  *

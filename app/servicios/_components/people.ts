@@ -18,15 +18,6 @@ export const HUGO: Person = {
     linkedin: "https://www.linkedin.com/in/hugo-felipe-hormazabal-561005332/",
 };
 
-export const ROCIO: Person = {
-    name: "Rocío Solar",
-    role: "Cofundadora · Directora Clínica",
-    image: "/images/rocio-solar-crc-2026.png",
-    imageAlt: "Rocío Solar",
-    credentials: "Terapeuta ocupacional · Magíster (c) en Ocupación y Terapia Ocupacional, Universidad de Chile",
-    linkedin: "https://www.linkedin.com/in/roc%C3%ADo-solar-guerra-168693138/",
-};
-
 export const JUAN_CARLOS: Person = {
     name: "Juan Carlos Rauld",
     role: "Director del CRC",

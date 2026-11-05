@@ -118,7 +118,7 @@ export const SUPERVISION_CLINICA: Engagement = {
     ],
     deliverable: "Acuerdos y líneas de intervención registrados por caso después de cada sesión.",
     duration: "Ciclos de sesiones periódicas, con la frecuencia que acuerde el equipo",
-    lead: "Rocío Solar",
+    lead: "Juan Carlos Rauld",
 };
 
 export const BIENESTAR_CONVIVENCIA: Engagement = {

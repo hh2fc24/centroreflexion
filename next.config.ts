@@ -22,7 +22,6 @@ const SEMINARIO_C1 = "/seminarios/desproteccion-infancia";
 const SHORT_LINKS: ShortLink[] = [
   { path: "/ig/crc", destination: SEMINARIO_C1, source: "instagram", medium: "bio", campaign: "seminario-c1", content: "crc" },
   { path: "/ig/jc", destination: SEMINARIO_C1, source: "instagram", medium: "bio", campaign: "seminario-c1", content: "jc" },
-  { path: "/ig/rocio", destination: SEMINARIO_C1, source: "instagram", medium: "bio", campaign: "seminario-c1", content: "rocio" },
   { path: "/in/hugo", destination: "/instituciones", source: "linkedin", medium: "perfil", campaign: "instituciones", content: "hugo" },
   { path: "/in/jc", destination: SEMINARIO_C1, source: "linkedin", medium: "perfil", campaign: "seminario-c1", content: "jc" },
 ];

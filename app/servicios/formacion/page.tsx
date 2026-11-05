@@ -27,14 +27,6 @@ const juanTraining: Activity[] = [
     { name: "Asesoría estratégica institucional", detail: "Diseño de modelos de intervención y criterios de decisión.", price: "A cotizar" },
 ];
 
-const rocioTraining: Activity[] = [
-    { name: "Charlas en salud mental y género", detail: "Instancias presenciales u online de 60 a 90 minutos.", price: "Consultar" },
-    { name: "Formación de equipos en VIF", detail: "Actualización conceptual, abordaje situado y criterios de cuidado.", price: "Consultar" },
-    { name: "Asesorías PIE", detail: "Supervisión reflexiva para Programas de Integración Escolar.", price: "Plan" },
-    { name: "Taller de terapia ocupacional comunitaria", detail: "Enfoque de derechos humanos, participación y territorio.", price: "Consultar" },
-    { name: "Acompañamiento en terreno", detail: "Capacitación para equipos de salud mental comunitaria.", price: "Consultar" },
-];
-
 const principles = [
     { title: "Contenido con fundamento", text: "Marco conceptual, casos, discusión técnica y herramientas aplicables al trabajo cotidiano." },
     { title: "Diseño para equipos", text: "Ajustamos duración, modalidad y profundidad según el contexto institucional." },
@@ -167,9 +159,8 @@ export default function FormacionPage() {
                             </p>
                         </SectionHead>
                     </Reveal>
-                    <div className="mt-12 grid gap-12 lg:grid-cols-2 lg:gap-16">
+                    <div className="mt-12 max-w-3xl">
                         <ActivityTable who="Juan Carlos Rauld" title="Crisis, infancia, evaluación y programas sociales" items={juanTraining} />
-                        <ActivityTable who="Rocío Solar" title="Salud mental, género, VIF, PIE y terapia ocupacional comunitaria" items={rocioTraining} />
                     </div>
                 </div>
             </section>
@@ -180,8 +171,8 @@ export default function FormacionPage() {
                     <Reveal>
                         <SectionHead eyebrow="Supervisión y asesorías" title="Para colegas y equipos que necesitan pensar sus casos." id="supervision-title">
                             <p>
-                                Reflexión técnica, bienestar profesional, cuidado de la práctica y revisión de casos. La supervisión de casos
-                                complejos en salud mental la dirige Rocío Solar.
+                                Reflexión técnica, bienestar profesional, cuidado de la práctica y revisión de casos complejos en salud
+                                mental e infancia.
                             </p>
                         </SectionHead>
                         <Link href="/servicios/clinica#supervision" className={`${textLink} mt-6`}>

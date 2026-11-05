@@ -17,9 +17,6 @@ export const metadata: Metadata = pageMetadata({
 });
 
 const getAuthorDetails = (author: string) => {
-    if (author.includes("Rocío Solar")) {
-        return { image: "/images/rocio_solar_real_white.png", role: "Cofundadora y Directora Clínica del CRC" };
-    }
     if (author.includes("Juan Carlos Rauld")) {
         return { image: "/images/juan_carlos_real_white.png", role: "Director del CRC" };
     }

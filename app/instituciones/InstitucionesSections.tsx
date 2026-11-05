@@ -4,7 +4,7 @@ import { ArrowRight, ArrowUpRight, CalendarCheck, Linkedin } from "lucide-react"
 import { books } from "@/lib/books";
 import { EngagementIndex, SectionHead } from "@/app/servicios/_components/Blocks";
 import { INSTITUTIONAL_ENGAGEMENTS, VALUE_NOTE } from "@/app/servicios/_components/engagements";
-import { HUGO, JUAN_CARLOS, ROCIO, type Person } from "@/app/servicios/_components/people";
+import { HUGO, JUAN_CARLOS, type Person } from "@/app/servicios/_components/people";
 import { Reveal } from "@/app/servicios/_components/Reveal";
 import { btnPrimary, container, h1, label, labelMuted, lead, textLink } from "@/app/servicios/_components/ui";
 import { InstitucionesContactForm, InstitucionesWhatsAppLink } from "./InstitucionesContact";
@@ -236,7 +236,7 @@ function Process() {
 }
 
 /* ------------------------------------------------------------------ */
-/* Respaldo: las tres personas que dirigen el CRC                      */
+/* Respaldo: las personas que dirigen el CRC                           */
 /* ------------------------------------------------------------------ */
 
 // Del más reciente al más antiguo.
@@ -245,13 +245,8 @@ const BOOKS = [...books].sort((a, b) => Number(b.year) - Number(a.year));
 const DIRECTORS: { person: Person; area: string; text: string }[] = [
     {
         person: JUAN_CARLOS,
-        area: "Formación y seminarios",
+        area: "Formación, seminarios y supervisión clínica",
         text: "Trabajador social con 16 años dirigiendo programas de infancia y gestión pública en Chile, y autor de tres libros con Editorial Hammurabi.",
-    },
-    {
-        person: ROCIO,
-        area: "Clínica y supervisión de casos",
-        text: "Terapeuta ocupacional con 9 años de práctica clínica y psicosocial en salud mental infanto-juvenil, con niños, niñas, adolescentes y sus familias.",
     },
     {
         person: HUGO,
@@ -266,11 +261,11 @@ function Proof() {
             <div className={`${container} py-16 sm:py-24`}>
                 <Reveal>
                     <SectionHead eyebrow="Respaldo" title="Quiénes están detrás del criterio" id="inst-respaldo-title">
-                        Tres directores, cada uno a cargo de un área. Con ellos trabaja la institución, no con un equipo de ventas.
+                        Dos directores, cada uno a cargo de su área. Con ellos trabaja la institución, no con un equipo de ventas.
                     </SectionHead>
                 </Reveal>
 
-                <ul className="mt-12 grid gap-10 border-t border-[#d8cfc0] pt-10 md:grid-cols-3 md:gap-8">
+                <ul className="mt-12 grid gap-10 border-t border-[#d8cfc0] pt-10 md:grid-cols-2 md:gap-8">
                     {DIRECTORS.map(({ person, area, text }, index) => (
                         <li key={person.name}>
                             <Reveal delay={index * 0.06}>

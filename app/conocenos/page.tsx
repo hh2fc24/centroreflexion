@@ -1,14 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { ArrowRight, GraduationCap, Instagram, Linkedin, Mail, Workflow } from "lucide-react";
+import { ArrowRight, GraduationCap, Linkedin, Workflow } from "lucide-react";
 import { Reveal } from "@/app/servicios/_components/Reveal";
 import { btnPrimary, container, h1, h2, label, labelMuted, lead, textLink } from "@/app/servicios/_components/ui";
 
 /**
- * /conocenos: los tres directores tienen el mismo peso visual (mismo retrato,
+ * /conocenos: los directores tienen el mismo peso visual (mismo retrato,
  * misma escala de nombre, mismo orden de bloques). El orden sigue el de la
- * portada: Juan Carlos, Rocío, Hugo.
+ * portada: Juan Carlos, Hugo.
  */
 
 type Director = {
@@ -34,20 +34,6 @@ const DIRECTORS: Director[] = [
         links: [
             { href: "https://uc-cl.academia.edu/JUANCARLOSRAULDFAR%C3%8DAS", label: "Academia.edu", icon: <GraduationCap className="h-4 w-4" aria-hidden="true" />, external: true },
             { href: "https://www.linkedin.com/in/juan-carlos-rauld-farias-a64710a4/", label: "LinkedIn", icon: <Linkedin className="h-4 w-4" aria-hidden="true" />, external: true },
-        ],
-    },
-    {
-        id: "rocio-solar",
-        name: "Rocío Solar",
-        role: "Cofundadora · Directora Clínica",
-        area: "Clínica y salud mental infanto-juvenil",
-        degree: "Magíster (c) en Ocupación y Terapia Ocupacional, Facultad de Medicina, Universidad de Chile",
-        image: "/images/rocio_solar_real_white.png",
-        summary: "Evaluación e intervención terapéutica con niños, niñas, adolescentes y sus familias, y supervisión de casos complejos.",
-        links: [
-            { href: "https://www.linkedin.com/in/roc%C3%ADo-solar-guerra-168693138/", label: "LinkedIn", icon: <Linkedin className="h-4 w-4" aria-hidden="true" />, external: true },
-            { href: "https://www.instagram.com/centrodereflexionescriticas/", label: "Instagram", icon: <Instagram className="h-4 w-4" aria-hidden="true" />, external: true },
-            { href: "/contacto?servicio=clinica", label: "Contacto", icon: <Mail className="h-4 w-4" aria-hidden="true" /> },
         ],
     },
     {
@@ -103,7 +89,7 @@ function ProfileLinks({ director }: { director: Director }) {
     );
 }
 
-/** Perfil completo: misma estructura para los tres directores. */
+/** Perfil completo: misma estructura para los directores. */
 function Profile({ director, children, aside }: { director: Director; children: ReactNode; aside?: ReactNode }) {
     return (
         <article id={director.id} aria-labelledby={`${director.id}-name`} className="scroll-mt-24 border-t border-[#d8cfc0] py-14 sm:py-20">
@@ -128,7 +114,7 @@ function Profile({ director, children, aside }: { director: Director; children: 
 }
 
 export default function About() {
-    const [jc, rocio, hugo] = DIRECTORS;
+    const [jc, hugo] = DIRECTORS;
 
     return (
         <main className="bg-[#fffdf8] text-[#171713]">
@@ -142,7 +128,7 @@ export default function About() {
                         </h1>
                         <p className={`${lead} mt-6 max-w-[60ch]`}>
                             El CRC reúne trayectorias distintas para leer problemas complejos con rigor, sensibilidad institucional y
-                            responsabilidad ética. Lo dirigen tres personas, cada una a cargo de un área.
+                            responsabilidad ética. Lo dirigen dos socios, cada uno a cargo de su área.
                         </p>
                     </div>
                     <div className="relative aspect-[16/9] w-full overflow-hidden rounded-[6px] bg-[#eee8dc] lg:aspect-[4/3]">
@@ -182,20 +168,20 @@ export default function About() {
                 </div>
             </section>
 
-            {/* Equipo base: tres directores con el mismo peso */}
+            {/* Equipo base: directores con el mismo peso */}
             <section id="equipo" aria-labelledby="equipo-title" className="scroll-mt-24 border-t border-[#d8cfc0] bg-[#f8f5ee]">
                 <div className={`${container} py-16 sm:py-24`}>
                     <Reveal>
                         <p className={label}>Equipo base</p>
                         <h2 id="equipo-title" className={`${h2} mt-3 max-w-[24ch] text-[#171713]`}>
-                            Tres trayectorias, una lectura común.
+                            Dos trayectorias, una lectura común.
                         </h2>
                         <p className="mt-4 max-w-[60ch] text-[1rem] leading-[1.7] text-[#55574f]">
                             Presentamos al equipo desde su rol, formación y aporte disciplinar. Las prestaciones específicas están en la
                             sección de servicios.
                         </p>
                     </Reveal>
-                    <ul className="mt-12 grid gap-12 sm:grid-cols-2 lg:grid-cols-3 lg:gap-10">
+                    <ul className="mt-12 grid gap-12 sm:grid-cols-2 lg:gap-10">
                         {DIRECTORS.map((director, index) => (
                             <li key={director.id}>
                                 <Reveal delay={index * 0.06}>
@@ -276,76 +262,6 @@ export default function About() {
                                     </Link>
                                 </div>
                             </div>
-                        </div>
-                    </Profile>
-
-                    <Profile director={rocio}>
-                        <div>
-                            <h4 className={blockTitle}>Trayectoria profesional</h4>
-                            <div className={`${bodyText} mt-4 space-y-4`}>
-                                <p>
-                                    Rocío Solar es terapeuta ocupacional, académica, cofundadora y Directora Clínica del CRC, con 9 años de
-                                    experiencia clínica y psicosocial en salud mental infanto-juvenil. Su trayectoria se ha desarrollado
-                                    principalmente en evaluación e intervención terapéutica con niños, niñas, adolescentes y sus familias,
-                                    abordando procesos asociados a regulación emocional, participación ocupacional, crisis en salud mental y
-                                    acompañamiento en contextos de alta complejidad.
-                                </p>
-                                <p>
-                                    Ha trabajado en dispositivos de salud pública, atención clínica particular y programas especializados de
-                                    salud mental, desarrollando procesos terapéuticos individuales, familiares y grupales desde un enfoque
-                                    integral y centrado en la singularidad de cada persona. Su experiencia incluye trabajo interdisciplinario,
-                                    elaboración de estrategias de intervención clínica, acompañamiento a establecimientos educacionales y
-                                    coordinación con redes de apoyo para favorecer la continuidad de cuidados y la participación en la vida
-                                    cotidiana.
-                                </p>
-                                <p>
-                                    Además de su labor clínica, ha participado en docencia universitaria y formación de estudiantes de terapia
-                                    ocupacional en contextos de salud mental, integrando práctica clínica, reflexión crítica y trabajo basado en
-                                    evidencia.
-                                </p>
-                                <p>
-                                    Actualmente desarrolla atención clínica particular con población infanto-juvenil y procesos de investigación
-                                    vinculados a salud mental, ocupación y cuidados alternativos.
-                                </p>
-                            </div>
-                        </div>
-                        <div>
-                            <h4 className={blockTitle}>Formación y enfoque</h4>
-                            <div className={`${bodyText} mt-4 space-y-4`}>
-                                <p>
-                                    Su enfoque clínico integra terapia ocupacional, salud mental y perspectivas relacionales, comprendiendo el
-                                    bienestar y la participación ocupacional como procesos profundamente vinculados a las experiencias
-                                    cotidianas, los vínculos y los contextos de vida.
-                                </p>
-                                <p>
-                                    Cuenta con formación en salud mental y psiquiatría comunitaria, género e intervención psicosocial, reducción
-                                    de daños y prácticas basadas en evidencia. Actualmente cursa el Magíster en Ocupación y Terapia Ocupacional de
-                                    la Universidad de Chile, donde desarrolla una investigación tipo scoping review sobre cuidados alternativos,
-                                    infancia y terapia ocupacional.
-                                </p>
-                                <p>
-                                    Su práctica clínica se caracteriza por una mirada sensible, ética y respetuosa de la singularidad de cada
-                                    persona, promoviendo procesos terapéuticos que favorezcan la regulación emocional, la autonomía, el
-                                    fortalecimiento de vínculos y la participación significativa en la vida cotidiana.
-                                </p>
-                            </div>
-                        </div>
-                        <div>
-                            <h4 className={blockTitle}>A cargo en el CRC</h4>
-                            <ul className="mt-2">
-                                {[
-                                    { href: "/servicios/clinica", label: "Atención clínica" },
-                                    { href: "/servicios/acompanamiento-familiar", label: "Acompañamiento familiar" },
-                                    { href: "/servicios/clinica#supervision", label: "Supervisión clínica de casos complejos" },
-                                ].map((item) => (
-                                    <li key={item.href} className="border-b border-[#eee8dc]">
-                                        <Link href={item.href} className="group flex items-center justify-between gap-4 py-3 text-[1rem] text-[#171713] hover:text-[#9f5528]">
-                                            {item.label}
-                                            <ArrowRight className="h-4 w-4 text-[#9f5528]" aria-hidden="true" />
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
                         </div>
                     </Profile>
 

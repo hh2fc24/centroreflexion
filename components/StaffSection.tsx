@@ -30,27 +30,6 @@ const teamMembers = [
         ],
     },
     {
-        name: "Rocío Solar",
-        role: "Cofundadora · Directora Clínica",
-        shortRole: "Cofundadora · Directora Clínica",
-        desc: "Salud mental infanto-juvenil y regulación.",
-        img: "/images/rocio_solar_real_white.png",
-        degree: "Magíster (c) en Ocupación y Terapia Ocupacional · Facultad de Medicina, Universidad de Chile",
-        bio: [
-            "Rocío Solar es terapeuta ocupacional, académica, cofundadora y Directora Clínica del CRC, con 9 años de experiencia clínica y psicosocial en salud mental infanto-juvenil. Su trayectoria se ha desarrollado principalmente en evaluación e intervención terapéutica con niños, niñas, adolescentes y sus familias, abordando procesos asociados a regulación emocional, participación ocupacional, crisis en salud mental y acompañamiento en contextos de alta complejidad.",
-            "Ha trabajado en dispositivos de salud pública, atención clínica particular y programas especializados de salud mental, desarrollando procesos terapéuticos individuales, familiares y grupales desde un enfoque integral y centrado en la singularidad de cada persona.",
-        ],
-        sections: [
-            {
-                title: "Formación y enfoque",
-                text: "Su enfoque clínico integra terapia ocupacional, salud mental y perspectivas relacionales, comprendiendo el bienestar y la participación ocupacional como procesos profundamente vinculados a las experiencias cotidianas, los vínculos y los contextos de vida. Cuenta con formación en salud mental y psiquiatría comunitaria, género e intervención psicosocial, reducción de daños y prácticas basadas en evidencia.",
-            },
-        ],
-        links: [
-            { label: "LinkedIn", href: "https://www.linkedin.com/in/rocío-solar-guerra-168693138/" },
-        ],
-    },
-    {
         name: "Hugo Felipe Hormazábal",
         role: "Socio · Director Comercial y de Desarrollo Institucional",
         shortRole: "Socio · Director Comercial",
@@ -115,7 +94,7 @@ export default function StaffSection() {
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+                    <div className="grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
                         {teamMembers.map((person) => (
                             <button
                                 key={person.name}

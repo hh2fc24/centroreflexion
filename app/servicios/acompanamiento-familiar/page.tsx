@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowRight, Mail, MessageCircle, Monitor, Phone } from "lucide-react";
 import { pageMetadata } from "@/lib/seo";
 import { PersonInCharge, SectionHead, ServiceHero } from "../_components/Blocks";
-import { JUAN_CARLOS, ROCIO, type Person } from "../_components/people";
+import { JUAN_CARLOS, type Person } from "../_components/people";
 import { Reveal } from "../_components/Reveal";
 import { btnPrimary, btnPrimaryOnDark, btnSecondary, container, labelMuted, labelOnDark, textLink } from "../_components/ui";
 
@@ -93,7 +93,6 @@ export default function AcompanamientoFamiliarPage() {
                     { term: "Para quién", detail: "Familias y cuidadores preocupados por niños, niñas, adolescentes o jóvenes." },
                     { term: "Modalidad", detail: "Online, y presencial cuando la situación lo requiere" },
                     { term: "Te acompaña", detail: JC_CLINICO.name },
-                    { term: "Dirección clínica", detail: `${ROCIO.name}, Directora Clínica del CRC` },
                 ]}
             />
 
@@ -196,14 +195,6 @@ export default function AcompanamientoFamiliarPage() {
                     <li>Experiencia docente universitaria en trabajo social clínico</li>
                 </ul>
                 <p className="crc-serif text-[1.2rem] text-[#171713]">Atención con mirada respetuosa y sin juicios.</p>
-            </PersonInCharge>
-
-            <PersonInCharge person={ROCIO} eyebrow="Directora Clínica a cargo del área" className="bg-[#fffdf8]">
-                <p>
-                    Rocío Solar es terapeuta ocupacional, cofundadora y Directora Clínica del CRC, con 9 años de experiencia clínica y
-                    psicosocial en salud mental infanto-juvenil. Define los criterios clínicos del área y revisa con el equipo los casos
-                    que requieren más resguardo, como las crisis emocionales.
-                </p>
             </PersonInCharge>
 
             {/* Cierre */}
