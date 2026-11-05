@@ -5,10 +5,16 @@ import { getGeo, recordConversionEvent, resolveAttribution } from "@/lib/server/
 
 export const runtime = "nodejs";
 
-const supabaseAdmin = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-);
+function getSupabaseAdmin() {
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    if (!url || !key) {
+        throw new Error("Supabase admin credentials are not configured");
+    }
+    return createClient(url, key, {
+        auth: { autoRefreshToken: false, persistSession: false },
+    });
+}
 
 export async function POST(req: NextRequest) {
     try {
@@ -21,6 +27,7 @@ export async function POST(req: NextRequest) {
         const cleanEmail = email.trim().toLowerCase().slice(0, 254);
         const cleanOrigen = typeof origen === "string" ? origen.slice(0, 80) : "articulo";
 
+        const supabaseAdmin = getSupabaseAdmin();
         const { error } = await supabaseAdmin
             .from("suscriptores")
             .insert({ email: cleanEmail, origen: cleanOrigen });
