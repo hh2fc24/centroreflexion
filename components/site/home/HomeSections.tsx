@@ -2,9 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRef, type RefObject } from "react";
-import { ArrowRight, ArrowUpRight, BookOpen, ShieldCheck, LineChart, GraduationCap } from "lucide-react";
-import { motion } from "framer-motion";
+import { useRef, useState, type RefObject } from "react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -235,228 +234,128 @@ export function HomeBooksBand() {
 /* Cierre: los directores del CRC, cada uno a cargo de su área         */
 /* ------------------------------------------------------------------ */
 
+/**
+ * Una sola composición en vez de dos tarjetas espejo: un campo de tinta,
+ * un plano de cobre detrás y los dos directores a escala real, con el corte
+ * de la foto coincidiendo con el borde inferior del bloque y la cabeza por
+ * encima del borde superior. La geometría es plana (colores del sistema,
+ * radio de 6px, sin degradados ni sombras); el peso lo ponen la escala y el
+ * contraste. Juan Carlos va delante como figura principal; Hugo detrás, sobre el
+ * plano de cobre. Al pasar por la ficha de una persona, la otra figura baja
+ * de intensidad para que se lea quién es quién.
+ */
 const TEAM = [
     {
         name: "Juan Carlos Rauld",
         role: "Director del CRC · Consultor en ciencias sociales",
         area: "Formación, clínica y pensamiento",
-        credential: "Doctorando en Trabajo Social · Univ. Rovira i Virgili, España",
+        credential: "Doctorando en Trabajo Social, Univ. Rovira i Virgili",
         text: "Seminarios, cursos, atención clínica y supervisión de equipos. Autor de tres libros con Editorial Hammurabi.",
         cutout: "/images/juan-carlos-rauld-cutout-2026.png",
         cta: "Ver formación y Academia",
         href: "/academia",
-        pillars: ["Salud mental infantil", "Supervisión clínica", "Editorial Hammurabi"],
-        floatingCardTop: {
-            icon: BookOpen,
-            kicker: "Editorial Hammurabi",
-            label: "3 libros publicados",
-        },
-        floatingCardBottom: {
-            icon: GraduationCap,
-            kicker: "Academia CRC",
-            label: "Seminarios y supervisión",
-        },
     },
     {
         name: "Hugo Felipe Hormazábal",
         role: "Socio · Director Comercial y de Desarrollo Institucional",
         area: "Instituciones, convenios y medición",
-        credential: "Ingeniero Comercial · Marketing & Analytics, UAI",
+        credential: "Ingeniero Comercial, Marketing & Analytics, UAI",
         text: "Colegios, programas y fundaciones: diagnóstico, propuesta, convenio y medición de resultados con trazabilidad.",
         cutout: "/images/hugo-hormazabal-cutout-2026.png",
         cta: "Agenda con el equipo",
         href: "/instituciones#agenda",
-        pillars: ["Compliance Ley 21.809", "Convenios institucionales", "Datos y medición"],
-        floatingCardTop: {
-            icon: ShieldCheck,
-            kicker: "Comunidades educativas",
-            label: "Compliance Ley 21.809",
-        },
-        floatingCardBottom: {
-            icon: LineChart,
-            kicker: "Gestión e indicadores",
-            label: "Diagnóstico → Medición",
-        },
     },
 ];
 
 export function HomeTeamClose() {
     const root = useRef<HTMLElement>(null);
+    const [active, setActive] = useState<number | null>(null);
     useReveal(root);
 
     return (
         <section
             ref={root}
             aria-labelledby="home-equipo-title"
-            className="relative overflow-hidden border-t border-[#d8cfc0] bg-[#f8f5ee] text-[#171713]"
+            className="overflow-hidden bg-[#f8f5ee] text-[#171713]"
         >
-            <div className="relative mx-auto max-w-[1640px] px-5 py-16 sm:px-8 sm:py-24 lg:px-14 xl:px-20">
+            <div className="mx-auto max-w-[1640px] px-5 pb-16 pt-16 sm:px-8 sm:pb-24 sm:pt-24 lg:px-14 xl:px-20">
                 <div data-reveal="" className="flex flex-wrap items-end justify-between gap-6">
                     <div>
                         <p className={LABEL}>Quiénes dirigen el CRC</p>
-                        <h2 id="home-equipo-title" className={`${H2} mt-3 max-w-[24ch] text-[#171713]`}>
+                        <h2 id="home-equipo-title" className={`${H2} mt-3 max-w-[24ch]`}>
                             Detrás de cada puerta hay una persona a cargo
                         </h2>
                     </div>
                     <p className="max-w-[44ch] text-[1rem] leading-[1.7] text-[#55574f]">
-                        Dos directores a cargo de cada área. Escribes a quien corresponde y te responde esa misma persona.
+                        Dos directores, dos áreas. Escribes a quien corresponde y te responde esa misma persona.
                     </p>
                 </div>
 
-                <ul className="mt-12 grid gap-8 lg:grid-cols-2 lg:gap-10">
-                    {TEAM.map((person, idx) => {
-                        const TopIcon = person.floatingCardTop.icon;
-                        const BottomIcon = person.floatingCardBottom.icon;
-
-                        return (
-                            <li key={person.name} data-reveal="" className="flex">
+                {/* Campo de tinta: texto a la izquierda, plano de cobre y figuras a la derecha */}
+                <div
+                    data-reveal=""
+                    className="relative mt-10 grid rounded-[6px] bg-[#15120e] text-[#fbf7ee] xl:mt-24 xl:grid-cols-12"
+                >
+                    <ul className="flex flex-col justify-center px-6 pb-2 pt-6 sm:px-8 sm:pt-8 lg:px-12 xl:col-span-4 xl:py-12 xl:pl-14 xl:pr-6">
+                        {TEAM.map((person, idx) => (
+                            <li key={person.name} className={idx > 0 ? "border-t border-white/12" : ""}>
                                 <Link
                                     href={person.href}
-                                    className="group relative grid w-full overflow-hidden rounded-[6px] border border-[#d8cfc0] bg-[#fffdf8] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#bd6f3c] hover:shadow-[0_24px_48px_-20px_rgba(23,23,19,0.12)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#171713] focus-visible:ring-offset-2 focus-visible:ring-offset-[#f8f5ee] sm:grid-cols-[270px_minmax(0,1fr)] xl:grid-cols-[300px_minmax(0,1fr)]"
+                                    onMouseEnter={() => setActive(idx)}
+                                    onMouseLeave={() => setActive(null)}
+                                    onFocus={() => setActive(idx)}
+                                    onBlur={() => setActive(null)}
+                                    className="group -mx-3 block rounded-[6px] px-3 py-6 transition-colors hover:bg-white/[0.04] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#15120e] lg:py-7"
                                 >
-                                    {/* Left Column: Modern Geometric Figure + Pop-Out Cutout + Floating UI Cards */}
-                                    <div className="relative flex min-h-[340px] items-end justify-center overflow-hidden border-b border-[#e6decb] bg-[#f3ede1] px-4 pt-6 sm:min-h-[380px] sm:border-b-0 sm:border-r">
-                                        {/* Subtle modern dot grid pattern */}
-                                        <div
+                                    <p className="text-[0.8125rem] font-semibold text-[#e4935d]">{person.area}</p>
+                                    <p className="crc-serif mt-2 text-[clamp(1.5rem,1.9vw,1.9rem)] font-medium leading-[1.1] tracking-[-0.01em]">
+                                        {person.name}
+                                    </p>
+                                    <p className="mt-2 text-[0.9375rem] font-semibold leading-snug text-[#ede7dc]/90">{person.role}</p>
+                                    <p className="mt-1 text-[0.8125rem] text-[#ede7dc]/60">{person.credential}</p>
+                                    <p className="mt-3 max-w-[46ch] text-[0.9375rem] leading-[1.65] text-[#ede7dc]/72">{person.text}</p>
+                                    <span className="mt-4 inline-flex items-center gap-2 text-[0.9375rem] font-semibold text-[#fbf7ee]">
+                                        {person.cta}
+                                        <ArrowRight
+                                            className="h-4 w-4 text-[#e4935d] transition-transform duration-200 group-hover:translate-x-1"
                                             aria-hidden="true"
-                                            className="pointer-events-none absolute inset-0 opacity-45"
-                                            style={{
-                                                backgroundImage:
-                                                    "radial-gradient(#bd6f3c 1px, transparent 1px)",
-                                                backgroundSize: "18px 18px",
-                                            }}
                                         />
-
-                                        {/* ServiceNow-style asymmetric geometric shape behind the person */}
-                                        <motion.div
-                                            aria-hidden="true"
-                                            initial={{ rotate: idx === 0 ? -3 : 3 }}
-                                            whileHover={{ rotate: 0, scale: 1.02 }}
-                                            transition={{ duration: 0.4, ease: "easeOut" }}
-                                            className="pointer-events-none absolute bottom-5 h-[74%] w-[82%] rounded-[28px] border border-[#bd6f3c]/30 bg-gradient-to-br from-[#fffdf8] via-[#efe7d6] to-[#e2d4be] shadow-[0_16px_36px_-12px_rgba(159,85,40,0.18)]"
-                                        >
-                                            {/* Accent copper corner bar */}
-                                            <div className="absolute -right-1.5 top-6 h-12 w-1.5 rounded-full bg-[#bd6f3c]" />
-                                            <div className="absolute left-5 top-5 h-2 w-2 rounded-full bg-[#bd6f3c]/60" />
-                                        </motion.div>
-
-                                        {/* Director Cutout rising above the geometric shape (2.5D pop-out) */}
-                                        <div className="pointer-events-none relative z-10 h-[320px] w-full max-w-[260px] sm:h-[350px] sm:max-w-[280px]">
-                                            <Image
-                                                src={person.cutout}
-                                                alt={`${person.name}, ${person.role}`}
-                                                fill
-                                                sizes="(max-width: 640px) 260px, 280px"
-                                                className="object-contain object-bottom drop-shadow-[0_12px_22px_rgba(23,23,19,0.14)] transition-transform duration-500 ease-out group-hover:scale-[1.03]"
-                                            />
-                                        </div>
-
-                                        {/* Floating Modern UI Pill — Top */}
-                                        <motion.div
-                                            aria-hidden="true"
-                                            animate={{ y: [0, -5, 0] }}
-                                            transition={{
-                                                duration: 3.8,
-                                                delay: idx * 0.4,
-                                                repeat: Infinity,
-                                                ease: "easeInOut",
-                                            }}
-                                            className="pointer-events-none absolute left-3 top-3.5 z-20 flex items-center gap-2 rounded-[6px] border border-[#d8cfc0] bg-[#fffdf8]/95 px-2.5 py-1.5 shadow-[0_10px_24px_-6px_rgba(23,23,19,0.14)]"
-                                        >
-                                            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-[4px] bg-[#bd6f3c]/15 text-[#9f5528]">
-                                                <TopIcon className="h-3.5 w-3.5" />
-                                            </span>
-                                            <span className="leading-tight">
-                                                <span className="block text-[0.65rem] font-medium text-[#6f675d]">
-                                                    {person.floatingCardTop.kicker}
-                                                </span>
-                                                <span className="block text-[0.75rem] font-semibold text-[#171713]">
-                                                    {person.floatingCardTop.label}
-                                                </span>
-                                            </span>
-                                        </motion.div>
-
-                                        {/* Floating Modern UI Pill — Bottom Right */}
-                                        <motion.div
-                                            aria-hidden="true"
-                                            animate={{ y: [0, 5, 0] }}
-                                            transition={{
-                                                duration: 4.2,
-                                                delay: idx * 0.4 + 0.9,
-                                                repeat: Infinity,
-                                                ease: "easeInOut",
-                                            }}
-                                            className="pointer-events-none absolute bottom-3.5 right-3 z-20 flex items-center gap-2 rounded-[6px] border border-[#d8cfc0] bg-[#fffdf8]/95 px-2.5 py-1.5 shadow-[0_10px_24px_-6px_rgba(23,23,19,0.16)]"
-                                        >
-                                            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-[4px] bg-[#171713] text-[#fffdf8]">
-                                                <BottomIcon className="h-3.5 w-3.5 text-[#e4935d]" />
-                                            </span>
-                                            <span className="leading-tight">
-                                                <span className="block text-[0.65rem] font-medium text-[#6f675d]">
-                                                    {person.floatingCardBottom.kicker}
-                                                </span>
-                                                <span className="block text-[0.75rem] font-semibold text-[#171713]">
-                                                    {person.floatingCardBottom.label}
-                                                </span>
-                                            </span>
-                                        </motion.div>
-                                    </div>
-
-                                    {/* Right Column: Executive Editorial Info */}
-                                    <div className="flex flex-col justify-between p-6 sm:p-7 xl:p-8">
-                                        <div>
-                                            <div className="flex flex-wrap items-center justify-between gap-2">
-                                                <span className="text-[0.8125rem] font-semibold text-[#9f5528]">
-                                                    {person.area}
-                                                </span>
-                                                <span className="inline-flex items-center gap-1.5 rounded-[4px] bg-[#f3ede1] px-2.5 py-0.5 text-[0.75rem] font-semibold text-[#55574f]">
-                                                    <span className="h-1.5 w-1.5 rounded-full bg-[#bd6f3c]" aria-hidden="true" />
-                                                    Trato directo
-                                                </span>
-                                            </div>
-
-                                            <h3 className="crc-serif mt-2.5 text-[1.55rem] font-medium leading-[1.15] text-[#171713] transition-colors group-hover:text-[#9f5528]">
-                                                {person.name}
-                                            </h3>
-                                            <p className="mt-1 text-[0.9375rem] font-semibold leading-snug text-[#171713]">
-                                                {person.role}
-                                            </p>
-                                            <p className="mt-1 text-[0.8125rem] text-[#6f675d]">
-                                                {person.credential}
-                                            </p>
-
-                                            <p className="mt-4 text-[0.9375rem] leading-[1.68] text-[#55574f]">
-                                                {person.text}
-                                            </p>
-
-                                            {/* Capability tags */}
-                                            <div className="mt-5 flex flex-wrap gap-1.5">
-                                                {person.pillars.map((pillar) => (
-                                                    <span
-                                                        key={pillar}
-                                                        className="rounded-[4px] border border-[#e2d9c8] bg-[#f8f5ee] px-2.5 py-1 text-[0.75rem] font-medium text-[#55574f]"
-                                                    >
-                                                        {pillar}
-                                                    </span>
-                                                ))}
-                                            </div>
-                                        </div>
-
-                                        <div className="mt-7 flex items-center justify-between border-t border-[#eee8dc] pt-4">
-                                            <span className="inline-flex items-center gap-2 text-[0.9375rem] font-semibold text-[#171713] transition-colors group-hover:text-[#9f5528]">
-                                                {person.cta}
-                                                <ArrowRight
-                                                    className="h-4 w-4 text-[#bd6f3c] transition-transform duration-200 group-hover:translate-x-1"
-                                                    aria-hidden="true"
-                                                />
-                                            </span>
-                                        </div>
-                                    </div>
+                                    </span>
                                 </Link>
                             </li>
-                        );
-                    })}
-                </ul>
+                        ))}
+                    </ul>
+
+                    {/* Composición: plano de cobre + dos figuras apoyadas en el borde inferior */}
+                    <div className="relative h-[260px] sm:h-[360px] md:h-[440px] lg:h-[520px] xl:col-span-8 xl:h-auto xl:min-h-[520px]">
+                        <div
+                            aria-hidden="true"
+                            className="absolute bottom-0 right-[12%] top-8 w-[44%] rounded-t-[6px] bg-[#bd6f3c] xl:-top-7 xl:right-[10%] xl:w-[40%]"
+                        />
+                        {TEAM.map((person, idx) => {
+                            const dim = active !== null && active !== idx;
+                            const pos =
+                                idx === 0
+                                    ? "left-[2%] z-20 h-[92%] md:h-[96%] xl:left-0 xl:h-[104%] 2xl:h-[112%]"
+                                    : "right-[4%] z-10 h-[84%] md:h-[90%] xl:right-[2%] xl:h-[96%] 2xl:h-[102%]";
+                            return (
+                                <div
+                                    key={person.name}
+                                    className={`absolute bottom-0 aspect-[1200/1350] transition-opacity duration-300 ${pos}`}
+                                    style={{ opacity: dim ? 0.45 : 1 }}
+                                >
+                                    <Image
+                                        src={person.cutout}
+                                        alt={`${person.name}, ${person.role}`}
+                                        fill
+                                        sizes="(max-width: 1279px) 60vw, 45vw"
+                                        className="object-contain object-bottom"
+                                    />
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
             </div>
         </section>
     );
