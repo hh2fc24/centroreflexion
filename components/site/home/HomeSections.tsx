@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, type RefObject } from "react";
-import { ArrowRight, ArrowUpRight, BookOpen, Compass, ShieldCheck, Sparkles, LineChart, GraduationCap } from "lucide-react";
+import { ArrowRight, ArrowUpRight, BookOpen, ShieldCheck, LineChart, GraduationCap } from "lucide-react";
 import { motion } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -240,38 +240,22 @@ const TEAM = [
         name: "Juan Carlos Rauld",
         role: "Director del CRC · Consultor en ciencias sociales",
         area: "Formación, clínica y pensamiento",
-        credential: "Doctorando en Trabajo Social · Univ. Rovira i Virgili",
+        credential: "Doctorando en Trabajo Social · Univ. Rovira i Virgili, España",
         text: "Seminarios, cursos, atención clínica y supervisión de equipos. Autor de tres libros con Editorial Hammurabi.",
         cutout: "/images/juan-carlos-rauld-cutout-2026.png",
         cta: "Ver formación y Academia",
         href: "/academia",
-        accentSide: "left" as const,
-        floatingBadges: [
-            {
-                icon: BookOpen,
-                kicker: "Editorial Hammurabi",
-                label: "3 obras publicadas",
-                pos: "top-6 left-3 sm:left-5",
-                delay: 0,
-                dy: -7,
-            },
-            {
-                icon: GraduationCap,
-                kicker: "Academia CRC",
-                label: "Seminarios y supervisión",
-                pos: "top-1/2 -translate-y-4 right-2 sm:right-4",
-                delay: 1.1,
-                dy: 6,
-            },
-            {
-                icon: Compass,
-                kicker: "Práctica clínica",
-                label: "Niñez, trauma y criterio",
-                pos: "bottom-6 left-4 sm:left-6",
-                delay: 0.55,
-                dy: -5,
-            },
-        ],
+        pillars: ["Salud mental infantil", "Supervisión clínica", "Editorial Hammurabi"],
+        floatingCardTop: {
+            icon: BookOpen,
+            kicker: "Editorial Hammurabi",
+            label: "3 libros publicados",
+        },
+        floatingCardBottom: {
+            icon: GraduationCap,
+            kicker: "Academia CRC",
+            label: "Seminarios y supervisión",
+        },
     },
     {
         name: "Hugo Felipe Hormazábal",
@@ -282,33 +266,17 @@ const TEAM = [
         cutout: "/images/hugo-hormazabal-cutout-2026.png",
         cta: "Agenda con el equipo",
         href: "/instituciones#agenda",
-        accentSide: "right" as const,
-        floatingBadges: [
-            {
-                icon: ShieldCheck,
-                kicker: "Comunidades educativas",
-                label: "Compliance Ley 21.809",
-                pos: "top-6 right-3 sm:right-5",
-                delay: 0.35,
-                dy: -7,
-            },
-            {
-                icon: LineChart,
-                kicker: "Gestión basada en datos",
-                label: "Diagnóstico → Medición",
-                pos: "top-1/2 -translate-y-4 left-2 sm:left-4",
-                delay: 1.4,
-                dy: 6,
-            },
-            {
-                icon: Sparkles,
-                kicker: "Desarrollo institucional",
-                label: "Convenios y seguimiento",
-                pos: "bottom-6 right-4 sm:right-6",
-                delay: 0.85,
-                dy: -5,
-            },
-        ],
+        pillars: ["Compliance Ley 21.809", "Convenios institucionales", "Datos y medición"],
+        floatingCardTop: {
+            icon: ShieldCheck,
+            kicker: "Comunidades educativas",
+            label: "Compliance Ley 21.809",
+        },
+        floatingCardBottom: {
+            icon: LineChart,
+            kicker: "Gestión e indicadores",
+            label: "Diagnóstico → Medición",
+        },
     },
 ];
 
@@ -320,186 +288,174 @@ export function HomeTeamClose() {
         <section
             ref={root}
             aria-labelledby="home-equipo-title"
-            className="relative overflow-hidden bg-[#15120e] text-[#fbf7ee]"
+            className="relative overflow-hidden border-t border-[#d8cfc0] bg-[#f8f5ee] text-[#171713]"
         >
-            {/* Ambient architectural background geometry in CRC palette */}
-            <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-                <div
-                    className="absolute left-1/2 top-0 h-[560px] w-[1100px] -translate-x-1/2 opacity-30"
-                    style={{
-                        background:
-                            "radial-gradient(ellipse at 50% 25%, rgba(189,111,60,0.26) 0%, rgba(21,18,14,0) 70%)",
-                    }}
-                />
-                <svg
-                    className="absolute left-1/2 top-16 h-[680px] w-[1360px] -translate-x-1/2 text-[#e4935d]/[0.07]"
-                    viewBox="0 0 1360 680"
-                    fill="none"
-                >
-                    <circle cx="680" cy="340" r="310" stroke="currentColor" strokeWidth="1" strokeDasharray="6 8" />
-                    <circle cx="680" cy="340" r="470" stroke="currentColor" strokeWidth="1" />
-                    <line x1="80" y1="340" x2="1280" y2="340" stroke="currentColor" strokeWidth="1" strokeDasharray="3 6" />
-                </svg>
-            </div>
-
             <div className="relative mx-auto max-w-[1640px] px-5 py-16 sm:px-8 sm:py-24 lg:px-14 xl:px-20">
                 <div data-reveal="" className="flex flex-wrap items-end justify-between gap-6">
                     <div>
-                        <span className="inline-flex items-center gap-2 text-[0.8125rem] font-semibold text-[#e4935d]">
-                            <span className="h-1.5 w-1.5 rounded-full bg-[#e4935d]" aria-hidden="true" />
-                            Quiénes dirigen el CRC
-                        </span>
-                        <h2 id="home-equipo-title" className={`${H2} mt-3 max-w-[24ch]`}>
+                        <p className={LABEL}>Quiénes dirigen el CRC</p>
+                        <h2 id="home-equipo-title" className={`${H2} mt-3 max-w-[24ch] text-[#171713]`}>
                             Detrás de cada puerta hay una persona a cargo
                         </h2>
                     </div>
-                    <p className="max-w-[44ch] text-[1rem] leading-[1.7] text-[#ede7dc]/75">
+                    <p className="max-w-[44ch] text-[1rem] leading-[1.7] text-[#55574f]">
                         Dos directores a cargo de cada área. Escribes a quien corresponde y te responde esa misma persona.
                     </p>
                 </div>
 
-                <ul className="mt-12 grid gap-8 md:grid-cols-2 lg:gap-10">
-                    {TEAM.map((person) => (
-                        <li key={person.name} data-reveal="" className="flex">
-                            <Link
-                                href={person.href}
-                                className="group relative flex w-full flex-col overflow-hidden rounded-[6px] border border-white/12 bg-[#1b1712] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#e4935d]/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#15120e]"
-                            >
-                                {/* Cinematic Figure Stage (ServiceNow-inspired architectural vessel + floating elements) */}
-                                <div className="relative flex h-[370px] w-full items-end justify-center overflow-hidden border-b border-white/10 bg-[#14110d] px-4 pt-6 sm:h-[410px]">
-                                    {/* Subtle studio grid & warm radial keylight */}
-                                    <div
-                                        aria-hidden="true"
-                                        className="pointer-events-none absolute inset-0 transition-opacity duration-500 group-hover:opacity-100"
-                                        style={{
-                                            background:
-                                                "radial-gradient(circle at 50% 44%, rgba(228,147,93,0.22) 0%, rgba(189,111,60,0.08) 42%, rgba(20,17,13,0.95) 78%)",
-                                        }}
-                                    />
+                <ul className="mt-12 grid gap-8 lg:grid-cols-2 lg:gap-10">
+                    {TEAM.map((person, idx) => {
+                        const TopIcon = person.floatingCardTop.icon;
+                        const BottomIcon = person.floatingCardBottom.icon;
 
-                                    {/* Animated orbital ring behind the figure */}
-                                    <motion.svg
-                                        aria-hidden="true"
-                                        viewBox="0 0 360 360"
-                                        className="pointer-events-none absolute top-7 h-[290px] w-[290px] text-[#e4935d]/25 sm:h-[320px] sm:w-[320px]"
-                                        animate={{ rotate: 360 }}
-                                        transition={{ duration: 48, repeat: Infinity, ease: "linear" }}
-                                    >
-                                        <circle
-                                            cx="180"
-                                            cy="180"
-                                            r="166"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            strokeWidth="1"
-                                            strokeDasharray="5 9"
-                                        />
-                                        <circle cx="180" cy="14" r="3.5" fill="#e4935d" />
-                                        <circle cx="346" cy="180" r="2.5" fill="#bd6f3c" />
-                                        <circle cx="14" cy="180" r="2.5" fill="#bd6f3c" />
-                                    </motion.svg>
-
-                                    {/* Sculpted Geometric Arch / Vessel containing the person */}
-                                    <div
-                                        aria-hidden="true"
-                                        className="pointer-events-none relative h-[82%] w-[240px] rounded-t-[130px] border border-[#e4935d]/35 bg-gradient-to-b from-[#2a2118] via-[#1f1913] to-[#15120e] shadow-[inset_0_1px_0_rgba(251,247,238,0.18)] transition-transform duration-500 group-hover:scale-[1.015] sm:w-[268px]"
-                                    >
-                                        {/* Inner warm copper rim glow */}
+                        return (
+                            <li key={person.name} data-reveal="" className="flex">
+                                <Link
+                                    href={person.href}
+                                    className="group relative grid w-full overflow-hidden rounded-[6px] border border-[#d8cfc0] bg-[#fffdf8] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#bd6f3c] hover:shadow-[0_24px_48px_-20px_rgba(23,23,19,0.12)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#171713] focus-visible:ring-offset-2 focus-visible:ring-offset-[#f8f5ee] sm:grid-cols-[270px_minmax(0,1fr)] xl:grid-cols-[300px_minmax(0,1fr)]"
+                                >
+                                    {/* Left Column: Modern Geometric Figure + Pop-Out Cutout + Floating UI Cards */}
+                                    <div className="relative flex min-h-[340px] items-end justify-center overflow-hidden border-b border-[#e6decb] bg-[#f3ede1] px-4 pt-6 sm:min-h-[380px] sm:border-b-0 sm:border-r">
+                                        {/* Subtle modern dot grid pattern */}
                                         <div
-                                            className="absolute inset-2 rounded-t-[122px] border border-[#fbf7ee]/[0.07]"
+                                            aria-hidden="true"
+                                            className="pointer-events-none absolute inset-0 opacity-45"
                                             style={{
-                                                background:
-                                                    "radial-gradient(ellipse at 50% 32%, rgba(248,245,238,0.14) 0%, rgba(189,111,60,0.10) 48%, rgba(21,18,14,0.4) 100%)",
+                                                backgroundImage:
+                                                    "radial-gradient(#bd6f3c 1px, transparent 1px)",
+                                                backgroundSize: "18px 18px",
                                             }}
                                         />
-                                        {/* Subtle diagonal architectural accent lines inside the vessel */}
-                                        <div className="absolute inset-x-6 top-16 h-px bg-gradient-to-r from-transparent via-[#e4935d]/30 to-transparent" />
-                                        <div className="absolute inset-x-10 bottom-14 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-                                    </div>
 
-                                    {/* Aligned Cinematic Portrait Cutout (head rises slightly above inner arch for 2.5D depth) */}
-                                    <div className="pointer-events-none absolute inset-x-0 bottom-0 top-1 z-10 mx-auto flex max-w-[340px] items-end justify-center sm:max-w-[370px]">
-                                        <div className="relative h-full w-full">
+                                        {/* ServiceNow-style asymmetric geometric shape behind the person */}
+                                        <motion.div
+                                            aria-hidden="true"
+                                            initial={{ rotate: idx === 0 ? -3 : 3 }}
+                                            whileHover={{ rotate: 0, scale: 1.02 }}
+                                            transition={{ duration: 0.4, ease: "easeOut" }}
+                                            className="pointer-events-none absolute bottom-5 h-[74%] w-[82%] rounded-[28px] border border-[#bd6f3c]/30 bg-gradient-to-br from-[#fffdf8] via-[#efe7d6] to-[#e2d4be] shadow-[0_16px_36px_-12px_rgba(159,85,40,0.18)]"
+                                        >
+                                            {/* Accent copper corner bar */}
+                                            <div className="absolute -right-1.5 top-6 h-12 w-1.5 rounded-full bg-[#bd6f3c]" />
+                                            <div className="absolute left-5 top-5 h-2 w-2 rounded-full bg-[#bd6f3c]/60" />
+                                        </motion.div>
+
+                                        {/* Director Cutout rising above the geometric shape (2.5D pop-out) */}
+                                        <div className="pointer-events-none relative z-10 h-[320px] w-full max-w-[260px] sm:h-[350px] sm:max-w-[280px]">
                                             <Image
                                                 src={person.cutout}
                                                 alt={`${person.name}, ${person.role}`}
                                                 fill
-                                                sizes="(max-width: 768px) 90vw, 370px"
-                                                className="object-contain object-bottom drop-shadow-[0_14px_28px_rgba(0,0,0,0.55)] transition-transform duration-500 ease-out group-hover:scale-[1.025]"
+                                                sizes="(max-width: 640px) 260px, 280px"
+                                                className="object-contain object-bottom drop-shadow-[0_12px_22px_rgba(23,23,19,0.14)] transition-transform duration-500 ease-out group-hover:scale-[1.03]"
                                             />
                                         </div>
-                                    </div>
 
-                                    {/* Cinematic bottom vignette blend into the card body */}
-                                    <div
-                                        aria-hidden="true"
-                                        className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-16 bg-gradient-to-t from-[#1b1712] via-[#1b1712]/65 to-transparent"
-                                    />
-
-                                    {/* Living Floating Editorial Badges around the figure */}
-                                    {person.floatingBadges.map((badge) => {
-                                        const Icon = badge.icon;
-                                        return (
-                                            <motion.div
-                                                key={badge.label}
-                                                aria-hidden="true"
-                                                initial={{ y: 0 }}
-                                                animate={{ y: [0, badge.dy, 0] }}
-                                                transition={{
-                                                    duration: 4.2,
-                                                    delay: badge.delay,
-                                                    repeat: Infinity,
-                                                    ease: "easeInOut",
-                                                }}
-                                                className={`pointer-events-none absolute z-20 flex items-center gap-2.5 rounded-[6px] border border-[#e4935d]/35 bg-[#17140f]/92 px-3 py-2 shadow-[0_12px_28px_-8px_rgba(0,0,0,0.65)] ring-1 ring-white/[0.04] transition-colors duration-300 group-hover:border-[#e4935d]/65 ${badge.pos}`}
-                                            >
-                                                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-[4px] bg-[#bd6f3c]/20 text-[#e4935d]">
-                                                    <Icon className="h-3.5 w-3.5" />
+                                        {/* Floating Modern UI Pill — Top */}
+                                        <motion.div
+                                            aria-hidden="true"
+                                            animate={{ y: [0, -5, 0] }}
+                                            transition={{
+                                                duration: 3.8,
+                                                delay: idx * 0.4,
+                                                repeat: Infinity,
+                                                ease: "easeInOut",
+                                            }}
+                                            className="pointer-events-none absolute left-3 top-3.5 z-20 flex items-center gap-2 rounded-[6px] border border-[#d8cfc0] bg-[#fffdf8]/95 px-2.5 py-1.5 shadow-[0_10px_24px_-6px_rgba(23,23,19,0.14)]"
+                                        >
+                                            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-[4px] bg-[#bd6f3c]/15 text-[#9f5528]">
+                                                <TopIcon className="h-3.5 w-3.5" />
+                                            </span>
+                                            <span className="leading-tight">
+                                                <span className="block text-[0.65rem] font-medium text-[#6f675d]">
+                                                    {person.floatingCardTop.kicker}
                                                 </span>
-                                                <span className="block pr-0.5 leading-tight">
-                                                    <span className="block text-[0.6875rem] font-medium text-[#ede7dc]/65">
-                                                        {badge.kicker}
-                                                    </span>
-                                                    <span className="block text-[0.78rem] font-semibold text-[#fbf7ee]">
-                                                        {badge.label}
-                                                    </span>
+                                                <span className="block text-[0.75rem] font-semibold text-[#171713]">
+                                                    {person.floatingCardTop.label}
                                                 </span>
-                                            </motion.div>
-                                        );
-                                    })}
-                                </div>
+                                            </span>
+                                        </motion.div>
 
-                                {/* Editorial Info Body */}
-                                <div className="relative z-20 flex flex-1 flex-col p-6 sm:p-8">
-                                    <div className="flex flex-wrap items-center justify-between gap-2">
-                                        <p className="text-[0.8125rem] font-semibold text-[#e4935d]">{person.area}</p>
-                                        <span className="inline-flex items-center gap-1.5 rounded-[4px] border border-white/10 bg-white/[0.03] px-2.5 py-0.5 text-[0.75rem] font-medium text-[#ede7dc]/70">
-                                            <span className="h-1.5 w-1.5 rounded-full bg-[#bd6f3c]" aria-hidden="true" />
-                                            Contacto directo
-                                        </span>
+                                        {/* Floating Modern UI Pill — Bottom Right */}
+                                        <motion.div
+                                            aria-hidden="true"
+                                            animate={{ y: [0, 5, 0] }}
+                                            transition={{
+                                                duration: 4.2,
+                                                delay: idx * 0.4 + 0.9,
+                                                repeat: Infinity,
+                                                ease: "easeInOut",
+                                            }}
+                                            className="pointer-events-none absolute bottom-3.5 right-3 z-20 flex items-center gap-2 rounded-[6px] border border-[#d8cfc0] bg-[#fffdf8]/95 px-2.5 py-1.5 shadow-[0_10px_24px_-6px_rgba(23,23,19,0.16)]"
+                                        >
+                                            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-[4px] bg-[#171713] text-[#fffdf8]">
+                                                <BottomIcon className="h-3.5 w-3.5 text-[#e4935d]" />
+                                            </span>
+                                            <span className="leading-tight">
+                                                <span className="block text-[0.65rem] font-medium text-[#6f675d]">
+                                                    {person.floatingCardBottom.kicker}
+                                                </span>
+                                                <span className="block text-[0.75rem] font-semibold text-[#171713]">
+                                                    {person.floatingCardBottom.label}
+                                                </span>
+                                            </span>
+                                        </motion.div>
                                     </div>
-                                    <p className="crc-serif mt-2.5 text-[1.6rem] font-medium leading-[1.15] text-[#fbf7ee] transition-colors group-hover:text-[#e4935d]">
-                                        {person.name}
-                                    </p>
-                                    <p className="mt-1.5 text-[0.9375rem] font-semibold leading-snug text-[#ede7dc]/90">
-                                        {person.role}
-                                    </p>
-                                    <p className="mt-1 text-[0.8125rem] text-[#ede7dc]/60">{person.credential}</p>
-                                    <p className="mt-4 flex-1 text-[0.9375rem] leading-[1.7] text-[#ede7dc]/75">{person.text}</p>
-                                    <div className="mt-6 flex items-center justify-between border-t border-white/10 pt-5">
-                                        <span className="inline-flex items-center gap-2 text-[0.9375rem] font-semibold text-[#fbf7ee] transition-colors group-hover:text-[#e4935d]">
-                                            {person.cta}
-                                            <ArrowRight
-                                                className="h-4 w-4 text-[#e4935d] transition-transform duration-200 group-hover:translate-x-1"
-                                                aria-hidden="true"
-                                            />
-                                        </span>
-                                        <span className="text-[0.8125rem] font-medium text-[#ede7dc]/50">CRC · Chile</span>
+
+                                    {/* Right Column: Executive Editorial Info */}
+                                    <div className="flex flex-col justify-between p-6 sm:p-7 xl:p-8">
+                                        <div>
+                                            <div className="flex flex-wrap items-center justify-between gap-2">
+                                                <span className="text-[0.8125rem] font-semibold text-[#9f5528]">
+                                                    {person.area}
+                                                </span>
+                                                <span className="inline-flex items-center gap-1.5 rounded-[4px] bg-[#f3ede1] px-2.5 py-0.5 text-[0.75rem] font-semibold text-[#55574f]">
+                                                    <span className="h-1.5 w-1.5 rounded-full bg-[#bd6f3c]" aria-hidden="true" />
+                                                    Trato directo
+                                                </span>
+                                            </div>
+
+                                            <h3 className="crc-serif mt-2.5 text-[1.55rem] font-medium leading-[1.15] text-[#171713] transition-colors group-hover:text-[#9f5528]">
+                                                {person.name}
+                                            </h3>
+                                            <p className="mt-1 text-[0.9375rem] font-semibold leading-snug text-[#171713]">
+                                                {person.role}
+                                            </p>
+                                            <p className="mt-1 text-[0.8125rem] text-[#6f675d]">
+                                                {person.credential}
+                                            </p>
+
+                                            <p className="mt-4 text-[0.9375rem] leading-[1.68] text-[#55574f]">
+                                                {person.text}
+                                            </p>
+
+                                            {/* Capability tags */}
+                                            <div className="mt-5 flex flex-wrap gap-1.5">
+                                                {person.pillars.map((pillar) => (
+                                                    <span
+                                                        key={pillar}
+                                                        className="rounded-[4px] border border-[#e2d9c8] bg-[#f8f5ee] px-2.5 py-1 text-[0.75rem] font-medium text-[#55574f]"
+                                                    >
+                                                        {pillar}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        </div>
+
+                                        <div className="mt-7 flex items-center justify-between border-t border-[#eee8dc] pt-4">
+                                            <span className="inline-flex items-center gap-2 text-[0.9375rem] font-semibold text-[#171713] transition-colors group-hover:text-[#9f5528]">
+                                                {person.cta}
+                                                <ArrowRight
+                                                    className="h-4 w-4 text-[#bd6f3c] transition-transform duration-200 group-hover:translate-x-1"
+                                                    aria-hidden="true"
+                                                />
+                                            </span>
+                                        </div>
                                     </div>
-                                </div>
-                            </Link>
-                        </li>
-                    ))}
+                                </Link>
+                            </li>
+                        );
+                    })}
                 </ul>
             </div>
         </section>
