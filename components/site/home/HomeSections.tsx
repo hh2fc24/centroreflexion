@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRef, useState, type RefObject } from "react";
+import { useRef, type RefObject } from "react";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -235,14 +235,21 @@ export function HomeBooksBand() {
 /* ------------------------------------------------------------------ */
 
 /**
- * Una sola composición en vez de dos tarjetas espejo: un campo de tinta,
- * un plano de cobre detrás y los dos directores a escala real, con el corte
- * de la foto coincidiendo con el borde inferior del bloque y la cabeza por
- * encima del borde superior. La geometría es plana (colores del sistema,
- * radio de 6px, sin degradados ni sombras); el peso lo ponen la escala y el
- * contraste. Las dos figuras miden lo mismo; Juan Carlos va delante y Hugo detrás,
- * sobre el plano de cobre. Al pasar por la ficha de una persona, la otra figura baja
- * de intensidad para que se lea quién es quién.
+ * Una escena continua con las dos fotos de estudio reales (mismo fondo,
+ * misma luz, sin recortes). Cada foto se funde con el fondo de la página por
+ * una máscara de degradado, así no hay marco ni silueta pegada: los dos
+ * directores aparecen de pie dentro de la página.
+ *
+ * Movimiento, a pedido del equipo (va más allá de la pauta de
+ * docs/design-system-crc.md §5 y por eso queda documentado aquí):
+ * - entrada lenta al llegar a la sección (foto desde abajo y un poco más
+ *   grande, texto escalonado), una sola vez;
+ * - respiración: cada foto escala 1 → 1.035 en 16 s, ida y vuelta, desfasadas;
+ * - profundidad con el puntero: las fotos y el texto se desplazan unos
+ *   píxeles en sentidos opuestos (solo con puntero fino);
+ * - enfoque: al pasar por la ficha de una persona, la otra foto pierde color
+ *   e intensidad, como un cambio de foco.
+ * Todo dentro de prefers-reduced-motion: no-preference; sin JS se ve completo.
  */
 const TEAM = [
     {
@@ -251,7 +258,7 @@ const TEAM = [
         area: "Formación, clínica y pensamiento",
         credential: "Doctorando en Trabajo Social, Univ. Rovira i Virgili",
         text: "Seminarios, cursos, atención clínica y supervisión de equipos. Autor de tres libros con Editorial Hammurabi.",
-        cutout: "/images/juan-carlos-rauld-cutout-2026.png",
+        photo: "/images/juan_carlos_real_white.png",
         cta: "Ver formación y Academia",
         href: "/academia",
     },
@@ -261,100 +268,185 @@ const TEAM = [
         area: "Instituciones, convenios y medición",
         credential: "Ingeniero Comercial, Marketing & Analytics, UAI",
         text: "Colegios, programas y fundaciones: diagnóstico, propuesta, convenio y medición de resultados con trazabilidad.",
-        cutout: "/images/hugo-hormazabal-cutout-2026.png",
+        photo: "/images/hugo-hormazabal-crc-2026-large.png",
         cta: "Agenda con el equipo",
         href: "/instituciones#agenda",
     },
 ];
 
+function useTeamScene(root: RefObject<HTMLElement | null>) {
+    useGSAP(
+        () => {
+            const section = root.current;
+            if (!section) return;
+            const mm = gsap.matchMedia();
+
+            mm.add("(prefers-reduced-motion: no-preference)", () => {
+                const photos = gsap.utils.toArray<HTMLElement>("[data-photo]", section);
+                const inners = gsap.utils.toArray<HTMLElement>("[data-photo-inner]", section);
+                const lines = gsap.utils.toArray<HTMLElement>("[data-line]", section);
+
+                // Entrada, una sola vez
+                const tl = gsap.timeline({
+                    scrollTrigger: { trigger: section, start: "top 70%", once: true },
+                    defaults: { ease: "power3.out" },
+                });
+                tl.from(photos, { y: 48, opacity: 0, duration: 1.6, stagger: 0.18 }, 0)
+                    .from(inners, { scale: 1.07, duration: 2.2, ease: "power2.out", stagger: 0.18 }, 0)
+                    .from(lines, { y: 16, opacity: 0, duration: 0.8, stagger: 0.07 }, 0.35);
+
+                // Respiración lenta, desfasada
+                inners.forEach((el, i) => {
+                    gsap.to(el, { scale: 1.035, duration: 16, yoyo: true, repeat: -1, ease: "sine.inOut", delay: 2.2 + i * 5 });
+                });
+
+                // Enfoque: la ficha activa trae su foto, la otra se aleja
+                const fichas = gsap.utils.toArray<HTMLElement>("[data-ficha]", section);
+                const focus = (active: number | null) => {
+                    photos.forEach((el, i) => {
+                        const dim = active !== null && active !== i;
+                        gsap.to(el, {
+                            opacity: dim ? 0.5 : 1,
+                            filter: dim ? "saturate(0.35)" : "saturate(1)",
+                            duration: 0.7,
+                            ease: "power2.out",
+                            overwrite: "auto",
+                        });
+                    });
+                };
+                const offs: Array<() => void> = [];
+                fichas.forEach((f, i) => {
+                    const on = () => focus(i);
+                    const off = () => focus(null);
+                    f.addEventListener("pointerenter", on);
+                    f.addEventListener("pointerleave", off);
+                    f.addEventListener("focusin", on);
+                    f.addEventListener("focusout", off);
+                    offs.push(() => {
+                        f.removeEventListener("pointerenter", on);
+                        f.removeEventListener("pointerleave", off);
+                        f.removeEventListener("focusin", on);
+                        f.removeEventListener("focusout", off);
+                    });
+                });
+                return () => offs.forEach((o) => o());
+            });
+
+            // Profundidad con el puntero: solo con puntero fino y sin reducción de movimiento
+            mm.add("(prefers-reduced-motion: no-preference) and (pointer: fine)", () => {
+                const photos = gsap.utils.toArray<HTMLElement>("[data-photo]", section);
+                const copy = section.querySelector<HTMLElement>("[data-copy]");
+                const setters = photos.map((el, i) => ({
+                    x: gsap.quickTo(el, "x", { duration: 1.2, ease: "power3.out" }),
+                    y: gsap.quickTo(el, "y", { duration: 1.2, ease: "power3.out" }),
+                    depth: i === 0 ? 10 : 16,
+                }));
+                const cx = copy ? gsap.quickTo(copy, "x", { duration: 1.4, ease: "power3.out" }) : null;
+                const cy = copy ? gsap.quickTo(copy, "y", { duration: 1.4, ease: "power3.out" }) : null;
+                const move = (e: PointerEvent) => {
+                    const r = section.getBoundingClientRect();
+                    const nx = ((e.clientX - r.left) / r.width - 0.5) * 2;
+                    const ny = ((e.clientY - r.top) / r.height - 0.5) * 2;
+                    setters.forEach((s) => {
+                        s.x(nx * s.depth);
+                        s.y(ny * s.depth * 0.6);
+                    });
+                    cx?.(-nx * 5);
+                    cy?.(-ny * 3);
+                };
+                const leave = () => {
+                    setters.forEach((s) => {
+                        s.x(0);
+                        s.y(0);
+                    });
+                    cx?.(0);
+                    cy?.(0);
+                };
+                section.addEventListener("pointermove", move);
+                section.addEventListener("pointerleave", leave);
+                return () => {
+                    section.removeEventListener("pointermove", move);
+                    section.removeEventListener("pointerleave", leave);
+                };
+            });
+
+            return () => mm.revert();
+        },
+        { scope: root }
+    );
+}
+
 export function HomeTeamClose() {
     const root = useRef<HTMLElement>(null);
-    const [active, setActive] = useState<number | null>(null);
-    useReveal(root);
+    useTeamScene(root);
 
     return (
-        <section
-            ref={root}
-            aria-labelledby="home-equipo-title"
-            className="overflow-hidden bg-[#f8f5ee] text-[#171713]"
-        >
-            <div className="mx-auto max-w-[1640px] px-5 pb-16 pt-16 sm:px-8 sm:pb-24 sm:pt-24 lg:px-14 xl:px-20">
-                <div data-reveal="" className="flex flex-wrap items-end justify-between gap-6">
+        <section ref={root} aria-labelledby="home-equipo-title" className="relative overflow-hidden bg-[#f8f5ee] text-[#171713]">
+            <div className="mx-auto max-w-[1640px] px-5 pt-16 sm:px-8 sm:pt-24 lg:px-14 xl:px-20">
+                <div className="flex flex-wrap items-end justify-between gap-6">
                     <div>
-                        <p className={LABEL}>Quiénes dirigen el CRC</p>
-                        <h2 id="home-equipo-title" className={`${H2} mt-3 max-w-[24ch]`}>
+                        <p data-line="" className={LABEL}>Quiénes dirigen el CRC</p>
+                        <h2 data-line="" id="home-equipo-title" className={`${H2} mt-3 max-w-[24ch]`}>
                             Detrás de cada puerta hay una persona a cargo
                         </h2>
                     </div>
-                    <p className="max-w-[44ch] text-[1rem] leading-[1.7] text-[#55574f]">
+                    <p data-line="" className="max-w-[44ch] text-[1rem] leading-[1.7] text-[#55574f]">
                         Dos directores, dos áreas. Escribes a quien corresponde y te responde esa misma persona.
                     </p>
                 </div>
+            </div>
 
-                {/* Campo de tinta: texto a la izquierda, plano de cobre y figuras a la derecha */}
-                <div
-                    data-reveal=""
-                    className="relative mt-10 grid rounded-[6px] bg-[#15120e] text-[#fbf7ee] xl:mt-24 xl:grid-cols-12"
-                >
-                    <ul className="flex flex-col justify-center px-6 pb-2 pt-6 sm:px-8 sm:pt-8 lg:px-12 xl:col-span-4 xl:py-12 xl:pl-14 xl:pr-6">
+            {/* Escena: fichas a la izquierda, los dos directores de pie a la derecha, fundidos con la página */}
+            <div className="mx-auto mt-6 grid max-w-[1640px] gap-y-8 px-5 sm:px-8 lg:px-14 xl:mt-10 xl:grid-cols-12 xl:gap-x-6 xl:px-20">
+                <div data-copy="" className="order-2 xl:order-1 xl:col-span-4 xl:self-center xl:pb-20">
+                    <ul>
                         {TEAM.map((person, idx) => (
-                            <li key={person.name} className={idx > 0 ? "border-t border-white/12" : ""}>
+                            <li key={person.name} className={idx > 0 ? "border-t border-[#d8cfc0]" : ""}>
                                 <Link
                                     href={person.href}
-                                    onMouseEnter={() => setActive(idx)}
-                                    onMouseLeave={() => setActive(null)}
-                                    onFocus={() => setActive(idx)}
-                                    onBlur={() => setActive(null)}
-                                    className="group -mx-3 block rounded-[6px] px-3 py-6 transition-colors hover:bg-white/[0.04] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#15120e] lg:py-7"
+                                    data-ficha=""
+                                    className="group -mx-3 block rounded-[6px] px-3 py-6 transition-colors hover:bg-[#15120e]/[0.035] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#171713] focus-visible:ring-offset-2 focus-visible:ring-offset-[#f8f5ee] xl:py-7"
                                 >
-                                    <p className="text-[0.8125rem] font-semibold text-[#e4935d]">{person.area}</p>
-                                    <p className="crc-serif mt-2 text-[clamp(1.5rem,1.9vw,1.9rem)] font-medium leading-[1.1] tracking-[-0.01em]">
+                                    <p data-line="" className="text-[0.8125rem] font-semibold text-[#9f5528]">{person.area}</p>
+                                    <p data-line="" className="crc-serif mt-2 text-[clamp(1.5rem,1.9vw,1.9rem)] font-medium leading-[1.1] tracking-[-0.01em] transition-colors group-hover:text-[#9f5528]">
                                         {person.name}
                                     </p>
-                                    <p className="mt-2 text-[0.9375rem] font-semibold leading-snug text-[#ede7dc]/90">{person.role}</p>
-                                    <p className="mt-1 text-[0.8125rem] text-[#ede7dc]/60">{person.credential}</p>
-                                    <p className="mt-3 max-w-[46ch] text-[0.9375rem] leading-[1.65] text-[#ede7dc]/72">{person.text}</p>
-                                    <span className="mt-4 inline-flex items-center gap-2 text-[0.9375rem] font-semibold text-[#fbf7ee]">
+                                    <p data-line="" className="mt-2 text-[0.9375rem] font-semibold leading-snug text-[#171713]">{person.role}</p>
+                                    <p data-line="" className="mt-1 text-[0.8125rem] text-[#6f675d]">{person.credential}</p>
+                                    <p data-line="" className="mt-3 max-w-[46ch] text-[0.9375rem] leading-[1.65] text-[#55574f]">{person.text}</p>
+                                    <span data-line="" className="mt-4 inline-flex items-center gap-2 text-[0.9375rem] font-semibold text-[#171713]">
                                         {person.cta}
-                                        <ArrowRight
-                                            className="h-4 w-4 text-[#e4935d] transition-transform duration-200 group-hover:translate-x-1"
-                                            aria-hidden="true"
-                                        />
+                                        <ArrowRight className="h-4 w-4 text-[#bd6f3c] transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true" />
                                     </span>
                                 </Link>
                             </li>
                         ))}
                     </ul>
+                </div>
 
-                    {/* Composición: plano de cobre + dos figuras apoyadas en el borde inferior */}
-                    <div className="relative h-[260px] sm:h-[360px] md:h-[440px] lg:h-[520px] xl:col-span-8 xl:h-auto xl:min-h-[520px]">
+                {/* En móvil y tablet: dos retratos lado a lado. En escritorio: la escena con las figuras solapadas por el fondo, no por los cuerpos.
+                    La máscara funde los lados y el borde superior de cada foto con la página; abajo también, salvo en escritorio, donde el retrato se apoya en el pie de página. */}
+                <div className="relative order-1 grid grid-cols-2 gap-2 xl:order-2 xl:col-span-8 xl:block xl:min-h-[600px] 2xl:min-h-[680px]">
+                    {TEAM.map((person, idx) => (
                         <div
-                            aria-hidden="true"
-                            className="absolute bottom-0 right-[12%] top-8 w-[44%] rounded-t-[6px] bg-[#bd6f3c] xl:-top-7 xl:right-[10%] xl:w-[40%]"
-                        />
-                        {TEAM.map((person, idx) => {
-                            const dim = active !== null && active !== idx;
-                            const pos =
-                                idx === 0
-                                    ? "left-[2%] z-20 h-[88%] md:h-[94%] xl:left-0 xl:h-[100%] 2xl:h-[108%]"
-                                    : "right-[3%] z-10 h-[88%] md:h-[94%] xl:right-[1%] xl:h-[100%] 2xl:h-[108%]";
-                            return (
-                                <div
-                                    key={person.name}
-                                    className={`absolute bottom-0 aspect-[1200/1350] transition-opacity duration-300 ${pos}`}
-                                    style={{ opacity: dim ? 0.45 : 1 }}
-                                >
-                                    <Image
-                                        src={person.cutout}
-                                        alt={`${person.name}, ${person.role}`}
-                                        fill
-                                        sizes="(max-width: 1279px) 60vw, 45vw"
-                                        className="object-contain object-bottom"
-                                    />
-                                </div>
-                            );
-                        })}
-                    </div>
+                            key={person.name}
+                            data-photo=""
+                            className={`relative aspect-[3/4] overflow-hidden xl:absolute xl:bottom-0 xl:aspect-[1200/1350] xl:h-[92%] 2xl:h-[96%] ${
+                                idx === 0 ? "xl:left-[4%] xl:z-10" : "xl:right-[-6%] xl:z-20"
+                            } [mask-composite:intersect] [-webkit-mask-composite:source-in] [mask-image:linear-gradient(to_right,transparent_0%,#000_22%,#000_78%,transparent_100%),linear-gradient(to_bottom,transparent_0%,#000_16%,#000_86%,transparent_100%)] xl:[mask-image:linear-gradient(to_right,transparent_0%,#000_22%,#000_78%,transparent_100%),linear-gradient(to_bottom,transparent_0%,#000_16%)]`}
+                        >
+                            <div data-photo-inner="" className="absolute inset-0 origin-bottom will-change-transform">
+                                <Image
+                                    src={person.photo}
+                                    alt={`${person.name}, ${person.role}`}
+                                    fill
+                                    sizes="(max-width: 1279px) 50vw, 40vw"
+                                    className="object-cover object-top xl:object-contain xl:object-bottom"
+                                    style={{ filter: "saturate(0.96) contrast(1.02)" }}
+                                />
+                            </div>
+                        </div>
+                    ))}
                 </div>
             </div>
         </section>
