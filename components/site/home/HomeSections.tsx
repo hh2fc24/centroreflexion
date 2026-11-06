@@ -240,8 +240,8 @@ export function HomeBooksBand() {
  * de la foto coincidiendo con el borde inferior del bloque y la cabeza por
  * encima del borde superior. La geometría es plana (colores del sistema,
  * radio de 6px, sin degradados ni sombras); el peso lo ponen la escala y el
- * contraste. Juan Carlos va delante como figura principal; Hugo detrás, sobre el
- * plano de cobre. Al pasar por la ficha de una persona, la otra figura baja
+ * contraste. Las dos figuras miden lo mismo; Juan Carlos va delante y Hugo detrás,
+ * sobre el plano de cobre. Al pasar por la ficha de una persona, la otra figura baja
  * de intensidad para que se lea quién es quién.
  */
 const TEAM = [
@@ -336,8 +336,8 @@ export function HomeTeamClose() {
                             const dim = active !== null && active !== idx;
                             const pos =
                                 idx === 0
-                                    ? "left-[2%] z-20 h-[92%] md:h-[96%] xl:left-0 xl:h-[104%] 2xl:h-[112%]"
-                                    : "right-[4%] z-10 h-[84%] md:h-[90%] xl:right-[2%] xl:h-[96%] 2xl:h-[102%]";
+                                    ? "left-[2%] z-20 h-[88%] md:h-[94%] xl:left-0 xl:h-[100%] 2xl:h-[108%]"
+                                    : "right-[3%] z-10 h-[88%] md:h-[94%] xl:right-[1%] xl:h-[100%] 2xl:h-[108%]";
                             return (
                                 <div
                                     key={person.name}
