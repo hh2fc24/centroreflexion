@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, ExternalLink } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import { PautaProgramPlayer } from "@/components/site/PautaProgramPlayer";
 import { PautaReels } from "@/components/site/PautaReels";
 import { getSiteUrl } from "@/lib/site";
 
 const path = "/prensa/juan-carlos-rauld-radio-pauta-desde-el-jardin-28-octubre-2026";
 const videoId = "cyzIgLIOijo";
 const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
+const spotifyEpisodeId = "43NT7pc4pW5pq7pMvKCTSE";
 const programUrl = "https://www.pauta.cl/tendencias/desde-el-jardin/2026/10/28/desde-el-jardin-28-de-octubre-de-2026.html";
 const title = "Juan Carlos Rauld en Desde el Jardín: la protección de la niñez ante la liberación de condenados";
 const description = "Cristián Warnken conversa con Juan Carlos Rauld, director editorial del CRC, sobre la protección de la niñez ante la liberación de condenados por delitos sexuales, que Rauld considera injusta con la infancia y con las familias víctimas. Radio PAUTA, 28 de octubre de 2026.";
@@ -41,6 +43,15 @@ export default function PautaInterviewPage() {
     about: { "@type": "Person", name: "Juan Carlos Rauld" },
     mainEntityOfPage: `${siteUrl}${path}`,
   };
+  const podcastSchema = {
+    "@context": "https://schema.org",
+    "@type": "PodcastEpisode",
+    name: videoSchema.name,
+    description,
+    url: `https://open.spotify.com/episode/${spotifyEpisodeId}`,
+    datePublished: "2026-10-28",
+    partOfSeries: { "@type": "PodcastSeries", name: "Desde el Jardín" },
+  };
 
   return (
     <article className="bg-[#fffdf8] text-[#171713]">
@@ -58,25 +69,9 @@ export default function PautaInterviewPage() {
       <PautaReels />
 
       <div className="mx-auto max-w-[1120px] px-5 py-12 sm:px-8 sm:py-16">
-        <h2 className="crc-serif mb-6 text-[clamp(1.4rem,1.9vw,1.9rem)] font-medium leading-[1.15]">El programa completo</h2>
-        <div id="ver-entrevista" className="scroll-mt-24 overflow-hidden rounded-[6px] bg-[#15120e]">
-          <div className="relative aspect-video">
-            <iframe
-              className="absolute inset-0 h-full w-full"
-              src={`https://www.youtube-nocookie.com/embed/${videoId}?rel=0`}
-              title="Juan Carlos Rauld en Desde el Jardín, Radio PAUTA, 28 de octubre de 2026"
-              loading="lazy"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-            />
-          </div>
+        <div id="ver-entrevista" className="scroll-mt-24">
+          <PautaProgramPlayer youtubeId={videoId} spotifyId={spotifyEpisodeId} />
         </div>
-        <p className="mt-3 max-w-[82ch] text-[0.875rem] leading-[1.6] text-[#6f675d]">
-          Programa completo de Desde el Jardín. La conversación con Juan Carlos Rauld abre la emisión; el espacio continúa con el editor Ernesto Pfeiffer y una sección sobre literatura y memoria.
-        </p>
-        <a href={videoUrl} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex min-h-11 items-center gap-2 text-[0.9375rem] font-semibold text-[#171713] underline decoration-[#bd6f3c] underline-offset-[6px] hover:text-[#9f5528]">
-          Ver en el canal de Radio PAUTA <ExternalLink className="h-4 w-4" aria-hidden="true" />
-        </a>
 
         <div className="mt-16 grid gap-12 border-t border-[#d8cfc0] pt-12 lg:grid-cols-[minmax(0,1.3fr)_minmax(260px,0.7fr)] lg:gap-20">
           <div className="max-w-[68ch]">
@@ -114,7 +109,7 @@ export default function PautaInterviewPage() {
           </aside>
         </div>
       </div>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(videoSchema).replace(/</g, "\\u003c") }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify([videoSchema, podcastSchema]).replace(/</g, "\\u003c") }} />
     </article>
   );
 }
