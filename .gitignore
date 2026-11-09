@@ -42,3 +42,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# redes – videos y audios de reels (pesados, se publican en Instagram, no en git)
+/redes/**/*.mp4
+/redes/**/*.mp3
+/redes/**/*.wav
+/redes/**/*.jpg
+/redes/**/ytwords.json

@@ -24,6 +24,8 @@ const SHORT_LINKS: ShortLink[] = [
   { path: "/ig/jc", destination: SEMINARIO_C1, source: "instagram", medium: "bio", campaign: "seminario-c1", content: "jc" },
   { path: "/in/hugo", destination: "/instituciones", source: "linkedin", medium: "perfil", campaign: "instituciones", content: "hugo" },
   { path: "/in/jc", destination: SEMINARIO_C1, source: "linkedin", medium: "perfil", campaign: "seminario-c1", content: "jc" },
+  // Dirección que aparece en la placa final de los reels de la entrevista en Radio PAUTA.
+  { path: "/entrevista", destination: "/prensa/juan-carlos-rauld-radio-pauta-desde-el-jardin-28-octubre-2026", source: "instagram", medium: "reel", campaign: "rauld-pauta", content: "placa-final" },
 ];
 
 function shortLinkDestination(link: ShortLink) {

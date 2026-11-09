@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, ExternalLink } from "lucide-react";
+import { PautaReels } from "@/components/site/PautaReels";
 import { getSiteUrl } from "@/lib/site";
 
 const path = "/prensa/juan-carlos-rauld-radio-pauta-desde-el-jardin-28-octubre-2026";
 const videoId = "cyzIgLIOijo";
 const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
 const programUrl = "https://www.pauta.cl/tendencias/desde-el-jardin/2026/10/28/desde-el-jardin-28-de-octubre-de-2026.html";
-const title = "Juan Carlos Rauld en Desde el Jardín: infancia, justicia y responsabilidad del Estado";
-const description = "Cristián Warnken conversa con Juan Carlos Rauld, director editorial del CRC, sobre la crisis de la protección de la infancia, la institucionalización y la tensión entre legalidad y justicia. Radio PAUTA, 28 de octubre de 2026.";
+const title = "Juan Carlos Rauld en Desde el Jardín: la protección de la niñez ante la liberación de condenados";
+const description = "Cristián Warnken conversa con Juan Carlos Rauld, director editorial del CRC, sobre la protección de la niñez ante la liberación de condenados por delitos sexuales, que Rauld considera injusta con la infancia y con las familias víctimas. Radio PAUTA, 28 de octubre de 2026.";
 
 export const metadata: Metadata = {
   title: `${title} | Centro de Reflexiones Críticas`,
@@ -54,7 +55,10 @@ export default function PautaInterviewPage() {
         </div>
       </header>
 
+      <PautaReels />
+
       <div className="mx-auto max-w-[1120px] px-5 py-12 sm:px-8 sm:py-16">
+        <h2 className="crc-serif mb-6 text-[clamp(1.4rem,1.9vw,1.9rem)] font-medium leading-[1.15]">El programa completo</h2>
         <div id="ver-entrevista" className="scroll-mt-24 overflow-hidden rounded-[6px] bg-[#15120e]">
           <div className="relative aspect-video">
             <iframe
@@ -77,12 +81,12 @@ export default function PautaInterviewPage() {
         <div className="mt-16 grid gap-12 border-t border-[#d8cfc0] pt-12 lg:grid-cols-[minmax(0,1.3fr)_minmax(260px,0.7fr)] lg:gap-20">
           <div className="max-w-[68ch]">
             <p className="text-[0.8125rem] font-semibold text-[#9f5528]">La conversación</p>
-            <h2 className="crc-serif mt-3 text-balance text-[clamp(1.6rem,2.3vw,2.4rem)] font-medium leading-[1.1]">La protección infantil ante sus consecuencias reales</h2>
+            <h2 className="crc-serif mt-3 text-balance text-[clamp(1.6rem,2.3vw,2.4rem)] font-medium leading-[1.1]">La niñez y sus familias, en el centro</h2>
             <p className="mt-6 text-[1.0625rem] leading-[1.7] text-[#171713]">
-              En la entrevista con Cristián Warnken, Juan Carlos Rauld aborda la crisis del sistema de protección de la infancia en Chile y las consecuencias de la institucionalización para niños, niñas y adolescentes. La conversación examina qué ocurre cuando las decisiones legales y los procedimientos administrativos se alejan del cuidado y de la responsabilidad ética.
+              En la entrevista con Cristián Warnken, Juan Carlos Rauld pone en primer plano a quienes suelen quedar fuera de la discusión: niñas, niños y adolescentes, y las familias que cargan con lo que vivieron. La conversación surge a propósito de la liberación de condenados por delitos sexuales, una decisión que Rauld considera injusta con la infancia y con las víctimas.
             </p>
             <p className="mt-5 text-[1.0625rem] leading-[1.7] text-[#171713]">
-              El diálogo surge a propósito de la controversia por la liberación anticipada de condenados por delitos sexuales. Desde su trabajo sobre desprotección y tecnocracia, Rauld plantea una pregunta que atraviesa la discusión pública: cómo responder por la vida de la niñez cuando una resolución jurídicamente tramitada puede producir daño.
+              Desde su trabajo sobre desprotección, Rauld plantea una pregunta que atraviesa toda la conversación: dónde está la voz de la niña. En los expedientes aparecen muchas razones y muchos discursos, pero no la voz de quien sufrió el daño. Para el centro, proteger a la niñez empieza por escucharla y por acompañar a las familias que se han hecho cargo de esos procesos traumáticos.
             </p>
             <p className="mt-6 text-[0.9375rem] leading-[1.6] text-[#55574f]">
               La emisión corresponde al <a href={programUrl} target="_blank" rel="noopener noreferrer" className="underline decoration-[#bd6f3c] underline-offset-4 hover:text-[#9f5528]">programa del 28 de octubre de 2026</a>; Radio PAUTA publicó el video en YouTube el 29 de octubre.

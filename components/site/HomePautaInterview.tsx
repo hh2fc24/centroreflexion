@@ -13,7 +13,7 @@ export function HomePautaInterview() {
             Juan Carlos Rauld conversa con Cristián Warnken sobre infancia y justicia
           </h2>
           <p className="mt-5 max-w-[65ch] text-[1.0625rem] leading-[1.7] text-[#55574f]">
-            Una conversación sobre las consecuencias de la institucionalización y la responsabilidad ética del Estado ante la niñez.
+            Una conversación sobre la protección de la niñez y de las familias víctimas ante la liberación de condenados.
           </p>
           <Link href={href} className="mt-6 inline-flex min-h-11 items-center gap-2 rounded-[6px] bg-[#bd6f3c] px-5 py-2.5 text-[0.9375rem] font-semibold text-white transition-colors hover:bg-[#a85f31]">
             Ver entrevista <ArrowRight className="h-4 w-4" aria-hidden="true" />

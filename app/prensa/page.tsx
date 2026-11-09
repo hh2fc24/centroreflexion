@@ -86,7 +86,7 @@ const FEATURED_COVERAGE = [
     {
         outlet: "Radio PAUTA · Desde el Jardín",
         date: "28 de octubre de 2026",
-        title: "Juan Carlos Rauld conversa con Cristián Warnken sobre infancia, justicia y responsabilidad del Estado",
+        title: "Juan Carlos Rauld conversa con Cristián Warnken sobre la protección de la niñez ante la liberación de condenados",
         href: "/prensa/juan-carlos-rauld-radio-pauta-desde-el-jardin-28-octubre-2026",
     },
     {

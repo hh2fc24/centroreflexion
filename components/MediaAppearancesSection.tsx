@@ -128,8 +128,8 @@ export function MediaAppearancesSection() {
                     </Link>
                     <div className="flex flex-col justify-center bg-[#15120e] p-6 sm:p-8 lg:p-10">
                         <p className="text-[0.8125rem] font-semibold text-[#e4935d]">Entrevista destacada · Radio PAUTA · 28 de octubre de 2026</p>
-                        <h3 className="crc-serif mt-4 max-w-[26ch] text-balance text-[clamp(1.6rem,2.3vw,2.4rem)] font-medium leading-[1.15]">Juan Carlos Rauld en Desde el Jardín: infancia, justicia y responsabilidad del Estado</h3>
-                        <p className="mt-5 max-w-[56ch] text-[0.9375rem] leading-[1.7] text-[#d8cfc0]">Cristián Warnken conversa con el director editorial del CRC sobre la crisis del sistema de protección, la institucionalización y las tensiones entre legalidad y cuidado.</p>
+                        <h3 className="crc-serif mt-4 max-w-[26ch] text-balance text-[clamp(1.6rem,2.3vw,2.4rem)] font-medium leading-[1.15]">Juan Carlos Rauld en Desde el Jardín: la protección de la niñez ante la liberación de condenados</h3>
+                        <p className="mt-5 max-w-[56ch] text-[0.9375rem] leading-[1.7] text-[#d8cfc0]">Cristián Warnken conversa con el director editorial del CRC sobre la protección de la niñez, las familias víctimas y una voz que no aparece en los expedientes: la de la niña.</p>
                         <Link href="/prensa/juan-carlos-rauld-radio-pauta-desde-el-jardin-28-octubre-2026" className="mt-7 inline-flex min-h-11 items-center gap-2 self-start rounded-[6px] bg-[#bd6f3c] px-5 py-2.5 text-[0.9375rem] font-semibold text-white hover:bg-[#a85f31]">Ver entrevista y contexto <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>
                     </div>
                 </article>
